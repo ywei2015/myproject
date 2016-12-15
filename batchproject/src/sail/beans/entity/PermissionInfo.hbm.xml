@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2008-12-16 10:45:42 by mars -->
+<hibernate-mapping>
+    <class name="sail.beans.entity.PermissionInfo" table="V_PERMISSION_INFO">
+    	<id name="pid" column="F_PID" length="36" type="string" unsaved-value="">
+			<generator class="uuid.hex" />
+		</id> 
+		<property name="userCode" column="F_USER_CODE" length="36" type="string"/>
+		<property name="code" column="F_CODE" length="36" type="string"/>
+		<property name="name" column="F_NAME" length="36" type="string"/>
+		<property name="isPower" column="F_IS_POWER" length="36" type="string"/>
+    </class>	
+</hibernate-mapping>

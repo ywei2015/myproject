@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2008-12-16 10:45:42 by mars -->
+<hibernate-mapping>
+    <class name="sail.beans.entity.User" table="T_SEC_USER">
+    	<id name="pid" column="F_PID" length="36" type="string" unsaved-value="">
+			<generator class="uuid.hex" />
+		</id> 
+		<property name="code" column="F_CODE" length="36" type="string"/>
+		<property name="name" column="F_NAME" length="128" type="string"/>
+		<property name="pwd" column="F_PASSWORD" length="36" type="string"/>
+		<property name="sex" column="F_SEX" length="36" type="string"/>
+		<property name="orgId" column="F_ORG_ID" length="36" type="string"/>
+		<property name="tel" column="F_TEL" length="36" type="string"/>
+		<property name="mobile" column="F_MOBILE" length="36" type="string"/>
+		<property name="jobNo" column="F_JOB_NO" length="36" type="string"/>
+		<property name="secPwd" column="F_SEC_PASSWORD" length="36" type="string"/>
+		<property name="cardNo" column="F_CARD_NO" length="500" type="string"/>
+		<property name="remark" column="F_REMARK" length="1024" type="string"/>
+		<property name="sysFlag" column="F_SYS_FLAG" length="2" type="string"/>
+		<property name="creator" column="F_CREATOR" length="36" type="string"/>
+		<property name="createTime" column="F_CREATE_TIME" length="14" type="string"/>
+		<property name="lastModifer" column="F_LAST_MODIFIER" length="36" type="string"/>
+		<property name="lastModifiedTime" column="F_LAST_MODIFIED_TIME" length="14" type="string"/>
+		<property name="postId" column="F_POST_ID" length="36" type="string"/>
+		<property name="companyFactoryFlag" column="F_COMPANY_FACTORY_FLAG" length="1" type="string"/>
+		<property name="factoryId" column="F_FACTORY_ID" length="36" type="string"/>
+		<property name="companyTypeId" column="F_COMPANY_TYPE_ID" length="36" type="string"/>
+		<property name="passwordValidity" column="F_PASSWORD_VALIDITY" length="14" type="string"/>
+    </class>
+</hibernate-mapping>

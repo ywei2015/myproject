@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2008-12-16 10:45:42 by mars -->
+<hibernate-mapping>
+    <class name="sail.beans.entity.BatPdaLoginLog" table="T_BAT_PDALOGINLOG">
+    	<id name="pid" column="F_PID" length="50" type="string" unsaved-value="">
+			<generator class="uuid.hex" />
+		</id> 
+		<property name="userCode" column="F_USER_CODE" length="50" type="string"/>
+		<property name="clientType" column="F_CLIENT_TYPE" length="50" type="string"/>
+		<property name="deviceIp" column="F_DEVICE_IP" length="50" type="string"/>
+		<property name="deviceUuid" column="F_DEVICE_UUID" length="50" type="string"/>
+		<property name="deviceModel" column="F_DEVICE_MODEL" length="50" type="string"/>
+		<property name="deviceOs" column="F_DEVICE_OS" length="100" type="string"/>
+		<property name="appVersion" column="F_APP_VERSION" length="50" type="string"/>
+		<property name="sessionId" column="F_SESSIONID" length="50" type="string"/>
+		<property name="loginTime" column="F_LOGIN_TIME" length="20" type="string"/>
+		<property name="logOutTime" column="F_LOGOUT_TIME" length="20" type="string"/>
+		<property name="state" column="F_STATE" length="1" type="string"/>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+
+	<query name="USER.USERLIST.LIST">
+		<![CDATA[
+    	SELECT user FROM sail.beans.entity.User user where user.code = ? and user.pwd = ? and user.sysFlag = '1'
+    ]]>
+	</query>	
+	
+	<query name="USER.PERMISSIONINFOLIST.LIST">
+		<![CDATA[
+    	SELECT user FROM sail.beans.entity.PermissionInfo user where user.userCode = ? 
+    ]]>
+	</query>
+</hibernate-mapping>

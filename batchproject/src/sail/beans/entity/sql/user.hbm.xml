@@ -7,13 +7,13 @@
 
 	<query name="USER.USERLIST.LIST">
 		<![CDATA[
-    	SELECT user FROM sail.beans.entity.User user where user.code = ? and user.pwd = ? and user.sysFlag = '1'
+    	SELECT user FROM sail.beans.entity.User user where user.code = ? and user.pwd = ? and user.sysflag = '1'
     ]]>
 	</query>	
 	
 	<query name="USER.PERMISSIONINFOLIST.LIST">
 		<![CDATA[
-    	SELECT user FROM sail.beans.entity.PermissionInfo user where user.userCode = ? 
+    	SELECT user FROM sail.beans.entity.PermissionInfo user where user.usercode = ? 
     ]]>
 	</query>
 </hibernate-mapping>

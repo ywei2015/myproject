@@ -28,7 +28,7 @@ public class UserService {
 		List<User> userList = genericDao.getListWithVariableParas("USER.USERLIST.LIST", new Object[]{userCode,userPwd});
 		if (userList != null && userList.size() > 0){
 			user = userList.get(0);
-			user.setPermissionList(this.getPermissionInfo(userCode));
+			user.setPermissionlist(this.getPermissionInfo(userCode));
 		}
 		return user;
 	}
@@ -38,12 +38,7 @@ public class UserService {
 	 * @param userCode
 	 * @param sessionId
 	 */
-	public void saveUserLog(String userCode,String sessionId){
-		BatPdaLoginLog batPdaLoginLog = new BatPdaLoginLog();
-		batPdaLoginLog.setUserCode(userCode);
-		batPdaLoginLog.setSessionId(sessionId);
-		batPdaLoginLog.setState("1");
-		batPdaLoginLog.setLoginTime(DateBean.getSysdateTime());
+	public void saveUserLog(BatPdaLoginLog batPdaLoginLog){
 		genericDao.save(batPdaLoginLog);
 		
 	}

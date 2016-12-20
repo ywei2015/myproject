@@ -15,27 +15,22 @@ import java.io.Serializable;
  * 
  */
 public class ResponseStatus implements Serializable {
-	private String content = "操作成功！";
-	private boolean success = true;
+	private String message = "成功！";
+	private String code = "0";
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
 	
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
-	public boolean isSuccess() {
-		return success;
-	}
-	public void setSuccess(boolean success) {
-		this.success = success;
-	} 
-	public void setStatus(boolean success) {
-		this.success = success;
-		if(success){
-			this.content = "操作成功！"; 
-		}else{
-			content = "操作失败！";
-		}
-	} 
+	
+	
+	
 }

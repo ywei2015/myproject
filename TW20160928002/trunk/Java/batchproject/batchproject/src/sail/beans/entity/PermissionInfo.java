@@ -5,34 +5,21 @@ import java.io.Serializable;
 public class PermissionInfo implements Serializable{
 	
 	private String pid;
-	private String userCode;
+	private String usercode;
 	private String code;
 	private String name;
-	private String isPower;
-	
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getIsPower() {
-		return isPower;
-	}
-	public void setIsPower(String isPower) {
-		this.isPower = isPower;
-	}
+	private String ispower;
 	public String getPid() {
 		return pid;
 	}
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
-	public String getUserCode() {
-		return userCode;
+	public String getUsercode() {
+		return usercode;
 	}
-	public void setUserCode(String userCode) {
-		this.userCode = userCode;
+	public void setUsercode(String usercode) {
+		this.usercode = usercode;
 	}
 	public String getCode() {
 		return code;
@@ -40,6 +27,20 @@ public class PermissionInfo implements Serializable{
 	public void setCode(String code) {
 		this.code = code;
 	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getIspower() {
+		return ispower;
+	}
+	public void setIspower(String ispower) {
+		this.ispower = ispower;
+	}
+	
+	
 	
 	
 }

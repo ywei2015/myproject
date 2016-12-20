@@ -37,9 +37,9 @@ public class ResponseBase implements Serializable {
 		dataset.put("totalRecords",totalRecords);
 	}
 	 
-	public void setResponseData(boolean success, String content){
-		this.response.setSuccess(success);
-		this.response.setContent(content);
+	public void setResponseData(String success, String content){
+		this.response.setCode(success);
+		this.response.setMessage(content);
 		
 		if(dataset.containsKey("response"))
 			dataset.remove("response");

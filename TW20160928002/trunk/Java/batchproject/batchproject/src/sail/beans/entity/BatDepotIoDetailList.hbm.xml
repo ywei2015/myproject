@@ -7,22 +7,22 @@
 	 	<id name="pid" column="F_PID" length="50" type="string" unsaved-value="">
 			<generator class="uuid.hex" />
 		</id> 
-		<property name="billDetailPid" column="F_BILLDETAIL_PID" length="50" type="string"/>
-		<property name="slaveBatch" column="F_SLAVE_BATCH" length="50" type="string"/>
+		<property name="billdetailpid" column="F_BILLDETAIL_PID" length="50" type="string"/>
+		<property name="slavebatch" column="F_SLAVE_BATCH" length="50" type="string"/>
 		<property name="quantity" column="F_QUANTITY" precision="12" scale="4" not-null="true" type="java.lang.Double"/>
 		<property name="unit" column="F_UNIT" length="50" type="string"/>
-		<property name="relateTime" column="F_RELATE_TIME" length="14" type="string"/>
+		<property name="relatetime" column="F_RELATE_TIME" length="14" type="string"/>
 		<property name="remark1" column="F_REMARK1" length="500" type="string"/>
 		<property name="remark2" column="F_REMARK2" length="500" type="string"/>
 		<property name="remark3" column="F_REMARK3" length="500" type="string"/>
 		<property name="remark4" column="F_REMARK4" length="500" type="string"/>
 		<property name="remark5" column="F_REMARK5" length="500" type="string"/>
 		<property name="remark" column="F_REMARK" length="500" type="string"/>
-		<property name="sysFlag" column="F_SYS_FLAG" length="50" type="string"/>
+		<property name="sysflag" column="F_SYS_FLAG" length="50" type="string"/>
 		<property name="creator" column="F_CREATOR" length="50" type="string"/>
-		<property name="createTime" column="F_CREATE_TIME" length="14" type="string"/>
-		<property name="lastModifier" column="F_LAST_MODIFIER" length="50" type="string"/>
-		<property name="lastModifiedTime" column="F_LAST_MODIFIED_TIME" length="14" type="string"/>
-		<property name="billPid" column="F_BILL_PID" length="50" type="string"/>
+		<property name="createtime" column="F_CREATE_TIME" length="14" type="string"/>
+		<property name="lastmodifier" column="F_LAST_MODIFIER" length="50" type="string"/>
+		<property name="lastmodifiedtime" column="F_LAST_MODIFIED_TIME" length="14" type="string"/>
+		<property name="billpid" column="F_BILL_PID" length="50" type="string"/>
 	 </class>
 </hibernate-mapping>

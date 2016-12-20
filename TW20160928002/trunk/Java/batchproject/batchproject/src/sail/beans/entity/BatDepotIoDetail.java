@@ -5,60 +5,59 @@ import java.io.Serializable;
 public class BatDepotIoDetail implements Serializable{
 
 	private String pid;
-	private String billPid;
-	private String matCode;
-	private String matName;
-	private String matBatch;
+	private String billpid;
+	private String matcode;
+	private String matname;
+	private String matbatch;
 	private double quantity;
 	private String unit;
-	private String supplierSortCode;
+	private String suppliersortcode;
 	private String shkzg;
-	private String inventoryType;
+	private String inventorytype;
 	private String status;
 	private String reason;
-	private String trayNo;
+	private String trayno;
 	private String remark1;
 	private String remark2;
 	private String remark3;
 	private String remark4;
 	private String remark5;
 	private String remark;
-	private String sysFlag;
+	private String sysflag;
 	private String creator;
-	private String createTime;
-	private String lastModifier;
-	private String lastModifiedTime;
+	private String createtime;
+	private String lastmodifier;
+	private String lastmodifiedtime;
 	public String getPid() {
 		return pid;
 	}
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
-	public String getBillPid() {
-		return billPid;
+	public String getBillpid() {
+		return billpid;
 	}
-	public void setBillPid(String billPid) {
-		this.billPid = billPid;
+	public void setBillpid(String billpid) {
+		this.billpid = billpid;
 	}
-	public String getMatCode() {
-		return matCode;
+	public String getMatcode() {
+		return matcode;
 	}
-	public void setMatCode(String matCode) {
-		this.matCode = matCode;
+	public void setMatcode(String matcode) {
+		this.matcode = matcode;
 	}
-	public String getMatName() {
-		return matName;
+	public String getMatname() {
+		return matname;
 	}
-	public void setMatName(String matName) {
-		this.matName = matName;
+	public void setMatname(String matname) {
+		this.matname = matname;
 	}
-	public String getMatBatch() {
-		return matBatch;
+	public String getMatbatch() {
+		return matbatch;
 	}
-	public void setMatBatch(String matBatch) {
-		this.matBatch = matBatch;
+	public void setMatbatch(String matbatch) {
+		this.matbatch = matbatch;
 	}
-	
 	public double getQuantity() {
 		return quantity;
 	}
@@ -71,11 +70,11 @@ public class BatDepotIoDetail implements Serializable{
 	public void setUnit(String unit) {
 		this.unit = unit;
 	}
-	public String getSupplierSortCode() {
-		return supplierSortCode;
+	public String getSuppliersortcode() {
+		return suppliersortcode;
 	}
-	public void setSupplierSortCode(String supplierSortCode) {
-		this.supplierSortCode = supplierSortCode;
+	public void setSuppliersortcode(String suppliersortcode) {
+		this.suppliersortcode = suppliersortcode;
 	}
 	public String getShkzg() {
 		return shkzg;
@@ -83,12 +82,11 @@ public class BatDepotIoDetail implements Serializable{
 	public void setShkzg(String shkzg) {
 		this.shkzg = shkzg;
 	}
-	
-	public String getInventoryType() {
-		return inventoryType;
+	public String getInventorytype() {
+		return inventorytype;
 	}
-	public void setInventoryType(String inventoryType) {
-		this.inventoryType = inventoryType;
+	public void setInventorytype(String inventorytype) {
+		this.inventorytype = inventorytype;
 	}
 	public String getStatus() {
 		return status;
@@ -102,11 +100,11 @@ public class BatDepotIoDetail implements Serializable{
 	public void setReason(String reason) {
 		this.reason = reason;
 	}
-	public String getTrayNo() {
-		return trayNo;
+	public String getTrayno() {
+		return trayno;
 	}
-	public void setTrayNo(String trayNo) {
-		this.trayNo = trayNo;
+	public void setTrayno(String trayno) {
+		this.trayno = trayno;
 	}
 	public String getRemark1() {
 		return remark1;
@@ -144,11 +142,11 @@ public class BatDepotIoDetail implements Serializable{
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	public String getSysFlag() {
-		return sysFlag;
+	public String getSysflag() {
+		return sysflag;
 	}
-	public void setSysFlag(String sysFlag) {
-		this.sysFlag = sysFlag;
+	public void setSysflag(String sysflag) {
+		this.sysflag = sysflag;
 	}
 	public String getCreator() {
 		return creator;
@@ -156,24 +154,26 @@ public class BatDepotIoDetail implements Serializable{
 	public void setCreator(String creator) {
 		this.creator = creator;
 	}
-	public String getCreateTime() {
-		return createTime;
+	public String getCreatetime() {
+		return createtime;
 	}
-	public void setCreateTime(String createTime) {
-		this.createTime = createTime;
+	public void setCreatetime(String createtime) {
+		this.createtime = createtime;
 	}
-	public String getLastModifier() {
-		return lastModifier;
+	public String getLastmodifier() {
+		return lastmodifier;
 	}
-	public void setLastModifier(String lastModifier) {
-		this.lastModifier = lastModifier;
+	public void setLastmodifier(String lastmodifier) {
+		this.lastmodifier = lastmodifier;
 	}
-	public String getLastModifiedTime() {
-		return lastModifiedTime;
+	public String getLastmodifiedtime() {
+		return lastmodifiedtime;
 	}
-	public void setLastModifiedTime(String lastModifiedTime) {
-		this.lastModifiedTime = lastModifiedTime;
+	public void setLastmodifiedtime(String lastmodifiedtime) {
+		this.lastmodifiedtime = lastmodifiedtime;
 	}
+	
+	
 	
 	
 	

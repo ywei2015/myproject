@@ -4,50 +4,50 @@ import java.io.Serializable;
 public class BatDepotIoBill implements Serializable{
 
 	private String pid;
-	private String billNo;
-	private String billType;
-	private String bizType;
+	private String billno;
+	private String billtype;
+	private String biztype;
 	private String date;
-	private String docType;
+	private String doctype;
 	private String factory;
 	private String depot;
-	private String workShop;
-	private String operateUserId;
-	private String operateTime;
+	private String workshop;
+	private String operateuserid;
+	private String operatetime;
 	private String remark1;
 	private String remark2;
 	private String remark3;
 	private String remark4;
 	private String remark5;
 	private String remark;
-	private String sysFlag;
+	private String sysflag;
 	private String creator;
-	private String createTime;
-	private String lastModifier;
-	private String lastModifiedTime;
+	private String createtime;
+	private String lastmodifier;
+	private String lastmodifiedtime;
 	public String getPid() {
 		return pid;
 	}
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
-	public String getBillNo() {
-		return billNo;
+	public String getBillno() {
+		return billno;
 	}
-	public void setBillNo(String billNo) {
-		this.billNo = billNo;
+	public void setBillno(String billno) {
+		this.billno = billno;
 	}
-	public String getBillType() {
-		return billType;
+	public String getBilltype() {
+		return billtype;
 	}
-	public void setBillType(String billType) {
-		this.billType = billType;
+	public void setBilltype(String billtype) {
+		this.billtype = billtype;
 	}
-	public String getBizType() {
-		return bizType;
+	public String getBiztype() {
+		return biztype;
 	}
-	public void setBizType(String bizType) {
-		this.bizType = bizType;
+	public void setBiztype(String biztype) {
+		this.biztype = biztype;
 	}
 	public String getDate() {
 		return date;
@@ -55,11 +55,11 @@ public class BatDepotIoBill implements Serializable{
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public String getDocType() {
-		return docType;
+	public String getDoctype() {
+		return doctype;
 	}
-	public void setDocType(String docType) {
-		this.docType = docType;
+	public void setDoctype(String doctype) {
+		this.doctype = doctype;
 	}
 	public String getFactory() {
 		return factory;
@@ -73,23 +73,23 @@ public class BatDepotIoBill implements Serializable{
 	public void setDepot(String depot) {
 		this.depot = depot;
 	}
-	public String getWorkShop() {
-		return workShop;
+	public String getWorkshop() {
+		return workshop;
 	}
-	public void setWorkShop(String workShop) {
-		this.workShop = workShop;
+	public void setWorkshop(String workshop) {
+		this.workshop = workshop;
 	}
-	public String getOperateUserId() {
-		return operateUserId;
+	public String getOperateuserid() {
+		return operateuserid;
 	}
-	public void setOperateUserId(String operateUserId) {
-		this.operateUserId = operateUserId;
+	public void setOperateuserid(String operateuserid) {
+		this.operateuserid = operateuserid;
 	}
-	public String getOperateTime() {
-		return operateTime;
+	public String getOperatetime() {
+		return operatetime;
 	}
-	public void setOperateTime(String operateTime) {
-		this.operateTime = operateTime;
+	public void setOperatetime(String operatetime) {
+		this.operatetime = operatetime;
 	}
 	public String getRemark1() {
 		return remark1;
@@ -127,11 +127,11 @@ public class BatDepotIoBill implements Serializable{
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	public String getSysFlag() {
-		return sysFlag;
+	public String getSysflag() {
+		return sysflag;
 	}
-	public void setSysFlag(String sysFlag) {
-		this.sysFlag = sysFlag;
+	public void setSysflag(String sysflag) {
+		this.sysflag = sysflag;
 	}
 	public String getCreator() {
 		return creator;
@@ -139,24 +139,25 @@ public class BatDepotIoBill implements Serializable{
 	public void setCreator(String creator) {
 		this.creator = creator;
 	}
-	public String getCreateTime() {
-		return createTime;
+	public String getCreatetime() {
+		return createtime;
 	}
-	public void setCreateTime(String createTime) {
-		this.createTime = createTime;
+	public void setCreatetime(String createtime) {
+		this.createtime = createtime;
 	}
-	public String getLastModifier() {
-		return lastModifier;
+	public String getLastmodifier() {
+		return lastmodifier;
 	}
-	public void setLastModifier(String lastModifier) {
-		this.lastModifier = lastModifier;
+	public void setLastmodifier(String lastmodifier) {
+		this.lastmodifier = lastmodifier;
 	}
-	public String getLastModifiedTime() {
-		return lastModifiedTime;
+	public String getLastmodifiedtime() {
+		return lastmodifiedtime;
 	}
-	public void setLastModifiedTime(String lastModifiedTime) {
-		this.lastModifiedTime = lastModifiedTime;
+	public void setLastmodifiedtime(String lastmodifiedtime) {
+		this.lastmodifiedtime = lastmodifiedtime;
 	}
-
+	
+	
 	
 }

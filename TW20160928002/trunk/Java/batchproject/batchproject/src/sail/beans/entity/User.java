@@ -11,163 +11,216 @@ public class User  implements Serializable {
 	private String name;
 	private String pwd;
 	private String sex;
-	private String orgId;
+	private String orgid;
 	private String tel;
 	private String mobile;
-	private String jobNo;
-	private String secPwd;
-	private String cardNo;
+	private String jobno;
+	private String secpwd;
+	private String cardno;
 	private String remark;
-	private String sysFlag;
+	private String sysflag;
 	private String creator;
-	private String createTime;
-	private String lastModifer;
-	private String lastModifiedTime;
-	private String postId;
-	private String companyFactoryFlag;
-	private String factoryId;
-	private String companyTypeId;
-	private String passwordValidity;
+	private String createtime;
+	private String lastmodifer;
+	private String lastmodifiedtime;
+	private String postid;
+	private String companyfactoryflag;
+	private String factoryid;
+	private String companytypeid;
+	private String passwordvalidity;
 	
-	private List<PermissionInfo> permissionList = new ArrayList<PermissionInfo>();
+	private List<PermissionInfo> permissionlist = new ArrayList<PermissionInfo>();
+
 	public String getPid() {
 		return pid;
 	}
+
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
+
 	public String getCode() {
 		return code;
 	}
+
 	public void setCode(String code) {
 		this.code = code;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getPwd() {
 		return pwd;
 	}
+
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
+
 	public String getSex() {
 		return sex;
 	}
+
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
-	public String getOrgId() {
-		return orgId;
+
+	public String getOrgid() {
+		return orgid;
 	}
-	public void setOrgId(String orgId) {
-		this.orgId = orgId;
+
+	public void setOrgid(String orgid) {
+		this.orgid = orgid;
 	}
+
 	public String getTel() {
 		return tel;
 	}
+
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
+
 	public String getMobile() {
 		return mobile;
 	}
+
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
-	public String getJobNo() {
-		return jobNo;
+
+	public String getJobno() {
+		return jobno;
 	}
-	public void setJobNo(String jobNo) {
-		this.jobNo = jobNo;
+
+	public void setJobno(String jobno) {
+		this.jobno = jobno;
 	}
-	public String getSecPwd() {
-		return secPwd;
+
+	public String getSecpwd() {
+		return secpwd;
 	}
-	public void setSecPwd(String secPwd) {
-		this.secPwd = secPwd;
+
+	public void setSecpwd(String secpwd) {
+		this.secpwd = secpwd;
 	}
-	public String getCardNo() {
-		return cardNo;
+
+	public String getCardno() {
+		return cardno;
 	}
-	public void setCardNo(String cardNo) {
-		this.cardNo = cardNo;
+
+	public void setCardno(String cardno) {
+		this.cardno = cardno;
 	}
+
 	public String getRemark() {
 		return remark;
 	}
+
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	public String getSysFlag() {
-		return sysFlag;
+
+	public String getSysflag() {
+		return sysflag;
 	}
-	public void setSysFlag(String sysFlag) {
-		this.sysFlag = sysFlag;
+
+	public void setSysflag(String sysflag) {
+		this.sysflag = sysflag;
 	}
+
 	public String getCreator() {
 		return creator;
 	}
+
 	public void setCreator(String creator) {
 		this.creator = creator;
 	}
-	public String getCreateTime() {
-		return createTime;
+
+	public String getCreatetime() {
+		return createtime;
 	}
-	public void setCreateTime(String createTime) {
-		this.createTime = createTime;
+
+	public void setCreatetime(String createtime) {
+		this.createtime = createtime;
 	}
-	public String getLastModifer() {
-		return lastModifer;
+
+	
+
+	public String getLastmodifer() {
+		return lastmodifer;
 	}
-	public void setLastModifer(String lastModifer) {
-		this.lastModifer = lastModifer;
+
+	public void setLastmodifer(String lastmodifer) {
+		this.lastmodifer = lastmodifer;
 	}
-	public String getLastModifiedTime() {
-		return lastModifiedTime;
+
+	public String getLastmodifiedtime() {
+		return lastmodifiedtime;
 	}
-	public void setLastModifiedTime(String lastModifiedTime) {
-		this.lastModifiedTime = lastModifiedTime;
+
+	public void setLastmodifiedtime(String lastmodifiedtime) {
+		this.lastmodifiedtime = lastmodifiedtime;
 	}
-	public String getPostId() {
-		return postId;
+
+	public String getPostid() {
+		return postid;
 	}
-	public void setPostId(String postId) {
-		this.postId = postId;
+
+	public void setPostid(String postid) {
+		this.postid = postid;
 	}
-	public String getCompanyFactoryFlag() {
-		return companyFactoryFlag;
+
+	public String getCompanyfactoryflag() {
+		return companyfactoryflag;
 	}
-	public void setCompanyFactoryFlag(String companyFactoryFlag) {
-		this.companyFactoryFlag = companyFactoryFlag;
+
+	public void setCompanyfactoryflag(String companyfactoryflag) {
+		this.companyfactoryflag = companyfactoryflag;
 	}
-	public String getFactoryId() {
-		return factoryId;
+
+	public String getFactoryid() {
+		return factoryid;
 	}
-	public void setFactoryId(String factoryId) {
-		this.factoryId = factoryId;
+
+	public void setFactoryid(String factoryid) {
+		this.factoryid = factoryid;
 	}
-	public String getCompanyTypeId() {
-		return companyTypeId;
+
+	public String getCompanytypeid() {
+		return companytypeid;
 	}
-	public void setCompanyTypeId(String companyTypeId) {
-		this.companyTypeId = companyTypeId;
+
+	public void setCompanytypeid(String companytypeid) {
+		this.companytypeid = companytypeid;
 	}
-	public String getPasswordValidity() {
-		return passwordValidity;
+
+	public String getPasswordvalidity() {
+		return passwordvalidity;
 	}
-	public void setPasswordValidity(String passwordValidity) {
-		this.passwordValidity = passwordValidity;
+
+	public void setPasswordvalidity(String passwordvalidity) {
+		this.passwordvalidity = passwordvalidity;
 	}
-	public List<PermissionInfo> getPermissionList() {
-		return permissionList;
+
+	public List<PermissionInfo> getPermissionlist() {
+		return permissionlist;
 	}
-	public void setPermissionList(List<PermissionInfo> permissionList) {
-		this.permissionList = permissionList;
+
+	public void setPermissionlist(List<PermissionInfo> permissionlist) {
+		this.permissionlist = permissionlist;
 	}
+
+	
+	
+	
+	
 	
 	
 

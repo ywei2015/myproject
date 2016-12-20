@@ -37,10 +37,10 @@ public class BatchStorageService {
 		}
 //		CarCode carCode = new CarCode();
 //		this.getResolveValue(matBatch, carCode);
-		String matcode = "0006";
+//		String matcode = "0006";
 //		String matcode = matBatch.substring(1, 9);
 		BatDepotIoDetail batDepotIoDetail = null;
-		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAILLIST.LIST", new Object[]{batDepotIoBill.getPid(),matcode});
+		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAILLIST.LIST", new Object[]{batDepotIoBill.getPid(),matBatch});
 		if(detailList != null && detailList.size() > 0){
 			batDepotIoDetail = detailList.get(0);
 			genericDao.save(batDepotIoDetail);
@@ -125,7 +125,7 @@ public class BatchStorageService {
 	
 	
 	
-	public List<BatBatAdjustDetail> saveBatchAdjustment(String newmatbactch){
+	public List<BatBatAdjustDetail> saveBatchAdjustment(String masterbatch,String slavebatch){
 		
 		return null;
 	}

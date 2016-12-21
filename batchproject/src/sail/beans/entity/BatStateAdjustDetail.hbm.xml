@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2008-12-16 10:45:42 by mars -->
+<hibernate-mapping>
+<class name="sail.beans.entity.BatStateAdjustDetail" table="T_BAT_STATEADJUST_DETAIL">
+	 	<id name="pid" column="F_PID" length="50" type="string" unsaved-value="">
+			<generator class="uuid.hex" />
+		</id> 
+		<property name="adjustpid" column="F_ADJUST_PID" length="50" type="string"/>
+		<property name="matbatch" column="F_MAT_BATCH" length="50" type="string"/>
+		<property name="newstate" column="F_NEW_STATE" length="50" type="string"/>
+		<property name="oldstate" column="F_OLD_STATE" length="14" type="string"/>
+		<property name="matcode" column="F_MAT_CODE" length="50" type="string"/>
+		<property name="matname" column="F_MAT_NAME" length="50" type="string"/>
+		<property name="quantity" column="F_QUANTITY" length="50" type="string"/>
+		<property name="unit" column="F_UNIT" length="50" type="string"/>
+		<property name="cause" column="F_CAUSE" length="50" type="string"/>
+		<property name="operator" column="F_OPERATOR" length="500" type="string"/>
+		<property name="operatetime" column="F_OPERATE_TIME" length="500" type="string"/>
+		<property name="remark" column="F_REMARK" length="500" type="string"/>
+		<property name="sysflag" column="F_SYS_FLAG" length="50" type="string"/>
+		<property name="creator" column="F_CREATOR" length="50" type="string"/>
+		<property name="createtime" column="F_CREATE_TIME" length="14" type="string"/>
+		<property name="lastmodifier" column="F_LAST_MODIFIER" length="50" type="string"/>
+		<property name="lastmodifiedtime" column="F_LAST_MODIFIED_TIME" length="14" type="string"/>
+	 </class>
+</hibernate-mapping>

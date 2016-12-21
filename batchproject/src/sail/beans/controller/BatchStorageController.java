@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import sail.beans.base.ResponseBase;
 import sail.beans.entity.BatDepotIoDetail;
+import sail.beans.entity.User;
 import sail.beans.service.BatchStorageService;
 
 @Controller
@@ -20,25 +22,8 @@ public class BatchStorageController {
 	private BatchStorageService batchStorageService; 
 	
 	@ResponseBody
-	@RequestMapping(value="/saveBatchInStorage")	 
-	public ResponseBase saveBatchInStorage(HttpServletRequest request){
-		ResponseBase res = new ResponseBase();
-		String f_bill_no = request.getParameter("f_bill_no");
-		String f_doc_type = request.getParameter("f_doc_type");
-		String f_mat_batch = request.getParameter("f_mat_batch");
-		BatDepotIoDetail batDepotIoDetail = batchStorageService.saveBatchInStorage(f_bill_no, f_doc_type, f_mat_batch);
-		if (batDepotIoDetail != null){
-			res.setResponseData("1", "操作成功!");
-			res.setDataset(batDepotIoDetail, "batdepotiodetail");
-		}else{
-			res.setResponseData("0", "牌号信息不匹配!");
-		}
-		return res;
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="/saveBatchOutStorage")	 
-	public ResponseBase saveBatchOutStorage(HttpServletRequest request){
+	@RequestMapping(value="/saveBatchStorage")	 
+	public ResponseBase saveBatchStorage(HttpServletRequest request){
 		ResponseBase res = new ResponseBase();
 		String f_bill_no = request.getParameter("f_bill_no");
 		String f_doc_type = request.getParameter("f_doc_type");
@@ -75,7 +60,9 @@ public class BatchStorageController {
 	public ResponseBase deleteBatDepotIoDetail(HttpServletRequest request){
 		ResponseBase res = new ResponseBase();
 		String f_pid = request.getParameter("f_pid");
-		boolean falg = batchStorageService.deleteBatDepotIoDetail(f_pid);
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		boolean falg = batchStorageService.deleteBatDepotIoDetail(f_pid,user.getPid());
 		if (falg){
 			res.setResponseData("1", "操作成功!");
 		}else{

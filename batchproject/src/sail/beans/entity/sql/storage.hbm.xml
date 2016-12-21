@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+
+	<query name="STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST">
+		<![CDATA[
+    	SELECT bill FROM sail.beans.entity.BatDepotIoBill bill where bill.billno = ? and bill.doctype = ?  and bill.sysflag = '1'
+    ]]>
+	</query>
+	
+	<query name="STORAGE.T_BAT_DEPOT_IOBILLDETAILLIST.LIST">
+		<![CDATA[
+    	SELECT detail FROM sail.beans.entity.BatDepotIoDetail detail where detail.billpid = ? and detail.matbatch = ?  and detail.sysflag = '1'
+    ]]>
+	</query>
+	
+	
+	<query name="STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST">
+		<![CDATA[
+    	SELECT detail FROM sail.beans.entity.BatDepotIoDetail detail,sail.beans.entity.BatDepotIoBill bill
+    	 where bill.billno = ? and bill.doctype = ?  and bill.sysflag = '1' and bill.pid = detail.billpid and detail.sysflag= '1' 
+    ]]>
+	</query>	
+	
+	<query name="STORAGE.T_BAT_BATADJUST_DETAILSLAVE.LIST">
+		<![CDATA[
+			select de from sail.beans.entity.BatBatAdjustDetail de where de.slavebatch = ? and de.newmasterbatch = ?  and de.sysflag = '1'
+		]]>
+	</query>		
+</hibernate-mapping>

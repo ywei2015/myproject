@@ -5,7 +5,7 @@
 <hibernate-mapping>
 	<query name="DIC.T_PUB_DIC_LIST.LIST">
 		<![CDATA[
-    	SELECT dic.pid,dic.diccode,dic.dicname FROM sail.beans.entity.Dic dic Where dic.sysflag = '1' AND dic.objpid = ?              		
+    	SELECT dic FROM sail.beans.entity.Dic dic Where dic.sysflag = '1' AND dic.objpid = ?              		
     ]]>
 	</query>
 </hibernate-mapping>

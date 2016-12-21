@@ -32,8 +32,13 @@ public class SizePiecesAdjustController {
 		User user = (User)session.getAttribute("user");
 		BatBatAdjustDetail batBatAdjustDetail = batchStorageService.saveBatchAdjustment(masterbatch, slavebatch, user.getPid());
 		if (batBatAdjustDetail != null){
-			res.setResponseData("1", "操作成功!");
-			res.setDataset(batBatAdjustDetail, "batbatadjustdetail");
+			if ("1".equals(batBatAdjustDetail.getIsrepeat())){
+				res.setResponseData("0", "该数据已经存在!");
+			}else{
+				res.setResponseData("1", "操作成功!");
+				res.setDataset(batBatAdjustDetail, "batbatadjustdetail");
+			}
+			
 		}else{
 			res.setResponseData("0", "牌号信息不匹配!");
 		}

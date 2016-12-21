@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+	<query name="DIC.T_PUB_DIC_LIST.LIST">
+		<![CDATA[
+    	SELECT dic.pid,dic.diccode,dic.dicname FROM sail.beans.entity.Dic dic Where dic.sysflag = '1' AND dic.objpid = ?              		
+    ]]>
+	</query>
+</hibernate-mapping>

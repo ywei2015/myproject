@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sail.beans.dao.GenericDao;
+import sail.beans.entity.BatWorkOrderInput;
 
 @Service
 public class SilkWorkOrderService {
@@ -22,7 +23,9 @@ public class SilkWorkOrderService {
 		return falg;
 	}
 	
-	 
+	public BatWorkOrderInput saveBatWorkOrder(String workordercode,String matbatch,String quantity){
+		return null;
+	}
 	
 	
 }

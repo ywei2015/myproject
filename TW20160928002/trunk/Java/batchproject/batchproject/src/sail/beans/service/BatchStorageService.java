@@ -70,6 +70,9 @@ public class BatchStorageService {
 	public boolean deleteBatDepotIoDetail(String detailpid,String operuser){
 		boolean falg = false;
 		BatDepotIoDetail batDepotIoDetail = (BatDepotIoDetail)genericDao.getById(BatDepotIoDetail.class,detailpid);
+		if (batDepotIoDetail == null){
+			return falg;
+		}
 		batDepotIoDetail.setSysflag("0");
 		batDepotIoDetail.setLastmodifiedtime(DateBean.getSysdateTime());
 		batDepotIoDetail.setLastmodifier(operuser);
@@ -78,6 +81,8 @@ public class BatchStorageService {
 		return falg;
 		
 	}
+	
+	
 	
 	
 	

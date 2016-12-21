@@ -9,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sail.beans.dao.GenericDao;
+import sail.beans.entity.BatBatAdjust;
 import sail.beans.entity.BatBatAdjustDetail;
 import sail.beans.entity.BatDepotIoBill;
 import sail.beans.entity.BatDepotIoDetail;
 import sail.beans.entity.CarCode;
 import sail.beans.entity.CarCodeRule;
+import sail.beans.support.DateBean;
 
 @Service
 public class BatchStorageService {
@@ -65,10 +67,12 @@ public class BatchStorageService {
 	 * 删除对应明细数据
 	 * @param detailpid
 	 */
-	public boolean deleteBatDepotIoDetail(String detailpid){
+	public boolean deleteBatDepotIoDetail(String detailpid,String operuser){
 		boolean falg = false;
 		BatDepotIoDetail batDepotIoDetail = (BatDepotIoDetail)genericDao.getById(BatDepotIoDetail.class,detailpid);
 		batDepotIoDetail.setSysflag("0");
+		batDepotIoDetail.setLastmodifiedtime(DateBean.getSysdateTime());
+		batDepotIoDetail.setLastmodifier(operuser);
 		genericDao.save(genericDao);
 		falg = true;
 		return falg;
@@ -124,10 +128,99 @@ public class BatchStorageService {
 	}
 	
 	
-	
-	public List<BatBatAdjustDetail> saveBatchAdjustment(String masterbatch,String slavebatch){
-		
-		return null;
+	/**
+	 * 物资批次大小件关系调整
+	 * @param masterbatch
+	 * @param slavebatch
+	 * @param operuser
+	 * @return
+	 */
+	public BatBatAdjustDetail saveBatchAdjustment(String masterbatch,String slavebatch,String operuser){
+		BatBatAdjustDetail batBatAdjustDetail = null;
+		List<BatBatAdjustDetail> masterList = genericDao.getListWithVariableParas("STORAGE.T_BAT_BATADJUST_DETAILSLAVE.LIST", new Object[]{null,masterbatch});
+		//判断是否已经存在改批次的数据
+		if (masterList != null && masterList.size() > 0){
+			List<BatBatAdjustDetail> BatBatAdjustDetailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_BATADJUST_DETAILSLAVE.LIST", new Object[]{slavebatch,null});
+			//判断该小件批次的数据是否已经扫描过
+			if (BatBatAdjustDetailList != null && BatBatAdjustDetailList.size() > 0){
+				batBatAdjustDetail = BatBatAdjustDetailList.get(0);
+				batBatAdjustDetail.setIsrepeat("1");
+				return batBatAdjustDetail;
+			}else{
+				batBatAdjustDetail = new BatBatAdjustDetail();
+				batBatAdjustDetail = this.saveDetail(masterList.get(0).getAdjustpid(), operuser, slavebatch, masterbatch);
+				return batBatAdjustDetail;
+			}
+		}else{
+			BatBatAdjust batBatAdjust = new BatBatAdjust();
+			batBatAdjust.setAdjustno(DateBean.getSysdate()+""+masterbatch);
+			batBatAdjust.setActflag("1");
+			batBatAdjust.setFactory("2200 ");
+			batBatAdjust.setDepot("HZ10");
+			batBatAdjust.setOperatetime(DateBean.getSysdateTime());
+			batBatAdjust.setOperateuserid(operuser);
+			batBatAdjust.setSysflag("1");
+			batBatAdjust.setCreator(operuser);
+			batBatAdjust.setCreatetime(DateBean.getSysdateTime());
+			genericDao.save(batBatAdjust);
+			batBatAdjustDetail = this.saveDetail(batBatAdjust.getPid(), operuser, slavebatch, masterbatch);
+			return batBatAdjustDetail;
+		}
 	}
+	
+	/**
+	 * 组装明细数据
+	 * @param adjustpid
+	 * @param operuser
+	 * @param slavebatch
+	 * @param masterbatch
+	 * @return
+	 */
+	public BatBatAdjustDetail saveDetail(String adjustpid,String operuser,String slavebatch,String masterbatch){
+		BatBatAdjustDetail batBatAdjustDetail = new BatBatAdjustDetail();
+		batBatAdjustDetail.setAdjustpid(adjustpid);
+//		CarCode carCode = new CarCode();
+//		this.getResolveValue(matBatch, carCode);
+//		private String matcode;
+//		private String matname;
+		batBatAdjustDetail.setSlavebatch(slavebatch);
+//		private String oldmasterbatch;
+		batBatAdjustDetail.setNewmasterbatch(masterbatch);
+//		private String suppliersortcode;
+		batBatAdjustDetail.setSysflag("1");
+		batBatAdjustDetail.setCreator(operuser);
+		batBatAdjustDetail.setCreatetime(DateBean.getSysdateTime());
+		genericDao.save(batBatAdjustDetail);
+		return batBatAdjustDetail;
+	}
+	
+	/**
+	 * 根据大件批次获取小件批次的数据
+	 * @param masterbatch
+	 * @return
+	 */
+	public List<BatBatAdjustDetail> getBatBatAdjustDetail(String masterbatch){
+		List<BatBatAdjustDetail> BatBatAdjustDetailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_BATADJUST_DETAILSLAVE.LIST", new Object[]{null,masterbatch});
+		return BatBatAdjustDetailList;
+	}
+	
+	/**
+	 * 删除对应的小批次数据
+	 * @param pid
+	 * @param operuser
+	 * @return
+	 */
+	public boolean deleteBatBatAdjustDetail(String pid,String operuser){
+		boolean falg = false;
+		BatBatAdjustDetail batBatAdjustDetail = (BatBatAdjustDetail)genericDao.getById(BatBatAdjustDetail.class, pid);
+		batBatAdjustDetail.setSysflag("0");
+		batBatAdjustDetail.setLastmodifier(operuser);
+		batBatAdjustDetail.setLastmodifiedtime(DateBean.getSysdateTime());
+		genericDao.save(batBatAdjustDetail);
+		falg = true;
+		return falg;
+	}
+	
+	
 
 }

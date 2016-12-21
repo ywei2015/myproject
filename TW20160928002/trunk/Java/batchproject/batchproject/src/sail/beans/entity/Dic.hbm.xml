@@ -10,43 +10,6 @@
 		<property name="diccode" column="F_DIC_CODE" length="36" type="string"/>
 		<property name="dicname" column="F_DIC_NAME" length="36" type="string"/>
 		<property name="objpid" column="F_OBJ_PID" length="36" type="string"/>
-		<property name="outype" column="F_OU_TYPE" length="36" type="string"/>
-		<property name="value1" column="F_VALUE1" length="500" type="string"/>
-		<property name="value2" column="F_VALUE2" length="500" type="string"/>
-		<property name="value3" column="F_VALUE3" length="500" type="string"/>
-		<property name="value4" column="F_VALUE4" length="500" type="string"/>
-		<property name="value5" column="F_VALUE5" length="500" type="string"/>
-		<property name="value6" column="F_VALUE6" length="500" type="string"/>
-		<property name="value7" column="F_VALUE7" length="500" type="string"/>
-		<property name="value8" column="F_VALUE8" length="500" type="string"/>
-		<property name="value9" column="F_VALUE9" length="500" type="string"/>
-		<property name="value10" column="F_VALUE10" length="36" type="string"/>
-		<property name="otherpid1" column="F_OTHER_PID1" length="36" type="string"/>
-		<property name="otherpid2" column="F_OTHER_PID2" length="36" type="string"/>
-		<property name="otherpid3" column="F_OTHER_PID3" length="36" type="string"/>
-		<property name="otherpid4" column="F_OTHER_PID4" length="36" type="string"/>
-		<property name="otherpid5" column="F_OTHER_PID5" length="36" type="string"/>
-		<property name="flag1" column="F_FLAG1" length="1" type="char"/>
-		<property name="flag2" column="F_FLAG2" length="1" type="char"/>
-		<property name="flag3" column="F_FLAG3" length="1" type="char"/>
-		<property name="flag4" column="F_FLAG4" length="1" type="char"/>
-		<property name="flag5" column="F_FLAG5" length="1" type="char"/>
-		<property name="num1" column="F_NUM1" precision="8" scale="0" not-null="true" type="java.lang.Integer"/>
-		<property name="num2" column="F_NUM2" precision="8" scale="0" not-null="true" type="java.lang.Integer"/>
-		<property name="num3" column="F_NUM3" precision="8" scale="0" not-null="true" type="java.lang.Integer"/>
-		<property name="num4" column="F_NUM4" precision="8" scale="0" not-null="true" type="java.lang.Integer"/>
-		<property name="num5" column="F_NUM5" precision="8" scale="0" not-null="true" type="java.lang.Integer"/>
-		<property name="double1" column="F_DOUBLE1" precision="12" scale="4" not-null="true" type="java.lang.Double"/>
-		<property name="double2" column="F_DOUBLE2" precision="12" scale="4" not-null="true" type="java.lang.Double"/>
-		<property name="double3" column="F_DOUBLE3" precision="12" scale="4" not-null="true" type="java.lang.Double"/>
-		<property name="double4" column="F_DOUBLE4" precision="12" scale="4" not-null="true" type="java.lang.Double"/>
-		<property name="double5" column="F_DOUBLE5" precision="12" scale="4" not-null="true" type="java.lang.Double"/>
-		<property name="remark" column="F_REMARK" length="2000" type="string"/>
-		<property name="sysflag2" column="F_SYS_FLAG2" length="1" type="char"/>
 		<property name="sysflag" column="F_SYS_FLAG" length="1" type="char"/>
-		<property name="creator" column="F_CREATOR" length="50" type="string"/>
-		<property name="createtime" column="F_CREATE_TIME" length="50" type="string"/>
-		<property name="lastmodifier" column="F_LAST_MODIFIER" length="36" type="string"/>
-		<property name="lastmodifiedtime" column="F_LAST_MODIFIED_TIME" length="36" type="string"/>
     </class>	
 </hibernate-mapping>

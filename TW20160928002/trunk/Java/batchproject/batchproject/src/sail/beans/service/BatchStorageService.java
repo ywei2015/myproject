@@ -22,8 +22,6 @@ public class BatchStorageService {
 	@Autowired
 	private GenericDao genericDao;  
 	
-	private static HashMap<String,List<CarCodeRule>> ruleHashMap = new <String,List<CarCodeRule>>HashMap();
-	
 	/**
 	 * 出入库后台服务
 	 * @param billNo
@@ -37,8 +35,7 @@ public class BatchStorageService {
 		if (billList != null && billList.size() > 0){
 			batDepotIoBill = billList.get(0);
 		}
-//		CarCode carCode = new CarCode();
-//		this.getResolveValue(matBatch, carCode);
+//		CarCode carCode = this.getResolveValue(matBatch);
 //		String matcode = "0006";
 //		String matcode = matBatch.substring(1, 9);
 		BatDepotIoDetail batDepotIoDetail = null;
@@ -82,30 +79,6 @@ public class BatchStorageService {
 		
 	}
 	
-	
-	
-	
-	
-	/**
-	 * 获取条形码规则
-	 */
-	public void getCarCodeRule(){
-		List<CarCodeRule> carCodeList = genericDao.getListWithVariableParas("", new Object[]{});
-		if (carCodeList != null && carCodeList.size() > 0){
-			for(int i = 0; i < carCodeList.size(); i++){
-				CarCodeRule carCode = carCodeList.get(i);
-				if (ruleHashMap.get(carCode.getType()) != null){
-					List<CarCodeRule> ruleList = ruleHashMap.get(carCode.getType());
-					ruleList.add(carCode);
-					ruleHashMap.put(carCode.getType(), ruleList);
-				}else{
-					List<CarCodeRule> ruleList = new ArrayList<CarCodeRule>();
-					ruleHashMap.put(carCode.getType(), ruleList);
-				}
-			}
-		}
-	}
-	
 	/**
 	 * 条形码解析
 	 * @param type
@@ -116,9 +89,11 @@ public class BatchStorageService {
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
 	 */
-	public static void getResolveValue(String matCode,CarCode carCode) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
+	public CarCode getResolveValue(String matCode) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
 		String type = matCode.substring(0, 1);
-		List<CarCodeRule> ruleList = ruleHashMap.get(type);
+		HashMap<String,List<CarCodeRule>> ruleHashMap = new <String,List<CarCodeRule>>HashMap();
+		List<CarCodeRule> ruleList = genericDao.getListWithVariableParas("", new Object[]{});
+		CarCode carCode = new CarCode();
 		int startIndex = 0;
 		if (ruleList != null && ruleList.size() > 0){
 			for (int i = 0 ; i < ruleList.size() ; i ++){
@@ -130,6 +105,7 @@ public class BatchStorageService {
 			    startIndex= startIndex+Integer.parseInt(carCodeRule.getValue());
 			}
 		}
+		return carCode;
 	}
 	
 	

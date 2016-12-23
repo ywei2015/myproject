@@ -2,23 +2,22 @@ package sail.beans.entity;
 
 import java.io.Serializable;
 
-public class BatWorkOrderInput implements Serializable{
+public class BatSpiceRemain implements Serializable{
 
 	private String pid;
 	private String workorderpid;
-	private String tltype;
-	private String matbatch;
+	private String workarea;
+	private String depot;
 	private String matcode;
-	private String matname;
+	private String oldbatch;
+	private String newbatch;
 	private String location;
 	private String locationname;
-	private double quantity;
+	private String productmatid;
+	private Double quantity;
 	private String unit;
-	private String starttime;
-	private String endtime;
-	private String operateuserid;
+	private String operator;
 	private String operatetime;
-	private String masterslaveflag;
 	private String remark1;
 	private String remark2;
 	private String remark3;
@@ -31,7 +30,7 @@ public class BatWorkOrderInput implements Serializable{
 	private String lastmodifier;
 	private String lastmodifiedtime;
 	
-	private String isrepair;//是否重复
+	private String isrepair;
 	public String getPid() {
 		return pid;
 	}
@@ -44,17 +43,17 @@ public class BatWorkOrderInput implements Serializable{
 	public void setWorkorderpid(String workorderpid) {
 		this.workorderpid = workorderpid;
 	}
-	public String getTltype() {
-		return tltype;
+	public String getWorkarea() {
+		return workarea;
 	}
-	public void setTltype(String tltype) {
-		this.tltype = tltype;
+	public void setWorkarea(String workarea) {
+		this.workarea = workarea;
 	}
-	public String getMatbatch() {
-		return matbatch;
+	public String getDepot() {
+		return depot;
 	}
-	public void setMatbatch(String matbatch) {
-		this.matbatch = matbatch;
+	public void setDepot(String depot) {
+		this.depot = depot;
 	}
 	public String getMatcode() {
 		return matcode;
@@ -62,11 +61,17 @@ public class BatWorkOrderInput implements Serializable{
 	public void setMatcode(String matcode) {
 		this.matcode = matcode;
 	}
-	public String getMatname() {
-		return matname;
+	public String getOldbatch() {
+		return oldbatch;
 	}
-	public void setMatname(String matname) {
-		this.matname = matname;
+	public void setOldbatch(String oldbatch) {
+		this.oldbatch = oldbatch;
+	}
+	public String getNewbatch() {
+		return newbatch;
+	}
+	public void setNewbatch(String newbatch) {
+		this.newbatch = newbatch;
 	}
 	public String getLocation() {
 		return location;
@@ -80,10 +85,17 @@ public class BatWorkOrderInput implements Serializable{
 	public void setLocationname(String locationname) {
 		this.locationname = locationname;
 	}
-	public double getQuantity() {
+	public String getProductmatid() {
+		return productmatid;
+	}
+	public void setProductmatid(String productmatid) {
+		this.productmatid = productmatid;
+	}
+	
+	public Double getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(double quantity) {
+	public void setQuantity(Double quantity) {
 		this.quantity = quantity;
 	}
 	public String getUnit() {
@@ -92,35 +104,17 @@ public class BatWorkOrderInput implements Serializable{
 	public void setUnit(String unit) {
 		this.unit = unit;
 	}
-	public String getStarttime() {
-		return starttime;
+	public String getOperator() {
+		return operator;
 	}
-	public void setStarttime(String starttime) {
-		this.starttime = starttime;
-	}
-	public String getEndtime() {
-		return endtime;
-	}
-	public void setEndtime(String endtime) {
-		this.endtime = endtime;
-	}
-	public String getOperateuserid() {
-		return operateuserid;
-	}
-	public void setOperateuserid(String operateuserid) {
-		this.operateuserid = operateuserid;
+	public void setOperator(String operator) {
+		this.operator = operator;
 	}
 	public String getOperatetime() {
 		return operatetime;
 	}
 	public void setOperatetime(String operatetime) {
 		this.operatetime = operatetime;
-	}
-	public String getMasterslaveflag() {
-		return masterslaveflag;
-	}
-	public void setMasterslaveflag(String masterslaveflag) {
-		this.masterslaveflag = masterslaveflag;
 	}
 	public String getRemark1() {
 		return remark1;
@@ -194,6 +188,6 @@ public class BatWorkOrderInput implements Serializable{
 	public void setIsrepair(String isrepair) {
 		this.isrepair = isrepair;
 	}
-	
+
 	
 }

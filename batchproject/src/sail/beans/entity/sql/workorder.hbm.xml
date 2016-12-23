@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+
+	<query name="WORKORDER.T_BAT_WORKORDER.LIST">
+		<![CDATA[
+    	select order from sail.beans.entity.BatWorkOrder order where order.workordertype = ? and order.sysflag = '1'
+    ]]>
+	</query>
+	
+	<query name="WORKORDER.T_BAT_WORKORDERLIST.LIST">
+		<![CDATA[
+    	select order from sail.beans.entity.BatWorkOrder order where order.workordercode = ? and order.sysflag = '1'
+    ]]>
+	</query>	
+	
+	
+	<query name="WORKORDER.T_BAT_WORKORDER_INPUT.LIST">
+		<![CDATA[
+    	select order from sail.beans.entity.BatWorkOrderInput order where order.matbatch = ? and order.sysflag = '1'
+    ]]>
+	</query>
+	
+	<query name="WORKORDER.T_BAT_WORKORDER_INPUTLIST.LIST">
+		<![CDATA[
+	    	select detail from sail.beans.entity.BatWorkOrderInput detail,
+	    	sail.beans.entity.BatWorkOrder order where order.pid = detail.workorderpid
+	    	and order.workordercode = ? 
+	    	and order.sysflag = '1' and detail.sysflag = '1'
+	    ]]>
+	</query>
+</hibernate-mapping>

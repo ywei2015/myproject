@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import sail.beans.base.ResponseBase;
 import sail.beans.entity.BatDepotIoDetail;
+import sail.beans.entity.CarCode;
 import sail.beans.entity.User;
 import sail.beans.service.BatchStorageService;
 
@@ -67,6 +68,22 @@ public class BatchStorageController {
 			res.setResponseData("1", "操作成功!");
 		}else{
 			res.setResponseData("0", "牌号信息不匹配!");
+		}
+		return res;
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="/getResolveValue")	 
+	public ResponseBase getResolveValue(HttpServletRequest request) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
+		ResponseBase res = new ResponseBase();
+		String matbatch = request.getParameter("f_mat_batch");
+		CarCode carCode = batchStorageService.getResolveValue(matbatch);
+		if (carCode != null){
+			res.setResponseData("1", "操作成功!");
+			res.setDataset(carCode, "carcode");
+		}else{
+			res.setResponseData("0", "该批次数据有问题，请进行核对!");
 		}
 		return res;
 	}

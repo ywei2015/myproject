@@ -1,7 +1,5 @@
 package sail.beans.controller;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,32 +11,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sail.beans.base.ResponseBase;
 import sail.beans.entity.BatWorkOrderInput;
 import sail.beans.entity.User;
-import sail.beans.entity.vo.BatWorkOrderVo;
-import sail.beans.service.SilkWorkOrderService;
-
+import sail.beans.service.RollBatchService;
 
 @Controller
-@RequestMapping("/silkorder")
-public class SilkWorkOrderController {
-
+@RequestMapping("/rollbatch")
+public class RollBatchController {
 	@Resource
-	private SilkWorkOrderService silkWorkOrderService; 
-	
-	
-	@ResponseBody
-	@RequestMapping(value="/getWorkOrderList")	 
-	public ResponseBase getWorkOrderList(HttpServletRequest request){
-		String type = request.getParameter("f_type");
-		ResponseBase res = new ResponseBase();
-		List<BatWorkOrderVo> orderList = silkWorkOrderService.getWorkOrderList(type);
-		if (orderList != null && orderList.size() > 0){
-			res.setResponseData("1", "操作成功!");
-			res.setDataset(orderList, "batworkordervo");
-		}else{
-			res.setResponseData("0", "该类型不存在工单!");
-		}
-		return res;
-	}
+	private RollBatchService rollBatchService; 
 	
 	
 	@ResponseBody
@@ -46,12 +25,11 @@ public class SilkWorkOrderController {
 	public ResponseBase saveBatWorkOrderInput(HttpServletRequest request) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
 		String workOrderCode = request.getParameter("f_workorder_code");
 		String matBatch = request.getParameter("f_mat_batch");
-		String quantity = request.getParameter("f_quantity");
-		String location = request.getParameter("f_location");
+		String machine = request.getParameter("f_machine");
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		ResponseBase res = new ResponseBase();
-		BatWorkOrderInput batWorkOrderInput = silkWorkOrderService.saveBatWorkOrderInput(workOrderCode, matBatch, quantity, location, user.getPid());
+		BatWorkOrderInput batWorkOrderInput = rollBatchService.saveBatWorkOrderInput(workOrderCode,machine, matBatch,user.getPid());
 		if (batWorkOrderInput != null){
 			if ("1".equals(batWorkOrderInput.getIsrepair())){
 				res.setResponseData("0", "该批次数据已经存在!");
@@ -73,7 +51,7 @@ public class SilkWorkOrderController {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		ResponseBase res = new ResponseBase();
-		boolean falg = silkWorkOrderService.deleteBatWorkOrderInput(pid, user.getPid());
+		boolean falg = rollBatchService.deleteBatWorkOrderInput(pid, user.getPid());
 		if (falg){
 			res.setResponseData("1", "操作成功!");
 		}else{
@@ -81,22 +59,4 @@ public class SilkWorkOrderController {
 		}
 		return res;
 	}
-	
-	
-	@ResponseBody
-	@RequestMapping(value="/getBatWorkOrderInput")	 
-	public ResponseBase getBatWorkOrderInput(HttpServletRequest request){
-		String workOrderCode = request.getParameter("f_workorder_code");
-		ResponseBase res = new ResponseBase();
-		List<BatWorkOrderInput> inputList = silkWorkOrderService.getBatWorkOrderInput(workOrderCode);
-		if (inputList != null && inputList.size() > 0){
-			res.setResponseData("1", "操作成功!");
-			res.setDataset(inputList, "batworkorderinput");
-		}else{
-			res.setResponseData("0", "该工单数据有问题，请进行核对!");
-		}
-		return res;
-	}
-	
-	
 }

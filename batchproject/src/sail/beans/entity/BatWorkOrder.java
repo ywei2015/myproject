@@ -24,8 +24,8 @@ public class BatWorkOrder implements Serializable{
 	private String actualendtime;
 	private String worktime;
 	private String workteam;
-	private double planquantity;
-	private double actualquantity;
+	private Double planquantity;
+	private Double actualquantity;
 	private String unit;
 	private String tankno;
 	private String zsl;
@@ -164,16 +164,18 @@ public class BatWorkOrder implements Serializable{
 	public void setWorkteam(String workteam) {
 		this.workteam = workteam;
 	}
-	public double getPlanquantity() {
+	
+	
+	public Double getPlanquantity() {
 		return planquantity;
 	}
-	public void setPlanquantity(double planquantity) {
+	public void setPlanquantity(Double planquantity) {
 		this.planquantity = planquantity;
 	}
-	public double getActualquantity() {
+	public Double getActualquantity() {
 		return actualquantity;
 	}
-	public void setActualquantity(double actualquantity) {
+	public void setActualquantity(Double actualquantity) {
 		this.actualquantity = actualquantity;
 	}
 	public String getUnit() {

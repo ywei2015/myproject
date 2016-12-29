@@ -1,8 +1,10 @@
-var title= ["物资编码","物资名称","批次号","数量","单位","操作"];
+var title= ["编码","名称","批次号","数量","单位","操作"];
 var theTable=document.getElementById("table");
+var f_bill_no=getQueryString('f_bill_no'); //test:
+var f_doc_type=getQueryString('f_doc_type');//test:
 var data_p={
-		'f_bill_no':'1',
-		'f_doc_type':'ZI10'
+		'f_bill_no':f_bill_no,
+		'f_doc_type':f_doc_type
 };
 initTable(data_p);
 var billarray=[];
@@ -10,7 +12,7 @@ function initTable(dataj){
 	theTable.innerHTML="";
 	$.ajax({
 		type : "post",
-		url:'http://192.168.43.92:8080/batchproject/dynamic/storage/getBatDepotIoDetailList',
+		url:cqt_prefix+'storage/getBatDepotIoDetailList',
 		data:dataj,
 		success : function(data) {
 			//var str=eval('(' + data + ')');   //解析json
@@ -61,7 +63,7 @@ function initTable(dataj){
 						billarray[i]=pid;
 						//data_td="<a href='' onclick='deleteRow("+rowdata.billpid+")'>删除</a>";
 						data_td="<a onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup' data-role='button' data-position-to='window'" +
-								" class='ui-btn-right' data-transition='pop'>删除</a>";
+								"data-transition='pop'>删除</a>";
 						td.innerHTML=data_td;
 						r.appendChild(td);
 					}
@@ -86,14 +88,20 @@ function verifySubmit(){
 	    var aa=Id;
     	$.ajax({
     		type : "post",
-    		url: 'http://192.168.43.92:8080/batchproject/dynamic/storage/deleteBatDepotIoDetail',
+    		url: cqt_prefix+'storage/deleteBatDepotIoDetail',
     		data:{'f_pid':billarray[Id]},
     		success : function(data) {
     			var falg=data.dataset.response.code;
     			if(falg==0)
-    				alert("删除失败!");
-    			if(falg==1)
-    				initTable(data_p);
+    				$("#tishi").text("删除失败！");
+    			if(falg==1){
+    				$("#tishi").text("删除成功！");
+    				$("#ok").bind('click',function(){
+    					 initTable(data_p);
+    					 $("#ok").unbind("click");
+ 				   });
+    			    
+    			}
     		}
     	});  
   

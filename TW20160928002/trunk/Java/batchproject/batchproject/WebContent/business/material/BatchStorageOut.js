@@ -1,8 +1,10 @@
-var title= ["物资编码","物资名称","批次号","数量","单位","操作"];
+var title= ["编码","名称","批次号","数量","单位","操作"];
 var theTable=document.getElementById("table");
+var f_bill_no=getQueryString('f_bill_no'); //test:1
+var f_doc_type=getQueryString('f_doc_type');//test:ZI10
 var data_p={
-		'f_bill_no':'1',
-		'f_doc_type':'ZI10'
+		'f_bill_no':f_bill_no,
+		'f_doc_type':f_doc_type
 };
 initTable(data_p);
 var billarray=[];
@@ -10,7 +12,7 @@ function initTable(dataj){
 	theTable.innerHTML="";
 	$.ajax({
 		type : "post",
-		url:'http://192.168.43.92:8080/batchproject/dynamic/storage/getBatDepotIoDetailList',
+		url: cqt_prefix+'storage/deleteBatDepotIoDetail',
 		data:dataj,
 		success : function(data) {
 			//var str=eval('(' + data + ')');   //解析json
@@ -86,7 +88,7 @@ function verifySubmit(){
 	    var aa=Id;
     	$.ajax({
     		type : "post",
-    		url: 'http://192.168.43.92:8080/batchproject/dynamic/storage/deleteBatDepotIoDetail',
+    		url: cqt_prefix+'storage/deleteBatDepotIoDetail',
     		data:{'f_pid':billarray[Id]},
     		success : function(data) {
     			var falg=data.dataset.response.code;

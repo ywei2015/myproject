@@ -1,5 +1,7 @@
 package sail.beans.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -29,6 +31,8 @@ public class RollBatchController {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		ResponseBase res = new ResponseBase();
+		boolean state=rollBatchService.getWorkorderstate(workOrderCode);
+		if(state){
 		BatWorkOrderInput batWorkOrderInput = rollBatchService.saveBatWorkOrderInput(workOrderCode,machine, matBatch,user.getPid());
 		if (batWorkOrderInput != null){
 			if ("1".equals(batWorkOrderInput.getIsrepair())){
@@ -39,6 +43,9 @@ public class RollBatchController {
 			}
 		}else{
 			res.setResponseData("0", "该批次数据有问题，请进行核对!");
+		}
+		}else{
+			res.setResponseData("0", "该工单已过期!");
 		}
 		return res;
 	}
@@ -56,6 +63,21 @@ public class RollBatchController {
 			res.setResponseData("1", "操作成功!");
 		}else{
 			res.setResponseData("0", "删除数据失败!");
+		}
+		return res;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/getBatWorkOrderInput")	 
+	public ResponseBase getBatWorkOrderInput(HttpServletRequest request){
+		String workOrderCode = request.getParameter("f_workorder_code");
+		ResponseBase res = new ResponseBase();
+		List<BatWorkOrderInput> inputList = rollBatchService.getBatWorkOrderInput(workOrderCode);
+		if (inputList != null && inputList.size() > 0){
+			res.setResponseData("1", "操作成功!");
+			res.setDataset(inputList, "batworkorderinput");
+		}else{
+			res.setResponseData("0", "该工单数据有问题，请进行核对!");
 		}
 		return res;
 	}

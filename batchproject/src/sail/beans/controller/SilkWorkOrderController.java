@@ -51,16 +51,21 @@ public class SilkWorkOrderController {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		ResponseBase res = new ResponseBase();
-		BatWorkOrderInput batWorkOrderInput = silkWorkOrderService.saveBatWorkOrderInput(workOrderCode, matBatch, quantity, location, user.getPid());
-		if (batWorkOrderInput != null){
-			if ("1".equals(batWorkOrderInput.getIsrepair())){
-				res.setResponseData("0", "该批次数据已经存在!");
+		boolean state=silkWorkOrderService.getWorkorderstate(workOrderCode);
+		if(state){
+			BatWorkOrderInput batWorkOrderInput = silkWorkOrderService.saveBatWorkOrderInput(workOrderCode, matBatch, quantity, location, user.getPid());
+			if (batWorkOrderInput != null){
+				if ("1".equals(batWorkOrderInput.getIsrepair())){
+					res.setResponseData("0", "该批次数据已经存在!");
+				}else{
+					res.setResponseData("1", "操作成功!");
+					res.setDataset(batWorkOrderInput, "batworkorderinput");
+				}
 			}else{
-				res.setResponseData("1", "操作成功!");
-				res.setDataset(batWorkOrderInput, "batworkorderinput");
+				res.setResponseData("0", "该批次数据有问题，请进行核对!");
 			}
-		}else{
-			res.setResponseData("0", "该批次数据有问题，请进行核对!");
+			}else{
+				res.setResponseData("0", "该工单已过期!");
 		}
 		return res;
 	}

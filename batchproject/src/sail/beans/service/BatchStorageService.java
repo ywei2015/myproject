@@ -13,6 +13,8 @@ import sail.beans.entity.BatBatAdjust;
 import sail.beans.entity.BatBatAdjustDetail;
 import sail.beans.entity.BatDepotIoBill;
 import sail.beans.entity.BatDepotIoDetail;
+import sail.beans.entity.BatDepotIoDetailList;
+import sail.beans.entity.BatWorkOrder;
 import sail.beans.entity.CarCode;
 import sail.beans.entity.CarCodeRule;
 import sail.beans.support.DateBean;
@@ -64,8 +66,10 @@ public class BatchStorageService {
 	 * 删除对应明细数据
 	 * @param detailpid
 	 */
+	@SuppressWarnings("finally")
 	public boolean deleteBatDepotIoDetail(String detailpid,String operuser){
 		boolean falg = false;
+		try{
 		BatDepotIoDetail batDepotIoDetail = (BatDepotIoDetail)genericDao.getById(BatDepotIoDetail.class,detailpid);
 		if (batDepotIoDetail == null){
 			return falg;
@@ -73,41 +77,43 @@ public class BatchStorageService {
 		batDepotIoDetail.setSysflag("0");
 		batDepotIoDetail.setLastmodifiedtime(DateBean.getSysdateTime());
 		batDepotIoDetail.setLastmodifier(operuser);
-		genericDao.save(genericDao);
+		genericDao.save(batDepotIoDetail);
 		falg = true;
-		return falg;
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			return falg;
+		}
 		
 	}
 	
 	/**
 	 * 条形码解析
-	 * @param type
 	 * @param matCode
-	 * @param carCode
-	 * @throws NoSuchFieldException
-	 * @throws SecurityException
-	 * @throws IllegalArgumentException
-	 * @throws IllegalAccessException
 	 */
-	public CarCode getResolveValue(String matCode) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
-		String type = matCode.substring(0, 1);
-		HashMap<String,List<CarCodeRule>> ruleHashMap = new <String,List<CarCodeRule>>HashMap();
-		List<CarCodeRule> ruleList = genericDao.getListWithVariableParas("", new Object[]{});
+	public CarCode getResolveValue(String matCode){
 		CarCode carCode = new CarCode();
-		int startIndex = 0;
-		if (ruleList != null && ruleList.size() > 0){
-			for (int i = 0 ; i < ruleList.size() ; i ++){
-				CarCodeRule carCodeRule = ruleList.get(i);
-				String reulst = matCode.substring(startIndex,startIndex+Integer.parseInt(carCodeRule.getValue()));
-				Field idF = carCode.getClass().getDeclaredField(carCodeRule.getField());  
-			    idF.setAccessible(true); 
-			    idF.set(carCode, reulst);
-			    startIndex= startIndex+Integer.parseInt(carCodeRule.getValue());
-			}
+		List<BatDepotIoDetail> ruleList=genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{matCode});
+		if(ruleList!=null){
+			BatDepotIoDetail batdepot=ruleList.get(0);
+			carCode.setAmount(batdepot.getQuantity()+"");
+			carCode.setMatcode(batdepot.getMatcode());
+			carCode.setMatname(batdepot.getMatname());
+			carCode.setUnit(batdepot.getUnit());
+		}else{
+			List<BatDepotIoDetailList> ruleListx=genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAILIST", new Object[]{matCode});
+			BatDepotIoDetailList batdepot=ruleListx.get(0);
+			String code=batdepot.getBillpid();
+			List<BatDepotIoDetail> ruleList1=genericDao.getListWithVariableParas("BATCHDATA_DEPOT_IODETAIL_BYPID", new Object[]{code});
+			BatDepotIoDetail batdepot1=ruleList1.get(0);
+			carCode.setAmount(batdepot.getQuantity()+"");
+			carCode.setMatcode(batdepot1.getMatcode());
+			carCode.setMatname(batdepot1.getMatname());
+			carCode.setUnit(batdepot.getUnit());
 		}
 		return carCode;
-	}
-	
+		}
+		
 	
 	/**
 	 * 物资批次大小件关系调整
@@ -201,7 +207,6 @@ public class BatchStorageService {
 		falg = true;
 		return falg;
 	}
-	
 	
 
 }

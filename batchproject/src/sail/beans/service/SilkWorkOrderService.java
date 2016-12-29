@@ -86,7 +86,11 @@ public class SilkWorkOrderService {
 					batWorkOrderInput.setLocation(location);
 				}
 				batWorkOrderInput.setMatname(carCode.getMatname());
-				batWorkOrderInput.setQuantity(Double.parseDouble(quantity));
+				if(quantity==null){
+					batWorkOrderInput.setQuantity(Double.parseDouble(carCode.getAmount()));
+				}else{
+					batWorkOrderInput.setQuantity(Double.parseDouble(quantity));
+				}
 				batWorkOrderInput.setUnit(carCode.getUnit());
 				batWorkOrderInput.setStarttime(DateBean.getSysdateTime());
 				batWorkOrderInput.setEndtime(DateBean.getSysdateTime());
@@ -130,5 +134,18 @@ public class SilkWorkOrderService {
 	public List<BatWorkOrderInput> getBatWorkOrderInput(String workOrderCode){
 		List<BatWorkOrderInput> inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST.LIST", new Object[]{workOrderCode});
 		return inputList;
+	}
+	/**
+	 * 获取工单状态
+	 * @param workOrderCode
+	 * @return
+	 */
+	public boolean getWorkorderstate(String billno){
+		List<BatWorkOrder> ruleList=genericDao.getListWithVariableParas("GET_WORKSTATE_BYBILLNO", new Object[]{billno});
+		BatWorkOrder bill=ruleList.get(0);
+		if("1".equals(bill.getWorkorderstate())){
+			return true;
+		}
+		return false;
 	}
 }

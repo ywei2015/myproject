@@ -82,4 +82,25 @@ public class RollBatchService {
 		}
 		return falg;
 	}
+
+
+	/**
+	 * 根据工单获取明细数据
+	 * @param workOrderCode
+	 * @return
+	 */
+	public List<BatWorkOrderInput> getBatWorkOrderInput(String workOrderCode){
+		List<BatWorkOrderInput> inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST.LIST", new Object[]{workOrderCode});
+		return inputList;
+	}
+
+
+	public boolean getWorkorderstate(String workOrderCode) {
+		List<BatWorkOrder> ruleList=genericDao.getListWithVariableParas("GET_WORKSTATE_BYBILLNO", new Object[]{workOrderCode});
+		BatWorkOrder bill=ruleList.get(0);
+		if("1".equals(bill.getWorkorderstate())){
+			return true;
+		}
+		return false;
+	}
 }

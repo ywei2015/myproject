@@ -4,10 +4,28 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
     
 <hibernate-mapping>
-
-	<query name="WORKORDER.T_BAT_WORKORDER.LIST">
+	
+	<query name="GET_WORKSTATE_BYBILLNO">
 		<![CDATA[
-    	select order from sail.beans.entity.BatWorkOrder order where order.workordertype = ? and order.sysflag = '1'
+    	select order from sail.beans.entity.BatWorkOrder order where order.workordercode=? and order.sysflag = '1'
+    ]]>
+	</query>
+	
+	<query name="BATCHDATA_BAT_DEPOT_IODETAIL">
+		<![CDATA[
+    	select order from sail.beans.entity.BatDepotIoDetail order where order.matbatch=? and order.sysflag = '1'
+    ]]>
+	</query>
+	
+	<query name="BATCHDATA_BAT_DEPOT_IODETAILIST">
+		<![CDATA[
+    	select order from sail.beans.entity.BatDepotIoDetail order where order.matbatch=? and order.sysflag = '1'
+    ]]>
+	</query>
+	
+	<query name="BATCHDATA_DEPOT_IODETAIL_BYPID">
+		<![CDATA[
+    	select order from sail.beans.entity.BatDepotIoDetail order where order.billpid = ?  and order.sysflag = '1'
     ]]>
 	</query>
 	
@@ -32,4 +50,5 @@
 	    	and order.sysflag = '1' and detail.sysflag = '1'
 	    ]]>
 	</query>
+	
 </hibernate-mapping>

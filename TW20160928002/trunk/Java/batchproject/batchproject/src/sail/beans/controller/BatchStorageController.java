@@ -72,19 +72,4 @@ public class BatchStorageController {
 		return res;
 	}
 	
-	
-	@ResponseBody
-	@RequestMapping(value="/getResolveValue")	 
-	public ResponseBase getResolveValue(HttpServletRequest request) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
-		ResponseBase res = new ResponseBase();
-		String matbatch = request.getParameter("f_mat_batch");
-		CarCode carCode = batchStorageService.getResolveValue(matbatch);
-		if (carCode != null){
-			res.setResponseData("1", "操作成功!");
-			res.setDataset(carCode, "carcode");
-		}else{
-			res.setResponseData("0", "该批次数据有问题，请进行核对!");
-		}
-		return res;
-	}
 }

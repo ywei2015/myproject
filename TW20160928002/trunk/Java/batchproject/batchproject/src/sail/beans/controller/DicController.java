@@ -32,7 +32,7 @@ public class DicController{
 	private DicService dicService; 
 
 	/**
-	 * 用户登录
+	 * 根据类型获取入库类型
 	 * @param request
 	 * @return
 	 */

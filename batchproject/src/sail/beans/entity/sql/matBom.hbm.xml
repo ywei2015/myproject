@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+	
+	<sql-query name="MAT.T_MAT_BOM_LIST.CHECK">
+	<![CDATA[
+    	SELECT l.F_PID FROM T_BAT_WORKORDER w,T_MAT_BOM b,T_MAT_BOM_LIST l WHERE w.F_MAT_CODE = b.F_MAT_PID 
+    	AND b.F_PID = l.F_BOM_PID AND b.F_SYS_FLAG='1' AND l.F_SYS_FLAG='1' AND w.F_SYS_FLAG='1' 
+		AND w.F_WORKORDER_CODE= ?  AND w.F_PROCESS= ?  AND l.F_MAT_PID = ?             		
+    ]]>
+	</sql-query>
+	
+</hibernate-mapping>

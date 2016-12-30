@@ -62,8 +62,8 @@ function initTable(dataj){
 						var pid=rowdata.pid;
 						billarray[i]=pid;
 						//data_td="<a href='' onclick='deleteRow("+rowdata.billpid+")'>删除</a>";
-						data_td="<a onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup' data-role='button' data-position-to='window'" +
-								" class='ui-btn-right' data-transition='pop'>删除</a>";
+						data_td="<a  data-role='button' onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='window'" +
+						">删除</a>";
 						td.innerHTML=data_td;
 						r.appendChild(td);
 					}
@@ -93,12 +93,19 @@ function verifySubmit(){
     		success : function(data) {
     			var falg=data.dataset.response.code;
     			if(falg==0)
-    				alert("删除失败!");
-    			if(falg==1)
-    				initTable(data_p);
+    				$("#tishi").text("删除失败！");
+    			if(falg==1){
+    				$("#tishi").text("删除成功！");
+    				$("#ok").bind('click',function(){
+    					 initTable(data_p);
+    					 $("#ok").unbind("click");
+ 				   });
+    			    
+    			}
     		}
     	});  
   
+
 }
 
 function getQueryString(name) {

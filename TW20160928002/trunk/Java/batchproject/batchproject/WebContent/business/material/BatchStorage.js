@@ -61,9 +61,8 @@ function initTable(dataj){
 						td=document.createElement('td');
 						var pid=rowdata.pid;
 						billarray[i]=pid;
-						//data_td="<a href='' onclick='deleteRow("+rowdata.billpid+")'>删除</a>";
-						data_td="<a onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup' data-role='button' data-position-to='window'" +
-								"data-transition='pop'>删除</a>";
+						data_td="<a  data-role='button' onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='window'" +
+								">删除</a>";
 						td.innerHTML=data_td;
 						r.appendChild(td);
 					}
@@ -105,6 +104,7 @@ function verifySubmit(){
     		}
     	});  
   
+
 }
 
 function getQueryString(name) {

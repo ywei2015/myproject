@@ -93,7 +93,7 @@ public class BatchStorageService {
 	 */
 	public CarCode getResolveValue(String matCode){
 		CarCode carCode = new CarCode();
-		List<BatDepotIoDetail> ruleList=genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{matCode});
+	/*	List<BatDepotIoDetail> ruleList=genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{matCode});
 		if(ruleList!=null){
 			BatDepotIoDetail batdepot=ruleList.get(0);
 			carCode.setAmount(batdepot.getQuantity()+"");
@@ -110,7 +110,15 @@ public class BatchStorageService {
 			carCode.setMatcode(batdepot1.getMatcode());
 			carCode.setMatname(batdepot1.getMatname());
 			carCode.setUnit(batdepot.getUnit());
-		}
+			carCode.setOldbatch(batdepot1.getMatbatch());
+			carCode.setStroecode(batdepot1.getSuppliersortcode());
+		}*/
+		carCode.setAmount("120");
+		carCode.setMatcode("001");
+		carCode.setMatname("物料1");
+		carCode.setUnit("KG");
+		carCode.setOldbatch("0002");
+		carCode.setStroecode("01");
 		return carCode;
 		}
 		
@@ -166,14 +174,13 @@ public class BatchStorageService {
 	public BatBatAdjustDetail saveDetail(String adjustpid,String operuser,String slavebatch,String masterbatch){
 		BatBatAdjustDetail batBatAdjustDetail = new BatBatAdjustDetail();
 		batBatAdjustDetail.setAdjustpid(adjustpid);
-//		CarCode carCode = new CarCode();
-//		this.getResolveValue(matBatch, carCode);
-//		private String matcode;
-//		private String matname;
+		CarCode carcode=this.getResolveValue(slavebatch);
+		batBatAdjustDetail.setMatcode(carcode.getMatcode());
+		batBatAdjustDetail.setMatname(carcode.getMatname());
+		batBatAdjustDetail.setOldmasterbatch(carcode.getOldbatch());
+		batBatAdjustDetail.setSuppliersortcode(carcode.getStroecode());
 		batBatAdjustDetail.setSlavebatch(slavebatch);
-//		private String oldmasterbatch;
 		batBatAdjustDetail.setNewmasterbatch(masterbatch);
-//		private String suppliersortcode;
 		batBatAdjustDetail.setSysflag("1");
 		batBatAdjustDetail.setCreator(operuser);
 		batBatAdjustDetail.setCreatetime(DateBean.getSysdateTime());

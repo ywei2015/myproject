@@ -1,10 +1,10 @@
 var title= ["序号","名称","批次号","开始","结束","数量","单位","操作"];
 var theTable=document.getElementById("table");
-var f_bill_no=getQueryString('f_bill_no'); //test:
-var f_doc_type=getQueryString('f_doc_type');//test:
+var f_workorder_code=getQueryString('f_workorder_code'); //test:
+var f_machine=getQueryString('f_machine');//test:
 var data_p={
-		'f_bill_no':f_bill_no,
-		'f_doc_type':f_doc_type
+		'f_workorder_code':f_workorder_code,
+		'f_machine':f_machine
 };
 initTable(data_p);
 var billarray=[];

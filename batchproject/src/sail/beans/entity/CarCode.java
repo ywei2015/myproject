@@ -17,6 +17,8 @@ public class CarCode implements Serializable{
 	private String value6;
 	private String value7;
 	private String value8;
+	private String oldbatch;//小件原大件批次号
+	private String stroecode;//
 	public String getPid() {
 		return pid;
 	}
@@ -95,6 +97,18 @@ public class CarCode implements Serializable{
 	}
 	public void setUnitname(String unitname) {
 		this.unitname = unitname;
+	}
+	public String getOldbatch() {
+		return oldbatch;
+	}
+	public void setOldbatch(String oldbatch) {
+		this.oldbatch = oldbatch;
+	}
+	public String getStroecode() {
+		return stroecode;
+	}
+	public void setStroecode(String stroecode) {
+		this.stroecode = stroecode;
 	}
 	
 	

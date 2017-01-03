@@ -1,8 +1,10 @@
 var title= ["序号","名称","批次号","开始","结束","数量","单位","操作"];
 var theTable=document.getElementById("table");
-var f_master_batch=getQueryString('f_master_batch'); //OldDEF
+var f_workorder_code=getQueryString('f_workorder_code'); //test:
+var f_machine=getQueryString('f_machine');//test:
 var data_p={
-		'f_master_batch':f_master_batch
+		'f_workorder_code':f_workorder_code,
+		'f_machine':f_machine
 };
 initTable(data_p);
 var billarray=[];

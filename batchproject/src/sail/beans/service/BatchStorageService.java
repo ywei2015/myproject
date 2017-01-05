@@ -93,13 +93,16 @@ public class BatchStorageService {
 	 */
 	public CarCode getResolveValue(String matCode){
 		CarCode carCode = new CarCode();
-	/*	List<BatDepotIoDetail> ruleList=genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{matCode});
+		/*List<BatDepotIoDetail> ruleList=genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{matCode});
 		if(ruleList!=null){
 			BatDepotIoDetail batdepot=ruleList.get(0);
 			carCode.setAmount(batdepot.getQuantity()+"");
 			carCode.setMatcode(batdepot.getMatcode());
 			carCode.setMatname(batdepot.getMatname());
 			carCode.setUnit(batdepot.getUnit());
+			carCode.setStroecode(batdepot.getSuppliersortcode());
+			carCode.setValue2("1");
+		
 		}else{
 			List<BatDepotIoDetailList> ruleListx=genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAILIST", new Object[]{matCode});
 			BatDepotIoDetailList batdepot=ruleListx.get(0);
@@ -110,15 +113,26 @@ public class BatchStorageService {
 			carCode.setMatcode(batdepot1.getMatcode());
 			carCode.setMatname(batdepot1.getMatname());
 			carCode.setUnit(batdepot.getUnit());
+			carCode.setValue2("2");
 			carCode.setOldbatch(batdepot1.getMatbatch());
 			carCode.setStroecode(batdepot1.getSuppliersortcode());
-		}*/
+			
+			//List<BatDepotIoBill> ruleList2=(List<BatDepotIoBill>) genericDao.getById(BatDepotIoBill.class,batdepot.getBillpid());
+			//BatDepotIoBill batDepotIoBill=ruleList2.get(0);
+			//carCode.setFactory(batDepotIoBill.getFactory()==null?"":batDepotIoBill.getFactory());
+			//carCode.setStroecode(batDepotIoBill.getDepot()==null?"":batDepotIoBill.getDepot());
+		}
+		carCode.setFactory("2200");
+		carCode.setDepot("HZ10");*/
+	
 		carCode.setAmount("120");
 		carCode.setMatcode("001");
 		carCode.setMatname("物料1");
 		carCode.setUnit("KG");
 		carCode.setOldbatch("0002");
 		carCode.setStroecode("01");
+		carCode.setFactory("111");
+		carCode.setStroecode("110");
 		return carCode;
 		}
 		
@@ -214,6 +228,82 @@ public class BatchStorageService {
 		falg = true;
 		return falg;
 	}
+	/**
+	 * 出库保存接口
+	 * @param 
+	 * @param 
+	 * @return
+	 */
+	public BatDepotIoDetail saveBatchStorageOut(String f_bill_no,String f_doc_type,String f_mat_batch,String user) {
+		List<BatDepotIoBill> billList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST", new Object[]{f_bill_no,f_doc_type});
+		BatDepotIoBill batDepotIoBill = null;
+		CarCode carcode=new CarCode();
+		carcode=this.getResolveValue(f_mat_batch);
+		if (billList != null && billList.size() > 0){
+			batDepotIoBill = billList.get(0);
+		}
+		if(batDepotIoBill==null){
+			batDepotIoBill.setBillno(f_bill_no);
+			batDepotIoBill.setDoctype(f_doc_type);
+			batDepotIoBill.setBilltype("12");//需要调整
+			batDepotIoBill.setBiztype("MM2152");//需要确定
+			batDepotIoBill.setFactory(carcode.getFactory());
+			batDepotIoBill.setDepot(carcode.getDepot());
+			batDepotIoBill.setCreatetime(DateBean.getSysdateTime());
+			batDepotIoBill.setCreator(user);
+			batDepotIoBill.setOperateuserid(user);
+			batDepotIoBill.setOperatetime(DateBean.getSysdateTime());
+			batDepotIoBill.setSysflag("1");
+			genericDao.save(batDepotIoBill);
+			billList= genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST", new Object[]{f_bill_no,f_doc_type});
+		    batDepotIoBill = billList.get(0);	
+		}
+		BatDepotIoDetail depotIoDetail=new BatDepotIoDetail();
+		depotIoDetail.setBillpid(batDepotIoBill.getPid());
+		depotIoDetail.setMatbatch(f_mat_batch);
+		depotIoDetail.setMatcode(carcode.getMatcode());
+		depotIoDetail.setMatname(carcode.getMatname());
+		depotIoDetail.setQuantity(Double.parseDouble(carcode.getAmount()));
+		depotIoDetail.setUnit(carcode.getUnit());
+		depotIoDetail.setSysflag("1");
+		depotIoDetail.setCreatetime(DateBean.getSysdateTime());
+		depotIoDetail.setCreator(user);
+	    depotIoDetail.setSuppliersortcode(carcode.getStroecode());
+		genericDao.save(depotIoDetail);
+		return depotIoDetail;
+	}
 	
+	/**
+	 *香料其它消耗业务解码
+	 * @param batch
+	 * @return
+	 */
+   public CarCode getResolveValue2(String batch){
+	   CarCode carCode=new CarCode();
+	 /*  carCode=batchStorageService.getResolveValue(batch);
+	   if(carCode.getMatcode()!=null)
+		   return carCode;
+	   else{
+		   List<BatWorkOrderInput> ruleList=genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUT.LIST", new Object[]{batch});
+		   BatWorkOrderInput workInput=ruleList.get(0);
+		   carCode.setAmount(workInput.getQuantity()+"");
+		   carCode.setMatcode(workInput.getMatcode());
+		   carCode.setMatname(workInput.getMatname());
+		   carCode.setUnit(workInput.getUnit());
+		   carCode.setFactory("2200");
+		   carCode.setStroecode("111");
+		   carCode.setDepot("HZ10");
+		   return carCode;
+	   }*/
+	    carCode.setAmount("120");
+		carCode.setMatcode("001");
+		carCode.setMatname("物料1");
+		carCode.setUnit("KG");
+		carCode.setOldbatch("0002");
+		carCode.setFactory("2200");
+		carCode.setStroecode("111");
+		carCode.setDepot("HZ10");
+		return carCode;
+   }
 
 }

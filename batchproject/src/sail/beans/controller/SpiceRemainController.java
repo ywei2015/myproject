@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import sail.beans.base.ResponseBase;
 import sail.beans.entity.BatSpiceRemain;
+import sail.beans.entity.BatWorkOrderInput;
 import sail.beans.entity.Dic;
 import sail.beans.entity.User;
 import sail.beans.service.SpiceRemainService;
@@ -30,9 +31,8 @@ public class SpiceRemainController {
 		String matbatch = request.getParameter("f_mat_batch");
 		String location = request.getParameter("f_location");
 		String quantity = request.getParameter("f_quantity");
-		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("user");
-		BatSpiceRemain batSpiceRemain = spiceRemainService.saveBatSpiceRemain(matbatch, location, quantity, user.getPid());
+		String userId = request.getParameter("userId");
+		BatSpiceRemain batSpiceRemain = spiceRemainService.saveBatSpiceRemain(matbatch, location, quantity, userId);
 		if (batSpiceRemain != null){
 			if ("1".equals(batSpiceRemain.getIsrepair())){
 				res.setResponseData("0", "该批次数据已经存在!");
@@ -62,6 +62,20 @@ public class SpiceRemainController {
 			res.setResponseData("0", "操作失败!");
 		}
 		
+		return res;
+	}
+	@ResponseBody
+	@RequestMapping(value="/getBatSpiceRemain")	
+	public ResponseBase getBatSpiceRemainList(HttpServletRequest request){
+		String workOrderCode = request.getParameter("f_workorder_code");
+		ResponseBase res = new ResponseBase();
+		List<BatSpiceRemain> inputList = spiceRemainService.getBatSpiceRemainList();
+		if (inputList != null && inputList.size() > 0){
+			res.setResponseData("1", "操作成功!");
+			res.setDataset(inputList, "batspiceremain");
+		}else{
+			res.setResponseData("0", "该工单数据有问题，请进行核对!");
+		}
 		return res;
 	}
 }

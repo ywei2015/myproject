@@ -1,6 +1,7 @@
 package sail.beans.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -28,12 +29,11 @@ public class RollBatchController {
 		String workOrderCode = request.getParameter("f_workorder_code");
 		String matBatch = request.getParameter("f_mat_batch");
 		String machine = request.getParameter("f_machine");
-		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("user");
+		String userId = request.getParameter("userId");
 		ResponseBase res = new ResponseBase();
 		boolean state=rollBatchService.getWorkorderstate(workOrderCode);
 		if(state){
-		BatWorkOrderInput batWorkOrderInput = rollBatchService.saveBatWorkOrderInput(workOrderCode,machine, matBatch,user.getPid());
+		BatWorkOrderInput batWorkOrderInput = rollBatchService.saveBatWorkOrderInput(workOrderCode,machine, matBatch,userId);
 		if (batWorkOrderInput != null){
 			if ("1".equals(batWorkOrderInput.getIsrepair())){
 				res.setResponseData("0", "该批次数据已经存在!");
@@ -76,6 +76,21 @@ public class RollBatchController {
 		if (inputList != null && inputList.size() > 0){
 			res.setResponseData("1", "操作成功!");
 			res.setDataset(inputList, "batworkorderinput");
+		}else{
+			res.setResponseData("0", "该工单数据有问题，请进行核对!");
+		}
+		return res;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/getWorkOrderAndProcess")	
+	public ResponseBase getWorkOrderAndProcess(HttpServletRequest request){
+		String worktype = request.getParameter("f_workorder_type");
+		ResponseBase res = new ResponseBase();
+		Map<String,List> inputList = rollBatchService.getWorkOrderAndProcess(worktype);
+		if (inputList != null && inputList.size() > 0){
+			res.setResponseData("1", "操作成功!");
+			res.setDataset(inputList, "workOrderAndProcessList");
 		}else{
 			res.setResponseData("0", "该工单数据有问题，请进行核对!");
 		}

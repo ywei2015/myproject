@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sail.beans.dao.GenericDao;
+import sail.beans.entity.BatDepotIoDetail;
 import sail.beans.entity.BatSpiceRemain;
 import sail.beans.entity.BatWorkOrderInput;
 import sail.beans.entity.CarCode;
@@ -78,5 +79,10 @@ public class SpiceRemainService {
 			falg = true;
 		}
 		return falg;
+	}
+	
+	public List<BatSpiceRemain> getBatSpiceRemainList(){
+		List<BatSpiceRemain> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_SPICEREMAIN.LIST", new Object[]{});
+		return detailList;
 	}
 }

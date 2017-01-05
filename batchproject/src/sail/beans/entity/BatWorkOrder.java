@@ -32,7 +32,7 @@ public class BatWorkOrder implements Serializable{
 	private String session;
 	private String process;
 	private String opuserid;
-	private String workorderstate;
+	private String workorderstate; //1未完成；2完成
 	private String remark1;
 	private String remark2;
 	private String remark3;

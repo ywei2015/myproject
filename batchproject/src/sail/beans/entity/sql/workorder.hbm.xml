@@ -4,6 +4,12 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
     
 <hibernate-mapping>
+	<sql-query name="WORKORDER.T_BAT_PROCESSID_LIST">
+		<![CDATA[
+    	select  F_PROCESS,F_WORKORDER_CODE from T_BAT_WORKORDER t where t.F_WORKORDER_TYPE=? and t.f_workorder_state='1' 
+    	and  t.f_sys_flag='1' order by F_PROCESS
+    ]]>
+	</sql-query>
 	
 	<query name="GET_WORKSTATE_BYBILLNO">
 		<![CDATA[
@@ -35,6 +41,12 @@
     ]]>
 	</query>	
 	
+	<query name="WORKORDER.T_BAT_WORKORDER.LIST">
+		<![CDATA[
+    	select order from sail.beans.entity.BatWorkOrder order where order.workordertype = ? and
+    	order.workorderstate='1' and  order.sysflag = '1'
+    ]]>
+	</query>
 	
 	<query name="WORKORDER.T_BAT_WORKORDER_INPUT.LIST">
 		<![CDATA[
@@ -47,8 +59,9 @@
 	    	select detail from sail.beans.entity.BatWorkOrderInput detail,
 	    	sail.beans.entity.BatWorkOrder order where order.pid = detail.workorderpid
 	    	and order.workordercode = ? 
-	    	and order.sysflag = '1' and detail.sysflag = '1'
+	    	and order.sysflag = '1' and detail.sysflag = '1' order by detail.createtime desc
 	    ]]>
 	</query>
+
 	
 </hibernate-mapping>

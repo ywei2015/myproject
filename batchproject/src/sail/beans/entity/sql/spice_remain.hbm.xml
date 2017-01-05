@@ -8,4 +8,11 @@
     	SELECT dic FROM sail.beans.entity.BatSpiceRemain dic Where dic.sysflag = '1' AND dic.oldbatch = ?              		
     ]]>
 	</query>
+	<query name="STORAGE.T_BAT_SPICEREMAIN.LIST">
+		<![CDATA[
+	    	select detail from sail.beans.entity.BatSpiceRemain detail
+            where  detail.sysflag = '1'
+	    ]]>
+	</query>
+	
 </hibernate-mapping>

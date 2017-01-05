@@ -10,15 +10,17 @@ public class CarCode implements Serializable{
 	private String amount;
 	private String unit;
 	private String unitname;
-	private String value2;
+	private String value2;//1为大件 2为小件
 	private String value3;
 	private String value4;
 	private String value5;
 	private String value6;
 	private String value7;
 	private String value8;
+    private String factory; //工厂编码
+    private String depot;//仓库编码
 	private String oldbatch;//小件原大件批次号
-	private String stroecode;//
+	private String stroecode;//供应商编码
 	public String getPid() {
 		return pid;
 	}
@@ -109,6 +111,18 @@ public class CarCode implements Serializable{
 	}
 	public void setStroecode(String stroecode) {
 		this.stroecode = stroecode;
+	}
+	public String getFactory() {
+		return factory;
+	}
+	public void setFactory(String factory) {
+		this.factory = factory;
+	}
+	public String getDepot() {
+		return depot;
+	}
+	public void setDepot(String depot) {
+		this.depot = depot;
 	}
 	
 	

@@ -40,6 +40,25 @@ public class BatchStorageController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value="/saveBatchStorageOut")	 
+	public ResponseBase saveBatchStorageOut(HttpServletRequest request){
+		ResponseBase res = new ResponseBase();
+		String f_bill_no = request.getParameter("f_bill_no");
+		String f_doc_type = request.getParameter("f_doc_type");
+		String f_mat_batch = request.getParameter("f_mat_batch");
+		String reason = request.getParameter("reason");
+		String userId = request.getParameter("userId");
+		BatDepotIoDetail batDepotIoDetail = batchStorageService.saveBatchStorageOut(f_bill_no,f_doc_type,f_mat_batch,userId);
+		if (batDepotIoDetail != null){
+			res.setResponseData("1", "操作成功!");
+			res.setDataset(batDepotIoDetail, "batdepotiodetail");
+		}else{
+			res.setResponseData("0", "牌号信息不匹配!");
+		}
+		return res;
+	}
+	
+	@ResponseBody
 	@RequestMapping(value="/getBatDepotIoDetailList")	 
 	public ResponseBase getBatDepotIoDetailList(HttpServletRequest request){
 		ResponseBase res = new ResponseBase();

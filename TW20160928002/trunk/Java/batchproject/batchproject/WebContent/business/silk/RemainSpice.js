@@ -1,23 +1,23 @@
-var title= ["序号","名称","批次号","罐号","数量","单位","操作"];
+var title= ["序号","编码","批次号","罐号","数量","单位","操作"];
 var theTable=document.getElementById("table");
-var f_workorder_code=getQueryString('f_workorder_code'); //test:
+/*var f_workorder_code=getQueryString('f_workorder_code'); //test:
 var location=getQueryString('location');//test:
 var data_p={
 		'f_workorder_code':f_workorder_code,
 		'location':location
-};
-initTable(data_p);
+};*/
+initTable();
 var billarray=[];
-function initTable(dataj){
+function initTable(){
 	theTable.innerHTML="";
 	$.ajax({
 		type : "post",
-		url:cqt_prefix+'storage/getBatDepotIoDetailList',
-		data:dataj,
+		url:cqt_prefix+'spiceremain/getBatSpiceRemain',
+		//data:dataj,
 		success : function(data) {
 			//var str=eval('(' + data + ')');   //解析json
 			var str=data.dataset;
-			var length=str.batworkorderinput.length;
+			var length=str.batspiceremain.length;
 			var b = document.createElement('tbody');
 			var title_r=document.createElement('tr');
 			//设置表头
@@ -31,7 +31,7 @@ function initTable(dataj){
 			//设置表格
 			if(length>0){
 				for(var i=0;i<length;i++){
-					var rowdata=str.batworkorderinput[i];//对象
+					var rowdata=str.batspiceremain[i];//对象
 					var r =document.createElement('tr');
 					if(i%2==0) r.style.backgroundColor='white';
 					if(rowdata!=null||rowdata!=undefined){
@@ -44,12 +44,12 @@ function initTable(dataj){
 						
 						td=document.createElement('td');
 						td.style.color='blue';
-						data_td1=rowdata.matname;//名称
+						data_td1=rowdata.matcode;//编码
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
 						td=document.createElement('td');
-						data_td1=rowdata.matbatch;//批次号
+						data_td1=rowdata.newbatch;//批次号
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
@@ -105,7 +105,7 @@ function verifySubmit(){
 			if(falg==1){
 				$("#tishi").text("删除成功！");
 				$("#ok").bind('click',function(){
-					 initTable(data_p);
+					 initTable();
 					 $("#ok").unbind("click");
 				   });
 			    

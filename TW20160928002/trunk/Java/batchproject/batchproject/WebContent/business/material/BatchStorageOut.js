@@ -12,7 +12,7 @@ function initTable(dataj){
 	theTable.innerHTML="";
 	$.ajax({
 		type : "post",
-		url: cqt_prefix+'storage/deleteBatDepotIoDetail',
+		url: cqt_prefix+'storage/getBatDepotIoDetailList',
 		data:dataj,
 		success : function(data) {
 			//var str=eval('(' + data + ')');   //解析json

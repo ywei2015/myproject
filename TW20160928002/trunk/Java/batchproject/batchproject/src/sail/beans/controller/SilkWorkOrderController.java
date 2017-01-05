@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import sail.beans.base.ResponseBase;
+import sail.beans.entity.BatDepotIoDetail;
 import sail.beans.entity.BatWorkOrderInput;
 import sail.beans.entity.User;
 import sail.beans.entity.vo.BatWorkOrderVo;
@@ -96,9 +97,41 @@ public class SilkWorkOrderController {
 		List<BatWorkOrderInput> inputList = silkWorkOrderService.getBatWorkOrderInput(workOrderCode);
 		if (inputList != null && inputList.size() > 0){
 			res.setResponseData("1", "操作成功!");
-			res.setDataset(inputList, "batworkorderinput");
+			res.setDataset(inputList, "batdepotiodetail");
 		}else{
 			res.setResponseData("0", "该工单数据有问题，请进行核对!");
+		}
+		return res;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/saveBatchStorageOut")	 
+	public ResponseBase saveBatchStorageOut(HttpServletRequest request){
+		ResponseBase res = new ResponseBase();
+		String f_mat_batch = request.getParameter("f_mat_batch");
+		String reason = request.getParameter("f_reason");
+		String userId = request.getParameter("userId");
+		BatDepotIoDetail batDepotIoDetail = silkWorkOrderService.saveBatchStorageOut(reason,f_mat_batch,userId);
+		if (batDepotIoDetail != null){
+			res.setResponseData("1", "操作成功!");
+			res.setDataset(batDepotIoDetail, "batdepotiodetail");
+		}else{
+			res.setResponseData("0", "牌号信息不匹配!");
+		}
+		return res;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/getBatDepotIoDetailList")	 
+	public ResponseBase getBatDepotIoDetailList(HttpServletRequest request){
+		String f_bill_no = request.getParameter("f_bill_no");
+		ResponseBase res = new ResponseBase();
+		List<BatDepotIoDetail> batdepotiodetaillist = silkWorkOrderService.getBatDepotIoDetailList(f_bill_no);
+		if (batdepotiodetaillist != null && batdepotiodetaillist.size() > 0){
+			res.setResponseData("1", "操作成功!");
+			res.setDataset(batdepotiodetaillist, "batdepotiodetail");
+		}else{
+			res.setResponseData("0", "牌号信息不匹配!");
 		}
 		return res;
 	}

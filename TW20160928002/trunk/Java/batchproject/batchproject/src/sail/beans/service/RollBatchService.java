@@ -1,6 +1,9 @@
 package sail.beans.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -94,7 +97,11 @@ public class RollBatchService {
 		return inputList;
 	}
 
-
+	/**
+	 * 根据工单获取工单状态
+	 * @param workOrderCode
+	 * @return
+	 */
 	public boolean getWorkorderstate(String workOrderCode) {
 		List<BatWorkOrder> ruleList=genericDao.getListWithVariableParas("GET_WORKSTATE_BYBILLNO", new Object[]{workOrderCode});
 		BatWorkOrder bill=ruleList.get(0);
@@ -102,5 +109,29 @@ public class RollBatchService {
 			return true;
 		}
 		return false;
+	}
+	/**
+	 * 根据生产工单类型获取机台与工单的对应关系
+	 * @param workOrderCode
+	 * @return
+	 */
+	public Map<String,List> getWorkOrderAndProcess(String workType){
+		List<Object[]> workData=genericDao.getListWithNativeSql("WORKORDER.T_BAT_PROCESSID_LIST",new Object[]{workType});
+		Map<String,List> workOrderMap=new HashMap();
+		if(workData!=null&&workData.size()>0){
+			for (int i = 0; i < workData.size(); i++) {
+				Object[] rowData=workData.get(i);
+				String processId=rowData[0].toString();
+				if(processId!=null){
+					if(!workOrderMap.containsKey(processId)){
+						workOrderMap.put(processId, new ArrayList());
+					}
+					ArrayList processWorkList=(ArrayList) workOrderMap.get(processId);
+					processWorkList.add(rowData[1]);
+				}
+			}
+		}
+		
+		return workOrderMap;
 	}
 }

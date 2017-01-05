@@ -22,6 +22,7 @@
 		<![CDATA[
     	SELECT detail FROM sail.beans.entity.BatDepotIoDetail detail,sail.beans.entity.BatDepotIoBill bill
     	 where bill.billno = ? and bill.doctype = ?  and bill.sysflag = '1' and bill.pid = detail.billpid and detail.sysflag= '1' 
+    	 order by detail.createtime desc
     ]]>
 	</query>	
 	

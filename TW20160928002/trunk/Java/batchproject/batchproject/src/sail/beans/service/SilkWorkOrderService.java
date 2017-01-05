@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sail.beans.dao.GenericDao;
+import sail.beans.entity.BatDepotIoBill;
+import sail.beans.entity.BatDepotIoDetail;
 import sail.beans.entity.BatWorkOrder;
 import sail.beans.entity.BatWorkOrderInput;
 import sail.beans.entity.CarCode;
@@ -79,9 +81,10 @@ public class SilkWorkOrderService {
 				batWorkOrderInput = new BatWorkOrderInput();
 				CarCode carCode = batchStorageService.getResolveValue(matBatch);
 				batWorkOrderInput.setWorkorderpid(BatWorkOrder.getPid());
-				batWorkOrderInput.setTltype("2");
+				batWorkOrderInput.setTltype("2");//
 				batWorkOrderInput.setMatbatch(matBatch);
 				batWorkOrderInput.setMatcode(carCode.getMatcode());
+				batWorkOrderInput.setMatname(carCode.getMatname());
 				if (location != null && !"".equals(location)){
 					batWorkOrderInput.setLocation(location);
 				}
@@ -148,4 +151,47 @@ public class SilkWorkOrderService {
 		}
 		return false;
 	}
+
+	public BatDepotIoDetail saveBatchStorageOut(String reason, String f_mat_batch, String user) {
+		BatDepotIoBill batDepotIoBill=new BatDepotIoBill();
+		CarCode carcode=new CarCode();
+		carcode=batchStorageService.getResolveValue2(f_mat_batch);
+		String billno="SLXH"+DateBean.getSysdateTime();
+		batDepotIoBill.setBillno(billno);
+		batDepotIoBill.setDoctype("ZO40");
+		batDepotIoBill.setBiztype("MM2153");
+		batDepotIoBill.setBilltype("12");
+		batDepotIoBill.setFactory(carcode.getFactory());
+		batDepotIoBill.setDepot(carcode.getDepot());
+		batDepotIoBill.setCreatetime(DateBean.getSysdateTime());
+		batDepotIoBill.setCreator(user);
+		batDepotIoBill.setOperateuserid(user);
+		batDepotIoBill.setOperatetime(DateBean.getSysdateTime());
+		batDepotIoBill.setSysflag("1");
+		genericDao.save(batDepotIoBill);
+		List<BatDepotIoBill>billList= genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST", new Object[]{billno,null});
+	    batDepotIoBill = billList.get(0);	
+	    BatDepotIoDetail depotIoDetail=new BatDepotIoDetail();
+	    depotIoDetail.setBillpid(batDepotIoBill.getPid());
+	    depotIoDetail.setMatbatch(f_mat_batch);
+	    depotIoDetail.setMatcode(carcode.getMatcode());
+	    depotIoDetail.setMatname(carcode.getMatname());
+	    depotIoDetail.setQuantity(Double.parseDouble(carcode.getAmount()));
+	    depotIoDetail.setUnit(carcode.getUnit());
+	    depotIoDetail.setSysflag("1");
+	    depotIoDetail.setCreatetime(DateBean.getSysdateTime());
+	    depotIoDetail.setCreator(user);
+	    depotIoDetail.setReason(reason);
+	    depotIoDetail.setSuppliersortcode(carcode.getStroecode());
+	    genericDao.save(depotIoDetail);
+	    depotIoDetail.setRemark(billno);
+	    return depotIoDetail;
+		}
+
+	public List<BatDepotIoDetail> getBatDepotIoDetailList(String billNo) {
+		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{billNo,null});
+		return detailList;
+	}
+	
+	
 }

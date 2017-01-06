@@ -120,21 +120,6 @@ public class SilkWorkOrderController {
 		}
 		return res;
 	}
-	
-	@ResponseBody
-	@RequestMapping(value="/getBatDepotIoDetailList")	 
-	public ResponseBase getBatDepotIoDetailList(HttpServletRequest request){
-		String f_bill_no = request.getParameter("f_bill_no");
-		ResponseBase res = new ResponseBase();
-		List<BatDepotIoDetail> batdepotiodetaillist = silkWorkOrderService.getBatDepotIoDetailList(f_bill_no);
-		if (batdepotiodetaillist != null && batdepotiodetaillist.size() > 0){
-			res.setResponseData("1", "操作成功!");
-			res.setDataset(batdepotiodetaillist, "batdepotiodetail");
-		}else{
-			res.setResponseData("0", "牌号信息不匹配!");
-		}
-		return res;
-	}
-	
+		
 	
 }

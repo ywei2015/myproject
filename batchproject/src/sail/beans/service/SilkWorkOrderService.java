@@ -152,6 +152,11 @@ public class SilkWorkOrderService {
 		return false;
 	}
 
+	/**
+	 * 香料其它消耗业务特殊出库保存
+	 * @param workOrderCode
+	 * @return
+	 */
 	public BatDepotIoDetail saveBatchStorageOut(String reason, String f_mat_batch, String user) {
 		BatDepotIoBill batDepotIoBill=new BatDepotIoBill();
 		CarCode carcode=new CarCode();
@@ -160,7 +165,7 @@ public class SilkWorkOrderService {
 		batDepotIoBill.setBillno(billno);
 		batDepotIoBill.setDoctype("ZO40");
 		batDepotIoBill.setBiztype("MM2153");
-		batDepotIoBill.setBilltype("12");
+		batDepotIoBill.setBilltype("spiceconsume");//单据类型 暂为
 		batDepotIoBill.setFactory(carcode.getFactory());
 		batDepotIoBill.setDepot(carcode.getDepot());
 		batDepotIoBill.setCreatetime(DateBean.getSysdateTime());
@@ -188,10 +193,7 @@ public class SilkWorkOrderService {
 	    return depotIoDetail;
 		}
 
-	public List<BatDepotIoDetail> getBatDepotIoDetailList(String billNo) {
-		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{billNo,null});
-		return detailList;
-	}
+
 	
 	
 }

@@ -28,8 +28,9 @@ public class SizePiecesAdjustController {
 		ResponseBase res = new ResponseBase();
 		String masterbatch = request.getParameter("f_master_batch");
 		String slavebatch = request.getParameter("f_slave_batch");
-		String userId = request.getParameter("userId");
-		BatBatAdjustDetail batBatAdjustDetail = batchStorageService.saveBatchAdjustment(masterbatch, slavebatch, userId);
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		BatBatAdjustDetail batBatAdjustDetail = batchStorageService.saveBatchAdjustment(masterbatch, slavebatch, user.getPid());
 		if (batBatAdjustDetail != null){
 			if ("1".equals(batBatAdjustDetail.getIsrepeat())){
 				res.setResponseData("0", "该数据已经存在!");

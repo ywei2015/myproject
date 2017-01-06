@@ -47,8 +47,9 @@ public class BatchStorageController {
 		String f_doc_type = request.getParameter("f_doc_type");
 		String f_mat_batch = request.getParameter("f_mat_batch");
 		String reason = request.getParameter("reason");
-		String userId = request.getParameter("userId");
-		BatDepotIoDetail batDepotIoDetail = batchStorageService.saveBatchStorageOut(f_bill_no,f_doc_type,f_mat_batch,userId);
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		BatDepotIoDetail batDepotIoDetail = batchStorageService.saveBatchStorageOut(f_bill_no,f_doc_type,f_mat_batch,user.getPid());
 		if (batDepotIoDetail != null){
 			res.setResponseData("1", "操作成功!");
 			res.setDataset(batDepotIoDetail, "batdepotiodetail");

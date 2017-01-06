@@ -8,6 +8,16 @@ initTable(data_p);
 var billarray=[];
 function initTable(dataj){
 	theTable.innerHTML="";
+	var b = document.createElement('tbody');
+	var title_r=document.createElement('tr');
+	//设置表头
+	for( var e in title){
+		var title_table=title[e];
+		var td=document.createElement('th');
+		td.innerHTML=''+title_table;
+		title_r.appendChild(td);
+	}
+	b.appendChild(title_r);
 	$.ajax({
 		type : "post",
 		url:cqt_prefix+'silkorder/getBatWorkOrderInput',
@@ -15,21 +25,13 @@ function initTable(dataj){
 		success : function(data) {
 			//var str=eval('(' + data + ')');   //解析json
 			var str=data.dataset;
-			var length=str.batworkorderinput.length;
-			var b = document.createElement('tbody');
-			var title_r=document.createElement('tr');
-			//设置表头
-			for( var e in title){
-				var title_table=title[e];
-				var td=document.createElement('th');
-				td.innerHTML=''+title_table;
-				title_r.appendChild(td);
-			}
-			b.appendChild(title_r);
+			 if(str.totalRecords>0){
+			var length=str.batdepotiodetail.length;
+		
 			//设置表格
 			if(length>0){
 				for(var i=0;i<length;i++){
-					var rowdata=str.batworkorderinput[i];//对象
+					var rowdata=str.batdepotiodetail[i];//对象
 					var r =document.createElement('tr');
 					if(i%2==0) r.style.backgroundColor='white';
 					if(rowdata!=null||rowdata!=undefined){
@@ -76,15 +78,15 @@ function initTable(dataj){
 					b.appendChild(r);
 				}
 				
-				theTable.appendChild(b);
+				
 			}
 			
 		}
-	
+		}
 	});
-
+	theTable.appendChild(b);
 }
-var Id
+var Id;
 function deleteRow(i){
 	Id=i;
 }

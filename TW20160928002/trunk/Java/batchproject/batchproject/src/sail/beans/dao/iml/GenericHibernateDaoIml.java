@@ -418,7 +418,7 @@ public class GenericHibernateDaoIml implements GenericDao {
 	
 	public String filterSql(String sql,Object[] objs){
 		if(objs[0]==null){
-			String sqlj=sql.substring(sql.indexOf("where")+5, sql.indexOf("?"));
+			String sqlj=sql.substring(sql.indexOf("where")+5, sql.indexOf("?")+5);
 			sql=sql.replace(sqlj,"");
 		}
 			

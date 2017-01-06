@@ -31,8 +31,9 @@ public class SpiceRemainController {
 		String matbatch = request.getParameter("f_mat_batch");
 		String location = request.getParameter("f_location");
 		String quantity = request.getParameter("f_quantity");
-		String userId = request.getParameter("userId");
-		BatSpiceRemain batSpiceRemain = spiceRemainService.saveBatSpiceRemain(matbatch, location, quantity, userId);
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		BatSpiceRemain batSpiceRemain = spiceRemainService.saveBatSpiceRemain(matbatch, location, quantity, user.getPid());
 		if (batSpiceRemain != null){
 			if ("1".equals(batSpiceRemain.getIsrepair())){
 				res.setResponseData("0", "该批次数据已经存在!");

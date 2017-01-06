@@ -1,37 +1,36 @@
 var title= ["编码","名称","批次号","罐号","数量","单位","操作"];
 var theTable=document.getElementById("table");
-var f_workorder_code=getQueryString('f_workorder_code'); //test:
-var location=getQueryString('location');//test:
+var f_workorder_code=getQueryString('f_workorder_code'); //test:1
 var data_p={
 		'f_workorder_code':f_workorder_code,
-		'location':location
 };
 initTable(data_p);
 var billarray=[];
 function initTable(dataj){
 	theTable.innerHTML="";
+	var b = document.createElement('tbody');
+	var title_r=document.createElement('tr');
+	//设置表头
+	for( var e in title){
+		var title_table=title[e];
+		var td=document.createElement('th');
+		td.innerHTML=''+title_table;
+		title_r.appendChild(td);
+	}
+	b.appendChild(title_r);
 	$.ajax({
 		type : "post",
-		url:cqt_prefix+'silkorder/getBatWorkOrderInput',
+		url: cqt_prefix+'silkorder/getBatWorkOrderInput',
 		data:dataj,
 		success : function(data) {
-			//var str=eval('(' + data + ')');   //解析json
 			var str=data.dataset;
-			var length=str.batworkorderinput.length;
-			var b = document.createElement('tbody');
-			var title_r=document.createElement('tr');
-			//设置表头
-			for( var e in title){
-				var title_table=title[e];
-				var td=document.createElement('th');
-				td.innerHTML=''+title_table;
-				title_r.appendChild(td);
-			}
-			b.appendChild(title_r);
+		    if(str.totalRecords>0){
+			var length=str.batdepotiodetail.length;
+		
 			//设置表格
 			if(length>0){
 				for(var i=0;i<length;i++){
-					var rowdata=str.batworkorderinput[i];//对象
+					var rowdata=str.batdepotiodetail[i];//对象
 					var r =document.createElement('tr');
 					if(i%2==0) r.style.backgroundColor='white';
 					if(rowdata!=null||rowdata!=undefined){
@@ -75,15 +74,16 @@ function initTable(dataj){
 					b.appendChild(r);
 				}
 				
-				theTable.appendChild(b);
+				
 			}
 			
 		}
+	}
 	
 	});
-
+	theTable.appendChild(b);
 }
-var Id
+var Id;
 function deleteRow(i){
 	Id=i;
 }
@@ -93,7 +93,7 @@ function verifySubmit(){
 	    var aa=Id;
     	$.ajax({
     		type : "post",
-    		url: cqt_prefix+'silkorder/deleteBatWorkOrderInput',
+    		url: cqt_prefix+'storage/deleteBatDepotIoDetail',
     		data:{'f_pid':billarray[Id]},
     		success : function(data) {var falg=data.dataset.response.code;
 			if(falg==0)

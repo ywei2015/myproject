@@ -244,9 +244,9 @@ public class BatchStorageService {
 		}
 		if(batDepotIoBill==null){
 			batDepotIoBill.setBillno(f_bill_no);
-			batDepotIoBill.setDoctype(f_doc_type);
-			batDepotIoBill.setBilltype("12");//需要调整
-			batDepotIoBill.setBiztype("MM2152");//需要确定
+			batDepotIoBill.setDoctype(f_doc_type);//凭证类型
+			batDepotIoBill.setBilltype("12");//单据类型需要调整
+			batDepotIoBill.setBiztype("MM2152");//业务类型需要确定
 			batDepotIoBill.setFactory(carcode.getFactory());
 			batDepotIoBill.setDepot(carcode.getDepot());
 			batDepotIoBill.setCreatetime(DateBean.getSysdateTime());

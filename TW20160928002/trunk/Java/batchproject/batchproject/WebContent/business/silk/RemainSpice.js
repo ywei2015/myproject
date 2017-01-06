@@ -10,6 +10,16 @@ initTable();
 var billarray=[];
 function initTable(){
 	theTable.innerHTML="";
+	var b = document.createElement('tbody');
+	var title_r=document.createElement('tr');
+	//设置表头
+	for( var e in title){
+		var title_table=title[e];
+		var td=document.createElement('th');
+		td.innerHTML=''+title_table;
+		title_r.appendChild(td);
+	}
+	b.appendChild(title_r);
 	$.ajax({
 		type : "post",
 		url:cqt_prefix+'spiceremain/getBatSpiceRemain',
@@ -17,17 +27,9 @@ function initTable(){
 		success : function(data) {
 			//var str=eval('(' + data + ')');   //解析json
 			var str=data.dataset;
+			 if(str.totalRecords>0){
 			var length=str.batspiceremain.length;
-			var b = document.createElement('tbody');
-			var title_r=document.createElement('tr');
-			//设置表头
-			for( var e in title){
-				var title_table=title[e];
-				var td=document.createElement('th');
-				td.innerHTML=''+title_table;
-				title_r.appendChild(td);
-			}
-			b.appendChild(title_r);
+			
 			//设置表格
 			if(length>0){
 				for(var i=0;i<length;i++){
@@ -79,13 +81,14 @@ function initTable(){
 					b.appendChild(r);
 				}
 				
-				theTable.appendChild(b);
+				
 			}
 			
 		}
+		}
 	
 	});
-
+	theTable.appendChild(b);
 }
 var Id
 function deleteRow(i){

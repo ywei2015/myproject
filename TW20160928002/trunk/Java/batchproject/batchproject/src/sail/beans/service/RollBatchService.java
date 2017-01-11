@@ -22,6 +22,9 @@ public class RollBatchService {
 	@Autowired
 	BatchStorageService batchStorageService;
 	
+	@Autowired
+	private MatBomService matBomService; 
+	
 	/**
 	 * 卷包批次保存
 	 * @param workOrderCode
@@ -34,7 +37,7 @@ public class RollBatchService {
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
 	 */
-	public BatWorkOrderInput saveBatWorkOrderInput(String workOrderCode,String machineId,String matBatch,String operuser) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
+	public BatWorkOrderInput saveBatWorkOrderInput(String workOrderCode,String machineId,String matBatch,String operuser){
 		List<BatWorkOrder> batWorkList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDERLIST.LIST", new Object[]{workOrderCode});
 		BatWorkOrderInput batWorkOrderInput = null;
 		if (batWorkList != null && batWorkList.size() > 0){
@@ -52,6 +55,7 @@ public class RollBatchService {
 				batWorkOrderInput.setMatcode(carCode.getMatcode());
 				batWorkOrderInput.setMatname(carCode.getMatname());
 				batWorkOrderInput.setUnit(carCode.getUnit());
+				batWorkOrderInput.setQuantity(Double.parseDouble(carCode.getAmount()));
 				batWorkOrderInput.setStarttime(DateBean.getSysdateTime());
 				batWorkOrderInput.setEndtime(DateBean.getSysdateTime());
 				batWorkOrderInput.setOperatetime(DateBean.getSysdateTime());
@@ -59,6 +63,9 @@ public class RollBatchService {
 				batWorkOrderInput.setSysflag("1");
 				batWorkOrderInput.setCreator(operuser);
 				batWorkOrderInput.setCreatetime(DateBean.getSysdateTime());
+				List matList=matBomService.getBomByWorkOrder(workOrderCode,null,matBatch);
+				if(matList.size()==0)
+					batWorkOrderInput.setRemark1("0");
 				genericDao.save(batWorkOrderInput);
 			}
 		}
@@ -102,13 +109,16 @@ public class RollBatchService {
 	 * @param workOrderCode
 	 * @return
 	 */
-	public boolean getWorkorderstate(String workOrderCode) {
+	public String getWorkorderstate(String workOrderCode) {
 		List<BatWorkOrder> ruleList=genericDao.getListWithVariableParas("GET_WORKSTATE_BYBILLNO", new Object[]{workOrderCode});
-		BatWorkOrder bill=ruleList.get(0);
-		if("1".equals(bill.getWorkorderstate())){
-			return true;
+		if(ruleList!=null&&ruleList.size()>0){
+			BatWorkOrder bill=ruleList.get(0);
+			if("1".equals(bill.getWorkorderstate())){
+				return "1";  //未过期
+			}else
+				return "0";  //过期
 		}
-		return false;
+		return "2";   //工单不存在
 	}
 	/**
 	 * 根据生产工单类型获取机台与工单的对应关系

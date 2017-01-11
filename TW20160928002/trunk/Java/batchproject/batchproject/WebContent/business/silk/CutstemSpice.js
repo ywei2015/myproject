@@ -1,5 +1,6 @@
 var title= ["编码","名称","批次号","罐号","数量","单位","操作"];
 var theTable=document.getElementById("table");
+var userId=getQueryString('userId');
 var f_workorder_code=getQueryString('f_workorder_code'); //test:1
 var data_p={
 		'f_workorder_code':f_workorder_code,
@@ -18,6 +19,7 @@ function initTable(dataj){
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
+	if(userId!=null){
 	$.ajax({
 		type : "post",
 		url: cqt_prefix+'silkorder/getBatWorkOrderInput',
@@ -51,7 +53,7 @@ function initTable(dataj){
 						r.appendChild(td);
 						
 						td=document.createElement('td');
-						data_td1=rowdata.locationname;//现场灌号
+						data_td1=rowdata.location;//现场灌号
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
@@ -81,6 +83,7 @@ function initTable(dataj){
 	}
 	
 	});
+	}
 	theTable.appendChild(b);
 }
 var Id;
@@ -93,8 +96,8 @@ function verifySubmit(){
 	    var aa=Id;
     	$.ajax({
     		type : "post",
-    		url: cqt_prefix+'storage/deleteBatDepotIoDetail',
-    		data:{'f_pid':billarray[Id]},
+    		url: cqt_prefix+'silkorder/deleteBatWorkOrderInput',
+    		data:{'f_pid':billarray[Id],'userId':userId},
     		success : function(data) {var falg=data.dataset.response.code;
 			if(falg==0)
 				$("#tishi").text("删除失败！");

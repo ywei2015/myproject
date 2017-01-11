@@ -28,9 +28,8 @@ public class SizePiecesAdjustController {
 		ResponseBase res = new ResponseBase();
 		String masterbatch = request.getParameter("f_master_batch");
 		String slavebatch = request.getParameter("f_slave_batch");
-		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("user");
-		BatBatAdjustDetail batBatAdjustDetail = batchStorageService.saveBatchAdjustment(masterbatch, slavebatch, user.getPid());
+		String userId = request.getParameter("userId");
+ 		BatBatAdjustDetail batBatAdjustDetail = batchStorageService.saveBatchAdjustment(masterbatch, slavebatch, userId);
 		if (batBatAdjustDetail != null){
 			if ("1".equals(batBatAdjustDetail.getIsrepeat())){
 				res.setResponseData("0", "该数据已经存在!");
@@ -69,9 +68,8 @@ public class SizePiecesAdjustController {
 	public ResponseBase deleteBatBatAdjustDetail(HttpServletRequest request){
 		ResponseBase res = new ResponseBase();
 		String detailpid = request.getParameter("f_pid");
-		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("user");
-		boolean falg = batchStorageService.deleteBatBatAdjustDetail(detailpid, user.getPid());
+		String userId = request.getParameter("userId");
+		boolean falg = batchStorageService.deleteBatBatAdjustDetail(detailpid, userId);
 		if (falg){
 			res.setResponseData("1", "操作成功!");
 		}else{

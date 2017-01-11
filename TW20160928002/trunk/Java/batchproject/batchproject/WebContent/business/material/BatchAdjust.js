@@ -1,5 +1,6 @@
 var title= ["编码","名称","小件批次号","原大件批次号","新大件批次号","操作"];
 var theTable=document.getElementById("table");
+var userId=getQueryString('userId');
 var f_master_batch=getQueryString('f_master_batch'); //OldDEF
 var data_p={
 		'f_master_batch':f_master_batch
@@ -18,6 +19,7 @@ function initTable(dataj){
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
+	if(f_master_batch!=null){
 	$.ajax({
 		type : "post",
 		url: cqt_prefix+'sizepieces/getBatBatAdjustDetail',
@@ -82,6 +84,7 @@ function initTable(dataj){
 		}
 		}
 	});
+}
 	theTable.appendChild(b);
 }
 var Id
@@ -95,7 +98,7 @@ function verifySubmit(){
     	$.ajax({
     		type : "post",
     		url: cqt_prefix+'sizepieces/deleteBatBatAdjustDetail',
-    		data:{'f_pid':billarray[Id]},
+    		data:{'f_pid':billarray[Id],'userId':userId},
     		success : function(data) {
     			var falg=data.dataset.response.code;
     			if(falg==0)

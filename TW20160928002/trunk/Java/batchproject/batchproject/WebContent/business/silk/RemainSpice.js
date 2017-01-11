@@ -1,5 +1,6 @@
 var title= ["序号","编码","批次号","罐号","数量","单位","操作"];
 var theTable=document.getElementById("table");
+var userId=getQueryString('userId');
 /*var f_workorder_code=getQueryString('f_workorder_code'); //test:
 var location=getQueryString('location');//test:
 var data_p={
@@ -20,6 +21,7 @@ function initTable(){
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
+	if(userId!=null){
 	$.ajax({
 		type : "post",
 		url:cqt_prefix+'spiceremain/getBatSpiceRemain',
@@ -56,7 +58,7 @@ function initTable(){
 						r.appendChild(td);
 						
 						td=document.createElement('td');
-						data_td1=rowdata.locationname;//现场灌号
+						data_td1=rowdata.location;//现场灌号
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
@@ -88,6 +90,7 @@ function initTable(){
 		}
 	
 	});
+	}
 	theTable.appendChild(b);
 }
 var Id
@@ -101,7 +104,7 @@ function verifySubmit(){
     	$.ajax({
     		type : "post",
     		url: cqt_prefix+'spiceremain/deleteBatSpiceRemain',
-    		data:{'f_pid':billarray[Id]},
+    		data:{'f_pid':billarray[Id],'userId':userId},
     		success : function(data) {		var falg=data.dataset.response.code;
 			if(falg==0)
 				$("#tishi").text("删除失败！");

@@ -48,13 +48,12 @@ public class SilkWorkOrderController {
 		String workOrderCode = request.getParameter("f_workorder_code");
 		String matBatch = request.getParameter("f_mat_batch");
 		String quantity = request.getParameter("f_quantity");
-		String location = request.getParameter("f_location");
-		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("user");
+		String location = request.getParameter("location");
+		String userId = request.getParameter("userId");
 		ResponseBase res = new ResponseBase();
-		boolean state=silkWorkOrderService.getWorkorderstate(workOrderCode);
-		if(state){
-			BatWorkOrderInput batWorkOrderInput = silkWorkOrderService.saveBatWorkOrderInput(workOrderCode, matBatch, quantity, location, user.getPid());
+		String state=silkWorkOrderService.getWorkorderstate(workOrderCode);
+		if(state.equals("1")){
+			BatWorkOrderInput batWorkOrderInput = silkWorkOrderService.saveBatWorkOrderInput(workOrderCode, matBatch, quantity, location,userId);
 			if (batWorkOrderInput != null){
 				if ("1".equals(batWorkOrderInput.getIsrepair())){
 					res.setResponseData("0", "该批次数据已经存在!");
@@ -65,8 +64,10 @@ public class SilkWorkOrderController {
 			}else{
 				res.setResponseData("0", "该批次数据有问题，请进行核对!");
 			}
-			}else{
-				res.setResponseData("0", "该工单已过期!");
+		}else if(state.equals("0")){
+			res.setResponseData("0", "该工单已过期!");
+		}else{
+			res.setResponseData("0", "该工单数据有问题!");
 		}
 		return res;
 	}
@@ -76,10 +77,9 @@ public class SilkWorkOrderController {
 	@RequestMapping(value="/deleteBatWorkOrderInput")	 
 	public ResponseBase deleteBatWorkOrderInput(HttpServletRequest request){
 		String pid = request.getParameter("f_pid");
-		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("user");
+		String userId = request.getParameter("userId");
 		ResponseBase res = new ResponseBase();
-		boolean falg = silkWorkOrderService.deleteBatWorkOrderInput(pid, user.getPid());
+		boolean falg = silkWorkOrderService.deleteBatWorkOrderInput(pid, userId);
 		if (falg){
 			res.setResponseData("1", "操作成功!");
 		}else{

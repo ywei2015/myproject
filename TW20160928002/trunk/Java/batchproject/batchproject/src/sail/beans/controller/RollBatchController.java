@@ -29,12 +29,11 @@ public class RollBatchController {
 		String workOrderCode = request.getParameter("f_workorder_code");
 		String matBatch = request.getParameter("f_mat_batch");
 		String machine = request.getParameter("f_machine");
-		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("user");
+		String userId = request.getParameter("userId");
 		ResponseBase res = new ResponseBase();
-		boolean state=rollBatchService.getWorkorderstate(workOrderCode);
-		if(state){
-		BatWorkOrderInput batWorkOrderInput = rollBatchService.saveBatWorkOrderInput(workOrderCode,machine, matBatch,user.getPid());
+		String state=rollBatchService.getWorkorderstate(workOrderCode);
+		if(state.equals("1")){
+		BatWorkOrderInput batWorkOrderInput = rollBatchService.saveBatWorkOrderInput(workOrderCode,machine, matBatch,userId);
 		if (batWorkOrderInput != null){
 			if ("1".equals(batWorkOrderInput.getIsrepair())){
 				res.setResponseData("0", "该批次数据已经存在!");
@@ -56,10 +55,9 @@ public class RollBatchController {
 	@RequestMapping(value="/deleteBatWorkOrderInput")	 
 	public ResponseBase deleteBatWorkOrderInput(HttpServletRequest request){
 		String pid = request.getParameter("f_pid");
-		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("user");
+		String userId = request.getParameter("userId");
 		ResponseBase res = new ResponseBase();
-		boolean falg = rollBatchService.deleteBatWorkOrderInput(pid, user.getPid());
+		boolean falg = rollBatchService.deleteBatWorkOrderInput(pid, userId);
 		if (falg){
 			res.setResponseData("1", "操作成功!");
 		}else{

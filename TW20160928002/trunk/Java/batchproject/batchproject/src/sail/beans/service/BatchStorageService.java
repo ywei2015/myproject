@@ -133,6 +133,7 @@ public class BatchStorageService {
 		carCode.setStroecode("01");
 		carCode.setFactory("111");
 		carCode.setStroecode("110");
+		carCode.setDepot("HZ10");
 		return carCode;
 		}
 		
@@ -237,12 +238,20 @@ public class BatchStorageService {
 	public BatDepotIoDetail saveBatchStorageOut(String f_bill_no,String f_doc_type,String f_mat_batch,String user) {
 		List<BatDepotIoBill> billList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST", new Object[]{f_bill_no,f_doc_type});
 		BatDepotIoBill batDepotIoBill = null;
+		BatDepotIoDetail depotIoDetail=new BatDepotIoDetail();
 		CarCode carcode=new CarCode();
 		carcode=this.getResolveValue(f_mat_batch);
 		if (billList != null && billList.size() > 0){
 			batDepotIoBill = billList.get(0);
+			List<BatDepotIoDetail> billDetails=genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAILLIST.LIST", new Object[]{null,f_mat_batch});
+			if(billDetails!=null&&billDetails.size()>0){
+				depotIoDetail=billDetails.get(0);
+				depotIoDetail.setRepeated("1");
+				return depotIoDetail;
+			}
 		}
 		if(batDepotIoBill==null){
+			batDepotIoBill=new BatDepotIoBill();
 			batDepotIoBill.setBillno(f_bill_no);
 			batDepotIoBill.setDoctype(f_doc_type);//凭证类型
 			batDepotIoBill.setBilltype("12");//单据类型需要调整
@@ -258,7 +267,7 @@ public class BatchStorageService {
 			billList= genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST", new Object[]{f_bill_no,f_doc_type});
 		    batDepotIoBill = billList.get(0);	
 		}
-		BatDepotIoDetail depotIoDetail=new BatDepotIoDetail();
+		
 		depotIoDetail.setBillpid(batDepotIoBill.getPid());
 		depotIoDetail.setMatbatch(f_mat_batch);
 		depotIoDetail.setMatcode(carcode.getMatcode());

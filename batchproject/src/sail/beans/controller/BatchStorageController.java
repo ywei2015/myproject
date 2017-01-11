@@ -29,10 +29,16 @@ public class BatchStorageController {
 		String f_bill_no = request.getParameter("f_bill_no");
 		String f_doc_type = request.getParameter("f_doc_type");
 		String f_mat_batch = request.getParameter("f_mat_batch");
-		BatDepotIoDetail batDepotIoDetail = batchStorageService.saveBatchInStorage(f_bill_no, f_doc_type, f_mat_batch);
+		String userId = request.getParameter("userId");
+		//BatDepotIoDetail batDepotIoDetail = batchStorageService.saveBatchInStorage(f_bill_no, f_doc_type, f_mat_batch);
+		BatDepotIoDetail batDepotIoDetail =batchStorageService.saveBatchStorageOut(f_bill_no,f_doc_type,f_mat_batch,userId);
 		if (batDepotIoDetail != null){
-			res.setResponseData("1", "操作成功!");
-			res.setDataset(batDepotIoDetail, "batdepotiodetail");
+			if("1".equals(batDepotIoDetail.getRepeated())){
+				res.setResponseData("0", "改批次已经存在!");
+			}else{
+				res.setResponseData("1", "操作成功!");
+				res.setDataset(batDepotIoDetail, "batdepotiodetail");
+			}
 		}else{
 			res.setResponseData("0", "牌号信息不匹配!");
 		}
@@ -47,12 +53,16 @@ public class BatchStorageController {
 		String f_doc_type = request.getParameter("f_doc_type");
 		String f_mat_batch = request.getParameter("f_mat_batch");
 		String reason = request.getParameter("reason");
-		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("user");
-		BatDepotIoDetail batDepotIoDetail = batchStorageService.saveBatchStorageOut(f_bill_no,f_doc_type,f_mat_batch,user.getPid());
+		String userId = request.getParameter("userId");
+		BatDepotIoDetail batDepotIoDetail = batchStorageService.saveBatchStorageOut(f_bill_no,f_doc_type,f_mat_batch,userId);
 		if (batDepotIoDetail != null){
-			res.setResponseData("1", "操作成功!");
-			res.setDataset(batDepotIoDetail, "batdepotiodetail");
+			if("1".equals(batDepotIoDetail.getRepeated())){
+				res.setResponseData("0", "改批次已经存在!");
+			}else{
+				res.setResponseData("1", "操作成功!");
+				res.setDataset(batDepotIoDetail, "batdepotiodetail");
+			}
+			
 		}else{
 			res.setResponseData("0", "牌号信息不匹配!");
 		}
@@ -81,9 +91,8 @@ public class BatchStorageController {
 	public ResponseBase deleteBatDepotIoDetail(HttpServletRequest request){
 		ResponseBase res = new ResponseBase();
 		String f_pid = request.getParameter("f_pid");
-		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("user");
-		boolean falg = batchStorageService.deleteBatDepotIoDetail(f_pid,user.getPid());
+		String userId = request.getParameter("userId");
+		boolean falg = batchStorageService.deleteBatDepotIoDetail(f_pid,userId);
 		if (falg){
 			res.setResponseData("1", "操作成功!");
 		}else{

@@ -23,6 +23,7 @@ public class BatDepotIoDetail implements Serializable{
 	private String remark4;
 	private String remark5;
 	private String remark;
+	private String repeated;
 	private String sysflag;
 	private String creator;
 	private String createtime;
@@ -171,6 +172,12 @@ public class BatDepotIoDetail implements Serializable{
 	}
 	public void setLastmodifiedtime(String lastmodifiedtime) {
 		this.lastmodifiedtime = lastmodifiedtime;
+	}
+	public String getRepeated() {
+		return repeated;
+	}
+	public void setRepeated(String repeated) {
+		this.repeated = repeated;
 	}
 	
 	

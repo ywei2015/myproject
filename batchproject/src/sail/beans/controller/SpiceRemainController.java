@@ -29,11 +29,10 @@ public class SpiceRemainController {
 	public ResponseBase saveBatSpiceRemain(HttpServletRequest request) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{  
 		ResponseBase res = new ResponseBase();
 		String matbatch = request.getParameter("f_mat_batch");
-		String location = request.getParameter("f_location");
+		String location = request.getParameter("location");
 		String quantity = request.getParameter("f_quantity");
-		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("user");
-		BatSpiceRemain batSpiceRemain = spiceRemainService.saveBatSpiceRemain(matbatch, location, quantity, user.getPid());
+		String userId = request.getParameter("userId");
+		BatSpiceRemain batSpiceRemain = spiceRemainService.saveBatSpiceRemain(matbatch, location, quantity, userId);
 		if (batSpiceRemain != null){
 			if ("1".equals(batSpiceRemain.getIsrepair())){
 				res.setResponseData("0", "该批次数据已经存在!");
@@ -54,9 +53,8 @@ public class SpiceRemainController {
 	public ResponseBase deleteBatSpiceRemain(HttpServletRequest request){  
 		ResponseBase res = new ResponseBase();
 		String pid = request.getParameter("f_pid");
-		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute("user");
-		boolean falg = spiceRemainService.deleteBatSpiceRemain(pid,user.getPid());
+		String userId = request.getParameter("userId");
+		boolean falg = spiceRemainService.deleteBatSpiceRemain(pid,userId);
 		if (falg){
 			res.setResponseData("1", "操作成功!");
 		}else{

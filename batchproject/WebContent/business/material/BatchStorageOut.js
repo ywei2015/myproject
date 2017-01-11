@@ -1,5 +1,6 @@
 var title= ["编码","名称","批次号","数量","单位","操作"];
 var theTable=document.getElementById("table");
+var userId=getQueryString('userId');
 var f_bill_no=getQueryString('f_bill_no'); //test:1
 var f_doc_type=getQueryString('f_doc_type');//test:ZI10
 var data_p={
@@ -20,6 +21,7 @@ function initTable(dataj){
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
+	if(userId!=null){
 	$.ajax({
 		type : "post",
 		url: cqt_prefix+'storage/getBatDepotIoDetailList',
@@ -78,6 +80,7 @@ function initTable(dataj){
 		}
 		}
 	});
+	}
 	theTable.appendChild(b);
 }
 var Id
@@ -91,7 +94,7 @@ function verifySubmit(){
     	$.ajax({
     		type : "post",
     		url: cqt_prefix+'storage/deleteBatDepotIoDetail',
-    		data:{'f_pid':billarray[Id]},
+    		data:{'f_pid':billarray[Id],'userId':userId},
     		success : function(data) {
     			var falg=data.dataset.response.code;
     			if(falg==0)

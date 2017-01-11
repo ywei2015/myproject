@@ -1,5 +1,6 @@
 var title= ["序号","名称","批次号","开始","结束","数量","单位","操作"];
 var theTable=document.getElementById("table");
+var userId=getQueryString('userId');
 var f_workorder_code=getQueryString('f_workorder_code'); //test:
 var f_machine=getQueryString('f_machine');//test:
 var data_p={
@@ -20,6 +21,7 @@ function initTable(dataj){
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
+	if(userId!=null){
 	$.ajax({
 		type : "post",
 		url: cqt_prefix+'rollbatch/getBatWorkOrderInput',
@@ -29,13 +31,17 @@ function initTable(dataj){
 			var str=data.dataset;
 			 if(str.totalRecords>0){
 			var length=str.batworkorderinput.length;
-			
+			var color_type='no';
 			//设置表格
 			if(length>0){
 				for(var i=0;i<length;i++){
 					var rowdata=str.batworkorderinput[i];//对象
 					var r =document.createElement('tr');
 					if(i%2==0) r.style.backgroundColor='white';
+					if("0"==rowdata.remark1){
+						r.style.color='red';
+						color_type='yes';
+					}
 					if(rowdata!=null||rowdata!=undefined){
 						var td;
 						var data_td1;
@@ -90,13 +96,19 @@ function initTable(dataj){
 					}
 					b.appendChild(r);
 				}
-				
+				var type_flag=document.getElementById("type_tishi");
+				if(color_type=='yes'){
+					type_flag.style.display='block';
+				}else{
+					type_flag.style.display='none';
+				} 
 				
 			}
 			
 		}
 		}
 	});
+	}
 	theTable.appendChild(b);
 }
 var Id
@@ -110,7 +122,7 @@ function verifySubmit(){
     	$.ajax({
     		type : "post",
     		url: cqt_prefix+'rollbatch/deleteBatWorkOrderInput',
-    		data:{'f_pid':billarray[Id]},
+    		data:{'f_pid':billarray[Id],'userId':userId},
     		success : function(data) {
     			var falg=data.dataset.response.code;
 			if(falg==0)

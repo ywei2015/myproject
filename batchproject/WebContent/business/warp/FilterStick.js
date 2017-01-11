@@ -1,5 +1,6 @@
 var title= ["序号","名称","批次号","开始","结束","数量","单位","操作"];
 var theTable=document.getElementById("table");
+var userId=getQueryString('userId');
 var f_workorder_code=getQueryString('f_workorder_code'); //test:
 var f_machine=getQueryString('f_machine');//test:
 var data_p={
@@ -20,6 +21,7 @@ function initTable(dataj){
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
+	if(userId!=null){
 	$.ajax({
 		type : "post",
 		url:cqt_prefix+'rollbatch/getBatWorkOrderInput',
@@ -29,13 +31,17 @@ function initTable(dataj){
 			var str=data.dataset;
 			 if(str.totalRecords>0){
 			var length=str.batworkorderinput.length;
-		
+			var color_type='no';
 			//设置表格
 			if(length>0){
 				for(var i=0;i<length;i++){
 					var rowdata=str.batworkorderinput[i];//对象
 					var r =document.createElement('tr');
 					if(i%2==0) r.style.backgroundColor='white';
+					if("0"==rowdata.remark1){
+						r.style.color='red';
+						color_type='yes';
+					}
 					if(rowdata!=null||rowdata!=undefined){
 						var td;
 						var data_td1;
@@ -57,14 +63,14 @@ function initTable(dataj){
 						
 						td=document.createElement('td');
 						var data_td2=rowdata.starttime;//开始
-						data_td1=data_td2.substring(0,4)+'-'+data_td2.substring(4,6)+'-'+data_td2.substring(6,8)
+						data_td1=data_td2.substring(4,6)+'-'+data_td2.substring(6,8)+' '+data_td2.substring(8,10)+':'+data_td2.substring(10,12);
 						+':'+data_td2.substring(8,10);
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
 						td=document.createElement('td');
 						var data_td2=rowdata.endtime;//开始
-						data_td1=data_td2.substring(0,4)+'-'+data_td2.substring(4,6)+'-'+data_td2.substring(6,8)
+						data_td1=data_td2.substring(4,6)+'-'+data_td2.substring(6,8)+' '+data_td2.substring(8,10)+':'+data_td2.substring(10,12);
 						+':'+data_td2.substring(8,10);
 						td.innerHTML=data_td1;
 						r.appendChild(td);
@@ -82,20 +88,26 @@ function initTable(dataj){
 						td=document.createElement('td');
 						var pid=rowdata.pid;
 						billarray[i]=pid;
-						ata_td="<a  data-role='button' onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='window'" +
+						data_td="<a  data-role='button' onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='window'" +
 						">删除</a>";
 						td.innerHTML=data_td;
 						r.appendChild(td);
 					}
 					b.appendChild(r);
 				}
-				
+				var type_flag=document.getElementById("type_tishi");
+				if(color_type=='yes'){
+					type_flag.style.display='block';
+				}else{
+					type_flag.style.display='none';
+				} 
 			
 			}
 			
 		}
 		}
 	});
+	}
 	theTable.appendChild(b);
 }
 var Id
@@ -109,7 +121,7 @@ function verifySubmit(){
     	$.ajax({
     		type : "post",
     		url: cqt_prefix+'rollbatch/deleteBatWorkOrderInput',
-    		data:{'f_pid':billarray[Id]},
+    		data:{'f_pid':billarray[Id],'userId':userId},
     		success : function(data) {
     		var falg=data.dataset.response.code;
 			if(falg==0)

@@ -19,7 +19,7 @@ public class BatWorkOrderInput implements Serializable{
 	private String operateuserid;
 	private String operatetime;
 	private String masterslaveflag;
-	private String remark1;
+	private String remark1;        //记录是否与工单类型一致；1为一致 0为不一致
 	private String remark2;
 	private String remark3;
 	private String remark4;

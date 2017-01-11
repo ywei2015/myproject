@@ -3,6 +3,8 @@ package sail.beans.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,9 @@ public class SilkWorkOrderService {
 	
 	@Autowired
 	BatchStorageService batchStorageService;
+	
+	@Autowired
+	private MatBomService matBomService; 
 	
 	/**
 	 * 验证工单和批次是否匹配
@@ -68,7 +73,7 @@ public class SilkWorkOrderService {
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
 	 */
-	public BatWorkOrderInput saveBatWorkOrderInput(String workOrderCode,String matBatch,String quantity,String location,String operuser) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
+	public BatWorkOrderInput saveBatWorkOrderInput(String workOrderCode,String matBatch,String quantity,String location,String operuser){
 		BatWorkOrderInput batWorkOrderInput = null;
 		List<BatWorkOrder> batWorkList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDERLIST.LIST", new Object[]{workOrderCode});
 		if (batWorkList != null && batWorkList.size() > 0){
@@ -102,6 +107,9 @@ public class SilkWorkOrderService {
 				batWorkOrderInput.setSysflag("1");
 				batWorkOrderInput.setCreator(operuser);
 				batWorkOrderInput.setCreatetime(DateBean.getSysdateTime());
+				List matList=matBomService.getBomByWorkOrder(workOrderCode,null,matBatch);
+				if(matList.size()==0)
+					batWorkOrderInput.setRemark1("0");
 				genericDao.save(batWorkOrderInput);
 			}
 		}
@@ -143,13 +151,16 @@ public class SilkWorkOrderService {
 	 * @param workOrderCode
 	 * @return
 	 */
-	public boolean getWorkorderstate(String billno){
+	public String getWorkorderstate(String billno){
 		List<BatWorkOrder> ruleList=genericDao.getListWithVariableParas("GET_WORKSTATE_BYBILLNO", new Object[]{billno});
-		BatWorkOrder bill=ruleList.get(0);
-		if("1".equals(bill.getWorkorderstate())){
-			return true;
+		if(ruleList!=null&&ruleList.size()>0){
+			BatWorkOrder bill=ruleList.get(0);
+			if("1".equals(bill.getWorkorderstate())){
+				return "1";  //未过期
+			}else
+				return "0";  //过期
 		}
-		return false;
+		return "2";   //工单不存在
 	}
 
 	/**

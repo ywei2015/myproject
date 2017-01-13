@@ -28,10 +28,11 @@ public class BatchStorageController {
 		ResponseBase res = new ResponseBase();
 		String f_bill_no = request.getParameter("f_bill_no");
 		String f_doc_type = request.getParameter("f_doc_type");
+		String f_bus_type= request.getParameter("f_bus_type");
 		String f_mat_batch = request.getParameter("f_mat_batch");
 		String userId = request.getParameter("userId");
 		//BatDepotIoDetail batDepotIoDetail = batchStorageService.saveBatchInStorage(f_bill_no, f_doc_type, f_mat_batch);
-		BatDepotIoDetail batDepotIoDetail =batchStorageService.saveBatchStorageOut(f_bill_no,f_doc_type,f_mat_batch,userId);
+		BatDepotIoDetail batDepotIoDetail =batchStorageService.saveBatchInStorage(f_bill_no,f_doc_type,f_mat_batch,f_bus_type,userId);
 		if (batDepotIoDetail != null){
 			if("1".equals(batDepotIoDetail.getRepeated())){
 				res.setResponseData("0", "改批次已经存在!");
@@ -40,7 +41,7 @@ public class BatchStorageController {
 				res.setDataset(batDepotIoDetail, "batdepotiodetail");
 			}
 		}else{
-			res.setResponseData("0", "牌号信息不匹配!");
+			res.setResponseData("0", "批次信息不匹配!");
 		}
 		return res;
 	}
@@ -51,10 +52,11 @@ public class BatchStorageController {
 		ResponseBase res = new ResponseBase();
 		String f_bill_no = request.getParameter("f_bill_no");
 		String f_doc_type = request.getParameter("f_doc_type");
+		String f_bus_type= request.getParameter("f_bus_type");
 		String f_mat_batch = request.getParameter("f_mat_batch");
 		String reason = request.getParameter("reason");
 		String userId = request.getParameter("userId");
-		BatDepotIoDetail batDepotIoDetail = batchStorageService.saveBatchStorageOut(f_bill_no,f_doc_type,f_mat_batch,userId);
+		BatDepotIoDetail batDepotIoDetail = batchStorageService.saveBatchStorageOut(f_bill_no,f_doc_type,f_bus_type,f_mat_batch,userId);
 		if (batDepotIoDetail != null){
 			if("1".equals(batDepotIoDetail.getRepeated())){
 				res.setResponseData("0", "改批次已经存在!");
@@ -64,7 +66,7 @@ public class BatchStorageController {
 			}
 			
 		}else{
-			res.setResponseData("0", "牌号信息不匹配!");
+			res.setResponseData("0", "批次信息不匹配!");
 		}
 		return res;
 	}
@@ -75,7 +77,13 @@ public class BatchStorageController {
 		ResponseBase res = new ResponseBase();
 		String f_bill_no = request.getParameter("f_bill_no");
 		String f_doc_type = request.getParameter("f_doc_type");
-		List<BatDepotIoDetail> batdepotiodetaillist = batchStorageService.getBatDepotIoDetailList(f_bill_no, f_doc_type);
+		String f_match = request.getParameter("remark");
+		List<BatDepotIoDetail> batdepotiodetaillist=null;
+		if(f_match!=null){
+			 batdepotiodetaillist = batchStorageService.getBatDepotIoDetailListj(f_match);
+		}else{
+			 batdepotiodetaillist = batchStorageService.getBatDepotIoDetailList(f_bill_no, f_doc_type);
+		}
 		if (batdepotiodetaillist != null && batdepotiodetaillist.size() > 0){
 			res.setResponseData("1", "操作成功!");
 			res.setDataset(batdepotiodetaillist, "batdepotiodetail");

@@ -20,6 +20,7 @@ public class BatDepotIoBill implements Serializable{
 	private String remark4;
 	private String remark5;
 	private String remark;
+	private String isEnter;
 	private String sysflag;
 	private String creator;
 	private String createtime;
@@ -156,6 +157,12 @@ public class BatDepotIoBill implements Serializable{
 	}
 	public void setLastmodifiedtime(String lastmodifiedtime) {
 		this.lastmodifiedtime = lastmodifiedtime;
+	}
+	public String getIsEnter() {
+		return isEnter;
+	}
+	public void setIsEnter(String isEnter) {
+		this.isEnter = isEnter;
 	}
 	
 	

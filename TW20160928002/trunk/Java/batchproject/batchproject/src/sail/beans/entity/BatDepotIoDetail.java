@@ -17,7 +17,8 @@ public class BatDepotIoDetail implements Serializable{
 	private String status;
 	private String reason;
 	private String trayno;
-	private String remark1;
+	private String isEnter;
+	private String remark1;//是否已经出入库  1为已经入库 2为已经出库
 	private String remark2;
 	private String remark3;
 	private String remark4;
@@ -178,6 +179,12 @@ public class BatDepotIoDetail implements Serializable{
 	}
 	public void setRepeated(String repeated) {
 		this.repeated = repeated;
+	}
+	public String getIsEnter() {
+		return isEnter;
+	}
+	public void setIsEnter(String isEnter) {
+		this.isEnter = isEnter;
 	}
 	
 	

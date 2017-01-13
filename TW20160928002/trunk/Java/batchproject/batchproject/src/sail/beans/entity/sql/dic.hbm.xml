@@ -3,9 +3,16 @@
     "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping>
-	<query name="DIC.T_PUB_DIC_LIST.LIST">
+	<sql-query name="DIC.BAT_INSTORAGETYPE.LIST">
 		<![CDATA[
-    	SELECT dic FROM sail.beans.entity.Dic dic Where dic.sysflag = '1' AND dic.objpid = ?              		
+    	SELECT * FROM V_BAT_INSTORAGETYPE            		
     ]]>
-	</query>
+	</sql-query>
+	
+	<sql-query name="DIC.BAT_OUTSTORAGETYPE.LIST">
+		<![CDATA[
+    	SELECT * FROM V_BAT_OUTSTORAGETYPE
+            		
+    ]]>
+	</sql-query>
 </hibernate-mapping>

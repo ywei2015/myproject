@@ -24,7 +24,7 @@ public class BatWorkOrderInput implements Serializable{
 	private String remark3;
 	private String remark4;
 	private String remark5;
-	private String remark;
+	private String remark;  //批次状态
 	private String sysflag;
 	private String creator;
 	private String createtime;

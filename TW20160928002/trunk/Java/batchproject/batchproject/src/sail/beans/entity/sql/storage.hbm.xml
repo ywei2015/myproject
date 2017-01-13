@@ -26,9 +26,47 @@
     ]]>
 	</query>	
 	
+	<query name="STORAGE.T_BAT_DEPOT_IOBILLDETAILJ.LIST">
+		<![CDATA[
+    	SELECT detail FROM sail.beans.entity.BatDepotIoDetail detail,sail.beans.entity.BatDepotIoBill bill
+    	 where detail.matbatch = ? and bill.doctype = 'ZO40'  and bill.sysflag = '1' and bill.pid = detail.billpid and detail.sysflag= '1' 
+    	 order by detail.createtime desc
+    ]]>
+	</query>
+	
 	<query name="STORAGE.T_BAT_BATADJUST_DETAILSLAVE.LIST">
 		<![CDATA[
 			select de from sail.beans.entity.BatBatAdjustDetail de where de.slavebatch = ? and de.newmasterbatch = ?  and de.sysflag = '1'
 		]]>
-	</query>		
+	</query>
+	<sql-query name="STORAGE.GET_RESOLVEVAlUE">
+		<![CDATA[
+			select d.f_pid, d.f_bill_pid, d.f_mat_code, d.f_mat_name, d.f_mat_batch as f_batch,  
+			f_bat_getbatchstate(d.f_mat_batch) as f_state,
+			(select sum(s.f_quantity) from t_bat_depot_iodetaillist s where s.f_billdetail_pid=d.f_pid and s.f_sys_flag='1') as f_quantity,
+			(select s.f_unit from t_bat_depot_iodetaillist s where s.f_billdetail_pid=d.f_pid and rownum=1) as f_unit,
+			d.F_SUPPLIER_SORTCODE 
+			from T_BAT_DEPOT_IODETAIL d,T_BAT_DEPOT_IOBILL t
+			where d.f_sys_flag='1' 
+			and d.f_bill_pid=t.f_pid
+			and t.f_bill_type='11'
+			and t.f_sys_flag='1' 
+			and d.f_Mat_Batch=?
+		]]>
+	</sql-query>	
+	
+		<sql-query name="STORAGE.GET_RESOLVEVAlUE2">
+		<![CDATA[
+			select d.f_pid, d.f_bill_pid, d.f_mat_code, d.f_mat_name, s.f_slave_batch as f_batch, 
+			f_bat_getbatchstate(s.f_slave_batch) as f_state,s.f_quantity,s.f_unit,
+			d.F_SUPPLIER_SORTCODE 
+			from T_BAT_DEPOT_IODETAIL d, t_bat_depot_iodetaillist s,T_BAT_DEPOT_IOBILL t
+			where d.f_sys_flag='1'  
+			and s.f_billdetail_pid=d.f_pid
+			and d.f_bill_pid=t.f_pid
+			and t.f_bill_type='11'
+			and t.f_sys_flag='1'
+			and s.f_slave_batch=?
+		]]>
+	</sql-query>	
 </hibernate-mapping>

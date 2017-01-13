@@ -10,12 +10,14 @@ public class BatDepotIoDetailList implements Serializable{
 	private double quantity;
 	private String unit;
 	private String relatetime;
-	private String remark1;
+	private String repeated;
+	private String remark1;//是否已经出入库  1为已经入库 2为已经出库
 	private String remark2;
 	private String remark3;
 	private String remark4;
-	private String remark5;
+	private String remark5;//出库原因
 	private String remark;
+	private String reason;
 	private String sysflag;
 	private String creator;
 	private String createtime;
@@ -129,6 +131,18 @@ public class BatDepotIoDetailList implements Serializable{
 	}
 	public void setBillpid(String billpid) {
 		this.billpid = billpid;
+	}
+	public String getRepeated() {
+		return repeated;
+	}
+	public void setRepeated(String repeated) {
+		this.repeated = repeated;
+	}
+	public String getReason() {
+		return reason;
+	}
+	public void setReason(String reason) {
+		this.reason = reason;
 	}
 	
 	

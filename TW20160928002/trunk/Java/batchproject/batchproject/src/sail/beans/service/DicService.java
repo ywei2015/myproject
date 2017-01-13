@@ -20,8 +20,16 @@ public class DicService {
 	 * @param type
 	 * @return
 	 */
-	public List<Dic> getDicList(String type){
-		List<Dic> dicList = genericDao.getListWithVariableParas("DIC.T_PUB_DIC_LIST.LIST", new Object[]{type});
+	public List getDicList(String type){
+		List dicList =null;
+		String sql = null;
+		if("instorage".equals(type)){
+			sql="SELECT * from v_bat_instorage_doctype";
+			dicList = genericDao.getListWithNativeSql(sql);
+		}else if("outstorage".equals(type)){
+			sql="SELECT * from v_bat_outstorage_doctype";
+			dicList = genericDao.getListWithNativeSql(sql);
+		}
 		return dicList;
 	}
 }

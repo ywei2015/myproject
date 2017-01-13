@@ -16,7 +16,7 @@ public class CarCode implements Serializable{
 	private String value5;
 	private String value6;
 	private String value7;
-	private String value8;
+	private String state;
     private String factory; //工厂编码
     private String depot;//仓库编码
 	private String oldbatch;//小件原大件批次号
@@ -70,12 +70,6 @@ public class CarCode implements Serializable{
 	public void setValue7(String value7) {
 		this.value7 = value7;
 	}
-	public String getValue8() {
-		return value8;
-	}
-	public void setValue8(String value8) {
-		this.value8 = value8;
-	}
 	public String getMatname() {
 		return matname;
 	}
@@ -123,6 +117,12 @@ public class CarCode implements Serializable{
 	}
 	public void setDepot(String depot) {
 		this.depot = depot;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 	
 	

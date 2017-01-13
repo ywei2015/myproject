@@ -23,6 +23,7 @@
 		<property name="remark4" column="F_REMARK4" length="500" type="string"/>
 		<property name="remark5" column="F_REMARK5" length="500" type="string"/>
 		<property name="remark" column="F_REMARK" length="500" type="string"/>
+		<property name="isEnter" column="F_ISENTER" length="50" type="string"/>
 		<property name="sysflag" column="F_SYS_FLAG" length="50" type="string"/>
 		<property name="creator" column="F_CREATOR" length="50" type="string"/>
 		<property name="createtime" column="F_CREATE_TIME" length="14" type="string"/>

@@ -16,6 +16,7 @@
 		<property name="suppliersortcode" column="F_SUPPLIER_SORTCODE" length="50" type="string"/>
 		<property name="shkzg" column="F_SHKZG" length="50" type="string"/>
 		<property name="inventorytype" column="F_INVENTORY_TYPE" length="50" type="string"/>
+		<property name="isEnter" column="F_ISENTER" length="50" type="string"/>
 		<property name="status" column="F_STATUS" length="50" type="string"/>
 		<property name="reason" column="F_REASON" length="50" type="string"/>
 		<property name="trayno" column="F_TRAY_NO" length="50" type="string"/>

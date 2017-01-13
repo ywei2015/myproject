@@ -20,18 +20,26 @@
 	<query name="BATCHDATA_BAT_DEPOT_IODETAIL">
 		<![CDATA[
     	select order from sail.beans.entity.BatDepotIoDetail order where order.matbatch=? and order.sysflag = '1'
+    	order by order.createtime desc
     ]]>
 	</query>
 	
-	<query name="BATCHDATA_BAT_DEPOT_IODETAILIST">
+	<query name="BATCHDATA_BAT_DEPOT_IODETAIL_LIST">
 		<![CDATA[
-    	select order from sail.beans.entity.BatDepotIoDetail order where order.matbatch=? and order.sysflag = '1'
+    	select order from sail.beans.entity.BatDepotIoDetailList order where order.slavebatch=? and order.sysflag = '1'
+    	order by order.createtime desc
     ]]>
 	</query>
 	
 	<query name="BATCHDATA_DEPOT_IODETAIL_BYPID">
 		<![CDATA[
     	select order from sail.beans.entity.BatDepotIoDetail order where order.billpid = ?  and order.sysflag = '1'
+    ]]>
+	</query>
+	
+	<query name="BATCHDATA_DEPOT_IODETAILLIST_BYPID">
+		<![CDATA[
+    	select order from sail.beans.entity.BatDepotIoDetailList order where order.billdetailpid = ?  and order.sysflag = '1'
     ]]>
 	</query>
 	

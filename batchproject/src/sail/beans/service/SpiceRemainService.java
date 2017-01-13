@@ -44,7 +44,7 @@ public class SpiceRemainService {
 			batSpiceRemain = new BatSpiceRemain();
 			CarCode carCode = batchStorageService.getResolveValue(matbatch);
 			batSpiceRemain.setWorkarea("HZ10");
-			batSpiceRemain.setDepot("2230");
+			batSpiceRemain.setDepot(carCode.getDepot());
 			batSpiceRemain.setMatcode(carCode.getMatcode());
 			batSpiceRemain.setOldbatch(matbatch);
 			batSpiceRemain.setNewbatch(matbatch);

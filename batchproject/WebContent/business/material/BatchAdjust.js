@@ -19,7 +19,7 @@ function initTable(dataj){
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
-	if(f_master_batch!=null){
+	if(userId!=null){
 	$.ajax({
 		type : "post",
 		url: cqt_prefix+'sizepieces/getBatBatAdjustDetail',

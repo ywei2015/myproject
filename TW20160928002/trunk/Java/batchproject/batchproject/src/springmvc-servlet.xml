@@ -53,4 +53,7 @@
 	    </property>    
 	</bean>
 	
+	<context:annotation-config />  
+    <task:annotation-driven scheduler="scheduler" mode="proxy"/>  
+    <task:scheduler id="scheduler" pool-size="100"/>  
 </beans>

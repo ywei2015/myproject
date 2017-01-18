@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2008-12-16 10:45:42 by mars -->
+<hibernate-mapping>
+	 <class name="sail.beans.entity.BatHighBayDepotIn" table="T_BAT_HIGHBAYDEPOT_IN">
+	 	<id name="pid" column="F_PID" length="50" type="java.lang.String">
+			<generator class="assigned" />
+		</id> 
+		<property name="entrydepotBill" column="F_ENTRYDEPOT_BILL" length="50" type="java.lang.String"/>
+		<property name="date" column="F_DATE" length="14" type="java.lang.String"/>
+		<property name="factory" column="F_FACTORY" length="50" type="java.lang.String"/>
+		<property name="depot" column="F_DEPOT" length="50" type="java.lang.String"/>
+		<property name="operateUserid" column="F_OPERATE_USERID" length="50" type="java.lang.String"/>
+		<property name="operateTime" column="F_OPERATE_TIME" length="14" type="java.lang.String"/>
+		<property name="remark1" column="F_REMARK1" length="500" type="java.lang.String"/>
+		<property name="remark2" column="F_REMARK2" length="500" type="java.lang.String"/>
+		<property name="remark3" column="F_REMARK3" length="500" type="java.lang.String"/>
+		<property name="remark4" column="F_REMARK4" length="500" type="java.lang.String"/>
+		<property name="remark5" column="F_REMARK5" length="500" type="java.lang.String"/>
+		<property name="remark" column="F_REMARK" length="500" type="java.lang.String"/>
+		<property name="sysFlag" column="F_SYS_FLAG" length="50" type="java.lang.String"/>
+		<property name="creator" column="F_CREATOR" length="50" type="java.lang.String"/>
+		<property name="createTime" column="F_CREATE_TIME" length="14" type="java.lang.String"/>
+		<property name="lastmodifier" column="F_LAST_MODIFIER" length="50" type="java.lang.String"/>
+		<property name="lastmodifiedTime" column="F_LAST_MODIFIED_TIME" length="14" type="java.lang.String"/>
+		<property name="codeType" column="F_CODE_TYPE" length="14" type="java.lang.String"/>
+		<set name="details" inverse="true" lazy="true" table="T_BAT_HIGHBAYDEPOT_INDETAIL" fetch="select">
+            <key>
+                <column name="F_INBILL_PID" length="50" not-null="true" />
+            </key>
+            <one-to-many class="sail.beans.entity.BatHighBayDepotInDetail" />
+        </set>
+	 </class>
+</hibernate-mapping>

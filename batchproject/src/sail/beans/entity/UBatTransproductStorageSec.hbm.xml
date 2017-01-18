@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2008-12-16 10:45:42 by mars -->
+<hibernate-mapping>
+	 <class name="sail.beans.entity.UBatTransproductStorageSec" table="U_BAT_TRANSPRODUCTSTORAGESEC">
+	 	<id name="pid" column="F_PID" length="50" type="java.lang.String">
+			<generator class="assigned" />
+		</id> 
+		<many-to-one name="main" class="sail.beans.entity.UBatTransproductStorageMain" fetch="select">
+            <column name="F_INBILL_PID" length="50" />
+        </many-to-one>
+        
+		<!--<property name="inbillPid" column="F_INBILL_PID" length="50" type="java.lang.String"/>-->
+		<property name="codeType" column="F_CODE_TYPE" length="50" type="java.lang.String"/>
+		<property name="boxCode" column="F_BOX_CODE" length="200" type="java.lang.String"/>
+		<property name="batch" column="F_BATCH" length="50" type="java.lang.String"/>
+		<property name="lot" column="F_LOT" length="50" type="java.lang.String"/>
+		<property name="inspectNo" column="F_INSPECT_NO" length="50" type="java.lang.String"/>
+		<property name="brandCode" column="F_BRAND_CODE" length="200" type="java.lang.String"/>
+		<property name="brandName" column="F_BRAND_NAME" length="200" type="java.lang.String"/>
+		<property name="locationCode" column="F_LOCATION_CODE" length="200" type="java.lang.String"/>
+		<property name="locationName" column="F_LOCATION_NAME" length="200" type="java.lang.String"/>
+		<property name="tray" column="F_TRAY" length="50" type="java.lang.String"/>
+		<property name="receiveTime" column="F_RECEIVE_TIME" length="14" type="java.lang.String"/>
+		<property name="remark" column="F_REMARK" length="500" type="java.lang.String"/>
+		<property name="synchroFlag" column="F_SYNCHRO_FLAG" length="1" type="java.lang.String"/>
+	 </class>
+</hibernate-mapping>

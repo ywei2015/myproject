@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+	<!--获取待转储成品（在制品）入库信息主表-->
+	<query name="SYNCHRO.U_BAT_TRANSPRODUCTSTORAGEMAIN.LIST">
+		<![CDATA[
+    	SELECT main FROM sail.beans.entity.UBatTransproductStorageMain main where main.synchroFlag = '0' 
+    ]]>
+	</query>
+	<!--获取待转储成品（在制品）入库信息从表-->
+	<query name="SYNCHRO.U_BAT_TRANSPRODUCTSTORAGESEC.LIST">
+		<![CDATA[
+    	SELECT sec FROM sail.beans.entity.UBatTransproductStorageSec sec where sec.synchroFlag = '0' 
+    ]]>
+	</query>
+	<!--根据主表入库单号为条件关联获取从表的F_CODE_TYPE，作为区分成品或在制品-->
+	<query name="SYNCHRO.GETCODETYPE.BY.TRANSFERBILL">
+		<![CDATA[
+    	SELECT sec FROM sail.beans.entity.UBatTransproductStorageSec sec where sec.main.transferBill = ?  
+    ]]>
+	</query>
+	
+			
+</hibernate-mapping>

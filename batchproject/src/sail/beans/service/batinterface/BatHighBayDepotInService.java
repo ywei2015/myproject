@@ -22,21 +22,17 @@ public class BatHighBayDepotInService {
 	
 	/**
 	 * 获取待转储并新增入库后台服务（成品（成品/在制品）入库信息）
-	 * @param billNo
-	 * @param docType
-	 * @param matBatch
 	 * @return
 	 */
 	public void saveBatHighBayDepotIn(){
 		try{
 			List<UBatTransproductStorageMain> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSPRODUCTSTORAGEMAIN.LIST", new Object[]{});
-//			List<UBatTransproductStorageSec> secList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSPRODUCTSTORAGESEC.LIST", new Object[]{});
 			UBatTransproductStorageMain main = null;
 			//主表
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
 					BatHighBayDepotIn batHighBayDepotIn = new BatHighBayDepotIn();
-					main = mainList.get(0);
+					main = mainList.get(i);
 					batHighBayDepotIn.setPid(main.getPid());
 					batHighBayDepotIn.setEntrydepotBill(main.getTransferBill()==null?"":main.getTransferBill().toString());
 					batHighBayDepotIn.setDate(main.getDate()==null?"":main.getDate().toString());
@@ -56,6 +52,7 @@ public class BatHighBayDepotInService {
 					//转储完数据后更新主表转储状态
 					UBatTransproductStorageMain main1 = (UBatTransproductStorageMain)genericDao.getById(UBatTransproductStorageMain.class,main.getPid());
 					main1.setSynchroFlag(Constants.SYN_CHRO_USED);
+					main1.setSynchroTime(DateBean.getSysdateTime());
 					genericDao.save(main1);
 					Set<UBatTransproductStorageSec> secList = main.getSecs();
 					Iterator iterator = secList.iterator();
@@ -83,6 +80,7 @@ public class BatHighBayDepotInService {
 						//转储完数据后更新从表转储状态
 						UBatTransproductStorageSec sec1 = (UBatTransproductStorageSec)genericDao.getById(UBatTransproductStorageSec.class,sec.getPid());
 						sec1.setSynchroFlag(Constants.SYN_CHRO_USED);
+						sec1.setSynchroTime(DateBean.getSysdateTime());
 						genericDao.save(sec1);
 					}
 				}

@@ -4,6 +4,7 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
     
 <hibernate-mapping>
+	<!--成品（在制品）入库begin-->
 	<!--获取待转储成品（在制品）入库信息主表-->
 	<query name="SYNCHRO.U_BAT_TRANSPRODUCTSTORAGEMAIN.LIST">
 		<![CDATA[
@@ -20,6 +21,22 @@
 	<query name="SYNCHRO.GETCODETYPE.BY.TRANSFERBILL">
 		<![CDATA[
     	SELECT sec FROM sail.beans.entity.UBatTransproductStorageSec sec where sec.main.transferBill = ?  
+    ]]>
+    </query>
+    
+    <!--烟用材料配盘begin-->
+    <!--获取待转储烟用材料配盘信息主表-->
+	<query name="SYNCHRO.U_BAT_TRANSMATERIALWITHMAIN.LIST">
+		<![CDATA[
+    	SELECT main FROM sail.beans.entity.UBatTransMaterialWithMain main where main.synchroFlag = '0' 
+    ]]>
+	</query>
+	
+	<!--批次管理_成品调运begin-->
+    <!--获取待转储成品调运信息主表-->
+	<query name="SYNCHRO.U_BAT_TRANSFINALPRODUCTMAIN.LIST">
+		<![CDATA[
+    	SELECT main FROM sail.beans.entity.UBatTransFinalProductMain main where main.synchroFlag = '0' 
     ]]>
 	</query>
 	

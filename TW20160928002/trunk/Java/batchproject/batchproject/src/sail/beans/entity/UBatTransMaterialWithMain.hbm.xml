@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2008-12-16 10:45:42 by mars -->
+<hibernate-mapping>
+	 <class name="sail.beans.entity.UBatTransMaterialWithMain" table="U_BAT_TRANSMATERIALWITHMAIN">
+	 	<id name="pid" column="F_PID" length="50" type="java.lang.String">
+			<!--<generator class="uuid.hex" />-->
+			<generator class="assigned" />
+		</id> 
+		<property name="palletWorkorder" column="F_PALLET_WORKORDER" length="50" type="java.lang.String"/>
+		<property name="ebeln" column="F_EBELN" length="50" type="java.lang.String"/>
+		<property name="palletSid" column="F_PALLET_SID" length="50" type="java.lang.String"/>
+		<property name="produceDate" column="F_PRODUCE_DATE" length="8" type="java.lang.String"/>
+		<property name="lgortCode" column="F_LGORT_CODE" length="50" type="java.lang.String"/>
+		<property name="lgortName" column="F_LGORT_NAME" length="50" type="java.lang.String"/>
+		<property name="workareaCode" column="F_WORKAREA_CODE" length="50" type="java.lang.String"/>
+		<property name="workareaName" column="F_WORKAREA_NAME" length="50" type="java.lang.String"/>
+		<property name="worktimeCode" column="F_WORKTIME_CODE" length="50" type="java.lang.String"/>
+		<property name="worktimeName" column="F_WORKTIME_NAME" length="50" type="java.lang.String"/>
+		<property name="workteamCode" column="F_WORKTEAM_CODE" length="50" type="java.lang.String"/>
+		<property name="workteamName" column="F_WORKTEAM_NAME" length="50" type="java.lang.String"/>
+		<property name="workorderState" column="F_WORKORDER_STATE" length="50" type="java.lang.String"/>
+		<property name="remark" column="F_REMARK" length="500" type="java.lang.String"/>
+		<property name="synchroFlag" column="F_SYNCHRO_FLAG" length="1" type="java.lang.String"/>
+		<property name="getdataTime" column="F_GETDATA_TIME" length="14" type="java.lang.String"/>
+		<property name="synchroTime" column="F_SYNCHRO_TIME" length="14" type="java.lang.String"/>
+		<set name="secs" inverse="true" lazy="true" table="U_BAT_TRANSPRODUCTSTORAGESEC" fetch="select">
+            <key>
+                <column name="F_INBILL_PID" length="50" not-null="true" />
+            </key>
+            <one-to-many class="sail.beans.entity.UBatTransMaterialWithSec" />
+        </set>
+	 </class>
+</hibernate-mapping>

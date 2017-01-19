@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2008-12-16 10:45:42 by mars -->
+<hibernate-mapping>
+	 <class name="sail.beans.entity.BatPalletWorkorder" table="T_BAT_PALLET_WORKORDER">
+	 	<id name="pid" column="F_PID" length="50" type="java.lang.String">
+			<!--<generator class="uuid.hex" />-->
+			<generator class="assigned" />
+		</id> 
+		<property name="palletWorkorder" column="F_PALLET_WORKORDER" length="50" type="java.lang.String"/>
+		<property name="mesjbWorkorder" column="F_MESJB_WORKORDER" length="100" type="java.lang.String"/>
+		<property name="palletSid" column="F_PALLET_SID" length="50" type="java.lang.String"/>
+		<property name="produceDate" column="F_PRODUCE_DATE" length="8" type="java.lang.String"/>
+		<property name="factory" column="F_FACTORY" length="50" type="java.lang.String"/>
+		<property name="workarea" column="F_WORKAREA" length="50" type="java.lang.String"/>
+		<property name="worktime" column="F_WORKTIME" length="50" type="java.lang.String"/>
+		<property name="workteam" column="F_WORKTEAM" length="50" type="java.lang.String"/>
+		<property name="workorderState" column="F_WORKORDER_STATE" length="50" type="java.lang.String"/>
+		<property name="remark1" column="F_REMARK1" length="500" type="java.lang.String"/>
+		<property name="remark2" column="F_REMARK2" length="500" type="java.lang.String"/>
+		<property name="remark3" column="F_REMARK3" length="500" type="java.lang.String"/>
+		<property name="remark4" column="F_REMARK4" length="500" type="java.lang.String"/>
+		<property name="remark5" column="F_REMARK5" length="500" type="java.lang.String"/>
+		<property name="remark" column="F_REMARK" length="500" type="java.lang.String"/>
+		<property name="sysFlag" column="F_SYS_FLAG" length="1" type="java.lang.String"/>
+		<property name="creator" column="F_CREATOR" length="50" type="string"/>
+		<property name="createTime" column="F_CREATE_TIME" length="50" type="string"/>
+		<property name="lastmodifier" column="F_LAST_MODIFIER" length="50" type="string"/>
+		<property name="lastmodifiedTime" column="F_LAST_MODIFIED_TIME" length="50" type="string"/>
+		<set name="details" inverse="true" lazy="true" table="T_BAT_PALLET_FORM" fetch="select">
+            <key>
+                <column name="F_PALLET_PID" length="50" not-null="true" />
+            </key>
+            <one-to-many class="sail.beans.entity.BatPalletForm" />
+        </set>
+	 </class>
+</hibernate-mapping>

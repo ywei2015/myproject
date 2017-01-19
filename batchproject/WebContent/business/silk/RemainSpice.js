@@ -1,14 +1,17 @@
+var img = new Image(); 
+function loadImage() { 
+	img.src = "../js/image/shanch.png"; 
+	img.onload = function(){ //图片下载完毕时异步调用callback函数。 
+		initTable();
+	}; 
+} 
+loadImage();
+
 var title= ["序号","编码","批次号","罐号","数量","单位","操作"];
 var theTable=document.getElementById("table");
 var userId=getQueryString('userId');
-/*var f_workorder_code=getQueryString('f_workorder_code'); //test:
-var location=getQueryString('location');//test:
-var data_p={
-		'f_workorder_code':f_workorder_code,
-		'location':location
-};*/
-initTable();
 var billarray=[];
+
 function initTable(){
 	theTable.innerHTML="";
 	var b = document.createElement('tbody');
@@ -17,7 +20,7 @@ function initTable(){
 	for( var e in title){
 		var title_table=title[e];
 		var td=document.createElement('th');
-		td.innerHTML=''+title_table;
+		td.innerHTML='<font>'+title_table+'</font>';
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
@@ -48,11 +51,13 @@ function initTable(){
 						
 						td=document.createElement('td');
 						td.style.color='blue';
+						td.id="pianma";
 						data_td1=rowdata.matcode;//编码
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
 						td=document.createElement('td');
+						td.id="picihao";
 						data_td1=rowdata.newbatch;//批次号
 						td.innerHTML=data_td1;
 						r.appendChild(td);
@@ -75,12 +80,14 @@ function initTable(){
 						td=document.createElement('td');
 						var pid=rowdata.pid;
 						billarray[i]=pid;
-						data_td="<a  data-role='button' onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='window'" +
-						">删除</a>";
+						var shanchu="<div ><img height='32' width='30' src='../js/image/shanch.png'></img></div>";
+						data_td="<a  onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='window'" +
+						">"+shanchu+"</a>";
 						td.innerHTML=data_td;
 						r.appendChild(td);
 					}
 					b.appendChild(r);
+					
 				}
 				
 				

@@ -109,4 +109,21 @@ public class BatchStorageController {
 		return res;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="/getResolveValue")	 
+	public ResponseBase getResolveValue(HttpServletRequest request){
+		ResponseBase res = new ResponseBase();
+		String match = request.getParameter("match");
+		String userId = request.getParameter("userId");
+		CarCode carcode = batchStorageService.getResolveValue(match);
+		if (carcode.getMatcode()!=null){
+			res.setResponseData("1", "操作成功!");
+			res.setDataset(carcode, "CarCode");
+		}else{
+			res.setResponseData("0", "批次信息不正确!");
+		}
+		return res;
+	}
+	
+	
 }

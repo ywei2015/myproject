@@ -7,7 +7,16 @@ var data_p={
 		'f_workorder_code':f_workorder_code,
 		'f_machine':f_machine
 };
-initTable(data_p);
+
+var img = new Image(); 
+function loadImage() { 
+	img.src = "../js/image/shanch.png"; 
+	img.onload = function(){ //图片下载完毕时异步调用callback函数。 
+		initTable(data_p);
+	}; 
+} 
+loadImage();
+
 var billarray=[];
 function initTable(dataj){
 	theTable.innerHTML="";
@@ -38,10 +47,7 @@ function initTable(dataj){
 					var rowdata=str.batworkorderinput[i];//对象
 					var r =document.createElement('tr');
 					if(i%2==0) r.style.backgroundColor='white';
-					if("0"==rowdata.remark1){
-						r.style.color='red';
-						color_type='yes';
-					}
+					
 					if(rowdata!=null||rowdata!=undefined){
 						var td;
 						var data_td1;
@@ -51,17 +57,24 @@ function initTable(dataj){
 						r.appendChild(td);
 						
 						td=document.createElement('td');
-						td.style.color='blue';
+						if("0"==rowdata.remark1){
+							td.style.color='red';
+						}else{
+							td.style.color='blue';
+						}
 						data_td1=rowdata.matname;//名称
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
 						td=document.createElement('td');
+						td.id="picihao";
 						data_td1=rowdata.matbatch;//批次号
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
 						td=document.createElement('td');
+						td.id=i+"weizhi";
+						var weizhi=td.id;
 						var data_td2=rowdata.starttime;//开始
 						data_td1=data_td2.substring(4,6)+'-'+data_td2.substring(6,8)+' '+data_td2.substring(8,10)+':'+data_td2.substring(10,12);
 						+':'+data_td2.substring(8,10);
@@ -69,7 +82,7 @@ function initTable(dataj){
 						r.appendChild(td);
 						
 						td=document.createElement('td');
-						var data_td2=rowdata.endtime;//开始
+						var data_td2=rowdata.endtime;//结束
 						data_td1=data_td2.substring(4,6)+'-'+data_td2.substring(6,8)+' '+data_td2.substring(8,10)+':'+data_td2.substring(10,12);
 						+':'+data_td2.substring(8,10);
 						td.innerHTML=data_td1;
@@ -88,10 +101,15 @@ function initTable(dataj){
 						td=document.createElement('td');
 						var pid=rowdata.pid;
 						billarray[i]=pid;
-						data_td="<a  data-role='button' onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='window'" +
-						">删除</a>";
+						var shanchu="<div ><img height='32' width='30' src='../js/image/shanch.png'></img></div>";
+						data_td="<a  onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='window'" +
+						">"+shanchu+"</a>";
 						td.innerHTML=data_td;
 						r.appendChild(td);
+					}
+					if("0"==rowdata.remark1){
+						r.style.color='red';
+						color_type='yes';
 					}
 					b.appendChild(r);
 				}
@@ -110,7 +128,7 @@ function initTable(dataj){
 	}
 	theTable.appendChild(b);
 }
-var Id
+var Id;
 function deleteRow(i){
 	Id=i;
 }
@@ -135,8 +153,7 @@ function verifySubmit(){
 			    
 			}
 			}
-    	});  
-  
+    	});
 }
 
 function getQueryString(name) {

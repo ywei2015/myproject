@@ -7,7 +7,14 @@ var data_p={
 		'f_workorder_code':f_workorder_code,
 		'f_machine':f_machine
 };
-initTable(data_p);
+var img = new Image(); 
+function loadImage() { 
+	img.src = "../js/image/shanch.png"; 
+	img.onload = function(){ //图片下载完毕时异步调用callback函数。 
+		initTable(data_p);
+	}; 
+} 
+loadImage();
 var billarray=[];
 function initTable(dataj){
 	theTable.innerHTML="";
@@ -38,7 +45,7 @@ function initTable(dataj){
 					var rowdata=str.batworkorderinput[i];//对象
 					var r =document.createElement('tr');
 					if(i%2==0) r.style.backgroundColor='white';
-					if("0"==rowdata.remark1){
+					if("0"==rowdata.isremark1){
 						r.style.color='red';
 						color_type='yes';
 					}

@@ -20,6 +20,8 @@ public class UBatTransproductStorageMain implements Serializable{
 	private String twoStep;
 	private String remark;
 	private String synchroFlag;
+	private String getdataTime;
+	private String synchroTime;
 	private Set<UBatTransproductStorageSec> secs = new HashSet<UBatTransproductStorageSec>(0);
 	
 	public String getPid() {
@@ -87,5 +89,17 @@ public class UBatTransproductStorageMain implements Serializable{
 	}
 	public void setSecs(Set<UBatTransproductStorageSec> secs) {
 		this.secs = secs;
+	}
+	public String getGetdataTime() {
+		return getdataTime;
+	}
+	public void setGetdataTime(String getdataTime) {
+		this.getdataTime = getdataTime;
+	}
+	public String getSynchroTime() {
+		return synchroTime;
+	}
+	public void setSynchroTime(String synchroTime) {
+		this.synchroTime = synchroTime;
 	}
 }

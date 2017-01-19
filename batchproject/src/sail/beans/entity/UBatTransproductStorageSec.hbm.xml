@@ -25,5 +25,7 @@
 		<property name="receiveTime" column="F_RECEIVE_TIME" length="14" type="java.lang.String"/>
 		<property name="remark" column="F_REMARK" length="500" type="java.lang.String"/>
 		<property name="synchroFlag" column="F_SYNCHRO_FLAG" length="1" type="java.lang.String"/>
+		<property name="getdataTime" column="F_GETDATA_TIME" length="14" type="java.lang.String"/>
+		<property name="synchroTime" column="F_SYNCHRO_TIME" length="14" type="java.lang.String"/>
 	 </class>
 </hibernate-mapping>

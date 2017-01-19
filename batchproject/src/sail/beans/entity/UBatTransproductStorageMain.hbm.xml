@@ -17,6 +17,8 @@
 		<property name="twoStep" column="F_TWO_STEP" length="50" type="java.lang.String"/>
 		<property name="remark" column="F_REMARK" length="500" type="java.lang.String"/>
 		<property name="synchroFlag" column="F_SYNCHRO_FLAG" length="1" type="java.lang.String"/>
+		<property name="getdataTime" column="F_GETDATA_TIME" length="14" type="java.lang.String"/>
+		<property name="synchroTime" column="F_SYNCHRO_TIME" length="14" type="java.lang.String"/>
 		<set name="secs" inverse="true" lazy="true" table="U_BAT_TRANSPRODUCTSTORAGESEC" fetch="select">
             <key>
                 <column name="F_INBILL_PID" length="50" not-null="true" />

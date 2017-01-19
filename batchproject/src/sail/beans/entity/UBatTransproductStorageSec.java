@@ -24,6 +24,8 @@ public class UBatTransproductStorageSec implements Serializable{
 	private String receiveTime;
 	private String remark;
 	private String synchroFlag;
+	private String getdataTime;
+	private String synchroTime;
 	
 	public String getPid() {
 		return pid;
@@ -114,6 +116,18 @@ public class UBatTransproductStorageSec implements Serializable{
 	}
 	public void setSynchroFlag(String synchroFlag) {
 		this.synchroFlag = synchroFlag;
+	}
+	public String getGetdataTime() {
+		return getdataTime;
+	}
+	public void setGetdataTime(String getdataTime) {
+		this.getdataTime = getdataTime;
+	}
+	public String getSynchroTime() {
+		return synchroTime;
+	}
+	public void setSynchroTime(String synchroTime) {
+		this.synchroTime = synchroTime;
 	}
 	
 }

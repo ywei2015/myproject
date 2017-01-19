@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2008-12-16 10:45:42 by mars -->
+<hibernate-mapping>
+	 <class name="sail.beans.entity.BatPalletForm" table="T_BAT_PALLET_FORM">
+	 	<id name="pid" column="F_PID" length="50" type="java.lang.String">
+			<generator class="assigned" />
+		</id> 
+		<many-to-one name="main" class="sail.beans.entity.BatPalletWorkorder" fetch="select">
+            <column name="F_PALLET_PID" length="50" />
+        </many-to-one>
+        
+		<property name="palletSid" column="F_PALLET_SID" length="50" type="java.lang.String"/>
+		<property name="palletCode" column="F_PALLET_CODE" length="50" type="java.lang.String"/>
+		<property name="matCode" column="F_MAT_CODE" length="50" type="java.lang.String"/>
+		<property name="matName" column="F_MAT_NAME" length="200" type="java.lang.String"/>
+		<property name="allocationType" column="F_ALLOCATION_TYPE" length="50" type="java.lang.String"/>
+		<property name="masterBatch" column="F_MASTER_BATCH" length="100" type="java.lang.String"/>
+		<property name="slaveCount" column="F_SLAVE_COUNT" precision="12" scale="4" type="java.lang.Double"/>
+		<property name="slaveBatch" column="F_SLAVE_BATCH" length="100" type="java.lang.String"/>
+		<property name="quantity" column="F_QUANTITY" precision="12" scale="4" type="java.lang.String"/>
+		<property name="unit" column="F_UNIT" length="50" type="java.lang.String"/>
+		<property name="location" column="F_LOCATION" length="100" type="java.lang.String"/>
+		<property name="operateTime" column="F_OPERATE_TIME" length="14" type="java.lang.String"/>
+		<property name="operator" column="F_OPERATOR" length="50" type="java.lang.String"/>
+		<property name="remark1" column="F_REMARK1" length="500" type="java.lang.String"/>
+		<property name="remark2" column="F_REMARK2" length="500" type="java.lang.String"/>
+		<property name="remark3" column="F_REMARK3" length="500" type="java.lang.String"/>
+		<property name="remark4" column="F_REMARK4" length="500" type="java.lang.String"/>
+		<property name="remark5" column="F_REMARK5" length="500" type="java.lang.String"/>
+		<property name="remark" column="F_REMARK" length="500" type="java.lang.String"/>
+		<property name="sysFlag" column="F_SYS_FLAG" length="1" type="java.lang.String"/>
+		<property name="creator" column="F_CREATOR" length="50" type="string"/>
+		<property name="createTime" column="F_CREATE_TIME" length="50" type="string"/>
+		<property name="lastmodifier" column="F_LAST_MODIFIER" length="50" type="string"/>
+		<property name="lastmodifiedTime" column="F_LAST_MODIFIED_TIME" length="50" type="string"/>
+	 </class>
+</hibernate-mapping>

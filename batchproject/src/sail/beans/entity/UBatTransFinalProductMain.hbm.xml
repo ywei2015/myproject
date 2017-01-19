@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2008-12-16 10:45:42 by mars -->
+<hibernate-mapping>
+	 <class name="sail.beans.entity.UBatTransFinalProductMain" table="U_BAT_TRANSFINALPRODUCTMAIN">
+	 	<id name="pid" column="F_PID" length="50" type="java.lang.String">
+			<!--<generator class="uuid.hex" />-->
+			<generator class="assigned" />
+		</id> 
+		<property name="transferBill" column="F_TRANSFER_BILL" length="50" type="java.lang.String"/>
+		<property name="date" column="F_DATE" length="50" type="java.lang.String"/>
+		<property name="plateNumber" column="F_PLATE_NUMBER" length="200" type="java.lang.String"/>
+		<property name="driver" column="F_DRIVER" length="50" type="java.lang.String"/>
+		<property name="sendoutDate" column="F_SENDOUT_DATE" length="50" type="java.lang.String"/>
+		<property name="receivedDate" column="F_RECEIVED_DATE" length="50" type="java.lang.String"/>
+		<property name="remark" column="F_REMARK" length="500" type="java.lang.String"/>
+		<property name="synchroFlag" column="F_SYNCHRO_FLAG" length="1" type="java.lang.String"/>
+		<property name="getdataTime" column="F_GETDATA_TIME" length="14" type="java.lang.String"/>
+		<property name="synchroTime" column="F_SYNCHRO_TIME" length="14" type="java.lang.String"/>
+		<set name="secs" inverse="true" lazy="true" table="U_BAT_TRANSFINALPRODUCTSEC" fetch="select">
+            <key>
+                <column name="F_INBILL_PID" length="50" not-null="true" />
+            </key>
+            <one-to-many class="sail.beans.entity.UBatTransFinalProductSec" />
+        </set>
+	 </class>
+</hibernate-mapping>

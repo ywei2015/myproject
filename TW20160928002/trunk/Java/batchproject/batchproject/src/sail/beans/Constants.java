@@ -43,4 +43,10 @@ public class Constants {
 	 * 转储标识-已转储
 	 */
 	public final static String SYN_CHRO_USED = "1";
+	
+	/**
+	 * 汉中卷包车间ID
+	 */
+	public final static String WORKAREA_ID = "86ebc921-ebcd-4fe8-a887-ffb587910bdc";
+	
 }

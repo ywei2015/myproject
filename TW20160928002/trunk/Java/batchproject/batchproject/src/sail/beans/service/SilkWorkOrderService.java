@@ -98,7 +98,7 @@ public class SilkWorkOrderService {
 					batWorkOrderInput.setRemark2("e");
 					return batWorkOrderInput;
 				}
-				batWorkOrderInput.setWorkorderpid(BatWorkOrder.getPid());
+				batWorkOrderInput.setMain(BatWorkOrder);
 				batWorkOrderInput.setTltype("2");//投料类型待确认
 				batWorkOrderInput.setMatbatch(matBatch);
 				batWorkOrderInput.setMatcode(carCode.getMatcode());

@@ -61,7 +61,7 @@ public class RollBatchService {
 					batWorkOrderInput.setRemark2("e");
 					return batWorkOrderInput;
 				}
-				batWorkOrderInput.setWorkorderpid(BatWorkOrder.getPid());
+				batWorkOrderInput.setMain(BatWorkOrder);
 				batWorkOrderInput.setTltype("2");
 				batWorkOrderInput.setMatbatch(matBatch);
 				batWorkOrderInput.setMatcode(carCode.getMatcode());

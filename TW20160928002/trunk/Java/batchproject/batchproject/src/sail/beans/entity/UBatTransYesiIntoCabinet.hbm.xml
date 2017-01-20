@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2008-12-16 10:45:42 by mars -->
+<hibernate-mapping>
+	 <class name="sail.beans.entity.UBatTransYesiIntoCabinet" table="U_BAT_TRANSYESIINTOCABINET">
+	 	<id name="pid" column="F_PID" length="50" type="java.lang.String">
+			<generator class="uuid.hex" />
+		</id> 
+		<property name="workorderCode" column="F_WORKORDER_CODE" length="100" type="java.lang.String"/>
+		<property name="matBatch" column="F_MAT_BATCH" length="50" type="java.lang.String"/>
+		<property name="matCode" column="F_MAT_CODE" length="50" type="java.lang.String"/>
+		<property name="matName" column="F_MAT_NAME" length="200" type="java.lang.String"/>
+		<property name="quantity" column="F_QUANTITY" precision="16" scale="4"  type="java.lang.Double"/>
+		<property name="unit" column="F_UNIT" length="50" type="java.lang.String"/>
+		<property name="waterContect" column="F_WATER_CONTECT" length="14" type="java.lang.String"/>
+		<property name="starttime" column="F_STARTTIME" length="14" type="java.lang.String"/>
+		<property name="endtime" column="F_ENDTIME" length="14" type="java.lang.String"/>
+		<property name="workteamCode" column="F_WORKTEAM_CODE" length="50" type="java.lang.String"/>
+		<property name="workteamName" column="F_WORKTEAM_NAME" length="50" type="java.lang.String"/>
+		<property name="operateUsercode" column="F_OPERATE_USERCODE" length="50" type="java.lang.String"/>
+		<property name="operateUsername" column="F_OPERATE_USERNAME" length="50" type="java.lang.String"/>
+		<property name="operateTime" column="F_OPERATE_TIME" length="14" type="java.lang.String"/>
+		<property name="remark" column="F_REMARK" length="500" type="java.lang.String"/>
+		<property name="synchroFlag" column="F_SYNCHRO_FLAG" length="1" type="java.lang.String"/>
+		<property name="getdataTime" column="F_GETDATA_TIME" length="14" type="java.lang.String"/>
+		<property name="synchroTime" column="F_SYNCHRO_TIME" length="14" type="java.lang.String"/>
+	 </class>
+</hibernate-mapping>

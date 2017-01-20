@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class BatWorkOrderInput implements Serializable{
 
 	private String pid;
-	private String workorderpid;
+	private BatWorkOrder main; 
 	private String tltype;
 	private String matbatch;
 	private String matcode;
@@ -39,11 +39,11 @@ public class BatWorkOrderInput implements Serializable{
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
-	public String getWorkorderpid() {
-		return workorderpid;
+	public BatWorkOrder getMain() {
+		return main;
 	}
-	public void setWorkorderpid(String workorderpid) {
-		this.workorderpid = workorderpid;
+	public void setMain(BatWorkOrder main) {
+		this.main = main;
 	}
 	public String getTltype() {
 		return tltype;

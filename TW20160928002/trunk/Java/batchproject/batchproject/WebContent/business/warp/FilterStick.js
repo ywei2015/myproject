@@ -18,6 +18,7 @@ function loadImage() {
 loadImage();
 
 var billarray=[];
+var picihao=[];
 function initTable(dataj){
 	theTable.innerHTML="";
 	var b = document.createElement('tbody');
@@ -43,6 +44,8 @@ function initTable(dataj){
 			var color_type='no';
 			//设置表格
 			if(length>0){
+				var tishi_type=document.getElementById("type_tishi");
+				tishi_type.style.display="block";
 				for(var i=0;i<length;i++){
 					var rowdata=str.batworkorderinput[i];//对象
 					var r =document.createElement('tr');
@@ -69,6 +72,7 @@ function initTable(dataj){
 						td=document.createElement('td');
 						td.id="picihao";
 						data_td1=rowdata.matbatch;//批次号
+						picihao[i]=data_td1;
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
@@ -107,19 +111,14 @@ function initTable(dataj){
 						td.innerHTML=data_td;
 						r.appendChild(td);
 					}
+					if("w"==rowdata.remark2){
+						r.style.color='yellow';
+					}
 					if("0"==rowdata.remark1){
 						r.style.color='red';
-						color_type='yes';
 					}
 					b.appendChild(r);
 				}
-				var type_flag=document.getElementById("type_tishi");
-				if(color_type=='yes'){
-					type_flag.style.display='block';
-				}else{
-					type_flag.style.display='none';
-				} 
-			
 			}
 			
 		}
@@ -131,6 +130,10 @@ function initTable(dataj){
 var Id;
 function deleteRow(i){
 	Id=i;
+	var tishi=picihao[i];
+	if(tishi.length>18)
+		tishi=tishi.substring();
+	$("#sure").text(picihao[i]);
 }
 
 

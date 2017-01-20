@@ -89,6 +89,15 @@ public class SilkWorkOrderService {
 				if(carCode==null) {
 					return batWorkOrderInput;
 				}
+				if("w".equalsIgnoreCase(carCode.getState())){
+					batWorkOrderInput.setRemark2("w");
+				}else if("2".equalsIgnoreCase(carCode.getState())){
+					batWorkOrderInput.setRemark2("2");
+					return batWorkOrderInput;
+				}else if("e".equalsIgnoreCase(carCode.getState())){
+					batWorkOrderInput.setRemark2("e");
+					return batWorkOrderInput;
+				}
 				batWorkOrderInput.setWorkorderpid(BatWorkOrder.getPid());
 				batWorkOrderInput.setTltype("2");//投料类型待确认
 				batWorkOrderInput.setMatbatch(matBatch);

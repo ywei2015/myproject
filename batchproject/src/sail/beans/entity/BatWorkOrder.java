@@ -1,6 +1,8 @@
 package sail.beans.entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 public class BatWorkOrder implements Serializable{
 
@@ -44,6 +46,9 @@ public class BatWorkOrder implements Serializable{
 	private String createtime;
 	private String lastmodifier;
 	private String lastmodifiedtime;
+	private Set<BatWorkOrderInput> inputdetails = new HashSet<BatWorkOrderInput>(0);
+	private Set<BatWorkOrderOutput> outputdetails = new HashSet<BatWorkOrderOutput>(0);
+	
 	public String getPid() {
 		return pid;
 	}
@@ -286,6 +291,17 @@ public class BatWorkOrder implements Serializable{
 	public void setLastmodifiedtime(String lastmodifiedtime) {
 		this.lastmodifiedtime = lastmodifiedtime;
 	}
-
+	public Set<BatWorkOrderInput> getInputdetails() {
+		return inputdetails;
+	}
+	public void setInputdetails(Set<BatWorkOrderInput> inputdetails) {
+		this.inputdetails = inputdetails;
+	}
+	public Set<BatWorkOrderOutput> getOutputdetails() {
+		return outputdetails;
+	}
+	public void setOutputdetails(Set<BatWorkOrderOutput> outputdetails) {
+		this.outputdetails = outputdetails;
+	}
 	
 }

@@ -46,5 +46,17 @@
 		<property name="createtime" column="F_CREATE_TIME" length="50" type="string"/>
 		<property name="lastmodifier" column="F_LAST_MODIFIER" length="50" type="string"/>
 		<property name="lastmodifiedtime" column="F_LAST_MODIFIED_TIME" length="50" type="string"/>
+		<set name="inputdetails" inverse="true" lazy="true" table="T_BAT_WORKORDER_INPUT" fetch="select">
+            <key>
+                <column name="F_WORKORDER_PID" length="50" not-null="true" />
+            </key>
+            <one-to-many class="sail.beans.entity.BatWorkOrderInput" />
+        </set>
+        <set name="outputdetails" inverse="true" lazy="true" table="T_BAT_WORKORDER_OUTPUT" fetch="select">
+            <key>
+                <column name="F_WORKORDER_PID" length="50" not-null="true" />
+            </key>
+            <one-to-many class="sail.beans.entity.BatWorkOrderOutput" />
+        </set>
     </class>
 </hibernate-mapping>

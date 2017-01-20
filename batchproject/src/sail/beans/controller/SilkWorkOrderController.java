@@ -58,8 +58,14 @@ public class SilkWorkOrderController {
 				if ("1".equals(batWorkOrderInput.getIsrepair())){
 					res.setResponseData("0", "该批次数据已经存在!");
 				}else{
-					res.setResponseData("1", "操作成功!");
-					res.setDataset(batWorkOrderInput, "batworkorderinput");
+					if("e".equalsIgnoreCase(batWorkOrderInput.getRemark2())){
+						res.setResponseData("0", "操作失败!");
+					}else if("2".equalsIgnoreCase(batWorkOrderInput.getRemark2())){
+						res.setResponseData("0", "操作失败!");
+					}else{
+						res.setResponseData("1", "操作成功!");
+						res.setDataset(batWorkOrderInput, "batworkorderinput");
+					}
 				}
 			}else{
 				res.setResponseData("0", "该批次数据有问题，请进行核对!");

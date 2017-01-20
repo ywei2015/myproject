@@ -11,7 +11,7 @@ var title= ["序号","编码","批次号","罐号","数量","单位","操作"];
 var theTable=document.getElementById("table");
 var userId=getQueryString('userId');
 var billarray=[];
-
+var picihao=[];
 function initTable(){
 	theTable.innerHTML="";
 	var b = document.createElement('tbody');
@@ -37,6 +37,8 @@ function initTable(){
 			
 			//设置表格
 			if(length>0){
+				var tishi_type=document.getElementById("type_tishi");
+				tishi_type.style.display="block";
 				for(var i=0;i<length;i++){
 					var rowdata=str.batspiceremain[i];//对象
 					var r =document.createElement('tr');
@@ -59,6 +61,7 @@ function initTable(){
 						td=document.createElement('td');
 						td.id="picihao";
 						data_td1=rowdata.newbatch;//批次号
+						picihao[i]=data_td1;
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
@@ -86,6 +89,12 @@ function initTable(){
 						td.innerHTML=data_td;
 						r.appendChild(td);
 					}
+					if("w"==rowdata.remark2){
+						r.style.color='yellow';
+					}
+					if("0"==rowdata.remark1){
+						r.style.color='red';
+					}
 					b.appendChild(r);
 					
 				}
@@ -103,6 +112,8 @@ function initTable(){
 var Id
 function deleteRow(i){
 	Id=i;
+	var tishi=picihao;
+	$("#sure").text(picihao[i]);
 }
 
 

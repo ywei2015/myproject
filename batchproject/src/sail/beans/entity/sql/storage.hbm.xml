@@ -42,7 +42,7 @@
 	<sql-query name="STORAGE.GET_RESOLVEVAlUE">
 		<![CDATA[
 			select d.f_pid, d.f_bill_pid, d.f_mat_code, d.f_mat_name, d.f_mat_batch as f_batch,  
-			f_bat_getbatchstate(d.f_mat_batch) as f_state,
+			d.F_INVENTORY_TYPE as f_state,
 			(select sum(s.f_quantity) from t_bat_depot_iodetaillist s where s.f_billdetail_pid=d.f_pid and s.f_sys_flag='1') as f_quantity,
 			(select s.f_unit from t_bat_depot_iodetaillist s where s.f_billdetail_pid=d.f_pid and rownum=1) as f_unit,
 			d.F_SUPPLIER_SORTCODE 
@@ -58,7 +58,7 @@
 		<sql-query name="STORAGE.GET_RESOLVEVAlUE2">
 		<![CDATA[
 			select d.f_pid, d.f_bill_pid, d.f_mat_code, d.f_mat_name, s.f_slave_batch as f_batch, 
-			f_bat_getbatchstate(s.f_slave_batch) as f_state,s.f_quantity,s.f_unit,
+			d.F_INVENTORY_TYPE as f_state,s.f_quantity,s.f_unit,
 			d.F_SUPPLIER_SORTCODE 
 			from T_BAT_DEPOT_IODETAIL d, t_bat_depot_iodetaillist s,T_BAT_DEPOT_IOBILL t
 			where d.f_sys_flag='1'  

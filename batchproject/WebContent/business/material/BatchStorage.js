@@ -7,8 +7,17 @@ var data_p={
 		'f_bill_no':f_bill_no,
 		'f_doc_type':f_doc_type
 };
-initTable(data_p);
+var img = new Image(); 
+function loadImage() { 
+	img.src = "../js/image/shanch.png"; 
+	img.onload = function(){ //图片下载完毕时异步调用callback函数。 
+		initTable(data_p);
+	}; 
+} 
+loadImage();
+
 var billarray=[];
+var picihao=[];
 function initTable(dataj){
 	theTable.innerHTML="";
 	var b = document.createElement('tbody');
@@ -21,7 +30,7 @@ function initTable(dataj){
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
-	if(userId!=null){
+	if(userId==null){
 	$.ajax({
 		type : "post",
 		url:cqt_prefix+'storage/getBatDepotIoDetailList',
@@ -34,6 +43,7 @@ function initTable(dataj){
 			
 			//设置表格
 			if(length>0){
+				
 				for(var i=0;i<length;i++){
 					var rowdata=str.batdepotiodetail[i];//对象
 					var r =document.createElement('tr');
@@ -50,10 +60,14 @@ function initTable(dataj){
 						data_td1=rowdata.matname;//名称
 						td.innerHTML=data_td1;
 						r.appendChild(td);
+						
 						td=document.createElement('td');
+						td.id="picihao";
 						data_td1=rowdata.matbatch;//批次号
+					    picihao[i]=data_td1;
 						td.innerHTML=data_td1;
 						r.appendChild(td);
+						
 						td=document.createElement('td');
 						data_td1=rowdata.quantity;//数量
 						td.innerHTML=data_td1;
@@ -65,8 +79,9 @@ function initTable(dataj){
 						td=document.createElement('td');
 						var pid=rowdata.pid;
 						billarray[i]=pid;
-						data_td="<a  data-role='button' onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='window'" +
-								">删除</a>";
+						var shanchu="<div ><img height='30' width='28' src='../js/image/shanch.png'></img></div>";
+						data_td="<a  onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='window'" +
+						">"+shanchu+"</a>";
 						td.innerHTML=data_td;
 						r.appendChild(td);
 					}
@@ -82,9 +97,11 @@ function initTable(dataj){
 	}
 	theTable.appendChild(b);
 }
-var Id
+var Id;
 function deleteRow(i){
 	Id=i;
+	var tishi=picihao;
+	$("#sure").text(picihao[i]);
 }
 
 

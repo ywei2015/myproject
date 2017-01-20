@@ -8,9 +8,10 @@
  <script src="../js/jquery.mobile-1.3.2.min.js"></script>
  <script type="text/javascript" src="../js/Constant.js"></script> 
 <style type="text/css">
+
 	.tablebox {
 	border-style:solid;
-	border-color:rgb(193,193,193);
+	border-color:rgb(144,144,144);
 	border-width:thin;
 }
 
@@ -19,52 +20,67 @@
 	padding-right:5px;
 	text-align: center;
 	border-style:solid;
-	border-color:rgb(193,193,193);
+	border-color:rgb(144,144,144);
 	border-width:thin;
 }
 .tablebox tr{
 	background-color:rgb(242,242,242)
 }
 .tablebox th {
-	padding-left:5px;
-	padding-right:5px;
+	font-family: 宋体;
+	font-weight:bold;
+	padding:5px;
 	text-align: center;
 	border-style:solid;
-	border-color:rgb(193,193,193);
+	border-color:rgb(144,144,144);
 	border-width:thin; 
 	background-color:rgb(242,242,242);
 }
 
+ th,td{
+    word-break: keep-all;
+	white-space: nowrap; 
+	
+
+} 
+
+ #picihao{
+  word-break:break-all;
+  width:65%;
+  white-space: normal;
+}  
+
 table {
 	table-layout: fixed;
 }
-
- th,td{
-	word-break: keep-all;
-	white-space: nowrap;
-} 
+#type_tishi{
+	width:50%;
+	background-color:rgb(192,192,192);
+	border-style:solid;
+	border-color:rgb(193,193,193);
+}
 </style>
 </head>
 <body>
-<div data-role="page" id="VerifyFromPage" data-title="批次入库" data-theme="d" data-url="VerifyFromPage">
-    <div data-role="content">
-	<div id="logo_wrap" align="center"style="overflow: auto; padding: 0px;">
-		<table id="table" border='1'  style='border-collapse:collapse;' cellspacing='0'  class="tablebox">
-		</table>
-	</div>
-	
-	<div data-role="popup" id="popupDialog" data-overlay-theme="a" data-theme="d" data-dismissible="false" style="max-width:400px;" class="ui-corner-all">
+<div data-role="page" id="VerifyFromPage"  data-theme="d" data-url="VerifyFromPage">
+    <div data-role="content" style="overflow: auto;">
+	    <div id="logo_wrap" style="width:150%;">  
+			<table id="table" border='1'  style='border-collapse:collapse;' cellspacing='0' bordercolor='black' class="tablebox">
+			</table>
+		</div>	
+		
+    <div data-role="popup" id="popupDialog" data-overlay-theme="f" data-theme="d" data-dismissible="false" style="max-width:350px;" class="ui-corner-all">
 				     <div data-role="header" data-theme="d" class="ui-corner-top">
-				         <h1>提示</h1>
+				         <h1>确定删除</h1>
 				     </div>
-				     <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+				     <div id="queding" data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
 				         <h3 class="ui-title" id="sure" align="center">确定删除？</h3>
-				         <a href="#successDialog" data-rel="popup" data-position-to="window" data-role="button"  data-inline="true"
+				         <a id="my_queding" href="#successDialog" data-rel="popup" data-position-to="window" data-role="button"  data-inline="true"
 				              data-transition="pop"  data-theme="c"  onclick="verifySubmit()" >确定</a>
-				         <a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c" >取消</a>				         
+				         <a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c" >取消</a>				        
 		             </div>
 	 </div>
-	<div data-role="popup" id="successDialog" data-overlay-theme="a" data-theme="d" data-dismissible="false" style="max-width:400px;" class="ui-corner-all">
+	<div data-role="popup" id="successDialog" data-overlay-theme="a" data-theme="d" data-dismissible="false" style="max-width:350px;" class="ui-corner-all">
 			   <div data-role="header" data-theme="d" class="ui-corner-top">
 				      <h1>提示</h1>
 			   </div>
@@ -74,8 +90,9 @@ table {
 				          data-theme="d"  id="ok"  >确定</a>
 		       </div>
 	 </div>
+	
  </div>
-</div>
+ </div>
  <script src="BatchStorage.js"></script> 
 </body>
 </html>

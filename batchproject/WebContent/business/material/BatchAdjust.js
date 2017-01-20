@@ -5,8 +5,17 @@ var f_master_batch=getQueryString('f_master_batch'); //OldDEF
 var data_p={
 		'f_master_batch':f_master_batch
 };
-initTable(data_p);
+var img = new Image(); 
+function loadImage() { 
+	img.src = "../js/image/shanch.png"; 
+	img.onload = function(){ //图片下载完毕时异步调用callback函数。 
+		initTable(data_p);
+	}; 
+} 
+loadImage();
+
 var billarray=[];
+var picihao=[];
 function initTable(dataj){
 	theTable.innerHTML="";
 	var b = document.createElement('tbody');
@@ -19,7 +28,7 @@ function initTable(dataj){
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
-	if(userId!=null){
+	if(userId==null){
 	$.ajax({
 		type : "post",
 		url: cqt_prefix+'sizepieces/getBatBatAdjustDetail',
@@ -52,16 +61,20 @@ function initTable(dataj){
 						r.appendChild(td);
 						
 						td=document.createElement('td');
+						td.id="xpicihao";
 						data_td1=rowdata.slavebatch;//小件批次号
+						picihao[i]=data_td1;
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
 						td=document.createElement('td');
+						td.id="dpicihao";
 						data_td1=rowdata.oldmasterbatch;
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
 						td=document.createElement('td');
+						td.id="xdpicihao";
 						data_td1=rowdata.newmasterbatch;
 						td.innerHTML=data_td1;
 						r.appendChild(td);
@@ -69,8 +82,9 @@ function initTable(dataj){
 						td=document.createElement('td');
 						var pid=rowdata.pid;
 						billarray[i]=pid;
-						data_td="<a  data-role='button' onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='window'" +
-						">删除</a>";
+						var shanchu="<div ><img height='32' width='30' src='../js/image/shanch.png'></img></div>";
+						data_td="<a  onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='window'" +
+						">"+shanchu+"</a>";
 
 						td.innerHTML=data_td;
 						r.appendChild(td);

@@ -16,7 +16,7 @@ public class CarCode implements Serializable{
 	private String value5;
 	private String value6;
 	private String value7;
-	private String state;
+	private String state; //
     private String factory; //工厂编码
     private String depot;//仓库编码
 	private String oldbatch;//小件原大件批次号

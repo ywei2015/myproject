@@ -5,8 +5,17 @@ var f_workorder_code=getQueryString('f_workorder_code'); //test:1
 var data_p={
 		'f_workorder_code':f_workorder_code,
 };
-initTable(data_p);
+var img = new Image(); 
+function loadImage() { 
+	img.src = "../js/image/shanch.png"; 
+	img.onload = function(){ //图片下载完毕时异步调用callback函数。 
+		initTable(data_p);
+	}; 
+} 
+loadImage();
+
 var billarray=[];
+var picihao=[];
 function initTable(dataj){
 	theTable.innerHTML="";
 	var b = document.createElement('tbody');
@@ -31,6 +40,8 @@ function initTable(dataj){
 		
 			//设置表格
 			if(length>0){
+				var tishi_type=document.getElementById("type_tishi");
+				tishi_type.style.display="block";
 				for(var i=0;i<length;i++){
 					var rowdata=str.batdepotiodetail[i];//对象
 					var r =document.createElement('tr');
@@ -47,8 +58,11 @@ function initTable(dataj){
 						data_td1=rowdata.matname;//名称
 						td.innerHTML=data_td1;
 						r.appendChild(td);
+						
 						td=document.createElement('td');
+						td.id="picihao";
 						data_td1=rowdata.matbatch;//批次号
+						picihao[i]=data_td1;
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
@@ -68,10 +82,17 @@ function initTable(dataj){
 						td=document.createElement('td');
 						var pid=rowdata.pid;
 						billarray[i]=pid;
-						data_td="<a  data-role='button' onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='window'" +
-						">删除</a>";
+						var shanchu="<div ><img height='32' width='30' src='../js/image/shanch.png'></img></div>";
+						data_td="<a  onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='window'" +
+						">"+shanchu+"</a>";
 						td.innerHTML=data_td;
 						r.appendChild(td);
+					}
+					if("w"==rowdata.remark2){
+						r.style.color='yellow';
+					}
+					if("0"==rowdata.remark1){
+						r.style.color='red';
 					}
 					b.appendChild(r);
 				}
@@ -89,6 +110,8 @@ function initTable(dataj){
 var Id;
 function deleteRow(i){
 	Id=i;
+	var tishi=picihao;
+	$("#sure").text(picihao[i]);
 }
 
 

@@ -11,11 +11,11 @@ public class BatDepotIoDetailList implements Serializable{
 	private String unit;
 	private String relatetime;
 	private String repeated;
-	private String remark1;//是否已经出入库  1为已经入库 2为已经出库
+	private String remark1;
 	private String remark2;
 	private String remark3;
 	private String remark4;
-	private String remark5;//出库原因
+	private String remark5;//是否已经出入库  1为已经入库 2为已经出库
 	private String remark;
 	private String reason;
 	private String sysflag;

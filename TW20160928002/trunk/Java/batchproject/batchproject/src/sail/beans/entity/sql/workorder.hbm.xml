@@ -66,10 +66,17 @@
 		<![CDATA[
 	    	select detail from sail.beans.entity.BatWorkOrderInput detail,
 	    	sail.beans.entity.BatWorkOrder order where order.pid = detail.workorderpid
+	    	and order.workordercode = ? and detail.tltype='1'
+	    	and order.sysflag = '1' and detail.sysflag = '1' order by detail.createtime desc
+	    ]]>
+	</query>
+    <query name="WORKORDER.T_BAT_WORKORDER_INPUTLIST2.LIST">
+		<![CDATA[
+	    	select detail from sail.beans.entity.BatWorkOrderInput detail,
+	    	sail.beans.entity.BatWorkOrder order where order.pid = detail.workorderpid
 	    	and order.workordercode = ? 
 	    	and order.sysflag = '1' and detail.sysflag = '1' order by detail.createtime desc
 	    ]]>
 	</query>
-
 	
 </hibernate-mapping>

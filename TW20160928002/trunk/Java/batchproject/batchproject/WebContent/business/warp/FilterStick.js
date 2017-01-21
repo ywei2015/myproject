@@ -60,7 +60,7 @@ function initTable(dataj){
 						r.appendChild(td);
 						
 						td=document.createElement('td');
-						if("0"==rowdata.remark1){
+						if("0"==rowdata.remark4){
 							td.style.color='red';
 						}else{
 							td.style.color='blue';
@@ -111,10 +111,10 @@ function initTable(dataj){
 						td.innerHTML=data_td;
 						r.appendChild(td);
 					}
-					if("w"==rowdata.remark2){
+					if("w"==rowdata.remark5){
 						r.style.color='yellow';
 					}
-					if("0"==rowdata.remark1){
+					if("0"==rowdata.remark4){
 						r.style.color='red';
 					}
 					b.appendChild(r);
@@ -131,9 +131,13 @@ var Id;
 function deleteRow(i){
 	Id=i;
 	var tishi=picihao[i];
-	if(tishi.length>18)
-		tishi=tishi.substring();
-	$("#sure").text(picihao[i]);
+	/*if(tishi.length>18){
+		var tishi1=tishi.substring(0,18);
+		var tishi2=tishi.substring(19,tishi.length);
+		tishi=tishi1.jion('\n')+tishi2;
+	}*/
+		
+	$("#sure").text(tishi);
 }
 
 

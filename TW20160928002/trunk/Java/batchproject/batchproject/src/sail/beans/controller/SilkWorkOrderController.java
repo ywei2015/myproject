@@ -50,18 +50,19 @@ public class SilkWorkOrderController {
 		String quantity = request.getParameter("f_quantity");
 		String location = request.getParameter("location");
 		String userId = request.getParameter("userId");
+		String tl_type=request.getParameter("f_tl_type");
 		ResponseBase res = new ResponseBase();
 		String state=silkWorkOrderService.getWorkorderstate(workOrderCode);
 		if(state.equals("1")){
-			BatWorkOrderInput batWorkOrderInput = silkWorkOrderService.saveBatWorkOrderInput(workOrderCode, matBatch, quantity, location,userId);
+			BatWorkOrderInput batWorkOrderInput = silkWorkOrderService.saveBatWorkOrderInput(workOrderCode, matBatch, quantity, location,userId,tl_type);
 			if (batWorkOrderInput != null){
 				if ("1".equals(batWorkOrderInput.getIsrepair())){
 					res.setResponseData("0", "该批次数据已经存在!");
 				}else{
-					if("e".equalsIgnoreCase(batWorkOrderInput.getRemark2())){
-						res.setResponseData("0", "操作失败!");
-					}else if("2".equalsIgnoreCase(batWorkOrderInput.getRemark2())){
-						res.setResponseData("0", "操作失败!");
+					if("e".equalsIgnoreCase(batWorkOrderInput.getRemark5())){
+						res.setResponseData("0", "操作失败,该批次处于禁止状态!");
+					}else if("2".equalsIgnoreCase(batWorkOrderInput.getRemark5())){
+						res.setResponseData("0", "操作失败,该批次处于冻结状态!");
 					}else{
 						res.setResponseData("1", "操作成功!");
 						res.setDataset(batWorkOrderInput, "batworkorderinput");
@@ -99,8 +100,9 @@ public class SilkWorkOrderController {
 	@RequestMapping(value="/getBatWorkOrderInput")	 
 	public ResponseBase getBatWorkOrderInput(HttpServletRequest request){
 		String workOrderCode = request.getParameter("f_workorder_code");
+		String tl_type=request.getParameter("f_tl_type");
 		ResponseBase res = new ResponseBase();
-		List<BatWorkOrderInput> inputList = silkWorkOrderService.getBatWorkOrderInput(workOrderCode);
+		List<BatWorkOrderInput> inputList = silkWorkOrderService.getBatWorkOrderInput(workOrderCode,tl_type);
 		if (inputList != null && inputList.size() > 0){
 			res.setResponseData("1", "操作成功!");
 			res.setDataset(inputList, "batdepotiodetail");

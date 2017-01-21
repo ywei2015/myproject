@@ -29,7 +29,7 @@ function initTable(dataj){
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
-	if(userId!=null){
+	if(userId==null){
 	$.ajax({
 		type : "post",
 		url: cqt_prefix+'rollbatch/getBatWorkOrderInput',
@@ -62,7 +62,11 @@ function initTable(dataj){
 						r.appendChild(td);
 						
 						td=document.createElement('td');
-						td.style.color='blue';
+						if("0"==rowdata.remark4){
+							td.style.color='red';
+						}else{
+							td.style.color='blue';
+						}
 						data_td1=rowdata.matname;//名称
 						td.innerHTML=data_td1;
 						r.appendChild(td);
@@ -101,17 +105,18 @@ function initTable(dataj){
 						td=document.createElement('td');
 						var pid=rowdata.pid;
 						billarray[i]=pid;
-						data_td="<a  data-role='button' onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='window'" +
-						">删除</a>";
+						var shanchu="<div ><img height='32' width='30' src='../js/image/shanch.png'></img></div>";
+						data_td="<a  onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='window'" +
+						">"+shanchu+"</a>";
 						td.innerHTML=data_td;
 						r.appendChild(td);
 					}
 					b.appendChild(r);
 				}
-				if("w"==rowdata.remark2){
+				if("w"==rowdata.remark5){
 					r.style.color='yellow';
 				}
-				if("0"==rowdata.remark1){
+				if("0"==rowdata.remark4){
 					r.style.color='red';
 				}
 				

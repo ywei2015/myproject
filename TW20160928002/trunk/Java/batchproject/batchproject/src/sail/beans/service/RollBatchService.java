@@ -53,12 +53,12 @@ public class RollBatchService {
 					return batWorkOrderInput;
 				}
 				if("w".equalsIgnoreCase(carCode.getState())){
-					batWorkOrderInput.setRemark2("w");
+					batWorkOrderInput.setRemark5("w");
 				}else if("2".equalsIgnoreCase(carCode.getState())){
-					batWorkOrderInput.setRemark2("2");
+					batWorkOrderInput.setRemark5("2");
 					return batWorkOrderInput;
 				}else if("e".equalsIgnoreCase(carCode.getState())){
-					batWorkOrderInput.setRemark2("e");
+					batWorkOrderInput.setRemark5("e");
 					return batWorkOrderInput;
 				}
 				batWorkOrderInput.setMain(BatWorkOrder);
@@ -77,7 +77,7 @@ public class RollBatchService {
 				batWorkOrderInput.setCreatetime(DateBean.getSysdateTime());
 				List matList=matBomService.getBomByWorkOrder(workOrderCode,null,matBatch);
 				if(matList.size()==0)
-					batWorkOrderInput.setRemark1("0");
+					batWorkOrderInput.setRemark4("0");
 				genericDao.save(batWorkOrderInput);
 			}
 		}
@@ -112,7 +112,7 @@ public class RollBatchService {
 	 * @return
 	 */
 	public List<BatWorkOrderInput> getBatWorkOrderInput(String workOrderCode){
-		List<BatWorkOrderInput> inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST.LIST", new Object[]{workOrderCode});
+		List<BatWorkOrderInput> inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST2.LIST", new Object[]{workOrderCode});
 		return inputList;
 	}
 

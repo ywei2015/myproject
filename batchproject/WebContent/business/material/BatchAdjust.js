@@ -1,4 +1,4 @@
-var title= ["编码","名称","小件批次号","原大件批次号","新大件批次号","操作"];
+var title= ["编码","名称","小件批次号","原大件批次号","操作"];
 var theTable=document.getElementById("table");
 var userId=getQueryString('userId');
 var f_master_batch=getQueryString('f_master_batch'); //OldDEF
@@ -73,11 +73,11 @@ function initTable(dataj){
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
-						td=document.createElement('td');
+						/*td=document.createElement('td');
 						td.id="xdpicihao";
 						data_td1=rowdata.newmasterbatch;
 						td.innerHTML=data_td1;
-						r.appendChild(td);
+						r.appendChild(td);*/
 						
 						td=document.createElement('td');
 						var pid=rowdata.pid;

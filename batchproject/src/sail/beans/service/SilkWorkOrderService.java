@@ -68,13 +68,14 @@ public class SilkWorkOrderService {
 	 * @param matBatch
 	 * @param quantity
 	 * @param operuser
+	 * @param tl_type 
 	 * @return
 	 * @throws NoSuchFieldException
 	 * @throws SecurityException
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
 	 */
-	public BatWorkOrderInput saveBatWorkOrderInput(String workOrderCode,String matBatch,String quantity,String location,String operuser){
+	public BatWorkOrderInput saveBatWorkOrderInput(String workOrderCode,String matBatch,String quantity,String location,String operuser, String tl_type){
 		BatWorkOrderInput batWorkOrderInput = null;
 		List<BatWorkOrder> batWorkList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDERLIST.LIST", new Object[]{workOrderCode});
 		if (batWorkList != null && batWorkList.size() > 0){
@@ -90,16 +91,20 @@ public class SilkWorkOrderService {
 					return batWorkOrderInput;
 				}
 				if("w".equalsIgnoreCase(carCode.getState())){
-					batWorkOrderInput.setRemark2("w");
+					batWorkOrderInput.setRemark5("w");
 				}else if("2".equalsIgnoreCase(carCode.getState())){
-					batWorkOrderInput.setRemark2("2");
+					batWorkOrderInput.setRemark5("2");
 					return batWorkOrderInput;
 				}else if("e".equalsIgnoreCase(carCode.getState())){
-					batWorkOrderInput.setRemark2("e");
+					batWorkOrderInput.setRemark5("e");
 					return batWorkOrderInput;
 				}
 				batWorkOrderInput.setMain(BatWorkOrder);
-				batWorkOrderInput.setTltype("2");//投料类型待确认
+				if("1".equals(tl_type))
+					batWorkOrderInput.setTltype("1");
+				else{
+					batWorkOrderInput.setTltype("2");//投料类型待确认
+				}
 				batWorkOrderInput.setMatbatch(matBatch);
 				batWorkOrderInput.setMatcode(carCode.getMatcode());
 				batWorkOrderInput.setMatname(carCode.getMatname());
@@ -122,7 +127,7 @@ public class SilkWorkOrderService {
 				batWorkOrderInput.setCreatetime(DateBean.getSysdateTime());
 				List matList=matBomService.getBomByWorkOrder(workOrderCode,null,matBatch);
 				if(matList.size()==0)
-					batWorkOrderInput.setRemark1("0");
+					batWorkOrderInput.setRemark4("0");
 				genericDao.save(batWorkOrderInput);
 			}
 		}
@@ -153,10 +158,17 @@ public class SilkWorkOrderService {
 	/**
 	 * 根据工单获取明细数据
 	 * @param workOrderCode
+	 * @param tl_type 
 	 * @return
 	 */
-	public List<BatWorkOrderInput> getBatWorkOrderInput(String workOrderCode){
-		List<BatWorkOrderInput> inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST.LIST", new Object[]{workOrderCode});
+	public List<BatWorkOrderInput> getBatWorkOrderInput(String workOrderCode, String tl_type){
+		List<BatWorkOrderInput> inputList=null;
+		if("1".equals(tl_type)){
+			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST.LIST", new Object[]{workOrderCode});
+		}else{
+			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST2.LIST", new Object[]{workOrderCode});
+		}
+		
 		return inputList;
 	}
 	/**
@@ -191,7 +203,7 @@ public class SilkWorkOrderService {
 		if (detailList != null && detailList.size() > 0){
 			batDepotIoDetail = detailList.get(0);
 			String p_id1=batDepotIoDetail.getPid();
-			if("2".equals(batDepotIoDetail.getRemark1())){
+			if("2".equals(batDepotIoDetail.getRemark5())){
 				batDepotIoDetail.setRepeated("1");
 				return batDepotIoDetail;
 			}
@@ -224,7 +236,7 @@ public class SilkWorkOrderService {
 			batDepotIoDetail1.setSuppliersortcode(batDepotIoDetail.getSuppliersortcode());
 			batDepotIoDetail1.setTrayno(batDepotIoDetail.getTrayno());
 			batDepotIoDetail1.setIsEnter("1");
-			batDepotIoDetail1.setRemark2("2");
+			batDepotIoDetail1.setRemark5("2");
 			batDepotIoDetail1.setBillpid(p_id);
 			batDepotIoDetail1.setMatbatch(f_mat_batch);
 			batDepotIoDetail1.setCreatetime(DateBean.getSysdateTime());
@@ -244,10 +256,10 @@ public class SilkWorkOrderService {
 					batDepotIoDetailList1.setUnit(batDepotIoDetailList.getUnit());
 					batDepotIoDetailList1.setSysflag("1");
 					batDepotIoDetailList1.setBilldetailpid(detailList1.get(0).getPid());
-					batDepotIoDetailList1.setRemark5(reason);
+					batDepotIoDetailList1.setReason(reason);
 					batDepotIoDetailList1.setCreatetime(DateBean.getSysdateTime());
 					batDepotIoDetailList1.setCreator(userId);
-					batDepotIoDetailList1.setRemark2("2");
+					batDepotIoDetailList1.setRemark5("2");
 					this.genericDao.save(batDepotIoDetailList1);
 				}
 			}

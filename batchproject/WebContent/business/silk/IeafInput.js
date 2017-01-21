@@ -4,6 +4,7 @@ var userId=getQueryString('userId');
 var f_workorder_code=getQueryString('f_workorder_code'); //生产工单号 20161208HZ-YCX-01
 var data_p={
 		'f_workorder_code':f_workorder_code,
+         'f_tl_type' :1
 };
 var img = new Image(); 
 function loadImage() { 
@@ -61,7 +62,11 @@ function initTable(dataj){
 						r.appendChild(td);
 						
 						td=document.createElement('td');
-						td.style.color='blue';
+						if("0"==rowdata.remark4){
+							td.style.color='red';
+						}else{
+							td.style.color='blue';
+						}
 						data_td1=rowdata.matname;//名称
 						td.innerHTML=data_td1;
 						r.appendChild(td);
@@ -90,10 +95,10 @@ function initTable(dataj){
 						td.innerHTML=data_td;
 						r.appendChild(td);
 					}
-					if("w"==rowdata.remark2){
+					if("w"==rowdata.remark5){
 						r.style.color='yellow';
 					}
-					if("0"==rowdata.remark1){
+					if("0"==rowdata.remark4){
 						r.style.color='red';
 					}
 					b.appendChild(r);

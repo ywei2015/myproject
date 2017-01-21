@@ -38,10 +38,10 @@ public class RollBatchController {
 			if ("1".equals(batWorkOrderInput.getIsrepair())){
 				res.setResponseData("0", "该批次数据已经存在!");
 			}else{
-				if("e".equalsIgnoreCase(batWorkOrderInput.getRemark2())){
-					res.setResponseData("0", "操作失败!");
-				}else if("2".equalsIgnoreCase(batWorkOrderInput.getRemark2())){
-					res.setResponseData("0", "操作失败!");
+				if("e".equalsIgnoreCase(batWorkOrderInput.getRemark5())){
+					res.setResponseData("0", "操作失败,该批次处于禁止状态!");
+				}else if("2".equalsIgnoreCase(batWorkOrderInput.getRemark5())){
+					res.setResponseData("0", "操作失败,该批次处于冻结状态!");
 				}else{
 					res.setResponseData("1", "操作成功!");
 					res.setDataset(batWorkOrderInput, "batworkorderinput");

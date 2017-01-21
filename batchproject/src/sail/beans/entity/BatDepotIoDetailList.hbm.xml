@@ -17,6 +17,7 @@
 		<property name="remark3" column="F_REMARK3" length="500" type="string"/>
 		<property name="remark4" column="F_REMARK4" length="500" type="string"/>
 		<property name="remark5" column="F_REMARK5" length="500" type="string"/>
+		<property name="reason" column="F_REASON" length="50" type="string"/>
 		<property name="remark" column="F_REMARK" length="500" type="string"/>
 		<property name="sysflag" column="F_SYS_FLAG" length="50" type="string"/>
 		<property name="creator" column="F_CREATOR" length="50" type="string"/>

@@ -89,10 +89,10 @@ function initTable(){
 						td.innerHTML=data_td;
 						r.appendChild(td);
 					}
-					if("w"==rowdata.remark2){
+					if("w"==rowdata.remark5){
 						r.style.color='yellow';
 					}
-					if("0"==rowdata.remark1){
+					if("0"==rowdata.remark4){
 						r.style.color='red';
 					}
 					b.appendChild(r);

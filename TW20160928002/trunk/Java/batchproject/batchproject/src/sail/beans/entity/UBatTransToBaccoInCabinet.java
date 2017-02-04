@@ -17,7 +17,6 @@ public class UBatTransToBaccoInCabinet implements Serializable{
 	private String locationName;
 	private Double quantity;
 	private String unit;
-	private String waterContect;
 	private String starttime;
 	private String endtime;
 	private String workteamCode;
@@ -26,8 +25,8 @@ public class UBatTransToBaccoInCabinet implements Serializable{
 	private String operateUsername;
 	private String operateTime;
 	private String remark;
-	private String synchroFlag;
 	private String getdataTime;
+	private String synchroFlag;
 	private String synchroTime;
 	
 	public String getPid() {
@@ -71,12 +70,6 @@ public class UBatTransToBaccoInCabinet implements Serializable{
 	}
 	public void setUnit(String unit) {
 		this.unit = unit;
-	}
-	public String getWaterContect() {
-		return waterContect;
-	}
-	public void setWaterContect(String waterContect) {
-		this.waterContect = waterContect;
 	}
 	public String getStarttime() {
 		return starttime;

@@ -12,7 +12,7 @@ public class BatWorkOrderInput implements Serializable{
 	private String matname;
 	private String location;
 	private String locationname;
-	private double quantity;
+	private Double quantity;
 	private String unit;
 	private String starttime;
 	private String endtime;
@@ -81,10 +81,10 @@ public class BatWorkOrderInput implements Serializable{
 	public void setLocationname(String locationname) {
 		this.locationname = locationname;
 	}
-	public double getQuantity() {
+	public Double getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(double quantity) {
+	public void setQuantity(Double quantity) {
 		this.quantity = quantity;
 	}
 	public String getUnit() {

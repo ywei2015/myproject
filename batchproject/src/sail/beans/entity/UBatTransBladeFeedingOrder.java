@@ -2,11 +2,11 @@ package sail.beans.entity;
 
 import java.io.Serializable;
 /**
- * 制丝中控－制丝中控－烟梗投料
+ * 制丝中控－烟梗投料
  * @author cyj
  * 2017-01-20
  */
-public class UBatTransLeadeFeedingOrder implements Serializable{
+public class UBatTransBladeFeedingOrder implements Serializable{
 
 	private String pid;
 	private String workorderCode;

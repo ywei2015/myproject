@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 2008-12-16 10:45:42 by mars -->
 <hibernate-mapping>
-	 <class name="sail.beans.entity.UBatTransLeadeFeedingOrder" table="U_BAT_TRANSBLADEFEEDINGORDER">
+	 <class name="sail.beans.entity.UBatTransBladeFeedingOrder" table="U_BAT_TRANSBLADEFEEDINGORDER">
 	 	<id name="pid" column="F_PID" length="50" type="java.lang.String">
 			<generator class="uuid.hex" />
 		</id> 

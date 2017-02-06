@@ -25,7 +25,6 @@
     </query>
     
     <!--烟用材料配盘begin-->
-    <!--获取待转储烟用材料配盘信息主表-->
 	<query name="SYNCHRO.U_BAT_TRANSMATERIALWITHMAIN.LIST">
 		<![CDATA[
     	SELECT main FROM sail.beans.entity.UBatTransMaterialWithMain main where main.synchroFlag = '0' 
@@ -33,12 +32,38 @@
 	</query>
 	
 	<!--批次管理_成品调运begin-->
-    <!--获取待转储成品调运信息主表-->
 	<query name="SYNCHRO.U_BAT_TRANSFINALPRODUCTMAIN.LIST">
 		<![CDATA[
     	SELECT main FROM sail.beans.entity.UBatTransFinalProductMain main where main.synchroFlag = '0' 
     ]]>
 	</query>
 	
+	<!--批次管理_叶片入预配柜begin-->
+	<query name="SYNCHRO.U_BAT_TRANSPREMIXTANKORDER.LIST">
+		<![CDATA[
+    	SELECT main FROM sail.beans.entity.UBatTransPermixTankOrder main where main.synchroFlag = '0' 
+    ]]>
+    </query>
+    
+	<!--批次管理_叶片入配叶柜begin-->
+	<query name="SYNCHRO.U_BAT_TRANSLEAFSTORAGECABINET.LIST">
+		<![CDATA[
+    	SELECT main FROM sail.beans.entity.UBatTransLeafStorageCabinet main where main.synchroFlag = '0' 
+    ]]>
+    </query>
+    
+    <!--批次管理_叶线香料稀释液投料begin-->
+	<query name="SYNCHRO.U_BAT_TRANSLEAFSPICEFEEDING.LIST">
+		<![CDATA[
+    	SELECT main FROM sail.beans.entity.UBatTransLeafSpiceFeeding main where main.synchroFlag = '0' 
+    ]]>
+    </query>
+    
+    <!--批次管理_叶片投料begin-->
+	<query name="SYNCHRO.U_BAT_TRANSLEAFFEEDINGORDER.LIST">
+		<![CDATA[
+    	SELECT main FROM sail.beans.entity.UBatTransLeafFeedingOrder main where main.synchroFlag = '0' 
+    ]]>
+    </query>
 			
 </hibernate-mapping>

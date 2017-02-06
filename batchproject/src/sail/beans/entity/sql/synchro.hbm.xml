@@ -65,5 +65,19 @@
     	SELECT main FROM sail.beans.entity.UBatTransLeafFeedingOrder main where main.synchroFlag = '0' 
     ]]>
     </query>
+    
+    <!--批次管理_烟梗投料begin-->
+	<query name="SYNCHRO.U_BAT_TRANSBLADEFEEDINGORDER.LIST">
+		<![CDATA[
+    	SELECT main FROM sail.beans.entity.UBatTransBladeFeedingOrder main where main.synchroFlag = '0' 
+    ]]>
+    </query>
+    
+    <!--批次管理_梗丝香精香料投料begin-->
+	<query name="SYNCHRO.U_BAT_TRANSSTEMSPICEFEEDING.LIST">
+		<![CDATA[
+    	SELECT main FROM sail.beans.entity.UBatTransStemSpiceFeeding main where main.synchroFlag = '0' 
+    ]]>
+    </query>
 			
 </hibernate-mapping>

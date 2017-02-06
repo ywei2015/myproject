@@ -1,0 +1,154 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2009-5-19 14:24:11 by Hibernate Tools 3.2.4.GA -->
+<hibernate-mapping>
+    <class name="sail.beans.entity.Matdic" table="T_MAT_DIC">
+        <id name="pid" type="java.lang.String">
+            <column name="F_PID" length="36" />
+            <generator class="uuid.hex" />
+        </id>
+        <property name="objPid" type="java.lang.String">
+            <column name="F_MAT_OBJ_PID" length="36" />
+        </property>
+        <property name="code" type="java.lang.String">
+            <column name="F_CODE" length="80" />
+        </property>
+        <property name="name" type="java.lang.String">
+            <column name="F_NAME" length="100" />
+        </property>
+        <property name="type" type="java.lang.String">
+            <column name="F_TYPE" length="1" />
+        </property>
+        <property name="unitId" type="java.lang.String">
+            <column name="F_UNIT_ID" length="36" />
+        </property>
+        <property name="order" type="java.lang.Integer">
+            <column name="F_ORDER" precision="8" scale="0" />
+        </property>
+        <property name="sysFlag" type="java.lang.String">
+            <column name="F_SYS_FLAG" length="1" />
+        </property>
+        <property name="remark" type="java.lang.String">
+            <column name="F_REMARK" length="500" />
+        </property>
+        <property name="creator" type="java.lang.String">
+            <column name="F_CREATOR" length="36" />
+        </property>
+        <property name="createTime" type="java.lang.String">
+            <column name="F_CREATE_TIME" length="14" />
+        </property>
+        <property name="lastModifier" type="java.lang.String">
+            <column name="F_LAST_MODIFIER" length="36" />
+        </property>
+        <property name="lastModifiedTime" type="java.lang.String">
+            <column name="F_LAST_MODIFIED_TIME" length="14" />
+        </property>
+        <property name="value1" type="java.lang.String">
+            <column name="F_VALUE1" length="100" />
+        </property>
+        <property name="value2" type="java.lang.String">
+            <column name="F_VALUE2" length="100" />
+        </property>
+        <property name="value3" type="java.lang.String">
+            <column name="F_VALUE3" length="100" />
+        </property>
+        <property name="value4" type="java.lang.String">
+            <column name="F_VALUE4" length="100" />
+        </property>
+        <property name="value5" type="java.lang.String">
+            <column name="F_VALUE5" length="100" />
+        </property>
+        <property name="otherPid1" type="java.lang.String">
+            <column name="F_OTHER_PID1" length="32" />
+        </property>
+        <property name="otherPid2" type="java.lang.String">
+            <column name="F_OTHER_PID2" length="32" />
+        </property>
+        <property name="otherPid3" type="java.lang.String">
+            <column name="F_OTHER_PID3" length="32" />
+        </property>
+        <property name="otherPid4" type="java.lang.String">
+            <column name="F_OTHER_PID4" length="32" />
+        </property>
+        <property name="otherPid5" type="java.lang.String">
+            <column name="F_OTHER_PID5" length="32" />
+        </property>
+        <property name="otherPid6" type="java.lang.String">
+            <column name="F_OTHER_PID6" length="32" />
+        </property>
+        <property name="otherPid7" type="java.lang.String">
+            <column name="F_OTHER_PID7" length="32" />
+        </property>
+        <property name="otherPid8" type="java.lang.String">
+            <column name="F_OTHER_PID8" length="32" />
+        </property>
+        <property name="otherPid9" type="java.lang.String">
+            <column name="F_OTHER_PID9" length="32" />
+        </property>
+        <property name="otherPid10" type="java.lang.String">
+            <column name="F_OTHER_PID10" length="32" />
+        </property>
+        <property name="flag1" type="java.lang.String">
+            <column name="F_FLAG1" length="1" />
+        </property>
+        <property name="flag2" type="java.lang.String">
+            <column name="F_FLAG2" length="1" />
+        </property>
+        <property name="flag3" type="java.lang.String">
+            <column name="F_FLAG3" length="1" />
+        </property>
+        <property name="flag4" type="java.lang.String">
+            <column name="F_FLAG4" length="1" />
+        </property>
+        <property name="flag5" type="java.lang.String">
+            <column name="F_FLAG5" length="1" />
+        </property>
+        <property name="num1" type="java.lang.Integer">
+            <column name="F_NUM1" precision="8" scale="0" />
+        </property>
+        <property name="num2" type="java.lang.Integer">
+            <column name="F_NUM2" precision="8" scale="0" />
+        </property>
+        <property name="num3" type="java.lang.Integer">
+            <column name="F_NUM3" precision="8" scale="0" />
+        </property>
+        <property name="num4" type="java.lang.Integer">
+            <column name="F_NUM4" precision="8" scale="0" />
+        </property>
+        <property name="num5" type="java.lang.Integer">
+            <column name="F_NUM5" precision="8" scale="0" />
+        </property>
+        <property name="double1" type="java.lang.Double">
+            <column name="F_DOUBLE1" precision="12" scale="4" />
+        </property>
+        <property name="double2" type="java.lang.Double">
+            <column name="F_DOUBLE2" precision="12" scale="4" />
+        </property>
+        <property name="double3" type="java.lang.Double">
+            <column name="F_DOUBLE3" precision="12" scale="4" />
+        </property>
+        <property name="double4" type="java.lang.Double">
+            <column name="F_DOUBLE4" precision="12" scale="4" />
+        </property>
+        <property name="double5" type="java.lang.Double">
+            <column name="F_DOUBLE5" precision="12" scale="4" />
+        </property>
+        <property name="ext1" type="java.lang.String">
+            <column name="F_EXT1" length="100" />
+        </property>
+        <property name="ext2" type="java.lang.String">
+            <column name="F_EXT2" length="100" />
+        </property>
+        <property name="ext3" type="java.lang.String">
+            <column name="F_EXT3" length="100" />
+        </property>
+        <property name="ext4" type="java.lang.String">
+            <column name="F_EXT4" length="100" />
+        </property>
+        <property name="ext5" type="java.lang.String">
+            <column name="F_EXT5" length="100" />
+        </property>
+        
+    </class>
+</hibernate-mapping>

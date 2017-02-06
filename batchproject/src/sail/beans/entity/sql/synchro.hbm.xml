@@ -79,5 +79,47 @@
     	SELECT main FROM sail.beans.entity.UBatTransStemSpiceFeeding main where main.synchroFlag = '0' 
     ]]>
     </query>
+    
+    <!--批次管理_梗丝进柜begin-->
+	<query name="SYNCHRO.U_BAT_TRANSPEDUNCLECABINET.LIST">
+		<![CDATA[
+    	SELECT main FROM sail.beans.entity.UBatTransPeduncleCabinet main where main.synchroFlag = '0' 
+    ]]>
+    </query>
+    
+    <!--批次管理_五丝掺配begin-->
+	<query name="SYNCHRO.U_BAT_TRANSBLENDINGORDER.LIST">
+		<![CDATA[
+    	SELECT main FROM sail.beans.entity.UBatTransBlendingOrder main where main.synchroFlag = '0' 
+    ]]>
+    </query>
+    
+    <!--批次管理_丝线香精投料begin-->
+	<query name="SYNCHRO.U_BAT_TRANSLEAFESSENCEFEEDING.LIST">
+		<![CDATA[
+    	SELECT main FROM sail.beans.entity.UBatTransLeafessenceFeeding main where main.synchroFlag = '0' 
+    ]]>
+    </query>
+    
+    <!--批次管理_成品烟丝进柜begin-->
+	<query name="SYNCHRO.U_BAT_TRANSTOBACCOINTOCABINET.LIST">
+		<![CDATA[
+    	SELECT main FROM sail.beans.entity.UBatTransToBaccoInCabinet main where main.synchroFlag = '0' 
+    ]]>
+    </query>
+    
+    <!--批次管理_成品烟丝出柜begin-->
+	<query name="SYNCHRO.U_BAT_TRANSTOBACCOOUTCABINET.LIST">
+		<![CDATA[
+    	SELECT main FROM sail.beans.entity.UBatTransToBaccoOutCabinet main where main.synchroFlag = '0' 
+    ]]>
+    </query>
+    
+    <!--批次管理_叶丝入柜begin-->
+	<query name="SYNCHRO.U_BAT_TRANSYESIINTOCABINET.LIST">
+		<![CDATA[
+    	SELECT main FROM sail.beans.entity.UBatTransYesiIntoCabinet main where main.synchroFlag = '0' 
+    ]]>
+    </query>
 			
 </hibernate-mapping>

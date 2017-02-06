@@ -49,4 +49,9 @@ public class Constants {
 	 */
 	public final static String WORKAREA_ID = "86ebc921-ebcd-4fe8-a887-ffb587910bdc";
 	
+	/**
+	 * 汉中卷烟厂生产仓库
+	 */
+	public final static String DEPOT = "HZN20";
+	
 }

@@ -33,10 +33,11 @@ public class BatTransYesiIntoCabinetService extends CommonService{
 					if(batWorkOrder != null && !"".equals(batWorkOrder)){
 						BatWorkOrderOutput output = new BatWorkOrderOutput();
 						order = mainList.get(0);
-						output.setMain(batWorkOrder);
+						output.setWorkorderpid(batWorkOrder.getPid());
 						output.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());
-						output.setLocation(null);
-						output.setLocationname(null);
+						output.setWater(order.getWaterContect()==null?"":order.getWaterContect().toString());
+//						output.setLocation(order.getLocation()==null?"":order.getLocation().toString());
+//						output.setLocationname(order.getLocationName()==null?"":order.getLocationName().toString());
 						output.setStime2(order.getStarttime()==null?"":order.getStarttime().toString());
 						output.setEtime2(order.getEndtime()==null?"":order.getEndtime().toString());
 						output.setQuantity(order.getQuantity()==null?0.0:Double.parseDouble(order.getQuantity().toString()));

@@ -99,7 +99,7 @@ public class SilkWorkOrderService {
 					batWorkOrderInput.setRemark5("e");
 					return batWorkOrderInput;
 				}
-				batWorkOrderInput.setMain(BatWorkOrder);
+				batWorkOrderInput.setWorkorderpid(BatWorkOrder.getPid());
 				if("1".equals(tl_type))
 					batWorkOrderInput.setTltype("1");
 				else{

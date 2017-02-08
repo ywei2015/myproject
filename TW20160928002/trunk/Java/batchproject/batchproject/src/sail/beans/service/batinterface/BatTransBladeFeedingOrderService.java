@@ -32,8 +32,10 @@ public class BatTransBladeFeedingOrderService extends CommonService{
 					if(batWorkOrder != null && !"".equals(batWorkOrder)){
 						BatWorkOrderInput input = new BatWorkOrderInput();
 						order = mainList.get(0);
-						input.setMain(batWorkOrder);
+						input.setWorkorderpid(batWorkOrder.getPid());
 						input.setTltype("1");
+						//批次根据罐号(来源位置)找出对应的投入批次号
+						//罐号和批次号关系还未建立
 						input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());
 						input.setMatcode(order.getMatCode()==null?"":order.getMatCode().toString());
 						input.setMatname(order.getMatCode()==null?"":this.getNameByCode(order.getMatCode()));

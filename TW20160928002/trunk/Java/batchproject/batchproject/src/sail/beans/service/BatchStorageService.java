@@ -133,9 +133,8 @@ public class BatchStorageService {
 			carCode.setMatname(matname);
 			String matcode=(String) (cararray[2]==null?"":cararray[2]);
 			carCode.setMatcode(matcode);
-			
 			carCode.setValue2("1");
-		}else{
+		}if(carCode.getMatcode()==null){
 			carList=genericDao.getListWithNativeSql("STORAGE.GET_RESOLVEVAlUE2", new Object[]{match});
 			if(carList!=null&&carList.size()>0){
 				Object[] cararray=carList.get(0);
@@ -153,9 +152,22 @@ public class BatchStorageService {
 				carCode.setMatname(matname);
 				String matcode=(String) (cararray[2]==null?"":cararray[2]);
 				carCode.setMatcode(matcode);
-				
 				carCode.setValue2("2");
 			}
+		}else{
+			carList=genericDao.getListWithNativeSql("STORAGE.GET_RESOLVEVAlUE3", new Object[]{match});
+			if(carList!=null&&carList.size()>0){
+				Object[] cararray=carList.get(0);
+				String matname=(String) (cararray[3]==null?"":cararray[3]);
+				carCode.setMatname(matname);
+				String matcode=(String) (cararray[2]==null?"":cararray[2]);
+				carCode.setMatcode(matcode);
+				String quality= (cararray[0]==null?"":cararray[0]).toString();
+				carCode.setAmount(quality);
+				String unit=(String) (cararray[1]==null?"":cararray[1]);
+				carCode.setUnit(unit);
+			//	carCode.setValue2("2");
+		}
 		}
 		
 		return carCode;

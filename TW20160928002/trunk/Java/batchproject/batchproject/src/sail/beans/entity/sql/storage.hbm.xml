@@ -55,7 +55,7 @@
 		]]>
 	</sql-query>	
 	
-		<sql-query name="STORAGE.GET_RESOLVEVAlUE2">
+	<sql-query name="STORAGE.GET_RESOLVEVAlUE2">
 		<![CDATA[
 			select d.f_pid, d.f_bill_pid, d.f_mat_code, d.f_mat_name, s.f_slave_batch as f_batch, 
 			d.F_INVENTORY_TYPE as f_state,s.f_quantity,s.f_unit,
@@ -67,6 +67,13 @@
 			and t.f_bill_type='11'
 			and t.f_sys_flag='1'
 			and s.f_slave_batch=?
+		]]>
+	</sql-query>
+	
+	<sql-query name="STORAGE.GET_RESOLVEVAlUE3">
+		<![CDATA[
+			select t.F_QUANTITY,t.F_UNIT,d.f_mat_code,d.f_mat_name from  T_BAT_WORKORDER_OUTPUT t,T_BAT_WORKORDER d
+			where d.f_pid=t.F_WORKORDER_PID and t.F_MAT_BATCH=?  
 		]]>
 	</sql-query>	
 </hibernate-mapping>

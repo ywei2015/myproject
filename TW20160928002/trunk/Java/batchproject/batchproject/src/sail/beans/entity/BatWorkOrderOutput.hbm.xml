@@ -7,10 +7,7 @@
    		<id name="pid" column="F_PID" length="36" type="string" unsaved-value="">
 			<generator class="uuid.hex" />
 		</id> 
-		<!--<property name="workorderpid" column="F_WORKORDER_PID" length="100" type="string"/>-->
-		<many-to-one name="main" class="sail.beans.entity.BatWorkOrder" fetch="select">
-            <column name="F_WORKORDER_PID" length="50" />
-        </many-to-one>
+		<property name="workorderpid" column="F_WORKORDER_PID" length="100" type="string"/>
 		<property name="matbatch" column="F_MAT_BATCH" length="50" type="string"/>
 		<property name="water" column="F_WATER" length="50" type="string"/>
 		<property name="location" column="F_LOCATION" length="50" type="string"/>

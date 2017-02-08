@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class BatWorkOrderOutput implements Serializable{
 
 	private String pid;
-	private BatWorkOrder main;
+	private String workorderpid;
 	private String matbatch;
 	private String water;
 	private String location;
@@ -37,11 +37,11 @@ public class BatWorkOrderOutput implements Serializable{
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
-	public BatWorkOrder getMain() {
-		return main;
+	public String getWorkorderpid() {
+		return workorderpid;
 	}
-	public void setMain(BatWorkOrder main) {
-		this.main = main;
+	public void setWorkorderpid(String workorderpid) {
+		this.workorderpid = workorderpid;
 	}
 	public String getMatbatch() {
 		return matbatch;

@@ -14,6 +14,7 @@ import sail.beans.entity.BatDepotIoDetail;
 import sail.beans.entity.BatDepotIoDetailList;
 import sail.beans.entity.BatWorkOrder;
 import sail.beans.entity.BatWorkOrderInput;
+import sail.beans.entity.BatWorkOrderOutput;
 import sail.beans.entity.CarCode;
 import sail.beans.entity.vo.BatWorkOrderVo;
 import sail.beans.support.DateBean;
@@ -198,20 +199,20 @@ public class SilkWorkOrderService {
 		BatDepotIoDetail batDepotIoDetail=null;
 		BatDepotIoDetailList batDepotIoDetailList=null;
 		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{f_mat_batch});
-		List<BatDepotIoDetailList> batDepotIoDetail_list=genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAILIST", new Object[]{f_mat_batch});
+		CarCode carcode=batchStorageService.getResolveValue(f_mat_batch);
 		String f_bill_no="SLXH"+DateBean.getSysdateTime();
-		if (detailList != null && detailList.size() > 0){
-			batDepotIoDetail = detailList.get(0);
-			String p_id1=batDepotIoDetail.getPid();
-			if("2".equals(batDepotIoDetail.getRemark5())){
-				batDepotIoDetail.setRepeated("1");
-				return batDepotIoDetail;
+		if (carcode.getMatcode()!=null){
+			if (detailList != null && detailList.size() > 0){
+				batDepotIoDetail = detailList.get(0);
+				String p_id1=batDepotIoDetail.getPid();
+				if("2".equals(batDepotIoDetail.getRemark5())){
+					batDepotIoDetail.setRepeated("1");
+					return batDepotIoDetail;
+				}
 			}
-			
 			batDepotIoBill=new BatDepotIoBill();
-			BatDepotIoBill batDepotIoBill1=(BatDepotIoBill) genericDao.getById(BatDepotIoBill.class, batDepotIoDetail.getBillpid());
-			batDepotIoBill.setDepot(batDepotIoBill1.getDepot());
-			batDepotIoBill.setFactory(batDepotIoBill1.getFactory());
+			batDepotIoBill.setDepot(carcode.getDepot());
+			batDepotIoBill.setFactory("2200");
 			batDepotIoBill.setBillno(f_bill_no);
 			batDepotIoBill.setSysflag("1");
 			batDepotIoBill.setBiztype("MM2153");
@@ -226,15 +227,12 @@ public class SilkWorkOrderService {
 			String p_id=billList.get(0).getPid();
 			
 			BatDepotIoDetail batDepotIoDetail1=new BatDepotIoDetail();
-			batDepotIoDetail1.setMatbatch(batDepotIoDetail.getMatbatch());
-			batDepotIoDetail1.setMatcode(batDepotIoDetail.getMatcode());
-			batDepotIoDetail1.setMatname(batDepotIoDetail.getMatname());
-			batDepotIoDetail1.setMatcode(batDepotIoDetail.getMatcode());
-			batDepotIoDetail1.setQuantity(batDepotIoDetail.getQuantity());
-			batDepotIoDetail1.setStatus(batDepotIoDetail.getStatus());
-			batDepotIoDetail1.setUnit(batDepotIoDetail.getUnit());
-			batDepotIoDetail1.setSuppliersortcode(batDepotIoDetail.getSuppliersortcode());
-			batDepotIoDetail1.setTrayno(batDepotIoDetail.getTrayno());
+			batDepotIoDetail1.setMatcode(carcode.getMatcode());
+			batDepotIoDetail1.setMatname(carcode.getMatname());
+			batDepotIoDetail1.setMatcode(carcode.getMatcode());
+			batDepotIoDetail1.setQuantity(Double.parseDouble(carcode.getAmount()));
+			batDepotIoDetail1.setStatus(carcode.getState());
+			batDepotIoDetail1.setUnit(carcode.getUnit());
 			batDepotIoDetail1.setIsEnter("1");
 			batDepotIoDetail1.setRemark5("2");
 			batDepotIoDetail1.setBillpid(p_id);
@@ -244,25 +242,6 @@ public class SilkWorkOrderService {
 			batDepotIoDetail1.setReason(reason);
 			batDepotIoDetail1.setSysflag("1");
 			this.genericDao.save(batDepotIoDetail1);
-			List<BatDepotIoDetail> detailList1 = genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{f_mat_batch});
-			
-			List<BatDepotIoDetailList> billDetailList = genericDao.getListWithVariableParas("BATCHDATA_DEPOT_IODETAILLIST_BYPID", new Object[]{p_id1});
-			if(billDetailList!=null&&billDetailList.size()>0){
-				for (int i = 0; i < billDetailList.size(); i++) {
-					batDepotIoDetailList=billDetailList.get(i);
-					BatDepotIoDetailList batDepotIoDetailList1=new BatDepotIoDetailList();
-					batDepotIoDetailList1.setSlavebatch(batDepotIoDetailList.getSlavebatch());
-					batDepotIoDetailList1.setQuantity(batDepotIoDetailList.getQuantity());
-					batDepotIoDetailList1.setUnit(batDepotIoDetailList.getUnit());
-					batDepotIoDetailList1.setSysflag("1");
-					batDepotIoDetailList1.setBilldetailpid(detailList1.get(0).getPid());
-					batDepotIoDetailList1.setReason(reason);
-					batDepotIoDetailList1.setCreatetime(DateBean.getSysdateTime());
-					batDepotIoDetailList1.setCreator(userId);
-					batDepotIoDetailList1.setRemark5("2");
-					this.genericDao.save(batDepotIoDetailList1);
-				}
-			}
 		}
 		return batDepotIoDetail;
 		}

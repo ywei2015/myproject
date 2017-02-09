@@ -24,6 +24,14 @@
     ]]>
     </query>
     
+    <!--成品移库（移出/移入）信息begin-->
+	<!--获取待转储成品移库（移出/移入）信息主表-->
+	<query name="SYNCHRO.U_BAT_TRANSPRODUCTMOVEMAIN.LIST">
+		<![CDATA[
+    	SELECT main FROM sail.beans.entity.UBatTransProductMoveMain main where main.synchroFlag = '0' 
+    ]]>
+	</query>
+    
     <!--烟用材料配盘begin-->
 	<query name="SYNCHRO.U_BAT_TRANSMATERIALWITHMAIN.LIST">
 		<![CDATA[

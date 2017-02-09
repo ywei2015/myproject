@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2008-12-16 10:45:42 by mars -->
+<hibernate-mapping>
+	 <class name="sail.beans.entity.UBatTransProductMoveSec" table="U_BAT_TRANSPRODUCTMOVESEC">
+	 	<id name="pid" column="F_PID" length="50" type="java.lang.String">
+			<generator class="uuid.hex" />
+		</id> 
+		<many-to-one name="main" class="sail.beans.entity.UBatTransproductMoveMain" fetch="select">
+            <column name="F_INBILL_PID" length="50" />
+        </many-to-one>
+        
+		<property name="batchNo" column="F_BATCH_NO" length="200" type="java.lang.String"/>
+		<property name="codeType" column="F_CODE_TYPE" length="50" type="java.lang.String"/>
+		<property name="giTime" column="F_GI_TIME" length="14" type="java.lang.String"/>
+		<property name="trayNo" column="F_TRAY_NO" length="50" type="java.lang.String"/>
+		<property name="remark" column="F_REMARK" length="500" type="java.lang.String"/>
+		<property name="synchroFlag" column="F_SYNCHRO_FLAG" length="1" type="java.lang.String"/>
+		<property name="getdataTime" column="F_GETDATA_TIME" length="14" type="java.lang.String"/>
+		<property name="synchroTime" column="F_SYNCHRO_TIME" length="14" type="java.lang.String"/>
+	 </class>
+</hibernate-mapping>

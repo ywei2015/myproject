@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2008-12-16 10:45:42 by mars -->
+<hibernate-mapping>
+	 <class name="sail.beans.entity.BatProductMoveDetail" table="T_BAT_PRODUCTMOVE_DETAIL">
+	 	<id name="pid" column="F_PID" length="50" type="java.lang.String">
+			<generator class="assigned" />
+		</id> 
+		<many-to-one name="bill" class="sail.beans.entity.BatProductMove" fetch="select">
+            <column name="F_TRANSFER_PID" length="50" />
+        </many-to-one>
+		<property name="batchNo" column="F_BATCH_NO" length="50" type="java.lang.String"/>
+		<property name="codeType" column="CODE_TYPE" length="50" type="java.lang.String"/>
+		<property name="giTime" column="F_GI_TIME" length="14" type="java.lang.String"/>
+		<property name="grTime" column="F_GR_TIME" length="14" type="java.lang.String"/>
+		<property name="trayNo" column="F_TRAY_NO" length="50" type="java.lang.String"/>
+		<property name="remark1" column="F_REMARK1" length="500" type="java.lang.String"/>
+		<property name="remark2" column="F_REMARK2" length="500" type="java.lang.String"/>
+		<property name="remark3" column="F_REMARK3" length="500" type="java.lang.String"/>
+		<property name="remark4" column="F_REMARK4" length="500" type="java.lang.String"/>
+		<property name="remark5" column="F_REMARK5" length="500" type="java.lang.String"/>
+		<property name="remark" column="F_REMARK" length="500" type="java.lang.String"/>
+		<property name="sysFlag" column="F_SYS_FLAG" length="50" type="java.lang.String"/>
+		<property name="creator" column="F_CREATOR" length="50" type="java.lang.String"/>
+		<property name="createTime" column="F_CREATE_TIME" length="14" type="java.lang.String"/>
+		<property name="lastmodifier" column="F_LAST_MODIFIER" length="50" type="java.lang.String"/>
+		<property name="lastmodifiedTime" column="F_LAST_MODIFIED_TIME" length="14" type="java.lang.String"/>
+	 </class>
+</hibernate-mapping>

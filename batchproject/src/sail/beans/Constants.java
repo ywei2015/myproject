@@ -54,4 +54,14 @@ public class Constants {
 	 */
 	public final static String DEPOT = "HZN20";
 	
+	/**
+	 * 
+	 */
+	public final static String TWO_STEP = "1";
+	
+	/**
+	 * 出库
+	 */
+	public final static String BIZ_TYPE = "SD2121";
+	
 }

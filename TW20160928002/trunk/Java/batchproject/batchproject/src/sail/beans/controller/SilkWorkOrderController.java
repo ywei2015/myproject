@@ -121,8 +121,14 @@ public class SilkWorkOrderController {
 		String userId = request.getParameter("userId");
 		BatDepotIoDetail batDepotIoDetail = silkWorkOrderService.saveBatchStorageOut(reason,f_mat_batch,userId);
 		if (batDepotIoDetail != null){
-			res.setResponseData("1", "操作成功!");
-			res.setDataset(batDepotIoDetail, "batdepotiodetail");
+			if("1".equals(batDepotIoDetail.getRepeated())){
+				res.setResponseData("0", "该批次已经出库!");
+				res.setDataset(batDepotIoDetail, "batdepotiodetail");
+			}else{
+				res.setResponseData("1", "操作成功!");
+				res.setDataset(batDepotIoDetail, "batdepotiodetail");
+			}
+			
 		}else{
 			res.setResponseData("0", "牌号信息不匹配!");
 		}

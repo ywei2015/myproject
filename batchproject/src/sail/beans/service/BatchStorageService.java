@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import sail.beans.dao.GenericDao;
 import sail.beans.entity.BatBatAdjust;
@@ -31,43 +32,49 @@ public class BatchStorageService {
 	 * @param matBatch
 	 * @return
 	 */
+	@Transactional(rollbackFor=Exception.class) 
 	public BatDepotIoDetail saveBatchInStorage(String billNo,String docType,String matBatch,String busType,String userId){
 		BatDepotIoBill batDepotIoBill = null;
 		BatDepotIoDetail batDepotIoDetail=null;
 		BatDepotIoDetailList batDepotIoDetailList=null;
-		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{matBatch});
-		if (detailList != null && detailList.size() > 0){
-			batDepotIoDetail = detailList.get(0);
-			if("1".equals(batDepotIoDetail.getRemark5())){
-				batDepotIoDetail.setRepeated("1");
-				return batDepotIoDetail;
-			}
-			batDepotIoDetail.setCreatetime(DateBean.getSysdateTime());
-			batDepotIoDetail.setCreator(userId);
-			batDepotIoDetail.setRemark5("1");
-			this.genericDao.save(batDepotIoDetail);
-			
-			batDepotIoBill=(BatDepotIoBill) genericDao.getById(BatDepotIoBill.class, batDepotIoDetail.getBillpid());
-			batDepotIoBill.setBillno(billNo);
-			batDepotIoBill.setIsEnter("1");
-			batDepotIoBill.setBiztype(busType);
-			batDepotIoBill.setBilltype("11");
-			batDepotIoBill.setDoctype(docType);
-			batDepotIoBill.setCreatetime(DateBean.getSysdateTime());
-			batDepotIoBill.setCreator(userId);
-			//batDepotIoBill.setBillno(billNo); 待确认
-			this.genericDao.save(batDepotIoBill);
-			
-			List<BatDepotIoDetailList> billDetailList = genericDao.getListWithVariableParas("BATCHDATA_DEPOT_IODETAILLIST_BYPID", new Object[]{batDepotIoDetail.getPid()});
-			if(billDetailList!=null&&billDetailList.size()>0){
-				for (int i = 0; i < billDetailList.size(); i++) {
-					batDepotIoDetailList=billDetailList.get(i);
-					batDepotIoDetailList.setRemark5("1");
-					batDepotIoDetailList.setCreatetime(DateBean.getSysdateTime());
-					batDepotIoDetailList.setCreator(userId);
-					this.genericDao.save(batDepotIoDetailList);
+		try{
+			List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{matBatch});
+			if (detailList != null && detailList.size() > 0){
+				batDepotIoDetail = detailList.get(0);
+				if("1".equals(batDepotIoDetail.getRemark5())){
+					batDepotIoDetail.setRepeated("1");
+					return batDepotIoDetail;
+				}
+				batDepotIoDetail.setCreatetime(DateBean.getSysdateTime());
+				batDepotIoDetail.setCreator(userId);
+				batDepotIoDetail.setRemark5("1");
+				batDepotIoDetail.setIsEnter("1");
+				this.genericDao.save(batDepotIoDetail);
+				
+				batDepotIoBill=(BatDepotIoBill) genericDao.getById(BatDepotIoBill.class, batDepotIoDetail.getBillpid());
+				batDepotIoBill.setBillno(billNo);
+				batDepotIoBill.setIsEnter("1");
+				batDepotIoBill.setBiztype(busType);
+				batDepotIoBill.setBilltype("11");
+				batDepotIoBill.setDoctype(docType);
+				batDepotIoBill.setCreatetime(DateBean.getSysdateTime());
+				batDepotIoBill.setCreator(userId);
+				//batDepotIoBill.setBillno(billNo); 待确认
+				this.genericDao.save(batDepotIoBill);
+				
+				List<BatDepotIoDetailList> billDetailList = genericDao.getListWithVariableParas("BATCHDATA_DEPOT_IODETAILLIST_BYPID", new Object[]{batDepotIoDetail.getPid()});
+				if(billDetailList!=null&&billDetailList.size()>0){
+					for (int i = 0; i < billDetailList.size(); i++) {
+						batDepotIoDetailList=billDetailList.get(i);
+						batDepotIoDetailList.setRemark5("1");
+						batDepotIoDetailList.setCreatetime(DateBean.getSysdateTime());
+						batDepotIoDetailList.setCreator(userId);
+						this.genericDao.save(batDepotIoDetailList);
+					}
 				}
 			}
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		return batDepotIoDetail;
 		
@@ -134,7 +141,7 @@ public class BatchStorageService {
 			String matcode=(String) (cararray[2]==null?"":cararray[2]);
 			carCode.setMatcode(matcode);
 			carCode.setValue2("1");
-		}if(carCode.getMatcode()==null){
+		}else if(carCode.getMatcode()==null){
 			carList=genericDao.getListWithNativeSql("STORAGE.GET_RESOLVEVAlUE2", new Object[]{match});
 			if(carList!=null&&carList.size()>0){
 				Object[] cararray=carList.get(0);
@@ -154,7 +161,8 @@ public class BatchStorageService {
 				carCode.setMatcode(matcode);
 				carCode.setValue2("2");
 			}
-		}else{
+		}
+		if(carCode.getMatcode()==null){
 			carList=genericDao.getListWithNativeSql("STORAGE.GET_RESOLVEVAlUE3", new Object[]{match});
 			if(carList!=null&&carList.size()>0){
 				Object[] cararray=carList.get(0);
@@ -273,74 +281,80 @@ public class BatchStorageService {
 	 * @param 
 	 * @return
 	 */
+	 @Transactional(rollbackFor=Exception.class) 
 	public BatDepotIoDetail saveBatchStorageOut(String f_bill_no,String f_doc_type,String f_bus_type,String f_mat_batch,String userId) {
-
-		BatDepotIoBill batDepotIoBill = null;
-		BatDepotIoDetail batDepotIoDetail=null;
-		BatDepotIoDetailList batDepotIoDetailList=null;
-		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{f_mat_batch});
-		if (detailList != null && detailList.size() > 0){
-			batDepotIoDetail = detailList.get(0);
-			String p_id1=batDepotIoDetail.getPid();
-			if("2".equals(batDepotIoDetail.getRemark5())){
-				batDepotIoDetail.setRepeated("1");
-				return batDepotIoDetail;
-			}
-			
-			batDepotIoBill=new BatDepotIoBill();
-			BatDepotIoBill batDepotIoBill1=(BatDepotIoBill) genericDao.getById(BatDepotIoBill.class, batDepotIoDetail.getBillpid());
-			batDepotIoBill.setDepot(batDepotIoBill1.getDepot());
-			batDepotIoBill.setFactory(batDepotIoBill1.getFactory());
-			batDepotIoBill.setSysflag("1");
-			batDepotIoBill.setIsEnter("1");
-			batDepotIoBill.setBillno(f_bill_no);
-			batDepotIoBill.setBiztype(f_bus_type);
-			batDepotIoBill.setBilltype("22");
-			batDepotIoBill.setDoctype(f_doc_type);
-			batDepotIoBill.setCreatetime(DateBean.getSysdateTime());
-			batDepotIoBill.setCreator(userId);
-			batDepotIoBill.setOperateuserid(userId);
-			batDepotIoBill.setOperatetime(DateBean.getSysdateTime());
-			this.genericDao.save(batDepotIoBill);
-			
-			BatDepotIoDetail batDepotIoDetail1=new BatDepotIoDetail();
-			List<BatDepotIoBill> billList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST", new Object[]{f_bill_no,f_doc_type});
-			String p_id=billList.get(0).getPid();
-			batDepotIoDetail1.setMatbatch(batDepotIoDetail.getMatbatch());
-			batDepotIoDetail1.setMatcode(batDepotIoDetail.getMatcode());
-			batDepotIoDetail1.setMatname(batDepotIoDetail.getMatname());
-			batDepotIoDetail1.setMatcode(batDepotIoDetail.getMatcode());
-			batDepotIoDetail1.setQuantity(batDepotIoDetail.getQuantity());
-			batDepotIoDetail1.setStatus(batDepotIoDetail.getStatus());
-			batDepotIoDetail1.setUnit(batDepotIoDetail.getUnit());
-			batDepotIoDetail1.setSuppliersortcode(batDepotIoDetail.getSuppliersortcode());
-			batDepotIoDetail1.setTrayno(batDepotIoDetail.getTrayno());
-			batDepotIoDetail1.setIsEnter("1");
-			batDepotIoDetail1.setRemark5("2");
-			batDepotIoDetail1.setBillpid(p_id);
-			batDepotIoDetail1.setCreatetime(DateBean.getSysdateTime());
-			batDepotIoDetail1.setCreator(userId);
-			batDepotIoDetail1.setSysflag("1");
-			this.genericDao.save(batDepotIoDetail1);
-			List<BatDepotIoDetail> detailList1 = genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{f_mat_batch});
-			
-			List<BatDepotIoDetailList> billDetailList = genericDao.getListWithVariableParas("BATCHDATA_DEPOT_IODETAILLIST_BYPID", new Object[]{p_id1});
-			if(billDetailList!=null&&billDetailList.size()>0){
-				for (int i = 0; i < billDetailList.size(); i++) {
-					batDepotIoDetailList=billDetailList.get(i);
-					BatDepotIoDetailList batDepotIoDetailList1=new BatDepotIoDetailList();
-					batDepotIoDetailList1.setSlavebatch(batDepotIoDetailList.getSlavebatch());
-					batDepotIoDetailList1.setQuantity(batDepotIoDetailList.getQuantity());
-					batDepotIoDetailList1.setUnit(batDepotIoDetailList.getUnit());
-					batDepotIoDetailList1.setSysflag("1");
-					batDepotIoDetailList1.setBilldetailpid(detailList1.get(0).getPid());
-					batDepotIoDetailList1.setCreatetime(DateBean.getSysdateTime());
-					batDepotIoDetailList1.setCreator(userId);
-					batDepotIoDetailList1.setRemark5("2");
-					this.genericDao.save(batDepotIoDetailList1);
+		 BatDepotIoBill batDepotIoBill = null;
+		 BatDepotIoDetail batDepotIoDetail=null;
+		 BatDepotIoDetailList batDepotIoDetailList=null;
+		 
+		 try{
+				List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{f_mat_batch});
+				if (detailList != null && detailList.size() > 0){
+					batDepotIoDetail = detailList.get(0);
+					String p_id1=batDepotIoDetail.getPid();
+					if("2".equals(batDepotIoDetail.getRemark5())){
+						batDepotIoDetail.setRepeated("1");
+						return batDepotIoDetail;
+					}
+					
+					batDepotIoBill=new BatDepotIoBill();
+					BatDepotIoBill batDepotIoBill1=(BatDepotIoBill) genericDao.getById(BatDepotIoBill.class, batDepotIoDetail.getBillpid());
+					batDepotIoBill.setDepot(batDepotIoBill1.getDepot());
+					batDepotIoBill.setFactory(batDepotIoBill1.getFactory());
+					batDepotIoBill.setSysflag("1");
+					batDepotIoBill.setIsEnter("1");
+					batDepotIoBill.setDate(DateBean.getSysdate());
+					batDepotIoBill.setBillno(f_bill_no);
+					batDepotIoBill.setBiztype(f_bus_type);
+					batDepotIoBill.setBilltype("22");
+					batDepotIoBill.setDoctype(f_doc_type);
+					batDepotIoBill.setCreatetime(DateBean.getSysdateTime());
+					batDepotIoBill.setCreator(userId);
+					batDepotIoBill.setOperateuserid(userId);
+					batDepotIoBill.setOperatetime(DateBean.getSysdateTime());
+					this.genericDao.save(batDepotIoBill);
+					
+					BatDepotIoDetail batDepotIoDetail1=new BatDepotIoDetail();
+					List<BatDepotIoBill> billList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST", new Object[]{f_bill_no,f_doc_type});
+					String p_id=billList.get(0).getPid();
+					batDepotIoDetail1.setMatbatch(batDepotIoDetail.getMatbatch());
+					batDepotIoDetail1.setMatcode(batDepotIoDetail.getMatcode());
+					batDepotIoDetail1.setMatname(batDepotIoDetail.getMatname());
+					batDepotIoDetail1.setMatcode(batDepotIoDetail.getMatcode());
+					batDepotIoDetail1.setQuantity(batDepotIoDetail.getQuantity());
+					batDepotIoDetail1.setStatus(batDepotIoDetail.getStatus());
+					batDepotIoDetail1.setUnit(batDepotIoDetail.getUnit());
+					batDepotIoDetail1.setSuppliersortcode(batDepotIoDetail.getSuppliersortcode());
+					batDepotIoDetail1.setTrayno(batDepotIoDetail.getTrayno());
+					batDepotIoDetail1.setIsEnter("1");
+					batDepotIoDetail1.setRemark5("2");
+					batDepotIoDetail1.setBillpid(p_id);
+					batDepotIoDetail1.setCreatetime(DateBean.getSysdateTime());
+					batDepotIoDetail1.setCreator(userId);
+					batDepotIoDetail1.setSysflag("1");
+					this.genericDao.save(batDepotIoDetail1);
+					List<BatDepotIoDetail> detailList1 = genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{f_mat_batch});
+					
+					List<BatDepotIoDetailList> billDetailList = genericDao.getListWithVariableParas("BATCHDATA_DEPOT_IODETAILLIST_BYPID", new Object[]{p_id1});
+					if(billDetailList!=null&&billDetailList.size()>0){
+						for (int i = 0; i < billDetailList.size(); i++) {
+							batDepotIoDetailList=billDetailList.get(i);
+							BatDepotIoDetailList batDepotIoDetailList1=new BatDepotIoDetailList();
+							batDepotIoDetailList1.setSlavebatch(batDepotIoDetailList.getSlavebatch());
+							batDepotIoDetailList1.setQuantity(batDepotIoDetailList.getQuantity());
+							batDepotIoDetailList1.setUnit(batDepotIoDetailList.getUnit());
+							batDepotIoDetailList1.setSysflag("1");
+							batDepotIoDetailList1.setBilldetailpid(detailList1.get(0).getPid());
+							batDepotIoDetailList1.setCreatetime(DateBean.getSysdateTime());
+							batDepotIoDetailList1.setCreator(userId);
+							batDepotIoDetailList1.setRemark5("2");
+							this.genericDao.save(batDepotIoDetailList1);
+						}
+					}
 				}
-			}
-		}
+		 }catch(Exception e){
+			 e.printStackTrace();
+		 }
 		return batDepotIoDetail;
 	}
 	

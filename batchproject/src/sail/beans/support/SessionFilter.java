@@ -33,7 +33,7 @@ public class SessionFilter implements Filter {
 			String referer = request.getHeader(REFERER);
 			
 			if (GeneralTools.isFilterUrl(referer)||isNotValidate(url, referer)||url.contains("dynamic")
-					||url.contains("business")) {
+					||url.contains("business")||url.contains("appupdate")) {
 				chain.doFilter(req, res);
 			} else {
 				String isLogin = (String) session.getAttribute(ISLOGIN);

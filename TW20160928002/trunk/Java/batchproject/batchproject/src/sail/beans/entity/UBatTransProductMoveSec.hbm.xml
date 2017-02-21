@@ -7,7 +7,7 @@
 	 	<id name="pid" column="F_PID" length="50" type="java.lang.String">
 			<generator class="uuid.hex" />
 		</id> 
-		<many-to-one name="main" class="sail.beans.entity.UBatTransproductMoveMain" fetch="select">
+		<many-to-one name="main" class="sail.beans.entity.UBatTransProductMoveMain" fetch="select">
             <column name="F_INBILL_PID" length="50" />
         </many-to-one>
         

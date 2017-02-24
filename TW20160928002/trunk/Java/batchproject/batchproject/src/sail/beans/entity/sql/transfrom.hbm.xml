@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+	<sql-query name="transfrom.produceData.list">
+		<![CDATA[
+			select t.*
+			,(select d.f_dic_name from t_pub_dic d where d.f_pid=t.f_wostatus_id) as f_status_name  
+			,(select d1.f_dic_name from t_pub_dic d1 where d1.f_pid=t.f_workclass_id) as f_workclass_name  
+			,(select d3.f_dic_name from t_pub_dic d3 where d3.f_pid=t.f_workunit_id) as f_workunit_name  
+			,(select md.f_name from t_mat_dic md where md.f_pid=t.f_mat_id) as f_mat_name  
+			,(select md.f_code from t_mat_dic md where md.f_pid=t.f_mat_id) as f_mat_code 
+			,(select md.f_name from t_mat_dic md where md.f_pid=t.F_UNIT_ID) as f_unit  
+			,d.F_SENDER, d.F_SEND_TIME
+			,(select d5.F_TYPE_ORDER from V_BAT_WORKTIME d5 where d5.F_PID=t.f_workclass_id) as f_workclass_no
+			,(select d6.F_DIC_CODE from V_BAT_EQU d6 where d6.F_PID=t.f_workunit_id) as f_jitai_no     
+			from T_APS_WORKORDER t,t_aps_workplan d
+			where t.f_workday=? 
+   		    and t.f_plan_id=d.f_pid
+      		and t.f_wostatus_id='1b3ce1c2-56f1-4414-a30c-eb8c335ce380' 
+      		and t.f_wotype_flag=? 
+      		and t.f_sys_flag='1'
+		]]>
+	</sql-query>
+	
+	<query name="transfrom.batWorkOrder.list">
+		<![CDATA[
+			select order from sail.beans.entity.BatWorkOrder order where order.workordercode=?
+			and order.sysflag = '1'
+		]]>
+	</query>
+			
+</hibernate-mapping>

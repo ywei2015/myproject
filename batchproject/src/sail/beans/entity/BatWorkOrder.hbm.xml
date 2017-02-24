@@ -26,8 +26,8 @@
 		<property name="actualendtime" column="F_ACTUAL_ENDTIME" length="50" type="string"/>
 		<property name="worktime" column="F_WORKTIME" length="50" type="string"/>
 		<property name="workteam" column="F_WORKTEAM" length="50" type="string"/>
-		<property name="planquantity" column="F_PLAN_QUANTITY" precision="12" scale="4" not-null="true" type="java.lang.Double"/>
-		<property name="actualquantity" column="F_ACTUAL_QUANTITY" precision="12" scale="4" not-null="true" type="java.lang.Double"/>
+		<property name="planquantity" column="F_PLAN_QUANTITY" precision="12" scale="4"  type="java.lang.Double"/>
+		<property name="actualquantity" column="F_ACTUAL_QUANTITY" precision="12" scale="4" type="java.lang.Double"/>
 		<property name="unit" column="F_UNIT" length="50" type="string"/>
 		<property name="tankno" column="F_TANK_NO" length="50" type="string"/>
 		<property name="zsl" column="F_ZSL" length="50" type="string"/>

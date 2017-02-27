@@ -11,7 +11,7 @@
             <column name="F_TRANSFER_PID" length="50" />
         </many-to-one>
 		<property name="batchNo" column="F_BATCH_NO" length="50" type="java.lang.String"/>
-		<property name="codeType" column="CODE_TYPE" length="50" type="java.lang.String"/>
+		<property name="codeType" column="F_CODE_TYPE" length="50" type="java.lang.String"/>
 		<property name="giTime" column="F_GI_TIME" length="14" type="java.lang.String"/>
 		<property name="grTime" column="F_GR_TIME" length="14" type="java.lang.String"/>
 		<property name="trayNo" column="F_TRAY_NO" length="50" type="java.lang.String"/>

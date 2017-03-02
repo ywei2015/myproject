@@ -8,7 +8,7 @@
 	<![CDATA[
     	SELECT l.F_PID FROM T_BAT_WORKORDER w,T_MAT_BOM b,T_MAT_BOM_LIST l WHERE w.F_MAT_CODE = b.F_MAT_PID 
     	AND b.F_PID = l.F_BOM_PID AND b.F_SYS_FLAG='1' AND l.F_SYS_FLAG='1' AND w.F_SYS_FLAG='1' 
-		AND w.F_WORKORDER_CODE= ?  AND l.F_MAT_PID = ?             		
+		AND w.F_WORKORDER_CODE=?  AND w.F_MAT_CODE =?             		
     ]]>
 	</sql-query>
 	

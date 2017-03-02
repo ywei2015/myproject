@@ -6,6 +6,7 @@ var data_p={
 		'f_workorder_code':f_workorder_code,
 };
 var img = new Image(); 
+
 function loadImage() { 
 	img.src = "../js/image/shanch.png"; 
 	img.onload = function(){ //图片下载完毕时异步调用callback函数。 
@@ -17,6 +18,8 @@ loadImage();
 var billarray=[];
 var picihao=[];
 function initTable(dataj){
+	var biaoji=0;
+	var tishi_type=document.getElementById("type_tishi");
 	theTable.innerHTML="";
 	var b = document.createElement('tbody');
 	var title_r=document.createElement('tr');
@@ -40,8 +43,6 @@ function initTable(dataj){
 		
 			//设置表格
 			if(length>0){
-				var tishi_type=document.getElementById("type_tishi");
-				tishi_type.style.display="block";
 				for(var i=0;i<length;i++){
 					var rowdata=str.batdepotiodetail[i];//对象
 					var r =document.createElement('tr');
@@ -94,9 +95,11 @@ function initTable(dataj){
 					}
 					if("w"==rowdata.remark5){
 						r.style.color='yellow';
+						biaoji++;
 					}
 					if("0"==rowdata.remark4){
 						r.style.color='red';
+						biaoji++;
 					}
 					b.appendChild(r);
 				}
@@ -105,7 +108,14 @@ function initTable(dataj){
 			}
 			
 		}
-	}
+		    if(biaoji==0){
+				tishi_type.style.display="none";
+				console.info(biaoji);
+			}else{
+				tishi_type.style.display="block";
+				console.info(biaoji);
+			};
+		}
 	
 	});
 	}

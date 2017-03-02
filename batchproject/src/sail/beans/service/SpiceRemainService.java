@@ -41,8 +41,11 @@ public class SpiceRemainService {
 			batSpiceRemain.setIsrepair("1");
 			return batSpiceRemain;
 		}else{
-			batSpiceRemain = new BatSpiceRemain();
 			CarCode carCode = batchStorageService.getResolveValue(matbatch);
+			if(carCode.getMatcode()==null){
+				return batSpiceRemain;
+			}
+			batSpiceRemain = new BatSpiceRemain();
 			batSpiceRemain.setWorkarea("HZ10");
 			batSpiceRemain.setDepot(carCode.getDepot());
 			batSpiceRemain.setMatcode(carCode.getMatcode());

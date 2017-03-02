@@ -13,6 +13,8 @@ var userId=getQueryString('userId');
 var billarray=[];
 var picihao=[];
 function initTable(){
+	var biaoji=0;
+	var tishi_type=document.getElementById("type_tishi");
 	theTable.innerHTML="";
 	var b = document.createElement('tbody');
 	var title_r=document.createElement('tr');
@@ -37,8 +39,6 @@ function initTable(){
 			
 			//设置表格
 			if(length>0){
-				var tishi_type=document.getElementById("type_tishi");
-				tishi_type.style.display="block";
 				for(var i=0;i<length;i++){
 					var rowdata=str.batspiceremain[i];//对象
 					var r =document.createElement('tr');
@@ -91,9 +91,11 @@ function initTable(){
 					}
 					if("w"==rowdata.remark5){
 						r.style.color='yellow';
+						biaoji++;
 					}
 					if("0"==rowdata.remark4){
 						r.style.color='red';
+						biaoji++;
 					}
 					b.appendChild(r);
 					
@@ -103,6 +105,12 @@ function initTable(){
 			}
 			
 		}
+			 if(biaoji==0){
+					tishi_type.style.display="none";
+				}else{
+					tishi_type.style.display="block";
+				};
+			 
 		}
 	
 	});

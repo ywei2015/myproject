@@ -6,8 +6,8 @@
 <hibernate-mapping>
 	<sql-query name="WORKORDER.T_BAT_PROCESSID_LIST">
 		<![CDATA[
-    	select  F_PROCESS,F_WORKORDER_CODE from T_BAT_WORKORDER t where t.F_WORKORDER_TYPE=? and t.f_workorder_state='1' 
-    	and  t.f_sys_flag='1' order by F_PROCESS
+    	select d.f_dic_code,F_WORKORDER_CODE from T_BAT_WORKORDER t,t_pub_dic d where t.F_WORKORDER_TYPE=? and t.f_workorder_state='10' and t.f_process=d.f_pid 
+        and  t.f_sys_flag='1' order by F_PROCESS
     ]]>
 	</sql-query>
 	
@@ -52,7 +52,7 @@
 	<query name="WORKORDER.T_BAT_WORKORDER.LIST">
 		<![CDATA[
     	select order from sail.beans.entity.BatWorkOrder order where order.workordertype = ? and
-    	order.workorderstate='1' and  order.sysflag = '1'
+    	order.workorderstate='10' and  order.sysflag = '1'
     ]]>
 	</query>
 	

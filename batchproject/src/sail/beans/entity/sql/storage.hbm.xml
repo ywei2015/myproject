@@ -47,11 +47,12 @@
 			(select s.f_unit from t_bat_depot_iodetaillist s where s.f_billdetail_pid=d.f_pid and rownum=1) as f_unit,
 			d.F_SUPPLIER_SORTCODE 
 			from T_BAT_DEPOT_IODETAIL d,T_BAT_DEPOT_IOBILL t
-			where d.f_sys_flag='1' 
+			where  d.f_Mat_Batch=?
+			and d.f_sys_flag='1' 
 			and d.f_bill_pid=t.f_pid
 			and t.f_bill_type='11'
 			and t.f_sys_flag='1' 
-			and d.f_Mat_Batch=?
+			
 		]]>
 	</sql-query>	
 	
@@ -61,19 +62,20 @@
 			d.F_INVENTORY_TYPE as f_state,s.f_quantity,s.f_unit,
 			d.F_SUPPLIER_SORTCODE 
 			from T_BAT_DEPOT_IODETAIL d, t_bat_depot_iodetaillist s,T_BAT_DEPOT_IOBILL t
-			where d.f_sys_flag='1'  
+			where  s.f_slave_batch=? 
+			and d.f_sys_flag='1'  
 			and s.f_billdetail_pid=d.f_pid
 			and d.f_bill_pid=t.f_pid
 			and t.f_bill_type='11'
 			and t.f_sys_flag='1'
-			and s.f_slave_batch=?
+			
 		]]>
 	</sql-query>
 	
 	<sql-query name="STORAGE.GET_RESOLVEVAlUE3">
 		<![CDATA[
 			select t.F_QUANTITY,t.F_UNIT,d.f_mat_code,d.f_mat_name from  T_BAT_WORKORDER_OUTPUT t,T_BAT_WORKORDER d
-			where d.f_pid=t.F_WORKORDER_PID and t.F_MAT_BATCH=?  
+			where d.f_pid=t.F_WORKORDER_PID and t.F_MAT_BATCH=? and  t.f_sys_flag='1' and d.f_sys_flag='1'
 		]]>
 	</sql-query>	
 </hibernate-mapping>

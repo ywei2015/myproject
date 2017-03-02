@@ -69,12 +69,12 @@ public class SilkWorkOrderController {
 					}
 				}
 			}else{
-				res.setResponseData("0", "该批次数据有问题，请进行核对!");
+				res.setResponseData("0", "该批次信息有误,请进行核对!");
 			}
 		}else if(state.equals("0")){
 			res.setResponseData("0", "该工单已过期!");
 		}else{
-			res.setResponseData("0", "该工单数据有问题!");
+			res.setResponseData("0", "操作失败!");
 		}
 		return res;
 	}
@@ -130,7 +130,7 @@ public class SilkWorkOrderController {
 			}
 			
 		}else{
-			res.setResponseData("0", "牌号信息不匹配!");
+			res.setResponseData("0", "该批次信息有误,请进行核对!");
 		}
 		return res;
 	}

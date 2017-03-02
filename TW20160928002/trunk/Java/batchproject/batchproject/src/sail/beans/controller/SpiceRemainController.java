@@ -41,7 +41,7 @@ public class SpiceRemainController {
 				res.setDataset(batSpiceRemain, "batspiceremain");
 			}
 		}else{
-			res.setResponseData("0", "操作失败!");
+			res.setResponseData("0", "该批次信息有误,请进行核对!!");
 		}
 		
 		return res;

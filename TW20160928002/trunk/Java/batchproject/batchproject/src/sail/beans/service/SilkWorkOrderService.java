@@ -87,11 +87,11 @@ public class SilkWorkOrderService {
 				batWorkOrderInput = inputList.get(0);
 				batWorkOrderInput.setIsrepair("1");
 			}else{
-				batWorkOrderInput = new BatWorkOrderInput();
 				CarCode carCode = batchStorageService.getResolveValue(matBatch);
 				if(carCode==null) {
 					return batWorkOrderInput;
 				}
+				batWorkOrderInput = new BatWorkOrderInput();
 				if("w".equalsIgnoreCase(carCode.getState())){
 					batWorkOrderInput.setRemark5("w");
 				}else if("2".equalsIgnoreCase(carCode.getState())){
@@ -127,9 +127,9 @@ public class SilkWorkOrderService {
 				batWorkOrderInput.setSysflag("1");
 				batWorkOrderInput.setCreator(operuser);
 				batWorkOrderInput.setCreatetime(DateBean.getSysdateTime());
-				List matList=matBomService.getBomByWorkOrder(workOrderCode,null,matBatch);
+				/*List matList=matBomService.getBomByWorkOrder(workOrderCode,null,carCode.getMatcode().toString());
 				if(matList.size()==0)
-					batWorkOrderInput.setRemark4("0");
+					batWorkOrderInput.setRemark4("0");*/
 				genericDao.save(batWorkOrderInput);
 			}
 		}
@@ -182,7 +182,7 @@ public class SilkWorkOrderService {
 		List<BatWorkOrder> ruleList=genericDao.getListWithVariableParas("GET_WORKSTATE_BYBILLNO", new Object[]{billno});
 		if(ruleList!=null&&ruleList.size()>0){
 			BatWorkOrder bill=ruleList.get(0);
-			if("1".equals(bill.getWorkorderstate())){
+			if("10".equals(bill.getWorkorderstate())){
 				return "1";  //未过期
 			}else
 				return "0";  //过期
@@ -248,6 +248,8 @@ public class SilkWorkOrderService {
 				batDepotIoDetail1.setReason(reason);
 				batDepotIoDetail1.setSysflag("1");
 				this.genericDao.save(batDepotIoDetail1);
+			}else{
+				return batDepotIoDetail;
 			}
 			
 		}catch(Exception e){

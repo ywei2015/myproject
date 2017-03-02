@@ -31,12 +31,16 @@ public class TransformData {
 	 /*
 	  * 周制丝
 	  */
-	 @Scheduled(cron = "0 0 0 * * ?")
+	// @Scheduled(cron = "0 0 0 * * ?")
+	@ResponseBody
+	@RequestMapping(value="/transformDataSilk")
 	 public void transformDataSilk(){
 		 transfromdataService.transformDataSilk();
 	}
 	 
-	 @Scheduled(cron = "0 0 0 * * ?")
+	// @Scheduled(cron = "0 0 0 * * ?")
+	@ResponseBody
+	@RequestMapping(value="/transformDataStalk")
 	 public void transformDataStalkSilk(){
 		 transfromdataService.transformDataStalkSilk();
 	} 

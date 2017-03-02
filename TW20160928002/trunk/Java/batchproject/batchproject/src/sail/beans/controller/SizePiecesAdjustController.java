@@ -39,7 +39,7 @@ public class SizePiecesAdjustController {
 			}
 			
 		}else{
-			res.setResponseData("0", "牌号信息不匹配!");
+			res.setResponseData("0", "该批次信息有误,请进行核对!!");
 		}
 		return res;
 	}

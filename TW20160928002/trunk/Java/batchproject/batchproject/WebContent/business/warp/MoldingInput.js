@@ -1,4 +1,5 @@
 var title= ["序号","名称","批次号","开始","结束","数量","单位","操作"];
+var tishi=document.getElementById("type_tishi");
 var theTable=document.getElementById("table");
 var userId=getQueryString('userId');
 var f_workorder_code=getQueryString('f_workorder_code'); //test:
@@ -18,6 +19,8 @@ loadImage();
 var billarray=[];
 var picihao=[];
 function initTable(dataj){
+	var biaoji=0;
+	var tishi_type=document.getElementById("type_tishi");
 	theTable.innerHTML="";
 	var b = document.createElement('tbody');
 	var title_r=document.createElement('tr');
@@ -29,7 +32,7 @@ function initTable(dataj){
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
-	if(userId==null){
+	if(userId!=null){
 	$.ajax({
 		type : "post",
 		url: cqt_prefix+'rollbatch/getBatWorkOrderInput',
@@ -39,18 +42,14 @@ function initTable(dataj){
 			var str=data.dataset;
 			 if(str.totalRecords>0){
 			var length=str.batworkorderinput.length;
-			var color_type='no';
 			//设置表格
 			if(length>0){
-				var tishi_type=document.getElementById("type_tishi");
-				tishi_type.style.display="block";
 				for(var i=0;i<length;i++){
 					var rowdata=str.batworkorderinput[i];//对象
 					var r =document.createElement('tr');
 					if(i%2==0) r.style.backgroundColor='white';
 					if("0"==rowdata.isremark1){
 						r.style.color='red';
-						color_type='yes';
 					}
 					if(rowdata!=null||rowdata!=undefined){
 						var td;
@@ -80,15 +79,13 @@ function initTable(dataj){
 						
 						td=document.createElement('td');
 						var data_td2=rowdata.starttime;//开始
-						data_td1=data_td2.substring(0,4)+'-'+data_td2.substring(4,6)+'-'+data_td2.substring(6,8)
-						+':'+data_td2.substring(8,10);
+						data_td1=data_td2.substring(4,6)+'-'+data_td2.substring(6,8)+' '+data_td2.substring(8,10)+':'+data_td2.substring(10,12);
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
 						td=document.createElement('td');
 						var data_td2=rowdata.endtime;//结束
-						data_td1=data_td2.substring(0,4)+'-'+data_td2.substring(4,6)+'-'+data_td2.substring(6,8)
-						+':'+data_td2.substring(8,10);
+						data_td1=data_td2.substring(4,6)+'-'+data_td2.substring(6,8)+' '+data_td2.substring(8,10)+':'+data_td2.substring(10,12);
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
@@ -112,21 +109,29 @@ function initTable(dataj){
 						r.appendChild(td);
 					}
 					b.appendChild(r);
+					if("w"==rowdata.remark5){
+						r.style.color='yellow';
+						biaoji++;
+					}
+					if("0"==rowdata.remark4){
+						r.style.color='red';
+						biaoji++;
+					}
 				}
-				if("w"==rowdata.remark5){
-					r.style.color='yellow';
-				}
-				if("0"==rowdata.remark4){
-					r.style.color='red';
-				}
-				
 			}
-			
 		}
+			 if(biaoji==0){
+					tishi_type.style.display="none";
+					console.info(biaoji);
+				}else{
+					tishi_type.style.display="block";
+					console.info(biaoji);
+				};
 		}
 	});
 	}
 	theTable.appendChild(b);
+
 }
 var Id;
 function deleteRow(i){

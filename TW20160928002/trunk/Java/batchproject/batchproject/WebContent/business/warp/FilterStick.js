@@ -20,6 +20,8 @@ loadImage();
 var billarray=[];
 var picihao=[];
 function initTable(dataj){
+	var biaoji=0;
+	var tishi_type=document.getElementById("type_tishi");
 	theTable.innerHTML="";
 	var b = document.createElement('tbody');
 	var title_r=document.createElement('tr');
@@ -44,8 +46,6 @@ function initTable(dataj){
 			var color_type='no';
 			//设置表格
 			if(length>0){
-				var tishi_type=document.getElementById("type_tishi");
-				tishi_type.style.display="block";
 				for(var i=0;i<length;i++){
 					var rowdata=str.batworkorderinput[i];//对象
 					var r =document.createElement('tr');
@@ -79,16 +79,15 @@ function initTable(dataj){
 						td=document.createElement('td');
 						td.id=i+"weizhi";
 						var weizhi=td.id;
+						
 						var data_td2=rowdata.starttime;//开始
 						data_td1=data_td2.substring(4,6)+'-'+data_td2.substring(6,8)+' '+data_td2.substring(8,10)+':'+data_td2.substring(10,12);
-						+':'+data_td2.substring(8,10);
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
 						td=document.createElement('td');
 						var data_td2=rowdata.endtime;//结束
 						data_td1=data_td2.substring(4,6)+'-'+data_td2.substring(6,8)+' '+data_td2.substring(8,10)+':'+data_td2.substring(10,12);
-						+':'+data_td2.substring(8,10);
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
@@ -113,15 +112,21 @@ function initTable(dataj){
 					}
 					if("w"==rowdata.remark5){
 						r.style.color='yellow';
+						biaoji++;
 					}
 					if("0"==rowdata.remark4){
 						r.style.color='red';
+						biaoji++;
 					}
 					b.appendChild(r);
 				}
 			}
-			
-		}
+			 }
+			 if(biaoji==0){
+					tishi_type.style.display="none";
+				}else{
+					tishi_type.style.display="block";
+				};
 		}
 	});
 	}

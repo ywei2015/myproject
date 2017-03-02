@@ -44,37 +44,39 @@
 
 } 
 
- #picihao{
+ /* #picihao{
   word-break:break-all;
-  width:65%;
+  width:45%;
   white-space: normal;
-}  
+}   */
 
 table {
 	table-layout: fixed;
 }
-#type_tishi{
+/* #type_tishi{
 	width:35%;
 	background-color:rgb(192,192,192);
 	border-style:solid;
 	border-color:rgb(193,193,193);
+} */
+#cailiao{
+   word-break:keep-all;
+   white-space: nowrap;
+
 }
 </style>
 </head>
 <body>
 <div data-role="page" id="VerifyFromPage"  data-theme="d" data-url="VerifyFromPage">
     <div data-role="content" style="overflow: auto;">
-	    <div id="logo_wrap" style="width:150%;padding: 0px;">  
+	    <div id="logo_wrap" style="padding: 0px;">  
+			<div id="type_tishi" style="display:none;color:blue">
+	 			<span>
+	 				<font size="3"  id="cailiao">1.红色表示材料不匹配 2.黄色表示该批次需要关注</font>
+	 			</span>
+		 	</div>
 			<table id="table" border='1'  style='border-collapse:collapse;' cellspacing='0' bordercolor='black' class="tablebox">
 			</table>
-			 <div style="width:100%" align="center">
-				<div id="type_tishi" style="display:none;color:blue" align="center">
-	 				<span>
-	 					<font id="cailiao">1.红色表示材料不匹配</font>
-	 					<font id="zhuangtai">2.黄色表示该批次需要关注</font>
-	 				</span>
-		 		</div>
-			</div>
 		</div>	
     <div data-role="popup" id="popupDialog" data-overlay-theme="f" data-theme="d" data-dismissible="false" style="max-width:350px;" class="ui-corner-all">
 				     <div data-role="header" data-theme="d" class="ui-corner-top">

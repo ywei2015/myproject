@@ -8,19 +8,22 @@
 		<![CDATA[
 			select t.*
 			,(select d.f_dic_name from t_pub_dic d where d.f_pid=t.f_wostatus_id) as f_status_name  
-			,(select d1.f_dic_name from t_pub_dic d1 where d1.f_pid=t.f_workclass_id) as f_workclass_name  
-			,(select d3.f_dic_name from t_pub_dic d3 where d3.f_pid=t.f_workunit_id) as f_workunit_name  
+			,(select d1.F_ESB_CODE from v_bat_worktime d1 where d1.f_pid=t.f_workclass_id) as f_workclass_code
+			,(select d3.F_DIC_CODE from t_pub_dic d3 where d3.f_pid=t.f_workunit_id) as f_workunit_code 
 			,(select md.f_name from t_mat_dic md where md.f_pid=t.f_mat_id) as f_mat_name  
 			,(select md.f_code from t_mat_dic md where md.f_pid=t.f_mat_id) as f_mat_code 
 			,(select md.f_name from t_mat_dic md where md.f_pid=t.F_UNIT_ID) as f_unit  
 			,d.F_SENDER, d.F_SEND_TIME
 			,(select d5.F_TYPE_ORDER from V_BAT_WORKTIME d5 where d5.F_PID=t.f_workclass_id) as f_workclass_no
 			,(select d6.F_DIC_CODE from V_BAT_EQU d6 where d6.F_PID=t.f_workunit_id) as f_jitai_no     
+			,(select d7.F_SHORT_CODE from V_BAT_CPMAT d7 where d7.f_pid=t.f_mat_id) as f_brand_code
 			from T_APS_WORKORDER t,t_aps_workplan d
-			where t.f_workday=? 
-   		    and t.f_plan_id=d.f_pid
-      		and t.f_wostatus_id='1b3ce1c2-56f1-4414-a30c-eb8c335ce380' 
-      		and t.f_wotype_flag=? 
+			where d.f_workday=? 
+			and d.F_PLANTYPE_FLAG=?
+     		and t.f_plan_id=d.f_pid
+      		and d.F_PLANSTATUS_ID='5c6c24a9-b95a-4f17-a0bc-7d30cb491057'
+      		and d.f_sys_flag='1'
+       		and t.f_wostatus_id='1b3ce1c2-56f1-4414-a30c-eb8c335ce380' 
       		and t.f_sys_flag='1'
 		]]>
 	</sql-query>
@@ -31,5 +34,18 @@
 			and order.sysflag = '1'
 		]]>
 	</query>
-			
+			<sql-query name="transfrom.stalksilk.list">
+		<![CDATA[
+			select t.*,
+ 			(select d.f_dic_name from t_pub_dic d where d.f_pid=t.f_value1) as F_PROCESS_NAME, 
+ 			(select d.f_dic_name from t_pub_dic d where d.f_pid=t.f_value2) as F_WORKTIME_NAME,
+ 			(select d.f_dic_name from t_pub_dic d where d.f_pid=t.f_wostatus_id) as f_status_name,
+ 			(select d1.F_ESB_CODE from v_bat_worktime d1 where d1.f_pid=t.F_VALUE2) as f_workclass_code	 
+			from T_APS_ZS_WORKORDER t 
+			where t.f_sys_flag='1' 
+			and t.f_wostatus_id='1b3ce1c2-56f1-4414-a30c-eb8c335ce380' 
+			and t.f_value1='52d5487f-717d-488e-8f64-d59bbdaec679' 
+      		and t.f_workday=?
+		]]>
+	</sql-query>
 </hibernate-mapping>

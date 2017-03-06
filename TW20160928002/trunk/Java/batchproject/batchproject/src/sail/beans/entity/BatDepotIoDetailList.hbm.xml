@@ -24,6 +24,5 @@
 		<property name="createtime" column="F_CREATE_TIME" length="14" type="string"/>
 		<property name="lastmodifier" column="F_LAST_MODIFIER" length="50" type="string"/>
 		<property name="lastmodifiedtime" column="F_LAST_MODIFIED_TIME" length="14" type="string"/>
-		<property name="billpid" column="F_BILL_PID" length="50" type="string"/>
 	 </class>
 </hibernate-mapping>

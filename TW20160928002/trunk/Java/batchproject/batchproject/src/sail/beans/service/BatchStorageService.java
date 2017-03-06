@@ -92,10 +92,11 @@ public class BatchStorageService {
 	}
 	
 	/**
-	 * 删除对应明细数据
+	 * 删除出库入库对应明细数据
 	 * @param detailpid
 	 */
 	@SuppressWarnings("finally")
+	@Transactional(rollbackFor=Exception.class) 
 	public boolean deleteBatDepotIoDetail(String detailpid,String operuser){
 		boolean falg = false;
 		try{
@@ -103,11 +104,41 @@ public class BatchStorageService {
 		if (batDepotIoDetail == null){
 			return falg;
 		}
-		batDepotIoDetail.setSysflag("0");
-		batDepotIoDetail.setLastmodifiedtime(DateBean.getSysdateTime());
-		batDepotIoDetail.setLastmodifier(operuser);
-		genericDao.save(batDepotIoDetail);
-		falg = true;
+		//入库信息回撤
+		if("1".equals(batDepotIoDetail.getRemark5())){
+			batDepotIoDetail.setIsEnter("0");
+			batDepotIoDetail.setRemark5("");
+			batDepotIoDetail.setLastmodifiedtime(DateBean.getSysdateTime());
+			batDepotIoDetail.setLastmodifier(operuser);
+			this.genericDao.save(batDepotIoDetail);
+			
+			if(isAllBack(batDepotIoDetail)){
+				BatDepotIoBill batDepotIoBill=(BatDepotIoBill) genericDao.getById(BatDepotIoBill.class,batDepotIoDetail.getBillpid());
+				batDepotIoBill.setIsEnter("0");
+				batDepotIoBill.setLastmodifiedtime(DateBean.getSysdateTime());
+				batDepotIoBill.setLastmodifier(operuser);
+				this.genericDao.save(batDepotIoBill);
+			}
+			List<BatDepotIoDetailList> batDepotIoDetailList = genericDao.getListWithVariableParas("BATCHDATA_DEPOT_IODETAILLIST_BYPID", new Object[]{batDepotIoDetail.getPid()});
+			if(batDepotIoDetailList!=null&&batDepotIoDetailList.size()>0){
+				for (int i = 0; i < batDepotIoDetailList.size(); i++) {
+					BatDepotIoDetailList batDepotIoDetailLists=batDepotIoDetailList.get(i);
+					batDepotIoDetailLists.setRemark5("");
+					batDepotIoDetailLists.setLastmodifiedtime(DateBean.getSysdateTime());
+					batDepotIoDetailLists.setLastmodifier(operuser);
+					this.genericDao.save(batDepotIoDetailLists);
+				}
+			}
+			falg = true;
+			//出库信息删除
+		}else if("2".equals(batDepotIoDetail.getRemark5())){
+			batDepotIoDetail.setSysflag("0");
+			batDepotIoDetail.setLastmodifiedtime(DateBean.getSysdateTime());
+			batDepotIoDetail.setLastmodifier(operuser);
+			genericDao.save(batDepotIoDetail);
+			falg = true;
+		}
+		
 		}catch (Exception e) {
 			e.printStackTrace();
 		}finally{
@@ -116,6 +147,23 @@ public class BatchStorageService {
 		
 	}
 	
+	public boolean isAllBack(BatDepotIoDetail batDepotIoDetail){
+		String billno=batDepotIoDetail.getBillpid();
+		try{
+			List<Object[]> ruku  = (List<Object[]>)genericDao.getListWithNativeSql("STORAGE.GET_STROEXINIX", new Object[]{billno});
+			if(ruku!=null&&ruku.size()>0){
+				Object[] rukulist=ruku.get(0);
+				if("1".equals(rukulist[1].toString())){
+					return true;
+				}else{
+					return false;
+				}
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 	/**
 	 * 条形码解析
 	 * @param matCode

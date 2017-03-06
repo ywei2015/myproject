@@ -22,7 +22,7 @@
 		<![CDATA[
     	SELECT detail FROM sail.beans.entity.BatDepotIoDetail detail,sail.beans.entity.BatDepotIoBill bill
     	 where bill.billno = ? and bill.doctype = ?  and bill.sysflag = '1' and bill.pid = detail.billpid and detail.sysflag= '1' 
-    	 order by detail.createtime desc
+    	 and bill.isEnter='1' and detail.isEnter='1' order by detail.createtime desc
     ]]>
 	</query>	
 	
@@ -78,4 +78,12 @@
 			where d.f_pid=t.F_WORKORDER_PID and t.F_MAT_BATCH=? and  t.f_sys_flag='1' and d.f_sys_flag='1'
 		]]>
 	</sql-query>	
+	
+	<sql-query name="STORAGE.GET_STROEXINIX">
+		<![CDATA[
+			select count(*),sum(t.F_ISENTER) from t_bat_depot_iodetail t,t_bat_depot_iobill d
+             where t.F_BILL_PID=d.f_pid and d.f_sys_flag='1' and t.f_sys_flag='1' and d.f_isenter='1'
+             and d.f_pid=?
+		]]>
+	</sql-query>
 </hibernate-mapping>

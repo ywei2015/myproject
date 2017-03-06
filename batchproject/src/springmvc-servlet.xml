@@ -18,6 +18,11 @@
         http://www.springframework.org/schema/task 
         http://www.springframework.org/schema/task/spring-task-4.3.xsd">           
  
+ 	<task:executor id="executor" pool-size="5" />
+	<task:scheduler id="scheduler" pool-size="10" />
+	<task:annotation-driven executor="executor"
+		scheduler="scheduler" />
+		
     <mvc:annotation-driven/>
     <!-- 自动扫描且只扫描@Controller -->
     <context:component-scan base-package="sail.beans.controller" use-default-filters="false">
@@ -38,7 +43,7 @@
 	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">    
 	    <property name="supportedMediaTypes">    
 	        <list>    
-					<value>apolication/json; charset=UTF-8</value>
+					<value>application/json; charset=UTF-8</value>
 					<value>text/html;charset=UTF-8</value>
 	        </list>    
 	    </property>    
@@ -53,7 +58,4 @@
 	    </property>    
 	</bean>
 	
-	<context:annotation-config />  
-    <task:annotation-driven scheduler="scheduler" mode="proxy"/>  
-    <task:scheduler id="scheduler" pool-size="100"/>  
 </beans>

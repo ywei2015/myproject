@@ -40,6 +40,8 @@ public class TransfromdataService {
 					}
 					batWorkOrder.setWorkordercode(billno);
 					batWorkOrder.setWorkordertype("ZP01");
+					batWorkOrder.setProcess(jizu[49]==null?"":jizu[49].toString());
+					batWorkOrder.setEndbrand(jizu[51]==null?"":jizu[51].toString());
 					this.genericDao.save(batWorkOrder);
 				}
 			}
@@ -73,8 +75,9 @@ public class TransfromdataService {
 							batWorkOrder=batWorkOrder1;
 						}
 						batWorkOrder.setWorkordercode(billno);
-						batWorkOrder.setSession(bill_type[t]);
+						batWorkOrder.setSession(jizu[50]==null?"":jizu[50].toString());
 						batWorkOrder.setWorkordertype(bill_type[t]);
+						batWorkOrder.setEndbrand(jizu[52]==null?"":jizu[52].toString());
 						this.genericDao.save(batWorkOrder);
 						t++;
 					}
@@ -113,6 +116,8 @@ public class TransfromdataService {
 					}
 					batWorkOrder.setWorkordercode(billno);
 					batWorkOrder.setWorkordertype("ZP05");
+					batWorkOrder.setSession(jizu[50]==null?"":jizu[50].toString());
+					batWorkOrder.setEndbrand(jizu[53]==null?"":jizu[53].toString());
 					this.genericDao.save(batWorkOrder);
 				}
 			}
@@ -156,7 +161,7 @@ public class TransfromdataService {
 		if(jizu[11]!=null)
 			batWorkOrder.setPlanquantity(Double.parseDouble(jizu[11].toString()));
 		batWorkOrder.setUnit(jizu[12]==null?"":jizu[12].toString());
-		batWorkOrder.setProcess(jizu[7]==null?"":jizu[7].toString());//转包ZPO1
+		//batWorkOrder.setProcess(jizu[7]==null?"":jizu[7].toString());
 		batWorkOrder.setOpuserid(jizu[44]==null?"":jizu[44].toString());
 		batWorkOrder.setWorkorderstate("10");
 		batWorkOrder.setRemark(jizu[25]==null?"":jizu[25].toString());
@@ -179,7 +184,7 @@ public class TransfromdataService {
 		batWorkOrder.setMatname(jizu[5]==null?"":jizu[5].toString());
 		batWorkOrder.setEndbrand(jizu[4]==null?"":jizu[4].toString());
 		batWorkOrder.setWorktime(jizu[27]==null?"":jizu[27].toString());
-		batWorkOrder.setProcess(jizu[11]==null?"":jizu[11].toString());
+		//batWorkOrder.setProcess(jizu[11]==null?"":jizu[11].toString());
 		batWorkOrder.setWorkorderstate("10");
 		batWorkOrder.setSysflag(jizu[23].toString());
 		batWorkOrder.setCreator(jizu[21]==null?"":jizu[21].toString());

@@ -23,7 +23,6 @@ public class BatDepotIoDetailList implements Serializable{
 	private String createtime;
 	private String lastmodifier;
 	private String lastmodifiedtime;
-	private String billpid;
 	public String getPid() {
 		return pid;
 	}
@@ -125,12 +124,6 @@ public class BatDepotIoDetailList implements Serializable{
 	}
 	public void setLastmodifiedtime(String lastmodifiedtime) {
 		this.lastmodifiedtime = lastmodifiedtime;
-	}
-	public String getBillpid() {
-		return billpid;
-	}
-	public void setBillpid(String billpid) {
-		this.billpid = billpid;
 	}
 	public String getRepeated() {
 		return repeated;

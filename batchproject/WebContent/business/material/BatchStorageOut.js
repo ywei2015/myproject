@@ -72,7 +72,7 @@ function initTable(dataj){
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						td=document.createElement('td');
-						data_td1="";//单位
+						data_td1=rowdata.unit;//单位
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						td=document.createElement('td');

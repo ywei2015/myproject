@@ -17,6 +17,11 @@
 			,(select d5.F_TYPE_ORDER from V_BAT_WORKTIME d5 where d5.F_PID=t.f_workclass_id) as f_workclass_no
 			,(select d6.F_DIC_CODE from V_BAT_EQU d6 where d6.F_PID=t.f_workunit_id) as f_jitai_no     
 			,(select d7.F_SHORT_CODE from V_BAT_CPMAT d7 where d7.f_pid=t.f_mat_id) as f_brand_code
+			,(select d8.F_ESB_CODE from V_BAT_JBGROUP_EQU d8 where d8.f_pid=t.f_workunit_id)  as f_juanbao_code 
+            ,(select d9.F_ESB_CODE from V_BAT_PRODUCT_SECTION d9 where d9.f_pid=t.f_workunit_id)  as f_zhisi_code 
+			,(select d10.F_ESB_CODE from V_BAT_CPMAT d10 where d10.f_pid=t.F_MAT_ID)  as f_cpbrand_code   
+			,(select d11.F_ESB_CODE from V_BAT_YSMAT d11 where d11.f_pid=t.F_MAT_ID)  as f_zsbrand_code  
+			,(select d12.F_ESB_CODE from V_BAT_GSMAT d12 where d12.f_pid=t.F_MAT_ID)  as f_gsbrand_code   
 			from T_APS_WORKORDER t,t_aps_workplan d
 			where d.f_workday=? 
 			and d.F_PLANTYPE_FLAG=?

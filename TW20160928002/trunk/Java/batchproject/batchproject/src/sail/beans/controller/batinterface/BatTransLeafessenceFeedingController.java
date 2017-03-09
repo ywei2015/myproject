@@ -19,7 +19,7 @@ public class BatTransLeafessenceFeedingController {
 	 * 新增制丝中控－丝线香精投料
 	 */
 //	@Scheduled(cron = "0 49 16 * * ?")
-	@Scheduled(cron = "0 0/10 * * * ?")
+	@Scheduled(cron = "0 0/3 * * * ?")
 	public void saveBatTransLeafessenceFeedingService(){
 		if(batTransLeafessenceFeedingService==null) return;
 		batTransLeafessenceFeedingService.saveBatTransLeafessenceFeeding();

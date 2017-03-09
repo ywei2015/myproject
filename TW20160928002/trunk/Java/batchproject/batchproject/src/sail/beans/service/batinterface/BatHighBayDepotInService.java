@@ -65,6 +65,9 @@ public class BatHighBayDepotInService {
 						batHighBayDepotInDetail.setBoxCode(sec.getBoxCode());
 						batHighBayDepotInDetail.setBatch(sec.getBatch());
 						batHighBayDepotInDetail.setLot(sec.getLot());
+						//成品高架库系统未传 F_INSPECT_NO【检验批次号】 信息，
+						//后续处理方式为：在制品、成品入库检验批次号由批次系统按日期、班组、牌号自动生成。
+						//不用和MES系统挂钩取三级站卷制与包装批次号
 						batHighBayDepotInDetail.setInspectNo(sec.getInspectNo());
 						batHighBayDepotInDetail.setBrandCode(sec.getBrandCode());
 						batHighBayDepotInDetail.setLocationCode(sec.getLocationCode());

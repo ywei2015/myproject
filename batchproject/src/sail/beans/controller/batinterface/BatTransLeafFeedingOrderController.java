@@ -19,7 +19,7 @@ public class BatTransLeafFeedingOrderController {
 	 * 新增制丝中控－叶片投料
 	 */
 //	@Scheduled(cron = "0 49 16 * * ?")
-	@Scheduled(cron = "0 0/10 * * * ?")
+	@Scheduled(cron = "0 0/3 * * * ?")
 	public void saveBatTransLeafFeedingOrder(){
 		if(batTransLeafFeedingOrderService==null) return;
 		batTransLeafFeedingOrderService.saveBatTransLeafFeedingOrder();

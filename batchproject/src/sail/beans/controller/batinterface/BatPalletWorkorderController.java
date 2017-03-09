@@ -19,7 +19,7 @@ public class BatPalletWorkorderController {
 	 * 新增烟用材料配盘
 	 */
 //	@Scheduled(cron = "0 27 11 * * ?")
-	@Scheduled(cron = "0 0/10 * * * ?")
+	@Scheduled(cron = "0 0/3 * * * ?")
 	public void saveBatPalletWorkorder(){
 		if(batPalletWorkorderService==null) return;
 		batPalletWorkorderService.saveBatPalletWorkorder();

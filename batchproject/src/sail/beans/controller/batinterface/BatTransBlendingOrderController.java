@@ -18,8 +18,8 @@ public class BatTransBlendingOrderController {
 	/**
 	 * 新增制丝中控－五丝掺配
 	 */
-	@Scheduled(cron = "0 49 16 * * ?")
-//	@Scheduled(cron = "0 0/10 * * * ?")
+//	@Scheduled(cron = "0 49 16 * * ?")
+	@Scheduled(cron = "0 0/10 * * * ?")
 	public void saveBatTransBlendingOrder(){
 		if(batTransBlendingOrderService==null) return;
 		batTransBlendingOrderService.saveBatTransBlendingOrder();

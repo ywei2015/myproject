@@ -18,8 +18,8 @@ public class BatTransYesiIntoCabinetController {
 	/**
 	 * 新增制丝中控－叶丝入柜
 	 */
-	@Scheduled(cron = "0 49 16 * * ?")
-//	@Scheduled(cron = "0 0/10 * * * ?")
+//	@Scheduled(cron = "0 49 16 * * ?")
+	@Scheduled(cron = "0 0/10 * * * ?")
 	public void saveBatTransYesiIntoCabinet(){
 		if(batTransYesiIntoCabinetService==null) return;
 		batTransYesiIntoCabinetService.saveBatTransYesiIntoCabinet();

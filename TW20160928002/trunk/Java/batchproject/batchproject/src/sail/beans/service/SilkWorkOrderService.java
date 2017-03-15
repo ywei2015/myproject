@@ -104,9 +104,6 @@ public class SilkWorkOrderService {
 				batWorkOrderInput.setWorkorderpid(BatWorkOrder.getPid());
 				if("1".equals(tl_type))
 					batWorkOrderInput.setTltype("1");
-				else{
-					batWorkOrderInput.setTltype("2");//投料类型待确认
-				}
 				batWorkOrderInput.setMatbatch(matBatch);
 				batWorkOrderInput.setMatcode(carCode.getMatcode());
 				batWorkOrderInput.setMatname(carCode.getMatname());
@@ -167,10 +164,11 @@ public class SilkWorkOrderService {
 		List<BatWorkOrderInput> inputList=null;
 		if("1".equals(tl_type)){
 			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST.LIST", new Object[]{workOrderCode});
+		}else if("4".equals(tl_type)){
+			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_REUSESILK_INPUTLIST.LIST", new Object[]{workOrderCode});
 		}else{
 			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST2.LIST", new Object[]{workOrderCode});
 		}
-		
 		return inputList;
 	}
 	/**

@@ -21,7 +21,7 @@ public class TransfromdataService {
 	public void transformDataJiZu() {
 		try{
 			String taskday=DateBean.getAfterDay(DateBean.getSysdate(), 1);
-			List<Object[]> list_jizu=genericDao.getListWithNativeSql("transfrom.produceData.list",new Object[]{20161130,'2'});
+			List<Object[]> list_jizu=genericDao.getListWithNativeSql("transfrom.produceData.list",new Object[]{taskday,'2'});
 			if(list_jizu!=null&&list_jizu.size()>0){
 				for (int i = 0; i < list_jizu.size(); i++) {
 					BatWorkOrder batWorkOrder=new BatWorkOrder();
@@ -54,7 +54,7 @@ public class TransfromdataService {
 	public void transformDataSilk() {
 		try{
 			String taskday=DateBean.getAfterDay(DateBean.getSysdate(), 1);
-			List<Object[]> list_jizu=genericDao.getListWithNativeSql("transfrom.produceData.list",new Object[]{20160607,'4'});
+			List<Object[]> list_jizu=genericDao.getListWithNativeSql("transfrom.produceData.list",new Object[]{taskday,'4'});
 			if(list_jizu!=null&&list_jizu.size()>0){
 				String []bill_type={"ZP12","ZP13","ZP03"};
 				for (int i = 0; i < list_jizu.size(); i++) {
@@ -96,7 +96,7 @@ public class TransfromdataService {
 	public void transformDataStalkSilk() {
 		try{
 			String taskday=DateBean.getAfterDay(DateBean.getSysdate(), 1);
-			List<Object[]> list_jizu=genericDao.getListWithNativeSql("transfrom.stalksilk.list",new Object[]{20160401});
+			List<Object[]> list_jizu=genericDao.getListWithNativeSql("transfrom.stalksilk.list",new Object[]{taskday});
 			if(list_jizu!=null&&list_jizu.size()>0){
 				for (int i = 0; i < list_jizu.size(); i++) {
 					BatWorkOrder batWorkOrder=new BatWorkOrder();
@@ -177,7 +177,7 @@ public class TransfromdataService {
 		String taskday=DateBean.getAfterDay(DateBean.getSysdate(), 1);
 		batWorkOrder.setCreatetime(DateBean.getSysdateTime());
 		batWorkOrder.setWorkordertype("ZP05");//ZP01
-		batWorkOrder.setProducedate("20160401");
+		batWorkOrder.setProducedate(taskday);
 		batWorkOrder.setFactory("2200");
 		batWorkOrder.setWorkarea("HZ10");
 		batWorkOrder.setMatcode(jizu[4]==null?"":jizu[4].toString());

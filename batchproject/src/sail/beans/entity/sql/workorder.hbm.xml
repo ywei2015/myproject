@@ -6,7 +6,7 @@
 <hibernate-mapping>
 	<sql-query name="WORKORDER.T_BAT_PROCESSID_LIST">
 		<![CDATA[
-    	select d.f_dic_code,F_WORKORDER_CODE from T_BAT_WORKORDER t,t_pub_dic d where t.F_WORKORDER_TYPE=? and t.f_workorder_state='10' and t.f_process=d.f_pid 
+    	select d.f_dic_code,t.F_WORKORDER_CODE from T_BAT_WORKORDER t,t_pub_dic d where t.F_WORKORDER_TYPE=? and t.f_workorder_state='10' and t.f_process=d.f_pid 
         and  t.f_sys_flag='1' order by F_PROCESS
     ]]>
 	</sql-query>
@@ -74,7 +74,15 @@
 		<![CDATA[
 	    	select detail from sail.beans.entity.BatWorkOrderInput detail,
 	    	sail.beans.entity.BatWorkOrder order where  order.workordercode = ? 
-	    	and order.pid = detail.workorderpid
+	    	and order.pid = detail.workorderpid and detail.tltype!='1' and detail.tltype!='4'
+	    	and order.sysflag = '1' and detail.sysflag = '1' order by detail.createtime desc
+	    ]]>
+	</query>
+	
+	 <query name="WORKORDER.T_REUSESILK_INPUTLIST.LIST">
+		<![CDATA[
+	    	select detail from sail.beans.entity.BatWorkOrderInput detail,
+	    	sail.beans.entity.BatWorkOrder order where  order.pid = detail.workorderpid and detail.tltype='4'
 	    	and order.sysflag = '1' and detail.sysflag = '1' order by detail.createtime desc
 	    ]]>
 	</query>

@@ -52,7 +52,8 @@ public class BatchStorageService {
 				this.genericDao.save(batDepotIoDetail);
 				
 				batDepotIoBill=(BatDepotIoBill) genericDao.getById(BatDepotIoBill.class, batDepotIoDetail.getBillpid());
-				batDepotIoBill.setBillno(billNo);
+				if(billNo!=null)
+					batDepotIoBill.setBillno(billNo);
 				batDepotIoBill.setIsEnter("1");
 				batDepotIoBill.setBiztype(busType);
 				batDepotIoBill.setBilltype("11");

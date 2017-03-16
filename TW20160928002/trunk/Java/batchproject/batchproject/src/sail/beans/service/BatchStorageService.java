@@ -355,7 +355,7 @@ public class BatchStorageService {
 					batDepotIoBill.setDate(DateBean.getSysdate());
 					batDepotIoBill.setBillno(f_bill_no);
 					batDepotIoBill.setBiztype(f_bus_type);
-					batDepotIoBill.setBilltype("22");
+					batDepotIoBill.setBilltype("12");
 					batDepotIoBill.setDoctype(f_doc_type);
 					batDepotIoBill.setCreatetime(DateBean.getSysdateTime());
 					batDepotIoBill.setCreator(userId);

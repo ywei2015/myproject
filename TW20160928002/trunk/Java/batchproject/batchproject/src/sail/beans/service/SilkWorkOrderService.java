@@ -164,8 +164,6 @@ public class SilkWorkOrderService {
 		List<BatWorkOrderInput> inputList=null;
 		if("1".equals(tl_type)){
 			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST.LIST", new Object[]{workOrderCode});
-		}else if("4".equals(tl_type)){
-			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_REUSESILK_INPUTLIST.LIST", new Object[]{workOrderCode});
 		}else{
 			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST2.LIST", new Object[]{workOrderCode});
 		}
@@ -217,7 +215,7 @@ public class SilkWorkOrderService {
 				batDepotIoBill.setBillno(f_bill_no);
 				batDepotIoBill.setSysflag("1");
 				batDepotIoBill.setBiztype("MM2153");
-				batDepotIoBill.setBilltype("22");
+				batDepotIoBill.setBilltype("12");
 				batDepotIoBill.setDoctype("ZO40");
 				batDepotIoBill.setDepot("HZ10 ");
 				batDepotIoBill.setIsEnter("1");

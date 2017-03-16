@@ -74,7 +74,7 @@
 		<![CDATA[
 	    	select detail from sail.beans.entity.BatWorkOrderInput detail,
 	    	sail.beans.entity.BatWorkOrder order where  order.workordercode = ? 
-	    	and order.pid = detail.workorderpid and detail.tltype!='1' and detail.tltype!='4'
+	    	and order.pid = detail.workorderpid and detail.tltype!='1' 
 	    	and order.sysflag = '1' and detail.sysflag = '1' order by detail.createtime desc
 	    ]]>
 	</query>

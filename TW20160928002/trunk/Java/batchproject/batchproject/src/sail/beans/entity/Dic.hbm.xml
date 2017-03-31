@@ -7,9 +7,46 @@
     	<id name="pid" column="F_PID" length="36" type="string" unsaved-value="">
 			<generator class="uuid.hex" />
 		</id> 
-		<property name="diccode" column="F_DIC_CODE" length="36" type="string"/>
-		<property name="dicname" column="F_DIC_NAME" length="36" type="string"/>
+		<property name="diccode" column="F_DIC_CODE" length="500" type="string"/>
+		<property name="dicname" column="F_DIC_NAME" length="200" type="string"/>
 		<property name="objpid" column="F_OBJ_PID" length="36" type="string"/>
+		<property name="outype" column="f_ou_type" length="3" type="string"/>
+		<property name="value1" column="f_value1" length="500" type="string"/>
+		<property name="value2" column="f_value2" length="500" type="string"/>
+		<property name="value3" column="f_value3" length="500" type="string"/>
+		<property name="value4" column="f_value4" length="500" type="string"/>
+		<property name="value5" column="f_value5" length="500" type="string"/>
+		<property name="value6" column="f_value6" length="500" type="string"/>
+		<property name="value7" column="f_value7" length="500" type="string"/>
+		<property name="value8" column="f_value8" length="500" type="string"/>
+		<property name="value9" column="f_value9" length="500" type="string"/>
+		<property name="value10" column="f_value10" length="500" type="string"/>
+		<property name="otherpid1" column="f_other_pid1" length="36" type="string"/>
+		<property name="otherpid2" column="f_other_pid2" length="36" type="string"/>
+		<property name="otherpid3" column="f_other_pid3" length="36" type="string"/>
+		<property name="otherpid4" column="f_other_pid4" length="36" type="string"/>
+		<property name="otherpid5" column="f_other_pid5" length="36" type="string"/>
+		<property name="flag1" column="f_flag1" length="1" type="char"/>
+		<property name="flag2" column="f_flag2" length="1" type="char"/>
+		<property name="flag3" column="f_flag3" length="1" type="char"/>
+		<property name="flag4" column="f_flag4" length="1" type="char"/>
+		<property name="flag5" column="f_flag5" length="1" type="char"/>
+		<property name="num1" column="f_num1" precision="8" scale="0" type="integer"/>
+		<property name="num2" column="f_num2" precision="8" scale="0" type="integer"/>
+		<property name="num3" column="f_num3" precision="8" scale="0" type="integer"/>
+		<property name="num4" column="f_num4" precision="8" scale="0" type="integer"/>
+		<property name="num5" column="f_num5" precision="8" scale="0" type="integer"/>
+		<property name="double1" column="f_double1" precision="16" scale="2" type="double"/>
+		<property name="double2" column="f_double2" precision="16" scale="2" type="double"/>
+		<property name="double3" column="f_double3" precision="16" scale="2" type="double"/>
+		<property name="double4" column="f_double4" precision="16" scale="2" type="double"/>
+		<property name="double5" column="f_double5" precision="16" scale="2" type="double"/>
+		<property name="remark" column="f_remark" length="2000" type="string"/>
+		<property name="sysflag2" column="F_SYS_FLAG2" length="1" type="char"/>
 		<property name="sysflag" column="F_SYS_FLAG" length="1" type="char"/>
+		<property name="creator" column="f_creator" length="36" type="string"/>
+        <property name="createtime" column="f_create_time" length="14" type="string"/>
+        <property name="lastmodifier" column="f_last_modifier" length="36" type="string"/>
+        <property name="lastmodifiedtime" column="f_last_modified_time" length="14" type="string"/>
     </class>	
 </hibernate-mapping>

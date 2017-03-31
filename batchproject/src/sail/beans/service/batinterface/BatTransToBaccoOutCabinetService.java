@@ -34,11 +34,11 @@ public class BatTransToBaccoOutCabinetService extends CommonService{
 					if(batWorkOrder != null && !"".equals(batWorkOrder)){
 						BatWorkOrderInput input = new BatWorkOrderInput();
 						BatWorkOrderOutput output = new BatWorkOrderOutput();
-						order = mainList.get(0);
+						order = mainList.get(i);
 						//判断喂丝机信息不为空时，信息保存到卷包投料表中T_BAT_WORKORDER_INPUT
 						if(!StingUtil.isEmpty(order.getWirefeedingCode())){
 							input.setWorkorderpid(batWorkOrder.getPid());
-							input.setTltype("1");
+//							input.setTltype("1");
 							input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());
 							input.setMatcode(order.getMatCode()==null?"":order.getMatCode().toString());
 							input.setMatname(order.getMatCode()==null?"":this.getNameByCode(order.getMatCode()));
@@ -48,7 +48,7 @@ public class BatTransToBaccoOutCabinetService extends CommonService{
 							input.setUnit(order.getUnit()==null?"":order.getUnit().toString());
 							input.setStarttime(order.getStarttime()==null?"":order.getStarttime().toString());
 							input.setEndtime(order.getEndtime()==null?"":order.getEndtime().toString());
-							input.setOperateuserid(order.getOperateUsercode()==null?"":order.getOperateUsercode().toString());
+							input.setOperateuserid(this.getUserIdByUserCode(order.getOperateUsercode()));
 							input.setOperatetime(order.getOperateTime()==null?"":order.getOperateTime().toString());
 							input.setMasterslaveflag("0");
 							input.setRemark(order.getRemark()==null?"":order.getRemark().toString());
@@ -67,7 +67,7 @@ public class BatTransToBaccoOutCabinetService extends CommonService{
 							output.setQuantity(order.getQuantity()==null?0.0:Double.parseDouble(order.getQuantity().toString()));
 							output.setUnit(order.getUnit()==null?"":order.getUnit().toString());
 							output.setDepot(Constants.DEPOT);
-							output.setOperateuserid(order.getOperateUsercode()==null?"":order.getOperateUsercode().toString());
+							output.setOperateuserid(this.getUserIdByUserCode(order.getOperateUsercode()));
 							output.setRemark(order.getRemark()==null?"":order.getRemark().toString());
 							output.setSysflag(Constants.SYS_FLAG_USEING);
 							output.setCreator(Constants.USERID);

@@ -5,12 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import sail.beans.Constants;
 import sail.beans.dao.GenericDao;
 import sail.beans.entity.BatWorkOrder;
-import sail.beans.entity.BatWorkOrderInput;
 import sail.beans.entity.Matdic;
-import sail.beans.support.DateBean;
+import sail.beans.entity.User;
+import sail.beans.support.StingUtil;
 
 @Service
 public class CommonService {
@@ -59,6 +58,32 @@ public class CommonService {
 		{
 			return null;
 		}
-		return conList.get(0).toString();
+		return conList.get(0).getName().toString();
+	}
+	
+	/**
+	 * 通过usercode查找
+	 * @param usercode
+	 * @return
+	 */
+	public String getUserIdByUserCode(String usercode)
+	{
+		if(StingUtil.isEmpty(usercode)){
+			return null;
+		}
+		StringBuffer strBuffer = new StringBuffer();
+		strBuffer.append("FROM sail.beans.entity.User T ");
+		strBuffer.append("Where T.code = '");
+		strBuffer.append(usercode);
+		strBuffer.append("'");
+		strBuffer.append(" AND T.sysflag = '1'");
+		
+		String hql = strBuffer.toString();
+		List<User> conList = this.genericDao.getListByHql(hql);
+		if (conList == null || conList.size() == 0)
+		{
+			return null;
+		}
+		return conList.get(0).getPid().toString();
 	}
 }

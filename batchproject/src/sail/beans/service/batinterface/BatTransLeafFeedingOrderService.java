@@ -31,9 +31,9 @@ public class BatTransLeafFeedingOrderService extends CommonService{
 					BatWorkOrder batWorkOrder = this.getWorkorderByCode(workorderCode);
 					if(batWorkOrder != null && !"".equals(batWorkOrder)){
 						BatWorkOrderInput input = new BatWorkOrderInput();
-						order = mainList.get(0);
+						order = mainList.get(i);
 						input.setWorkorderpid(batWorkOrder.getPid());
-						input.setTltype("1");
+//						input.setTltype("1");
 						input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());
 						input.setMatcode(order.getMatCode()==null?"":order.getMatCode().toString());
 						input.setMatname(order.getMatCode()==null?"":this.getNameByCode(order.getMatCode()));
@@ -43,7 +43,7 @@ public class BatTransLeafFeedingOrderService extends CommonService{
 						input.setUnit(order.getUnit()==null?"":order.getUnit().toString());
 						input.setStarttime(order.getStarttime()==null?"":order.getStarttime().toString());
 						input.setEndtime(order.getEndtime()==null?"":order.getEndtime().toString());
-						input.setOperateuserid(order.getOperateUsercode()==null?"":order.getOperateUsercode().toString());
+						input.setOperateuserid(this.getUserIdByUserCode(order.getOperateUsercode()));
 						input.setOperatetime(order.getOperateTime()==null?"":order.getOperateTime().toString());
 						input.setMasterslaveflag("0");
 						input.setRemark(order.getRemark()==null?"":order.getRemark().toString());

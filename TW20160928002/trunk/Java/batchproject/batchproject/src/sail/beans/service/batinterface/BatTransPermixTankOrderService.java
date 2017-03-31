@@ -31,7 +31,7 @@ public class BatTransPermixTankOrderService extends CommonService{
 					BatWorkOrder batWorkOrder = this.getWorkorderByCode(workorderCode);
 					if(batWorkOrder != null && !"".equals(batWorkOrder)){
 						BatWorkOrderOutput output = new BatWorkOrderOutput();
-						order = mainList.get(0);
+						order = mainList.get(i);
 						output.setWorkorderpid(batWorkOrder.getPid());
 						output.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());
 						output.setWater(null);
@@ -42,7 +42,7 @@ public class BatTransPermixTankOrderService extends CommonService{
 						output.setQuantity(order.getQuantity()==null?0.0:Double.parseDouble(order.getQuantity().toString()));
 						output.setUnit(order.getUnit()==null?"":order.getUnit().toString());
 						output.setDepot(Constants.DEPOT);
-						output.setOperateuserid(order.getOperateUsercode()==null?"":order.getOperateUsercode().toString());
+						output.setOperateuserid(this.getUserIdByUserCode(order.getOperateUsercode()));
 						output.setRemark(order.getRemark()==null?"":order.getRemark().toString());
 						output.setSysflag(Constants.SYS_FLAG_USEING);
 						output.setCreator(Constants.USERID);

@@ -62,6 +62,7 @@ public class BatHighBayDepotInService {
 						UBatTransproductStorageSec sec = (UBatTransproductStorageSec) iterator.next();
 						batHighBayDepotInDetail.setPid(sec.getPid());
 						batHighBayDepotInDetail.setBill(batHighBayDepotIn);
+						batHighBayDepotInDetail.setCodeType(sec.getCodeType());
 						batHighBayDepotInDetail.setBoxCode(sec.getBoxCode());
 						batHighBayDepotInDetail.setBatch(sec.getBatch());
 						batHighBayDepotInDetail.setLot(sec.getLot());

@@ -39,9 +39,9 @@ public class BatPalletWorkorderService {
 					batPalletWorkorder.setPalletSid(main.getPalletSid()==null?"":main.getPalletSid().toString());
 					batPalletWorkorder.setProduceDate(main.getProduceDate()==null?"":main.getProduceDate().toString());
 					batPalletWorkorder.setFactory(Constants.FACTORY);
-					batPalletWorkorder.setWorkarea("07ef0be1-82f3-40fe-a1eb-e5d7f37fb179");  //固定值卷包车间
-					batPalletWorkorder.setWorktime("d1586f93-bb7a-42b0-bdde-826233a57f5e");  //班次名称  固定值:配盘班  不确定
-					batPalletWorkorder.setWorkteam("68e55e08-f15f-45ae-9a98-f7ca6a74f514");  //班组名称  固定值:配盘班  不确定
+					batPalletWorkorder.setWorkarea(main.getWorkareaCode()==null?"":main.getWorkareaCode().toString());  //固定值卷包车间
+					batPalletWorkorder.setWorktime(main.getWorktimeCode()==null?"":main.getWorktimeCode().toString());  //班次名称  固定值:配盘班  不确定
+					batPalletWorkorder.setWorkteam(main.getWorkteamCode()==null?"":main.getWorkteamCode().toString());  //班组名称  固定值:配盘班  不确定
 					batPalletWorkorder.setWorkorderState(main.getWorkorderState());
 					batPalletWorkorder.setRemark(main.getRemark()==null?"":main.getRemark().toString());
 					batPalletWorkorder.setSysFlag(Constants.SYS_FLAG_USEING);

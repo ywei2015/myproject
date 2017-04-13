@@ -97,7 +97,7 @@ public class RollBatchController {
 			res.setResponseData("1", "操作成功!");
 			res.setDataset(inputList, "workOrderAndProcessList");
 		}else{
-			res.setResponseData("0", "该工单数据有问题，请进行核对!");
+			res.setResponseData("0", "该工单数据暂无，请进行核对!");
 		}
 		return res;
 	}

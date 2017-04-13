@@ -101,8 +101,9 @@ public class SilkWorkOrderController {
 	public ResponseBase getBatWorkOrderInput(HttpServletRequest request){
 		String workOrderCode = request.getParameter("f_workorder_code");
 		String tl_type=request.getParameter("f_tl_type");
+		String workOrderType=request.getParameter("f_workorder_type");
 		ResponseBase res = new ResponseBase();
-		List<BatWorkOrderInput> inputList = silkWorkOrderService.getBatWorkOrderInput(workOrderCode,tl_type);
+		List<BatWorkOrderInput> inputList = silkWorkOrderService.getBatWorkOrderInput(workOrderCode,tl_type,workOrderType);
 		if (inputList != null && inputList.size() > 0){
 			res.setResponseData("1", "操作成功!");
 			res.setDataset(inputList, "batdepotiodetail");

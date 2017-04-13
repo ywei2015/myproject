@@ -6,27 +6,27 @@
 <hibernate-mapping>
 	<sql-query name="WORKORDER.T_BAT_PROCESSID_LIST">
 		<![CDATA[
-    	select d.f_dic_code,t.F_WORKORDER_CODE from T_BAT_WORKORDER t,t_pub_dic d where t.F_WORKORDER_TYPE=? and t.f_workorder_state='10' and t.f_process=d.f_pid 
+    	select d.f_dic_code,t.F_WORKORDER_CODE from T_BAT_WORKORDER t,t_pub_dic d where t.F_WORKORDER_TYPE = ? and t.f_workorder_state='10' and t.f_process=d.f_pid 
         and  t.f_sys_flag='1' order by F_PROCESS
     ]]>
 	</sql-query>
 	
 	<query name="GET_WORKSTATE_BYBILLNO">
 		<![CDATA[
-    	select order from sail.beans.entity.BatWorkOrder order where order.workordercode=? and order.sysflag = '1'
+    	select order from sail.beans.entity.BatWorkOrder order where order.workordercode = ? and order.sysflag = '1'
     ]]>
 	</query>
 	
 	<query name="BATCHDATA_BAT_DEPOT_IODETAIL">
 		<![CDATA[
-    	select order from sail.beans.entity.BatDepotIoDetail order where order.matbatch=? and order.sysflag = '1'
+    	select order from sail.beans.entity.BatDepotIoDetail order where order.matbatch = ? and order.sysflag = '1'
     	order by order.createtime desc
     ]]>
 	</query>
 	
 	<query name="BATCHDATA_BAT_DEPOT_IODETAIL_LIST">
 		<![CDATA[
-    	select order from sail.beans.entity.BatDepotIoDetailList order where order.slavebatch=? and order.sysflag = '1'
+    	select order from sail.beans.entity.BatDepotIoDetailList order where order.slavebatch = ? and order.sysflag = '1'
     	order by order.createtime desc
     ]]>
 	</query>
@@ -74,6 +74,15 @@
 		<![CDATA[
 	    	select detail from sail.beans.entity.BatWorkOrderInput detail,
 	    	sail.beans.entity.BatWorkOrder order where  order.workordercode = ? 
+	    	and order.pid = detail.workorderpid and detail.tltype!='1' 
+	    	and order.sysflag = '1' and detail.sysflag = '1' order by detail.createtime desc
+	    ]]>
+	</query>
+	
+	 <query name="WORKORDER.T_BAT_WORKORDER_REUSELIST.LIST">
+		<![CDATA[
+	    	select detail from sail.beans.entity.BatWorkOrderInput detail,
+	    	sail.beans.entity.BatWorkOrder order where  order.workordertype = 'ZP03' 
 	    	and order.pid = detail.workorderpid and detail.tltype!='1' 
 	    	and order.sysflag = '1' and detail.sysflag = '1' order by detail.createtime desc
 	    ]]>

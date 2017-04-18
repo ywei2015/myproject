@@ -52,7 +52,22 @@ public class Constants {
 	/**
 	 * 汉中卷烟厂生产仓库
 	 */
-	public final static String DEPOT = "HZN20";
+	public final static String DEPOT = "HZ20";
+	
+	/**
+	 * 汉中卷烟厂物资仓库
+	 */
+	public final static String DEPOT1 = "HZ10";
+	
+	/**
+	 * 汉中卷烟厂成品高架库
+	 */
+	public final static String DEPOT3 = "HZ30";
+	
+	/**
+	 * 汉中卷烟厂成品平库
+	 */
+	public final static String DEPOT2 = "HZ31";
 	
 	/**
 	 * 
@@ -63,5 +78,7 @@ public class Constants {
 	 * 出库
 	 */
 	public final static String BIZ_TYPE = "SD2121";
+	
+	public final static String TL_TYPE = "0";
 	
 }

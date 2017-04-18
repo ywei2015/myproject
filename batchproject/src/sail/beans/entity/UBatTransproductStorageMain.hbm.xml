@@ -8,13 +8,12 @@
 			<!--<generator class="uuid.hex" />-->
 			<generator class="assigned" />
 		</id> 
-		<property name="transferBill" column="F_TRANSFER_BILL" length="50" type="java.lang.String"/>
+		<property name="entrydepotBill" column="F_ENTRYDEPOT_BILL" length="50" type="java.lang.String"/>
 		<property name="date" column="F_DATE" length="10" type="java.lang.String"/>
-		<property name="lgortGicode" column="F_LGORT_GICODE" length="200" type="java.lang.String"/>
-		<property name="lgortGiname" column="F_LGORT_GINAME" length="200" type="java.lang.String"/>
+		<property name="depotCode" column="F_DEPOT_CODE" length="200" type="java.lang.String"/>
+		<property name="depotName" column="F_DEPOT_NAME" length="200" type="java.lang.String"/>
 		<property name="operateUsercode" column="F_OPERATE_USERCODE" length="50" type="java.lang.String"/>
 		<property name="operateUsername" column="F_OPERATE_USERNAME" length="50" type="java.lang.String"/>
-		<property name="twoStep" column="F_TWO_STEP" length="50" type="java.lang.String"/>
 		<property name="remark" column="F_REMARK" length="500" type="java.lang.String"/>
 		<property name="synchroFlag" column="F_SYNCHRO_FLAG" length="1" type="java.lang.String"/>
 		<property name="getdataTime" column="F_GETDATA_TIME" length="14" type="java.lang.String"/>

@@ -11,30 +11,28 @@ import java.util.Set;
 public class UBatTransproductStorageMain implements Serializable{
 
 	private String pid;
-	private String transferBill;
+	private String entrydepotBill;
 	private String date;
-	private String lgortGicode;
-	private String lgortGiname;
+	private String depotCode;
+	private String depotName;
 	private String operateUsercode;
 	private String operateUsername;
-	private String twoStep;
 	private String remark;
 	private String synchroFlag;
 	private String getdataTime;
 	private String synchroTime;
 	private Set<UBatTransproductStorageSec> secs = new HashSet<UBatTransproductStorageSec>(0);
-	
 	public String getPid() {
 		return pid;
 	}
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
-	public String getTransferBill() {
-		return transferBill;
+	public String getEntrydepotBill() {
+		return entrydepotBill;
 	}
-	public void setTransferBill(String transferBill) {
-		this.transferBill = transferBill;
+	public void setEntrydepotBill(String entrydepotBill) {
+		this.entrydepotBill = entrydepotBill;
 	}
 	public String getDate() {
 		return date;
@@ -42,17 +40,17 @@ public class UBatTransproductStorageMain implements Serializable{
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public String getLgortGicode() {
-		return lgortGicode;
+	public String getDepotCode() {
+		return depotCode;
 	}
-	public void setLgortGicode(String lgortGicode) {
-		this.lgortGicode = lgortGicode;
+	public void setDepotCode(String depotCode) {
+		this.depotCode = depotCode;
 	}
-	public String getLgortGiname() {
-		return lgortGiname;
+	public String getDepotName() {
+		return depotName;
 	}
-	public void setLgortGiname(String lgortGiname) {
-		this.lgortGiname = lgortGiname;
+	public void setDepotName(String depotName) {
+		this.depotName = depotName;
 	}
 	public String getOperateUsercode() {
 		return operateUsercode;
@@ -66,12 +64,6 @@ public class UBatTransproductStorageMain implements Serializable{
 	public void setOperateUsername(String operateUsername) {
 		this.operateUsername = operateUsername;
 	}
-	public String getTwoStep() {
-		return twoStep;
-	}
-	public void setTwoStep(String twoStep) {
-		this.twoStep = twoStep;
-	}
 	public String getRemark() {
 		return remark;
 	}
@@ -83,12 +75,6 @@ public class UBatTransproductStorageMain implements Serializable{
 	}
 	public void setSynchroFlag(String synchroFlag) {
 		this.synchroFlag = synchroFlag;
-	}
-	public Set<UBatTransproductStorageSec> getSecs() {
-		return secs;
-	}
-	public void setSecs(Set<UBatTransproductStorageSec> secs) {
-		this.secs = secs;
 	}
 	public String getGetdataTime() {
 		return getdataTime;
@@ -102,4 +88,11 @@ public class UBatTransproductStorageMain implements Serializable{
 	public void setSynchroTime(String synchroTime) {
 		this.synchroTime = synchroTime;
 	}
+	public Set<UBatTransproductStorageSec> getSecs() {
+		return secs;
+	}
+	public void setSecs(Set<UBatTransproductStorageSec> secs) {
+		this.secs = secs;
+	}
+	
 }

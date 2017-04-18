@@ -18,11 +18,11 @@
     ]]>
 	</query>
 	<!--根据主表入库单号为条件关联获取从表的F_CODE_TYPE，作为区分成品或在制品-->
-	<query name="SYNCHRO.GETCODETYPE.BY.TRANSFERBILL">
+	<sql-query name="SYNCHRO.GETCODETYPE.BY.ENTRYDEPOTBILL">
 		<![CDATA[
-    	SELECT sec FROM sail.beans.entity.UBatTransproductStorageSec sec where sec.main.transferBill = ?  
+    	SELECT sec.F_CODE_TYPE FROM U_BAT_TRANSPRODUCTSTORAGESEC sec where sec.F_INBILL_PID = ?  
     ]]>
-    </query>
+    </sql-query>
     
     <!--成品移库（移出/移入）信息begin-->
 	<!--获取待转储成品移库（移出/移入）信息主表-->

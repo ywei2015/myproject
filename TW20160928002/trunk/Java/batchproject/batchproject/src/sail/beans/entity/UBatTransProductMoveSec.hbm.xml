@@ -5,7 +5,7 @@
 <hibernate-mapping>
 	 <class name="sail.beans.entity.UBatTransProductMoveSec" table="U_BAT_TRANSPRODUCTMOVESEC">
 	 	<id name="pid" column="F_PID" length="50" type="java.lang.String">
-			<generator class="uuid.hex" />
+			<generator class="assigned" />
 		</id> 
 		<many-to-one name="main" class="sail.beans.entity.UBatTransProductMoveMain" fetch="select">
             <column name="F_INBILL_PID" length="50" />

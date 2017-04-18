@@ -12,7 +12,7 @@
             <column name="F_INBILL_PID" length="50" />
         </many-to-one>
 		<!--<property name="inbillPid" column="F_INBILL_PID" length="50" type="java.lang.String"/>-->
-		<property name="codeType" column="CODE_TYPE" length="50" type="java.lang.String"/>
+		<property name="codeType" column="F_CODE_TYPE" length="50" type="java.lang.String"/>
 		<property name="boxCode" column="F_BOX_CODE" length="200" type="java.lang.String"/>
 		<property name="batch" column="F_BATCH" length="50" type="java.lang.String"/>
 		<property name="lot" column="F_LOT" length="50" type="java.lang.String"/>

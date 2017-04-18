@@ -33,7 +33,7 @@ public class BatTransStemSpiceFeedingService extends CommonService{
 						BatWorkOrderInput input = new BatWorkOrderInput();
 						order = mainList.get(i);
 						input.setWorkorderpid(batWorkOrder.getPid());
-//						input.setTltype("1");
+						input.setTltype(Constants.TL_TYPE);
 						//批次根据罐号(来源位置)找出对应的投入批次号
 						//罐号和批次号关系还未建立
 						input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());

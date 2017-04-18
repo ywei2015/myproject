@@ -22,6 +22,6 @@ public class BatHighBayDepotInController {
 //	@Scheduled(cron = "0 0/5 * * * ?")
 	public void saveBatHighBayDepotIn(){
 		if(batHighBayDepotInService==null) return;
-		batHighBayDepotInService.saveBatHighBayDepotIn();
+		batHighBayDepotInService.SaveBatHighBayDepotIn();
 	}
 }

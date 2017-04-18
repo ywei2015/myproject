@@ -38,7 +38,7 @@ public class BatTransToBaccoOutCabinetService extends CommonService{
 						//判断喂丝机信息不为空时，信息保存到卷包投料表中T_BAT_WORKORDER_INPUT
 						if(!StingUtil.isEmpty(order.getWirefeedingCode())){
 							input.setWorkorderpid(batWorkOrder.getPid());
-//							input.setTltype("1");
+							input.setTltype(Constants.TL_TYPE);
 							input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());
 							input.setMatcode(order.getMatCode()==null?"":order.getMatCode().toString());
 							input.setMatname(order.getMatCode()==null?"":this.getNameByCode(order.getMatCode()));

@@ -14,9 +14,10 @@ import sail.beans.entity.BatHighBayDepotInDetail;
 import sail.beans.entity.UBatTransproductStorageMain;
 import sail.beans.entity.UBatTransproductStorageSec;
 import sail.beans.support.DateBean;
+import sail.beans.support.StingUtil;
 
 @Service
-public class BatHighBayDepotInService {
+public class BatHighBayDepotInService extends CommonService{
 	@Autowired
 	private GenericDao genericDao;  
 	
@@ -24,7 +25,7 @@ public class BatHighBayDepotInService {
 	 * 获取待转储并新增入库后台服务（成品（成品/在制品）入库信息）
 	 * @return
 	 */
-	public void saveBatHighBayDepotIn(){
+	public void SaveBatHighBayDepotIn(){
 		try{
 			List<UBatTransproductStorageMain> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSPRODUCTSTORAGEMAIN.LIST", new Object[]{});
 			UBatTransproductStorageMain main = null;
@@ -34,19 +35,19 @@ public class BatHighBayDepotInService {
 					BatHighBayDepotIn batHighBayDepotIn = new BatHighBayDepotIn();
 					main = mainList.get(i);
 					batHighBayDepotIn.setPid(main.getPid());
-					batHighBayDepotIn.setEntrydepotBill(main.getTransferBill()==null?"":main.getTransferBill().toString());
+					batHighBayDepotIn.setEntrydepotBill(main.getEntrydepotBill()==null?"":main.getEntrydepotBill().toString());
 					batHighBayDepotIn.setDate(main.getDate()==null?"":main.getDate().toString());
 					batHighBayDepotIn.setFactory(Constants.FACTORY);
-					batHighBayDepotIn.setDepot(main.getLgortGicode()==null?"":main.getLgortGicode().toString());
-					batHighBayDepotIn.setOperateUserid(main.getOperateUsername()==null?"":main.getOperateUsername().toString());
+					batHighBayDepotIn.setDepot(main.getDepotCode()==null?"":main.getDepotCode().toString());
+					batHighBayDepotIn.setOperateUserid(main.getOperateUsername());
 					batHighBayDepotIn.setOperateTime(DateBean.getSysdateTime());
 					batHighBayDepotIn.setRemark(main.getRemark()==null?"":main.getRemark().toString());
 					batHighBayDepotIn.setSysFlag(Constants.SYS_FLAG_USEING);
 					batHighBayDepotIn.setCreator(Constants.USERID);
 					batHighBayDepotIn.setCreateTime(DateBean.getSysdateTime());
-					List<UBatTransproductStorageSec> codeType = genericDao.getListWithVariableParas("SYNCHRO.GETCODETYPE.BY.TRANSFERBILL", new Object[]{main.getTransferBill()});
+					List codeType = genericDao.getListWithNativeSql("SYNCHRO.GETCODETYPE.BY.ENTRYDEPOTBILL",new Object[]{main.getEntrydepotBill()});
 					if(codeType != null && codeType.size() > 0){ //根据从表判断
-						batHighBayDepotIn.setCodeType(codeType.get(0).getCodeType());
+						batHighBayDepotIn.setCodeType(codeType.get(0).toString());
 					}
 					genericDao.save(batHighBayDepotIn);
 					//转储完数据后更新主表转储状态
@@ -65,16 +66,28 @@ public class BatHighBayDepotInService {
 						batHighBayDepotInDetail.setCodeType(sec.getCodeType());
 						batHighBayDepotInDetail.setBoxCode(sec.getBoxCode());
 						batHighBayDepotInDetail.setBatch(sec.getBatch());
-						batHighBayDepotInDetail.setLot(sec.getLot());
+						//01是早班,02是中班,03是晚班   v_aps_workclass_sche
+						if(!StingUtil.isEmpty(sec.getLot())){
+							if(sec.getLot().indexOf("早班")!=-1){
+								batHighBayDepotInDetail.setLot(sec.getLot().replaceAll("早班", "01"));
+							}
+							else if(sec.getLot().indexOf("中班")!=-1){
+								batHighBayDepotInDetail.setLot(sec.getLot().replaceAll("中班", "02"));
+							}
+							else if(sec.getLot().indexOf("晚班")!=-1){
+								batHighBayDepotInDetail.setLot(sec.getLot().replaceAll("晚班", "03"));
+							}
+						}
+						
 						//成品高架库系统未传 F_INSPECT_NO【检验批次号】 信息，
 						//后续处理方式为：在制品、成品入库检验批次号由批次系统按日期、班组、牌号自动生成。
 						//不用和MES系统挂钩取三级站卷制与包装批次号
-						batHighBayDepotInDetail.setInspectNo(sec.getLot()+""+sec.getBrandCode());
+						batHighBayDepotInDetail.setInspectNo(sec.getReceiveTime());
 						batHighBayDepotInDetail.setBrandCode(sec.getBrandCode());
 						batHighBayDepotInDetail.setLocationCode(sec.getLocationCode());
 						batHighBayDepotInDetail.setLocationName(sec.getLocationName());
 						batHighBayDepotInDetail.setTray(sec.getTray());
-						batHighBayDepotInDetail.setReceiver(Constants.USERID);
+						batHighBayDepotInDetail.setReceiver(main1.getOperateUsername());
 						batHighBayDepotInDetail.setReceiverTime(sec.getReceiveTime());
 						batHighBayDepotInDetail.setRemark(sec.getRemark());
 						batHighBayDepotInDetail.setSysFlag(Constants.SYS_FLAG_USEING);

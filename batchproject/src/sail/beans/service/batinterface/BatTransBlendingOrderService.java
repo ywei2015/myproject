@@ -33,7 +33,7 @@ public class BatTransBlendingOrderService extends CommonService{
 						BatWorkOrderInput input = new BatWorkOrderInput();
 						order = mainList.get(i);
 						input.setWorkorderpid(batWorkOrder.getPid());
-						input.setTltype("1");
+						input.setTltype(Constants.TL_TYPE);
 						input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());
 						input.setMatcode(order.getMatCode()==null?"":order.getMatCode().toString());
 						input.setMatname(order.getMatCode()==null?"":this.getNameByCode(order.getMatCode()));

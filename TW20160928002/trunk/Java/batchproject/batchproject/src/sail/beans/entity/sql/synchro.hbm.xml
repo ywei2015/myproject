@@ -17,6 +17,11 @@
     	SELECT sec FROM sail.beans.entity.UBatTransproductStorageSec sec where sec.synchroFlag = '0' 
     ]]>
 	</query>
+	<query name="SYNCHRO.U_BAT_TRANSPRODUCTSTORAGESEC.BY.INBILLPID">
+		<![CDATA[
+    	SELECT sec FROM sail.beans.entity.UBatTransproductStorageSec sec where sec.inbillPid = ?  
+    ]]>
+    </query>
 	<!--根据主表入库单号为条件关联获取从表的F_CODE_TYPE，作为区分成品或在制品-->
 	<sql-query name="SYNCHRO.GETCODETYPE.BY.ENTRYDEPOTBILL">
 		<![CDATA[
@@ -31,6 +36,11 @@
     	SELECT main FROM sail.beans.entity.UBatTransProductMoveMain main where main.synchroFlag = '0' 
     ]]>
 	</query>
+	<query name="SYNCHRO.U_BAT_TRANSPRODUCTMOVESEC.BY.INBILLPID">
+		<![CDATA[
+    	SELECT sec FROM sail.beans.entity.UBatTransProductMoveSec sec where sec.inbillPid = ?  
+    ]]>
+    </query>
     
     <!--烟用材料配盘begin-->
 	<query name="SYNCHRO.U_BAT_TRANSMATERIALWITHMAIN.LIST">
@@ -38,11 +48,11 @@
     	SELECT main FROM sail.beans.entity.UBatTransMaterialWithMain main where main.synchroFlag = '0' 
     ]]>
 	</query>
-	<sql-query name="SYNCHRO.U_BAT_TRANSMATERIALWITHSEC.LIST">
+	<query name="SYNCHRO.U_BAT_TRANSMATERIALWITHSEC.LIST">
 		<![CDATA[
     	SELECT sec FROM sail.beans.entity.UBatTransMaterialWithSec sec where sec.inbillPid = ?  
     ]]>
-    </sql-query>
+    </query>
 	
 	<!--批次管理_成品调运begin-->
 	<query name="SYNCHRO.U_BAT_TRANSFINALPRODUCTMAIN.LIST">

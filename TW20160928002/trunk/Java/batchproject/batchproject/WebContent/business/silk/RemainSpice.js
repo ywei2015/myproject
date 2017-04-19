@@ -26,7 +26,6 @@ function initTable(){
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
-	if(userId!=null){
 	$.ajax({
 		type : "post",
 		url:cqt_prefix+'spiceremain/getBatSpiceRemain',
@@ -114,10 +113,10 @@ function initTable(){
 		}
 	
 	});
-	}
 	theTable.appendChild(b);
-}
-var Id
+	}
+	
+var Id;
 function deleteRow(i){
 	Id=i;
 	var tishi=picihao;

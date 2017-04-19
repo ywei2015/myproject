@@ -9,8 +9,7 @@ import java.io.Serializable;
 public class BatHighBayDepotInDetail implements Serializable{
 
 	private String pid;
-//	private String inbillPid;
-	private BatHighBayDepotIn bill;
+	private String inbillPid;
 	private String codeType;
 	private String boxCode;
 	private String batch;
@@ -35,11 +34,11 @@ public class BatHighBayDepotInDetail implements Serializable{
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
-	public BatHighBayDepotIn getBill() {
-		return bill;
+	public String getInbillPid() {
+		return inbillPid;
 	}
-	public void setBill(BatHighBayDepotIn bill) {
-		this.bill = bill;
+	public void setInbillPid(String inbillPid) {
+		this.inbillPid = inbillPid;
 	}
 	public String getCodeType() {
 		return codeType;

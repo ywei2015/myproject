@@ -9,8 +9,7 @@ import java.io.Serializable;
 public class UBatTransproductStorageSec implements Serializable{
 
 	private String pid;
-	private UBatTransproductStorageMain main;
-//	private String inbillPid;
+	private String inbillPid;
 	private String codeType;
 	private String boxCode;
 	private String batch;
@@ -33,11 +32,11 @@ public class UBatTransproductStorageSec implements Serializable{
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
-	public UBatTransproductStorageMain getMain() {
-		return main;
+	public String getInbillPid() {
+		return inbillPid;
 	}
-	public void setMain(UBatTransproductStorageMain main) {
-		this.main = main;
+	public void setInbillPid(String inbillPid) {
+		this.inbillPid = inbillPid;
 	}
 	public String getCodeType() {
 		return codeType;

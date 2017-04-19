@@ -33,8 +33,6 @@ public class BatProductMove implements Serializable{
 	private String bizType;
 	private String operatorGr;
 	
-	private Set<BatProductMoveDetail> details = new HashSet<BatProductMoveDetail>(0);
-
 	public String getPid() {
 		return pid;
 	}
@@ -211,11 +209,4 @@ public class BatProductMove implements Serializable{
 		this.operatorGr = operatorGr;
 	}
 
-	public Set<BatProductMoveDetail> getDetails() {
-		return details;
-	}
-
-	public void setDetails(Set<BatProductMoveDetail> details) {
-		this.details = details;
-	}
 }

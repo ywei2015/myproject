@@ -22,7 +22,6 @@ public class UBatTransProductMoveMain implements Serializable{
 	private String synchroFlag;
 	private String getdataTime;
 	private String synchroTime;
-	private Set<UBatTransProductMoveSec> secs = new HashSet<UBatTransProductMoveSec>(0);
 	
 	public String getPid() {
 		return pid;
@@ -83,12 +82,6 @@ public class UBatTransProductMoveMain implements Serializable{
 	}
 	public void setSynchroFlag(String synchroFlag) {
 		this.synchroFlag = synchroFlag;
-	}
-	public Set<UBatTransProductMoveSec> getSecs() {
-		return secs;
-	}
-	public void setSecs(Set<UBatTransProductMoveSec> secs) {
-		this.secs = secs;
 	}
 	public String getGetdataTime() {
 		return getdataTime;

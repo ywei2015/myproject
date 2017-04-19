@@ -29,11 +29,5 @@
 		<property name="bizType" column="F_BIZ_TYPE" length="50" type="java.lang.String" not-null="true"/>
 		<property name="operatorGr" column="F_OPERATOR_GR" length="50" type="java.lang.String"/>
 		
-		<set name="details" inverse="true" lazy="true" table="T_BAT_PRODUCTMOVE_DETAIL" fetch="select">
-            <key>
-                <column name="F_TRANSFER_PID" length="50" not-null="true" />
-            </key>
-            <one-to-many class="sail.beans.entity.BatProductMoveDetail" />
-        </set>
 	 </class>
 </hibernate-mapping>

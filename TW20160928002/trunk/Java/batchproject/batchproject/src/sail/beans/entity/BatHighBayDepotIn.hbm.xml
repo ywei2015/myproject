@@ -25,11 +25,5 @@
 		<property name="lastmodifier" column="F_LAST_MODIFIER" length="50" type="java.lang.String"/>
 		<property name="lastmodifiedTime" column="F_LAST_MODIFIED_TIME" length="14" type="java.lang.String"/>
 		<property name="codeType" column="F_CODE_TYPE" length="14" type="java.lang.String"/>
-		<set name="details" inverse="true" lazy="true" table="T_BAT_HIGHBAYDEPOT_INDETAIL" fetch="select">
-            <key>
-                <column name="F_INBILL_PID" length="50" not-null="true" />
-            </key>
-            <one-to-many class="sail.beans.entity.BatHighBayDepotInDetail" />
-        </set>
 	 </class>
 </hibernate-mapping>

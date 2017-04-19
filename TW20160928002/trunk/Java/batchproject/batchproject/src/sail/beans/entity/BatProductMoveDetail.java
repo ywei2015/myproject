@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class BatProductMoveDetail implements Serializable{
 
 	private String pid;
-	private BatProductMove bill;
+	private String transferPid;
 	private String batchNo;
 	private String codeType;
 	private String giTime;
@@ -33,11 +33,11 @@ public class BatProductMoveDetail implements Serializable{
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
-	public BatProductMove getBill() {
-		return bill;
+	public String getTransferPid() {
+		return transferPid;
 	}
-	public void setBill(BatProductMove bill) {
-		this.bill = bill;
+	public void setTransferPid(String transferPid) {
+		this.transferPid = transferPid;
 	}
 	public String getBatchNo() {
 		return batchNo;

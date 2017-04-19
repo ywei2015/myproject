@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class BatPalletForm implements Serializable{
 
 	private String pid;
-	private BatPalletWorkorder main;
+	private String palletPid;
 	private String palletSid;
 	private String palletCode;
 	private String matCode;
@@ -40,11 +40,11 @@ public class BatPalletForm implements Serializable{
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
-	public BatPalletWorkorder getMain() {
-		return main;
+	public String getPalletPid() {
+		return palletPid;
 	}
-	public void setMain(BatPalletWorkorder main) {
-		this.main = main;
+	public void setPalletPid(String palletPid) {
+		this.palletPid = palletPid;
 	}
 	public String getPalletSid() {
 		return palletSid;

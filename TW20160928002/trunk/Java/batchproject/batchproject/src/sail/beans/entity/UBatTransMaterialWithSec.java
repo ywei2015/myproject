@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class UBatTransMaterialWithSec implements Serializable{
 
 	private String pid;
-	private UBatTransMaterialWithMain main;
+	private String inbillPid;
 	private String palletSid;
 	private String palletCode;
 	private String matCode;
@@ -34,11 +34,11 @@ public class UBatTransMaterialWithSec implements Serializable{
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
-	public UBatTransMaterialWithMain getMain() {
-		return main;
+	public String getInbillPid() {
+		return inbillPid;
 	}
-	public void setMain(UBatTransMaterialWithMain main) {
-		this.main = main;
+	public void setInbillPid(String inbillPid) {
+		this.inbillPid = inbillPid;
 	}
 	public String getPalletSid() {
 		return palletSid;

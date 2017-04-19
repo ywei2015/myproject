@@ -1,4 +1,4 @@
-var cqt_prefix = "http://192.168.12.195:8080/batchproject/dynamic/";
+var cqt_prefix = "http://192.168.10.105:8080/batchproject/dynamic/";
 //var cqt_prefix = "http://192.168.146.176:7002/batchproject/dynamic/";
 var time;
 var myDate = new Date();

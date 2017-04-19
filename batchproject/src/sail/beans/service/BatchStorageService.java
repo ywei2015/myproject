@@ -288,7 +288,10 @@ public class BatchStorageService {
 		batBatAdjustDetail.setMatcode(carcode.getMatcode());
 		batBatAdjustDetail.setMatname(carcode.getMatname());
 		batBatAdjustDetail.setOldmasterbatch(carcode.getOldbatch());
-		batBatAdjustDetail.setSuppliersortcode(carcode.getStroecode());
+		if(carcode.getStroecode()!=null&&!carcode.getStroecode().equals(""))
+			batBatAdjustDetail.setSuppliersortcode(carcode.getStroecode());
+		else
+			batBatAdjustDetail.setSuppliersortcode("1");
 		batBatAdjustDetail.setSlavebatch(slavebatch);
 		batBatAdjustDetail.setNewmasterbatch(masterbatch);
 		batBatAdjustDetail.setSysflag("1");

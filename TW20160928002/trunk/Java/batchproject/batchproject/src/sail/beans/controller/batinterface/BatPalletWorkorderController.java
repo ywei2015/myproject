@@ -1,5 +1,7 @@
 package sail.beans.controller.batinterface;
 
+import java.sql.SQLException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
@@ -17,11 +19,12 @@ public class BatPalletWorkorderController {
 	private BatPalletWorkorderService batPalletWorkorderService = null;
 	/**
 	 * 新增烟用材料配盘
+	 * @throws SQLException 
 	 */
 //	@Scheduled(cron = "0 27 11 * * ?")
-//	@Scheduled(cron = "0 0/3 * * * ?")
+//	@Scheduled(cron = "0 0/1 * * * ?")
 	public void saveBatPalletWorkorder(){
 		if(batPalletWorkorderService==null) return;
-		batPalletWorkorderService.saveBatPalletWorkorder();
+			batPalletWorkorderService.SaveBatPalletWorkorder();
 	}
 }

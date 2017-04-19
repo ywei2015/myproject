@@ -24,7 +24,7 @@ public class BatTransferService {
 	 * 获取待转储并新增成品调运信息后台服务（成品调运信息）
 	 * @return
 	 */
-	public void saveBatTransfer(){
+	public void SaveBatTransfer(){
 		try{
 			List<UBatTransFinalProductMain> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSFINALPRODUCTMAIN.LIST", new Object[]{});
 			UBatTransFinalProductMain main = null;

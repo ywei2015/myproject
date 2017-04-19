@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class UBatTransProductMoveSec implements Serializable{
 
 	private String pid;
-	private UBatTransProductMoveMain main;
+	private String inbillPid;
 	private String batchNo;
 	private String codeType;
 	private String giTime;
@@ -25,11 +25,11 @@ public class UBatTransProductMoveSec implements Serializable{
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
-	public UBatTransProductMoveMain getMain() {
-		return main;
+	public String getInbillPid() {
+		return inbillPid;
 	}
-	public void setMain(UBatTransProductMoveMain main) {
-		this.main = main;
+	public void setInbillPid(String inbillPid) {
+		this.inbillPid = inbillPid;
 	}
 	public String getBatchNo() {
 		return batchNo;

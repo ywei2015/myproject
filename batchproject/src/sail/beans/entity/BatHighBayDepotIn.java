@@ -29,7 +29,6 @@ public class BatHighBayDepotIn implements Serializable{
 	private String lastmodifier;
 	private String lastmodifiedTime;
 	private String codeType;
-	private Set<BatHighBayDepotInDetail> details = new HashSet<BatHighBayDepotInDetail>(0);
 	
 	public String getPid() {
 		return pid;
@@ -144,11 +143,5 @@ public class BatHighBayDepotIn implements Serializable{
 	}
 	public void setCodeType(String codeType) {
 		this.codeType = codeType;
-	}
-	public Set<BatHighBayDepotInDetail> getDetails() {
-		return details;
-	}
-	public void setDetails(Set<BatHighBayDepotInDetail> details) {
-		this.details = details;
 	}
 }

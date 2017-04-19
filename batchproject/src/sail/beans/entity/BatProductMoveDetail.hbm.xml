@@ -7,9 +7,7 @@
 	 	<id name="pid" column="F_PID" length="50" type="java.lang.String">
 			<generator class="assigned" />
 		</id> 
-		<many-to-one name="bill" class="sail.beans.entity.BatProductMove" fetch="select" not-null="true">
-            <column name="F_TRANSFER_PID" length="50" />
-        </many-to-one>
+        <property name="transferPid" column="F_TRANSFER_PID" length="50" type="java.lang.String"/>
 		<property name="batchNo" column="F_BATCH_NO" length="50" type="java.lang.String"/>
 		<property name="codeType" column="F_CODE_TYPE" length="50" type="java.lang.String"/>
 		<property name="giTime" column="F_GI_TIME" length="14" type="java.lang.String" not-null="true"/>

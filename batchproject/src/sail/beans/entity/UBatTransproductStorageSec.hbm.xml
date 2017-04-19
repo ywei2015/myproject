@@ -7,11 +7,8 @@
 	 	<id name="pid" column="F_PID" length="50" type="java.lang.String">
 			<generator class="assigned" />
 		</id> 
-		<many-to-one name="main" class="sail.beans.entity.UBatTransproductStorageMain" fetch="select">
-            <column name="F_INBILL_PID" length="50" />
-        </many-to-one>
         
-		<!--<property name="inbillPid" column="F_INBILL_PID" length="50" type="java.lang.String"/>-->
+		<property name="inbillPid" column="F_INBILL_PID" length="50" type="java.lang.String"/>
 		<property name="codeType" column="F_CODE_TYPE" length="50" type="java.lang.String"/>
 		<property name="boxCode" column="F_BOX_CODE" length="200" type="java.lang.String"/>
 		<property name="batch" column="F_BATCH" length="50" type="java.lang.String"/>

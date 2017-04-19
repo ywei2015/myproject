@@ -19,9 +19,9 @@ public class BatTransferController {
 	 * 新增成品调运信息
 	 */
 //	@Scheduled(cron = "0 33 15 * * ?")
-//	@Scheduled(cron = "0 0/5 * * * ?")
+	@Scheduled(cron = "0 0/6 * * * ?")
 	public void saveBatTransfer(){
 		if(batTransferService==null) return;
-		batTransferService.saveBatTransfer();
+		batTransferService.SaveBatTransfer();
 	}
 }

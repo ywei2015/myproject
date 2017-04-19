@@ -22,7 +22,7 @@ public class BatPalletWorkorderController {
 	 * @throws SQLException 
 	 */
 //	@Scheduled(cron = "0 27 11 * * ?")
-//	@Scheduled(cron = "0 0/1 * * * ?")
+	@Scheduled(cron = "0 0/10 * * * ?")
 	public void saveBatPalletWorkorder(){
 		if(batPalletWorkorderService==null) return;
 			batPalletWorkorderService.SaveBatPalletWorkorder();

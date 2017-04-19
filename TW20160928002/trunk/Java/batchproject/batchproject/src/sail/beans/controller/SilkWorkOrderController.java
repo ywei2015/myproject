@@ -108,7 +108,7 @@ public class SilkWorkOrderController {
 			res.setResponseData("1", "操作成功!");
 			res.setDataset(inputList, "batdepotiodetail");
 		}else{
-			res.setResponseData("0", "该工单数据有问题，请进行核对!");
+			res.setResponseData("0", "该工单暂无数据!");
 		}
 		return res;
 	}

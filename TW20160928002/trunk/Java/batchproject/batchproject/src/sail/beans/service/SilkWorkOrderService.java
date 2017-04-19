@@ -72,10 +72,6 @@ public class SilkWorkOrderService {
 	 * @param operuser
 	 * @param tl_type 
 	 * @return
-	 * @throws NoSuchFieldException
-	 * @throws SecurityException
-	 * @throws IllegalArgumentException
-	 * @throws IllegalAccessException
 	 */
 	public BatWorkOrderInput saveBatWorkOrderInput(String workOrderCode,String matBatch,String quantity,String location,String operuser, String tl_type){
 		BatWorkOrderInput batWorkOrderInput = null;
@@ -251,6 +247,7 @@ public class SilkWorkOrderService {
 				batDepotIoDetail1.setReason(reason);
 				batDepotIoDetail1.setSysflag("1");
 				this.genericDao.save(batDepotIoDetail1);
+				batDepotIoDetail=batDepotIoDetail1;
 			}else{
 				return batDepotIoDetail;
 			}

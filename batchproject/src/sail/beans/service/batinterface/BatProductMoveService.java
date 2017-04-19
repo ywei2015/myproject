@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 
 import sail.beans.Constants;
 import sail.beans.dao.GenericDao;
+import sail.beans.entity.BatHighBayDepotInDetail;
 import sail.beans.entity.BatProductMove;
 import sail.beans.entity.BatProductMoveDetail;
 import sail.beans.entity.UBatTransProductMoveMain;
 import sail.beans.entity.UBatTransProductMoveSec;
+import sail.beans.entity.UBatTransproductStorageSec;
 import sail.beans.support.DateBean;
 
 @Service
@@ -28,6 +30,7 @@ public class BatProductMoveService  extends CommonService{
 		try{
 			List<UBatTransProductMoveMain> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSPRODUCTMOVEMAIN.LIST", new Object[]{});
 			UBatTransProductMoveMain main = null;
+			UBatTransProductMoveSec sec = null;
 			//主表
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
@@ -61,29 +64,30 @@ public class BatProductMoveService  extends CommonService{
 					main1.setSynchroFlag(Constants.SYN_CHRO_USED);
 					main1.setSynchroTime(DateBean.getSysdateTime());
 					genericDao.save(main1);
-					Set<UBatTransProductMoveSec> secList = main.getSecs();
-					Iterator iterator = secList.iterator();
-
-					while(iterator.hasNext()){
-						BatProductMoveDetail batProductMoveDetail = new BatProductMoveDetail();
-						UBatTransProductMoveSec sec = (UBatTransProductMoveSec) iterator.next();
-						batProductMoveDetail.setPid(sec.getPid());
-						batProductMoveDetail.setBill(batProductMove);
-						batProductMoveDetail.setBatchNo(sec.getBatchNo());
-						batProductMoveDetail.setCodeType(sec.getCodeType());
-						batProductMoveDetail.setGiTime(sec.getGiTime());
-						batProductMoveDetail.setGrTime(sec.getGiTime());
-						batProductMoveDetail.setTrayNo(sec.getTrayNo());
-						batProductMoveDetail.setRemark(sec.getRemark());
-						batProductMoveDetail.setSysFlag(Constants.SYS_FLAG_USEING);
-						batProductMoveDetail.setCreator(Constants.USERID);
-						batProductMoveDetail.setCreateTime(DateBean.getSysdateTime());
-						genericDao.save(batProductMoveDetail);
-						//转储完数据后更新从表转储状态
-						UBatTransProductMoveSec sec1 = (UBatTransProductMoveSec)genericDao.getById(UBatTransProductMoveSec.class,sec.getPid());
-						sec1.setSynchroFlag(Constants.SYN_CHRO_USED);
-						sec1.setSynchroTime(DateBean.getSysdateTime());
-						genericDao.save(sec1);
+					
+					List<UBatTransProductMoveSec> secList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSPRODUCTMOVESEC.BY.INBILLPID", new Object[]{main.getPid()});
+					if (secList != null && secList.size() > 0){
+						for(int j=0;j<secList.size();j++){
+							BatProductMoveDetail batProductMoveDetail = new BatProductMoveDetail();
+							sec = secList.get(j);
+							batProductMoveDetail.setPid(sec.getPid());
+							batProductMoveDetail.setTransferPid(main.getPid());
+							batProductMoveDetail.setBatchNo(sec.getBatchNo());
+							batProductMoveDetail.setCodeType(sec.getCodeType());
+							batProductMoveDetail.setGiTime(sec.getGiTime());
+							batProductMoveDetail.setGrTime(sec.getGiTime());
+							batProductMoveDetail.setTrayNo(sec.getTrayNo());
+							batProductMoveDetail.setRemark(sec.getRemark());
+							batProductMoveDetail.setSysFlag(Constants.SYS_FLAG_USEING);
+							batProductMoveDetail.setCreator(Constants.USERID);
+							batProductMoveDetail.setCreateTime(DateBean.getSysdateTime());
+							genericDao.save(batProductMoveDetail);
+							//转储完数据后更新从表转储状态
+							UBatTransProductMoveSec sec1 = (UBatTransProductMoveSec)genericDao.getById(UBatTransProductMoveSec.class,sec.getPid());
+							sec1.setSynchroFlag(Constants.SYN_CHRO_USED);
+							sec1.setSynchroTime(DateBean.getSysdateTime());
+							genericDao.save(sec1);
+						}
 					}
 				}
 			}
@@ -95,7 +99,7 @@ public class BatProductMoveService  extends CommonService{
 	/**
 	 * 定时匹配移库和一号工程销售出库数据
 	 */
-	public void matchProductMoveAndSale(){
+	/*public void matchProductMoveAndSale(){
 		try{
 			List<UBatTransProductMoveMain> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSPRODUCTMOVEMAIN.LIST", new Object[]{});
 			UBatTransProductMoveMain main = null;
@@ -116,10 +120,10 @@ public class BatProductMoveService  extends CommonService{
 					batProductMove.setSysFlag(Constants.SYS_FLAG_USEING);
 					batProductMove.setCreator(Constants.USERID);
 					batProductMove.setCreateTime(DateBean.getSysdateTime());
-					/*List<UBatTransproductStorageSec> codeType = genericDao.getListWithVariableParas("SYNCHRO.GETCODETYPE.BY.TRANSFERBILL", new Object[]{main.getTransferBill()});
+					List<UBatTransproductStorageSec> codeType = genericDao.getListWithVariableParas("SYNCHRO.GETCODETYPE.BY.TRANSFERBILL", new Object[]{main.getTransferBill()});
 					if(codeType != null && codeType.size() > 0){ //根据从表判断
 						batProductMove.setCodeType(codeType.get(0).getCodeType());
-					}*/
+					}
 					//出库类型的设定待确认（统一默认为移库）1：移库 2：销售出库
 					//再核对一号工程的销售出库数据，如果有销售出库数据，就再把移库的数据统一刷成销售出库
 					batProductMove.setGiType("1");
@@ -159,5 +163,5 @@ public class BatProductMoveService  extends CommonService{
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-	}
+	}*/
 }

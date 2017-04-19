@@ -29,6 +29,7 @@ public class BatHighBayDepotInService extends CommonService{
 		try{
 			List<UBatTransproductStorageMain> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSPRODUCTSTORAGEMAIN.LIST", new Object[]{});
 			UBatTransproductStorageMain main = null;
+			UBatTransproductStorageSec sec = null;
 			//主表
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
@@ -55,50 +56,51 @@ public class BatHighBayDepotInService extends CommonService{
 					main1.setSynchroFlag(Constants.SYN_CHRO_USED);
 					main1.setSynchroTime(DateBean.getSysdateTime());
 					genericDao.save(main1);
-					Set<UBatTransproductStorageSec> secList = main.getSecs();
-					Iterator iterator = secList.iterator();
-
-					while(iterator.hasNext()){
-						BatHighBayDepotInDetail batHighBayDepotInDetail = new BatHighBayDepotInDetail();
-						UBatTransproductStorageSec sec = (UBatTransproductStorageSec) iterator.next();
-						batHighBayDepotInDetail.setPid(sec.getPid());
-						batHighBayDepotInDetail.setBill(batHighBayDepotIn);
-						batHighBayDepotInDetail.setCodeType(sec.getCodeType());
-						batHighBayDepotInDetail.setBoxCode(sec.getBoxCode());
-						batHighBayDepotInDetail.setBatch(sec.getBatch());
-						//01是早班,02是中班,03是晚班   v_aps_workclass_sche
-						if(!StingUtil.isEmpty(sec.getLot())){
-							if(sec.getLot().indexOf("早班")!=-1){
-								batHighBayDepotInDetail.setLot(sec.getLot().replaceAll("早班", "01"));
+					
+					List<UBatTransproductStorageSec> secList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSPRODUCTSTORAGESEC.BY.INBILLPID", new Object[]{main.getPid()});
+					if (secList != null && secList.size() > 0){
+						for(int j=0;j<secList.size();j++){
+							BatHighBayDepotInDetail batHighBayDepotInDetail = new BatHighBayDepotInDetail();
+							sec = secList.get(j);
+							batHighBayDepotInDetail.setPid(sec.getPid());
+							batHighBayDepotInDetail.setInbillPid(main.getPid());
+							batHighBayDepotInDetail.setCodeType(sec.getCodeType());
+							batHighBayDepotInDetail.setBoxCode(sec.getBoxCode());
+							batHighBayDepotInDetail.setBatch(sec.getBatch());
+							//01是早班,02是中班,03是晚班   v_aps_workclass_sche
+							if(!StingUtil.isEmpty(sec.getLot())){
+								if(sec.getLot().indexOf("甲班")!=-1){
+									batHighBayDepotInDetail.setLot(sec.getLot().replaceAll("甲班", "01"));
+								}
+								else if(sec.getLot().indexOf("乙班")!=-1){
+									batHighBayDepotInDetail.setLot(sec.getLot().replaceAll("乙班", "02"));
+								}
+								else if(sec.getLot().indexOf("丙班")!=-1){
+									batHighBayDepotInDetail.setLot(sec.getLot().replaceAll("丙班", "03"));
+								}
 							}
-							else if(sec.getLot().indexOf("中班")!=-1){
-								batHighBayDepotInDetail.setLot(sec.getLot().replaceAll("中班", "02"));
-							}
-							else if(sec.getLot().indexOf("晚班")!=-1){
-								batHighBayDepotInDetail.setLot(sec.getLot().replaceAll("晚班", "03"));
-							}
+							
+							//成品高架库系统未传 F_INSPECT_NO【检验批次号】 信息，
+							//后续处理方式为：在制品、成品入库检验批次号由批次系统按日期、班组、牌号自动生成。
+							//不用和MES系统挂钩取三级站卷制与包装批次号
+							batHighBayDepotInDetail.setInspectNo(sec.getReceiveTime());
+							batHighBayDepotInDetail.setBrandCode(sec.getBrandCode());
+							batHighBayDepotInDetail.setLocationCode(sec.getLocationCode());
+							batHighBayDepotInDetail.setLocationName(sec.getLocationName());
+							batHighBayDepotInDetail.setTray(sec.getTray());
+							batHighBayDepotInDetail.setReceiver(main1.getOperateUsername());
+							batHighBayDepotInDetail.setReceiverTime(sec.getReceiveTime());
+							batHighBayDepotInDetail.setRemark(sec.getRemark());
+							batHighBayDepotInDetail.setSysFlag(Constants.SYS_FLAG_USEING);
+							batHighBayDepotInDetail.setCreator(Constants.USERID);
+							batHighBayDepotInDetail.setCreateTime(DateBean.getSysdateTime());
+							genericDao.save(batHighBayDepotInDetail);
+							//转储完数据后更新从表转储状态
+							UBatTransproductStorageSec sec1 = (UBatTransproductStorageSec)genericDao.getById(UBatTransproductStorageSec.class,sec.getPid());
+							sec1.setSynchroFlag(Constants.SYN_CHRO_USED);
+							sec1.setSynchroTime(DateBean.getSysdateTime());
+							genericDao.save(sec1);
 						}
-						
-						//成品高架库系统未传 F_INSPECT_NO【检验批次号】 信息，
-						//后续处理方式为：在制品、成品入库检验批次号由批次系统按日期、班组、牌号自动生成。
-						//不用和MES系统挂钩取三级站卷制与包装批次号
-						batHighBayDepotInDetail.setInspectNo(sec.getReceiveTime());
-						batHighBayDepotInDetail.setBrandCode(sec.getBrandCode());
-						batHighBayDepotInDetail.setLocationCode(sec.getLocationCode());
-						batHighBayDepotInDetail.setLocationName(sec.getLocationName());
-						batHighBayDepotInDetail.setTray(sec.getTray());
-						batHighBayDepotInDetail.setReceiver(main1.getOperateUsername());
-						batHighBayDepotInDetail.setReceiverTime(sec.getReceiveTime());
-						batHighBayDepotInDetail.setRemark(sec.getRemark());
-						batHighBayDepotInDetail.setSysFlag(Constants.SYS_FLAG_USEING);
-						batHighBayDepotInDetail.setCreator(Constants.USERID);
-						batHighBayDepotInDetail.setCreateTime(DateBean.getSysdateTime());
-						genericDao.save(batHighBayDepotInDetail);
-						//转储完数据后更新从表转储状态
-						UBatTransproductStorageSec sec1 = (UBatTransproductStorageSec)genericDao.getById(UBatTransproductStorageSec.class,sec.getPid());
-						sec1.setSynchroFlag(Constants.SYN_CHRO_USED);
-						sec1.setSynchroTime(DateBean.getSysdateTime());
-						genericDao.save(sec1);
 					}
 				}
 			}

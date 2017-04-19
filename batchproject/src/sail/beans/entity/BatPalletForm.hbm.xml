@@ -7,10 +7,7 @@
 	 	<id name="pid" column="F_PID" length="50" type="java.lang.String">
 			<generator class="assigned" />
 		</id> 
-		<many-to-one name="main" class="sail.beans.entity.BatPalletWorkorder" fetch="select">
-            <column name="F_PALLET_PID" length="50" />
-        </many-to-one>
-        
+        <property name="palletPid" column="F_PALLET_PID" length="50" type="java.lang.String"/>
 		<property name="palletSid" column="F_PALLET_SID" length="50" type="java.lang.String"/>
 		<property name="palletCode" column="F_PALLET_CODE" length="50" type="java.lang.String"/>
 		<property name="matCode" column="F_MAT_CODE" length="50" type="java.lang.String"/>

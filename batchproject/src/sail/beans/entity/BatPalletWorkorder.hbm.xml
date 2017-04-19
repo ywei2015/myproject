@@ -28,11 +28,5 @@
 		<property name="createTime" column="F_CREATE_TIME" length="50" type="string"/>
 		<property name="lastmodifier" column="F_LAST_MODIFIER" length="50" type="string"/>
 		<property name="lastmodifiedTime" column="F_LAST_MODIFIED_TIME" length="50" type="string"/>
-		<set name="details" inverse="true" lazy="true" table="T_BAT_PALLET_FORM" fetch="select">
-            <key>
-                <column name="F_PALLET_PID" length="50" not-null="true" />
-            </key>
-            <one-to-many class="sail.beans.entity.BatPalletForm" />
-        </set>
 	 </class>
 </hibernate-mapping>

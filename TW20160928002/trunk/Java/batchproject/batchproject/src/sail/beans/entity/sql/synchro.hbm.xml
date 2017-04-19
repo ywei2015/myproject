@@ -38,6 +38,11 @@
     	SELECT main FROM sail.beans.entity.UBatTransMaterialWithMain main where main.synchroFlag = '0' 
     ]]>
 	</query>
+	<sql-query name="SYNCHRO.U_BAT_TRANSMATERIALWITHSEC.LIST">
+		<![CDATA[
+    	SELECT sec FROM sail.beans.entity.UBatTransMaterialWithSec sec where sec.inbillPid = ?  
+    ]]>
+    </sql-query>
 	
 	<!--批次管理_成品调运begin-->
 	<query name="SYNCHRO.U_BAT_TRANSFINALPRODUCTMAIN.LIST">

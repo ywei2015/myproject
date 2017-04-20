@@ -39,7 +39,7 @@ public class BatPalletWorkorderService {
 					batPalletWorkorder.setPid(main.getPid());
 					batPalletWorkorder.setPalletWorkorder(main.getPalletWorkorder()==null?"":main.getPalletWorkorder().toString());
 					batPalletWorkorder.setMesjbWorkorder("mesjb");//此处不确定字段
-					batPalletWorkorder.setPalletSid(main.getEbeln()==null?"":main.getEbeln().toString());
+					batPalletWorkorder.setPalletSid(main.getPalletSid()==null?"":main.getPalletSid().toString());
 					batPalletWorkorder.setProduceDate(main.getProduceDate()==null?"":main.getProduceDate().toString());
 					batPalletWorkorder.setFactory(Constants.FACTORY);
 					

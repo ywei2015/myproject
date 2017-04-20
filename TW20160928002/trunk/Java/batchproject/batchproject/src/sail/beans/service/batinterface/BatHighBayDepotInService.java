@@ -67,18 +67,7 @@ public class BatHighBayDepotInService extends CommonService{
 							batHighBayDepotInDetail.setCodeType(sec.getCodeType());
 							batHighBayDepotInDetail.setBoxCode(sec.getBoxCode());
 							batHighBayDepotInDetail.setBatch(sec.getBatch());
-							//01是早班,02是中班,03是晚班   v_aps_workclass_sche
-							if(!StingUtil.isEmpty(sec.getLot())){
-								if(sec.getLot().indexOf("甲班")!=-1){
-									batHighBayDepotInDetail.setLot(sec.getLot().replaceAll("甲班", "01"));
-								}
-								else if(sec.getLot().indexOf("乙班")!=-1){
-									batHighBayDepotInDetail.setLot(sec.getLot().replaceAll("乙班", "02"));
-								}
-								else if(sec.getLot().indexOf("丙班")!=-1){
-									batHighBayDepotInDetail.setLot(sec.getLot().replaceAll("丙班", "03"));
-								}
-							}
+							batHighBayDepotInDetail.setLot(sec.getLot());
 							
 							//成品高架库系统未传 F_INSPECT_NO【检验批次号】 信息，
 							//后续处理方式为：在制品、成品入库检验批次号由批次系统按日期、班组、牌号自动生成。

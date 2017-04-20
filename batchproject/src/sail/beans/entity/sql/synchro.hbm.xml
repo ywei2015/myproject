@@ -36,11 +36,14 @@
     	SELECT main FROM sail.beans.entity.UBatTransProductMoveMain main where main.synchroFlag = '0' 
     ]]>
 	</query>
-	<query name="SYNCHRO.U_BAT_TRANSPRODUCTMOVESEC.BY.INBILLPID">
+	<sql-query name="SYNCHRO.U_BAT_TRANSPRODUCTMOVESEC.BY.INBILLPID">
 		<![CDATA[
-    	SELECT sec FROM sail.beans.entity.UBatTransProductMoveSec sec where sec.inbillPid = ?  
+    	select * from(
+			select s.*,d.f_batch_no f_batch_no1 from U_BAT_TRANSPRODUCTMOVESEC s
+				left join T_BAT_PRODUCTUPDOWN_DETAIL d on s.f_batch_no = substr(d.f_batch_no,-32) and d.f_sys_flag='1'
+				where s.f_synchro_flag='0' and s.f_inbill_pid= ?  ) where f_batch_no1 is null 
     ]]>
-    </query>
+    </sql-query>
     
     <!--烟用材料配盘begin-->
 	<query name="SYNCHRO.U_BAT_TRANSMATERIALWITHMAIN.LIST">

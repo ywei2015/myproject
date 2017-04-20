@@ -30,7 +30,6 @@ public class BatProductMoveService  extends CommonService{
 		try{
 			List<UBatTransProductMoveMain> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSPRODUCTMOVEMAIN.LIST", new Object[]{});
 			UBatTransProductMoveMain main = null;
-			UBatTransProductMoveSec sec = null;
 			//主表
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
@@ -65,25 +64,25 @@ public class BatProductMoveService  extends CommonService{
 					main1.setSynchroTime(DateBean.getSysdateTime());
 					genericDao.save(main1);
 					
-					List<UBatTransProductMoveSec> secList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSPRODUCTMOVESEC.BY.INBILLPID", new Object[]{main.getPid()});
+					List secList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSPRODUCTMOVESEC.BY.INBILLPID", new Object[]{main.getPid()});
 					if (secList != null && secList.size() > 0){
 						for(int j=0;j<secList.size();j++){
 							BatProductMoveDetail batProductMoveDetail = new BatProductMoveDetail();
-							sec = secList.get(j);
-							batProductMoveDetail.setPid(sec.getPid());
+							Object [] sec = (Object[])secList.get(j);
+							batProductMoveDetail.setPid(sec[0].toString());
 							batProductMoveDetail.setTransferPid(main.getPid());
-							batProductMoveDetail.setBatchNo(sec.getBatchNo());
-							batProductMoveDetail.setCodeType(sec.getCodeType());
-							batProductMoveDetail.setGiTime(sec.getGiTime());
-							batProductMoveDetail.setGrTime(sec.getGiTime());
-							batProductMoveDetail.setTrayNo(sec.getTrayNo());
-							batProductMoveDetail.setRemark(sec.getRemark());
+							batProductMoveDetail.setBatchNo(sec[2].toString());
+							batProductMoveDetail.setCodeType(sec[3].toString());
+							batProductMoveDetail.setGiTime(sec[4].toString());
+							batProductMoveDetail.setGrTime(sec[4].toString());
+							batProductMoveDetail.setTrayNo(sec[5].toString());
+							batProductMoveDetail.setRemark(sec[6]==null?"":sec[6].toString());
 							batProductMoveDetail.setSysFlag(Constants.SYS_FLAG_USEING);
 							batProductMoveDetail.setCreator(Constants.USERID);
 							batProductMoveDetail.setCreateTime(DateBean.getSysdateTime());
 							genericDao.save(batProductMoveDetail);
 							//转储完数据后更新从表转储状态
-							UBatTransProductMoveSec sec1 = (UBatTransProductMoveSec)genericDao.getById(UBatTransProductMoveSec.class,sec.getPid());
+							UBatTransProductMoveSec sec1 = (UBatTransProductMoveSec)genericDao.getById(UBatTransProductMoveSec.class,sec[0].toString());
 							sec1.setSynchroFlag(Constants.SYN_CHRO_USED);
 							sec1.setSynchroTime(DateBean.getSysdateTime());
 							genericDao.save(sec1);
@@ -98,6 +97,7 @@ public class BatProductMoveService  extends CommonService{
 	
 	/**
 	 * 定时匹配移库和一号工程销售出库数据
+	 * 在转储表中获取8小时内的移库数据，并关联销售出库数据，如果有销售出库数据，去掉销售数据，剩余的插入到移库业务表中
 	 */
 	/*public void matchProductMoveAndSale(){
 		try{

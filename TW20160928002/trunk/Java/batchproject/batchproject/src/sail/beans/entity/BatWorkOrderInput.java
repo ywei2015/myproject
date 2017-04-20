@@ -22,8 +22,8 @@ public class BatWorkOrderInput implements Serializable{
 	private String ismatchwithcode;  
 	private String remark1;      
 	private String remark2;       
-	private String remark3;
-	private String remark4;   //记录是否与工单类型一致；1为一致 0为不一致
+	private String remark3;   //1叶片加料，2片烟投料
+	private String remark4;   //记录boom验证；1为一致 0为不一致
 	private String remark5;  //记录批次状态   E禁止 2冻结  w关注
 	private String remark;  
 	private String sysflag;

@@ -23,7 +23,7 @@
 			,(select d11.F_ESB_CODE from V_BAT_YSMAT d11 where d11.f_pid=t.F_MAT_ID)  as f_zsbrand_code  
 			,(select d12.F_ESB_CODE from V_BAT_GSMAT d12 where d12.f_pid=t.F_MAT_ID)  as f_gsbrand_code   
 			from T_APS_WORKORDER t,t_aps_workplan d
-			where d.f_workday=? 
+			where t.f_workday=? 
 			and d.F_PLANTYPE_FLAG=?
      		and t.f_plan_id=d.f_pid
       		and d.F_PLANSTATUS_ID='5c6c24a9-b95a-4f17-a0bc-7d30cb491057'

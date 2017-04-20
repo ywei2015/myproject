@@ -25,7 +25,10 @@ public class SilkWorkOrderController {
 	@Resource
 	private SilkWorkOrderService silkWorkOrderService; 
 	
-	
+	/**
+	 * 工单信息获取
+	 * @param request
+	 * */
 	@ResponseBody
 	@RequestMapping(value="/getWorkOrderList")	 
 	public ResponseBase getWorkOrderList(HttpServletRequest request){
@@ -41,7 +44,10 @@ public class SilkWorkOrderController {
 		return res;
 	}
 	
-	
+	/**
+	 * 投料记录保存
+	 * @param request
+	 * */
 	@ResponseBody
 	@RequestMapping(value="/saveBatWorkOrderInput")	 
 	public ResponseBase saveBatWorkOrderInput(HttpServletRequest request) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
@@ -51,10 +57,11 @@ public class SilkWorkOrderController {
 		String location = request.getParameter("location");
 		String userId = request.getParameter("userId");
 		String tl_type=request.getParameter("f_tl_type");
+		String remark=request.getParameter("remark");
 		ResponseBase res = new ResponseBase();
 		String state=silkWorkOrderService.getWorkorderstate(workOrderCode);
 		if(state.equals("1")){
-			BatWorkOrderInput batWorkOrderInput = silkWorkOrderService.saveBatWorkOrderInput(workOrderCode, matBatch, quantity, location,userId,tl_type);
+			BatWorkOrderInput batWorkOrderInput = silkWorkOrderService.saveBatWorkOrderInput(workOrderCode, matBatch, quantity, location,userId,tl_type,remark);
 			if (batWorkOrderInput != null){
 				if ("1".equals(batWorkOrderInput.getIsrepair())){
 					res.setResponseData("0", "该批次数据已经存在!");
@@ -79,7 +86,10 @@ public class SilkWorkOrderController {
 		return res;
 	}
 	
-	
+	/**
+	 * 投料记录删除
+	 * @param request
+	 * */
 	@ResponseBody
 	@RequestMapping(value="/deleteBatWorkOrderInput")	 
 	public ResponseBase deleteBatWorkOrderInput(HttpServletRequest request){
@@ -95,15 +105,19 @@ public class SilkWorkOrderController {
 		return res;
 	}
 	
-	
+	/**
+	 * 投料记录获取
+	 * @param request
+	 * */
 	@ResponseBody
 	@RequestMapping(value="/getBatWorkOrderInput")	 
 	public ResponseBase getBatWorkOrderInput(HttpServletRequest request){
 		String workOrderCode = request.getParameter("f_workorder_code");
 		String tl_type=request.getParameter("f_tl_type");
 		String workOrderType=request.getParameter("f_workorder_type");
+		String remark=request.getParameter("remark");
 		ResponseBase res = new ResponseBase();
-		List<BatWorkOrderInput> inputList = silkWorkOrderService.getBatWorkOrderInput(workOrderCode,tl_type,workOrderType);
+		List<BatWorkOrderInput> inputList = silkWorkOrderService.getBatWorkOrderInput(workOrderCode,tl_type,workOrderType,remark);
 		if (inputList != null && inputList.size() > 0){
 			res.setResponseData("1", "操作成功!");
 			res.setDataset(inputList, "batdepotiodetail");
@@ -112,7 +126,9 @@ public class SilkWorkOrderController {
 		}
 		return res;
 	}
-	
+	/**
+	 * 香料其它消耗业务特殊出库保存
+	 * */
 	@ResponseBody
 	@RequestMapping(value="/saveBatchStorageOut")	 
 	public ResponseBase saveBatchStorageOut(HttpServletRequest request){
@@ -132,6 +148,21 @@ public class SilkWorkOrderController {
 			
 		}else{
 			res.setResponseData("0", "该批次信息有误,请进行核对!");
+		}
+		return res;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/deleteIeafInput")	 
+	public ResponseBase deleteIeafInput(HttpServletRequest request){
+		String batch = request.getParameter("f_batch");
+		String userId = request.getParameter("userId");
+		ResponseBase res = new ResponseBase();
+		boolean falg = silkWorkOrderService.deleteIeafInput(batch, userId);
+		if (falg){
+			res.setResponseData("1", "操作成功!");
+		}else{
+			res.setResponseData("0", "删除数据失败!");
 		}
 		return res;
 	}

@@ -5,7 +5,8 @@ var f_bill_no=getQueryString('f_bill_no'); //test:1
 var f_doc_type=getQueryString('f_doc_type');//test:ZI10
 var data_p={
 		'f_bill_no':f_bill_no,
-		'f_doc_type':f_doc_type
+		'f_doc_type':f_doc_type,
+		'remark5':2
 };
 var img = new Image(); 
 function loadImage() { 

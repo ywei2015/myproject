@@ -17,7 +17,9 @@ import sail.beans.entity.User;
 import sail.beans.entity.vo.BatWorkOrderVo;
 import sail.beans.service.SilkWorkOrderService;
 
-
+/**
+ * 投料记录管理类
+ * */
 @Controller
 @RequestMapping("/silkorder")
 public class SilkWorkOrderController {

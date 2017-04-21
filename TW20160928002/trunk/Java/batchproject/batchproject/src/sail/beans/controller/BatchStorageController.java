@@ -78,11 +78,12 @@ public class BatchStorageController {
 		String f_bill_no = request.getParameter("f_bill_no");
 		String f_doc_type = request.getParameter("f_doc_type");
 		String f_match = request.getParameter("remark");
+		String remark5 = request.getParameter("remark5");
 		List<BatDepotIoDetail> batdepotiodetaillist=null;
 		if(f_match!=null){
 			 batdepotiodetaillist = batchStorageService.getBatDepotIoDetailListj(f_match);
 		}else{
-			 batdepotiodetaillist = batchStorageService.getBatDepotIoDetailList(f_bill_no, f_doc_type);
+			 batdepotiodetaillist = batchStorageService.getBatDepotIoDetailList(f_bill_no, f_doc_type,remark5);
 		}
 		if (batdepotiodetaillist != null && batdepotiodetaillist.size() > 0){
 			res.setResponseData("1", "操作成功!");

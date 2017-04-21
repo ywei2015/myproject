@@ -63,6 +63,11 @@
     	SELECT main FROM sail.beans.entity.UBatTransFinalProductMain main where main.synchroFlag = '0' 
     ]]>
 	</query>
+	<query name="SYNCHRO.U_BAT_TRANSFINALPRODUCTSEC.BY.INBILLPID">
+		<![CDATA[
+    	SELECT sec FROM sail.beans.entity.UBatTransFinalProductSec sec where sec.inbillPid = ?  
+    ]]>
+    </query>
 	
 	<!--批次管理_叶片入预配柜begin-->
 	<query name="SYNCHRO.U_BAT_TRANSPREMIXTANKORDER.LIST">

@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class UBatTransFinalProductSec implements Serializable{
 
 	private String pid;
-	private UBatTransFinalProductMain main;
+	private String inbillPid;
 	private String contractCode;
 	private String brandCode;
 	private String brandName;
@@ -25,11 +25,11 @@ public class UBatTransFinalProductSec implements Serializable{
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
-	public UBatTransFinalProductMain getMain() {
-		return main;
+	public String getInbillPid() {
+		return inbillPid;
 	}
-	public void setMain(UBatTransFinalProductMain main) {
-		this.main = main;
+	public void setInbillPid(String inbillPid) {
+		this.inbillPid = inbillPid;
 	}
 	public String getContractCode() {
 		return contractCode;

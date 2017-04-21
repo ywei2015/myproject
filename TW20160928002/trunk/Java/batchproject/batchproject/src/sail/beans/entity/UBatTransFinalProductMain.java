@@ -21,7 +21,6 @@ public class UBatTransFinalProductMain implements Serializable{
 	private String synchroFlag;
 	private String getdataTime;
 	private String synchroTime;
-	private Set<UBatTransFinalProductSec> secs = new HashSet<UBatTransFinalProductSec>(0);
 	
 	public String getPid() {
 		return pid;
@@ -89,11 +88,4 @@ public class UBatTransFinalProductMain implements Serializable{
 	public void setSynchroTime(String synchroTime) {
 		this.synchroTime = synchroTime;
 	}
-	public Set<UBatTransFinalProductSec> getSecs() {
-		return secs;
-	}
-	public void setSecs(Set<UBatTransFinalProductSec> secs) {
-		this.secs = secs;
-	}
-	
 }

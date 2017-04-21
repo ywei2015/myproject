@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class BatTransferDetail implements Serializable{
 
 	private String pid;
-	private BatTransfer main;
+	private String transferPid;
 	private String contractCode;
 	private String brandCode;
 	private Double quantity;
@@ -31,11 +31,11 @@ public class BatTransferDetail implements Serializable{
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
-	public BatTransfer getMain() {
-		return main;
+	public String getTransferPid() {
+		return transferPid;
 	}
-	public void setMain(BatTransfer main) {
-		this.main = main;
+	public void setTransferPid(String transferPid) {
+		this.transferPid = transferPid;
 	}
 	public String getContractCode() {
 		return contractCode;

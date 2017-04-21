@@ -1,8 +1,6 @@
 package sail.beans.service.batinterface;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +26,7 @@ public class BatTransferService {
 		try{
 			List<UBatTransFinalProductMain> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSFINALPRODUCTMAIN.LIST", new Object[]{});
 			UBatTransFinalProductMain main = null;
+			UBatTransFinalProductSec sec = null;
 			//主表
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
@@ -36,7 +35,7 @@ public class BatTransferService {
 					batTransfer.setPid(main.getPid());
 					batTransfer.setTransferBill(main.getTransferBill()==null?"":main.getTransferBill().toString());
 					batTransfer.setFactory(Constants.FACTORY);
-					batTransfer.setDate(main.getDate()==null?"":main.getDate().toString());
+					batTransfer.setDate(main.getDate().toString().substring(0, 10).replaceAll("-", ""));
 					batTransfer.setPlateNumber(main.getPlateNumber()==null?"":main.getPlateNumber());
 					batTransfer.setDriver(main.getDriver()==null?"":main.getDriver().toString());
 					batTransfer.setBrandCode(null); //此处不做处理，多余字段
@@ -51,27 +50,28 @@ public class BatTransferService {
 					main1.setSynchroFlag(Constants.SYN_CHRO_USED);
 					main1.setSynchroTime(DateBean.getSysdateTime());
 					genericDao.save(main1);
-					Set<UBatTransFinalProductSec> secList = main.getSecs();
-					Iterator iterator = secList.iterator();
 
-					while(iterator.hasNext()){
-						BatTransferDetail batTransferDetail = new BatTransferDetail();
-						UBatTransFinalProductSec sec = (UBatTransFinalProductSec) iterator.next();
-						batTransferDetail.setPid(sec.getPid());
-						batTransferDetail.setMain(batTransfer);
-						batTransferDetail.setContractCode(sec.getContractCode());
-						batTransferDetail.setBrandCode(sec.getBrandCode());
-						batTransferDetail.setQuantity(sec.getQuantity());
-						batTransferDetail.setRemark(sec.getRemark());
-						batTransferDetail.setSysFlag(Constants.SYS_FLAG_USEING);
-						batTransferDetail.setCreator(Constants.USERID);
-						batTransferDetail.setCreateTime(DateBean.getSysdateTime());
-						genericDao.save(batTransferDetail);
-						//转储完数据后更新从表转储状态
-						UBatTransFinalProductSec sec1 = (UBatTransFinalProductSec)genericDao.getById(UBatTransFinalProductSec.class,sec.getPid());
-						sec1.setSynchroFlag(Constants.SYN_CHRO_USED);
-						sec1.setSynchroTime(DateBean.getSysdateTime());
-						genericDao.save(sec1);
+					List<UBatTransFinalProductSec> secList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSFINALPRODUCTSEC.BY.INBILLPID", new Object[]{main.getPid()});
+					if (secList != null && secList.size() > 0){
+						for(int j=0;j<secList.size();j++){
+							BatTransferDetail batTransferDetail = new BatTransferDetail();
+							sec = secList.get(j);
+							batTransferDetail.setPid(sec.getPid());
+							batTransferDetail.setTransferPid(main.getPid());
+							batTransferDetail.setContractCode(sec.getContractCode());
+							batTransferDetail.setBrandCode(sec.getBrandCode());
+							batTransferDetail.setQuantity(sec.getQuantity());
+							batTransferDetail.setRemark(sec.getRemark());
+							batTransferDetail.setSysFlag(Constants.SYS_FLAG_USEING);
+							batTransferDetail.setCreator(Constants.USERID);
+							batTransferDetail.setCreateTime(DateBean.getSysdateTime());
+							genericDao.save(batTransferDetail);
+							//转储完数据后更新从表转储状态
+							UBatTransFinalProductSec sec1 = (UBatTransFinalProductSec)genericDao.getById(UBatTransFinalProductSec.class,sec.getPid());
+							sec1.setSynchroFlag(Constants.SYN_CHRO_USED);
+							sec1.setSynchroTime(DateBean.getSysdateTime());
+							genericDao.save(sec1);
+						}
 					}
 				}
 			}

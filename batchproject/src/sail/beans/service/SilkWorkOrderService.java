@@ -20,6 +20,9 @@ import sail.beans.entity.CarCode;
 import sail.beans.entity.vo.BatWorkOrderVo;
 import sail.beans.support.DateBean;
 
+/**
+ * 投料记录服务类
+ * */
 @Service
 public class SilkWorkOrderService {
 

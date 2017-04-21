@@ -87,8 +87,8 @@ public class BatchStorageService {
 	 * @param docType
 	 * @return
 	 */
-	public List<BatDepotIoDetail> getBatDepotIoDetailList(String billNo,String docType){
-		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{billNo,docType});
+	public List<BatDepotIoDetail> getBatDepotIoDetailList(String billNo,String docType,String remark5){
+		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{billNo,docType,remark5});
 		return detailList;
 	}
 	

@@ -30,7 +30,6 @@ public class BatTransfer implements Serializable{
 	private String createTime;
 	private String lastModifier;
 	private String lastModifiedTime;
-	private Set<BatTransferDetail> details = new HashSet<BatTransferDetail>(0);
 	public String getPid() {
 		return pid;
 	}
@@ -150,12 +149,6 @@ public class BatTransfer implements Serializable{
 	}
 	public void setLastModifiedTime(String lastModifiedTime) {
 		this.lastModifiedTime = lastModifiedTime;
-	}
-	public Set<BatTransferDetail> getDetails() {
-		return details;
-	}
-	public void setDetails(Set<BatTransferDetail> details) {
-		this.details = details;
 	}
 	
 }

@@ -27,11 +27,5 @@
 		<property name="createTime" column="F_CREATE_TIME" length="50" type="string"/>
 		<property name="lastModifier" column="F_LAST_MODIFIER" length="50" type="string"/>
 		<property name="lastModifiedTime" column="F_LAST_MODIFIED_TIME" length="50" type="string"/>
-		<set name="details" inverse="true" lazy="true" table="T_BAT_TRANSFER_DETAIL" fetch="select">
-            <key>
-                <column name="F_TRANSFER_PID" length="50" not-null="true" />
-            </key>
-            <one-to-many class="sail.beans.entity.BatTransferDetail" />
-        </set>
 	 </class>
 </hibernate-mapping>

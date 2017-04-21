@@ -18,8 +18,8 @@ public class BatHighBayDepotInController {
 	/**
 	 * 新增入库
 	 */
-//	@Scheduled(cron = "0/5 * * * * ?")
-	@Scheduled(cron = "0 0/10 * * * ?")
+//	@Scheduled(cron = "0 19 17 * * ?")
+	@Scheduled(cron = "0 0/3 * * * ?")
 	public void saveBatHighBayDepotIn(){
 		if(batHighBayDepotInService==null) return;
 		batHighBayDepotInService.SaveBatHighBayDepotIn();

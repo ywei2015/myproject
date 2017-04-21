@@ -19,7 +19,7 @@ public class BatProductMoveController {
 	 * 新增移库
 	 */
 //	@Scheduled(cron = "0/5 * * * * ?")
-	@Scheduled(cron = "0 0/10 * * * ?")
+	@Scheduled(cron = "0 0/3 * * * ?")
 	public void saveBatProductMove(){
 		if(batProductMoveService==null) return;
 		batProductMoveService.SaveBatProductMove();

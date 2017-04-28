@@ -5,7 +5,7 @@
 <hibernate-mapping>
 	 <class name="sail.beans.entity.BatPalletWorkorder" table="T_BAT_PALLET_WORKORDER">
 	 	<id name="pid" column="F_PID" length="50" type="java.lang.String">
-			<!--<generator class="uuid.hex" />-->
+			<!-- <generator class="uuid.hex" /> -->
 			<generator class="assigned" />
 		</id> 
 		<property name="palletWorkorder" column="F_PALLET_WORKORDER" length="50" type="java.lang.String"/>

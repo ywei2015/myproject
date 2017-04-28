@@ -21,10 +21,16 @@
 		<property name="receiver" column="F_RECEIVER" length="50" type="java.lang.String"/>
 		<property name="receiverTime" column="F_RECEIVE_TIME" length="14" type="java.lang.String"/>
 		<property name="remark" column="F_REMARK" length="500" type="java.lang.String"/>
+		<property name="remark1" column="F_REMARK1" length="50" type="java.lang.String"/>
+		<property name="remark2" column="F_REMARK2" length="50" type="java.lang.String"/>
+		<property name="remark3" column="F_REMARK3" length="50" type="java.lang.String"/>
+		<property name="remark4" column="F_REMARK4" length="50" type="java.lang.String"/>
+		<property name="remark5" column="F_REMARK5" length="50" type="java.lang.String"/>
 		<property name="sysFlag" column="F_SYS_FLAG" length="50" type="java.lang.String"/>
 		<property name="creator" column="F_CREATOR" length="50" type="java.lang.String"/>
 		<property name="createTime" column="F_CREATE_TIME" length="14" type="java.lang.String"/>
 		<property name="lastmodifier" column="F_LAST_MODIFIER" length="50" type="java.lang.String"/>
 		<property name="lastmodifiedTime" column="F_LAST_MODIFIED_TIME" length="14" type="java.lang.String"/>
+		<property name="itemNo" column="F_ITEM_NO" length="5" type="java.lang.String"/>
 	 </class>
 </hibernate-mapping>

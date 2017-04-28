@@ -17,6 +17,7 @@ public class BatWorkOrderInput implements Serializable{
 	private String starttime;
 	private String endtime;
 	private String operateuserid;
+	private String operateusername;
 	private String operatetime;
 	private String masterslaveflag;
 	private String ismatchwithcode;  
@@ -110,6 +111,12 @@ public class BatWorkOrderInput implements Serializable{
 	}
 	public void setOperateuserid(String operateuserid) {
 		this.operateuserid = operateuserid;
+	}
+	public String getOperateusername() {
+		return operateusername;
+	}
+	public void setOperateusername(String operateusername) {
+		this.operateusername = operateusername;
 	}
 	public String getOperatetime() {
 		return operatetime;

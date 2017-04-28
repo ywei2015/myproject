@@ -12,6 +12,7 @@
 		<property name="factory" column="F_FACTORY" length="50" type="java.lang.String"/>
 		<property name="depot" column="F_DEPOT" length="50" type="java.lang.String"/>
 		<property name="operateUserid" column="F_OPERATE_USERID" length="50" type="java.lang.String"/>
+		<property name="operateUsername" column="F_OPERATE_USERNAME" length="50" type="java.lang.String"/>
 		<property name="operateTime" column="F_OPERATE_TIME" length="14" type="java.lang.String"/>
 		<property name="remark1" column="F_REMARK1" length="500" type="java.lang.String"/>
 		<property name="remark2" column="F_REMARK2" length="500" type="java.lang.String"/>

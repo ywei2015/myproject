@@ -19,6 +19,7 @@
 		<property name="starttime" column="F_STARTTIME" length="50" type="string"/>
 		<property name="endtime" column="F_ENDTIME" length="50" type="string"/>
 		<property name="operateuserid" column="F_OPERATE_USERID" length="50" type="string"/>
+		<property name="operateusername" column="F_OPERATE_USERNAME" length="50" type="string"/>
 		<property name="operatetime" column="F_OPERATE_TIME" length="50" type="string"/>
 		<property name="masterslaveflag" column="F_MASTER_SLAVE_FLAG" length="50" type="string"/>
 		<property name="remark1" column="F_REMARK1" length="50" type="string"/>

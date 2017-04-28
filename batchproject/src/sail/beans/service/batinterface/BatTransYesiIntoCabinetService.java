@@ -28,8 +28,8 @@ public class BatTransYesiIntoCabinetService extends CommonService{
 			UBatTransYesiIntoCabinet order = null;
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
-					String workorderCode = mainList.get(i).getWorkorderCode().toString();
-					BatWorkOrder batWorkOrder = this.getWorkorderByCode(workorderCode);
+					String matBatch = mainList.get(i).getMatBatch().toString();
+					BatWorkOrder batWorkOrder = this.getWorkorderByBatch(matBatch);
 					if(batWorkOrder != null && !"".equals(batWorkOrder)){
 						BatWorkOrderOutput output = new BatWorkOrderOutput();
 						order = mainList.get(i);

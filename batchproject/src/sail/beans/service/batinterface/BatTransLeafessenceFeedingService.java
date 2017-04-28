@@ -27,8 +27,8 @@ public class BatTransLeafessenceFeedingService extends CommonService{
 			UBatTransLeafessenceFeeding order = null;
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
-					String workorderCode = mainList.get(i).getWorkorderCode().toString();
-					BatWorkOrder batWorkOrder = this.getWorkorderByCode(workorderCode);
+					String matBatch = mainList.get(i).getMatBatch().toString();
+					BatWorkOrder batWorkOrder = this.getWorkorderByBatch(matBatch);
 					if(batWorkOrder != null && !"".equals(batWorkOrder)){
 						BatWorkOrderInput input = new BatWorkOrderInput();
 						order = mainList.get(i);
@@ -46,6 +46,7 @@ public class BatTransLeafessenceFeedingService extends CommonService{
 						input.setStarttime(order.getStarttime()==null?"":order.getStarttime().toString());
 						input.setEndtime(order.getEndtime()==null?"":order.getEndtime().toString());
 						input.setOperateuserid(this.getUserIdByUserCode(order.getOperateUsercode()));
+						input.setOperateusername(order.getOperateUsername()==null?"":order.getOperateUsername().toString());
 						input.setOperatetime(order.getOperateTime()==null?"":order.getOperateTime().toString());
 						input.setMasterslaveflag("0");
 						input.setRemark(order.getRemark()==null?"":order.getRemark().toString());

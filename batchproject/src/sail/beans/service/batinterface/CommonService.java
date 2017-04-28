@@ -18,15 +18,15 @@ public class CommonService {
 	
 	/**
 	 * 通过批次号查找
-	 * @param workorderCode
+	 * @param matBatch
 	 * @return
 	 */
-	public BatWorkOrder getWorkorderByCode(String workorderCode)
+	public BatWorkOrder getWorkorderByBatch(String matBatch)
 	{
 		StringBuffer strBuffer = new StringBuffer();
 		strBuffer.append("FROM sail.beans.entity.BatWorkOrder T ");
-		strBuffer.append("Where T.workordercode = '");
-		strBuffer.append(workorderCode);
+		strBuffer.append("Where substr(T.workordercode,0,8) = '");
+		strBuffer.append(matBatch);
 		strBuffer.append("'");
 		strBuffer.append(" AND T.sysFlag = '1'");
 		

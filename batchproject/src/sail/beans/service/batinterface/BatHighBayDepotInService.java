@@ -37,7 +37,8 @@ public class BatHighBayDepotInService extends CommonService{
 					batHighBayDepotIn.setDate(main.getDate()==null?"":main.getDate().toString());
 					batHighBayDepotIn.setFactory(Constants.FACTORY);
 					batHighBayDepotIn.setDepot(main.getDepotCode()==null?"":main.getDepotCode().toString());
-					batHighBayDepotIn.setOperateUserid(main.getOperateUsername());
+					batHighBayDepotIn.setOperateUserid(this.getUserIdByUserCode(main.getOperateUsercode()));
+					batHighBayDepotIn.setOperateUsername(main.getOperateUsername()==null?"":main.getOperateUsername().toString());
 					batHighBayDepotIn.setOperateTime(DateBean.getSysdateTime());
 					batHighBayDepotIn.setRemark(main.getRemark()==null?"":main.getRemark().toString());
 					batHighBayDepotIn.setSysFlag(Constants.SYS_FLAG_USEING);
@@ -80,6 +81,7 @@ public class BatHighBayDepotInService extends CommonService{
 							batHighBayDepotInDetail.setSysFlag(Constants.SYS_FLAG_USEING);
 							batHighBayDepotInDetail.setCreator(Constants.USERID);
 							batHighBayDepotInDetail.setCreateTime(DateBean.getSysdateTime());
+							batHighBayDepotInDetail.setItemNo(String.valueOf(j+1));
 							genericDao.save(batHighBayDepotInDetail);
 							//转储完数据后更新从表转储状态
 							UBatTransproductStorageSec sec1 = (UBatTransproductStorageSec)genericDao.getById(UBatTransproductStorageSec.class,sec.getPid());

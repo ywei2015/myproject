@@ -10,6 +10,7 @@ import sail.beans.dao.GenericDao;
 import sail.beans.entity.BatWorkOrder;
 import sail.beans.entity.BatWorkOrderInput;
 import sail.beans.entity.BatWorkOrderOutput;
+import sail.beans.entity.Dic;
 import sail.beans.entity.UBatTransToBaccoOutCabinet;
 import sail.beans.support.DateBean;
 import sail.beans.support.StingUtil;
@@ -21,6 +22,9 @@ public class BatTransToBaccoOutCabinetService extends CommonService{
 	
 	/**
 	 * 获取待转储并新增生产工单投料后台服务（成品烟丝出柜）
+	 * 根据喂丝机号、从喂丝机与卷接机对应关系表(T_BAT_EQU_LINK)中找出对应的卷包机组，再根据卷包机组找出对应的工单号
+	 * 投料开始结束时间必须在工单实际开始结束时间内
+	 * #A喂丝机ESB编码(1000005045)
 	 * @return
 	 */
 	public void saveBatTransToBaccoOutCabinet(){
@@ -29,21 +33,22 @@ public class BatTransToBaccoOutCabinetService extends CommonService{
 			UBatTransToBaccoOutCabinet order = null;
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
-					String workorderCode = mainList.get(i).getWorkorderCode().toString();
-					BatWorkOrder batWorkOrder = this.getWorkorderByCode(workorderCode);
-					if(batWorkOrder != null && !"".equals(batWorkOrder)){
-						BatWorkOrderInput input = new BatWorkOrderInput();
-						BatWorkOrderOutput output = new BatWorkOrderOutput();
-						order = mainList.get(i);
-						//判断喂丝机信息不为空时，信息保存到卷包投料表中T_BAT_WORKORDER_INPUT
-						if(!StingUtil.isEmpty(order.getWirefeedingCode())){
-							input.setWorkorderpid(batWorkOrder.getPid());
+					String wirefeedingCode = mainList.get(i).getWirefeedingCode().toString();
+					//根据喂丝机ESB编码和投料开始结束时间查找工单号得到主键T_BAT_WORKORDER主键ID
+					List workorderCodeList = genericDao.getListWithNativeSql("SYNCHRO.GET.WORKORDER.CODE", 
+							new Object[]{wirefeedingCode,mainList.get(i).getStarttime(),mainList.get(i).getEndtime()});
+					if(workorderCodeList != null && workorderCodeList.size() > 0){
+						for(int j=0;j<workorderCodeList.size();j++){
+							Object [] obj = (Object[])workorderCodeList.get(j);
+							BatWorkOrderInput input = new BatWorkOrderInput();
+							order = mainList.get(i);
+							input.setWorkorderpid(obj[0].toString());
 							input.setTltype(Constants.TL_TYPE);
 							input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());
 							input.setMatcode(order.getMatCode()==null?"":order.getMatCode().toString());
 							input.setMatname(order.getMatCode()==null?"":this.getNameByCode(order.getMatCode()));
-							input.setLocation(order.getWirefeedingCode()==null?"":order.getWirefeedingCode().toString());
-							input.setLocationname(order.getWirefeedingName()==null?"":order.getWirefeedingName().toString());
+							input.setLocation(order.getLocation()==null?"":order.getLocation().toString());
+							input.setLocationname(order.getLocationName()==null?"":order.getLocationName().toString());
 							input.setQuantity(order.getQuantity()==null?0.0:Double.parseDouble(order.getQuantity().toString()));
 							input.setUnit(order.getUnit()==null?"":order.getUnit().toString());
 							input.setStarttime(order.getStarttime()==null?"":order.getStarttime().toString());
@@ -56,30 +61,14 @@ public class BatTransToBaccoOutCabinetService extends CommonService{
 							input.setCreator(Constants.USERID);
 							input.setCreatetime(DateBean.getSysdateTime());
 							genericDao.save(input);
-						}else{
-							//出柜数据掺配T_BAT_WORKORDER_OUTPUT
-							output.setWorkorderpid(batWorkOrder.getPid());
-							output.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());
-							output.setLocation(order.getLocation()==null?"":order.getLocation().toString());
-							output.setLocationname(order.getLocationName()==null?"":order.getLocationName().toString());
-							output.setStime2(order.getStarttime()==null?"":order.getStarttime().toString());
-							output.setEtime2(order.getEndtime()==null?"":order.getEndtime().toString());
-							output.setQuantity(order.getQuantity()==null?0.0:Double.parseDouble(order.getQuantity().toString()));
-							output.setUnit(order.getUnit()==null?"":order.getUnit().toString());
-							output.setDepot(Constants.DEPOT);
-							output.setOperateuserid(this.getUserIdByUserCode(order.getOperateUsercode()));
-							output.setRemark(order.getRemark()==null?"":order.getRemark().toString());
-							output.setSysflag(Constants.SYS_FLAG_USEING);
-							output.setCreator(Constants.USERID);
-							output.setCreatetime(DateBean.getSysdateTime());
-							genericDao.save(output);
+							
+							//转储完数据后更新转储状态
+							UBatTransToBaccoOutCabinet main1 = (UBatTransToBaccoOutCabinet)genericDao.getById(UBatTransToBaccoOutCabinet.class,order.getPid());
+							main1.setSynchroFlag(Constants.SYN_CHRO_USED);
+							main1.setSynchroTime(DateBean.getSysdateTime());
+							genericDao.save(main1);
 						}
-						//转储完数据后更新转储状态
-						UBatTransToBaccoOutCabinet main1 = (UBatTransToBaccoOutCabinet)genericDao.getById(UBatTransToBaccoOutCabinet.class,order.getPid());
-						main1.setSynchroFlag(Constants.SYN_CHRO_USED);
-						main1.setSynchroTime(DateBean.getSysdateTime());
-						genericDao.save(main1);
-					}
+					}	
 				}
 			}
 		}catch(Exception e){

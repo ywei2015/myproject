@@ -71,7 +71,9 @@ public class BatPalletWorkorderService {
 					batPalletWorkorder.setSysFlag(Constants.SYS_FLAG_USEING);
 					batPalletWorkorder.setCreator(Constants.USERID);
 					batPalletWorkorder.setCreateTime(DateBean.getSysdateTime());
+					genericDao.evict(batPalletWorkorder);
 					genericDao.save(batPalletWorkorder);
+					genericDao.flush();
 					//转储完数据后更新主表转储状态
 					UBatTransMaterialWithMain main1 = (UBatTransMaterialWithMain)genericDao.getById(UBatTransMaterialWithMain.class,main.getPid());
 					main1.setSynchroFlag(Constants.SYN_CHRO_USED);
@@ -102,7 +104,9 @@ public class BatPalletWorkorderService {
 							batPalletForm.setSysFlag(Constants.SYS_FLAG_USEING);
 							batPalletForm.setCreator(Constants.USERID);
 							batPalletForm.setCreateTime(DateBean.getSysdateTime());
+							genericDao.evict(batPalletForm);
 							genericDao.save(batPalletForm);
+							genericDao.flush();
 							//转储完数据后更新从表转储状态
 							UBatTransMaterialWithSec sec1 = (UBatTransMaterialWithSec)genericDao.getById(UBatTransMaterialWithSec.class,sec.getPid());
 							sec1.setSynchroFlag(Constants.SYN_CHRO_USED);

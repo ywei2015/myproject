@@ -16,6 +16,7 @@ public class BatHighBayDepotIn implements Serializable{
 	private String factory;
 	private String depot;
 	private String operateUserid;
+	private String operateUsername;
 	private String operateTime;
 	private String remark1;
 	private String remark2;
@@ -65,6 +66,12 @@ public class BatHighBayDepotIn implements Serializable{
 	}
 	public void setOperateUserid(String operateUserid) {
 		this.operateUserid = operateUserid;
+	}
+	public String getOperateUsername() {
+		return operateUsername;
+	}
+	public void setOperateUsername(String operateUsername) {
+		this.operateUsername = operateUsername;
 	}
 	public String getOperateTime() {
 		return operateTime;

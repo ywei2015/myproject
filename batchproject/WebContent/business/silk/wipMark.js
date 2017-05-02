@@ -30,7 +30,6 @@ function initTable(dataj){
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
-	if(userId!=null){
 	$.ajax({
 		type : "post",
 		url: cqt_prefix+'wipmark/getWipMark',
@@ -100,7 +99,6 @@ function initTable(dataj){
 		}
 	
 	});
-	}
 	theTable.appendChild(b);
 }
 var Id;
@@ -117,7 +115,8 @@ function verifySubmit(){
     		type : "post",
     		url: cqt_prefix+'wipmark/deleteWipMark',
     		data:{'f_pid':billarray[Id],'userId':userId},
-    		success : function(data) {var falg=data.dataset.response.code;
+    		success : function(data) {
+    		var falg=data.dataset.response.code;
 			if(falg==0)
 				$("#tishi").text("删除失败！");
 			if(falg==1){

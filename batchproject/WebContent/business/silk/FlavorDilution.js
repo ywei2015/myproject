@@ -54,15 +54,12 @@ function initTable(dataj){
 					if(rowdata!=null||rowdata!=undefined){
 						var td;
 						var data_td1;
+						
 						td=document.createElement('td');
 						data_td1=1+i;//序号
 						td.innerHTML=data_td1;
 						r.appendChild(td);
-						/*
-						td=document.createElement('td');
-						data_td1=rowdata.matcode;//编码
-						td.innerHTML=data_td1;
-						r.appendChild(td);*/
+					
 						td=document.createElement('td');
 						if("0"==rowdata.remark4){
 							td.style.color='red';

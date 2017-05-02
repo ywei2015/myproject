@@ -52,7 +52,8 @@ public class SilkWorkOrderService {
 	 * @return
 	 */
 	public List<BatWorkOrderVo> getWorkOrderList(String type){
-		List<BatWorkOrder> workorderList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER.LIST", new Object[]{type});
+		String date=DateBean.getBeforDay(DateBean.getSysdate(), 1);
+		List<BatWorkOrder> workorderList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER.LIST", new Object[]{type,null});
 		List<BatWorkOrderVo> voList = new ArrayList<BatWorkOrderVo>();
 		if (workorderList != null && workorderList.size() > 0){
 			for (int i = 0; i < workorderList.size() ; i ++){
@@ -119,11 +120,8 @@ public class SilkWorkOrderService {
 				}else{
 					batWorkOrderInput.setQuantity(Double.parseDouble(quantity));
 				}
-				if("2".equals(remark)){
-					batWorkOrderInput.setRemark3("2");
-				}
-				if("1".equals(remark)){
-					batWorkOrderInput.setRemark3("1");
+				if(remark!=null&&!remark.equals("")){
+					batWorkOrderInput.setRemark3(remark);
 				}
 				batWorkOrderInput.setUnit(carCode.getUnit());
 				batWorkOrderInput.setStarttime(DateBean.getSysdateTime());
@@ -152,12 +150,16 @@ public class SilkWorkOrderService {
 	public boolean deleteBatWorkOrderInput(String pid,String operuser){
 		boolean falg = false;
 		BatWorkOrderInput BatWorkOrderInput = (BatWorkOrderInput)genericDao.getById(BatWorkOrderInput.class,pid);
-		if (BatWorkOrderInput !=null){
-			BatWorkOrderInput.setSysflag("0");
-			BatWorkOrderInput.setLastmodifier(operuser);
-			BatWorkOrderInput.setLastmodifiedtime(DateBean.getSysdateTime());
-			genericDao.save(BatWorkOrderInput);
-			falg = true;
+		try{
+			if (BatWorkOrderInput !=null){
+				BatWorkOrderInput.setSysflag("0");
+				BatWorkOrderInput.setLastmodifier(operuser);
+				BatWorkOrderInput.setLastmodifiedtime(DateBean.getSysdateTime());
+				genericDao.save(BatWorkOrderInput);
+				falg = true;
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
 		return falg;
 	}
@@ -172,12 +174,9 @@ public class SilkWorkOrderService {
 	 */
 	public List<BatWorkOrderInput> getBatWorkOrderInput(String workOrderCode, String tl_type,String workOrderCodeType, String remark){
 		List<BatWorkOrderInput> inputList=null;
-		if("1".equals(remark)){
-			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST2.LIST", new Object[]{workOrderCode,"1"});
-		}else if("2".equals(remark)){
-			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST2.LIST", new Object[]{workOrderCode,"2"});
-		}
-		if("1".equals(tl_type)){
+		if(remark!=null&&!remark.equals("")){
+			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST2.LIST", new Object[]{workOrderCode,remark});
+		}else if("1".equals(tl_type)){
 			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST.LIST", new Object[]{workOrderCode});
 		}else if("ZP03".equals(workOrderCodeType)){
 			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_REUSELIST.LIST",null);
@@ -277,12 +276,13 @@ public class SilkWorkOrderService {
 
 	public boolean deleteIeafInput(String batch, String userId) {
 		boolean falg = false;
-		BatWorkOrderInput BatWorkOrderInput = (BatWorkOrderInput)genericDao.getListWithVariableParas("ieafInput.getbatworkinput.bybatch", new Object[]{batch});
-		if (BatWorkOrderInput !=null){
-			BatWorkOrderInput.setSysflag("0");
-			BatWorkOrderInput.setLastmodifier(userId);
-			BatWorkOrderInput.setLastmodifiedtime(DateBean.getSysdateTime());
-			genericDao.save(BatWorkOrderInput);
+		List<BatWorkOrderInput> BatWorkOrderInputList = genericDao.getListWithVariableParas("ieafInput.getbatworkinput.bybatch", new Object[]{batch});
+		if (BatWorkOrderInputList !=null){
+			BatWorkOrderInput batWorkOrderInput=BatWorkOrderInputList.get(0);
+			batWorkOrderInput.setSysflag("0");
+			batWorkOrderInput.setLastmodifier(userId);
+			batWorkOrderInput.setLastmodifiedtime(DateBean.getSysdateTime());
+			genericDao.save(batWorkOrderInput);
 			falg = true;
 		}
 		return falg;

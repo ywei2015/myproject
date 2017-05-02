@@ -288,4 +288,5 @@ public class BatWorkOrder implements Serializable{
 		this.lastmodifiedtime = lastmodifiedtime;
 	}
 	
+	
 }

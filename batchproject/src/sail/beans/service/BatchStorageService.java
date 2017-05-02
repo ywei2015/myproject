@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -446,6 +447,31 @@ public class BatchStorageService {
 	public List<BatDepotIoDetail> getBatDepotIoDetailListj(String f_match) {
 		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAILJ.LIST", new Object[]{f_match});
 		return detailList;
+	}
+
+	public List<BatDepotIoDetail> getBatDepotValidate(String f_bill_no,String f_doc_type){
+			List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_STROAGVALIDATE_.LIST", new Object[]{f_bill_no,f_doc_type,null,"0"});
+			return detailList;
+	}
+
+	public Map getBatDepotStorageTotal(String f_bill_no,
+			String f_doc_type) {
+		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_STROAGVALIDATE_.LIST", new Object[]{f_bill_no,f_doc_type,null,null});
+		int ruku=0;
+		int total=0;
+		if(detailList!=null&&detailList.size()>0){
+			total=detailList.size();
+			for(int i=0;i<total;i++){
+			BatDepotIoDetail batDepotIoDetail=detailList.get(i);
+			if("1".equals(batDepotIoDetail.getRemark5())){
+				ruku++;
+			}
+			}
+		}
+		Map map=new HashMap();
+		map.put("ruku",ruku);
+		map.put("toatal",total);
+		return map;
 	}
 
 }

@@ -33,6 +33,7 @@ function initTable(dataj){
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
+	if(f_workorder_code!=null){
 	$.ajax({
 		type : "post",
 		url:cqt_prefix+'rollbatch/getBatWorkOrderInput',
@@ -128,7 +129,7 @@ function initTable(dataj){
 				};
 		}
 	});
-	
+	}
 	theTable.appendChild(b);
 }
 var Id;

@@ -1,4 +1,4 @@
-var title= ["序号","编码","名称","批次号","操作"];
+var title= ["序号","名称","批次号","数量","单位","开始","操作"];
 var theTable=document.getElementById("table");
 var userId=getQueryString('userId');
 var f_workorder_code=getQueryString('f_workorder_code'); //生产工单号 20161208HZ-YCX-01
@@ -55,12 +55,7 @@ function initTable(dataj){
 						data_td1=1+i;//序号
 						td.innerHTML=data_td1;
 						r.appendChild(td);
-						
-						td=document.createElement('td');
-						data_td1=rowdata.matcode;//编码
-						td.innerHTML=data_td1;
-						r.appendChild(td);
-						
+					
 						td=document.createElement('td');
 						if("0"==rowdata.remark4){
 							td.style.color='red';
@@ -74,18 +69,26 @@ function initTable(dataj){
 						td=document.createElement('td');
 						td.id="picihao";
 						data_td1=rowdata.matbatch;//批次号
-						picihao=data_td1;
+						picihao[i]=data_td1;
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
-						/*td=document.createElement('td');
+						td=document.createElement('td');
 						data_td1=rowdata.quantity;//数量
 						td.innerHTML=data_td1;
 						r.appendChild(td);
+						
 						td=document.createElement('td');
-						data_td1="";//单位
+						data_td1= rowdata.unit;//单位
 						td.innerHTML=data_td1;
-						r.appendChild(td);*/
+						r.appendChild(td);
+						
+						td=document.createElement('td');
+						var data_td2=rowdata.starttime;//开始
+						data_td1=data_td2.substring(4,6)+'-'+data_td2.substring(6,8)+' '+data_td2.substring(8,10)+':'+data_td2.substring(10,12);
+						td.innerHTML=data_td1;
+						r.appendChild(td);
+						
 						td=document.createElement('td');
 						var pid=rowdata.pid;
 						billarray[i]=pid;
@@ -123,7 +126,6 @@ function initTable(dataj){
 var Id;
 function deleteRow(i){
 	Id=i;
-	var tishi=picihao;
 	$("#sure").text(picihao[i]);
 }
 

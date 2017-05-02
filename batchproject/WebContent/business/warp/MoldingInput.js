@@ -33,7 +33,7 @@ function initTable(dataj){
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
-	if(userId!=null){
+	if(f_workorder_code!=null){
 	$.ajax({
 		type : "post",
 		url:cqt_prefix+'rollbatch/getBatWorkOrderInput',

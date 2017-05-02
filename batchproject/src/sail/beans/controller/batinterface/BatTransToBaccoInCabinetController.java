@@ -22,6 +22,6 @@ public class BatTransToBaccoInCabinetController {
 //	@Scheduled(cron = "0 0/3 * * * ?")
 	public void saveBatTransToBaccoInCabinet(){
 		if(batTransToBaccoInCabinetService==null) return;
-		batTransToBaccoInCabinetService.saveBatTransToBaccoInCabinet();
+		batTransToBaccoInCabinetService.SaveBatTransToBaccoInCabinet();
 	}
 }

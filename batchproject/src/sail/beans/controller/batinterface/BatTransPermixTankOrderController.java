@@ -22,6 +22,6 @@ public class BatTransPermixTankOrderController {
 //	@Scheduled(cron = "0 0/3 * * * ?")
 	public void saveBatTransPermixTankOrder(){
 		if(batTransPermixTankOrderService==null) return;
-		batTransPermixTankOrderService.saveBatTransPermixTankOrder();
+		batTransPermixTankOrderService.SaveBatTransPermixTankOrder();
 	}
 }

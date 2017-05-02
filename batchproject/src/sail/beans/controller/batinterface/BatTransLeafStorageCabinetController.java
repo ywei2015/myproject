@@ -22,6 +22,6 @@ public class BatTransLeafStorageCabinetController {
 //	@Scheduled(cron = "0 0/3 * * * ?")
 	public void saveBatTransLeafStorageCabinet(){
 		if(batTransLeafStorageCabinetService==null) return;
-		batTransLeafStorageCabinetService.saveBatTransLeafStorageCabinet();
+		batTransLeafStorageCabinetService.SaveBatTransLeafStorageCabinet();
 	}
 }

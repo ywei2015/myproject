@@ -21,7 +21,7 @@ public class BatPalletWorkorderController {
 	 * 新增烟用材料配盘
 	 * @throws SQLException 
 	 */
-//	@Scheduled(cron = "0 06 17 * * ?")
+//	@Scheduled(cron = "0 08 17 * * ?")
 	@Scheduled(cron = "0 0/5 * * * ?")
 	public void saveBatPalletWorkorder(){
 		if(batPalletWorkorderService==null) return;

@@ -26,6 +26,14 @@
     ]]>
 	</query>	
 	
+	<query name="STORAGE.T_BAT_STROAGVALIDATE_.LIST">
+		<![CDATA[
+    	SELECT detail FROM sail.beans.entity.BatDepotIoDetail detail,sail.beans.entity.BatDepotIoBill bill
+    	 where bill.billno = ? and bill.doctype = ? and bill.sysflag = '1' and bill.pid = detail.billpid and detail.sysflag= '1' 
+    	 and bill.isEnter = ? and detail.isEnter = ? order by detail.createtime desc
+    ]]>
+	</query>
+	
 	<query name="STORAGE.T_BAT_DEPOT_IOBILLDETAILJ.LIST">
 		<![CDATA[
     	SELECT detail FROM sail.beans.entity.BatDepotIoDetail detail,sail.beans.entity.BatDepotIoBill bill

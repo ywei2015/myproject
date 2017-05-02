@@ -1,4 +1,4 @@
-var title= ["序号","编码","批次号","开始","结束","操作"];
+var title= ["序号","编码","批次号","数量","单位","开始","操作"];
 var theTable=document.getElementById("table");
 var userId=getQueryString('userId');
 var f_workorder_code=getQueryString('f_workorder_code');//test:
@@ -74,16 +74,21 @@ function initTable(dataj){
 						r.appendChild(td);
 						
 						td=document.createElement('td');
+						data_td1=rowdata.quantity;//数量
+						td.innerHTML=data_td1;
+						r.appendChild(td);
+						
+						td=document.createElement('td');
+						data_td1=rowdata.unit;//单位
+						td.innerHTML=data_td1;
+						r.appendChild(td);
+						
+						td=document.createElement('td');
 						var data_td2=rowdata.starttime;//开始
 						data_td1=data_td2.substring(4,6)+'-'+data_td2.substring(6,8)+' '+data_td2.substring(8,10)+':'+data_td2.substring(10,12);
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
-						td=document.createElement('td');
-						var data_td2=rowdata.endtime;//开始
-						data_td1=data_td2.substring(4,6)+'-'+data_td2.substring(6,8)+' '+data_td2.substring(8,10)+':'+data_td2.substring(10,12);
-						td.innerHTML=data_td1;
-						r.appendChild(td);
 						
 						td=document.createElement('td');
 						var pid=rowdata.pid;

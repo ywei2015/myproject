@@ -31,6 +31,7 @@ function initTable(dataj){
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
+	if(f_bill_no!=null){
 	$.ajax({
 		type : "post",
 		url:cqt_prefix+'storage/getBatDepotIoDetailList',
@@ -96,6 +97,7 @@ function initTable(dataj){
 		}
 		}
 	});
+	}
 	theTable.appendChild(b);
 }
 var Id;

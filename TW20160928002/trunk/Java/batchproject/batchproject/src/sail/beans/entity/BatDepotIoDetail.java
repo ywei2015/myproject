@@ -11,6 +11,7 @@ public class BatDepotIoDetail implements Serializable{
 	private String matbatch;
 	private double quantity;
 	private String unit;
+	private String unitname;
 	private String suppliersortcode;
 	private String shkzg;
 	private String inventorytype;
@@ -185,6 +186,12 @@ public class BatDepotIoDetail implements Serializable{
 	}
 	public void setIsEnter(String isEnter) {
 		this.isEnter = isEnter;
+	}
+	public String getUnitname() {
+		return unitname;
+	}
+	public void setUnitname(String unitname) {
+		this.unitname = unitname;
 	}
 	
 	

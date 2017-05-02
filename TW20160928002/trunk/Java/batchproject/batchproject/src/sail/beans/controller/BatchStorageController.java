@@ -1,6 +1,7 @@
 package sail.beans.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -126,5 +127,37 @@ public class BatchStorageController {
 		return res;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="/getBatDepotValidate")
+	public	ResponseBase getBatDepotValidate(HttpServletRequest request){
+		ResponseBase res = new ResponseBase();
+		String f_bill_no = request.getParameter("f_bill_no");
+		String f_doc_type = request.getParameter("f_doc_type");
+		List<BatDepotIoDetail> batdepotiodetaillist=null;
+	    batdepotiodetaillist = batchStorageService.getBatDepotValidate(f_bill_no,f_doc_type);
+		if (batdepotiodetaillist != null && batdepotiodetaillist.size() > 0){
+			res.setResponseData("1", "操作成功!");
+			res.setDataset(batdepotiodetaillist, "batdepotiodetail");
+		}else{
+			res.setResponseData("0", "牌号信息不匹配!");
+		}
+		return res;
+	}
 	
+	@ResponseBody
+	@RequestMapping(value="/getBatDepotStorageTotal")
+	public	Map getBatDepotStorageTotal(HttpServletRequest request){
+		ResponseBase res = new ResponseBase();
+		String f_bill_no = request.getParameter("f_bill_no");
+		String f_doc_type = request.getParameter("f_doc_type");
+		List<BatDepotIoDetail> batdepotiodetaillist=null;
+	    Map map = batchStorageService.getBatDepotStorageTotal(f_bill_no,f_doc_type);
+		if (map != null){
+			res.setResponseData("1", "操作成功!");
+			res.setDataset(map, "batdepotiodetail");
+		}else{
+			res.setResponseData("0", "牌号信息不匹配!");
+		}
+		return map;
+	}
 }

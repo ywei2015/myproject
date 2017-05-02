@@ -22,6 +22,6 @@ public class BatTransYesiIntoCabinetController {
 //	@Scheduled(cron = "0 0/3 * * * ?")
 	public void saveBatTransYesiIntoCabinet(){
 		if(batTransYesiIntoCabinetService==null) return;
-		batTransYesiIntoCabinetService.saveBatTransYesiIntoCabinet();
+		batTransYesiIntoCabinetService.SaveBatTransYesiIntoCabinet();
 	}
 }

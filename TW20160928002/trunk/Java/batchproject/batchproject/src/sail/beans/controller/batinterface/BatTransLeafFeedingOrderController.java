@@ -22,6 +22,6 @@ public class BatTransLeafFeedingOrderController {
 //	@Scheduled(cron = "0 0/3 * * * ?")
 	public void saveBatTransLeafFeedingOrder(){
 		if(batTransLeafFeedingOrderService==null) return;
-		batTransLeafFeedingOrderService.saveBatTransLeafFeedingOrder();
+		batTransLeafFeedingOrderService.SaveBatTransLeafFeedingOrder();
 	}
 }

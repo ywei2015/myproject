@@ -22,6 +22,6 @@ public class BatTransStemSpiceFeedingController {
 //	@Scheduled(cron = "0 0/3 * * * ?")
 	public void saveBatTransStemSpiceFeeding(){
 		if(batTransStemSpiceFeedingService==null) return;
-		batTransStemSpiceFeedingService.saveBatTransStemSpiceFeeding();
+		batTransStemSpiceFeedingService.SaveBatTransStemSpiceFeeding();
 	}
 }

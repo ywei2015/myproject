@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import sail.beans.Constants;
 import sail.beans.dao.GenericDao;
 import sail.beans.entity.BatWorkOrder;
-import sail.beans.entity.BatWorkOrderInput;
 import sail.beans.entity.BatWorkOrderOutput;
 import sail.beans.entity.UBatTransLeafStorageCabinet;
 import sail.beans.support.DateBean;
@@ -22,7 +21,7 @@ public class BatTransLeafStorageCabinetService extends CommonService{
 	 * 获取待转储并新增生产工单投料后台服务（叶片入配叶柜）
 	 * @return
 	 */
-	public void saveBatTransLeafStorageCabinet(){
+	public void SaveBatTransLeafStorageCabinet(){
 		try{
 			List<UBatTransLeafStorageCabinet> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSLEAFSTORAGECABINET.LIST", new Object[]{});
 			UBatTransLeafStorageCabinet order = null;
@@ -50,7 +49,7 @@ public class BatTransLeafStorageCabinetService extends CommonService{
 						output.setCreatetime(DateBean.getSysdateTime());
 						genericDao.save(output);
 						//转储完数据后更新转储状态
-						UBatTransLeafStorageCabinet main1 = (UBatTransLeafStorageCabinet)genericDao.getById(UBatTransLeafStorageCabinet.class,order.getPid());
+						UBatTransLeafStorageCabinet main1 = (UBatTransLeafStorageCabinet)genericDao.getById(UBatTransLeafStorageCabinet.class,mainList.get(i).getPid());
 						main1.setSynchroFlag(Constants.SYN_CHRO_USED);
 						main1.setSynchroTime(DateBean.getSysdateTime());
 						genericDao.save(main1);

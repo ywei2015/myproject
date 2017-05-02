@@ -21,7 +21,7 @@ public class BatTransToBaccoInCabinetService extends CommonService{
 	 * 获取待转储并新增生产工单投料后台服务（成品烟丝进柜）
 	 * @return
 	 */
-	public void saveBatTransToBaccoInCabinet(){
+	public void SaveBatTransToBaccoInCabinet(){
 		try{
 			List<UBatTransToBaccoInCabinet> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSTOBACCOINTOCABINET.LIST", new Object[]{});
 			UBatTransToBaccoInCabinet order = null;
@@ -48,7 +48,7 @@ public class BatTransToBaccoInCabinetService extends CommonService{
 						output.setCreatetime(DateBean.getSysdateTime());
 						genericDao.save(output);
 						//转储完数据后更新转储状态
-						UBatTransToBaccoInCabinet main1 = (UBatTransToBaccoInCabinet)genericDao.getById(UBatTransToBaccoInCabinet.class,order.getPid());
+						UBatTransToBaccoInCabinet main1 = (UBatTransToBaccoInCabinet)genericDao.getById(UBatTransToBaccoInCabinet.class,mainList.get(i).getPid());
 						main1.setSynchroFlag(Constants.SYN_CHRO_USED);
 						main1.setSynchroTime(DateBean.getSysdateTime());
 						genericDao.save(main1);

@@ -22,7 +22,7 @@ public class BatTransPeduncleCabinetService extends CommonService{
 	 * 获取待转储并新增生产工单投料后台服务（梗丝进柜）
 	 * @return
 	 */
-	public void saveBatTransPeduncleCabinet(){
+	public void SaveBatTransPeduncleCabinet(){
 		try{
 			List<UBatTransPeduncleCabinet> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSPEDUNCLECABINET.LIST", new Object[]{});
 			UBatTransPeduncleCabinet order = null;
@@ -50,7 +50,7 @@ public class BatTransPeduncleCabinetService extends CommonService{
 						output.setCreatetime(DateBean.getSysdateTime());
 						genericDao.save(output);
 						//转储完数据后更新转储状态
-						UBatTransPeduncleCabinet main1 = (UBatTransPeduncleCabinet)genericDao.getById(UBatTransPeduncleCabinet.class,order.getPid());
+						UBatTransPeduncleCabinet main1 = (UBatTransPeduncleCabinet)genericDao.getById(UBatTransPeduncleCabinet.class,mainList.get(i).getPid());
 						main1.setSynchroFlag(Constants.SYN_CHRO_USED);
 						main1.setSynchroTime(DateBean.getSysdateTime());
 						genericDao.save(main1);

@@ -7,13 +7,9 @@ import org.springframework.stereotype.Service;
 
 import sail.beans.Constants;
 import sail.beans.dao.GenericDao;
-import sail.beans.entity.BatWorkOrder;
 import sail.beans.entity.BatWorkOrderInput;
-import sail.beans.entity.BatWorkOrderOutput;
-import sail.beans.entity.Dic;
 import sail.beans.entity.UBatTransToBaccoOutCabinet;
 import sail.beans.support.DateBean;
-import sail.beans.support.StingUtil;
 
 @Service
 public class BatTransToBaccoOutCabinetService extends CommonService{
@@ -27,7 +23,7 @@ public class BatTransToBaccoOutCabinetService extends CommonService{
 	 * #A喂丝机ESB编码(1000005045)
 	 * @return
 	 */
-	public void saveBatTransToBaccoOutCabinet(){
+	public void SaveBatTransToBaccoOutCabinet(){
 		try{
 			List<UBatTransToBaccoOutCabinet> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSTOBACCOOUTCABINET.LIST", new Object[]{});
 			UBatTransToBaccoOutCabinet order = null;
@@ -63,7 +59,7 @@ public class BatTransToBaccoOutCabinetService extends CommonService{
 							genericDao.save(input);
 							
 							//转储完数据后更新转储状态
-							UBatTransToBaccoOutCabinet main1 = (UBatTransToBaccoOutCabinet)genericDao.getById(UBatTransToBaccoOutCabinet.class,order.getPid());
+							UBatTransToBaccoOutCabinet main1 = (UBatTransToBaccoOutCabinet)genericDao.getById(UBatTransToBaccoOutCabinet.class,mainList.get(i).getPid());
 							main1.setSynchroFlag(Constants.SYN_CHRO_USED);
 							main1.setSynchroTime(DateBean.getSysdateTime());
 							genericDao.save(main1);

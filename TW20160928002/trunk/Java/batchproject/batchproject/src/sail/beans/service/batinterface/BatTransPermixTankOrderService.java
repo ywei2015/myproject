@@ -21,7 +21,7 @@ public class BatTransPermixTankOrderService extends CommonService{
 	 * 获取待转储并新增生产工单投料后台服务（叶片入预混柜）
 	 * @return
 	 */
-	public void saveBatTransPermixTankOrder(){
+	public void SaveBatTransPermixTankOrder(){
 		try{
 			List<UBatTransPermixTankOrder> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSPREMIXTANKORDER.LIST", new Object[]{});
 			UBatTransPermixTankOrder order = null;
@@ -49,7 +49,7 @@ public class BatTransPermixTankOrderService extends CommonService{
 						output.setCreatetime(DateBean.getSysdateTime());
 						genericDao.save(output);
 						//转储完数据后更新转储状态
-						UBatTransPermixTankOrder main1 = (UBatTransPermixTankOrder)genericDao.getById(UBatTransPermixTankOrder.class,order.getPid());
+						UBatTransPermixTankOrder main1 = (UBatTransPermixTankOrder)genericDao.getById(UBatTransPermixTankOrder.class,mainList.get(i).getPid());
 						main1.setSynchroFlag(Constants.SYN_CHRO_USED);
 						main1.setSynchroTime(DateBean.getSysdateTime());
 						genericDao.save(main1);

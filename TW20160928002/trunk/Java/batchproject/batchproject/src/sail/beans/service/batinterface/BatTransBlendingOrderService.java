@@ -21,7 +21,7 @@ public class BatTransBlendingOrderService extends CommonService{
 	 * 获取待转储并新增生产工单投料后台服务（五丝掺配）
 	 * @return
 	 */
-	public void saveBatTransBlendingOrder(){
+	public void SaveBatTransBlendingOrder(){
 		try{
 			List<UBatTransBlendingOrder> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSBLENDINGORDER.LIST", new Object[]{});
 			UBatTransBlendingOrder order = null;
@@ -53,7 +53,7 @@ public class BatTransBlendingOrderService extends CommonService{
 						input.setCreatetime(DateBean.getSysdateTime());
 						genericDao.save(input);
 						//转储完数据后更新转储状态
-						UBatTransBlendingOrder main1 = (UBatTransBlendingOrder)genericDao.getById(UBatTransBlendingOrder.class,order.getPid());
+						UBatTransBlendingOrder main1 = (UBatTransBlendingOrder)genericDao.getById(UBatTransBlendingOrder.class,mainList.get(i).getPid());
 						main1.setSynchroFlag(Constants.SYN_CHRO_USED);
 						main1.setSynchroTime(DateBean.getSysdateTime());
 						genericDao.save(main1);

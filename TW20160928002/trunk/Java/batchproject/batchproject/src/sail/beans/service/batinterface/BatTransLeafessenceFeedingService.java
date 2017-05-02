@@ -21,7 +21,7 @@ public class BatTransLeafessenceFeedingService extends CommonService{
 	 * 获取待转储并新增生产工单投料后台服务（丝线香精投料）
 	 * @return
 	 */
-	public void saveBatTransLeafessenceFeeding(){
+	public void SaveBatTransLeafessenceFeeding(){
 		try{
 			List<UBatTransLeafessenceFeeding> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSLEAFESSENCEFEEDING.LIST", new Object[]{});
 			UBatTransLeafessenceFeeding order = null;
@@ -55,7 +55,7 @@ public class BatTransLeafessenceFeedingService extends CommonService{
 						input.setCreatetime(DateBean.getSysdateTime());
 						genericDao.save(input);
 						//转储完数据后更新转储状态
-						UBatTransLeafessenceFeeding main1 = (UBatTransLeafessenceFeeding)genericDao.getById(UBatTransLeafessenceFeeding.class,order.getPid());
+						UBatTransLeafessenceFeeding main1 = (UBatTransLeafessenceFeeding)genericDao.getById(UBatTransLeafessenceFeeding.class,mainList.get(i).getPid());
 						main1.setSynchroFlag(Constants.SYN_CHRO_USED);
 						main1.setSynchroTime(DateBean.getSysdateTime());
 						genericDao.save(main1);

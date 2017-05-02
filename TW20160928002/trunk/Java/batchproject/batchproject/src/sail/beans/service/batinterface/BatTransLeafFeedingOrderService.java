@@ -21,7 +21,7 @@ public class BatTransLeafFeedingOrderService extends CommonService{
 	 * 获取待转储并新增生产工单投料后台服务（叶片投料）
 	 * @return
 	 */
-	public void saveBatTransLeafFeedingOrder(){
+	public void SaveBatTransLeafFeedingOrder(){
 		try{
 			List<UBatTransLeafFeedingOrder> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSLEAFFEEDINGORDER.LIST", new Object[]{});
 			UBatTransLeafFeedingOrder order = null;
@@ -53,7 +53,7 @@ public class BatTransLeafFeedingOrderService extends CommonService{
 						input.setCreatetime(DateBean.getSysdateTime());
 						genericDao.save(input);
 						//转储完数据后更新转储状态
-						UBatTransLeafFeedingOrder main1 = (UBatTransLeafFeedingOrder)genericDao.getById(UBatTransLeafFeedingOrder.class,order.getPid());
+						UBatTransLeafFeedingOrder main1 = (UBatTransLeafFeedingOrder)genericDao.getById(UBatTransLeafFeedingOrder.class,mainList.get(i).getPid());
 						main1.setSynchroFlag(Constants.SYN_CHRO_USED);
 						main1.setSynchroTime(DateBean.getSysdateTime());
 						genericDao.save(main1);

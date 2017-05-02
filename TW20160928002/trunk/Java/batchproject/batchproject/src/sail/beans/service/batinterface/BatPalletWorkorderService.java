@@ -1,9 +1,6 @@
 package sail.beans.service.batinterface;
 
-import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

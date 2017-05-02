@@ -22,7 +22,7 @@ public class BatTransYesiIntoCabinetService extends CommonService{
 	 * 获取待转储并新增生产工单投料后台服务（叶丝入柜）
 	 * @return
 	 */
-	public void saveBatTransYesiIntoCabinet(){
+	public void SaveBatTransYesiIntoCabinet(){
 		try{
 			List<UBatTransYesiIntoCabinet> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSYESIINTOCABINET.LIST", new Object[]{});
 			UBatTransYesiIntoCabinet order = null;
@@ -50,7 +50,7 @@ public class BatTransYesiIntoCabinetService extends CommonService{
 						output.setCreatetime(DateBean.getSysdateTime());
 						genericDao.save(output);
 						//转储完数据后更新转储状态
-						UBatTransToBaccoOutCabinet main1 = (UBatTransToBaccoOutCabinet)genericDao.getById(UBatTransToBaccoOutCabinet.class,order.getPid());
+						UBatTransToBaccoOutCabinet main1 = (UBatTransToBaccoOutCabinet)genericDao.getById(UBatTransToBaccoOutCabinet.class,mainList.get(i).getPid());
 						main1.setSynchroFlag(Constants.SYN_CHRO_USED);
 						main1.setSynchroTime(DateBean.getSysdateTime());
 						genericDao.save(main1);

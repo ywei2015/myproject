@@ -18,8 +18,8 @@ public class BatTransPermixTankOrderController {
 	/**
 	 * 新增制丝中控－叶片入预混柜
 	 */
-//	@Scheduled(cron = "0 49 16 * * ?")
-//	@Scheduled(cron = "0 0/3 * * * ?")
+//	@Scheduled(cron = "0 29 09 * * ?")
+	@Scheduled(cron = "0 0/2 * * * ?")
 	public void saveBatTransPermixTankOrder(){
 		if(batTransPermixTankOrderService==null) return;
 		batTransPermixTankOrderService.SaveBatTransPermixTankOrder();

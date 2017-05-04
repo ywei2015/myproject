@@ -18,8 +18,8 @@ public class BatTransStemSpiceFeedingController {
 	/**
 	 * 新增制丝中控－梗丝香精香料投料
 	 */
-//	@Scheduled(cron = "0 49 16 * * ?")
-//	@Scheduled(cron = "0 0/3 * * * ?")
+//	@Scheduled(cron = "0 18 10 * * ?")
+	@Scheduled(cron = "0 0/2 * * * ?")
 	public void saveBatTransStemSpiceFeeding(){
 		if(batTransStemSpiceFeedingService==null) return;
 		batTransStemSpiceFeedingService.SaveBatTransStemSpiceFeeding();

@@ -15,8 +15,8 @@
 		<property name="locationName" column="F_LOCATION_NAME" length="50" type="java.lang.String"/>
 		<property name="quantity" column="F_QUANTITY" precision="16" scale="0"  type="java.lang.Double"/>
 		<property name="unit" column="F_UNIT" length="50" type="java.lang.String"/>
-		<property name="starttime" column="F_STARTTIME" length="14" type="java.lang.String"/>
-		<property name="endtime" column="F_ENDTIME" length="14" type="java.lang.String"/>
+		<property name="starttime" column="F_ACTUAL_STARTTIME" length="14" type="java.lang.String"/>
+		<property name="endtime" column="F_ACTUAL_ENDTIME" length="14" type="java.lang.String"/>
 		<property name="workteamCode" column="F_WORKTEAM_CODE" length="50" type="java.lang.String"/>
 		<property name="workteamName" column="F_WORKTEAM_NAME" length="50" type="java.lang.String"/>
 		<property name="operateUsercode" column="F_OPERATE_USERCODE" length="50" type="java.lang.String"/>

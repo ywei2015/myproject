@@ -156,14 +156,14 @@
     <!--根据相对应的机组和投料时间查找工单号-->
     <sql-query name="SYNCHRO.GET.WORKORDER.CODE">
     	<![CDATA[
-    	select t.f_pid,t.f_workorder_code from t_bat_workorder t where t.f_process 
+    	select w.f_pid,w.f_workorder_code from t_bat_workorder w where w.f_process  
         in(select F_GROUP_ESBCODE from v_bat_equ v where v.f_pid in ( select distinct t.f_next_device from T_BAT_EQU_LINK t 
     		where t.f_link_type='2' and t.f_pre_device= (SELECT d.f_pid FROM t_pub_dic d 
     		where d.f_obj_pid = '82dfffdd-7bcd-4d90-938e-eed60a444d2a'  and d.f_sys_flag = '1' 
     		 and d.f_other_pid2='ae3af42f-95a1-4e40-9a2d-3ca6ed92dbb2' 
     		 and d.f_value10 = ? )  and t.f_sys_flag='1' ))
-    		 and to_date(t.f_actual_starttime,'yyyy-mm-dd hh24:mi:ss') <= to_date(?,'yyyy-mm-dd hh24:mi:ss')  
-    		 and to_date(t.f_actual_endtime,'yyyy-mm-dd hh24:mi:ss') >= to_date(?,'yyyy-mm-dd hh24:mi:ss') 
+    		 and to_date(w.f_actual_starttime,'yyyy-mm-dd hh24:mi:ss') <= to_date(?,'yyyy-mm-dd hh24:mi:ss')  
+    		 and to_date(w.f_actual_endtime,'yyyy-mm-dd hh24:mi:ss') >= to_date(?,'yyyy-mm-dd hh24:mi:ss') 
     	]]>
     </sql-query>
 			

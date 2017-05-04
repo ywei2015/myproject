@@ -25,24 +25,25 @@ public class BatTransLeafSpiceFeedingService extends CommonService{
 		try{
 			List<UBatTransLeafSpiceFeeding> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSLEAFSPICEFEEDING.LIST", new Object[]{});
 			UBatTransLeafSpiceFeeding order = null;
+			BatWorkOrderInput input = null;
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
 					String matBatch = mainList.get(i).getMatBatch().toString();
 					BatWorkOrder batWorkOrder = this.getWorkorderByBatch(matBatch);
 					if(batWorkOrder != null && !"".equals(batWorkOrder)){
-						BatWorkOrderInput input = new BatWorkOrderInput();
+						input = new BatWorkOrderInput();
 						order = mainList.get(i);
-						input.setWorkorderpid(batWorkOrder.getPid());
+						input.setWorkorderpid("03dfba02-0650-43c6-b355-15a8ef45923a"/*batWorkOrder.getPid()*/);
 						input.setTltype(Constants.TL_TYPE);
 						//批次根据罐号(来源位置)找出对应的投入批次号
 						//罐号和批次号关系还未建立
 						input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());
 						input.setMatcode(order.getMatCode()==null?"":order.getMatCode().toString());
-						input.setMatname(order.getMatCode()==null?"":this.getNameByCode(order.getMatCode()));
+						input.setMatname(order.getMatName()==null?"":order.getMatName().toString());
 						input.setLocation(order.getLocation()==null?"":order.getLocation().toString());
 						input.setLocationname(order.getLocationName()==null?"":order.getLocationName().toString());
 						input.setQuantity(order.getQuantity()==null?0.0:Double.parseDouble(order.getQuantity().toString()));
-						input.setUnit(order.getUnit()==null?"":order.getUnit().toString());
+						input.setUnit(this.getIdByUnitCode(order.getUnit()));
 						input.setStarttime(order.getStarttime()==null?"":order.getStarttime().toString());
 						input.setEndtime(order.getEndtime()==null?"":order.getEndtime().toString());
 						input.setOperateuserid(this.getUserIdByUserCode(order.getOperateUsercode()));

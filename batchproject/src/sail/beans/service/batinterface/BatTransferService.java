@@ -27,10 +27,11 @@ public class BatTransferService {
 			List<UBatTransFinalProductMain> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSFINALPRODUCTMAIN.LIST", new Object[]{});
 			UBatTransFinalProductMain main = null;
 			UBatTransFinalProductSec sec = null;
+			BatTransfer batTransfer = null;
 			//主表
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
-					BatTransfer batTransfer = new BatTransfer();
+					batTransfer = new BatTransfer();
 					main = mainList.get(i);
 					batTransfer.setPid(main.getPid());
 					batTransfer.setTransferBill(main.getTransferBill()==null?"":main.getTransferBill().toString());

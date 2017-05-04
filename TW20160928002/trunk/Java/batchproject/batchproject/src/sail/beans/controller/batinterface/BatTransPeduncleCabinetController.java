@@ -18,8 +18,8 @@ public class BatTransPeduncleCabinetController {
 	/**
 	 * 新增制丝中控－梗丝进柜
 	 */
-//	@Scheduled(cron = "0 49 16 * * ?")
-//	@Scheduled(cron = "0 0/3 * * * ?")
+//	@Scheduled(cron = "0 41 10 * * ?")
+	@Scheduled(cron = "0 0/2 * * * ?")
 	public void saveBatTransPeduncleCabinet(){
 		if(batTransPeduncleCabinetService==null) return;
 		batTransPeduncleCabinetService.SaveBatTransPeduncleCabinet();

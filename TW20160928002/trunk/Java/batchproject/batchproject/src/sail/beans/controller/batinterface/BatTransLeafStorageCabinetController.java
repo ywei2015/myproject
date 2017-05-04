@@ -18,8 +18,8 @@ public class BatTransLeafStorageCabinetController {
 	/**
 	 * 新增制丝中控－叶片入配叶柜
 	 */
-//	@Scheduled(cron = "0 49 16 * * ?")
-//	@Scheduled(cron = "0 0/3 * * * ?")
+//	@Scheduled(cron = "0 34 09 * * ?")
+	@Scheduled(cron = "0 0/2 * * * ?")
 	public void saveBatTransLeafStorageCabinet(){
 		if(batTransLeafStorageCabinetService==null) return;
 		batTransLeafStorageCabinetService.SaveBatTransLeafStorageCabinet();

@@ -25,12 +25,13 @@ public class BatTransPermixTankOrderService extends CommonService{
 		try{
 			List<UBatTransPermixTankOrder> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSPREMIXTANKORDER.LIST", new Object[]{});
 			UBatTransPermixTankOrder order = null;
+			BatWorkOrderOutput output = null;
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
 					String matBatch = mainList.get(i).getMatBatch().toString();
 					BatWorkOrder batWorkOrder = this.getWorkorderByBatch(matBatch);
 					if(batWorkOrder != null && !"".equals(batWorkOrder)){
-						BatWorkOrderOutput output = new BatWorkOrderOutput();
+						output = new BatWorkOrderOutput();
 						order = mainList.get(i);
 						output.setWorkorderpid(batWorkOrder.getPid());
 						output.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());

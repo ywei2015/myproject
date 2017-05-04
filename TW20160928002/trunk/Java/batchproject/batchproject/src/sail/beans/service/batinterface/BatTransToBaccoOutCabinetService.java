@@ -27,6 +27,7 @@ public class BatTransToBaccoOutCabinetService extends CommonService{
 		try{
 			List<UBatTransToBaccoOutCabinet> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSTOBACCOOUTCABINET.LIST", new Object[]{});
 			UBatTransToBaccoOutCabinet order = null;
+			BatWorkOrderInput input = null;
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
 					String wirefeedingCode = mainList.get(i).getWirefeedingCode().toString();
@@ -36,17 +37,17 @@ public class BatTransToBaccoOutCabinetService extends CommonService{
 					if(workorderCodeList != null && workorderCodeList.size() > 0){
 						for(int j=0;j<workorderCodeList.size();j++){
 							Object [] obj = (Object[])workorderCodeList.get(j);
-							BatWorkOrderInput input = new BatWorkOrderInput();
+							input = new BatWorkOrderInput();
 							order = mainList.get(i);
 							input.setWorkorderpid(obj[0].toString());
 							input.setTltype(Constants.TL_TYPE);
 							input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());
 							input.setMatcode(order.getMatCode()==null?"":order.getMatCode().toString());
-							input.setMatname(order.getMatCode()==null?"":this.getNameByCode(order.getMatCode()));
+							input.setMatname(order.getMatName()==null?"":order.getMatName().toString());
 							input.setLocation(order.getLocation()==null?"":order.getLocation().toString());
 							input.setLocationname(order.getLocationName()==null?"":order.getLocationName().toString());
 							input.setQuantity(order.getQuantity()==null?0.0:Double.parseDouble(order.getQuantity().toString()));
-							input.setUnit(order.getUnit()==null?"":order.getUnit().toString());
+							input.setUnit(this.getIdByUnitCode(order.getUnit()));
 							input.setStarttime(order.getStarttime()==null?"":order.getStarttime().toString());
 							input.setEndtime(order.getEndtime()==null?"":order.getEndtime().toString());
 							input.setOperateuserid(this.getUserIdByUserCode(order.getOperateUsercode()));

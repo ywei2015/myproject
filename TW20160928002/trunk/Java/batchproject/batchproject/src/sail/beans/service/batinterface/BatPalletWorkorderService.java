@@ -28,14 +28,15 @@ public class BatPalletWorkorderService {
 			List<UBatTransMaterialWithMain> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSMATERIALWITHMAIN.LIST", new Object[]{});
 			UBatTransMaterialWithMain main = null;
 			UBatTransMaterialWithSec sec = null;
+			BatPalletWorkorder batPalletWorkorder = null;
 			//主表
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
-					BatPalletWorkorder batPalletWorkorder = new BatPalletWorkorder();
+					batPalletWorkorder = new BatPalletWorkorder();
 					main = mainList.get(i);
 					batPalletWorkorder.setPid(main.getPid());
 					batPalletWorkorder.setPalletWorkorder(main.getPalletWorkorder()==null?"":main.getPalletWorkorder().toString());
-					batPalletWorkorder.setMesjbWorkorder("mesjb");//此处不确定字段
+//					batPalletWorkorder.setMesjbWorkorder("mesjb");//此处不确定字段
 					batPalletWorkorder.setPalletSid(main.getPalletSid()==null?"":main.getPalletSid().toString());
 					batPalletWorkorder.setProduceDate(main.getProduceDate()==null?"":main.getProduceDate().toString());
 					batPalletWorkorder.setFactory(Constants.FACTORY);

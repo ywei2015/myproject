@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import sail.beans.Constants;
 import sail.beans.dao.GenericDao;
 import sail.beans.entity.BatWorkOrder;
-import sail.beans.entity.BatWorkOrderInput;
 import sail.beans.entity.BatWorkOrderOutput;
 import sail.beans.entity.UBatTransPeduncleCabinet;
 import sail.beans.support.DateBean;
@@ -26,12 +25,13 @@ public class BatTransPeduncleCabinetService extends CommonService{
 		try{
 			List<UBatTransPeduncleCabinet> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSPEDUNCLECABINET.LIST", new Object[]{});
 			UBatTransPeduncleCabinet order = null;
+			BatWorkOrderOutput output = null;
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
 					String matBatch = mainList.get(i).getMatBatch().toString();
 					BatWorkOrder batWorkOrder = this.getWorkorderByBatch(matBatch);
 					if(batWorkOrder != null && !"".equals(batWorkOrder)){
-						BatWorkOrderOutput output = new BatWorkOrderOutput();
+						output = new BatWorkOrderOutput();
 						order = mainList.get(i);
 						output.setWorkorderpid(batWorkOrder.getPid());
 						output.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());

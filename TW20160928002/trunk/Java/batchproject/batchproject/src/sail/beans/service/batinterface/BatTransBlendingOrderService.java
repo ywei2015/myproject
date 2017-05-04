@@ -25,22 +25,23 @@ public class BatTransBlendingOrderService extends CommonService{
 		try{
 			List<UBatTransBlendingOrder> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSBLENDINGORDER.LIST", new Object[]{});
 			UBatTransBlendingOrder order = null;
+			BatWorkOrderInput input = null;
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
 					String matBatch = mainList.get(i).getMatBatch().toString();
 					BatWorkOrder batWorkOrder = this.getWorkorderByBatch(matBatch);
 					if(batWorkOrder != null && !"".equals(batWorkOrder)){
-						BatWorkOrderInput input = new BatWorkOrderInput();
+						input = new BatWorkOrderInput();
 						order = mainList.get(i);
 						input.setWorkorderpid(batWorkOrder.getPid());
 						input.setTltype(Constants.TL_TYPE);
 						input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());
 						input.setMatcode(order.getMatCode()==null?"":order.getMatCode().toString());
-						input.setMatname(order.getMatCode()==null?"":this.getNameByCode(order.getMatCode()));
+						input.setMatname(order.getMatName()==null?"":order.getMatName().toString());
 						input.setLocation(order.getLocation()==null?"":order.getLocation().toString());
 						input.setLocationname(order.getLocationName()==null?"":order.getLocationName().toString());
 						input.setQuantity(order.getQuantity()==null?0.0:Double.parseDouble(order.getQuantity().toString()));
-						input.setUnit(order.getUnit()==null?"":order.getUnit().toString());
+						input.setUnit(this.getIdByUnitCode(order.getUnit()));
 						input.setStarttime(order.getStarttime()==null?"":order.getStarttime().toString());
 						input.setEndtime(order.getEndtime()==null?"":order.getEndtime().toString());
 						input.setOperateuserid(this.getUserIdByUserCode(order.getOperateUsercode()));

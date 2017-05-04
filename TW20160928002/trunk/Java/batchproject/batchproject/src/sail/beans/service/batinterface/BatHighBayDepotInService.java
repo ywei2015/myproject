@@ -27,10 +27,11 @@ public class BatHighBayDepotInService extends CommonService{
 			List<UBatTransproductStorageMain> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSPRODUCTSTORAGEMAIN.LIST", new Object[]{});
 			UBatTransproductStorageMain main = null;
 			UBatTransproductStorageSec sec = null;
+			BatHighBayDepotIn batHighBayDepotIn = null;
 			//主表
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
-					BatHighBayDepotIn batHighBayDepotIn = new BatHighBayDepotIn();
+					batHighBayDepotIn = new BatHighBayDepotIn();
 					main = mainList.get(i);
 					batHighBayDepotIn.setPid(main.getPid());
 					batHighBayDepotIn.setEntrydepotBill(main.getEntrydepotBill()==null?"":main.getEntrydepotBill().toString());

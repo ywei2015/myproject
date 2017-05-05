@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2008-12-16 10:45:42 by mars -->
+<hibernate-mapping>
+	 <class name="sail.beans.entity.BatZsQaParamResult" table="T_BAT_ZS_QAPARAMRESULT_WL">
+	 	<id name="pid" column="F_PID" length="50" type="java.lang.String">
+			<generator class="uuid.hex" />
+		</id> 
+		<many-to-one name="qasamplePid" class="sail.beans.entity.BatZsQaSample" fetch="select">
+            <column name="F_QASAMPLE_PID" length="50" />
+        </many-to-one>
+		<!--<property name="qasamplePid" column="F_QASAMPLE_PID" length="50" type="java.lang.String"/>-->
+		<property name="paramId" column="F_PARAM_ID" length="50" type="java.lang.String"/>
+		<property name="paramName" column="F_PARAM_NAME" length="200" type="java.lang.String"/>
+		<property name="normalValue" column="F_NORMAL_VALUE" precision="16" scale="4" type="java.lang.Double"/>
+		<property name="usl" column="F_USL" precision="16" scale="4" type="java.lang.Double"/>
+		<property name="lsl" column="F_LSL" precision="16" scale="4" type="java.lang.Double"/>
+		<property name="ucl" column="F_UCL" precision="16" scale="4" type="java.lang.Double"/>
+		<property name="lcl" column="F_LCL" precision="16" scale="4" type="java.lang.Double"/>
+		<property name="ubl" column="F_UBL" precision="16" scale="4" type="java.lang.Double"/>
+		<property name="lbl" column="F_LBL" precision="16" scale="4" type="java.lang.Double"/>
+		<property name="max" column="F_MAX" precision="16" scale="4" type="java.lang.Double"/>
+		<property name="min" column="F_MIN" precision="16" scale="4" type="java.lang.Double"/>
+		<property name="average" column="F_AVERAGE" precision="16" scale="4" type="java.lang.Double"/>
+		<property name="sd" column="F_SD" precision="16" scale="4" type="java.lang.Double"/>
+		<property name="cpk" column="F_CPK" precision="16" scale="4" type="java.lang.Double"/>
+		<property name="overCount" column="F_OVER_COUNT" precision="16" scale="4" type="java.lang.Double"/>
+		<property name="passPercent" column="F_PASS_PERCENT" precision="16" scale="4" type="java.lang.Double"/>
+		<property name="unit" column="F_UNIT" length="50" type="java.lang.String"/>
+		<property name="remark1" column="F_REMARK1" length="500" type="java.lang.String"/>
+		<property name="remark2" column="F_REMARK2" length="500" type="java.lang.String"/>
+		<property name="remark3" column="F_REMARK3" length="500" type="java.lang.String"/>
+		<property name="remark4" column="F_REMARK4" length="500" type="java.lang.String"/>
+		<property name="remark5" column="F_REMARK5" length="500" type="java.lang.String"/>
+		<property name="remark" column="F_REMARK" length="500" type="java.lang.String"/>
+		<property name="sysFlag" column="F_SYS_FLAG" length="1" type="java.lang.String"/>
+		<property name="creator" column="F_CREATOR" length="50" type="java.lang.String"/>
+		<property name="createTime" column="F_CREATE_TIME" length="14" type="java.lang.String"/>
+		<property name="lastmodifier" column="F_LAST_MODIFIER" length="50" type="java.lang.String"/>
+		<property name="lastmodifiedTime" column="F_LAST_MODIFIED_TIME" length="14" type="java.lang.String"/>
+	 </class>
+</hibernate-mapping>

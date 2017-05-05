@@ -18,7 +18,7 @@ public class BatPalletForm implements Serializable{
 	private String masterBatch;
 	private Double slaveCount;
 	private String slaveBatch;
-	private String quantity;
+	private Double quantity;
 	private String unit;
 	private String location;
 	private String operateTime;
@@ -94,10 +94,10 @@ public class BatPalletForm implements Serializable{
 	public void setSlaveBatch(String slaveBatch) {
 		this.slaveBatch = slaveBatch;
 	}
-	public String getQuantity() {
+	public Double getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(String quantity) {
+	public void setQuantity(Double quantity) {
 		this.quantity = quantity;
 	}
 	public String getUnit() {

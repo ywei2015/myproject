@@ -81,4 +81,24 @@ public class Constants {
 	
 	public final static String TL_TYPE = "0";
 	
+	/**
+	 * 烟丝生产（烟梗投料、五丝掺配、成品烟丝进柜、成品烟丝出柜）
+	 */
+	public final static String ZP03 = "ZP03";
+	
+	/**
+	 * 梗丝生产（梗丝香精香料投料、梗丝进柜）
+	 */
+	public final static String ZP05 = "ZP05";
+	
+	/**
+	 * 叶片生产（叶片入预配柜、叶片入配叶柜、叶线香料稀释液投料）
+	 */
+	public final static String ZP12 = "ZP12";
+	
+	/**
+	 * 叶丝生产（叶片投料、丝线香精投料）
+	 */
+	public final static String ZP13 = "ZP13";
+	
 }

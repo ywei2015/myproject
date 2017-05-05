@@ -78,6 +78,7 @@ public class BatTransferService {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
+			throw new RuntimeException();
 		}
 	}
 }

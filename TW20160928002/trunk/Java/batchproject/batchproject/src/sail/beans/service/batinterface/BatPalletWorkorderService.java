@@ -93,7 +93,7 @@ public class BatPalletWorkorderService {
 							batPalletForm.setMasterBatch(sec.getMasterBatch());
 							batPalletForm.setSlaveCount(sec.getSlaveCount());
 							batPalletForm.setSlaveBatch(sec.getSlaveBatch());
-							batPalletForm.setQuantity(sec.getQuantity()==null?"0":sec.getQuantity());
+							batPalletForm.setQuantity(sec.getQuantity()==null?0:Double.parseDouble(sec.getQuantity()));
 							batPalletForm.setUnit(sec.getUnit());
 							batPalletForm.setLocation(sec.getLocation());
 							batPalletForm.setOperateTime(sec.getOperateTime());
@@ -116,6 +116,7 @@ public class BatPalletWorkorderService {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
+			throw new RuntimeException();
 		}
 	}
 }

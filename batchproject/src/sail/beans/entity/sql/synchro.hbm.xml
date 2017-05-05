@@ -166,5 +166,15 @@
     		 and to_date(w.f_actual_endtime,'yyyy-mm-dd hh24:mi:ss') >= to_date(?,'yyyy-mm-dd hh24:mi:ss') 
     	]]>
     </sql-query>
+    
+    <sql-query name="GET.SPC.QMS.BATCH.DATA">
+    	<![CDATA[
+    	select t.f_pid,t.f_batch,t.f_batch || g.f_workorder_type  as F_WORKORDERCODE,g.f_gd_esb_code,g.f_gd_name,g.f_gx_esb_code,
+			g.f_gx_name,t.f_brand_id,t.f_param_id,t.F_WORKSECTION_ID,p.f_esb_code,p.f_name,p.f_unit,t.f_start_time,t.f_end_time,
+			t.f_upline,t.f_lowline,t.f_target,t.f_cpk,t.f_sigma,t.f_average,t.f_maxvalue,t.f_minvalue,t.f_overnum,t.f_qrate
+		from SPC.QMS_TB_BATCHSTAT t,SPC.QMS_TB_PARAMETER p,SPC.T_BAT_GX_DIC g
+		where t.f_param_id = p.f_pid and g.f_gx_code = p.f_section_id and t.f_batch = ?  
+      ]]>
+    </sql-query>
 			
 </hibernate-mapping>

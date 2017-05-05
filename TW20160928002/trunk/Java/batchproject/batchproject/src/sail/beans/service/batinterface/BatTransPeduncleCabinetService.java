@@ -11,6 +11,7 @@ import sail.beans.entity.BatWorkOrder;
 import sail.beans.entity.BatWorkOrderOutput;
 import sail.beans.entity.UBatTransPeduncleCabinet;
 import sail.beans.support.DateBean;
+import sail.beans.support.StingUtil;
 
 @Service
 public class BatTransPeduncleCabinetService extends CommonService{
@@ -28,9 +29,9 @@ public class BatTransPeduncleCabinetService extends CommonService{
 			BatWorkOrderOutput output = null;
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
-					String matBatch = mainList.get(i).getMatBatch().toString();
+					String matBatch = mainList.get(i).getMatBatch().toString()+Constants.ZP05;
 					BatWorkOrder batWorkOrder = this.getWorkorderByBatch(matBatch);
-					if(batWorkOrder != null && !"".equals(batWorkOrder)){
+					if(!StingUtil.isEmpty(batWorkOrder)){
 						output = new BatWorkOrderOutput();
 						order = mainList.get(i);
 						output.setWorkorderpid(batWorkOrder.getPid());

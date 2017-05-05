@@ -18,7 +18,7 @@ public class CommonService {
 	private GenericDao genericDao;  
 	
 	/**
-	 * 通过批次号查找
+	 * 通过批次号+工单类型查找
 	 * @param matBatch
 	 * @return
 	 */
@@ -26,7 +26,7 @@ public class CommonService {
 	{
 		StringBuffer strBuffer = new StringBuffer();
 		strBuffer.append("FROM sail.beans.entity.BatWorkOrder T ");
-		strBuffer.append("Where substr(T.workordercode,0,8) = '");
+		strBuffer.append("Where T.workordercode = '");
 		strBuffer.append(matBatch);
 		strBuffer.append("'");
 		strBuffer.append(" AND T.sysflag = '1'");

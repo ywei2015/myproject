@@ -11,6 +11,7 @@ import sail.beans.entity.BatWorkOrder;
 import sail.beans.entity.BatWorkOrderInput;
 import sail.beans.entity.UBatTransStemSpiceFeeding;
 import sail.beans.support.DateBean;
+import sail.beans.support.StingUtil;
 
 @Service
 public class BatTransStemSpiceFeedingService extends CommonService{
@@ -28,9 +29,9 @@ public class BatTransStemSpiceFeedingService extends CommonService{
 			BatWorkOrderInput input = null;
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
-					String matBatch = mainList.get(i).getMatBatch().toString();
+					String matBatch = mainList.get(i).getMatBatch().toString()+Constants.ZP05;
 					BatWorkOrder batWorkOrder = this.getWorkorderByBatch(matBatch);
-					if(batWorkOrder != null && !"".equals(batWorkOrder)){
+					if(!StingUtil.isEmpty(batWorkOrder)){
 						input = new BatWorkOrderInput();
 						order = mainList.get(i);
 						input.setWorkorderpid(batWorkOrder.getPid());

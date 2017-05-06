@@ -70,6 +70,7 @@ public class BatTransToBaccoOutCabinetService extends CommonService{
 			}
 		}catch(Exception e){
 			e.printStackTrace();
+			throw new RuntimeException();
 		}
 	}
 }

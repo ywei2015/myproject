@@ -167,6 +167,7 @@
     	]]>
     </sql-query>
     
+    <!--传入批次号查找制丝生产工艺质量检验样本信息-->
     <sql-query name="GET.SPC.QMS.BATCH.DATA">
     	<![CDATA[
     	select t.f_pid,t.f_batch,t.f_batch || g.f_workorder_type  as F_WORKORDERCODE,g.f_gd_esb_code,g.f_gd_name,g.f_gx_esb_code,

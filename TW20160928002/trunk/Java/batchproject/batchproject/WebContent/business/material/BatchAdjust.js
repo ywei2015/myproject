@@ -1,4 +1,4 @@
-var title= ["序号","编码","名称","小件批次号","原大件批次号","数量","单位","操作"];
+var title= ["序号","编码","名称","小件批次号","原大件批次号","操作"];
 var theTable=document.getElementById("table");
 var userId=getQueryString('userId');
 var f_master_batch=getQueryString('f_master_batch'); //OldDEF
@@ -78,7 +78,7 @@ function initTable(dataj){
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
-						td=document.createElement('td');
+						/*td=document.createElement('td');
 						data_td1=rowdata.quantity;//数量
 						td.innerHTML=data_td1;
 						r.appendChild(td);
@@ -86,7 +86,7 @@ function initTable(dataj){
 						td=document.createElement('td');
 						data_td1=rowdata.unit;//单位
 						td.innerHTML=data_td1;
-						r.appendChild(td);
+						r.appendChild(td);*/
 						
 						td=document.createElement('td');
 						var pid=rowdata.pid;

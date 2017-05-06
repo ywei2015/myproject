@@ -60,7 +60,7 @@ public class BatchStorageController {
 		BatDepotIoDetail batDepotIoDetail = batchStorageService.saveBatchStorageOut(f_bill_no,f_doc_type,f_bus_type,f_mat_batch,userId);
 		if (batDepotIoDetail != null){
 			if("1".equals(batDepotIoDetail.getRepeated())){
-				res.setResponseData("0", "失败!改批次已经存在!");
+				res.setResponseData("0", "失败!该批次已经存在!");
 			}else{
 				res.setResponseData("1", "操作成功!");
 				res.setDataset(batDepotIoDetail, "batdepotiodetail");

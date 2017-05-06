@@ -22,7 +22,7 @@ public class TransformData {
 	 /*
 	  * 日卷包
 	  */
-	 @Scheduled(cron = "0 0/30 0-22 * * ?")
+	 @Scheduled(cron = "0 0/30 * * * ?")
 	/*@ResponseBody
 	@RequestMapping(value="/transformDataJiZu")*/
 	 public void transformDataJiZu(){
@@ -31,14 +31,14 @@ public class TransformData {
 	 /*
 	  * 周制丝
 	  */
-	 @Scheduled(cron = "0 0/30 0-22 * * ?")
+	 @Scheduled(cron = "0 0/30 * * * ?")
 	/*@ResponseBody
 	@RequestMapping(value="/transformDataSilk")*/
 	 public void transformDataSilk(){
 		 transfromdataService.transformDataSilk();
 	}
 	 
-	 @Scheduled(cron = "0 0/30 0-22 * * ?")
+	 @Scheduled(cron = "0 0/30 * * * ?")
 	/*@ResponseBody
 	@RequestMapping(value="/transformDataStalk")*/
 	 public void transformDataStalkSilk(){

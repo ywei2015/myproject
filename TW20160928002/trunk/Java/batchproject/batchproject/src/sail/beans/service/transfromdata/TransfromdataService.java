@@ -47,6 +47,7 @@ public class TransfromdataService {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
+			throw new RuntimeException();
 		}
 	}
 	
@@ -86,6 +87,7 @@ public class TransfromdataService {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
+			throw new RuntimeException();
 		}
 	}
 	
@@ -123,6 +125,7 @@ public class TransfromdataService {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
+			throw new RuntimeException();
 		}
 	}
 

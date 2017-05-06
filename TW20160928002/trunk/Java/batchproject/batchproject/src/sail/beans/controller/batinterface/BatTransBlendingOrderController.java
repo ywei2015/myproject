@@ -19,7 +19,7 @@ public class BatTransBlendingOrderController {
 	 * 新增制丝中控－五丝掺配
 	 */
 //	@Scheduled(cron = "0 47 10 * * ?")
-	@Scheduled(cron = "0 0/2 * * * ?")
+	@Scheduled(cron = "0/30 0/2 * * * ?")
 	public void saveBatTransBlendingOrder(){
 		if(batTransBlendingOrderService==null) return;
 		batTransBlendingOrderService.SaveBatTransBlendingOrder();

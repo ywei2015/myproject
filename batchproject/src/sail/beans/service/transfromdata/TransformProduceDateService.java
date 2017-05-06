@@ -24,10 +24,10 @@ public class TransformProduceDateService {
 	 * */
 	@Transactional(rollbackFor=Exception.class) 
 	public void transformJBProduceDate(String type) {
+		String yzMess,ztflag,billno;
 		try{
 			List<Object[]> list_ZS=genericDao.getListWithNativeSql("transfrom.produceJBData.list",new Object[]{type,taskday,3});
 			if(list_ZS!=null&&list_ZS.size()>0){
-				String yzMess,ztflag,billno;
 				for (int i = 0; i < list_ZS.size(); i++) {
 					 Object[] jizu=list_ZS.get(i);
 					 yzMess=getvltdetails(jizu);
@@ -61,6 +61,7 @@ public class TransformProduceDateService {
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
+			throw new RuntimeException();
 		}
 		
 	} 
@@ -104,10 +105,10 @@ public class TransformProduceDateService {
 	 * */
 	@Transactional(rollbackFor=Exception.class) 
 	public void transformZSProduceDate() {
+		String yzMess,billno;
 		try {
 			List<Object[]> list_ZS=genericDao.getListWithNativeSql("transfrom.produceJBData.list",new Object[]{"TUB_DIC_2070",taskday,null});
 			if(list_ZS!=null&&list_ZS.size()>0){
-				String yzMess,ztflag,billno;
 				for (int i = 0; i < list_ZS.size(); i++) {
 					 Object[] jizu=list_ZS.get(i);
 					 yzMess=getZSvltdetails(jizu,"ZP03");
@@ -142,6 +143,7 @@ public class TransformProduceDateService {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new RuntimeException();
 		}
 		
 	}
@@ -179,10 +181,10 @@ public class TransformProduceDateService {
 	 * */
 	@Transactional(rollbackFor=Exception.class) 
 	public void transformGSProduceDate() {
+		String yzMess,billno;
 		try {
 			List<Object[]> list_ZS=genericDao.getListWithNativeSql("transfrom.produceJBData.list",new Object[]{"tub_dic_3001",taskday,null});
 			if(list_ZS!=null&&list_ZS.size()>0){
-				String yzMess,ztflag,billno;
 				for (int i = 0; i < list_ZS.size(); i++) {
 					 Object[] jizu=list_ZS.get(i);
 					 yzMess=getZSvltdetails(jizu,"ZP05");
@@ -218,6 +220,7 @@ public class TransformProduceDateService {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new RuntimeException();
 		}
 		
 	

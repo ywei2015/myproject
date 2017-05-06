@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+	<query name="WIPMARK.WIPMARKDETAILS.LIST">
+		<![CDATA[
+    	select details from sail.beans.entity.BatWipMarkDetail details,
+    	sail.beans.entity.BatWipMark mark where mark.transferbill = ?
+    	and details.transferpid=mark.pid and mark.sysflag='1' and details.sysflag='1'
+    	order by mark.createtime desc
+    	]]>
+	</query>
+	
+	<query name="WIPMARK.WIPMARKLIST.LIST">
+		<![CDATA[
+    	select mark from sail.beans.entity.BatWipMark mark where mark.transferbill = ?
+        and mark.sysflag='1' order by mark.createtime desc
+    ]]>
+	</query>
+	
+	<query name="WIPMARK.WIPMARKDATAILS.BYLIST">
+		<![CDATA[
+    	select mark from sail.beans.entity.BatWipMarkDetail mark where mark.sysflag='1' 
+    	and mark.batchno = ? and mark.refbatchno = ? order by mark.createtime desc           		
+    ]]>
+	</query>
+</hibernate-mapping>

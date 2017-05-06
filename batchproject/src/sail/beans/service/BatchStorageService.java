@@ -39,49 +39,157 @@ public class BatchStorageService {
 		BatDepotIoDetail batDepotIoDetail=null;
 		BatDepotIoDetailList batDepotIoDetailList=null;
 		try{
-			List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{matBatch});
-			if (detailList != null && detailList.size() > 0){
-				batDepotIoDetail = detailList.get(0);
-				if("1".equals(batDepotIoDetail.getRemark5())){
-					batDepotIoDetail.setRepeated("1");
-					return batDepotIoDetail;
-				}
-				batDepotIoDetail.setCreatetime(DateBean.getSysdateTime());
-				batDepotIoDetail.setCreator(userId);
-				batDepotIoDetail.setRemark5("1");
-				batDepotIoDetail.setIsEnter("1");
-				this.genericDao.save(batDepotIoDetail);
-				
-				batDepotIoBill=(BatDepotIoBill) genericDao.getById(BatDepotIoBill.class, batDepotIoDetail.getBillpid());
-				if(billNo!=null)
-					batDepotIoBill.setBillno(billNo);
-				batDepotIoBill.setIsEnter("1");
-				batDepotIoBill.setBiztype(busType);
-				batDepotIoBill.setBilltype("11");
-				batDepotIoBill.setDoctype(docType);
-				batDepotIoBill.setCreatetime(DateBean.getSysdateTime());
-				batDepotIoBill.setCreator(userId);
-				//batDepotIoBill.setBillno(billNo); 待确认
-				this.genericDao.save(batDepotIoBill);
-				
-				List<BatDepotIoDetailList> billDetailList = genericDao.getListWithVariableParas("BATCHDATA_DEPOT_IODETAILLIST_BYPID", new Object[]{batDepotIoDetail.getPid()});
-				if(billDetailList!=null&&billDetailList.size()>0){
-					for (int i = 0; i < billDetailList.size(); i++) {
-						batDepotIoDetailList=billDetailList.get(i);
-						batDepotIoDetailList.setRemark5("1");
-						batDepotIoDetailList.setCreatetime(DateBean.getSysdateTime());
-						batDepotIoDetailList.setCreator(userId);
-						this.genericDao.save(batDepotIoDetailList);
+			if(docType.equals("ZI30")){
+				batDepotIoDetail=saveBatchInStorageTH(billNo,matBatch,userId);
+			}else{
+				List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{matBatch});
+				if (detailList != null && detailList.size() > 0){
+					batDepotIoDetail = detailList.get(0);
+					if("1".equals(batDepotIoDetail.getRemark5())){
+						batDepotIoDetail.setRepeated("1");
+						return batDepotIoDetail;
+					}
+					batDepotIoDetail.setCreatetime(DateBean.getSysdateTime());
+					batDepotIoDetail.setCreator(userId);
+					batDepotIoDetail.setRemark5("1");
+					batDepotIoDetail.setIsEnter("1");
+					this.genericDao.save(batDepotIoDetail);
+					
+					batDepotIoBill=(BatDepotIoBill) genericDao.getById(BatDepotIoBill.class, batDepotIoDetail.getBillpid());
+					if(billNo!=null)
+						batDepotIoBill.setBillno(billNo);
+					Map map=this.getBatDepotStorageTotal(billNo, docType);
+					if(map.get("ruku").toString().equals(map.get("toatal").toString())){
+						batDepotIoBill.setIsEnter("1");
+					}else{
+						batDepotIoBill.setIsEnter("0");
+					}
+					batDepotIoBill.setBiztype(busType);
+					batDepotIoBill.setBilltype("11");
+					batDepotIoBill.setDoctype(docType);
+					batDepotIoBill.setCreatetime(DateBean.getSysdateTime());
+					batDepotIoBill.setCreator(userId);
+					//batDepotIoBill.setBillno(billNo); 待确认
+					this.genericDao.save(batDepotIoBill);
+					
+					List<BatDepotIoDetailList> billDetailList = genericDao.getListWithVariableParas("BATCHDATA_DEPOT_IODETAILLIST_BYPID", new Object[]{batDepotIoDetail.getPid()});
+					if(billDetailList!=null&&billDetailList.size()>0){
+						for (int i = 0; i < billDetailList.size(); i++) {
+							batDepotIoDetailList=billDetailList.get(i);
+							batDepotIoDetailList.setRemark5("1");
+							batDepotIoDetailList.setCreatetime(DateBean.getSysdateTime());
+							batDepotIoDetailList.setCreator(userId);
+							this.genericDao.save(batDepotIoDetailList);
+						}
 					}
 				}
 			}
+			
 		}catch(Exception e){
 			e.printStackTrace();
+			throw new RuntimeException();
 		}
 		return batDepotIoDetail;
 		
 	}
-	
+	/**
+	 * 生产领域物资退回入库
+	 * */
+	private BatDepotIoDetail saveBatchInStorageTH(String billNo, String matBatch,String userId) {
+		double quality=0;
+		BatDepotIoBill batDepotIoBill = null;
+		BatDepotIoDetail batDepotIoDetail=null;
+		BatDepotIoDetailList batDepotIoDetailList=null;
+		try {
+			batDepotIoBill=new BatDepotIoBill();
+			batDepotIoBill.setBillno(billNo);
+			batDepotIoBill.setBiztype("MM2143");
+			batDepotIoBill.setBilltype("11");
+			batDepotIoBill.setDoctype("ZI30");
+			batDepotIoBill.setDepot("HZ10");
+			batDepotIoBill.setFactory("2200");
+			batDepotIoBill.setCreatetime(DateBean.getSysdateTime());
+			batDepotIoBill.setCreator(userId);
+			this.genericDao.save(batDepotIoBill);
+			//根据批次号到大小件表获取批次信息
+			List<BatBatAdjustDetail> batBatAdjustDetailList=this.genericDao.getListWithVariableParas("storage.getbatBatAdjustDetail.bybatch", new Object[]{matBatch});
+			if(batBatAdjustDetailList!=null&&batBatAdjustDetailList.size()>0){
+				batDepotIoDetail=new BatDepotIoDetail();
+				batDepotIoDetail.setBillpid(batDepotIoBill.getPid());
+				batDepotIoDetail.setCreatetime(DateBean.getSysdateTime());
+				batDepotIoDetail.setCreator(userId);
+				batDepotIoDetail.setRemark5("1");
+				batDepotIoDetail.setIsEnter("1");
+				batDepotIoDetail.setSysflag("1");
+				batDepotIoDetail.setMatbatch(matBatch);
+				batDepotIoDetail.setMatcode(batBatAdjustDetailList.get(0).getMatcode());
+				batDepotIoDetail.setMatcode(batBatAdjustDetailList.get(0).getMatname());
+				this.genericDao.save(batDepotIoDetail);
+				for (int i = 0; i < batBatAdjustDetailList.size(); i++) {
+					BatBatAdjustDetail batBatAdjustDetail=batBatAdjustDetailList.get(i);
+					String slavbatch=batBatAdjustDetail.getSlavebatch();
+					List <BatDepotIoDetailList> batDepotIoDetailList_=this.genericDao.getListWithVariableParas("storage.getbatDepotIoDetailList.bybatch", new Object[]{slavbatch});
+					if(batDepotIoDetailList_!=null&&batDepotIoDetailList_.size()>0){
+						batDepotIoDetailList=new BatDepotIoDetailList();
+					//	batDepotIoDetailList=batDepotIoDetailList_.get(0);
+						batDepotIoDetailList.setBilldetailpid(batDepotIoDetail.getPid());
+						quality=quality+batDepotIoDetailList.getQuantity();
+						batDepotIoDetailList.setCreatetime(DateBean.getSysdateTime());
+						batDepotIoDetailList.setCreator(userId);
+						batDepotIoDetailList.setSysflag("1");
+						batDepotIoDetailList.setLastmodifiedtime(null);
+						batDepotIoDetailList.setLastmodifiedtime(null);
+						batDepotIoDetailList.setRemark5("1");
+						this.genericDao.save(batDepotIoDetailList);
+					}
+					
+				}
+				
+			}else{
+				List<BatDepotIoDetail> BatDepotIoDetailList1=this.genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{matBatch});
+				if(BatDepotIoDetailList1!=null&&BatDepotIoDetailList1.size()>0){
+					BatDepotIoDetail batDepotIoDetail1=BatDepotIoDetailList1.get(0);
+					batDepotIoDetail=new BatDepotIoDetail();
+					batDepotIoDetail.setCreatetime(DateBean.getSysdateTime());
+					batDepotIoDetail.setCreator(userId);
+					batDepotIoDetail.setRemark5("1");
+					batDepotIoDetail.setIsEnter("1");
+					batDepotIoDetail.setSysflag("1");
+					batDepotIoDetail.setBillpid(batDepotIoBill.getBillno());
+					batDepotIoDetail.setMatbatch(matBatch);
+					batDepotIoDetail.setMatcode(batDepotIoDetail1.getMatcode());
+					batDepotIoDetail.setMatname(batDepotIoDetail1.getMatname());
+					batDepotIoDetail.setQuantity(batDepotIoDetail1.getQuantity());
+					this.genericDao.save(batDepotIoDetail);
+					//根据PID
+					List<BatDepotIoDetailList> billDetailList = genericDao.getListWithVariableParas("BATCHDATA_DEPOT_IODETAILLIST_BYPID", new Object[]{batDepotIoDetail1.getPid()});
+					if(billDetailList!=null&&billDetailList.size()>0){
+						for (int i = 0; i < billDetailList.size(); i++) {
+							BatDepotIoDetailList batDepotIoDetailList1=billDetailList.get(i);
+						    batDepotIoDetailList=new BatDepotIoDetailList();
+							batDepotIoDetailList.setSlavebatch(batDepotIoDetailList1.getSlavebatch());
+							batDepotIoDetailList.setQuantity(batDepotIoDetailList1.getQuantity());
+							batDepotIoDetailList.setUnit(batDepotIoDetailList1.getUnit());
+							batDepotIoDetailList.setSysflag("1");
+							batDepotIoDetailList.setBilldetailpid(batDepotIoDetail.getPid());
+							batDepotIoDetailList.setCreatetime(DateBean.getSysdateTime());
+							batDepotIoDetailList.setCreator(userId);
+							batDepotIoDetailList.setRemark5("1");
+							this.genericDao.save(batDepotIoDetailList);
+						}
+					}
+				}
+
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+		
+		return batDepotIoDetail;
+	}
+
 	/**
 	 * 根据单号和类型查询出明细数据
 	 * @param billNo
@@ -113,9 +221,10 @@ public class BatchStorageService {
 			batDepotIoDetail.setLastmodifiedtime(DateBean.getSysdateTime());
 			batDepotIoDetail.setLastmodifier(operuser);
 			this.genericDao.save(batDepotIoDetail);
-			
-			if(isAllBack(batDepotIoDetail)){
-				BatDepotIoBill batDepotIoBill=(BatDepotIoBill) genericDao.getById(BatDepotIoBill.class,batDepotIoDetail.getBillpid());
+			//是否全部逻辑删除
+			BatDepotIoBill batDepotIoBill=(BatDepotIoBill) genericDao.getById(BatDepotIoBill.class,batDepotIoDetail.getBillpid());
+			Map map=getBatDepotStorageTotal(batDepotIoBill.getBillno(),batDepotIoBill.getDoctype());
+			if((map.get("ruku").toString()).equals("0")){
 				batDepotIoBill.setIsEnter("0");
 				batDepotIoBill.setLastmodifiedtime(DateBean.getSysdateTime());
 				batDepotIoBill.setLastmodifier(operuser);
@@ -143,13 +252,14 @@ public class BatchStorageService {
 		
 		}catch (Exception e) {
 			e.printStackTrace();
+			throw new RuntimeException();
 		}finally{
 			return falg;
 		}
 		
 	}
 	
-	public boolean isAllBack(BatDepotIoDetail batDepotIoDetail){
+	/*public boolean isAllBack(BatDepotIoDetail batDepotIoDetail){
 		String billno=batDepotIoDetail.getBillpid();
 		try{
 			List<Object[]> ruku  = (List<Object[]>)genericDao.getListWithNativeSql("STORAGE.GET_STROEXINIX", new Object[]{billno});
@@ -163,9 +273,10 @@ public class BatchStorageService {
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
+			
 		}
 		return false;
-	}
+	}*/
 	/**
 	 * 条形码解析
 	 * @param matCode
@@ -368,8 +479,8 @@ public class BatchStorageService {
 					this.genericDao.save(batDepotIoBill);
 					
 					BatDepotIoDetail batDepotIoDetail1=new BatDepotIoDetail();
-					List<BatDepotIoBill> billList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST", new Object[]{f_bill_no,f_doc_type});
-					String p_id=billList.get(0).getPid();
+					//List<BatDepotIoBill> billList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST", new Object[]{f_bill_no,f_doc_type});
+					String p_id=batDepotIoBill.getPid();
 					batDepotIoDetail1.setMatbatch(batDepotIoDetail.getMatbatch());
 					batDepotIoDetail1.setMatcode(batDepotIoDetail.getMatcode());
 					batDepotIoDetail1.setMatname(batDepotIoDetail.getMatname());
@@ -386,7 +497,7 @@ public class BatchStorageService {
 					batDepotIoDetail1.setCreator(userId);
 					batDepotIoDetail1.setSysflag("1");
 					this.genericDao.save(batDepotIoDetail1);
-					List<BatDepotIoDetail> detailList1 = genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{f_mat_batch});
+					//List<BatDepotIoDetail> detailList1 = genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{f_mat_batch});
 					
 					List<BatDepotIoDetailList> billDetailList = genericDao.getListWithVariableParas("BATCHDATA_DEPOT_IODETAILLIST_BYPID", new Object[]{p_id1});
 					if(billDetailList!=null&&billDetailList.size()>0){
@@ -397,7 +508,7 @@ public class BatchStorageService {
 							batDepotIoDetailList1.setQuantity(batDepotIoDetailList.getQuantity());
 							batDepotIoDetailList1.setUnit(batDepotIoDetailList.getUnit());
 							batDepotIoDetailList1.setSysflag("1");
-							batDepotIoDetailList1.setBilldetailpid(detailList1.get(0).getPid());
+							batDepotIoDetailList1.setBilldetailpid(batDepotIoDetail1.getPid());
 							batDepotIoDetailList1.setCreatetime(DateBean.getSysdateTime());
 							batDepotIoDetailList1.setCreator(userId);
 							batDepotIoDetailList1.setRemark5("2");
@@ -407,43 +518,12 @@ public class BatchStorageService {
 				}
 		 }catch(Exception e){
 			 e.printStackTrace();
+			 throw new RuntimeException();
 		 }
 		return batDepotIoDetail;
 	}
 	
-	/**
-	 *香料其它消耗业务解码
-	 * @param batch
-	 * @return
-	 */
-   public CarCode getResolveValue2(String batch){
-	   CarCode carCode=new CarCode();
-	 /*  carCode=batchStorageService.getResolveValue(batch);
-	   if(carCode.getMatcode()!=null)
-		   return carCode;
-	   else{
-		   List<BatWorkOrderInput> ruleList=genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUT.LIST", new Object[]{batch});
-		   BatWorkOrderInput workInput=ruleList.get(0);
-		   carCode.setAmount(workInput.getQuantity()+"");
-		   carCode.setMatcode(workInput.getMatcode());
-		   carCode.setMatname(workInput.getMatname());
-		   carCode.setUnit(workInput.getUnit());
-		   carCode.setFactory("2200");
-		   carCode.setStroecode("111");
-		   carCode.setDepot("HZ10");
-		   return carCode;
-	   }*/
-	    carCode.setAmount("120");
-		carCode.setMatcode("001");
-		carCode.setMatname("物料1");
-		carCode.setUnit("KG");
-		carCode.setOldbatch("0002");
-		carCode.setFactory("2200");
-		carCode.setStroecode("111");
-		carCode.setDepot("HZ10");
-		return carCode;
-   }
-
+	
 	public List<BatDepotIoDetail> getBatDepotIoDetailListj(String f_match) {
 		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAILJ.LIST", new Object[]{f_match});
 		return detailList;
@@ -454,11 +534,10 @@ public class BatchStorageService {
 			return detailList;
 	}
 
-	public Map getBatDepotStorageTotal(String f_bill_no,
-			String f_doc_type) {
-		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_STROAGVALIDATE_.LIST", new Object[]{f_bill_no,f_doc_type,null,null});
+	public Map getBatDepotStorageTotal(String f_bill_no,String f_doc_type) {
 		int ruku=0;
 		int total=0;
+		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_STROAGVALIDATE_.LIST", new Object[]{f_bill_no,f_doc_type,null,null});
 		if(detailList!=null&&detailList.size()>0){
 			total=detailList.size();
 			for(int i=0;i<total;i++){

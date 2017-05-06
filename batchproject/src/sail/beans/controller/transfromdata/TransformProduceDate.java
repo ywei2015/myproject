@@ -16,24 +16,24 @@ public class TransformProduceDate {
 	@Autowired
 	private TransformProduceDateService transformProduceDateService;
 	
-	 @Scheduled(cron = "0 0/10 * * * ?")
+	// @Scheduled(cron = "0 0/10 * * * ?")
 	/*@ResponseBody
 	@RequestMapping(value="/transformDataJiZu")*/
 	public void transformJBProduceDate(){
 		transformProduceDateService.transformJBProduceDate("TUB_DIC_2012");
 	}
 	
-	@Scheduled(cron = "0 0/10 * * * ?")
+	//@Scheduled(cron = "0 0/10 * * * ?")
 	public void transformCXProduceDate(){
 		transformProduceDateService.transformJBProduceDate("TUB_DIC_2011");
 	}
 	
-	@Scheduled(cron = "0 0/10 * * * ?")
+	//@Scheduled(cron = "0 0/10 * * * ?")
 	public void transformZSProduceDate(){
 		transformProduceDateService.transformZSProduceDate();
 	}
 	
-	@Scheduled(cron = "0 0/10 * * * ?")
+	//@Scheduled(cron = "0 0/10 * * * ?")
 	public void transformGSProduceDate(){
 		transformProduceDateService.transformGSProduceDate();
 	}

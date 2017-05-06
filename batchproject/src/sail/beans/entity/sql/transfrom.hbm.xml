@@ -95,7 +95,8 @@
 	<query name="transfrom.workorderout.list">
 		<![CDATA[
 			select out from sail.beans.entity.BatWorkOrderOutput out where out.matbatch = ? 
-			and out.f_sys_flag = '1'
+			and out.sysflag = '1'
 		]]>
 	</query>
+	
 </hibernate-mapping>

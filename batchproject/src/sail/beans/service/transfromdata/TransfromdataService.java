@@ -54,7 +54,8 @@ public class TransfromdataService {
 	@Transactional(rollbackFor=Exception.class) 
 	public void transformDataSilk() {
 		try{
-			String taskday=DateBean.getAfterDay(DateBean.getSysdate(), 1);
+			//String taskday=DateBean.getAfterDay(DateBean.getSysdate(), 1);
+			String taskday=DateBean.getSysdate();
 			List<Object[]> list_jizu=genericDao.getListWithNativeSql("transfrom.produceData.list",new Object[]{taskday,'4'});
 			if(list_jizu!=null&&list_jizu.size()>0){
 				String []bill_type={"ZP12","ZP13","ZP03"};
@@ -79,6 +80,7 @@ public class TransfromdataService {
 						batWorkOrder.setSession(jizu[50]==null?"":jizu[50].toString());
 						batWorkOrder.setWorkordertype(bill_type[t]);
 						batWorkOrder.setEndbrand(jizu[52]==null?"":jizu[52].toString());
+						batWorkOrder.setProducedate(taskday);
 						this.genericDao.save(batWorkOrder);
 						t++;
 					}
@@ -95,6 +97,7 @@ public class TransfromdataService {
 	/*
 	 *梗丝任务下发 
 	 */
+	
 	public void transformDataStalkSilk() {
 		try{
 			String taskday=DateBean.getAfterDay(DateBean.getSysdate(), 1);

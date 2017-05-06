@@ -10,12 +10,15 @@ import org.springframework.transaction.annotation.Transactional;
 import sail.beans.dao.GenericDao;
 import sail.beans.entity.BatWorkOrder;
 import sail.beans.entity.BatWorkOrderOutput;
+import sail.beans.service.SpcQmsBatchDataService;
 import sail.beans.support.DateBean;
 
 @Service
 public class TransformProduceDateService {
 	@Autowired
 	private GenericDao genericDao;
+	@Autowired
+	private SpcQmsBatchDataService spcQmsBatchDataService;
 	
 	private String taskday=DateBean.getAfterDay(DateBean.getSysdate(), 1);
 
@@ -138,7 +141,7 @@ public class TransformProduceDateService {
 					 this.genericDao.save(batWorkOrderOutput);
 					 batWorkOrder.setWorkorderstate("20");
 					 this.genericDao.save(batWorkOrder);
-					 
+					 spcQmsBatchDataService.SaveSpcQmsBatchData(pici);
 				}
 			}
 		} catch (Exception e) {

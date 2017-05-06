@@ -138,8 +138,8 @@ public class RollBatchService {
 	 * @return
 	 */
 	public Map<String,List> getWorkOrderAndProcess(String workType){
-		String date=DateBean.getBeforDay(DateBean.getSysdate(), 1);
-		List<Object[]> workData=genericDao.getListWithNativeSql("WORKORDER.T_BAT_PROCESSID_LIST",new Object[]{workType,null});
+		String date=DateBean.getSysdate();
+		List<Object[]> workData=genericDao.getListWithNativeSql("WORKORDER.T_BAT_PROCESSID_LIST",new Object[]{workType,date});
 		Map<String,List> workOrderMap=new HashMap();
 		if(workData!=null&&workData.size()>0){
 			for (int i = 0; i < workData.size(); i++) {

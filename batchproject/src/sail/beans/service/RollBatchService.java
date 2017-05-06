@@ -139,7 +139,7 @@ public class RollBatchService {
 	 */
 	public Map<String,List> getWorkOrderAndProcess(String workType){
 		String date=DateBean.getBeforDay(DateBean.getSysdate(), 1);
-		List<Object[]> workData=genericDao.getListWithNativeSql("WORKORDER.T_BAT_PROCESSID_LIST",new Object[]{workType});
+		List<Object[]> workData=genericDao.getListWithNativeSql("WORKORDER.T_BAT_PROCESSID_LIST",new Object[]{workType,null});
 		Map<String,List> workOrderMap=new HashMap();
 		if(workData!=null&&workData.size()>0){
 			for (int i = 0; i < workData.size(); i++) {
@@ -150,7 +150,12 @@ public class RollBatchService {
 						workOrderMap.put(processId, new ArrayList());
 					}
 					ArrayList processWorkList=(ArrayList) workOrderMap.get(processId);
-					processWorkList.add(rowData[1]);
+					String paihao=rowData[1].toString();
+					String tou=paihao.substring(0, paihao.indexOf("-"));
+					if("01".equals(tou)) paihao=paihao.replaceFirst(tou, "早班");
+					if("02".equals(tou)) paihao=paihao.replaceFirst(tou, "中班");
+					if("03".equals(tou)) paihao=paihao.replaceFirst(tou, "晚班");
+					processWorkList.add(paihao);
 				}
 			}
 		}

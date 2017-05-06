@@ -27,7 +27,9 @@ public class RollBatchController {
 	@RequestMapping(value="/saveBatWorkOrderInput")	 
 	public ResponseBase saveBatWorkOrderInput(HttpServletRequest request) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
 		String workOrderCode1 = request.getParameter("f_workorder_code");
-		String workOrderCode=workOrderCode1.substring(0, workOrderCode1.indexOf("-"));
+		String workOrderCode=null;
+		if(workOrderCode1!=null&&workOrderCode1.length()>0)
+			 workOrderCode=workOrderCode1.substring(workOrderCode1.lastIndexOf("-")-1,workOrderCode1.length());
 		String matBatch = request.getParameter("f_mat_batch");
 		String machine = request.getParameter("f_machine");
 		String userId = request.getParameter("userId");
@@ -79,7 +81,7 @@ public class RollBatchController {
 		String workOrderCode1 = request.getParameter("f_workorder_code");
 		String workOrderCode=null;
 		if(workOrderCode1!=null&&workOrderCode1.length()>0)
-			 workOrderCode=workOrderCode1.substring(0, workOrderCode1.indexOf("-"));
+			 workOrderCode=workOrderCode1.substring(workOrderCode1.lastIndexOf("-")-1,workOrderCode1.length());
 		ResponseBase res = new ResponseBase();
 		List<BatWorkOrderInput> inputList = rollBatchService.getBatWorkOrderInput(workOrderCode);
 		if (inputList != null && inputList.size() > 0){

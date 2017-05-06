@@ -58,7 +58,7 @@ public class SpcQmsBatchDataService extends CommonService{
 						sample.setBatch(obj[1]==null?"":obj[1].toString());
 						sample.setSurveyBill(obj[2]==null?"":obj[2].toString());
 						sample.setSurveyor(workOrder.getOpuserid());
-						sample.setCheckTime(workOrder.getCreatetime());
+						sample.setCheckTime(workOrder.getActualendtime());
 						sample.setSysFlag(Constants.SYS_FLAG_USEING);
 						sample.setCreator(Constants.USERID);
 						sample.setCreateTime(DateBean.getSysdateTime());

@@ -59,6 +59,7 @@ public class BatTransYesiIntoCabinetService extends CommonService{
 			}
 		}catch(Exception e){
 			e.printStackTrace();
+			throw new RuntimeException();
 		}
 	}
 }

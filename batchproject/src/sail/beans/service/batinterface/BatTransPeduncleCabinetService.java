@@ -60,6 +60,7 @@ public class BatTransPeduncleCabinetService extends CommonService{
 			}
 		}catch(Exception e){
 			e.printStackTrace();
+			throw new RuntimeException();
 		}
 	}
 }

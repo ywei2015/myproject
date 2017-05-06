@@ -66,6 +66,7 @@ public class BatTransStemSpiceFeedingService extends CommonService{
 			}
 		}catch(Exception e){
 			e.printStackTrace();
+			throw new RuntimeException();
 		}
 	}
 }

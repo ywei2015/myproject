@@ -64,6 +64,7 @@ public class BatTransBlendingOrderService extends CommonService{
 			}
 		}catch(Exception e){
 			e.printStackTrace();
+			throw new RuntimeException();
 		}
 	}
 }

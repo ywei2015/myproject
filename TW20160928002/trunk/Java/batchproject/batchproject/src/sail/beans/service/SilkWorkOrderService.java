@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -79,65 +80,71 @@ public class SilkWorkOrderService {
 	 */
 	public BatWorkOrderInput saveBatWorkOrderInput(String workOrderCode,String matBatch,String quantity,String location,String operuser, String tl_type,String remark){
 		BatWorkOrderInput batWorkOrderInput = null;
-		List<BatWorkOrder> batWorkList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDERLIST.LIST", new Object[]{workOrderCode});
-		if (batWorkList != null && batWorkList.size() > 0){
-			BatWorkOrder BatWorkOrder = batWorkList.get(0);
-			List<BatWorkOrderInput> inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUT.LIST", new Object[]{matBatch});
-			if (inputList != null && inputList.size() > 0){
-				batWorkOrderInput = inputList.get(0);
-				batWorkOrderInput.setIsrepair("1");
-			}else{
-				CarCode carCode = batchStorageService.getResolveValue(matBatch);
-				if(carCode==null) {
-					return batWorkOrderInput;
-				}
-				batWorkOrderInput = new BatWorkOrderInput();
-				if("w".equalsIgnoreCase(carCode.getState())){
-					batWorkOrderInput.setRemark5("w");
-				}else if("2".equalsIgnoreCase(carCode.getState())){
-					batWorkOrderInput.setRemark5("2");
-					return batWorkOrderInput;
-				}else if("e".equalsIgnoreCase(carCode.getState())){
-					batWorkOrderInput.setRemark5("e");
-					return batWorkOrderInput;
-				}
-				batWorkOrderInput.setWorkorderpid(BatWorkOrder.getPid());
-				if("1".equals(tl_type)){
-					batWorkOrderInput.setTltype("1");
-				}
-				else{
-					batWorkOrderInput.setTltype("4");
-				} 
-				batWorkOrderInput.setMatbatch(matBatch);
-				batWorkOrderInput.setMatcode(carCode.getMatcode());
-				batWorkOrderInput.setMatname(carCode.getMatname());
-				if (location != null && !"".equals(location)){
-					batWorkOrderInput.setLocation(location);
-				}
-				batWorkOrderInput.setMatname(carCode.getMatname());
-				if(quantity==null){
-					batWorkOrderInput.setQuantity(Double.parseDouble(carCode.getAmount()));
+		try {
+			List<BatWorkOrder> batWorkList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDERLIST.LIST", new Object[]{workOrderCode});
+			if (batWorkList != null && batWorkList.size() > 0){
+				BatWorkOrder BatWorkOrder = batWorkList.get(0);
+				List<BatWorkOrderInput> inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUT.LIST", new Object[]{matBatch});
+				if (inputList != null && inputList.size() > 0){
+					batWorkOrderInput = inputList.get(0);
+					batWorkOrderInput.setIsrepair("1");
 				}else{
-					batWorkOrderInput.setQuantity(Double.parseDouble(quantity));
+					CarCode carCode = batchStorageService.getResolveValue(matBatch);
+					if(carCode==null) {
+						return batWorkOrderInput;
+					}
+					batWorkOrderInput = new BatWorkOrderInput();
+					if("w".equalsIgnoreCase(carCode.getState())){
+						batWorkOrderInput.setRemark5("w");
+					}else if("2".equalsIgnoreCase(carCode.getState())){
+						batWorkOrderInput.setRemark5("2");
+						return batWorkOrderInput;
+					}else if("e".equalsIgnoreCase(carCode.getState())){
+						batWorkOrderInput.setRemark5("e");
+						return batWorkOrderInput;
+					}
+					batWorkOrderInput.setWorkorderpid(BatWorkOrder.getPid());
+					if("1".equals(tl_type)){
+						batWorkOrderInput.setTltype("1");
+					}
+					else{
+						batWorkOrderInput.setTltype("4");
+					} 
+					batWorkOrderInput.setMatbatch(matBatch);
+					batWorkOrderInput.setMatcode(carCode.getMatcode());
+					batWorkOrderInput.setMatname(carCode.getMatname());
+					if (location != null && !"".equals(location)){
+						batWorkOrderInput.setLocation(location);
+					}
+					batWorkOrderInput.setMatname(carCode.getMatname());
+					if(quantity==null){
+						batWorkOrderInput.setQuantity(Double.parseDouble(carCode.getAmount()));
+					}else{
+						batWorkOrderInput.setQuantity(Double.parseDouble(quantity));
+					}
+					if(remark!=null&&!remark.equals("")){
+						batWorkOrderInput.setRemark3(remark);
+					}
+					batWorkOrderInput.setUnit(carCode.getUnit());
+					batWorkOrderInput.setStarttime(DateBean.getSysdateTime());
+					batWorkOrderInput.setEndtime(DateBean.getSysdateTime());
+					batWorkOrderInput.setOperatetime(DateBean.getSysdateTime());
+					batWorkOrderInput.setOperateuserid(operuser);
+					batWorkOrderInput.setSysflag("1");
+					batWorkOrderInput.setCreator(operuser);
+					batWorkOrderInput.setCreatetime(DateBean.getSysdateTime());
+					/*List matList=matBomService.getBomByWorkOrder(workOrderCode,null,carCode.getMatcode().toString());
+					if(matList.size()==0)
+						batWorkOrderInput.setRemark4("0");*/
+					genericDao.save(batWorkOrderInput);
 				}
-				if(remark!=null&&!remark.equals("")){
-					batWorkOrderInput.setRemark3(remark);
-				}
-				batWorkOrderInput.setUnit(carCode.getUnit());
-				batWorkOrderInput.setStarttime(DateBean.getSysdateTime());
-				batWorkOrderInput.setEndtime(DateBean.getSysdateTime());
-				batWorkOrderInput.setOperatetime(DateBean.getSysdateTime());
-				batWorkOrderInput.setOperateuserid(operuser);
-				batWorkOrderInput.setSysflag("1");
-				batWorkOrderInput.setCreator(operuser);
-				batWorkOrderInput.setCreatetime(DateBean.getSysdateTime());
-				/*List matList=matBomService.getBomByWorkOrder(workOrderCode,null,carCode.getMatcode().toString());
-				if(matList.size()==0)
-					batWorkOrderInput.setRemark4("0");*/
-				genericDao.save(batWorkOrderInput);
 			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			throw new RuntimeException();
 		}
-		
 		return batWorkOrderInput;
 	}
 	

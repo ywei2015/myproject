@@ -14,7 +14,7 @@ import sail.beans.service.transfromdata.TransfromdataService;
  * 生产工单转储服务类
  */
 @Controller
-/*@RequestMapping("/transfrom")*/
+@RequestMapping("/transfrom")
 public class TransformData {
 	
 	@Resource
@@ -22,25 +22,25 @@ public class TransformData {
 	 /*
 	  * 日卷包
 	  */
-	 @Scheduled(cron = "0 0/30 * * * ?")
-	/*@ResponseBody
-	@RequestMapping(value="/transformDataJiZu")*/
+    @Scheduled(cron = "0 0/30 * * * ?")
+	@ResponseBody
+	@RequestMapping(value="/transformDataJiZu")
 	 public void transformDataJiZu(){
 		 transfromdataService.transformDataJiZu();
 	}
 	 /*
 	  * 周制丝
 	  */
-	 @Scheduled(cron = "0 0/30 * * * ?")
-	/*@ResponseBody
-	@RequestMapping(value="/transformDataSilk")*/
+    @Scheduled(cron = "0 0/15 * * * ?")
+	@ResponseBody
+	@RequestMapping(value="/transformDataSilk")
 	 public void transformDataSilk(){
 		 transfromdataService.transformDataSilk();
 	}
 	 
-	 @Scheduled(cron = "0 0/30 * * * ?")
-	/*@ResponseBody
-	@RequestMapping(value="/transformDataStalk")*/
+    @Scheduled(cron = "0 0/30 * * * ?")
+	@ResponseBody
+	@RequestMapping(value="/transformDataStalk")
 	 public void transformDataStalkSilk(){
 		 transfromdataService.transformDataStalkSilk();
 	} 

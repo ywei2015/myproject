@@ -34,7 +34,7 @@ public class BatTransLeafSpiceFeedingService extends CommonService{
 					if(!StingUtil.isEmpty(batWorkOrder)){
 						input = new BatWorkOrderInput();
 						order = mainList.get(i);
-						input.setWorkorderpid("03dfba02-0650-43c6-b355-15a8ef45923a"/*batWorkOrder.getPid()*/);
+						input.setWorkorderpid(batWorkOrder.getPid());
 						input.setTltype(Constants.TL_TYPE);
 						//批次根据罐号(来源位置)找出对应的投入批次号
 						//罐号和批次号关系还未建立
@@ -44,7 +44,7 @@ public class BatTransLeafSpiceFeedingService extends CommonService{
 						input.setLocation(order.getLocation()==null?"":order.getLocation().toString());
 						input.setLocationname(order.getLocationName()==null?"":order.getLocationName().toString());
 						input.setQuantity(order.getQuantity()==null?0.0:Double.parseDouble(order.getQuantity().toString()));
-						input.setUnit(this.getIdByUnitCode(order.getUnit()));
+						input.setUnit(order.getUnit()==null?"":order.getUnit().toString());
 						input.setStarttime(order.getStarttime()==null?"":order.getStarttime().toString());
 						input.setEndtime(order.getEndtime()==null?"":order.getEndtime().toString());
 						input.setOperateuserid(this.getUserIdByUserCode(order.getOperateUsercode()));

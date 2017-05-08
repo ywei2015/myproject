@@ -44,7 +44,7 @@ public class BatTransBladeFeedingOrderService extends CommonService{
 						input.setLocation(null);
 						input.setLocationname(null);
 						input.setQuantity(order.getQuantity()==null?0.0:Double.parseDouble(order.getQuantity().toString()));
-						input.setUnit(this.getIdByUnitCode(order.getUnit()));
+						input.setUnit(order.getUnit()==null?"":order.getUnit().toString());
 						input.setStarttime(order.getStarttime()==null?"":order.getStarttime().toString());
 						input.setEndtime(order.getEndtime()==null?"":order.getEndtime().toString());
 						input.setOperateuserid(this.getUserIdByUserCode(order.getOperateUsercode()));

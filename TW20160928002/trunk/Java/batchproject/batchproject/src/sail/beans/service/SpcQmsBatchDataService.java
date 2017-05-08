@@ -1,6 +1,8 @@
 package sail.beans.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,13 +30,14 @@ public class SpcQmsBatchDataService extends CommonService{
 //	@Transactional(propagation=Propagation.REQUIRED)
 	public boolean SaveSpcQmsBatchData(String batch){
 		boolean flag = false;
+		Map<String, String> map = new HashMap<String, String>();
 		try{
 			//查询用于插入主表的单据
 			List batchDataList = genericDao.getListWithNativeSql("GET.SPC.QMS.BATCH.DATA.MAIN", new Object[]{batch});
 			for(int i = 0;i < batchDataList.size(); i++){
 				Object[] obj = (Object[]) batchDataList.get(i);
 				BatZsQaSample sample = new BatZsQaSample();
-				BatWorkOrder workOrder = this.getWorkorderByBatch(obj[1].toString());
+				BatWorkOrder workOrder = this.getWorkorderByBatch("17050303ZP13"/*obj[1].toString()*/);
 				if(!StingUtil.isEmpty(workOrder)){
 					sample.setFactory(Constants.FACTORY);
 					sample.setWorkarea(workOrder.getWorkarea());
@@ -57,7 +60,37 @@ public class SpcQmsBatchDataService extends CommonService{
 					sample.setCreateTime(DateBean.getSysdateTime());
 					this.genericDao.save(sample);
 					
-					if(!StingUtil.isEmpty(sample)){
+					if(!StingUtil.isEmpty(sample) && map.size() > 0){
+						//如果工单号和工序ESB编码是否包含map中，则过滤这两个查询条件，以免重复
+						if(!map.values().contains(sample.getSurveyBill()) && !map.values().contains(sample.getProcessCode())){
+				        	List batchDataSecList = genericDao.getListWithNativeSql("GET.SPC.QMS.BATCH.DATA.SEC", 
+									new Object[]{sample.getSurveyBill(),sample.getProcessCode()});
+							for(int j = 0;j < batchDataSecList.size(); j++){
+								BatZsQaParamResult result = new BatZsQaParamResult();
+								Object[] objs = (Object[]) batchDataSecList.get(j);
+								result.setQasamplePid(sample);
+								result.setParamId(objs[6]==null?"":objs[6].toString());
+								result.setParamName(objs[7]==null?"":objs[7].toString());
+								result.setNormalValue(objs[13]==null?0:Double.parseDouble(objs[13].toString()));
+								result.setUsl(objs[11]==null?0:Double.parseDouble(objs[11].toString()));
+								result.setLsl(objs[12]==null?0:Double.parseDouble(objs[12].toString()));
+								result.setMax(objs[17]==null?0:Double.parseDouble(objs[17].toString()));
+								result.setMin(objs[18]==null?0:Double.parseDouble(objs[18].toString()));
+								result.setAverage(objs[16]==null?0:Double.parseDouble(objs[16].toString()));
+								result.setSd(objs[15]==null?0:Double.parseDouble(objs[15].toString()));
+								result.setCpk(objs[14]==null?0:Double.parseDouble(objs[14].toString()));
+								result.setOverCount(objs[19]==null?0:Double.parseDouble(objs[19].toString()));
+								result.setPassPercent(objs[20]==null?0:Double.parseDouble(objs[20].toString()));
+								result.setUnit(objs[8]==null?"":objs[8].toString());
+								result.setSysFlag(Constants.SYS_FLAG_USEING);
+								result.setCreator(Constants.USERID);
+								result.setCreateTime(DateBean.getSysdateTime());
+								this.genericDao.save(result);
+							}
+				        }
+					    map.put(sample.getSurveyBill(), sample.getSurveyBill());
+					    map.put(sample.getProcessCode(), sample.getProcessCode());
+					}else{
 						List batchDataSecList = genericDao.getListWithNativeSql("GET.SPC.QMS.BATCH.DATA.SEC", 
 								new Object[]{sample.getSurveyBill(),sample.getProcessCode()});
 						for(int j = 0;j < batchDataSecList.size(); j++){
@@ -82,10 +115,13 @@ public class SpcQmsBatchDataService extends CommonService{
 							result.setCreateTime(DateBean.getSysdateTime());
 							this.genericDao.save(result);
 						}
+						map.put(sample.getSurveyBill(), sample.getSurveyBill());
+						map.put(sample.getProcessCode(), sample.getProcessCode());
 					}
-					flag = true;
 				}
 			}
+			flag = true;
+			map.clear();
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new RuntimeException();

@@ -9,6 +9,7 @@ import sail.beans.dao.GenericDao;
 import sail.beans.entity.BatWorkOrder;
 import sail.beans.entity.Dic;
 import sail.beans.entity.Matdic;
+import sail.beans.entity.UBatTransBlendingOrder;
 import sail.beans.entity.User;
 import sail.beans.support.StingUtil;
 
@@ -106,5 +107,31 @@ public class CommonService {
 			return null;
 		}
 		return conList.get(0).toString();
+	}
+	
+	/**
+	 * 产出数量需要取五丝掺配接口表中blendingType=1（即烟丝掺配）该批次的投料产量
+	 * @param batch
+	 * @return
+	 */
+	public UBatTransBlendingOrder getQuantityByBatch(String batch)
+	{
+		if(StingUtil.isEmpty(batch)){
+			return null;
+		}
+		StringBuffer strBuffer = new StringBuffer();
+		strBuffer.append("FROM sail.beans.entity.UBatTransBlendingOrder T ");
+		strBuffer.append("Where T.matBatch = '");
+		strBuffer.append(batch);
+		strBuffer.append("'");
+		strBuffer.append(" AND T.blendingType = '1'");
+		
+		String hql = strBuffer.toString();
+		List<UBatTransBlendingOrder> conList = this.genericDao.getListByHql(hql);
+		if (conList == null || conList.size() == 0)
+		{
+			return null;
+		}
+		return conList.get(0);
 	}
 }

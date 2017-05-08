@@ -9,6 +9,7 @@ import sail.beans.Constants;
 import sail.beans.dao.GenericDao;
 import sail.beans.entity.BatWorkOrder;
 import sail.beans.entity.BatWorkOrderOutput;
+import sail.beans.entity.UBatTransBlendingOrder;
 import sail.beans.entity.UBatTransToBaccoOutCabinet;
 import sail.beans.entity.UBatTransYesiIntoCabinet;
 import sail.beans.support.DateBean;
@@ -28,19 +29,18 @@ public class BatTransYesiIntoCabinetService extends CommonService{
 			UBatTransYesiIntoCabinet order = null;
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
-					String matBatch = mainList.get(i).getMatBatch().toString();
+					String matBatch = mainList.get(i).getMatBatch().toString()+Constants.ZP13;
 					BatWorkOrder batWorkOrder = this.getWorkorderByBatch(matBatch);
 					if(batWorkOrder != null && !"".equals(batWorkOrder)){
+						UBatTransBlendingOrder blend = this.getQuantityByBatch(mainList.get(i).getMatBatch());
 						BatWorkOrderOutput output = new BatWorkOrderOutput();
 						order = mainList.get(i);
 						output.setWorkorderpid(batWorkOrder.getPid());
 						output.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());
 						output.setWater(order.getWaterContect()==null?"":order.getWaterContect().toString());
-//						output.setLocation(order.getLocation()==null?"":order.getLocation().toString());
-//						output.setLocationname(order.getLocationName()==null?"":order.getLocationName().toString());
-						output.setStime2(order.getStarttime()==null?"":order.getStarttime().toString());
-						output.setEtime2(order.getEndtime()==null?"":order.getEndtime().toString());
-						output.setQuantity(order.getQuantity()==null?0.0:Double.parseDouble(order.getQuantity().toString()));
+						output.setStime2(order.getActualStarttime()==null?"":order.getActualStarttime().toString());
+						output.setEtime2(order.getActualEndtime()==null?"":order.getActualEndtime().toString());
+						output.setQuantity(blend.getQuantity());
 						output.setUnit(order.getUnit()==null?"":order.getUnit().toString());
 						output.setDepot(Constants.DEPOT);
 						output.setOperateuserid(this.getUserIdByUserCode(order.getOperateUsercode()));
@@ -54,6 +54,12 @@ public class BatTransYesiIntoCabinetService extends CommonService{
 						main1.setSynchroFlag(Constants.SYN_CHRO_USED);
 						main1.setSynchroTime(DateBean.getSysdateTime());
 						genericDao.save(main1);
+						//将工单表中该批次类型为ZP13的工单状态置为20已执行、工单完成时间为入柜完成时间、实际产量为入柜数量
+						batWorkOrder.setWorkorderstate("20");
+						batWorkOrder.setActualendtime(order.getActualEndtime());
+						batWorkOrder.setActualquantity(blend.getQuantity());
+						batWorkOrder.setOpuserid(this.getUserIdByUserCode(order.getOperateUsercode()));
+						genericDao.save(batWorkOrder);
 					}
 				}
 			}

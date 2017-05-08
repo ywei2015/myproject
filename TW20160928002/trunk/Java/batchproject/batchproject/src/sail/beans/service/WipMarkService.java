@@ -18,28 +18,34 @@ public class WipMarkService {
 	public BatWipMarkDetail saveWipMark(String billno,String batchno, String refbatchno, String userId) {
 		BatWipMarkDetail batWipMarkDetail =null;
 		try{
-			List<BatWipMark> batWipMarkList=this.genericDao.getListWithVariableParas("WIPMARK.WIPMARKLIST.LIST", new Object[]{billno});
-			if (batWipMarkList != null && batWipMarkList.size() > 0){
-				List<BatWipMarkDetail> batWipMarkDetailList=this.genericDao.getListWithVariableParas("WIPMARK.WIPMARKDATAILS.BYLIST", new Object[]{batchno,refbatchno});
-				if(batWipMarkDetailList!=null&&batWipMarkDetailList.size()>0){
-					batWipMarkDetail=batWipMarkDetailList.get(0);
-					batWipMarkDetail.setIsrepeat("1");
-				}else{
-					BatWipMark BatWorkMark= batWipMarkList.get(0);
-					batWipMarkDetail=new BatWipMarkDetail();
-					batWipMarkDetail.setBatchno(batchno);
-					batWipMarkDetail.setRefbatchno(refbatchno);
-					batWipMarkDetail.setCreatetime(DateBean.getSysdateTime());
-					batWipMarkDetail.setCreator(userId);
-					batWipMarkDetail.setOpertime(DateBean.getSysdateTime());
-					batWipMarkDetail.setRefbatchno(refbatchno);
-					batWipMarkDetail.setSysflag("1");
-					batWipMarkDetail.setTransferpid(BatWorkMark.getPid());
-					this.genericDao.save(batWipMarkDetail);
-				}
-				
+			//List<BatWipMark> batWipMarkList=this.genericDao.getListWithVariableParas("WIPMARK.WIPMARKLIST.LIST", new Object[]{billno});
+			//if (batWipMarkList != null && batWipMarkList.size() > 0){}
+			List<BatWipMarkDetail> batWipMarkDetailList=this.genericDao.getListWithVariableParas("WIPMARK.WIPMARKDATAILS.BYLIST", new Object[]{null,refbatchno});
+			if(batWipMarkDetailList!=null&&batWipMarkDetailList.size()>0){
+				batWipMarkDetail=batWipMarkDetailList.get(0);
+				batWipMarkDetail.setIsrepeat("1");
+				return batWipMarkDetail;
+			}else{
+				BatWipMark batWorkMark= new BatWipMark();
+				batWorkMark.setDate(DateBean.getSysdate());
+				batWorkMark.setCreatetime(DateBean.getSysdateTime());
+				batWorkMark.setCreator(userId);
+				batWorkMark.setSysflag("1");
+				batWorkMark.setTransferbill(DateBean.getSysdate());
+				batWorkMark.setFactory("2200");
+				batWorkMark.setLgort("HZ30");
+				this.genericDao.save(batWorkMark);
+				batWipMarkDetail=new BatWipMarkDetail();
+				batWipMarkDetail.setBatchno(batchno);
+				batWipMarkDetail.setRefbatchno(refbatchno);
+				batWipMarkDetail.setCreatetime(DateBean.getSysdateTime());
+				batWipMarkDetail.setCreator(userId);
+				batWipMarkDetail.setOpertime(DateBean.getSysdateTime());
+				batWipMarkDetail.setRefbatchno(refbatchno);
+				batWipMarkDetail.setSysflag("1");
+				batWipMarkDetail.setTransferpid(batWorkMark.getPid());
+				this.genericDao.save(batWipMarkDetail);
 			}
-				
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -47,7 +53,8 @@ public class WipMarkService {
 	}
 
 	public List<BatWipMarkDetail> getWipMark(String batchno) {
-		List<BatWipMarkDetail> detailList = genericDao.getListWithVariableParas("WIPMARK.WIPMARKDETAILS.LIST", new Object[]{batchno});
+		String date=DateBean.getSysdate();
+		List<BatWipMarkDetail> detailList = genericDao.getListWithVariableParas("WIPMARK.WIPMARKDETAILS.LIST", new Object[]{batchno,date});
 		return detailList;
 	}
 

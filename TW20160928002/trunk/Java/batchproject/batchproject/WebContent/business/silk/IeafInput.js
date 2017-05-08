@@ -30,7 +30,7 @@ function initTable(dataj){
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
-	if(userId!=null){
+	if(f_workorder_code!=null&&f_workorder_code!=""){
 	$.ajax({
 		type : "post",
 		url:cqt_prefix+'silkorder/getBatWorkOrderInput',

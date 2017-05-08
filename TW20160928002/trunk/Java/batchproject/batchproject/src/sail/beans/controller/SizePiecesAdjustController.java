@@ -26,7 +26,7 @@ public class SizePiecesAdjustController {
 	@RequestMapping(value="/saveBatchAdjustment")	 
 	public ResponseBase saveBatchAdjustment(HttpServletRequest request){
 		ResponseBase res = new ResponseBase();
-		String masterbatch = request.getParameter("f_master_batch");
+		String masterbatch = request.getParameter("f_master_batch");//托盘号
 		String slavebatch = request.getParameter("f_slave_batch");
 		String userId = request.getParameter("userId");
  		BatBatAdjustDetail batBatAdjustDetail = batchStorageService.saveBatchAdjustment(masterbatch, slavebatch, userId);

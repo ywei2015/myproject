@@ -9,7 +9,7 @@
 		<![CDATA[
     	SELECT bill FROM sail.beans.entity.BatDepotIoBill bill where bill.billno = ? and bill.doctype = ?  and bill.sysflag = '1'
     ]]>
-	</query>
+	</query> 
 	
 	<query name="STORAGE.T_BAT_DEPOT_IOBILLDETAILLIST.LIST">
 		<![CDATA[

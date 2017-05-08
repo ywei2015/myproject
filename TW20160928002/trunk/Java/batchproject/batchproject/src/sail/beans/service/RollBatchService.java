@@ -139,27 +139,31 @@ public class RollBatchService {
 	 */
 	public Map<String,List> getWorkOrderAndProcess(String workType){
 		String date=DateBean.getSysdate();
-		List<Object[]> workData=genericDao.getListWithNativeSql("WORKORDER.T_BAT_PROCESSID_LIST",new Object[]{workType,date});
 		Map<String,List> workOrderMap=new HashMap();
-		if(workData!=null&&workData.size()>0){
-			for (int i = 0; i < workData.size(); i++) {
-				Object[] rowData=workData.get(i);
-				String processId=rowData[0].toString();
-				if(processId!=null){
-					if(!workOrderMap.containsKey(processId)){
-						workOrderMap.put(processId, new ArrayList());
+		try {
+			List<Object[]> workData=genericDao.getListWithNativeSql("WORKORDER.T_BAT_PROCESSID_LIST",new Object[]{workType,date});
+			if(workData!=null&&workData.size()>0){
+				for (int i = 0; i < workData.size(); i++) {
+					Object[] rowData=workData.get(i);
+					String processId=rowData[0].toString();
+					if(processId!=null){
+						if(!workOrderMap.containsKey(processId)){
+							workOrderMap.put(processId, new ArrayList());
+						}
+						ArrayList processWorkList=(ArrayList) workOrderMap.get(processId);
+						String paihao=rowData[1].toString();
+						String tou=paihao.substring(0, paihao.indexOf("-"));
+						if("01".equals(tou)) paihao=paihao.replaceFirst(tou, "早班");
+						if("02".equals(tou)) paihao=paihao.replaceFirst(tou, "中班");
+						if("03".equals(tou)) paihao=paihao.replaceFirst(tou, "晚班");
+						processWorkList.add(paihao);
 					}
-					ArrayList processWorkList=(ArrayList) workOrderMap.get(processId);
-					String paihao=rowData[1].toString();
-					String tou=paihao.substring(0, paihao.indexOf("-"));
-					if("01".equals(tou)) paihao=paihao.replaceFirst(tou, "早班");
-					if("02".equals(tou)) paihao=paihao.replaceFirst(tou, "中班");
-					if("03".equals(tou)) paihao=paihao.replaceFirst(tou, "晚班");
-					processWorkList.add(paihao);
 				}
 			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
-		
 		return workOrderMap;
 	}
 }

@@ -18,12 +18,15 @@
         http://www.springframework.org/schema/task 
         http://www.springframework.org/schema/task/spring-task-4.3.xsd">           
  
- 	<task:executor id="executor" pool-size="5" />
+    <task:executor id="executor" pool-size="5" />
 	<task:scheduler id="scheduler" pool-size="10" />
 	<task:annotation-driven executor="executor"
-		scheduler="scheduler" />
+		scheduler="scheduler" /> 
 		
     <mvc:annotation-driven/>
+    
+    	
+    
     <!-- 自动扫描且只扫描@Controller -->
     <context:component-scan base-package="sail.beans.controller" use-default-filters="false">
          <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
@@ -31,7 +34,6 @@
     
     <context:component-scan base-package="sail.beans.dao.iml"></context:component-scan>
     
-    <mvc:default-servlet-handler />
     
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>  

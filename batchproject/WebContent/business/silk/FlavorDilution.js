@@ -31,9 +31,8 @@ function initTable(dataj){
 		td.innerHTML=''+title_table;
 		title_r.appendChild(td);
 	}
-	if(f_workorder_code==null||f_workorder_code==undefined){
-		
-	}
+	if(f_workorder_code!=null&&f_workorder_code!=""){
+
 	b.appendChild(title_r);
 	if(userId!=null){
 	$.ajax({
@@ -124,6 +123,7 @@ function initTable(dataj){
 				};
 		}
 	});
+	}
 	}
 	theTable.appendChild(b);
 }

@@ -8,6 +8,7 @@
     	select details from sail.beans.entity.BatWipMarkDetail details,
     	sail.beans.entity.BatWipMark mark where mark.transferbill = ?
     	and details.transferpid=mark.pid and mark.sysflag='1' and details.sysflag='1'
+    	and mark.date = ? 
     	order by mark.createtime desc
     	]]>
 	</query>

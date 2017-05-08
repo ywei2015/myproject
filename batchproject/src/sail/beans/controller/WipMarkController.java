@@ -26,8 +26,8 @@ public class WipMarkController {
 	@RequestMapping(value="/saveWipMark")
 	public ResponseBase saveWipMark(HttpServletRequest request){
 		String billno=request.getParameter("billno");
-		String batchno=request.getParameter("batchno");
-		String refbatchno=request.getParameter("refbatchno");
+		String batchno=request.getParameter("batchno");//一号工程
+		String refbatchno=request.getParameter("refbatchno");//质量追溯
 		String userId=request.getParameter("userId");
 		ResponseBase res=new ResponseBase();
 		BatWipMarkDetail batWipMarkDetail=wipMarkService.saveWipMark(billno,batchno,refbatchno,userId);

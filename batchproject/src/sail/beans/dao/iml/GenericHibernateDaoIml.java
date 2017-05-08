@@ -402,7 +402,7 @@ public class GenericHibernateDaoIml implements GenericDao {
 	 */
 
 	public List getListWithNativeSql(final String queryName, final Object[] objs) {
-		final String sql = filterContion(queryName, objs);
+		final String sql = filterContion(queryName,objs);
 		final Object[] objects = filterNull(objs);
 		String sql_=filterSql(sql,objs);
 		Query queryObject = sessionFactory.getCurrentSession().createSQLQuery(sql_);

@@ -31,7 +31,7 @@ function initTable(dataj){
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
-	if(f_bill_no!=null){
+	if(f_bill_no!=null&&f_bill_no!=""){
 	$.ajax({
 		type : "post",
 		url:cqt_prefix+'storage/getBatDepotIoDetailList',

@@ -3,6 +3,8 @@ package sail.beans.controller.transfromdata;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import sail.beans.service.transfromdata.TransformProduceDateService;
 
@@ -12,28 +14,33 @@ import sail.beans.service.transfromdata.TransformProduceDateService;
  * 2017-04-23
  * */
 @Controller
+@RequestMapping(value="transformpro")
 public class TransformProduceDate {
 	@Autowired
 	private TransformProduceDateService transformProduceDateService;
 	
-	// @Scheduled(cron = "0 0/10 * * * ?")
-	/*@ResponseBody
-	@RequestMapping(value="/transformDataJiZu")*/
+    @Scheduled(cron = "0 0/10 * * * ?")
+//	@ResponseBody
+//	@RequestMapping(value="/transformProJB")
 	public void transformJBProduceDate(){
 		transformProduceDateService.transformJBProduceDate("TUB_DIC_2012");
 	}
-	
-	//@Scheduled(cron = "0 0/10 * * * ?")
+	//@ResponseBody
+	//@RequestMapping(value="/transformProCX")
+	@Scheduled(cron = "0 0/10 * * * ?")
 	public void transformCXProduceDate(){
 		transformProduceDateService.transformJBProduceDate("TUB_DIC_2011");
 	}
 	
-	//@Scheduled(cron = "0 0/10 * * * ?")
+	@Scheduled(cron = "0 0/10 * * * ?")
+	/*@ResponseBody
+	@RequestMapping(value="/transformProZS")*/
 	public void transformZSProduceDate(){
 		transformProduceDateService.transformZSProduceDate();
 	}
-	
-	//@Scheduled(cron = "0 0/10 * * * ?")
+	/*@ResponseBody
+	@RequestMapping(value="/transformProGS")*/
+	@Scheduled(cron = "0 0/10 * * * ?")
 	public void transformGSProduceDate(){
 		transformProduceDateService.transformGSProduceDate();
 	}

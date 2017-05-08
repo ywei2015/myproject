@@ -52,7 +52,7 @@ public class Constants {
 	/**
 	 * 汉中卷烟厂生产仓库
 	 */
-	public final static String DEPOT = "HZ20";
+	public final static String DEPOT = "HZN20";
 	
 	/**
 	 * 汉中卷烟厂物资仓库

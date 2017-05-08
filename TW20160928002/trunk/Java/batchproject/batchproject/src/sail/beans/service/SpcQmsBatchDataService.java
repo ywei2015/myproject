@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import sail.beans.Constants;
 import sail.beans.dao.GenericDao;
@@ -27,65 +25,65 @@ public class SpcQmsBatchDataService extends CommonService{
 	 * @param batch
 	 * @return
 	 */
-	@Transactional(propagation=Propagation.REQUIRED)
+//	@Transactional(propagation=Propagation.REQUIRED)
 	public boolean SaveSpcQmsBatchData(String batch){
 		boolean flag = false;
-		BatZsQaSample sample = null;
-		BatZsQaParamResult result = null;
 		try{
-			List batchDataList = genericDao.getListWithNativeSql("GET.SPC.QMS.BATCH.DATA", new Object[]{batch});
+			//查询用于插入主表的单据
+			List batchDataList = genericDao.getListWithNativeSql("GET.SPC.QMS.BATCH.DATA.MAIN", new Object[]{batch});
 			for(int i = 0;i < batchDataList.size(); i++){
 				Object[] obj = (Object[]) batchDataList.get(i);
-				sample = new BatZsQaSample();
-				result = new BatZsQaParamResult();
-				BatWorkOrder workOrder = this.getWorkorderByBatch(obj[2].toString());
+				BatZsQaSample sample = new BatZsQaSample();
+				BatWorkOrder workOrder = this.getWorkorderByBatch(obj[1].toString());
 				if(!StingUtil.isEmpty(workOrder)){
-					BatZsQaSample samples = (BatZsQaSample) this.genericDao.getById(BatZsQaSample.class, obj[0].toString());
-					if(StingUtil.isEmpty(samples)){
-						sample.setPid(obj[0]==null?"":obj[0].toString());
-						sample.setFactory(Constants.FACTORY);
-						sample.setWorkarea(workOrder.getWorkarea());
-						sample.setWorktime(workOrder.getWorktime());
-						sample.setWorkteam(workOrder.getWorkteam());
-						sample.setProduceTime(workOrder.getProducedate());
-						sample.setMatCode(workOrder.getMatcode());
-						sample.setMatName(workOrder.getMatname());
-						sample.setSectionCode(obj[3]==null?"":obj[3].toString());
-						sample.setSectionName(obj[4]==null?"":obj[4].toString());
-						sample.setProcessCode(obj[5]==null?"":obj[5].toString());
-						sample.setProcessName(obj[6]==null?"":obj[6].toString());
-						sample.setWorkorderPid(workOrder.getPid());
-						sample.setBatch(obj[1]==null?"":obj[1].toString());
-						sample.setSurveyBill(obj[2]==null?"":obj[2].toString());
-						sample.setSurveyor(workOrder.getOpuserid());
-						sample.setCheckTime(workOrder.getActualendtime());
-						sample.setSysFlag(Constants.SYS_FLAG_USEING);
-						sample.setCreator(Constants.USERID);
-						sample.setCreateTime(DateBean.getSysdateTime());
-						this.genericDao.save(sample);
-						
-						if(!StingUtil.isEmpty(sample)){
+					sample.setFactory(Constants.FACTORY);
+					sample.setWorkarea(workOrder.getWorkarea());
+					sample.setWorktime(workOrder.getWorktime());
+					sample.setWorkteam(workOrder.getWorkteam());
+					sample.setProduceTime(workOrder.getProducedate());
+					sample.setMatCode(workOrder.getMatcode());
+					sample.setMatName(workOrder.getMatname());
+					sample.setSectionCode(obj[2]==null?"":obj[2].toString());
+					sample.setSectionName(obj[3]==null?"":obj[3].toString());
+					sample.setProcessCode(obj[4]==null?"":obj[4].toString());
+					sample.setProcessName(obj[5]==null?"":obj[5].toString());
+					sample.setWorkorderPid(workOrder.getPid());
+					sample.setBatch(obj[0]==null?"":obj[0].toString());
+					sample.setSurveyBill(obj[1]==null?"":obj[1].toString());
+					sample.setSurveyor(workOrder.getOpuserid());
+					sample.setCheckTime(workOrder.getActualendtime());
+					sample.setSysFlag(Constants.SYS_FLAG_USEING);
+					sample.setCreator(Constants.USERID);
+					sample.setCreateTime(DateBean.getSysdateTime());
+					this.genericDao.save(sample);
+					
+					if(!StingUtil.isEmpty(sample)){
+						List batchDataSecList = genericDao.getListWithNativeSql("GET.SPC.QMS.BATCH.DATA.SEC", 
+								new Object[]{sample.getSurveyBill(),sample.getProcessCode()});
+						for(int j = 0;j < batchDataSecList.size(); j++){
+							BatZsQaParamResult result = new BatZsQaParamResult();
+							Object[] objs = (Object[]) batchDataSecList.get(j);
 							result.setQasamplePid(sample);
-							result.setParamId(obj[10]==null?"":obj[10].toString());
-							result.setParamName(obj[11]==null?"":obj[11].toString());
-							result.setNormalValue(obj[17]==null?0:Double.parseDouble(obj[17].toString()));
-							result.setUsl(obj[15]==null?0:Double.parseDouble(obj[15].toString()));
-							result.setLsl(obj[16]==null?0:Double.parseDouble(obj[16].toString()));
-							result.setMax(obj[21]==null?0:Double.parseDouble(obj[21].toString()));
-							result.setMin(obj[22]==null?0:Double.parseDouble(obj[22].toString()));
-							result.setAverage(obj[20]==null?0:Double.parseDouble(obj[20].toString()));
-							result.setSd(obj[19]==null?0:Double.parseDouble(obj[19].toString()));
-							result.setCpk(obj[18]==null?0:Double.parseDouble(obj[18].toString()));
-							result.setOverCount(obj[23]==null?0:Double.parseDouble(obj[23].toString()));
-							result.setPassPercent(obj[24]==null?0:Double.parseDouble(obj[24].toString()));
-							result.setUnit(obj[12]==null?"":obj[12].toString());
+							result.setParamId(objs[6]==null?"":objs[6].toString());
+							result.setParamName(objs[7]==null?"":objs[7].toString());
+							result.setNormalValue(objs[13]==null?0:Double.parseDouble(objs[13].toString()));
+							result.setUsl(objs[11]==null?0:Double.parseDouble(objs[11].toString()));
+							result.setLsl(objs[12]==null?0:Double.parseDouble(objs[12].toString()));
+							result.setMax(objs[17]==null?0:Double.parseDouble(objs[17].toString()));
+							result.setMin(objs[18]==null?0:Double.parseDouble(objs[18].toString()));
+							result.setAverage(objs[16]==null?0:Double.parseDouble(objs[16].toString()));
+							result.setSd(objs[15]==null?0:Double.parseDouble(objs[15].toString()));
+							result.setCpk(objs[14]==null?0:Double.parseDouble(objs[14].toString()));
+							result.setOverCount(objs[19]==null?0:Double.parseDouble(objs[19].toString()));
+							result.setPassPercent(objs[20]==null?0:Double.parseDouble(objs[20].toString()));
+							result.setUnit(objs[8]==null?"":objs[8].toString());
 							result.setSysFlag(Constants.SYS_FLAG_USEING);
 							result.setCreator(Constants.USERID);
 							result.setCreateTime(DateBean.getSysdateTime());
 							this.genericDao.save(result);
 						}
-						flag = true;
 					}
+					flag = true;
 				}
 			}
 		}catch(Exception e){

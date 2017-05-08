@@ -13,21 +13,19 @@ public class UBatTransYesiIntoCabinet implements Serializable{
 	private String matBatch;
 	private String matCode;
 	private String matName;
-	private Double quantity;
 	private String unit;
-	private String waterContect;
-	private String starttime;
-	private String endtime;
+	private String actualStarttime;
+	private String actualEndtime;
 	private String workteamCode;
 	private String workteamName;
 	private String operateUsercode;
 	private String operateUsername;
 	private String operateTime;
 	private String remark;
+	private String waterContect;
 	private String synchroFlag;
 	private String getdataTime;
 	private String synchroTime;
-	
 	public String getPid() {
 		return pid;
 	}
@@ -58,35 +56,23 @@ public class UBatTransYesiIntoCabinet implements Serializable{
 	public void setMatName(String matName) {
 		this.matName = matName;
 	}
-	public Double getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(Double quantity) {
-		this.quantity = quantity;
-	}
 	public String getUnit() {
 		return unit;
 	}
 	public void setUnit(String unit) {
 		this.unit = unit;
 	}
-	public String getWaterContect() {
-		return waterContect;
+	public String getActualStarttime() {
+		return actualStarttime;
 	}
-	public void setWaterContect(String waterContect) {
-		this.waterContect = waterContect;
+	public void setActualStarttime(String actualStarttime) {
+		this.actualStarttime = actualStarttime;
 	}
-	public String getStarttime() {
-		return starttime;
+	public String getActualEndtime() {
+		return actualEndtime;
 	}
-	public void setStarttime(String starttime) {
-		this.starttime = starttime;
-	}
-	public String getEndtime() {
-		return endtime;
-	}
-	public void setEndtime(String endtime) {
-		this.endtime = endtime;
+	public void setActualEndtime(String actualEndtime) {
+		this.actualEndtime = actualEndtime;
 	}
 	public String getWorkteamCode() {
 		return workteamCode;
@@ -123,6 +109,12 @@ public class UBatTransYesiIntoCabinet implements Serializable{
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	public String getWaterContect() {
+		return waterContect;
+	}
+	public void setWaterContect(String waterContect) {
+		this.waterContect = waterContect;
 	}
 	public String getSynchroFlag() {
 		return synchroFlag;

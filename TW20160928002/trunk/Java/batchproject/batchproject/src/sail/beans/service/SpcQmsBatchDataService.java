@@ -36,11 +36,12 @@ public class SpcQmsBatchDataService extends CommonService{
 			List batchDataList = genericDao.getListWithNativeSql("GET.SPC.QMS.BATCH.DATA.MAIN", new Object[]{batch});
 			for(int i = 0;i < batchDataList.size(); i++){
 				Object[] obj = (Object[]) batchDataList.get(i);
+				BatWorkOrder wo = this.getWorkorderByBatch("17053306ZP03"/*obj[1].toString()*/);
 				List<BatZsQaSample> list = genericDao.getListWithVariableParas("CHECK.SPC.QMS.BATCH.DATA", new Object[]{obj[1].toString(),obj[2].toString()
-						,obj[4].toString()});
+						,obj[4].toString(),wo.getMatcode()});
 				if(list.size() == 0){
 					BatZsQaSample sample = new BatZsQaSample();
-					BatWorkOrder workOrder = this.getWorkorderByBatch(obj[1].toString());
+					BatWorkOrder workOrder = this.getWorkorderByBatch("17053306ZP03"/*obj[1].toString()*/);
 					if(!StingUtil.isEmpty(workOrder)){
 						if(!map.values().contains(obj[1].toString()) && !map.values().contains(obj[4].toString())){
 							sample.setFactory(Constants.FACTORY);

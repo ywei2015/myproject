@@ -182,7 +182,7 @@
 	<query name="CHECK.SPC.QMS.BATCH.DATA">
 		<![CDATA[
     	SELECT s FROM sail.beans.entity.BatZsQaSample s 
-    	   where s.surveyBill = ?  and s.sectionCode = ? and s.processCode = ? and s.sysFlag='1'
+    	   where s.surveyBill = ?  and s.sectionCode = ? and s.processCode = ? and s.matCode = ? and s.sysFlag='1'
     ]]>
     </query>
     

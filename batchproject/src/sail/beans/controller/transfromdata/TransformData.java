@@ -23,8 +23,8 @@ public class TransformData {
 	  * 日卷包
 	  */
     @Scheduled(cron = "0 0/30 * * * ?")
-	/*@ResponseBody
-	@RequestMapping(value="/transformDataJiZu")*/
+	@ResponseBody
+	@RequestMapping(value="/transformDataJiZu")
 	 public void transformDataJiZu(){
 		 transfromdataService.transformDataJiZu();
 	}

@@ -20,8 +20,9 @@ public class TransfromdataService {
 
 	public void transformDataJiZu() {
 		try{
-			String taskday=DateBean.getAfterDay(DateBean.getSysdate(), 1);
-			List<Object[]> list_jizu=genericDao.getListWithNativeSql("transfrom.produceData.list",new Object[]{taskday,'2',null});
+			//String taskday=DateBean.getAfterDay(DateBean.getSysdate(), 1);
+			String taskday=DateBean.getSysdate();
+			List<Object[]> list_jizu=genericDao.getListWithNativeSql("transfrom.produceData.list",new Object[]{'2',null});
 			if(list_jizu!=null&&list_jizu.size()>0){
 				for (int i = 0; i < list_jizu.size(); i++) {
 					BatWorkOrder batWorkOrder=new BatWorkOrder();
@@ -56,7 +57,7 @@ public class TransfromdataService {
 		try{
 			//String taskday=DateBean.getAfterDay(DateBean.getSysdate(), 1);
 			String taskday=DateBean.getSysdate();
-			List<Object[]> list_jizu=genericDao.getListWithNativeSql("transfrom.produceData.list",new Object[]{taskday,'4',"261564e6-50e3-4eb6-81be-0ee171603cd4"});
+			List<Object[]> list_jizu=genericDao.getListWithNativeSql("transfrom.produceData.list",new Object[]{'4',"261564e6-50e3-4eb6-81be-0ee171603cd4"});
 			if(list_jizu!=null&&list_jizu.size()>0){
 				String []bill_type={"ZP12","ZP13","ZP03"};
 				for (int i = 0; i < list_jizu.size(); i++) {
@@ -103,7 +104,7 @@ public class TransfromdataService {
 		try{
 			//String taskday=DateBean.getAfterDay(DateBean.getSysdate(), 1);
 			String taskday=DateBean.getSysdate();
-			List<Object[]> list_jizu=genericDao.getListWithNativeSql("transfrom.produceData.list",new Object[]{taskday,'4',"774a5d02-c268-45d4-9cf4-6be92a97133f"});
+			List<Object[]> list_jizu=genericDao.getListWithNativeSql("transfrom.produceData.list",new Object[]{'4',"774a5d02-c268-45d4-9cf4-6be92a97133f"});
 			if(list_jizu!=null&&list_jizu.size()>0){
 				for (int i = 0; i < list_jizu.size(); i++) {
 					BatWorkOrder batWorkOrder=new BatWorkOrder();

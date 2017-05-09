@@ -21,7 +21,8 @@
             ,(select d9.F_ESB_CODE from V_BAT_PRODUCT_SECTION d9 where d9.f_pid=t.f_workunit_id)  as f_zhisi_code 
 			,(select d10.F_ESB_CODE from V_BAT_CPMAT d10 where d10.f_pid=t.F_MAT_ID)  as f_cpbrand_code   
 			from T_APS_WORKORDER t,t_aps_workplan d
-			where t.f_workday = ? 
+			where t.f_workday >= to_char(sysdate,'YYYYMMDD')
+			and t.f_workday <= to_char(sysdate+1,'YYYYMMDD') 
 			and d.F_PLANTYPE_FLAG = ? 
 			and t.f_workunit_id = ? 
      		and t.f_plan_id=d.f_pid

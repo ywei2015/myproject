@@ -54,7 +54,7 @@ public class SilkWorkOrderService {
 	 */
 	public List<BatWorkOrderVo> getWorkOrderList(String type){
 		String date=DateBean.getBeforDay(DateBean.getSysdate(), 1);
-		List<BatWorkOrder> workorderList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER.LIST", new Object[]{type,null});
+		List<BatWorkOrder> workorderList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER.LIST", new Object[]{type,date});
 		List<BatWorkOrderVo> voList = new ArrayList<BatWorkOrderVo>();
 		if (workorderList != null && workorderList.size() > 0){
 			for (int i = 0; i < workorderList.size() ; i ++){
@@ -185,9 +185,10 @@ public class SilkWorkOrderService {
 			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST2.LIST", new Object[]{workOrderCode,remark});
 		}else if("1".equals(tl_type)){
 			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST.LIST", new Object[]{workOrderCode});
-		}else if("ZP03".equals(workOrderCodeType)){
-			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_REUSELIST.LIST",null);
 		}
+		/*else if("ZP03".equals(workOrderCodeType)){
+			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_REUSELIST.LIST",null);
+		}*/
 		else{
 			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST2.LIST", new Object[]{workOrderCode,null});
 		}

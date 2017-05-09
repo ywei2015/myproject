@@ -73,7 +73,6 @@
 			and d.f_sys_flag='1'  
 			and s.f_billdetail_pid=d.f_pid
 			and d.f_bill_pid=t.f_pid
-			
 			and t.f_sys_flag='1'
 			
 		]]>

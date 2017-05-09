@@ -21,7 +21,7 @@
     <task:executor id="executor" pool-size="5" />
 	<task:scheduler id="scheduler" pool-size="10" />
 	<task:annotation-driven executor="executor"
-		scheduler="scheduler" /> 
+		scheduler="scheduler" />  
 		
     <mvc:annotation-driven/>
     

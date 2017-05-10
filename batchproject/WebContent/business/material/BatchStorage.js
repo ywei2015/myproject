@@ -3,10 +3,12 @@ var theTable=document.getElementById("table");
 var userId=getQueryString('userId');
 var f_bill_no=getQueryString('f_bill_no'); //test:
 var f_doc_type=getQueryString('f_doc_type');//test:
+var f_mat_batch=getQueryString('f_mat_batch');
 var data_p={
 		'f_bill_no':f_bill_no,
 		'f_doc_type':f_doc_type,
-		'remark5':1
+		'remark5':1,
+		'f_mat_batch':f_mat_batch
 };
 var img = new Image(); 
 function loadImage() { 
@@ -31,7 +33,7 @@ function initTable(dataj){
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
-	if(f_bill_no!=null&&f_bill_no!=""){
+	if(f_mat_batch!=null&&f_mat_batch!=""){
 	$.ajax({
 		type : "post",
 		url:cqt_prefix+'storage/getBatDepotIoDetailList',

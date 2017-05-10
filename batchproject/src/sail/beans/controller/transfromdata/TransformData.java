@@ -32,15 +32,16 @@ public class TransformData {
 	  * 周制丝
 	  */
     @Scheduled(cron = "0 0/15 * * * ?")
-	/*@ResponseBody
-	@RequestMapping(value="/transformDataSilk")*/
+	@ResponseBody
+	@RequestMapping(value="/transformDataSilk")
 	 public void transformDataSilk(){
 		 transfromdataService.transformDataSilk();
+		 transfromdataService.transformDataSilk2();
 	}
 	 
     @Scheduled(cron = "0 0/30 * * * ?")
-	/*@ResponseBody
-	@RequestMapping(value="/transformDataStalk")*/
+	@ResponseBody
+	@RequestMapping(value="/transformDataStalk")
 	 public void transformDataStalkSilk(){
 		 transfromdataService.transformDataStalkSilk();
 	} 

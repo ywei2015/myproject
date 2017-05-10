@@ -21,7 +21,8 @@
 	<query name="STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST">
 		<![CDATA[
     	SELECT detail FROM sail.beans.entity.BatDepotIoDetail detail,sail.beans.entity.BatDepotIoBill bill
-    	 where bill.billno = ? and bill.doctype = ? and detail.remark5 = ? and bill.sysflag = '1' and bill.pid = detail.billpid and detail.sysflag= '1' 
+    	 where bill.billno = ? and bill.doctype = ? and detail.remark5 = ? and detail.matbatch = ? 
+    	 and bill.sysflag = '1' and bill.pid = detail.billpid and detail.sysflag= '1' 
     	 order by detail.createtime desc
     ]]>
 	</query>	

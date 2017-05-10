@@ -36,7 +36,7 @@ public class BatchStorageController {
 		BatDepotIoDetail batDepotIoDetail =batchStorageService.saveBatchInStorage(f_bill_no,f_doc_type,f_mat_batch,f_bus_type,userId);
 		if (batDepotIoDetail != null){
 			if("1".equals(batDepotIoDetail.getRepeated())){
-				res.setResponseData("0", "改批次已经存在!");
+				res.setResponseData("0", "该批次已经存在!");
 			}else{
 				res.setResponseData("1", "操作成功!");
 				res.setDataset(batDepotIoDetail, "batdepotiodetail");
@@ -78,13 +78,14 @@ public class BatchStorageController {
 		ResponseBase res = new ResponseBase();
 		String f_bill_no = request.getParameter("f_bill_no");
 		String f_doc_type = request.getParameter("f_doc_type");
-		String f_match = request.getParameter("remark");
-		String remark5 = request.getParameter("remark5");
+		String f_match = request.getParameter("remark");//香料其他消耗批次号
+		String remark5 = request.getParameter("remark5");//出入库标识
+		String batch = request.getParameter("f_mat_batch");
 		List<BatDepotIoDetail> batdepotiodetaillist=null;
 		if(f_match!=null){
 			 batdepotiodetaillist = batchStorageService.getBatDepotIoDetailListj(f_match);
 		}else{
-			 batdepotiodetaillist = batchStorageService.getBatDepotIoDetailList(f_bill_no, f_doc_type,remark5);
+			 batdepotiodetaillist = batchStorageService.getBatDepotIoDetailList(f_bill_no, f_doc_type,remark5,batch);
 		}
 		if (batdepotiodetaillist != null && batdepotiodetaillist.size() > 0){
 			res.setResponseData("1", "操作成功!");

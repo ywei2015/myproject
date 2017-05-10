@@ -10,6 +10,7 @@ import sail.beans.dao.GenericDao;
 import sail.beans.entity.BatWorkOrder;
 import sail.beans.entity.BatWorkOrderOutput;
 import sail.beans.entity.UBatTransLeafStorageCabinet;
+import sail.beans.entity.UBatTransPermixTankOrder;
 import sail.beans.support.DateBean;
 import sail.beans.support.StingUtil;
 
@@ -30,17 +31,24 @@ public class BatTransLeafStorageCabinetService extends CommonService{
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
 					String matBatch = mainList.get(i).getMatBatch().toString()+Constants.ZP12;
+					//根据批次号从叶片入预配柜查找存放位置和存放时间
+					List<UBatTransPermixTankOrder> tankList = genericDao.getListWithVariableParas("GET.U_BAT_TRANSPREMIXTANKORDER.BY.BATCH"
+							, new Object[]{mainList.get(i).getMatBatch().toString()});
 					BatWorkOrder batWorkOrder = this.getWorkorderByBatch(matBatch);
-					if(!StingUtil.isEmpty(batWorkOrder)){
+					if(!StingUtil.isEmpty(batWorkOrder) && tankList.size() > 0){
 						output = new BatWorkOrderOutput();
 						order = mainList.get(i);
 						output.setWorkorderpid(batWorkOrder.getPid());
 						output.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());
 						output.setWater(null);
-						output.setLocation(order.getLocation()==null?"":order.getLocation().toString());
-						output.setLocationname(order.getLocationName()==null?"":order.getLocationName().toString());
-						output.setStime2(order.getActualStarttime()==null?"":order.getActualStarttime().toString());
-						output.setEtime2(order.getActualEndtime()==null?"":order.getActualEndtime().toString());
+						output.setLocation(tankList.get(0).getLocation()==null?"":tankList.get(0).getLocation().toString());
+						output.setLocationname(tankList.get(0).getLocationName()==null?"":tankList.get(0).getLocationName().toString());
+						output.setStime2(tankList.get(0).getActualStarttime()==null?"":tankList.get(0).getActualStarttime().toString());
+						output.setEtime2(tankList.get(0).getActualEndtime()==null?"":tankList.get(0).getActualEndtime().toString());
+						output.setLocation3(order.getLocation()==null?"":order.getLocation().toString());
+						output.setLocationname3(order.getLocationName()==null?"":order.getLocationName().toString());
+						output.setStime3(order.getActualStarttime()==null?"":order.getActualStarttime().toString());
+						output.setEtime3(order.getActualEndtime()==null?"":order.getActualEndtime().toString());
 						output.setQuantity(order.getQuantity()==null?0.0:Double.parseDouble(order.getQuantity().toString()));
 						output.setUnit(order.getUnit()==null?"":order.getUnit().toString());
 						output.setDepot(Constants.DEPOT);

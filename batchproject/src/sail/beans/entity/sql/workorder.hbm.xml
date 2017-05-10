@@ -9,7 +9,7 @@
     	select d.F_DIC_NAME, substr(t.f_worktime,length(t.f_worktime)-1,length(t.f_worktime))||'-'||t.F_MAT_NAME||'-'||t.f_workorder_code  
     	from T_BAT_WORKORDER t,V_BAT_JBGROUP_EQU d where t.F_WORKORDER_TYPE = ? 
     	and t.F_PRODUCE_DATE = ? and t.f_workorder_state='10' and t.f_process=d.F_ESB_CODE 
-        and  t.f_sys_flag='1'  order by F_PROCESS
+        and  t.f_sys_flag='1'  order by t.F_PROCESS,t.F_WORKORDER_CODE 
     ]]>
 	</sql-query>
 		
@@ -50,6 +50,7 @@
     	select order from sail.beans.entity.BatWorkOrder order where order.workordertype = ? and
     	order.workorderstate='10' and order.producedate >= to_char(sysdate-1,'YYYYMMDD')
     	and order.producedate <= to_char(sysdate,'YYYYMMDD') and order.sysflag = '1'
+    	order by order.workordercode
     ]]>
 	</query>
 	

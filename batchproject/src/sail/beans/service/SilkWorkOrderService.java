@@ -108,7 +108,7 @@ public class SilkWorkOrderService {
 						batWorkOrderInput.setTltype("1");
 					}
 					else{
-						batWorkOrderInput.setTltype("4");
+						batWorkOrderInput.setTltype("0");
 					} 
 					batWorkOrderInput.setMatbatch(matBatch);
 					batWorkOrderInput.setMatcode(carCode.getMatcode());

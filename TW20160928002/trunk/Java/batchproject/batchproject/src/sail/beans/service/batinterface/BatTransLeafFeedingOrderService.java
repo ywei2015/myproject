@@ -29,7 +29,7 @@ public class BatTransLeafFeedingOrderService extends CommonService{
 			BatWorkOrderInput input = null;
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
-					String matBatch = mainList.get(i).getMatBatch().toString()+Constants.ZP13;
+					String matBatch = mainList.get(i).getMatBatch().toString()+Constants.ZP12;
 					BatWorkOrder batWorkOrder = this.getWorkorderByBatch(matBatch);
 					if(!StingUtil.isEmpty(batWorkOrder)){
 						input = new BatWorkOrderInput();

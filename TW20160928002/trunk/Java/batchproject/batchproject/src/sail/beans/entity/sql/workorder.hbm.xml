@@ -12,14 +12,7 @@
         and  t.f_sys_flag='1'  order by F_PROCESS
     ]]>
 	</sql-query>
-	
-	
-	<query name="GET_WORKSTATE_BYBILLNO">
-		<![CDATA[
-    	select order from sail.beans.entity.BatWorkOrder order where order.workordercode = ? and order.sysflag = '1'
-    ]]>
-	</query>
-	
+		
 	<query name="BATCHDATA_BAT_DEPOT_IODETAIL">
 		<![CDATA[
     	select order from sail.beans.entity.BatDepotIoDetail order where order.matbatch = ? and order.sysflag = '1'
@@ -55,7 +48,8 @@
 	<query name="WORKORDER.T_BAT_WORKORDER.LIST">
 		<![CDATA[
     	select order from sail.beans.entity.BatWorkOrder order where order.workordertype = ? and
-    	order.workorderstate='10' and order.producedate = ? and order.sysflag = '1'
+    	order.workorderstate='10' and order.producedate >= to_char(sysdate-1,'YYYYMMDD')
+    	and order.producedate <= to_char(sysdate,'YYYYMMDD') and order.sysflag = '1'
     ]]>
 	</query>
 	

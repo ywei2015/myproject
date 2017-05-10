@@ -46,10 +46,12 @@ public class TransformProduceDateService {
 					 if(jizu[11]!=null)
 						 batWorkOrderOutput.setQuantity(Double.parseDouble(jizu[11].toString()));
 					 batWorkOrderOutput.setMatbatch(batWorkOrder.getWorkordercode());
-					 batWorkOrderOutput.setUnit(jizu[12]==null?"PAN":jizu[12].toString());
+					 if(batWorkOrder.getUnit()==null||batWorkOrder.getUnit().trim().length()==0)
+						 batWorkOrderOutput.setUnit("PAN");
+					 else 
+						 batWorkOrderOutput.setUnit(batWorkOrder.getUnit());
 					 batWorkOrderOutput.setDepot("HZN20");
 					 batWorkOrderOutput.setSysflag("1");
-					 batWorkOrderOutput.setUnit(batWorkOrder.getUnit());
 					 batWorkOrderOutput.setOperateuserid(jizu[15]==null?"":jizu[15].toString());
 					 batWorkOrderOutput.setCreator(jizu[15]==null?"":jizu[15].toString());
 					 batWorkOrderOutput.setCreatetime(jizu[16]==null?"":jizu[16].toString());
@@ -83,37 +85,35 @@ public class TransformProduceDateService {
 	 * */
 	public Map getvltdetails(Object[] jizu){
 		int orderflag = 0,planflag=0;
-		String workpid=null;
 		Map map=new HashMap();
 		BatWorkOrder batWorkOrder=null;
 		String date=jizu[0]==null?"":jizu[0].toString();
 		String banci=jizu[2]==null?"":jizu[2].toString();
 		String jitaino=jizu[3]==null?"":jizu[3].toString();
-		String paihao1=jizu[1]==null?"":jizu[1].toString();
-		String paihao=paihao1.substring(8, 13);
+		String paihao=jizu[1]==null?"":jizu[1].toString();
+		//String paihao=paihao1.substring(8, 13);
 		String billno=date+banci+jitaino+paihao+"ZP01";
 		//以订单号为参数获取工单号
-		List<BatWorkOrder> workOrderList=this.genericDao.getListWithVariableParas("GET_WORKSTATE_BYBILLNO", new Object[]{billno});
+		List<BatWorkOrder> workOrderList=this.genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDERLIST.LIST", new Object[]{billno});
 		if(workOrderList!=null&&workOrderList.size()>0){
 			 batWorkOrder=workOrderList.get(0);
 			if("10".equals(batWorkOrder.getWorkorderstate())){
 				orderflag=1;
-				workpid=batWorkOrder.getPid();
 			}
 		}
 		String banciId=jizu[4]==null?"":jizu[4].toString();
 		String workunitId=jizu[24]==null?"":jizu[24].toString();
 		String matId=jizu[9]==null?"":jizu[9].toString();
-		List <Object[]> planstatuslist=this.genericDao.getListWithNativeSql("transfrom.getworkplan.list", new Object[]{date,banciId,null,workunitId,matId});
+		List <Object[]> planstatuslist=this.genericDao.getListWithNativeSql("transfrom.getworkplan.list", new Object[]{date,banciId,workunitId,null,matId});
 		if(planstatuslist!=null&&planstatuslist.size()>0){
 			Object[] planstatus=(Object[]) planstatuslist.get(0);
 			if("ad5856e2-93f6-4ca0-9c36-67a465e2bc83".equals(planstatus[5])){
 				planflag=1;
 			}
+			planflag=1;
 		}
 		if(orderflag+planflag>1){
 			map.put("flag",1);
-			map.put("billno", billno);
 			map.put("workorder", batWorkOrder);
 		}else{
 			map.put("flag",0);
@@ -182,19 +182,17 @@ public class TransformProduceDateService {
 	 * */
 	public Map getZSvltdetails(Object[] jizu,String type){
 		int orderflag = 0,planflag=0;
-		String workpid=null;
 		Map map=new HashMap();
 		BatWorkOrder batWorkOrder=null;
 		String date=jizu[0]==null?"":jizu[0].toString();
 		String pici=jizu[19]==null?"":jizu[19].toString();
 		String matId=jizu[9]==null?"":jizu[9].toString();
 		String billno=pici+type;
-		List<BatWorkOrder> workOrderList=this.genericDao.getListWithVariableParas("GET_WORKSTATE_BYBILLNO", new Object[]{billno});
+		List<BatWorkOrder> workOrderList=this.genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDERLIST.LIST", new Object[]{billno});
 		if(workOrderList!=null&&workOrderList.size()>0){
 		    batWorkOrder=workOrderList.get(0);
 			if("10".equals(batWorkOrder.getWorkorderstate())){
 				orderflag=1;
-				workpid=batWorkOrder.getPid();
 			}
 		}
 		List<Object[]>planstatuslist=this.genericDao.getListWithNativeSql("transfrom.getworkplan.list", new Object[]{date,null,null,pici,matId});
@@ -203,6 +201,7 @@ public class TransformProduceDateService {
 			if("ad5856e2-93f6-4ca0-9c36-67a465e2bc83".equals(planstatus[5])){
 				planflag=1;
 			}
+			planflag=1;
 		}
 		if(orderflag+planflag>1){
 			map.put("flag",1);

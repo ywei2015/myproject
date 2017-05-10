@@ -122,7 +122,7 @@ public class RollBatchService {
 	 * @return
 	 */
 	public String getWorkorderstate(String workOrderCode) {
-		List<BatWorkOrder> ruleList=genericDao.getListWithVariableParas("GET_WORKSTATE_BYBILLNO", new Object[]{workOrderCode});
+		List<BatWorkOrder> ruleList=genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDERLIST.LIST", new Object[]{workOrderCode});
 		if(ruleList!=null&&ruleList.size()>0){
 			BatWorkOrder bill=ruleList.get(0);
 			if("10".equals(bill.getWorkorderstate())){

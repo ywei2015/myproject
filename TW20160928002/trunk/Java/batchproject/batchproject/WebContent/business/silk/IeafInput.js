@@ -1,4 +1,4 @@
-var title= ["序号","名称","批次号","数量","单位","开始","操作"];
+var title= ["序号","剔除","名称","批次号","数量","单位","开始"];
 var theTable=document.getElementById("table");
 var userId=getQueryString('userId');
 var f_workorder_code=getQueryString('f_workorder_code'); //生产工单号 20161208HZ-YCX-01
@@ -56,6 +56,16 @@ function initTable(dataj){
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 					
+
+						td=document.createElement('td');
+						var pid=rowdata.pid;
+						billarray[i]=pid;
+						var shanchu="<div ><img height='32' width='30' src='../js/image/shanch.png'></img></div>";
+						data_td="<a  onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='window'" +
+						">"+shanchu+"</a>";
+						td.innerHTML=data_td;
+						r.appendChild(td);
+						
 						td=document.createElement('td');
 						if("0"==rowdata.remark4){
 							td.style.color='red';
@@ -89,14 +99,7 @@ function initTable(dataj){
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
-						td=document.createElement('td');
-						var pid=rowdata.pid;
-						billarray[i]=pid;
-						var shanchu="<div ><img height='32' width='30' src='../js/image/shanch.png'></img></div>";
-						data_td="<a  onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='window'" +
-						">"+shanchu+"</a>";
-						td.innerHTML=data_td;
-						r.appendChild(td);
+						
 					}
 					if("w"==rowdata.remark5){
 						r.style.color='yellow';

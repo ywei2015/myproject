@@ -54,7 +54,7 @@ public class SilkWorkOrderService {
 	 */
 	public List<BatWorkOrderVo> getWorkOrderList(String type){
 		String date=DateBean.getBeforDay(DateBean.getSysdate(), 1);
-		List<BatWorkOrder> workorderList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER.LIST", new Object[]{type,date});
+		List<BatWorkOrder> workorderList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER.LIST", new Object[]{type});
 		List<BatWorkOrderVo> voList = new ArrayList<BatWorkOrderVo>();
 		if (workorderList != null && workorderList.size() > 0){
 			for (int i = 0; i < workorderList.size() ; i ++){
@@ -200,7 +200,7 @@ public class SilkWorkOrderService {
 	 * @return
 	 */
 	public String getWorkorderstate(String billno){
-		List<BatWorkOrder> ruleList=genericDao.getListWithVariableParas("GET_WORKSTATE_BYBILLNO", new Object[]{billno});
+		List<BatWorkOrder> ruleList=genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDERLIST.LIST", new Object[]{billno});
 		if(ruleList!=null&&ruleList.size()>0){
 			BatWorkOrder bill=ruleList.get(0);
 			if("10".equals(bill.getWorkorderstate())){

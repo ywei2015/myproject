@@ -42,7 +42,7 @@ public class TransfromdataService {
 					batWorkOrder.setWorkordercode(billno);
 					batWorkOrder.setWorkordertype("ZP01");
 					batWorkOrder.setProcess(jizu[49]==null?"":jizu[49].toString());
-					batWorkOrder.setEndbrand(jizu[51]==null?"":jizu[51].toString());
+					//batWorkOrder.setEndbrand(jizu[51]==null?"":jizu[51].toString());
 					this.genericDao.save(batWorkOrder);
 				}
 			}
@@ -57,13 +57,54 @@ public class TransfromdataService {
 		try{
 			//String taskday=DateBean.getAfterDay(DateBean.getSysdate(), 1);
 			String taskday=DateBean.getSysdate();
-			List<Object[]> list_jizu=genericDao.getListWithNativeSql("transfrom.produceData.list",new Object[]{'4',"261564e6-50e3-4eb6-81be-0ee171603cd4"});
+			List<Object[]> list_jizu=genericDao.getListWithNativeSql("transfrom.produceDataZS.list",new Object[]{'4',"261564e6-50e3-4eb6-81be-0ee171603cd4"});
 			if(list_jizu!=null&&list_jizu.size()>0){
-				String []bill_type={"ZP12","ZP13","ZP03"};
+				String []bill_type={"ZP12"};
 				for (int i = 0; i < list_jizu.size(); i++) {
 					Object[] jizu=list_jizu.get(i);
 					int t=0;
-					while(t<3){
+					BatWorkOrder batWorkOrder=new BatWorkOrder();
+					String billno=jizu[21]+bill_type[t];
+					List<BatWorkOrder> list_billno=genericDao.getListWithVariableParas("transfrom.batWorkOrder.list",new Object[]{billno});
+					if(list_billno==null||list_billno.size()==0){
+						batWorkOrder=getBatWorkOrder(jizu,batWorkOrder);
+					}else{
+						batWorkOrder=getBatWorkOrder(jizu,batWorkOrder);
+						BatWorkOrder batWorkOrder1=list_billno.get(0);
+						String pid=batWorkOrder1.getPid();
+						BeanUtils.copyProperties(batWorkOrder,batWorkOrder1);
+						batWorkOrder1.setPid(pid);
+						batWorkOrder=batWorkOrder1;
+					}
+					batWorkOrder.setWorkordercode(billno);
+					batWorkOrder.setSession(jizu[50]==null?"":jizu[50].toString());
+					batWorkOrder.setWorkordertype(bill_type[t]);
+					//batWorkOrder.setEndbrand(jizu[52]==null?"":jizu[52].toString());
+					//batWorkOrder.setProducedate(taskday);
+					batWorkOrder.setUnit("KG");
+					this.genericDao.save(batWorkOrder);
+					t++;
+				
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+	}
+	
+	@Transactional(rollbackFor=Exception.class) 
+	public void transformDataSilk2() {
+		try{
+			//String taskday=DateBean.getAfterDay(DateBean.getSysdate(), 1);
+			String taskday=DateBean.getSysdate();
+			List<Object[]> list_jizu=genericDao.getListWithNativeSql("transfrom.produceDataZS.list",new Object[]{'4',"5fa03ea1-180c-4b17-b0bc-773c86e98226"});
+			if(list_jizu!=null&&list_jizu.size()>0){
+				String []bill_type={"ZP13","ZP03"};
+				for (int i = 0; i < list_jizu.size(); i++) {
+					Object[] jizu=list_jizu.get(i);
+					int t=0;
+					while(t<2){
 						BatWorkOrder batWorkOrder=new BatWorkOrder();
 						String billno=jizu[21]+bill_type[t];
 						List<BatWorkOrder> list_billno=genericDao.getListWithVariableParas("transfrom.batWorkOrder.list",new Object[]{billno});
@@ -80,8 +121,7 @@ public class TransfromdataService {
 						batWorkOrder.setWorkordercode(billno);
 						batWorkOrder.setSession(jizu[50]==null?"":jizu[50].toString());
 						batWorkOrder.setWorkordertype(bill_type[t]);
-						batWorkOrder.setEndbrand(jizu[51]==null?"":jizu[51].toString());
-						batWorkOrder.setProducedate(taskday);
+					//	batWorkOrder.setProducedate(taskday);
 						batWorkOrder.setUnit("KG");
 						this.genericDao.save(batWorkOrder);
 						t++;
@@ -94,7 +134,6 @@ public class TransfromdataService {
 			throw new RuntimeException();
 		}
 	}
-	
 
 	/**
 	 *梗丝任务下发 
@@ -104,7 +143,7 @@ public class TransfromdataService {
 		try{
 			//String taskday=DateBean.getAfterDay(DateBean.getSysdate(), 1);
 			String taskday=DateBean.getSysdate();
-			List<Object[]> list_jizu=genericDao.getListWithNativeSql("transfrom.produceData.list",new Object[]{'4',"774a5d02-c268-45d4-9cf4-6be92a97133f"});
+			List<Object[]> list_jizu=genericDao.getListWithNativeSql("transfrom.produceDataGS.list",new Object[]{'4',"774a5d02-c268-45d4-9cf4-6be92a97133f"});
 			if(list_jizu!=null&&list_jizu.size()>0){
 				for (int i = 0; i < list_jizu.size(); i++) {
 					BatWorkOrder batWorkOrder=new BatWorkOrder();
@@ -124,8 +163,7 @@ public class TransfromdataService {
 					batWorkOrder.setWorkordercode(billno);
 					batWorkOrder.setWorkordertype("ZP05");
 					batWorkOrder.setSession(jizu[50]==null?"":jizu[50].toString());
-					batWorkOrder.setEndbrand(jizu[51]==null?"":jizu[51].toString());
-					batWorkOrder.setProducedate(taskday);
+					//batWorkOrder.setProducedate(taskday);
 					batWorkOrder.setUnit("KG");
 					this.genericDao.save(batWorkOrder);
 				}
@@ -146,7 +184,7 @@ public class TransfromdataService {
 			if(jiTaino!=null&&jiTaino.length()>2)
 				 jitai=jiTaino.substring(jiTaino.length()-2, jiTaino.length());
 			String brandno=jizu[48]==null?"":jizu[48].toString();
-		    billno=jizu[8].toString()+banCi+jitai+brandno;//日期8位+班次+机台号码+牌号编码+工单类型
+		    billno=jizu[8].toString()+banCi+jiTaino+brandno;//日期8位+班次+机台号码+牌号ESB短码+工单类型
 		}
 		return billno;
 	}
@@ -155,7 +193,7 @@ public class TransfromdataService {
 		String taskday=DateBean.getAfterDay(DateBean.getSysdate(), 1);
 		batWorkOrder.setCreatetime(DateBean.getSysdateTime());
 		batWorkOrder.setWorkordertype(jizu[4]==null?"":jizu[4].toString());//ZP01
-		batWorkOrder.setProducedate(taskday);
+		batWorkOrder.setProducedate(jizu[8]==null?"":jizu[8].toString());
 		batWorkOrder.setFactory("2200");
 		batWorkOrder.setWorkarea("HZ10");
 		batWorkOrder.setMatcode(jizu[42]==null?"":jizu[42].toString());

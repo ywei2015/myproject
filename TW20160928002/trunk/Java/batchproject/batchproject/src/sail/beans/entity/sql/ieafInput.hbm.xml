@@ -5,7 +5,8 @@
 <hibernate-mapping>
 	<query name="ieafInput.getbatworkinput.bybatch">
 		<![CDATA[
-    	select detail from sail.beans.entity.BatWorkOrderInput detail where detail.matbatch = ?            		
+    	select detail from sail.beans.entity.BatWorkOrderInput detail where detail.matbatch = ?  
+    	and detail.tltype='1' and detail.sysflag='1'          		
     ]]>
 	</query>
 </hibernate-mapping>

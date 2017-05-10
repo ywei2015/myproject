@@ -20,27 +20,28 @@ public class TransformProduceDate {
 	private TransformProduceDateService transformProduceDateService;
 	
     @Scheduled(cron = "0 0/10 * * * ?")
-//	@ResponseBody
-//	@RequestMapping(value="/transformProJB")
+	@ResponseBody
+	@RequestMapping(value="/transformProJB")
 	public void transformJBProduceDate(){
 		transformProduceDateService.transformJBProduceDate("TUB_DIC_2012");
 	}
-	//@ResponseBody
-	//@RequestMapping(value="/transformProCX")
-	@Scheduled(cron = "0 0/10 * * * ?")
+    @Scheduled(cron = "0 0/10 * * * ?")
+	@ResponseBody
+	@RequestMapping(value="/transformProCX")
 	public void transformCXProduceDate(){
 		transformProduceDateService.transformJBProduceDate("TUB_DIC_2011");
 	}
 	
 	@Scheduled(cron = "0 0/10 * * * ?")
-	/*@ResponseBody
-	@RequestMapping(value="/transformProZS")*/
+	@ResponseBody
+	@RequestMapping(value="/transformProZS")
 	public void transformZSProduceDate(){
 		transformProduceDateService.transformZSProduceDate();
 	}
-	/*@ResponseBody
-	@RequestMapping(value="/transformProGS")*/
+	
 	@Scheduled(cron = "0 0/10 * * * ?")
+	@ResponseBody
+	@RequestMapping(value="/transformProGS")
 	public void transformGSProduceDate(){
 		transformProduceDateService.transformGSProduceDate();
 	}

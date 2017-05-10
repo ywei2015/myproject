@@ -41,6 +41,7 @@ public class BatchStorageService {
 		try{
 			if(docType.equals("ZI30")){
 				batDepotIoDetail=saveBatchInStorageTH(billNo,matBatch,userId);
+				//batDepotIoDetail.setRemark4(matBatch);
 			}else{
 				List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{matBatch});
 				if (detailList != null && detailList.size() > 0){
@@ -54,11 +55,12 @@ public class BatchStorageService {
 					batDepotIoDetail.setRemark5("1");
 					batDepotIoDetail.setIsEnter("1");
 					this.genericDao.save(batDepotIoDetail);
+					//batDepotIoDetail.setRemark4(matBatch);
 					
 					batDepotIoBill=(BatDepotIoBill) genericDao.getById(BatDepotIoBill.class, batDepotIoDetail.getBillpid());
-					if(billNo!=null)
+					if(billNo!=null&&!billNo.equals(""))
 						batDepotIoBill.setBillno(billNo);
-					Map map=this.getBatDepotStorageTotal(billNo, docType);
+					Map map=this.getBatDepotStorageTotal(batDepotIoBill.getBillno(), docType);
 					if(map.get("ruku").toString().equals(map.get("toatal").toString())){
 						batDepotIoBill.setIsEnter("1");
 					}else{
@@ -71,6 +73,7 @@ public class BatchStorageService {
 					batDepotIoBill.setCreator(userId);
 					//batDepotIoBill.setBillno(billNo); 待确认
 					this.genericDao.save(batDepotIoBill);
+					
 					
 					List<BatDepotIoDetailList> billDetailList = genericDao.getListWithVariableParas("BATCHDATA_DEPOT_IODETAILLIST_BYPID", new Object[]{batDepotIoDetail.getPid()});
 					if(billDetailList!=null&&billDetailList.size()>0){
@@ -103,7 +106,8 @@ public class BatchStorageService {
 		BatDepotIoDetailList batDepotIoDetailList=null;
 		try {
 			batDepotIoBill=new BatDepotIoBill();
-			batDepotIoBill.setBillno(billNo);
+			String bill=DateBean.getSysdate()+"ZI30";
+			batDepotIoBill.setBillno(bill);
 			batDepotIoBill.setBiztype("MM2143");
 			batDepotIoBill.setBilltype("11");
 			batDepotIoBill.setDoctype("ZI30");
@@ -204,8 +208,8 @@ public class BatchStorageService {
 	 * @param docType
 	 * @return
 	 */
-	public List<BatDepotIoDetail> getBatDepotIoDetailList(String billNo,String docType,String remark5){
-		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{billNo,docType,remark5});
+	public List<BatDepotIoDetail> getBatDepotIoDetailList(String billNo,String docType,String remark5,String batch){
+		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{null,docType,remark5,batch});
 		return detailList;
 	}
 	
@@ -536,28 +540,38 @@ public class BatchStorageService {
 		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAILJ.LIST", new Object[]{f_match});
 		return detailList;
 	}
-
+/**
+ * 根据单号获取此单号未完成批次列表
+ * */
 	public List<BatDepotIoDetail> getBatDepotValidate(String f_bill_no,String f_doc_type){
 			List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_STROAGVALIDATE_.LIST", new Object[]{f_bill_no,f_doc_type,null,"0"});
 			return detailList;
 	}
-
+/**
+ * 根据单号获取单号批次总量
+ * */
 	public Map getBatDepotStorageTotal(String f_bill_no,String f_doc_type) {
 		int ruku=0;
 		int total=0;
-		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_STROAGVALIDATE_.LIST", new Object[]{f_bill_no,f_doc_type,null,null});
-		if(detailList!=null&&detailList.size()>0){
-			total=detailList.size();
-			for(int i=0;i<total;i++){
-			BatDepotIoDetail batDepotIoDetail=detailList.get(i);
-			if("1".equals(batDepotIoDetail.getRemark5())){
-				ruku++;
-			}
-			}
-		}
 		Map map=new HashMap();
-		map.put("ruku",ruku);
-		map.put("toatal",total);
+		try {
+			List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_STROAGVALIDATE_.LIST", new Object[]{f_bill_no,f_doc_type,null,null});
+			if(detailList!=null&&detailList.size()>0){
+				total=detailList.size();
+				for(int i=0;i<total;i++){
+				BatDepotIoDetail batDepotIoDetail=detailList.get(i);
+				if("1".equals(batDepotIoDetail.getRemark5())){
+					ruku++;
+				}
+				}
+			}
+			map.put("ruku",ruku);
+			map.put("toatal",total);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
 		return map;
 	}
 

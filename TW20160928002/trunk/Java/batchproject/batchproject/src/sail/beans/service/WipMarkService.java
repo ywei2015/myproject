@@ -20,6 +20,7 @@ public class WipMarkService {
 		try{
 			//List<BatWipMark> batWipMarkList=this.genericDao.getListWithVariableParas("WIPMARK.WIPMARKLIST.LIST", new Object[]{billno});
 			//if (batWipMarkList != null && batWipMarkList.size() > 0){}
+			
 			List<BatWipMarkDetail> batWipMarkDetailList=this.genericDao.getListWithVariableParas("WIPMARK.WIPMARKDATAILS.BYLIST", new Object[]{null,refbatchno});
 			if(batWipMarkDetailList!=null&&batWipMarkDetailList.size()>0){
 				batWipMarkDetail=batWipMarkDetailList.get(0);

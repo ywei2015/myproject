@@ -4,7 +4,8 @@ var userId=getQueryString('userId');
 var f_workorder_code=getQueryString('f_workorder_code');//test:
 var data_p={
 		'f_workorder_code':f_workorder_code,
-		'f_workorder_type':'ZP03'
+		'f_workorder_type':'ZP03',
+		'remark':5
 };
 var img = new Image(); 
 function loadImage() { 

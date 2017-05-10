@@ -4,7 +4,8 @@ var userId=getQueryString('userId');
 var f_workorder_code=getQueryString('f_workorder_code'); //test:1
 var data_p={
 		'f_workorder_code':f_workorder_code,
-		'f_workorder_type':'ZP03'
+		'f_workorder_type':'ZP03',
+		'remark':4
 };
 var img = new Image(); 
 function loadImage() { 
@@ -49,10 +50,17 @@ function initTable(dataj){
 					if(rowdata!=null||rowdata!=undefined){
 						var td;
 						var data_td1;
+						
+						td=document.createElement('td');
+						data_td1=1+i;//序号
+						td.innerHTML=data_td1;
+						r.appendChild(td);
+						
 						td=document.createElement('td');
 						data_td1=rowdata.matcode;//编码
 						td.innerHTML=data_td1;
 						r.appendChild(td);
+						
 						td=document.createElement('td');
 						if("0"==rowdata.remark4){
 							td.style.color='red';
@@ -69,14 +77,12 @@ function initTable(dataj){
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
-						
 						td=document.createElement('td');
 						data_td1=rowdata.quantity;//数量
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
-						td=document.createElement('td');
-						var data_td2=rowdata.operatetime;
+						var data_td2=rowdata.starttime;//开始
 						data_td1=data_td2.substring(4,6)+'-'+data_td2.substring(6,8)+' '+data_td2.substring(8,10)+':'+data_td2.substring(10,12);
 						td.innerHTML=data_td1;
 						r.appendChild(td);

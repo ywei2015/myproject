@@ -75,6 +75,11 @@
     	SELECT main FROM sail.beans.entity.UBatTransPermixTankOrder main where main.synchroFlag = '0' 
     ]]>
     </query>
+    <query name="GET.U_BAT_TRANSPREMIXTANKORDER.BY.BATCH">
+		<![CDATA[
+    	SELECT main FROM sail.beans.entity.UBatTransPermixTankOrder main where main.matBatch = ?  
+    ]]>
+    </query>
     
 	<!--批次管理_叶片入配叶柜begin-->
 	<query name="SYNCHRO.U_BAT_TRANSLEAFSTORAGECABINET.LIST">

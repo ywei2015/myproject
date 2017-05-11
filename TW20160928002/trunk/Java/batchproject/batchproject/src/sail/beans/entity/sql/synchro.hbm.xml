@@ -178,7 +178,6 @@
     	select t.f_pid,t.f_batch,t.f_batch || g.f_workorder_type  as F_WORKORDERCODE,g.f_gd_esb_code,g.f_gd_name,g.f_gx_esb_code,
 			g.f_gx_name,t.f_brand_id,t.f_param_id,t.F_WORKSECTION_ID,p.f_esb_code,p.f_name,p.f_unit,t.f_start_time,t.f_end_time,
 			t.f_upline,t.f_lowline,t.f_target,t.f_cpk,t.f_sigma,t.f_average,t.f_maxvalue,t.f_minvalue,t.f_overnum,t.f_qrate
-		from SPC.QMS_TB_BATCHSTAT t,SPC.QMS_TB_PARAMETER p,SPC.T_BAT_GX_DIC g
 		where t.f_param_id = p.f_pid and g.f_gx_code = p.f_section_id and t.f_batch = ?  
       ]]>
     </sql-query>
@@ -195,10 +194,11 @@
     <sql-query name="GET.SPC.QMS.BATCH.DATA.MAIN">
     	<![CDATA[
     	select t.f_batch,t.f_batch || g.f_workorder_type  as F_WORKORDERCODE,g.f_gd_esb_code,g.f_gd_name,g.f_gx_esb_code,
-      		g.f_gx_name, count(1) as F_ROWCOUNT
+      		g.f_gx_name,t.F_START_TIME,t.f_end_time, count(1) as F_ROWCOUNT
     	from SPC.QMS_TB_BATCHSTAT t,SPC.QMS_TB_PARAMETER p,SPC.T_BAT_GX_DIC g
     	where t.f_param_id = p.f_pid and g.f_gx_code = p.f_section_id and t.f_batch = ?  
 			group by  t.f_batch,t.f_batch || g.f_workorder_type ,g.f_gd_esb_code,g.f_gd_name,g.f_gx_esb_code,g.f_gx_name
+			,t.F_START_TIME,t.f_end_time
       ]]>
     </sql-query>
     
@@ -211,5 +211,17 @@
     	where t.f_param_id = p.f_pid and g.f_gx_code = p.f_section_id   
 		    and t.f_batch || g.f_workorder_type = ?  and g.f_gx_esb_code = ? 
     ]]>
+    </sql-query>
+    
+    <!--根据开始结束时间找到相对应的班组和班时-->
+    <sql-query name="GET.WORKTIME.WORKTEAM.BY.TIME">
+    	<![CDATA[
+    	select 
+			(select d.F_ESB_CODE from v_bat_worktime d where d.f_pid=t.f_workclass_id) as f_worktime_esbcode,
+			(select d.F_ESB_CODE from v_bat_workteam d where d.f_pid=t.f_workteam_id) as f_workteam_esbcode
+		from V_APS_WORKMONTH_WORKCLASS t 
+		where t.f_workunit_id='8a55343d-f8fc-4416-8a0e-3786b28eff2a'
+      		and t.f_start_time<= ?  and t.f_end_time>= ? 
+      ]]>
     </sql-query>
 </hibernate-mapping>

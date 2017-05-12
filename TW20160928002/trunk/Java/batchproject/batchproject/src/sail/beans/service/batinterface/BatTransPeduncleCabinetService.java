@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import sail.beans.Constants;
 import sail.beans.dao.GenericDao;
@@ -22,18 +23,17 @@ public class BatTransPeduncleCabinetService extends CommonService{
 	 * 获取待转储并新增生产工单投料后台服务（梗丝进柜）
 	 * @return
 	 */
+	@Transactional(rollbackFor=Exception.class) 
 	public void SaveBatTransPeduncleCabinet(){
 		try{
 			List<UBatTransPeduncleCabinet> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSPEDUNCLECABINET.LIST", new Object[]{});
-			UBatTransPeduncleCabinet order = null;
-			BatWorkOrderOutput output = null;
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
 					String matBatch = mainList.get(i).getMatBatch().toString()+Constants.ZP05;
 					BatWorkOrder batWorkOrder = this.getWorkorderByBatch(matBatch);
 					if(!StingUtil.isEmpty(batWorkOrder)){
-						output = new BatWorkOrderOutput();
-						order = mainList.get(i);
+						BatWorkOrderOutput output = new BatWorkOrderOutput();
+						UBatTransPeduncleCabinet order = mainList.get(i);
 						output.setWorkorderpid(batWorkOrder.getPid());
 						output.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());
 						output.setWater(null);

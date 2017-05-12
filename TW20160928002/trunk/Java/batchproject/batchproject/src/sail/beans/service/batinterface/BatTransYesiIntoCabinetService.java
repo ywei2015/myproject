@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import sail.beans.Constants;
 import sail.beans.dao.GenericDao;
@@ -24,10 +25,10 @@ public class BatTransYesiIntoCabinetService extends CommonService{
 	 * 获取待转储并新增生产工单投料后台服务（叶丝入柜）
 	 * @return
 	 */
+	@Transactional(rollbackFor=Exception.class) 
 	public void SaveBatTransYesiIntoCabinet(){
 		try{
 			List<UBatTransYesiIntoCabinet> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSYESIINTOCABINET.LIST", new Object[]{});
-			UBatTransYesiIntoCabinet order = null;
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
 					String matBatch = mainList.get(i).getMatBatch().toString()+Constants.ZP13;
@@ -36,7 +37,7 @@ public class BatTransYesiIntoCabinetService extends CommonService{
 						UBatTransBlendingOrder blend = this.getQuantityByBatch(mainList.get(i).getMatBatch());
 						if(!StingUtil.isEmpty(blend)){
 							BatWorkOrderOutput output = new BatWorkOrderOutput();
-							order = mainList.get(i);
+							UBatTransYesiIntoCabinet order = mainList.get(i);
 							output.setWorkorderpid(batWorkOrder.getPid());
 							output.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString()+Constants.ZP13);
 							output.setWater(order.getWaterContect()==null?"":order.getWaterContect().toString());

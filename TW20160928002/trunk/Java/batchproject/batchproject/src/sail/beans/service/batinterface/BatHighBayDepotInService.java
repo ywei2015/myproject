@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import sail.beans.Constants;
 import sail.beans.dao.GenericDao;
@@ -22,17 +23,15 @@ public class BatHighBayDepotInService extends CommonService{
 	 * 获取待转储并新增入库后台服务（成品（成品/在制品）入库信息）
 	 * @return
 	 */
+	@Transactional(rollbackFor=Exception.class) 
 	public void SaveBatHighBayDepotIn(){
 		try{
 			List<UBatTransproductStorageMain> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSPRODUCTSTORAGEMAIN.LIST", new Object[]{});
-			UBatTransproductStorageMain main = null;
-			UBatTransproductStorageSec sec = null;
-			BatHighBayDepotIn batHighBayDepotIn = null;
 			//主表
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
-					batHighBayDepotIn = new BatHighBayDepotIn();
-					main = mainList.get(i);
+					BatHighBayDepotIn batHighBayDepotIn = new BatHighBayDepotIn();
+					UBatTransproductStorageMain main = mainList.get(i);
 					batHighBayDepotIn.setPid(main.getPid());
 					batHighBayDepotIn.setEntrydepotBill(main.getEntrydepotBill()==null?"":main.getEntrydepotBill().toString());
 					batHighBayDepotIn.setDate(main.getDate()==null?"":main.getDate().toString());
@@ -60,7 +59,7 @@ public class BatHighBayDepotInService extends CommonService{
 					if (secList != null && secList.size() > 0){
 						for(int j=0;j<secList.size();j++){
 							BatHighBayDepotInDetail batHighBayDepotInDetail = new BatHighBayDepotInDetail();
-							sec = secList.get(j);
+							UBatTransproductStorageSec sec = secList.get(j);
 							batHighBayDepotInDetail.setPid(sec.getPid());
 							batHighBayDepotInDetail.setInbillPid(main.getPid());
 							batHighBayDepotInDetail.setCodeType(sec.getCodeType());

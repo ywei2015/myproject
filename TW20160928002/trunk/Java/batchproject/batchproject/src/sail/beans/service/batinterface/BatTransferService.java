@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import sail.beans.Constants;
 import sail.beans.dao.GenericDao;
@@ -22,17 +23,15 @@ public class BatTransferService {
 	 * 获取待转储并新增成品调运信息后台服务（成品调运信息）
 	 * @return
 	 */
+	@Transactional(rollbackFor=Exception.class) 
 	public void SaveBatTransfer(){
 		try{
 			List<UBatTransFinalProductMain> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSFINALPRODUCTMAIN.LIST", new Object[]{});
-			UBatTransFinalProductMain main = null;
-			UBatTransFinalProductSec sec = null;
-			BatTransfer batTransfer = null;
 			//主表
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
-					batTransfer = new BatTransfer();
-					main = mainList.get(i);
+					BatTransfer batTransfer = new BatTransfer();
+					UBatTransFinalProductMain main = mainList.get(i);
 					batTransfer.setPid(main.getPid());
 					batTransfer.setTransferBill(main.getTransferBill()==null?"":main.getTransferBill().toString());
 					batTransfer.setFactory(Constants.FACTORY);
@@ -56,7 +55,7 @@ public class BatTransferService {
 					if (secList != null && secList.size() > 0){
 						for(int j=0;j<secList.size();j++){
 							BatTransferDetail batTransferDetail = new BatTransferDetail();
-							sec = secList.get(j);
+							UBatTransFinalProductSec sec = secList.get(j);
 							batTransferDetail.setPid(sec.getPid());
 							batTransferDetail.setTransferPid(main.getPid());
 							batTransferDetail.setContractCode(sec.getContractCode());

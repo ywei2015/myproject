@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import sail.beans.Constants;
 import sail.beans.dao.GenericDao;
@@ -23,11 +24,10 @@ public class BatTransToBaccoOutCabinetService extends CommonService{
 	 * #A喂丝机ESB编码(1000005045)
 	 * @return
 	 */
+	@Transactional(rollbackFor=Exception.class) 
 	public void SaveBatTransToBaccoOutCabinet(){
 		try{
 			List<UBatTransToBaccoOutCabinet> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSTOBACCOOUTCABINET.LIST", new Object[]{});
-			UBatTransToBaccoOutCabinet order = null;
-			BatWorkOrderInput input = null;
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
 					String wirefeedingCode = mainList.get(i).getWirefeedingCode().toString();
@@ -37,8 +37,8 @@ public class BatTransToBaccoOutCabinetService extends CommonService{
 					if(workorderCodeList != null && workorderCodeList.size() > 0){
 						for(int j=0;j<workorderCodeList.size();j++){
 							Object [] obj = (Object[])workorderCodeList.get(j);
-							input = new BatWorkOrderInput();
-							order = mainList.get(i);
+							BatWorkOrderInput input = new BatWorkOrderInput();
+							UBatTransToBaccoOutCabinet order = mainList.get(i);
 							input.setWorkorderpid(obj[0].toString());
 							input.setTltype(Constants.TL_TYPE);
 							input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());

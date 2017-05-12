@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import sail.beans.Constants;
 import sail.beans.dao.GenericDao;
@@ -23,17 +24,15 @@ public class BatPalletWorkorderService {
 	 * 获取待转储并新增后台服务（烟用材料配盘信息）
 	 * @return
 	 */
+	@Transactional(rollbackFor=Exception.class) 
 	public void SaveBatPalletWorkorder(){
 		try{
 			List<UBatTransMaterialWithMain> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSMATERIALWITHMAIN.LIST", new Object[]{});
-			UBatTransMaterialWithMain main = null;
-			UBatTransMaterialWithSec sec = null;
-			BatPalletWorkorder batPalletWorkorder = null;
 			//主表
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
-					batPalletWorkorder = new BatPalletWorkorder();
-					main = mainList.get(i);
+					BatPalletWorkorder batPalletWorkorder = new BatPalletWorkorder();
+					UBatTransMaterialWithMain main = mainList.get(i);
 					batPalletWorkorder.setPid(main.getPid());
 					batPalletWorkorder.setPalletWorkorder(main.getPalletWorkorder()==null?"":main.getPalletWorkorder().toString());
 //					batPalletWorkorder.setMesjbWorkorder("mesjb");//此处不确定字段
@@ -82,7 +81,7 @@ public class BatPalletWorkorderService {
 					if (secList != null && secList.size() > 0){
 						for(int j=0;j<secList.size();j++){
 							BatPalletForm batPalletForm = new BatPalletForm();
-							sec = secList.get(j);
+							UBatTransMaterialWithSec sec = secList.get(j);
 							batPalletForm.setPid(sec.getPid());
 							batPalletForm.setPalletPid(main.getPid());
 							batPalletForm.setPalletSid(sec.getPalletSid());

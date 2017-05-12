@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import sail.beans.Constants;
 import sail.beans.dao.GenericDao;
@@ -23,11 +24,10 @@ public class BatTransLeafStorageCabinetService extends CommonService{
 	 * 获取待转储并新增生产工单投料后台服务（叶片入配叶柜）
 	 * @return
 	 */
+	@Transactional(rollbackFor=Exception.class) 
 	public void SaveBatTransLeafStorageCabinet(){
 		try{
 			List<UBatTransLeafStorageCabinet> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSLEAFSTORAGECABINET.LIST", new Object[]{});
-			UBatTransLeafStorageCabinet order = null;
-			BatWorkOrderOutput output = null;
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
 					String matBatch = mainList.get(i).getMatBatch().toString()+Constants.ZP12;
@@ -36,8 +36,8 @@ public class BatTransLeafStorageCabinetService extends CommonService{
 							, new Object[]{mainList.get(i).getMatBatch().toString()});
 					BatWorkOrder batWorkOrder = this.getWorkorderByBatch(matBatch);
 					if(!StingUtil.isEmpty(batWorkOrder) && tankList.size() > 0){
-						output = new BatWorkOrderOutput();
-						order = mainList.get(i);
+						BatWorkOrderOutput output = new BatWorkOrderOutput();
+						UBatTransLeafStorageCabinet order = mainList.get(i);
 						output.setWorkorderpid(batWorkOrder.getPid());
 						output.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());
 						output.setWater(null);

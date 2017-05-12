@@ -46,7 +46,7 @@ public class SpcQmsBatchDataService extends CommonService{
 						if(!StingUtil.isEmpty(workOrder)){
 							if(!map.values().contains(obj[1].toString()) && !map.values().contains(obj[4].toString())){
 								//根据开始结束时间查找相对应的班组班时ESB编码
-								List workEsbCode = genericDao.getListWithNativeSql("GET.WORKTIME.WORKTEAM.BY.TIME", new Object[]{obj[6],obj[7]});
+								List workEsbCode = genericDao.getListWithNativeSql("GET.WORKTIME.WORKTEAM.BY.TIME", new Object[]{obj[7],obj[7]});
 								sample.setFactory(Constants.FACTORY);
 								sample.setWorkarea(workOrder.getWorkarea());
 								if(workEsbCode.size() > 0){
@@ -62,7 +62,7 @@ public class SpcQmsBatchDataService extends CommonService{
 								sample.setProcessCode(obj[4]==null?"":obj[4].toString());
 								sample.setProcessName(obj[5]==null?"":obj[5].toString());
 								sample.setWorkorderPid(workOrder.getPid());
-								sample.setBatch(obj[0]==null?"":obj[0].toString());
+								sample.setBatch(obj[1]==null?"":obj[1].toString());
 								sample.setSurveyBill(obj[1]==null?"":obj[1].toString());
 								sample.setSurveyor(workOrder.getOpuserid());
 								sample.setCheckTime(obj[7]==null?"":obj[7].toString());

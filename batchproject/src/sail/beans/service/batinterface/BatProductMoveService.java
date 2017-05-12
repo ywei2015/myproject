@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import sail.beans.Constants;
 import sail.beans.dao.GenericDao;
@@ -26,6 +27,7 @@ public class BatProductMoveService  extends CommonService{
 	 * 获取待转储并新增入库后台服务（成品移库（移出/移入）信息）
 	 * @return
 	 */
+	@Transactional(rollbackFor=Exception.class) 
 	public void SaveBatProductMove(){
 		try{
 			List<UBatTransProductMoveMain> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSPRODUCTMOVEMAIN.LIST", new Object[]{});

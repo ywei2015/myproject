@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import sail.beans.Constants;
 import sail.beans.dao.GenericDao;
@@ -22,18 +23,17 @@ public class BatTransLeafSpiceFeedingService extends CommonService{
 	 * 获取待转储并新增生产工单投料后台服务（叶线香料稀释液投料）
 	 * @return
 	 */
+	@Transactional(rollbackFor=Exception.class) 
 	public void SaveBatTransLeafSpiceFeeding(){
 		try{
 			List<UBatTransLeafSpiceFeeding> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSLEAFSPICEFEEDING.LIST", new Object[]{});
-			UBatTransLeafSpiceFeeding order = null;
-			BatWorkOrderInput input = null;
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
 					String matBatch = mainList.get(i).getMatBatch().toString()+Constants.ZP12;
 					BatWorkOrder batWorkOrder = this.getWorkorderByBatch(matBatch);
 					if(!StingUtil.isEmpty(batWorkOrder)){
-						input = new BatWorkOrderInput();
-						order = mainList.get(i);
+						BatWorkOrderInput input = new BatWorkOrderInput();
+						UBatTransLeafSpiceFeeding order = mainList.get(i);
 						input.setWorkorderpid(batWorkOrder.getPid());
 						input.setTltype(Constants.TL_TYPE);
 						//批次根据罐号(来源位置)找出对应的投入批次号

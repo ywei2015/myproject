@@ -54,6 +54,14 @@ public class BatTransToBaccoInCabinetService extends CommonService{
 						main1.setSynchroFlag(Constants.SYN_CHRO_USED);
 						main1.setSynchroTime(DateBean.getSysdateTime());
 						genericDao.save(main1);
+						//将工单表中该批次类型为ZP13的工单状态置为20已执行、工单完成时间为入柜完成时间、实际产量为入柜数量
+						batWorkOrder.setWorkorderstate("20");
+						batWorkOrder.setActualstarttime(order.getStarttime());
+						batWorkOrder.setActualendtime(order.getEndtime());
+						batWorkOrder.setActualquantity(order.getQuantity());
+						batWorkOrder.setUnit(order.getUnit());
+						batWorkOrder.setLastmodifier(this.getUserIdByUserCode(order.getOperateUsercode()));
+						batWorkOrder.setLastmodifiedtime(DateBean.getSysdateTime());
 					}
 				}
 			}

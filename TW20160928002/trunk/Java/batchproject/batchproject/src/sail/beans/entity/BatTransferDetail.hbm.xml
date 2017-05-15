@@ -5,7 +5,7 @@
 <hibernate-mapping>
 	 <class name="sail.beans.entity.BatTransferDetail" table="T_BAT_TRANSFER_DETAIL">
 	 	<id name="pid" column="F_PID" length="50" type="java.lang.String">
-			<generator class="assigned" />
+			<generator class="uuid.hex" />
 		</id> 
         <property name="transferPid" column="F_TRANSFER_PID" length="50" type="java.lang.String"/>
 		<property name="contractCode" column="F_CONTRACT_CODE" length="50" type="java.lang.String"/>

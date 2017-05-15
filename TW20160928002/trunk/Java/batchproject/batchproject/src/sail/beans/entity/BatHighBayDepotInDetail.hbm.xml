@@ -5,8 +5,7 @@
 <hibernate-mapping>
 	 <class name="sail.beans.entity.BatHighBayDepotInDetail" table="T_BAT_HIGHBAYDEPOT_INDETAIL">
 	 	<id name="pid" column="F_PID" length="50" type="java.lang.String">
-			<!--<generator class="uuid.hex" />-->
-			<generator class="assigned" />
+			<generator class="uuid.hex" />
 		</id> 
 		<property name="inbillPid" column="F_INBILL_PID" length="50" type="java.lang.String"/>
 		<property name="codeType" column="F_CODE_TYPE" length="50" type="java.lang.String"/>

@@ -5,8 +5,7 @@
 <hibernate-mapping>
 	 <class name="sail.beans.entity.BatPalletForm" table="T_BAT_PALLET_FORM">
 	 	<id name="pid" column="F_PID" length="50" type="java.lang.String">
-	 		<!--<generator class="uuid.hex" />-->
-			<generator class="assigned" />
+	 		<generator class="uuid.hex" />
 		</id> 
         <property name="palletPid" column="F_PALLET_PID" length="50" type="java.lang.String"/>
 		<property name="palletSid" column="F_PALLET_SID" length="50" type="java.lang.String"/>

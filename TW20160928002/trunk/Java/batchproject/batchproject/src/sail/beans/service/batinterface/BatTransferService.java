@@ -32,7 +32,6 @@ public class BatTransferService {
 				for(int i=0;i<mainList.size();i++){
 					BatTransfer batTransfer = new BatTransfer();
 					UBatTransFinalProductMain main = mainList.get(i);
-					batTransfer.setPid(main.getPid());
 					batTransfer.setTransferBill(main.getTransferBill()==null?"":main.getTransferBill().toString());
 					batTransfer.setFactory(Constants.FACTORY);
 					batTransfer.setDate(main.getDate().toString().substring(0, 10).replaceAll("-", ""));
@@ -46,18 +45,17 @@ public class BatTransferService {
 					batTransfer.setCreateTime(DateBean.getSysdateTime());
 					genericDao.save(batTransfer);
 					//转储完数据后更新主表转储状态
-					UBatTransFinalProductMain main1 = (UBatTransFinalProductMain)genericDao.getById(UBatTransFinalProductMain.class,main.getPid());
+					UBatTransFinalProductMain main1 = (UBatTransFinalProductMain)genericDao.getById(UBatTransFinalProductMain.class,mainList.get(i).getPid());
 					main1.setSynchroFlag(Constants.SYN_CHRO_USED);
 					main1.setSynchroTime(DateBean.getSysdateTime());
 					genericDao.save(main1);
 
-					List<UBatTransFinalProductSec> secList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSFINALPRODUCTSEC.BY.INBILLPID", new Object[]{main.getPid()});
+					List<UBatTransFinalProductSec> secList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSFINALPRODUCTSEC.BY.INBILLPID", new Object[]{mainList.get(i).getPid()});
 					if (secList != null && secList.size() > 0){
 						for(int j=0;j<secList.size();j++){
 							BatTransferDetail batTransferDetail = new BatTransferDetail();
 							UBatTransFinalProductSec sec = secList.get(j);
-							batTransferDetail.setPid(sec.getPid());
-							batTransferDetail.setTransferPid(main.getPid());
+							batTransferDetail.setTransferPid(batTransfer.getPid());
 							batTransferDetail.setContractCode(sec.getContractCode());
 							batTransferDetail.setBrandCode(sec.getBrandCode());
 							batTransferDetail.setQuantity(sec.getQuantity());
@@ -67,7 +65,7 @@ public class BatTransferService {
 							batTransferDetail.setCreateTime(DateBean.getSysdateTime());
 							genericDao.save(batTransferDetail);
 							//转储完数据后更新从表转储状态
-							UBatTransFinalProductSec sec1 = (UBatTransFinalProductSec)genericDao.getById(UBatTransFinalProductSec.class,sec.getPid());
+							UBatTransFinalProductSec sec1 = (UBatTransFinalProductSec)genericDao.getById(UBatTransFinalProductSec.class,secList.get(j).getPid());
 							sec1.setSynchroFlag(Constants.SYN_CHRO_USED);
 							sec1.setSynchroTime(DateBean.getSysdateTime());
 							genericDao.save(sec1);

@@ -32,7 +32,6 @@ public class BatHighBayDepotInService extends CommonService{
 				for(int i=0;i<mainList.size();i++){
 					BatHighBayDepotIn batHighBayDepotIn = new BatHighBayDepotIn();
 					UBatTransproductStorageMain main = mainList.get(i);
-					batHighBayDepotIn.setPid(main.getPid());
 					batHighBayDepotIn.setEntrydepotBill(main.getEntrydepotBill()==null?"":main.getEntrydepotBill().toString());
 					batHighBayDepotIn.setDate(main.getDate()==null?"":main.getDate().toString());
 					batHighBayDepotIn.setFactory(Constants.FACTORY);
@@ -50,18 +49,17 @@ public class BatHighBayDepotInService extends CommonService{
 					}
 					genericDao.save(batHighBayDepotIn);
 					//转储完数据后更新主表转储状态
-					UBatTransproductStorageMain main1 = (UBatTransproductStorageMain)genericDao.getById(UBatTransproductStorageMain.class,main.getPid());
+					UBatTransproductStorageMain main1 = (UBatTransproductStorageMain)genericDao.getById(UBatTransproductStorageMain.class,mainList.get(i).getPid());
 					main1.setSynchroFlag(Constants.SYN_CHRO_USED);
 					main1.setSynchroTime(DateBean.getSysdateTime());
 					genericDao.save(main1);
 					
-					List<UBatTransproductStorageSec> secList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSPRODUCTSTORAGESEC.BY.INBILLPID", new Object[]{main.getPid()});
+					List<UBatTransproductStorageSec> secList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSPRODUCTSTORAGESEC.BY.INBILLPID", new Object[]{mainList.get(i).getPid()});
 					if (secList != null && secList.size() > 0){
 						for(int j=0;j<secList.size();j++){
 							BatHighBayDepotInDetail batHighBayDepotInDetail = new BatHighBayDepotInDetail();
 							UBatTransproductStorageSec sec = secList.get(j);
-							batHighBayDepotInDetail.setPid(sec.getPid());
-							batHighBayDepotInDetail.setInbillPid(main.getPid());
+							batHighBayDepotInDetail.setInbillPid(batHighBayDepotIn.getPid());
 							batHighBayDepotInDetail.setCodeType(sec.getCodeType());
 							batHighBayDepotInDetail.setBoxCode(sec.getBoxCode());
 							batHighBayDepotInDetail.setBatch(sec.getBatch());
@@ -84,7 +82,7 @@ public class BatHighBayDepotInService extends CommonService{
 							batHighBayDepotInDetail.setItemNo(String.valueOf(j+1));
 							genericDao.save(batHighBayDepotInDetail);
 							//转储完数据后更新从表转储状态
-							UBatTransproductStorageSec sec1 = (UBatTransproductStorageSec)genericDao.getById(UBatTransproductStorageSec.class,sec.getPid());
+							UBatTransproductStorageSec sec1 = (UBatTransproductStorageSec)genericDao.getById(UBatTransproductStorageSec.class,secList.get(j).getPid());
 							sec1.setSynchroFlag(Constants.SYN_CHRO_USED);
 							sec1.setSynchroTime(DateBean.getSysdateTime());
 							genericDao.save(sec1);

@@ -33,9 +33,7 @@ public class BatPalletWorkorderService {
 				for(int i=0;i<mainList.size();i++){
 					BatPalletWorkorder batPalletWorkorder = new BatPalletWorkorder();
 					UBatTransMaterialWithMain main = mainList.get(i);
-					batPalletWorkorder.setPid(main.getPid());
 					batPalletWorkorder.setPalletWorkorder(main.getPalletWorkorder()==null?"":main.getPalletWorkorder().toString());
-//					batPalletWorkorder.setMesjbWorkorder("mesjb");//此处不确定字段
 					batPalletWorkorder.setPalletSid(main.getPalletSid()==null?"":main.getPalletSid().toString());
 					batPalletWorkorder.setProduceDate(main.getProduceDate()==null?"":main.getProduceDate().toString());
 					batPalletWorkorder.setFactory(Constants.FACTORY);
@@ -72,18 +70,17 @@ public class BatPalletWorkorderService {
 					genericDao.save(batPalletWorkorder);
 					genericDao.flush();
 					//转储完数据后更新主表转储状态
-					UBatTransMaterialWithMain main1 = (UBatTransMaterialWithMain)genericDao.getById(UBatTransMaterialWithMain.class,main.getPid());
+					UBatTransMaterialWithMain main1 = (UBatTransMaterialWithMain)genericDao.getById(UBatTransMaterialWithMain.class,mainList.get(i).getPid());
 					main1.setSynchroFlag(Constants.SYN_CHRO_USED);
 					main1.setSynchroTime(DateBean.getSysdateTime());
 					genericDao.save(main1);
 					//从表数据
-					List<UBatTransMaterialWithSec> secList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSMATERIALWITHSEC.LIST", new Object[]{main.getPid()});
+					List<UBatTransMaterialWithSec> secList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSMATERIALWITHSEC.LIST", new Object[]{mainList.get(i).getPid()});
 					if (secList != null && secList.size() > 0){
 						for(int j=0;j<secList.size();j++){
 							BatPalletForm batPalletForm = new BatPalletForm();
 							UBatTransMaterialWithSec sec = secList.get(j);
-							batPalletForm.setPid(sec.getPid());
-							batPalletForm.setPalletPid(main.getPid());
+							batPalletForm.setPalletPid(batPalletWorkorder.getPid());
 							batPalletForm.setPalletSid(sec.getPalletSid());
 							batPalletForm.setPalletCode(sec.getPalletCode());
 							batPalletForm.setMatCode(sec.getMatCode());
@@ -105,7 +102,7 @@ public class BatPalletWorkorderService {
 							genericDao.save(batPalletForm);
 							genericDao.flush();
 							//转储完数据后更新从表转储状态
-							UBatTransMaterialWithSec sec1 = (UBatTransMaterialWithSec)genericDao.getById(UBatTransMaterialWithSec.class,sec.getPid());
+							UBatTransMaterialWithSec sec1 = (UBatTransMaterialWithSec)genericDao.getById(UBatTransMaterialWithSec.class,secList.get(j).getPid());
 							sec1.setSynchroFlag(Constants.SYN_CHRO_USED);
 							sec1.setSynchroTime(DateBean.getSysdateTime());
 							genericDao.save(sec1);

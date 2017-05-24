@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import sail.beans.base.ResponseBase;
 import sail.beans.entity.BatDepotIoDetail;
+import sail.beans.entity.BatWorkOrder;
 import sail.beans.entity.BatWorkOrderInput;
 import sail.beans.entity.User;
 import sail.beans.entity.vo.BatWorkOrderVo;
@@ -54,6 +55,10 @@ public class SilkWorkOrderController {
 	@RequestMapping(value="/saveBatWorkOrderInput")	 
 	public ResponseBase saveBatWorkOrderInput(HttpServletRequest request) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
 		String workOrderCode = request.getParameter("f_workorder_code");
+		if(workOrderCode.contains("-")){
+			workOrderCode=workOrderCode.substring(workOrderCode.lastIndexOf("-")+1, workOrderCode.length());
+		}
+		String type=request.getParameter("type");//解码类型
 		String matBatch = request.getParameter("f_mat_batch");
 		String quantity = request.getParameter("f_quantity");
 		String location = request.getParameter("location");
@@ -61,9 +66,7 @@ public class SilkWorkOrderController {
 		String tl_type=request.getParameter("f_tl_type");
 		String remark=request.getParameter("remark");
 		ResponseBase res = new ResponseBase();
-		String state=silkWorkOrderService.getWorkorderstate(workOrderCode);
-		if(state.equals("1")){
-			BatWorkOrderInput batWorkOrderInput = silkWorkOrderService.saveBatWorkOrderInput(workOrderCode, matBatch, quantity, location,userId,tl_type,remark);
+			BatWorkOrderInput batWorkOrderInput = silkWorkOrderService.saveBatWorkOrderInput(workOrderCode, matBatch, quantity, location,userId,tl_type,remark,type);
 			if (batWorkOrderInput != null){
 				if ("1".equals(batWorkOrderInput.getIsrepair())){
 					res.setResponseData("0", "该批次数据已经存在!");
@@ -80,11 +83,6 @@ public class SilkWorkOrderController {
 			}else{
 				res.setResponseData("0", "该批次信息有误,请进行核对!");
 			}
-		}else if(state.equals("0")){
-			res.setResponseData("0", "该工单已过期!");
-		}else{
-			res.setResponseData("0", "操作失败!");
-		}
 		return res;
 	}
 	
@@ -114,9 +112,14 @@ public class SilkWorkOrderController {
 	@ResponseBody
 	@RequestMapping(value="/getBatWorkOrderInput")	 
 	public ResponseBase getBatWorkOrderInput(HttpServletRequest request){
-		String workOrderCode = request.getParameter("f_workorder_code");
-		String tl_type=request.getParameter("f_tl_type");
 		String workOrderType=request.getParameter("f_workorder_type");
+		String workOrderCode = request.getParameter("f_workorder_code");
+		if(workOrderCode!=null){
+			if(workOrderCode.contains("-")){
+				workOrderCode=workOrderCode.substring(workOrderCode.lastIndexOf("-")+1, workOrderCode.length());
+			}
+		}
+		String tl_type=request.getParameter("f_tl_type");
 		String remark=request.getParameter("remark");
 		ResponseBase res = new ResponseBase();
 		List<BatWorkOrderInput> inputList = silkWorkOrderService.getBatWorkOrderInput(workOrderCode,tl_type,workOrderType,remark);

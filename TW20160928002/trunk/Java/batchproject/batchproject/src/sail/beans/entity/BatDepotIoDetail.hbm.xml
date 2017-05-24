@@ -9,6 +9,7 @@
 		</id> 
 		<property name="billpid" column="F_BILL_PID" length="50" type="string"/>
 		<property name="matcode" column="F_MAT_CODE" length="50" type="string"/>
+	    <property name="matkl" column="F_MATKL" length="50" type="string"/>
 		<property name="matname" column="F_MAT_NAME" length="50" type="string"/>
 		<property name="matbatch" column="F_MAT_BATCH" length="50" type="string"/>
 		<property name="quantity" column="F_QUANTITY" precision="12" scale="4" not-null="true" type="java.lang.Double"/>

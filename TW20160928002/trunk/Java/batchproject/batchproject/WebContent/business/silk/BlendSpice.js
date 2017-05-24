@@ -1,4 +1,4 @@
-var title= ["编码","名称","批次号","罐号","数量","单位","开始","操作"];
+var title= ["编码","名称","批次号","罐号","数量","单位","时间","操作"];
 var theTable=document.getElementById("table");
 var userId=getQueryString('userId');
 var f_workorder_code=getQueryString('f_workorder_code'); //test:1
@@ -109,16 +109,14 @@ function initTable(dataj){
 					}
 					b.appendChild(r);
 				}
-				
-				
 			}
 			
 		}
 		    if(biaoji==0){
-				tishi_type.style.display="none";
+		    	type_tishi.style.display="none";
 				console.info(biaoji);
 			}else{
-				tishi_type.style.display="block";
+				type_tishi.style.display="block";
 				console.info(biaoji);
 			};
 		}

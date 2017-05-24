@@ -91,10 +91,10 @@ function initTable(dataj){
 			
 		}
 		    if(biaoji==0){
-				tishi_type.style.display="none";
+		    	type_tishi.style.display="none";
 				console.info(biaoji);
 			}else{
-				tishi_type.style.display="block";
+				type_tishi.style.display="block";
 				console.info(biaoji);
 			};
 		}

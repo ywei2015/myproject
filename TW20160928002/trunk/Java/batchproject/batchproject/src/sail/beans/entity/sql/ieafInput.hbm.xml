@@ -5,8 +5,10 @@
 <hibernate-mapping>
 	<query name="ieafInput.getbatworkinput.bybatch">
 		<![CDATA[
-    	select detail from sail.beans.entity.BatWorkOrderInput detail where detail.matbatch = ?  
-    	and detail.tltype='1' and detail.sysflag='1'          		
+    	select detail from sail.beans.entity.BatWorkOrderInput detail,sail.beans.entity.BatWorkOrder order
+    	where detail.matbatch = ? and order.workordertype='ZP12' and detail.remark3='3' 
+    	and order.pid = detail.workorderpid  
+	    and order.sysflag = '1' and detail.sysflag = '1' order by detail.createtime desc         		
     ]]>
 	</query>
 </hibernate-mapping>

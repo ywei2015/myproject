@@ -29,13 +29,11 @@ public class RollBatchController {
 		String workOrderCode1 = request.getParameter("f_workorder_code");
 		String workOrderCode=null;
 		if(workOrderCode1!=null&&workOrderCode1.length()>0)
-			 workOrderCode=workOrderCode1.substring(workOrderCode1.lastIndexOf("-")-1,workOrderCode1.length());
+			 workOrderCode=workOrderCode1.substring(workOrderCode1.lastIndexOf("-")+1,workOrderCode1.length());
 		String matBatch = request.getParameter("f_mat_batch");
 		String machine = request.getParameter("f_machine");
 		String userId = request.getParameter("userId");
 		ResponseBase res = new ResponseBase();
-		String state=rollBatchService.getWorkorderstate(workOrderCode);
-		if(state.equals("1")){
 		BatWorkOrderInput batWorkOrderInput = rollBatchService.saveBatWorkOrderInput(workOrderCode,machine, matBatch,userId);
 		if (batWorkOrderInput != null){
 			if ("1".equals(batWorkOrderInput.getIsrepair())){
@@ -52,9 +50,6 @@ public class RollBatchController {
 			}
 		}else{
 			res.setResponseData("0", "该批次数据有问题，请进行核对!");
-		}
-		}else{
-			res.setResponseData("0", "该工单已过期!");
 		}
 		return res;
 	}
@@ -81,7 +76,7 @@ public class RollBatchController {
 		String workOrderCode1 = request.getParameter("f_workorder_code");
 		String workOrderCode=null;
 		if(workOrderCode1!=null&&workOrderCode1.length()>0)
-			 workOrderCode=workOrderCode1.substring(workOrderCode1.lastIndexOf("-")-1,workOrderCode1.length());
+			 workOrderCode=workOrderCode1.substring(workOrderCode1.lastIndexOf("-")+1,workOrderCode1.length());
 		ResponseBase res = new ResponseBase();
 		List<BatWorkOrderInput> inputList = rollBatchService.getBatWorkOrderInput(workOrderCode);
 		if (inputList != null && inputList.size() > 0){

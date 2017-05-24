@@ -19,10 +19,10 @@ import sail.beans.service.BatchStorageService;
 
 @Controller
 @RequestMapping("/storage")
-public class BatchStorageController {
+public class BatchStorageController { 
 	@Resource
 	private BatchStorageService batchStorageService; 
-	
+
 	@ResponseBody
 	@RequestMapping(value="/saveBatchStorage")	 
 	public ResponseBase saveBatchStorage(HttpServletRequest request){
@@ -61,6 +61,8 @@ public class BatchStorageController {
 		if (batDepotIoDetail != null){
 			if("1".equals(batDepotIoDetail.getRepeated())){
 				res.setResponseData("0", "失败!该批次已经存在!");
+			}else if("2".equals(batDepotIoDetail.getRepeated())){
+				res.setResponseData("0", "失败!该批次没有入库!");
 			}else{
 				res.setResponseData("1", "操作成功!");
 				res.setDataset(batDepotIoDetail, "batdepotiodetail");
@@ -78,15 +80,12 @@ public class BatchStorageController {
 		ResponseBase res = new ResponseBase();
 		String f_bill_no = request.getParameter("f_bill_no");
 		String f_doc_type = request.getParameter("f_doc_type");
-		String f_match = request.getParameter("remark");//香料其他消耗批次号
-		String remark5 = request.getParameter("remark5");//出入库标识
+		if(f_doc_type.equals("ZI101"))
+			f_doc_type="ZI20";
 		String batch = request.getParameter("f_mat_batch");
+		String remark=request.getParameter("remark5");
 		List<BatDepotIoDetail> batdepotiodetaillist=null;
-		if(f_match!=null){
-			 batdepotiodetaillist = batchStorageService.getBatDepotIoDetailListj(f_match);
-		}else{
-			 batdepotiodetaillist = batchStorageService.getBatDepotIoDetailList(f_bill_no, f_doc_type,remark5,batch);
-		}
+		batdepotiodetaillist = batchStorageService.getBatDepotIoDetailList(f_bill_no, f_doc_type,batch,remark);
 		if (batdepotiodetaillist != null && batdepotiodetaillist.size() > 0){
 			res.setResponseData("1", "操作成功!");
 			res.setDataset(batdepotiodetaillist, "batdepotiodetail");
@@ -117,8 +116,12 @@ public class BatchStorageController {
 	public ResponseBase getResolveValue(HttpServletRequest request){
 		ResponseBase res = new ResponseBase();
 		String match = request.getParameter("match");
+		String type = request.getParameter("type");
+		if(type!=null)
+			type=type.trim();
+		String code = request.getParameter("code");
 		String userId = request.getParameter("userId");
-		CarCode carcode = batchStorageService.getResolveValue(match);
+		CarCode carcode = batchStorageService.getResolveValue(match,type);
 		if (carcode.getMatcode()!=null){
 			res.setResponseData("1", "操作成功!");
 			res.setDataset(carcode, "CarCode");
@@ -161,4 +164,17 @@ public class BatchStorageController {
 		}
 		return map;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/getBillNoList")
+	public ResponseBase getBillNoList(HttpServletRequest request){
+		ResponseBase res = new ResponseBase();
+		String userId = request.getParameter("userId");
+		String userCode = request.getParameter("userCode");
+		List<String> inputList = batchStorageService.getBillNoList(userId,userCode);
+		res.setDataset(inputList, "billList");
+		res.setResponseData("1", "操作成功!");
+		return res;
+	}
+	
 }

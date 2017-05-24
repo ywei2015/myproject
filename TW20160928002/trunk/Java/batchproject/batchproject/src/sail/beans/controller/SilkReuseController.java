@@ -30,13 +30,20 @@ public class SilkReuseController {
 		String quantity = request.getParameter("f_quantity");
 		String location = request.getParameter("location");
 		String userId = request.getParameter("userId");
+		String remark = request.getParameter("remark");
 		ResponseBase res = new ResponseBase();
-		boolean enough=silkReuseService.isEnough(matBatch,quantity);
+		boolean enough=silkReuseService.isEnough(matBatch,quantity,"cansi");
 		if(enough){
-			BatWorkOrderInput batWorkOrderInput = silkReuseService.saveSilkReuseInput(workOrderCode, matBatch, quantity, location,userId);
+			BatWorkOrderInput batWorkOrderInput = silkReuseService.saveSilkReuseInput(workOrderCode, matBatch, quantity, remark,location,userId);
 			if (batWorkOrderInput != null){
-				res.setResponseData("1", "操作成功!");
-				res.setDataset(batWorkOrderInput, "batworkorderinput");
+				if("e".equalsIgnoreCase(batWorkOrderInput.getRemark5())){
+					res.setResponseData("0", "操作失败,该批次处于禁止状态!");
+				}else if("2".equalsIgnoreCase(batWorkOrderInput.getRemark5())){
+					res.setResponseData("0", "操作失败,该批次处于冻结状态!");
+				}else{
+					res.setResponseData("1", "操作成功!");
+					res.setDataset(batWorkOrderInput, "batworkorderinput");
+				}
 			}else{
 				res.setResponseData("0", "该批次信息有误,请进行核对!");
 			}
@@ -48,9 +55,9 @@ public class SilkReuseController {
 }
 	@ResponseBody
 	@RequestMapping(value="/getSilkReuseBatch")	
-	public ResponseBase getSilkReuseBatch(){
+	public ResponseBase getSilkReuseBatch(HttpServletRequest request){
 		ResponseBase res = new ResponseBase();
-		List<String> inputList = silkReuseService.getSilkReuseBatch();
+		List<String> inputList = silkReuseService.getSilkReuseBatch("cansi",null);
 		if (inputList != null && inputList.size() > 0){
 			res.setResponseData("1", "操作成功!");
 			res.setDataset(inputList, "workOrderAndProcessList");

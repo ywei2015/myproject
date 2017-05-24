@@ -14,6 +14,7 @@ import sail.beans.dao.GenericDao;
 import sail.beans.entity.BatDepotIoBill;
 import sail.beans.entity.BatDepotIoDetail;
 import sail.beans.entity.BatDepotIoDetailList;
+import sail.beans.entity.BatSpiceTurn;
 import sail.beans.entity.BatWorkOrder;
 import sail.beans.entity.BatWorkOrderInput;
 import sail.beans.entity.BatWorkOrderOutput;
@@ -56,12 +57,17 @@ public class SilkWorkOrderService {
 		String date=DateBean.getBeforDay(DateBean.getSysdate(), 1);
 		List<BatWorkOrder> workorderList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER.LIST", new Object[]{type});
 		List<BatWorkOrderVo> voList = new ArrayList<BatWorkOrderVo>();
+		String workodercode=null;
 		if (workorderList != null && workorderList.size() > 0){
 			for (int i = 0; i < workorderList.size() ; i ++){
 				BatWorkOrder batWorkOrder = workorderList.get(i);
 				BatWorkOrderVo batWorkOrderVo = new BatWorkOrderVo();
 				batWorkOrderVo.setPid(batWorkOrder.getPid());
 				batWorkOrderVo.setWorkordercode(batWorkOrder.getWorkordercode());
+				if(type.equals("ZP15")){
+					workodercode=batWorkOrder.getMatname()+"-"+batWorkOrder.getWorkordercode();
+					batWorkOrderVo.setWorkordercode(workodercode);
+				}
 				batWorkOrderVo.setWorkordertype(batWorkOrder.getWorkordertype());
 				voList.add(batWorkOrderVo);
 			}
@@ -78,68 +84,70 @@ public class SilkWorkOrderService {
 	 * @param tl_type 
 	 * @return
 	 */
-	public BatWorkOrderInput saveBatWorkOrderInput(String workOrderCode,String matBatch,String quantity,String location,String operuser, String tl_type,String remark){
+	public BatWorkOrderInput saveBatWorkOrderInput(String workOrderCode,String matBatch,String quantity,String location,String operuser, String tl_type,String remark,String type){
 		BatWorkOrderInput batWorkOrderInput = null;
 		try {
-			List<BatWorkOrder> batWorkList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDERLIST.LIST", new Object[]{workOrderCode});
-			if (batWorkList != null && batWorkList.size() > 0){
-				BatWorkOrder BatWorkOrder = batWorkList.get(0);
-				List<BatWorkOrderInput> inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUT.LIST", new Object[]{matBatch});
-				if (inputList != null && inputList.size() > 0){
-					batWorkOrderInput = inputList.get(0);
-					batWorkOrderInput.setIsrepair("1");
-				}else{
-					CarCode carCode = batchStorageService.getResolveValue(matBatch);
-					if(carCode==null) {
-						return batWorkOrderInput;
-					}
-					batWorkOrderInput = new BatWorkOrderInput();
-					if("w".equalsIgnoreCase(carCode.getState())){
-						batWorkOrderInput.setRemark5("w");
-					}else if("2".equalsIgnoreCase(carCode.getState())){
-						batWorkOrderInput.setRemark5("2");
-						return batWorkOrderInput;
-					}else if("e".equalsIgnoreCase(carCode.getState())){
-						batWorkOrderInput.setRemark5("e");
-						return batWorkOrderInput;
-					}
-					batWorkOrderInput.setWorkorderpid(BatWorkOrder.getPid());
-					if("1".equals(tl_type)){
-						batWorkOrderInput.setTltype("1");
-					}
-					else{
-						batWorkOrderInput.setTltype("0");
-					} 
-					batWorkOrderInput.setMatbatch(matBatch);
-					batWorkOrderInput.setMatcode(carCode.getMatcode());
-					batWorkOrderInput.setMatname(carCode.getMatname());
-					if (location != null && !"".equals(location)){
-						batWorkOrderInput.setLocation(location);
-					}
-					batWorkOrderInput.setMatname(carCode.getMatname());
-					if(quantity==null){
-						batWorkOrderInput.setQuantity(Double.parseDouble(carCode.getAmount()));
+			CarCode carCode = batchStorageService.getResolveValue(matBatch,type);
+			if(carCode.getMatcode()!=null) {
+				if("4".equals(carCode.getValue2())){
+					batWorkOrderInput=this.saveBatWorkOrderInput2(workOrderCode,matBatch,quantity,location,operuser,remark,carCode);
+					return batWorkOrderInput;
+				}			
+				List<BatWorkOrder> batWorkList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDERLIST.LIST", new Object[]{workOrderCode});
+				if (batWorkList != null && batWorkList.size() > 0){
+					BatWorkOrder BatWorkOrder = batWorkList.get(0);
+					List<BatWorkOrderInput> inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST.LIST", new Object[]{matBatch,workOrderCode,null});
+					if (inputList != null && inputList.size() > 0){
+						batWorkOrderInput = inputList.get(0);
+						batWorkOrderInput.setIsrepair("1");
 					}else{
-						batWorkOrderInput.setQuantity(Double.parseDouble(quantity));
+						batWorkOrderInput = new BatWorkOrderInput();
+						if("w".equalsIgnoreCase(carCode.getState())){
+							batWorkOrderInput.setRemark5("w");
+						}else if("2".equalsIgnoreCase(carCode.getState())){
+							batWorkOrderInput.setRemark5("2");
+							return batWorkOrderInput;
+						}else if("e".equalsIgnoreCase(carCode.getState())){
+							batWorkOrderInput.setRemark5("e");
+							return batWorkOrderInput;
+						}
+						batWorkOrderInput.setWorkorderpid(BatWorkOrder.getPid());
+						batWorkOrderInput.setTltype("0");
+						batWorkOrderInput.setMatbatch(matBatch);
+						batWorkOrderInput.setMatcode(carCode.getMatcode());
+						batWorkOrderInput.setMatname(carCode.getMatname());
+						if (location != null && !"".equals(location)){
+							batWorkOrderInput.setLocation(location);
+						}
+						batWorkOrderInput.setMatname(carCode.getMatname());
+						if(quantity==null){
+							batWorkOrderInput.setQuantity(carCode.getAmount());
+						}else{
+							batWorkOrderInput.setQuantity(Double.parseDouble(quantity));
+						}
+						if(remark!=null&&!remark.equals("")){
+							batWorkOrderInput.setRemark3(remark);
+							if(remark.equals("3")){
+								batWorkOrderInput.setTltype("1");
+							}
+						}
+						batWorkOrderInput.setUnit(carCode.getUnit());
+						batWorkOrderInput.setStarttime(DateBean.getSysdateTime());
+						batWorkOrderInput.setEndtime(DateBean.getSysdateTime());
+						batWorkOrderInput.setOperatetime(DateBean.getSysdateTime());
+						batWorkOrderInput.setOperateuserid(operuser);
+						batWorkOrderInput.setSysflag("1");
+						batWorkOrderInput.setCreator(operuser);
+						batWorkOrderInput.setCreatetime(DateBean.getSysdateTime());
+						batWorkOrderInput.setLastmodifier(operuser);
+						batWorkOrderInput.setLastmodifiedtime(DateBean.getSysdateTime());
+						List matList=matBomService.getBomByWorkOrder(workOrderCode,null,carCode.getMatcode().toString());
+						if(matList.size()==0)
+							batWorkOrderInput.setRemark4("0");
+						genericDao.save(batWorkOrderInput);
 					}
-					if(remark!=null&&!remark.equals("")){
-						batWorkOrderInput.setRemark3(remark);
-					}
-					batWorkOrderInput.setUnit(carCode.getUnit());
-					batWorkOrderInput.setStarttime(DateBean.getSysdateTime());
-					batWorkOrderInput.setEndtime(DateBean.getSysdateTime());
-					batWorkOrderInput.setOperatetime(DateBean.getSysdateTime());
-					batWorkOrderInput.setOperateuserid(operuser);
-					batWorkOrderInput.setSysflag("1");
-					batWorkOrderInput.setCreator(operuser);
-					batWorkOrderInput.setCreatetime(DateBean.getSysdateTime());
-					/*List matList=matBomService.getBomByWorkOrder(workOrderCode,null,carCode.getMatcode().toString());
-					if(matList.size()==0)
-						batWorkOrderInput.setRemark4("0");*/
-					genericDao.save(batWorkOrderInput);
 				}
 			}
-			
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -149,20 +157,123 @@ public class SilkWorkOrderService {
 	}
 	
 	/**
+	 * 保存稀释液小批次投料明细数据
+	 * @param workOrderCode
+	 * @param matBatch
+	 * @param quantity
+	 * @param operuser
+	 * @param tl_type 
+	 * @return
+	 */
+	@Transactional(rollbackFor=Exception.class) 
+	private BatWorkOrderInput saveBatWorkOrderInput2(String workOrderCode, String matBatch,String quantity, String location, String operuser,
+			String remark,CarCode carCode) {
+		// TODO Auto-generated method stub
+		BatWorkOrderInput batWorkOrderInput = null;
+		try {
+			List<BatSpiceTurn> batSpiceTurnList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_SPICETURN.LIST", new Object[]{matBatch,null});
+			if(batSpiceTurnList!=null&&batSpiceTurnList.size()>0){
+				BatSpiceTurn batSpiceTurn=batSpiceTurnList.get(0);
+				if("1".equals(batSpiceTurn.getIscost())){
+					batWorkOrderInput=new BatWorkOrderInput();
+					batWorkOrderInput.setIsrepair("1");
+				}else{
+					batSpiceTurn.setSlave_batch(matBatch);
+					if(quantity==null){
+						batSpiceTurn.setQuantity(carCode.getAmount());
+					}else{
+						batSpiceTurn.setQuantity(Double.parseDouble(quantity));
+					}
+					batSpiceTurn.setIscost("1");
+					batSpiceTurn.setWorkorderin(workOrderCode);
+					if(location!=null)
+						batSpiceTurn.setInpotcode(location);
+					batSpiceTurn.setOperator2(operuser);
+					batSpiceTurn.setOperatetime2(DateBean.getSysdateTime());
+					batSpiceTurn.setLastmodifier(operuser);
+					batSpiceTurn.setLastmodifiedtime(DateBean.getSysdateTime());
+					this.genericDao.save(batSpiceTurn);
+					//把小件扫码归集到对应大件投料表中
+					List<BatWorkOrder> batWorkList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDERLIST.LIST", new Object[]{workOrderCode});
+					if (batWorkList != null && batWorkList.size() > 0){
+						BatWorkOrder BatWorkOrder = batWorkList.get(0);
+						List<BatWorkOrderInput> inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST.LIST", new Object[]{batSpiceTurn.getMasterbatch(),workOrderCode,null});
+						if (inputList != null && inputList.size() > 0){
+							batWorkOrderInput = inputList.get(0);
+							double quality=batSpiceTurn.getQuantity()+batWorkOrderInput.getQuantity();
+							batWorkOrderInput.setQuantity(quality);
+							batWorkOrderInput.setLastmodifier(operuser);
+							batWorkOrderInput.setLastmodifiedtime(DateBean.getSysdateTime());
+						}else{
+							batWorkOrderInput = new BatWorkOrderInput();
+							batWorkOrderInput.setWorkorderpid(BatWorkOrder.getPid());
+							batWorkOrderInput.setTltype("0");
+							batWorkOrderInput.setMatbatch(batSpiceTurn.getMasterbatch());
+							batWorkOrderInput.setMatcode(batSpiceTurn.getMatecode());
+							batWorkOrderInput.setMatname(batSpiceTurn.getMatename());
+							if (location != null && !"".equals(location)){
+								batWorkOrderInput.setLocation(location);
+							}
+							batWorkOrderInput.setQuantity(batSpiceTurn.getQuantity());
+							if(remark!=null&&!remark.equals("")){
+								batWorkOrderInput.setRemark3(remark);
+								if(remark.equals("3")){
+									batWorkOrderInput.setTltype("1");
+								}
+							}
+							batWorkOrderInput.setUnit("KG");
+							batWorkOrderInput.setStarttime(DateBean.getSysdateTime());
+							batWorkOrderInput.setEndtime(DateBean.getSysdateTime());
+							batWorkOrderInput.setOperatetime(DateBean.getSysdateTime());
+							batWorkOrderInput.setOperateuserid(operuser);
+							batWorkOrderInput.setSysflag("1");
+							batWorkOrderInput.setCreator(operuser);
+							batWorkOrderInput.setCreatetime(DateBean.getSysdateTime());
+							batWorkOrderInput.setLastmodifier(operuser);
+							batWorkOrderInput.setLastmodifiedtime(DateBean.getSysdateTime());
+							List matList=matBomService.getBomByWorkOrder(workOrderCode,null,carCode.getMatcode().toString());
+							if(matList.size()==0)
+								batWorkOrderInput.setRemark4("0");
+							genericDao.save(batWorkOrderInput);
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+		
+		return batWorkOrderInput;
+
+	}
+
+	/**
 	 * 根据ID删除对应的数据
 	 * @param pid
 	 * @param operuser
-	 * @return
+	 * @return boolean
 	 */
-	public boolean deleteBatWorkOrderInput(String pid,String operuser){
+	public boolean deleteBatWorkOrderInput(String pid, String userId) {
 		boolean falg = false;
 		BatWorkOrderInput BatWorkOrderInput = (BatWorkOrderInput)genericDao.getById(BatWorkOrderInput.class,pid);
 		try{
 			if (BatWorkOrderInput !=null){
 				BatWorkOrderInput.setSysflag("0");
-				BatWorkOrderInput.setLastmodifier(operuser);
+				BatWorkOrderInput.setLastmodifier(userId);
 				BatWorkOrderInput.setLastmodifiedtime(DateBean.getSysdateTime());
 				genericDao.save(BatWorkOrderInput);
+				List<BatSpiceTurn> batSpiceTurnList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_SPICETURN.LIST", new Object[]{null,BatWorkOrderInput.getMatbatch()});
+				if(batSpiceTurnList!=null&&batSpiceTurnList.size()>0){
+					for (int i = 0; i < batSpiceTurnList.size(); i++) {
+						BatSpiceTurn batSpiceTurn=batSpiceTurnList.get(i);
+						batSpiceTurn.setIscost("0");
+						batSpiceTurn.setLastmodifier(userId);
+						batSpiceTurn.setLastmodifiedtime(DateBean.getSysdateTime());
+						genericDao.save(batSpiceTurn);
+					}
+				}
 				falg = true;
 			}
 		}catch (Exception e) {
@@ -170,7 +281,6 @@ public class SilkWorkOrderService {
 		}
 		return falg;
 	}
-	
 	
 	/**
 	 * 根据工单获取明细数据
@@ -182,15 +292,12 @@ public class SilkWorkOrderService {
 	public List<BatWorkOrderInput> getBatWorkOrderInput(String workOrderCode, String tl_type,String workOrderCodeType, String remark){
 		List<BatWorkOrderInput> inputList=null;
 		if(remark!=null&&!remark.equals("")){
-			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST2.LIST", new Object[]{workOrderCode,remark});
+			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST.LIST", new Object[]{null,workOrderCode,remark});
 		}else if("1".equals(tl_type)){
-			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST.LIST", new Object[]{workOrderCode});
+			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST.LIST", new Object[]{null,workOrderCode,"3"});
 		}
-		/*else if("ZP03".equals(workOrderCodeType)){
-			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_REUSELIST.LIST",null);
-		}*/
 		else{
-			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST2.LIST", new Object[]{workOrderCode,null});
+			 inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST.LIST", new Object[]{null,workOrderCode,null});
 		}
 		return inputList;
 	}
@@ -199,16 +306,17 @@ public class SilkWorkOrderService {
 	 * @param workOrderCode
 	 * @return
 	 */
-	public String getWorkorderstate(String billno){
+	public BatWorkOrder getWorkorderstate(String billno){
+		BatWorkOrder batWorkOrder=null;
 		List<BatWorkOrder> ruleList=genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDERLIST.LIST", new Object[]{billno});
 		if(ruleList!=null&&ruleList.size()>0){
-			BatWorkOrder bill=ruleList.get(0);
-			if("10".equals(bill.getWorkorderstate())){
-				return "1";  //未过期
+		    batWorkOrder=ruleList.get(0);
+			if("10".equals(batWorkOrder.getWorkorderstate())){
+				batWorkOrder.setRemark("1"); //未过期
 			}else
-				return "0";  //过期
+				batWorkOrder.setRemark("0");  //过期
 		}
-		return "2";   //工单不存在
+		return batWorkOrder;   //工单不存在
 	}
 
 	/**
@@ -221,10 +329,10 @@ public class SilkWorkOrderService {
 		BatDepotIoBill batDepotIoBill = null;
 		BatDepotIoDetail batDepotIoDetail=null;
 		BatDepotIoDetailList batDepotIoDetailList=null;
+		String f_bill_no="SLXH"+DateBean.getSysdateTime();
 		try{
-			List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{f_mat_batch});
-			CarCode carcode=batchStorageService.getResolveValue(f_mat_batch);
-			String f_bill_no="SLXH"+DateBean.getSysdateTime();
+			List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{null,"ZO40",null,f_mat_batch});
+			CarCode carcode=batchStorageService.getResolveValue(f_mat_batch,"JM02");
 			if (carcode.getMatcode()!=null){
 				if (detailList != null && detailList.size() > 0){
 					batDepotIoDetail = detailList.get(0);
@@ -249,19 +357,22 @@ public class SilkWorkOrderService {
 				batDepotIoBill.setOperateuserid(userId);
 				batDepotIoBill.setOperatetime(DateBean.getSysdateTime());
 				this.genericDao.save(batDepotIoBill);
-				List<BatDepotIoBill> billList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST", new Object[]{f_bill_no,null});
-				String p_id=billList.get(0).getPid();
+				//List<BatDepotIoBill> billList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST", new Object[]{f_bill_no,null});
+				String p_id=batDepotIoBill.getPid();
 				
 				BatDepotIoDetail batDepotIoDetail1=new BatDepotIoDetail();
 				batDepotIoDetail1.setMatcode(carcode.getMatcode());
 				batDepotIoDetail1.setMatname(carcode.getMatname());
 				batDepotIoDetail1.setMatcode(carcode.getMatcode());
-				batDepotIoDetail1.setQuantity(Double.parseDouble(carcode.getAmount()));
+				batDepotIoDetail1.setQuantity(carcode.getAmount());
 				batDepotIoDetail1.setStatus(carcode.getState());
 				batDepotIoDetail1.setUnit(carcode.getUnit());
 				batDepotIoDetail1.setIsEnter("1");
 				batDepotIoDetail1.setRemark5("2");
 				batDepotIoDetail1.setBillpid(p_id);
+				batDepotIoDetail1.setShkzg("H");
+				batDepotIoDetail1.setStatus("A");
+				batDepotIoDetail1.setInventorytype("0");
 				batDepotIoDetail1.setSuppliersortcode("01");//产出表找不到，暂为01
 				batDepotIoDetail1.setMatbatch(f_mat_batch);
 				batDepotIoDetail1.setCreatetime(DateBean.getSysdateTime());
@@ -276,6 +387,7 @@ public class SilkWorkOrderService {
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			throw new RuntimeException();
 		}
 		
 		return batDepotIoDetail;

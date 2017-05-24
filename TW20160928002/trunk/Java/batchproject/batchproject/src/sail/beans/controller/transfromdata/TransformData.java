@@ -1,6 +1,7 @@
 package sail.beans.controller.transfromdata;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -44,5 +45,13 @@ public class TransformData {
 	@RequestMapping(value="/transformDataStalk")
 	 public void transformDataStalkSilk(){
 		 transfromdataService.transformDataStalkSilk();
+	} 
+    
+    @ResponseBody
+	@RequestMapping(value="/transformDataBuFa")
+	 public void transformDataBuFa(HttpServletRequest request){
+    	String batch=request.getParameter("batch");
+		 transfromdataService.transformDataSilkBF(batch);
+		 transfromdataService.transformDataSilkBF2(batch);
 	} 
 }

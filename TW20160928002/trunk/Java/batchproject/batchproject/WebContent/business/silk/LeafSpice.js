@@ -1,4 +1,4 @@
-var title= ["序号","名称","批次号","罐号","数量","单位","开始","操作"];
+var title= ["序号","名称","批次号","罐号","数量","单位","时间","操作"];
 var theTable=document.getElementById("table");
 var userId=getQueryString('userId');
 var f_workorder_code=getQueryString('f_workorder_code'); //生产工单号 20161208HZ-YCX-01
@@ -59,7 +59,11 @@ function initTable(dataj){
 						r.appendChild(td);
 						
 						td=document.createElement('td');
-						td.style.color='blue';
+						if("0"==rowdata.remark4){
+							td.style.color='red';
+						}else{
+							td.style.color='blue';
+						}
 						data_td1=rowdata.matname;//名称
 						td.innerHTML=data_td1;
 						r.appendChild(td);
@@ -117,9 +121,9 @@ function initTable(dataj){
 			
 		}
 			 if(biaoji==0){
-					tishi_type.style.display="none";
+				 type_tishi.style.display="none";
 				}else{
-					tishi_type.style.display="block";
+					type_tishi.style.display="block";
 				};
 		}
 	});

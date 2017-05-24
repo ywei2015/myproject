@@ -15,7 +15,11 @@ import sail.beans.entity.BatWorkOrder;
 import sail.beans.entity.BatWorkOrderOutput;
 import sail.beans.service.SpcQmsBatchDataService;
 import sail.beans.support.DateBean;
-
+/**
+ * 卷包成型工单产物转储服务类
+ * @author YWW
+ * @time 2017-04-22
+ * */
 @Service
 public class TransformProduceDateService {
 	@Autowired
@@ -23,7 +27,7 @@ public class TransformProduceDateService {
 	@Autowired
 	private SpcQmsBatchDataService spcQmsBatchDataService;
 	
-	private String taskday=DateBean.getBeforDay(DateBean.getSysdate(), 1);
+	private String taskday=DateBean.getBeforDay(DateBean.getSysdate(), 3);
 
 	/**
 	 * 卷包成型生产转储
@@ -61,18 +65,27 @@ public class TransformProduceDateService {
 					 List<BatWorkOrderOutput> list_workorderout=genericDao.getListWithVariableParas("transfrom.workorderout.list",new Object[]{batWorkOrder.getWorkordercode()});
 					 if(list_workorderout!=null&&list_workorderout.size()>0) {
 						 BatWorkOrderOutput batWorkOrderOutput1=list_workorderout.get(0);
+						 if(Long.parseLong(batWorkOrderOutput.getCreatetime())>Long.parseLong(batWorkOrderOutput1.getCreatetime())){
 						 String pid=batWorkOrderOutput1.getPid();
 						 BeanUtils.copyProperties(batWorkOrderOutput,batWorkOrderOutput1);
 						 batWorkOrderOutput1.setPid(pid);
 						 batWorkOrderOutput=batWorkOrderOutput1;
-					 };
-					 
+						 }else{
+						 batWorkOrderOutput =null;
+						 }
+					 }
+					 if(batWorkOrderOutput!=null){
 					 this.genericDao.save(batWorkOrderOutput);
 					 batWorkOrder.setWorkorderstate("20");
 					 batWorkOrder.setLastmodifiedtime(DateBean.getSysdateTime());
+					 batWorkOrder.setActualstarttime(batWorkOrder.getPlanstarttime());
+					 batWorkOrder.setActualendtime(batWorkOrder.getPlanendtime());
+					 batWorkOrder.setActualquantity(batWorkOrderOutput.getQuantity());
 					 this.genericDao.save(batWorkOrder);
+					 }
 				}
-			}
+				
+				}
 		}catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException();
@@ -91,7 +104,6 @@ public class TransformProduceDateService {
 		String banci=jizu[2]==null?"":jizu[2].toString();
 		String jitaino=jizu[3]==null?"":jizu[3].toString();
 		String paihao=jizu[1]==null?"":jizu[1].toString();
-		//String paihao=paihao1.substring(8, 13);
 		String billno=date+banci+jitaino+paihao+"ZP01";
 		//以订单号为参数获取工单号
 		List<BatWorkOrder> workOrderList=this.genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDERLIST.LIST", new Object[]{billno});
@@ -101,7 +113,9 @@ public class TransformProduceDateService {
 				orderflag=1;
 			}
 		}
-		String banciId=jizu[4]==null?"":jizu[4].toString();
+		map.put("flag", orderflag);
+		map.put("workorder", batWorkOrder);
+		/*String banciId=jizu[4]==null?"":jizu[4].toString();
 		String workunitId=jizu[24]==null?"":jizu[24].toString();
 		String matId=jizu[9]==null?"":jizu[9].toString();
 		List <Object[]> planstatuslist=this.genericDao.getListWithNativeSql("transfrom.getworkplan.list", new Object[]{date,banciId,workunitId,null,matId});
@@ -110,14 +124,13 @@ public class TransformProduceDateService {
 			if("ad5856e2-93f6-4ca0-9c36-67a465e2bc83".equals(planstatus[5])){
 				planflag=1;
 			}
-			planflag=1;
 		}
-		if(orderflag+planflag>1){
+		if(orderflag==1){
 			map.put("flag",1);
 			map.put("workorder", batWorkOrder);
 		}else{
 			map.put("flag",0);
-		}
+		}*/
 		return map;
 	}
 	
@@ -141,8 +154,10 @@ public class TransformProduceDateService {
 					 BatWorkOrder batWorkOrder=(BatWorkOrder) yzMess.get("workorder");
 					 BatWorkOrderOutput batWorkOrderOutput=new BatWorkOrderOutput();
 					 batWorkOrderOutput.setWorkorderpid(batWorkOrder.getPid());
-					 if(jizu[11]!=null)
+					 if(jizu[11]!=null){
 						 batWorkOrderOutput.setQuantity(Double.parseDouble(jizu[11].toString()));
+						 batWorkOrder.setActualquantity(Double.parseDouble(jizu[11].toString()));
+					 }
 					 batWorkOrderOutput.setMatbatch(pici);
 					 batWorkOrderOutput.setUnit(jizu[12]==null?"":jizu[12].toString());
 					 batWorkOrderOutput.setDepot("HZN20");
@@ -161,6 +176,7 @@ public class TransformProduceDateService {
 						 BeanUtils.copyProperties(batWorkOrderOutput,batWorkOrderOutput1);
 						 batWorkOrderOutput1.setPid(pid);
 						 batWorkOrderOutput=batWorkOrderOutput1;
+						 
 					 };
 					 
 					 this.genericDao.save(batWorkOrderOutput);
@@ -201,7 +217,7 @@ public class TransformProduceDateService {
 			if("ad5856e2-93f6-4ca0-9c36-67a465e2bc83".equals(planstatus[5])){
 				planflag=1;
 			}
-			planflag=1;
+			//planflag=1;
 		}
 		if(orderflag+planflag>1){
 			map.put("flag",1);

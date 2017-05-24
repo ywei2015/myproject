@@ -1,10 +1,14 @@
 package sail.beans.service;
 
-import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +20,7 @@ import sail.beans.entity.BatBatAdjustDetail;
 import sail.beans.entity.BatDepotIoBill;
 import sail.beans.entity.BatDepotIoDetail;
 import sail.beans.entity.BatDepotIoDetailList;
-import sail.beans.entity.BatWorkOrder;
 import sail.beans.entity.CarCode;
-import sail.beans.entity.CarCodeRule;
 import sail.beans.support.DateBean;
 
 @Service
@@ -26,6 +28,11 @@ public class BatchStorageService {
 	@Autowired
 	private GenericDao genericDao;  
 	
+	@Resource
+	private UserService userService; 
+	
+	@Autowired
+	private BatchResolveValue batchResolveValue;
 	/**
 	 * 入库后台服务
 	 * @param billNo
@@ -41,51 +48,59 @@ public class BatchStorageService {
 		try{
 			if(docType.equals("ZI30")){
 				batDepotIoDetail=saveBatchInStorageTH(billNo,matBatch,userId);
-				//batDepotIoDetail.setRemark4(matBatch);
-			}else{
-				List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{matBatch});
-				if (detailList != null && detailList.size() > 0){
-					batDepotIoDetail = detailList.get(0);
-					if("1".equals(batDepotIoDetail.getRemark5())){
-						batDepotIoDetail.setRepeated("1");
-						return batDepotIoDetail;
-					}
-					batDepotIoDetail.setCreatetime(DateBean.getSysdateTime());
-					batDepotIoDetail.setCreator(userId);
-					batDepotIoDetail.setRemark5("1");
-					batDepotIoDetail.setIsEnter("1");
-					this.genericDao.save(batDepotIoDetail);
-					//batDepotIoDetail.setRemark4(matBatch);
-					
-					batDepotIoBill=(BatDepotIoBill) genericDao.getById(BatDepotIoBill.class, batDepotIoDetail.getBillpid());
-					if(billNo!=null&&!billNo.equals(""))
-						batDepotIoBill.setBillno(billNo);
-					Map map=this.getBatDepotStorageTotal(batDepotIoBill.getBillno(), docType);
-					if(map.get("ruku").toString().equals(map.get("toatal").toString())){
-						batDepotIoBill.setIsEnter("1");
-					}else{
-						batDepotIoBill.setIsEnter("0");
-					}
-					batDepotIoBill.setBiztype(busType);
-					batDepotIoBill.setBilltype("11");
-					batDepotIoBill.setDoctype(docType);
-					batDepotIoBill.setCreatetime(DateBean.getSysdateTime());
-					batDepotIoBill.setCreator(userId);
-					//batDepotIoBill.setBillno(billNo); 待确认
-					this.genericDao.save(batDepotIoBill);
-					
-					
-					List<BatDepotIoDetailList> billDetailList = genericDao.getListWithVariableParas("BATCHDATA_DEPOT_IODETAILLIST_BYPID", new Object[]{batDepotIoDetail.getPid()});
-					if(billDetailList!=null&&billDetailList.size()>0){
-						for (int i = 0; i < billDetailList.size(); i++) {
-							batDepotIoDetailList=billDetailList.get(i);
-							batDepotIoDetailList.setRemark5("1");
-							batDepotIoDetailList.setCreatetime(DateBean.getSysdateTime());
-							batDepotIoDetailList.setCreator(userId);
-							this.genericDao.save(batDepotIoDetailList);
-						}
+				return batDepotIoDetail;
+			}else if(docType.equals("ZI101")){
+				batDepotIoDetail=saveBatchInStorageForSiShu(matBatch,userId);
+				return batDepotIoDetail;
+			}
+			//检查数据库是否存在原始数据，批次是否已经存在
+			List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{null,docType,null,matBatch});
+			if (detailList != null && detailList.size() > 0){
+				batDepotIoDetail = detailList.get(0);
+				if("1".equals(batDepotIoDetail.getIsEnter())){
+					batDepotIoDetail.setRepeated("1");
+					return batDepotIoDetail;
+				}
+				batDepotIoDetail.setLastmodifiedtime(DateBean.getSysdateTime());
+				batDepotIoDetail.setLastmodifier(userId);
+				batDepotIoDetail.setRemark5("1");
+				batDepotIoDetail.setIsEnter("1");
+				batDepotIoDetail.setShkzg("S");
+				batDepotIoDetail.setStatus("A");
+				batDepotIoDetail.setInventorytype("0");
+				this.genericDao.save(batDepotIoDetail);
+				//更新大件对应小件
+				List<BatDepotIoDetailList> billDetailList = genericDao.getListWithVariableParas("BATCHDATA_DEPOT_IODETAILLIST_BYPID", new Object[]{batDepotIoDetail.getPid()});
+				if(billDetailList!=null&&billDetailList.size()>0){
+					for (int i = 0; i < billDetailList.size(); i++) {
+						batDepotIoDetailList=billDetailList.get(i);
+						batDepotIoDetailList.setRemark5("1");
+						batDepotIoDetailList.setLastmodifiedtime(DateBean.getSysdateTime());
+						batDepotIoDetailList.setLastmodifier(userId);
+						this.genericDao.save(batDepotIoDetailList);
 					}
 				}
+				//更新单据表
+				batDepotIoBill=(BatDepotIoBill) genericDao.getById(BatDepotIoBill.class, batDepotIoDetail.getBillpid());
+				if(billNo!=null&&!billNo.equals(""))
+					batDepotIoBill.setBillno(billNo);
+				batDepotIoBill.setIsEnter("1");
+				Map map=this.getBatDepotStorageTotal(batDepotIoBill.getBillno(), docType);
+				if(map.get("ruku").toString().equals(map.get("toatal").toString())){
+					batDepotIoBill.setIsEnter("1");
+				}else{
+					batDepotIoBill.setIsEnter("0");
+				}
+				batDepotIoBill.setOperatetime(DateBean.getSysdateTime());
+				batDepotIoBill.setOperateuserid(userId);
+				batDepotIoBill.setDate(DateBean.getSysdate());
+				batDepotIoBill.setBiztype(busType);
+				batDepotIoBill.setBilltype("11");
+				batDepotIoBill.setDoctype(docType);
+				batDepotIoBill.setLastmodifiedtime(DateBean.getSysdateTime());
+				batDepotIoBill.setLastmodifier(userId);
+				batDepotIoBill.setRemark5("1");
+				this.genericDao.save(batDepotIoBill);
 			}
 			
 		}catch(Exception e){
@@ -95,103 +110,118 @@ public class BatchStorageService {
 		return batDepotIoDetail;
 		
 	}
+	
+	/**
+	 * 丝束入库
+	 * */
+	private BatDepotIoDetail saveBatchInStorageForSiShu(String matBatch,String userId) {
+		double quanlity;
+		BatDepotIoBill batDepotIoBill = null;
+		BatDepotIoDetail batDepotIoDetail=null;
+		String bill="SS303200"+DateBean.getSysdate("YYYYMMDDHH");
+		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{null,"ZI20",null,matBatch});
+		if (detailList != null && detailList.size() > 0){
+			batDepotIoDetail = detailList.get(0);
+			batDepotIoDetail.setRepeated("1");
+			return batDepotIoDetail;
+		}else{
+			List<BatDepotIoBill> batDepotIoBillList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST", new Object[]{bill,"ZI20"});
+			if(batDepotIoBillList!=null&&batDepotIoBillList.size()>0){
+				batDepotIoBill=batDepotIoBillList.get(0);
+			}else{
+				batDepotIoBill=new BatDepotIoBill();
+				batDepotIoBill.setBillno(bill);
+				batDepotIoBill.setBiztype("MM2141");
+				batDepotIoBill.setBilltype("11");
+				batDepotIoBill.setDoctype("ZI20");
+				batDepotIoBill.setDepot("HZ10");
+				batDepotIoBill.setFactory("2200");
+				batDepotIoBill.setIsEnter("1");
+				batDepotIoBill.setSysflag("1");
+				batDepotIoBill.setWorkshop("2220");
+				batDepotIoBill.setCreator(userId);
+				batDepotIoBill.setCreatetime(DateBean.getSysdateTime());
+				batDepotIoBill.setDate(DateBean.getSysdate());
+				batDepotIoBill.setOperatetime(DateBean.getSysdateTime());
+				batDepotIoBill.setOperateuserid(userId);
+				batDepotIoBill.setLastmodifiedtime(DateBean.getSysdateTime());
+				batDepotIoBill.setLastmodifier(userId);
+			}	
+			this.genericDao.save(batDepotIoBill);
+			batDepotIoDetail=new BatDepotIoDetail();
+			batDepotIoDetail.setBillpid(batDepotIoBill.getPid());
+			batDepotIoDetail.setLastmodifiedtime(DateBean.getSysdateTime());
+			batDepotIoDetail.setLastmodifier(userId);
+			batDepotIoDetail.setCreator(userId);
+			batDepotIoDetail.setCreatetime(DateBean.getSysdateTime());
+			batDepotIoDetail.setRemark5("1");
+			batDepotIoDetail.setIsEnter("1");
+			batDepotIoDetail.setSysflag("1");
+			batDepotIoDetail.setMatbatch(matBatch);
+			batDepotIoDetail.setMatcode("201010002");
+			batDepotIoDetail.setMatkl("2001");
+			batDepotIoDetail.setShkzg("S");
+			batDepotIoDetail.setStatus("A");
+			batDepotIoDetail.setInventorytype("0");
+			batDepotIoDetail.setSuppliersortcode("XA");
+			batDepotIoDetail.setMatname("二醋酸纤维丝束(3.0Y/32000)");
+		//	batDepotIoDetail.setQuantity(quantity);
+			try {
+				quanlity=Double.parseDouble(matBatch.substring(matBatch.length()-4, matBatch.length()))/10;
+			} catch (Exception e) {
+				quanlity=320;
+			}
+			batDepotIoDetail.setUnit("KG");
+			batDepotIoDetail.setQuantity(quanlity);
+			this.genericDao.save(batDepotIoDetail);	
+			
+		}	
+		
+		return batDepotIoDetail;
+	}
 	/**
 	 * 生产领域物资退回入库
 	 * */
 	private BatDepotIoDetail saveBatchInStorageTH(String billNo, String matBatch,String userId) {
-		double quality=0;
-		String uint="";
 		BatDepotIoBill batDepotIoBill = null;
 		BatDepotIoDetail batDepotIoDetail=null;
 		BatDepotIoDetailList batDepotIoDetailList=null;
+		String bill=DateBean.getSysdate()+"ZI30";
 		try {
-			batDepotIoBill=new BatDepotIoBill();
-			String bill=DateBean.getSysdate()+"ZI30";
-			batDepotIoBill.setBillno(bill);
-			batDepotIoBill.setBiztype("MM2143");
-			batDepotIoBill.setBilltype("11");
-			batDepotIoBill.setDoctype("ZI30");
-			batDepotIoBill.setDepot("HZ10");
-			batDepotIoBill.setFactory("2200");
-			batDepotIoBill.setIsEnter("1");
-			batDepotIoBill.setSysflag("1");
-			batDepotIoBill.setDate(DateBean.getSysdate());
-			batDepotIoBill.setCreatetime(DateBean.getSysdateTime());
-			batDepotIoBill.setCreator(userId);
-			this.genericDao.save(batDepotIoBill);
-			//根据批次号到大小件表获取批次信息
-			List<BatBatAdjustDetail> batBatAdjustDetailList=this.genericDao.getListWithVariableParas("STORAGE.T_BAT_BATADJUST_DETAILSLAVE.LIST", new Object[]{null,matBatch});
-			if(batBatAdjustDetailList!=null&&batBatAdjustDetailList.size()>0){
-				batDepotIoDetail=new BatDepotIoDetail();
-				batDepotIoDetail.setBillpid(batDepotIoBill.getPid());
-				batDepotIoDetail.setCreatetime(DateBean.getSysdateTime());
-				batDepotIoDetail.setCreator(userId);
-				batDepotIoDetail.setRemark5("1");
-				batDepotIoDetail.setIsEnter("1");
-				batDepotIoDetail.setSysflag("1");
-				batDepotIoDetail.setMatbatch(matBatch);
-				batDepotIoDetail.setMatcode(batBatAdjustDetailList.get(0).getMatcode());
-				batDepotIoDetail.setMatname(batBatAdjustDetailList.get(0).getMatname());
-				this.genericDao.save(batDepotIoDetail);
-				for (int i = 0; i < batBatAdjustDetailList.size(); i++) {
-					BatBatAdjustDetail batBatAdjustDetail=batBatAdjustDetailList.get(i);
-					String slavbatch=batBatAdjustDetail.getSlavebatch();
-					List <BatDepotIoDetailList> batDepotIoDetailList_=this.genericDao.getListWithVariableParas("storage.getbatDepotIoDetailList.bybatch", new Object[]{slavbatch});
-					if(batDepotIoDetailList_!=null&&batDepotIoDetailList_.size()>0){
-						batDepotIoDetailList=new BatDepotIoDetailList();
-					//	batDepotIoDetailList=batDepotIoDetailList_.get(0);
-						batDepotIoDetailList.setBilldetailpid(batDepotIoDetail.getPid());
-						quality=quality+batDepotIoDetailList.getQuantity();
-						batDepotIoDetailList.setCreatetime(DateBean.getSysdateTime());
-						batDepotIoDetailList.setCreator(userId);
-						batDepotIoDetailList.setSysflag("1");
-						batDepotIoDetailList.setLastmodifiedtime(null);
-						batDepotIoDetailList.setLastmodifiedtime(null);
-						batDepotIoDetailList.setRemark5("1");
-						uint=batDepotIoDetailList.getUnit();
-						this.genericDao.save(batDepotIoDetailList);
-					}
-					
+			List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{null,"ZI30",null,matBatch});
+			if (detailList != null && detailList.size() > 0){
+				batDepotIoDetail = detailList.get(0);
+				if("1".equals(batDepotIoDetail.getIsEnter())){
+					batDepotIoDetail.setRepeated("1");
+					return batDepotIoDetail;
 				}
-				batDepotIoDetail.setQuantity(quality);
-				batDepotIoDetail.setUnit(uint);
-				this.genericDao.save(batDepotIoDetail);
+			}
+			List<BatDepotIoBill> batDepotIoBillList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST", new Object[]{bill,"ZI30"});
+			if(batDepotIoBillList!=null&&batDepotIoBillList.size()>0){
+				batDepotIoBill=batDepotIoBillList.get(0);
 			}else{
-				List<BatDepotIoDetail> BatDepotIoDetailList1=this.genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{matBatch});
-				if(BatDepotIoDetailList1!=null&&BatDepotIoDetailList1.size()>0){
-					BatDepotIoDetail batDepotIoDetail1=BatDepotIoDetailList1.get(0);
-					batDepotIoDetail=new BatDepotIoDetail();
-					batDepotIoDetail.setCreatetime(DateBean.getSysdateTime());
-					batDepotIoDetail.setCreator(userId);
-					batDepotIoDetail.setRemark5("1");
-					batDepotIoDetail.setIsEnter("1");
-					batDepotIoDetail.setSysflag("1");
-					batDepotIoDetail.setBillpid(batDepotIoBill.getPid());
-					batDepotIoDetail.setMatbatch(matBatch);
-					batDepotIoDetail.setMatcode(batDepotIoDetail1.getMatcode());
-					batDepotIoDetail.setMatname(batDepotIoDetail1.getMatname());
-					batDepotIoDetail.setQuantity(batDepotIoDetail1.getQuantity());
-					batDepotIoDetail.setUnit(batDepotIoDetail1.getUnit());
-					this.genericDao.save(batDepotIoDetail);
-					//根据PID
-					List<BatDepotIoDetailList> billDetailList = genericDao.getListWithVariableParas("BATCHDATA_DEPOT_IODETAILLIST_BYPID", new Object[]{batDepotIoDetail1.getPid()});
-					if(billDetailList!=null&&billDetailList.size()>0){
-						for (int i = 0; i < billDetailList.size(); i++) {
-							BatDepotIoDetailList batDepotIoDetailList1=billDetailList.get(i);
-						    batDepotIoDetailList=new BatDepotIoDetailList();
-							batDepotIoDetailList.setSlavebatch(batDepotIoDetailList1.getSlavebatch());
-							batDepotIoDetailList.setQuantity(batDepotIoDetailList1.getQuantity());
-							batDepotIoDetailList.setUnit(batDepotIoDetailList1.getUnit());
-							batDepotIoDetailList.setSysflag("1");
-							batDepotIoDetailList.setBilldetailpid(batDepotIoDetail.getPid());
-							batDepotIoDetailList.setCreatetime(DateBean.getSysdateTime());
-							batDepotIoDetailList.setCreator(userId);
-							batDepotIoDetailList.setRemark5("1");
-							this.genericDao.save(batDepotIoDetailList);
-						}
-					}
-				}
-
+				batDepotIoBill=new BatDepotIoBill();
+				batDepotIoBill.setBillno(bill);
+				batDepotIoBill.setBiztype("MM2143");
+				batDepotIoBill.setBilltype("11");
+				batDepotIoBill.setDoctype("ZI30");
+				batDepotIoBill.setDepot("HZ10");
+				batDepotIoBill.setFactory("2200");
+				batDepotIoBill.setIsEnter("1");
+				batDepotIoBill.setSysflag("1");
+				batDepotIoBill.setCreator(userId);
+				batDepotIoBill.setCreatetime(DateBean.getSysdateTime());
+				batDepotIoBill.setDate(DateBean.getSysdate());
+				batDepotIoBill.setOperatetime(DateBean.getSysdateTime());
+				batDepotIoBill.setOperateuserid(userId);
+				batDepotIoBill.setLastmodifiedtime(DateBean.getSysdateTime());
+				batDepotIoBill.setLastmodifier(userId);
+				this.genericDao.save(batDepotIoBill);
+			}
+			//根据批次号到出入库表获取批次信息
+			List<BatDepotIoDetail> BatDepotIoDetailList1=this.genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{null,null,null,matBatch});
+			if(BatDepotIoDetailList1!=null&&BatDepotIoDetailList1.size()>0){
+				batDepotIoDetail=saveBatDepotIoDetail(BatDepotIoDetailList1,batDepotIoBill,matBatch,userId);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -203,13 +233,185 @@ public class BatchStorageService {
 	}
 
 	/**
+	 * 大小件调整之后生产领域物资退回入库
+	 * */
+	public void saveBatchInStorageForAdjust(String userId,String slavebatch,String masterbatch,CarCode carcode){
+		BatDepotIoBill batDepotIoBill = null;
+		BatDepotIoDetail batDepotIoDetail=null;
+		BatDepotIoDetailList batDepotIoDetailList=null;
+		double quality=0;
+		String uint="";
+		String bill=DateBean.getSysdate()+"ZI30";
+		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{null,"ZI30",null,masterbatch});
+		if (detailList != null && detailList.size() > 0){
+			batDepotIoDetail = detailList.get(0);
+		}else{
+			batDepotIoDetail=new BatDepotIoDetail();
+			batDepotIoDetail.setBillpid(batDepotIoBill.getPid());
+			batDepotIoDetail.setLastmodifiedtime(DateBean.getSysdateTime());
+			batDepotIoDetail.setLastmodifier(userId);
+			batDepotIoDetail.setCreator(userId);
+			batDepotIoDetail.setCreatetime(DateBean.getSysdateTime());
+			batDepotIoDetail.setRemark5("1");
+			batDepotIoDetail.setIsEnter("1");
+			batDepotIoDetail.setSysflag("1");
+			batDepotIoDetail.setMatbatch(masterbatch);
+			batDepotIoDetail.setMatcode(carcode.getMatcode());
+			batDepotIoDetail.setMatname(carcode.getMatname());
+			this.genericDao.save(batDepotIoDetail);
+		}	
+		List<BatDepotIoBill> batDepotIoBillList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST", new Object[]{bill,"ZI30"});
+		if(batDepotIoBillList!=null&&batDepotIoBillList.size()>0){
+			batDepotIoBill=batDepotIoBillList.get(0);
+		}else{
+			batDepotIoBill=new BatDepotIoBill();
+			batDepotIoBill.setBillno(bill);
+			batDepotIoBill.setBiztype("MM2143");
+			batDepotIoBill.setBilltype("11");
+			batDepotIoBill.setDoctype("ZI30");
+			batDepotIoBill.setDepot("HZ10");
+			batDepotIoBill.setFactory("2200");
+			batDepotIoBill.setIsEnter("1");
+			batDepotIoBill.setSysflag("1");
+			batDepotIoBill.setCreator(userId);
+			batDepotIoBill.setCreatetime(DateBean.getSysdateTime());
+			batDepotIoBill.setDate(DateBean.getSysdate());
+			batDepotIoBill.setOperatetime(DateBean.getSysdateTime());
+			batDepotIoBill.setOperateuserid(userId);
+			batDepotIoBill.setLastmodifiedtime(DateBean.getSysdateTime());
+			batDepotIoBill.setLastmodifier(userId);
+			this.genericDao.save(batDepotIoBill);
+		}
+		List <BatDepotIoDetailList> batDepotIoDetailList_=this.genericDao.getListWithVariableParas("storage.getbatDepotIoDetailList.bybatch", new Object[]{slavebatch,batDepotIoDetail.getPid()});
+		if(batDepotIoDetailList_==null||batDepotIoDetailList_.size()==0){
+			batDepotIoDetailList=new BatDepotIoDetailList();
+		//	batDepotIoDetailList=batDepotIoDetailList_.get(0);
+			batDepotIoDetailList.setBilldetailpid(batDepotIoDetail.getPid());
+			quality=quality+batDepotIoDetailList.getQuantity();
+			batDepotIoDetailList.setSysflag("1");
+			batDepotIoDetailList.setCreator(userId);
+			batDepotIoDetailList.setCreatetime(DateBean.getSysdateTime());
+			batDepotIoDetailList.setLastmodifiedtime(DateBean.getSysdateTime());
+			batDepotIoDetailList.setLastmodifier(userId);
+			batDepotIoDetailList.setRemark5("1");
+			batDepotIoDetailList.setUnit(carcode.getUnit());
+			this.genericDao.save(batDepotIoDetailList);
+		}
+		batDepotIoDetail.setQuantity(quality);
+		batDepotIoDetail.setUnit(carcode.getUnit());
+		//this.genericDao.save(batDepotIoDetail);
+	}
+	
+	/**物资退回入库
+	 * 根据大件批次号从大小件关系表获取大小件信息，并把它作为入库信息转录到入库明细及其子表当中
+	 * @param billNo
+	 * @param docType
+	 * @return
+	 */
+	 @Transactional
+	public void saveBatDepotIoDetailByAdjust(List<BatBatAdjustDetail> batBatAdjustDetailList,BatDepotIoBill batDepotIoBill,String matBatch,String userId){
+		double quality=0;
+		String uint="";
+		BatDepotIoDetail batDepotIoDetail=null;
+		BatDepotIoDetailList batDepotIoDetailList=null;
+		String bill=DateBean.getSysdate()+"ZI30";
+			batDepotIoDetail=new BatDepotIoDetail();
+			batDepotIoDetail.setBillpid(batDepotIoBill.getPid());
+			batDepotIoDetail.setLastmodifiedtime(DateBean.getSysdateTime());
+			batDepotIoDetail.setLastmodifier(userId);
+			batDepotIoDetail.setCreator(userId);
+			batDepotIoDetail.setCreatetime(DateBean.getSysdateTime());
+			batDepotIoDetail.setRemark5("1");
+			batDepotIoDetail.setIsEnter("1");
+			batDepotIoDetail.setSysflag("1");
+			batDepotIoDetail.setMatbatch(matBatch);
+			batDepotIoDetail.setMatcode(batBatAdjustDetailList.get(0).getMatcode());
+			batDepotIoDetail.setMatname(batBatAdjustDetailList.get(0).getMatname());
+			this.genericDao.save(batDepotIoDetail);
+			for (int i = 0; i < batBatAdjustDetailList.size(); i++) {
+				BatBatAdjustDetail batBatAdjustDetail=batBatAdjustDetailList.get(i);
+				String slavbatch=batBatAdjustDetail.getSlavebatch();
+				//
+				List <BatDepotIoDetailList> batDepotIoDetailList_=this.genericDao.getListWithVariableParas("storage.getbatDepotIoDetailList.bybatch", new Object[]{slavbatch,null});
+				if(batDepotIoDetailList_!=null&&batDepotIoDetailList_.size()>0){
+					batDepotIoDetailList=new BatDepotIoDetailList();
+				//	batDepotIoDetailList=batDepotIoDetailList_.get(0);
+					batDepotIoDetailList.setBilldetailpid(batDepotIoDetail.getPid());
+					quality=quality+batDepotIoDetailList.getQuantity();
+					batDepotIoDetailList.setSysflag("1");
+					batDepotIoDetailList.setCreator(userId);
+					batDepotIoDetailList.setCreatetime(DateBean.getSysdateTime());
+					batDepotIoDetailList.setLastmodifiedtime(DateBean.getSysdateTime());
+					batDepotIoDetailList.setLastmodifier(userId);
+					batDepotIoDetailList.setRemark5("1");
+					uint=batDepotIoDetailList.getUnit();
+					this.genericDao.save(batDepotIoDetailList);
+				}
+				
+			}
+			batDepotIoDetail.setQuantity(quality);
+			batDepotIoDetail.setUnit(uint);
+			this.genericDao.save(batDepotIoDetail);
+		}
+	
+	/**物资退回入库
+	 * 根据大件批次号从入库表获取大小件信息，进行一次退回入库的操作
+	 * @param billNo
+	 * @param docType
+	 * @return
+	 */
+	public BatDepotIoDetail saveBatDepotIoDetail(List<BatDepotIoDetail> BatDepotIoDetailList,BatDepotIoBill batDepotIoBill,String matBatch,String userId){
+		BatDepotIoDetail batDepotIoDetail=null;
+		BatDepotIoDetailList batDepotIoDetailList=null;
+		BatDepotIoDetail batDepotIoDetail1=BatDepotIoDetailList.get(0);
+		batDepotIoDetail=new BatDepotIoDetail();
+		batDepotIoDetail.setBillpid(batDepotIoBill.getPid());
+		batDepotIoDetail.setLastmodifiedtime(DateBean.getSysdateTime());
+		batDepotIoDetail.setRemark5("1");
+		batDepotIoDetail.setIsEnter("1");
+		batDepotIoDetail.setSysflag("1");
+		batDepotIoDetail.setShkzg("S");
+		batDepotIoDetail.setStatus("A");
+		batDepotIoDetail.setInventorytype("0");
+		batDepotIoDetail.setBillpid(batDepotIoBill.getPid());
+		batDepotIoDetail.setMatbatch(matBatch);
+		batDepotIoDetail.setMatkl(batDepotIoDetail1.getMatkl());
+		batDepotIoDetail.setMatcode(batDepotIoDetail1.getMatcode());
+		batDepotIoDetail.setMatname(batDepotIoDetail1.getMatname());
+		batDepotIoDetail.setQuantity(batDepotIoDetail1.getQuantity());
+		batDepotIoDetail.setUnit(batDepotIoDetail1.getUnit());
+		this.genericDao.save(batDepotIoDetail);
+		//根据PID
+		List<BatDepotIoDetailList> billDetailList = genericDao.getListWithVariableParas("BATCHDATA_DEPOT_IODETAILLIST_BYPID", new Object[]{batDepotIoDetail1.getPid()});
+		if(billDetailList!=null&&billDetailList.size()>0){
+			for (int i = 0; i < billDetailList.size(); i++) {
+				BatDepotIoDetailList batDepotIoDetailList1=billDetailList.get(i);
+			    batDepotIoDetailList=new BatDepotIoDetailList();
+				batDepotIoDetailList.setSlavebatch(batDepotIoDetailList1.getSlavebatch());
+				batDepotIoDetailList.setQuantity(batDepotIoDetailList1.getQuantity());
+				batDepotIoDetailList.setUnit(batDepotIoDetailList1.getUnit());
+				batDepotIoDetailList.setSysflag("1");
+				batDepotIoDetailList.setBilldetailpid(batDepotIoDetail.getPid());
+				batDepotIoDetailList.setLastmodifiedtime(DateBean.getSysdateTime());
+				batDepotIoDetailList.setLastmodifier(userId);
+				batDepotIoDetailList.setRemark5("1");
+				this.genericDao.save(batDepotIoDetailList);
+			}
+		}
+		return batDepotIoDetail;
+	
+	}
+
+	
+	/**
 	 * 根据单号和类型查询出明细数据
 	 * @param billNo
 	 * @param docType
 	 * @return
 	 */
-	public List<BatDepotIoDetail> getBatDepotIoDetailList(String billNo,String docType,String remark5,String batch){
-		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{null,docType,remark5,batch});
+	public List<BatDepotIoDetail> getBatDepotIoDetailList(String billNo,String docType,String batch,String remark){
+		List<BatDepotIoDetail> detailList=null;
+		detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL2.LIST", new Object[]{billNo,docType,remark,batch});
 		return detailList;
 	}
 	
@@ -236,7 +438,7 @@ public class BatchStorageService {
 			//是否全部逻辑删除
 			BatDepotIoBill batDepotIoBill=(BatDepotIoBill) genericDao.getById(BatDepotIoBill.class,batDepotIoDetail.getBillpid());
 			Map map=getBatDepotStorageTotal(batDepotIoBill.getBillno(),batDepotIoBill.getDoctype());
-			if((map.get("ruku").toString()).equals("0")){
+			if(Long.parseLong((map.get("ruku").toString()))<Long.parseLong((map.get("toatal").toString()))){
 				batDepotIoBill.setIsEnter("0");
 				batDepotIoBill.setLastmodifiedtime(DateBean.getSysdateTime());
 				batDepotIoBill.setLastmodifier(operuser);
@@ -271,88 +473,17 @@ public class BatchStorageService {
 		
 	}
 	
-	/*public boolean isAllBack(BatDepotIoDetail batDepotIoDetail){
-		String billno=batDepotIoDetail.getBillpid();
-		try{
-			List<Object[]> ruku  = (List<Object[]>)genericDao.getListWithNativeSql("STORAGE.GET_STROEXINIX", new Object[]{billno});
-			if(ruku!=null&&ruku.size()>0){
-				Object[] rukulist=ruku.get(0);
-				if("1".equals(rukulist[1].toString())){
-					return true;
-				}else{
-					return false;
-				}
-			}
-		}catch (Exception e) {
-			e.printStackTrace();
-			
-		}
-		return false;
-	}*/
+	
 	/**
 	 * 条形码解析
+	 * @param type 
 	 * @param matCode
 	 */
-	public CarCode getResolveValue(String match){
-		CarCode carCode = new CarCode();
-		List<Object[]> carList=null;
-		carList=genericDao.getListWithNativeSql("STORAGE.GET_RESOLVEVAlUE", new Object[]{match});
-		if(carList!=null&&carList.size()>0){
-			Object[] cararray=carList.get(0);
-			String storecode=(String) (cararray[8]==null?"":cararray[8]);
-			carCode.setStroecode(storecode);
-			String unit=(String) (cararray[7]==null?"":cararray[7]);
-			carCode.setUnit(unit);
-			String quality= (cararray[6]==null?"":cararray[6]).toString();
-			carCode.setAmount(quality);
-			String state=(String) (cararray[5]==null?"":cararray[5]);
-			carCode.setState(state);
-			String oldmatch=(String) (cararray[4]==null?"":cararray[4]);
-			carCode.setOldbatch(oldmatch);
-			String matname=(String) (cararray[3]==null?"":cararray[3]);
-			carCode.setMatname(matname);
-			String matcode=(String) (cararray[2]==null?"":cararray[2]);
-			carCode.setMatcode(matcode);
-			carCode.setValue2("1");
-		}else if(carCode.getMatcode()==null){
-			carList=genericDao.getListWithNativeSql("STORAGE.GET_RESOLVEVAlUE2", new Object[]{match});
-			if(carList!=null&&carList.size()>0){
-				Object[] cararray=carList.get(0);
-				String storecode=(String) (cararray[8]==null?"":cararray[8]);
-				carCode.setStroecode(storecode);
-				String unit=(String) (cararray[7]==null?"":cararray[7]);
-				carCode.setUnit(unit);
-				String quality= (cararray[6]==null?"":cararray[6]).toString();
-				carCode.setAmount(quality);
-				String state=(String) (cararray[5]==null?"":cararray[5]);
-				carCode.setState(state);
-				String oldmatch=(String) (cararray[4]==null?"":cararray[4]);
-				carCode.setOldbatch(oldmatch);
-				String matname=(String) (cararray[3]==null?"":cararray[3]);
-				carCode.setMatname(matname);
-				String matcode=(String) (cararray[2]==null?"":cararray[2]);
-				carCode.setMatcode(matcode);
-				carCode.setValue2("2");
-			}
-		}
-		if(carCode.getMatcode()==null){
-			carList=genericDao.getListWithNativeSql("STORAGE.GET_RESOLVEVAlUE3", new Object[]{match});
-			if(carList!=null&&carList.size()>0){
-				Object[] cararray=carList.get(0);
-				String matname=(String) (cararray[3]==null?"":cararray[3]);
-				carCode.setMatname(matname);
-				String matcode=(String) (cararray[2]==null?"":cararray[2]);
-				carCode.setMatcode(matcode);
-				String quality= (cararray[0]==null?"":cararray[0]).toString();
-				carCode.setAmount(quality);
-				String unit=(String) (cararray[1]==null?"":cararray[1]);
-				carCode.setUnit(unit);
-			//	carCode.setValue2("2");
-		}
-		}
-		
+	public CarCode getResolveValue(String match, String type){
+		CarCode carCode=null;
+		carCode=batchResolveValue.getResolveValue(match, type);
 		return carCode;
-		}
+	}
 		
 	
 	/**
@@ -362,39 +493,56 @@ public class BatchStorageService {
 	 * @param operuser
 	 * @return
 	 */
-	
-	
-	public BatBatAdjustDetail saveBatchAdjustment(String masterbatch,String slavebatch,String operuser){
+	public BatBatAdjustDetail saveBatchAdjustment(final String masterbatch,final String slavebatch,final String operuser){
 		BatBatAdjustDetail batBatAdjustDetail = null;
-		List<BatBatAdjustDetail> masterList = genericDao.getListWithVariableParas("STORAGE.T_BAT_BATADJUST_DETAILSLAVE.LIST", new Object[]{null,masterbatch});
-		//判断是否已经存在改批次的数据
-		if (masterList != null && masterList.size() > 0){
-			List<BatBatAdjustDetail> BatBatAdjustDetailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_BATADJUST_DETAILSLAVE.LIST", new Object[]{slavebatch,null});
-			//判断该小件批次的数据是否已经扫描过
-			if (BatBatAdjustDetailList != null && BatBatAdjustDetailList.size() > 0){
-				batBatAdjustDetail = BatBatAdjustDetailList.get(0);
-				batBatAdjustDetail.setIsrepeat("1");
-				return batBatAdjustDetail;
+		final CarCode carcode=this.getResolveValue(slavebatch,"JM01");
+		try {
+			List<BatBatAdjustDetail> masterList = genericDao.getListWithVariableParas("STORAGE.T_BAT_BATADJUST_DETAILSLAVE.LIST", new Object[]{null,masterbatch});
+			//判断是否已经存在改批次的数据
+			if (masterList != null && masterList.size() > 0){
+				List<BatBatAdjustDetail> BatBatAdjustDetailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_BATADJUST_DETAILSLAVE.LIST", new Object[]{slavebatch,null});
+				//判断该小件批次的数据是否已经扫描过
+				if (BatBatAdjustDetailList != null && BatBatAdjustDetailList.size() > 0){
+					batBatAdjustDetail = BatBatAdjustDetailList.get(0);
+					batBatAdjustDetail.setIsrepeat("1");
+				}else{
+					batBatAdjustDetail = new BatBatAdjustDetail();
+					batBatAdjustDetail = this.saveDetail(masterList.get(0).getAdjustpid(), operuser, slavebatch, masterbatch);
+				}
 			}else{
-				batBatAdjustDetail = new BatBatAdjustDetail();
-				batBatAdjustDetail = this.saveDetail(masterList.get(0).getAdjustpid(), operuser, slavebatch, masterbatch);
-				return batBatAdjustDetail;
+				BatBatAdjust batBatAdjust = new BatBatAdjust();
+				batBatAdjust.setAdjustno(DateBean.getSysdate()+""+masterbatch);
+				batBatAdjust.setActflag("1");
+				batBatAdjust.setFactory("2200 ");
+				batBatAdjust.setDepot("HZ10");
+				batBatAdjust.setOperatetime(DateBean.getSysdateTime());
+				batBatAdjust.setOperateuserid(operuser);
+				batBatAdjust.setSysflag("1");
+				batBatAdjust.setCreator(operuser);
+				batBatAdjust.setCreatetime(DateBean.getSysdateTime());
+				genericDao.save(batBatAdjust);
+				batBatAdjustDetail = this.saveDetail(batBatAdjust.getPid(), operuser, slavebatch, masterbatch);
 			}
-		}else{
-			BatBatAdjust batBatAdjust = new BatBatAdjust();
-			batBatAdjust.setAdjustno(DateBean.getSysdate()+""+masterbatch);
-			batBatAdjust.setActflag("1");
-			batBatAdjust.setFactory("2200 ");
-			batBatAdjust.setDepot("HZ10");
-			batBatAdjust.setOperatetime(DateBean.getSysdateTime());
-			batBatAdjust.setOperateuserid(operuser);
-			batBatAdjust.setSysflag("1");
-			batBatAdjust.setCreator(operuser);
-			batBatAdjust.setCreatetime(DateBean.getSysdateTime());
-			genericDao.save(batBatAdjust);
-			batBatAdjustDetail = this.saveDetail(batBatAdjust.getPid(), operuser, slavebatch, masterbatch);
-			return batBatAdjustDetail;
+			ExecutorService service= Executors.newFixedThreadPool(1);
+		    Runnable run = new Runnable() {
+	             public void run() {
+	            	/* ApplicationContext ac = new FileSystemXmlApplicationContext("classpath:applicationContext.xml"); 
+	            	 SessionFactory sessionFactory = (SessionFactory)ac.getBean("sessionFactory");  
+	                 //添加hibernate session 到当前线程 
+	            	 boolean participate = ConcurrentUtil.bindHibernateSessionToThread(sessionFactory); 
+	            	 //业务处理
+	                  saveBatchInStorageForAdjust(operuser, slavebatch, masterbatch, carcode);
+	                //删除hibernate session 到当前线程 
+	                  ConcurrentUtil.closeHibernateSessionFromThread(participate, sessionFactory);*/
+	            	// Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+	             }
+	         };
+	        service.execute(run);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException();
 		}
+		return batBatAdjustDetail;
 	}
 	
 	/**
@@ -405,10 +553,10 @@ public class BatchStorageService {
 	 * @param masterbatch
 	 * @return
 	 */
-	public BatBatAdjustDetail saveDetail(String adjustpid,String operuser,String slavebatch,String masterbatch){
+	public BatBatAdjustDetail saveDetail(String adjustpid,final String operuser,final String slavebatch,final String masterbatch){
 		BatBatAdjustDetail batBatAdjustDetail = new BatBatAdjustDetail();
 		batBatAdjustDetail.setAdjustpid(adjustpid);
-		CarCode carcode=this.getResolveValue(slavebatch);
+		final CarCode carcode=this.getResolveValue(slavebatch,"JM01");
 		batBatAdjustDetail.setMatcode(carcode.getMatcode());
 		batBatAdjustDetail.setMatname(carcode.getMatname());
 		batBatAdjustDetail.setOldmasterbatch(carcode.getOldbatch());
@@ -417,11 +565,18 @@ public class BatchStorageService {
 		else
 			batBatAdjustDetail.setSuppliersortcode("1");
 		batBatAdjustDetail.setSlavebatch(slavebatch);
-		batBatAdjustDetail.setNewmasterbatch(masterbatch+carcode.getMatcode());
+		batBatAdjustDetail.setNewmasterbatch(masterbatch);
 		batBatAdjustDetail.setSysflag("1");
 		batBatAdjustDetail.setCreator(operuser);
 		batBatAdjustDetail.setCreatetime(DateBean.getSysdateTime());
 		genericDao.save(batBatAdjustDetail);
+		/*ExecutorService service= Executors.newFixedThreadPool(1);
+	    Runnable run = new Runnable() {
+             public void run() {
+            	 saveBatchInStorageForAdjust(operuser, slavebatch, masterbatch, carcode);
+             }
+         };
+         service.execute(run);*/
 		return batBatAdjustDetail;
 	}
 	
@@ -464,7 +619,7 @@ public class BatchStorageService {
 		 BatDepotIoDetailList batDepotIoDetailList=null;
 		 
 		 try{
-				List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{f_mat_batch});
+				List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{null,null,null,f_mat_batch});
 				if (detailList != null && detailList.size() > 0){
 					batDepotIoDetail = detailList.get(0);
 					String p_id1=batDepotIoDetail.getPid();
@@ -472,7 +627,10 @@ public class BatchStorageService {
 						batDepotIoDetail.setRepeated("1");
 						return batDepotIoDetail;
 					}
-					
+					if("0".equals(batDepotIoDetail.getIsEnter())){
+						batDepotIoDetail.setRepeated("2");
+						return batDepotIoDetail;
+					}
 					batDepotIoBill=new BatDepotIoBill();
 					BatDepotIoBill batDepotIoBill1=(BatDepotIoBill) genericDao.getById(BatDepotIoBill.class, batDepotIoDetail.getBillpid());
 					batDepotIoBill.setDepot(batDepotIoBill1.getDepot());
@@ -498,6 +656,7 @@ public class BatchStorageService {
 					batDepotIoDetail1.setMatname(batDepotIoDetail.getMatname());
 					batDepotIoDetail1.setMatcode(batDepotIoDetail.getMatcode());
 					batDepotIoDetail1.setQuantity(batDepotIoDetail.getQuantity());
+					batDepotIoDetail1.setMatkl(batDepotIoDetail.getMatkl());
 					batDepotIoDetail1.setStatus(batDepotIoDetail.getStatus());
 					batDepotIoDetail1.setUnit(batDepotIoDetail.getUnit());
 					batDepotIoDetail1.setSuppliersortcode(batDepotIoDetail.getSuppliersortcode());
@@ -505,11 +664,13 @@ public class BatchStorageService {
 					batDepotIoDetail1.setIsEnter("1");
 					batDepotIoDetail1.setRemark5("2");
 					batDepotIoDetail1.setBillpid(p_id);
+					batDepotIoDetail1.setShkzg("H");
+					batDepotIoDetail1.setStatus("A");
+					batDepotIoDetail1.setInventorytype("0");
 					batDepotIoDetail1.setCreatetime(DateBean.getSysdateTime());
 					batDepotIoDetail1.setCreator(userId);
 					batDepotIoDetail1.setSysflag("1");
 					this.genericDao.save(batDepotIoDetail1);
-					//List<BatDepotIoDetail> detailList1 = genericDao.getListWithVariableParas("BATCHDATA_BAT_DEPOT_IODETAIL", new Object[]{f_mat_batch});
 					
 					List<BatDepotIoDetailList> billDetailList = genericDao.getListWithVariableParas("BATCHDATA_DEPOT_IODETAILLIST_BYPID", new Object[]{p_id1});
 					if(billDetailList!=null&&billDetailList.size()>0){
@@ -536,31 +697,27 @@ public class BatchStorageService {
 	}
 	
 	
-	public List<BatDepotIoDetail> getBatDepotIoDetailListj(String f_match) {
-		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAILJ.LIST", new Object[]{f_match});
-		return detailList;
-	}
 /**
  * 根据单号获取此单号未完成批次列表
  * */
 	public List<BatDepotIoDetail> getBatDepotValidate(String f_bill_no,String f_doc_type){
-			List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_STROAGVALIDATE_.LIST", new Object[]{f_bill_no,f_doc_type,null,"0"});
+			List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{f_bill_no,f_doc_type,'0',null});
 			return detailList;
 	}
 /**
- * 根据单号获取单号批次总量
+ * 入库根据单号获取单号批次总量
  * */
 	public Map getBatDepotStorageTotal(String f_bill_no,String f_doc_type) {
 		int ruku=0;
 		int total=0;
 		Map map=new HashMap();
 		try {
-			List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_STROAGVALIDATE_.LIST", new Object[]{f_bill_no,f_doc_type,null,null});
+			List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{f_bill_no,f_doc_type,null,null});
 			if(detailList!=null&&detailList.size()>0){
 				total=detailList.size();
 				for(int i=0;i<total;i++){
 				BatDepotIoDetail batDepotIoDetail=detailList.get(i);
-				if("1".equals(batDepotIoDetail.getRemark5())){
+				if("1".equals(batDepotIoDetail.getIsEnter())){
 					ruku++;
 				}
 				}
@@ -574,5 +731,33 @@ public class BatchStorageService {
 		
 		return map;
 	}
+
+public List<String> getBillNoList(String userId,String userCode) {
+	List<String> billList= new ArrayList<String>();
+	int todayNumber,yesNumber;
+	String today=DateBean.getSysdate();
+	String yestoday=DateBean.getBeforDay(today, 1);
+	//String userCode=userService.getEsbCodeById(userId);
+	String sql="select count(1) from t_bat_depot_iobill u where u.F_SYS_FLAG='1' and " +
+			"substr(u.F_CREATE_TIME,0,8)=to_char(sysdate,'YYYYMMDD') and u.F_CREATOR='"+userId+"'";
+	String sql1="select count(1) from t_bat_depot_iobill u where u.F_SYS_FLAG='1'and " +
+			"substr(u.F_CREATE_TIME,0,8)=to_char(sysdate-1,'YYYYMMDD') and u.F_CREATOR='"+userId+"'";
+	List<Object> billNoT=this.genericDao.getListWithNativeSql(sql);
+	List<Object> billNoY=this.genericDao.getListWithNativeSql(sql1);
+	if(billNoY.size()>0){
+		yesNumber=((BigDecimal)billNoY.get(0)).intValue();
+		if(yesNumber>0){
+			billList.add(yestoday+userCode+"0"+yesNumber);
+		}
+	}
+	if(billNoT!=null&&billNoT.size()>0){
+		todayNumber=((BigDecimal) billNoT.get(0)).intValue();
+		for (int i = 0; i < todayNumber+1; i++) {
+			String billno=today+userCode+"0"+(i+1);
+			billList.add(billno);
+		}
+	}
+	return billList;
+}
 
 }

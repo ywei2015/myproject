@@ -53,5 +53,9 @@ public class UserService {
 		return permissionList;
 	}
 	
-	
+	public String getEsbCodeById(String userId){
+		String sql="select u.f_code from t_sec_user u where u.f_pid="+userId;
+		List<String> esbCodeList=this.genericDao.getListWithNativeSql(sql);
+		return esbCodeList.get(0).toString();
+	}
 }

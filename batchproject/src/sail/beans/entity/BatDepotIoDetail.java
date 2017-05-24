@@ -6,9 +6,10 @@ public class BatDepotIoDetail implements Serializable{
 
 	private String pid;
 	private String billpid;
+	private String matkl;
 	private String matcode;
 	private String matname;
-	private String matbatch;
+	private String matbatch;    
 	private double quantity;
 	private String unit;
 	private String unitname;
@@ -192,6 +193,12 @@ public class BatDepotIoDetail implements Serializable{
 	}
 	public void setUnitname(String unitname) {
 		this.unitname = unitname;
+	}
+	public String getMatkl() {
+		return matkl;
+	}
+	public void setMatkl(String matkl) {
+		this.matkl = matkl;
 	}
 	
 	

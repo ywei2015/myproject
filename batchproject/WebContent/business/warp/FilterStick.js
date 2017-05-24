@@ -1,4 +1,4 @@
-var title= ["序号","名称","批次号","开始","结束","数量","单位","操作"];
+var title= ["序号","名称","批次号","数量","单位","时间","操作"];
 var theTable=document.getElementById("table");
 var userId=getQueryString('userId');
 var f_workorder_code=getQueryString('f_workorder_code'); //test:
@@ -77,27 +77,19 @@ function initTable(dataj){
 						r.appendChild(td);
 						
 						td=document.createElement('td');
-						td.id=i+"weizhi";
-						var weizhi=td.id;
-						
-						var data_td2=rowdata.starttime;//开始
-						data_td1=data_td2.substring(4,6)+'-'+data_td2.substring(6,8)+' '+data_td2.substring(8,10)+':'+data_td2.substring(10,12);
-						td.innerHTML=data_td1;
-						r.appendChild(td);
-						
-						td=document.createElement('td');
-						var data_td2=rowdata.endtime;//结束
-						data_td1=data_td2.substring(4,6)+'-'+data_td2.substring(6,8)+' '+data_td2.substring(8,10)+':'+data_td2.substring(10,12);
-						td.innerHTML=data_td1;
-						r.appendChild(td);
-						
-						td=document.createElement('td');
 						data_td1=rowdata.quantity;//数量
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
 						td=document.createElement('td');
 						data_td1="KG";//单位
+						td.id="weizhi"+i;
+						td.innerHTML=data_td1;
+						r.appendChild(td);
+						
+						td=document.createElement('td');
+						var data_td2=rowdata.starttime;//开始
+						data_td1=data_td2.substring(4,6)+'-'+data_td2.substring(6,8)+' '+data_td2.substring(8,10)+':'+data_td2.substring(10,12);
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
@@ -105,7 +97,7 @@ function initTable(dataj){
 						var pid=rowdata.pid;
 						billarray[i]=pid;
 						var shanchu="<div ><img height='32' width='30' src='../js/image/shanch.png'></img></div>";
-						data_td="<a  onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='window'" +
+						data_td="<a  onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='weizhi'" +i+
 						">"+shanchu+"</a>";
 						td.innerHTML=data_td;
 						r.appendChild(td);
@@ -123,9 +115,9 @@ function initTable(dataj){
 			}
 			 }
 			 if(biaoji==0){
-					tishi_type.style.display="none";
+				 type_tishi.style.display="none";
 				}else{
-					tishi_type.style.display="block";
+					type_tishi.style.display="block";
 				};
 		}
 	});
@@ -136,12 +128,7 @@ var Id;
 function deleteRow(i){
 	Id=i;
 	var tishi=picihao[i];
-	/*if(tishi.length>18){
-		var tishi1=tishi.substring(0,18);
-		var tishi2=tishi.substring(19,tishi.length);
-		tishi=tishi1.jion('\n')+tishi2;
-	}*/
-		
+	$("#my_queding").attr("data-position-to","#weizhi"+i);
 	$("#sure").text(tishi);
 }
 

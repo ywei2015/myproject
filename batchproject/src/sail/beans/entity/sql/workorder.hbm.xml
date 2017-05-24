@@ -8,17 +8,21 @@
 		<![CDATA[
     	select d.F_DIC_NAME, substr(t.f_worktime,length(t.f_worktime)-1,length(t.f_worktime))||'-'||t.F_MAT_NAME||'-'||t.f_workorder_code  
     	from T_BAT_WORKORDER t,V_BAT_JBGROUP_EQU d where t.F_WORKORDER_TYPE = ? 
-    	and t.F_PRODUCE_DATE = ? and t.f_workorder_state='10' and t.f_process=d.F_ESB_CODE 
+    	and t.F_PRODUCE_DATE >= ? and t.f_workorder_state='10' and t.f_process=d.F_ESB_CODE 
+        and  t.f_sys_flag='1'  order by t.F_PROCESS,t.F_WORKORDER_CODE 
+    ]]>
+	</sql-query>
+	
+	<sql-query name="WORKORDER.T_BAT_PROCESSID1_LIST">
+		<![CDATA[
+    	select d.F_DIC_NAME, substr(t.f_worktime,length(t.f_worktime)-1,length(t.f_worktime))||'-'||t.F_MAT_NAME||'-'||t.f_workorder_code  
+    	from T_BAT_WORKORDER t,v_bat_cxjtgroup_equ d where t.F_WORKORDER_TYPE = ? 
+    	and t.F_PRODUCE_DATE >= ? and t.f_workorder_state='10' and t.f_process=d.F_ESB_CODE 
         and  t.f_sys_flag='1'  order by t.F_PROCESS,t.F_WORKORDER_CODE 
     ]]>
 	</sql-query>
 		
-	<query name="BATCHDATA_BAT_DEPOT_IODETAIL">
-		<![CDATA[
-    	select order from sail.beans.entity.BatDepotIoDetail order where order.matbatch = ? and order.sysflag = '1'
-    	order by order.createtime desc
-    ]]>
-	</query>
+	
 	
 	<query name="BATCHDATA_BAT_DEPOT_IODETAIL_LIST">
 		<![CDATA[
@@ -45,53 +49,53 @@
     ]]>
 	</query>	
 	
+	<query name="WORKORDER.T_BAT_SPICETURN.LIST">
+		<![CDATA[
+    	select order from sail.beans.entity.BatSpiceTurn order where order.slave_batch = ? 
+    	and order.masterbatch = ? and order.sysflag = '1'
+    ]]>
+	</query>
+	
 	<query name="WORKORDER.T_BAT_WORKORDER.LIST">
 		<![CDATA[
     	select order from sail.beans.entity.BatWorkOrder order where order.workordertype = ? and
-    	order.workorderstate='10' and order.producedate >= to_char(sysdate-1,'YYYYMMDD')
-    	and order.producedate <= to_char(sysdate,'YYYYMMDD') and order.sysflag = '1'
+    	order.workorderstate='10' 
+    	and order.producedate >= to_char(sysdate-5,'YYYYMMDD') and order.sysflag = '1'
     	order by order.workordercode
     ]]>
 	</query>
 	
-	<query name="WORKORDER.T_BAT_WORKORDER_INPUT.LIST">
-		<![CDATA[
-    	select order from sail.beans.entity.BatWorkOrderInput order where order.matbatch = ? and order.sysflag = '1'
-    ]]>
-	</query>
 	
 	 <query name="WORKORDER.T_BAT_WORKORDER_INPUTLIST.LIST">
 		<![CDATA[ 
-	    	select detail from sail.beans.entity.BatWorkOrderInput detail,
-	    	sail.beans.entity.BatWorkOrder order where  order.workordercode = ? 
-	    	and order.pid = detail.workorderpid and detail.tltype='1'
+	    	select detail from sail.beans.entity.BatWorkOrderInput detail,sail.beans.entity.BatWorkOrder order 
+	    	where detail.matbatch = ? and order.workordercode = ? 
+	    	and order.pid = detail.workorderpid and detail.remark3 = ?  
 	    	and order.sysflag = '1' and detail.sysflag = '1' order by detail.createtime desc
 	    ]]>
 	</query> 
-    <query name="WORKORDER.T_BAT_WORKORDER_INPUTLIST2.LIST">
-		<![CDATA[
-	    	select detail from sail.beans.entity.BatWorkOrderInput detail,
-	    	sail.beans.entity.BatWorkOrder order where  order.workordercode = ? 
-	    	and order.pid = detail.workorderpid and detail.tltype!='1' and detail.remark3 = ?
-	    	and order.sysflag = '1' and detail.sysflag = '1' order by detail.createtime desc
+	
+	 <query name="WORKORDER.T_BAT_FILTERTIPPUT.LIST">
+		<![CDATA[ 
+	    	select order from sail.beans.entity.BatFiltertipPut order where order.transmitter = ? 
+    	    and order.matbatch = ? and order.sysflag = '1'
 	    ]]>
 	</query>
 	
-	 <query name="WORKORDER.T_BAT_WORKORDER_REUSELIST.LIST">
-		<![CDATA[
-	    	select detail from sail.beans.entity.BatWorkOrderInput detail,
-	    	sail.beans.entity.BatWorkOrder order where  order.workordertype = 'ZP03' 
-	    	and order.pid = detail.workorderpid and detail.tltype!='1' 
+	<query name="WORKORDER.T_BAT_PALLETRETURNDETAIL.LIST">
+		<![CDATA[ 
+	    	select detail from sail.beans.entity.BatPalletReturnDetails detail,sail.beans.entity.BatPalletReturn order 
+	    	where detail.slavebatch = ? and order.adjustno = ? 
+	    	and order.pid = detail.adjustpid 
 	    	and order.sysflag = '1' and detail.sysflag = '1' order by detail.createtime desc
 	    ]]>
-	</query>
+	</query> 
 	
-	 <query name="WORKORDER.T_REUSESILK_INPUTLIST.LIST">
-		<![CDATA[
-	    	select detail from sail.beans.entity.BatWorkOrderInput detail,
-	    	sail.beans.entity.BatWorkOrder order where  order.pid = detail.workorderpid and detail.tltype='4'
-	    	and order.sysflag = '1' and detail.sysflag = '1' order by detail.createtime desc
+	<query name="WORKORDER.T_BAT_PALLETRETURN.LIST">
+		<![CDATA[ 
+	    	select order from sail.beans.entity.BatPalletReturn order 
+	    	where  order.adjustno = ? and order.sysflag = '1' 
 	    ]]>
-	</query>
+	</query> 
 	
 </hibernate-mapping>

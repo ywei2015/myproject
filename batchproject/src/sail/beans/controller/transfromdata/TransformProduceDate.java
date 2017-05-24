@@ -25,6 +25,7 @@ public class TransformProduceDate {
 	public void transformJBProduceDate(){
 		transformProduceDateService.transformJBProduceDate("TUB_DIC_2012");
 	}
+    
     @Scheduled(cron = "0 0/10 * * * ?")
 	@ResponseBody
 	@RequestMapping(value="/transformProCX")
@@ -36,13 +37,13 @@ public class TransformProduceDate {
 	@ResponseBody
 	@RequestMapping(value="/transformProZS")
 	public void transformZSProduceDate(){
-		transformProduceDateService.transformZSProduceDate();
+		//transformProduceDateService.transformZSProduceDate();
 	}
 	
 	@Scheduled(cron = "0 0/10 * * * ?")
 	@ResponseBody
 	@RequestMapping(value="/transformProGS")
 	public void transformGSProduceDate(){
-		transformProduceDateService.transformGSProduceDate();
+		//transformProduceDateService.transformGSProduceDate();
 	}
 }

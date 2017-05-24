@@ -1,4 +1,4 @@
-var title= ["序号","编码","批次号","数量","单位","开始","操作"];
+var title= ["序号","编码","批次号","数量","单位","时间","操作"];
 var theTable=document.getElementById("table");
 var userId=getQueryString('userId');
 var f_workorder_code=getQueryString('f_workorder_code');//test:
@@ -116,9 +116,9 @@ function initTable(dataj){
 			
 		}
 			 if(biaoji==0){
-					tishi_type.style.display="none";
+				   type_tishi.style.display="none";
 				}else{
-					tishi_type.style.display="block";
+					type_tishi.style.display="block";
 				};
 		}
 	

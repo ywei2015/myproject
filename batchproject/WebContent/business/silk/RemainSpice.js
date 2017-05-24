@@ -7,7 +7,7 @@ function loadImage() {
 } 
 loadImage();
 
-var title= ["序号","编码","批次号","罐号","数量","单位","开始","操作"];
+var title= ["序号","编码","批次号","罐号","数量","单位","时间","操作"];
 var theTable=document.getElementById("table");
 var userId=getQueryString('userId');
 var billarray=[];
@@ -111,9 +111,9 @@ function initTable(){
 			
 		}
 			 if(biaoji==0){
-					tishi_type.style.display="none";
+				 type_tishi.style.display="none";
 				}else{
-					tishi_type.style.display="block";
+					type_tishi.style.display="block";
 				};
 			 
 		}

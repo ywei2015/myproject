@@ -42,12 +42,12 @@ public class RollBatchService {
 		BatWorkOrderInput batWorkOrderInput = null;
 		if (batWorkList != null && batWorkList.size() > 0){
 			BatWorkOrder BatWorkOrder = batWorkList.get(0);
-			List<BatWorkOrderInput> inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUT.LIST", new Object[]{matBatch});
+			List<BatWorkOrderInput> inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST.LIST", new Object[]{matBatch,workOrderCode,null});
 			if (inputList != null && inputList.size() > 0){
 				batWorkOrderInput = inputList.get(0);
 				batWorkOrderInput.setIsrepair("1");
 			}else{
-				CarCode carCode = batchStorageService.getResolveValue(matBatch);
+				CarCode carCode = batchStorageService.getResolveValue(matBatch,"JM01");
 				if(carCode.getMatcode()==null) {
 					return batWorkOrderInput;
 				}
@@ -67,7 +67,7 @@ public class RollBatchService {
 				batWorkOrderInput.setMatcode(carCode.getMatcode());
 				batWorkOrderInput.setMatname(carCode.getMatname());
 				batWorkOrderInput.setUnit(carCode.getUnit());
-				batWorkOrderInput.setQuantity(Double.parseDouble(carCode.getAmount()));
+				batWorkOrderInput.setQuantity(carCode.getAmount());
 				batWorkOrderInput.setStarttime(DateBean.getSysdateTime());
 				batWorkOrderInput.setEndtime(DateBean.getSysdateTime());
 				batWorkOrderInput.setOperatetime(DateBean.getSysdateTime());
@@ -75,9 +75,9 @@ public class RollBatchService {
 				batWorkOrderInput.setSysflag("1");
 				batWorkOrderInput.setCreator(operuser);
 				batWorkOrderInput.setCreatetime(DateBean.getSysdateTime());
-				/*List matList=matBomService.getBomByWorkOrder(workOrderCode,null,carCode.getMatcode().toString());
+				List matList=matBomService.getBomByWorkOrder(workOrderCode,null,carCode.getMatcode().toString());
 				if(matList.size()==0)
-					batWorkOrderInput.setRemark4("0");*/
+					batWorkOrderInput.setRemark4("0");
 				genericDao.save(batWorkOrderInput);
 			}
 		}
@@ -112,7 +112,7 @@ public class RollBatchService {
 	 * @return
 	 */
 	public List<BatWorkOrderInput> getBatWorkOrderInput(String workOrderCode){
-		List<BatWorkOrderInput> inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST2.LIST", new Object[]{workOrderCode,null});
+		List<BatWorkOrderInput> inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST.LIST", new Object[]{null,workOrderCode,null});
 		return inputList;
 	}
 
@@ -138,10 +138,16 @@ public class RollBatchService {
 	 * @return
 	 */
 	public Map<String,List> getWorkOrderAndProcess(String workType){
-		String date=DateBean.getSysdate();
+		String date1=DateBean.getSysdate();
+		String date=DateBean.getBeforDay(DateBean.getSysdate(),5);
 		Map<String,List> workOrderMap=new HashMap();
+		List<Object[]> workData=null;
 		try {
-			List<Object[]> workData=genericDao.getListWithNativeSql("WORKORDER.T_BAT_PROCESSID_LIST",new Object[]{workType,date});
+			if(workType.equals("ZP01")){
+			     workData=genericDao.getListWithNativeSql("WORKORDER.T_BAT_PROCESSID_LIST",new Object[]{workType,date});
+			}else{
+			     workData=genericDao.getListWithNativeSql("WORKORDER.T_BAT_PROCESSID1_LIST",new Object[]{workType,date});
+			}
 			if(workData!=null&&workData.size()>0){
 				for (int i = 0; i < workData.size(); i++) {
 					Object[] rowData=workData.get(i);
@@ -154,8 +160,8 @@ public class RollBatchService {
 						String paihao=rowData[1].toString();
 						String tou=paihao.substring(0, paihao.indexOf("-"));
 						if("01".equals(tou)) paihao=paihao.replaceFirst(tou, "早班");
-						if("02".equals(tou)) paihao=paihao.replaceFirst(tou, "中班");
-						if("03".equals(tou)) paihao=paihao.replaceFirst(tou, "晚班");
+						if("02".equals(tou)) paihao=paihao.replaceFirst(tou, "白班");
+						if("03".equals(tou)) paihao=paihao.replaceFirst(tou, "中班");
 						processWorkList.add(paihao);
 					}
 				}

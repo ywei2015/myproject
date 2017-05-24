@@ -7,10 +7,10 @@ public class CarCode implements Serializable{
 	private String pid;
 	private String matcode;
 	private String matname;
-	private String amount;
+	private Double amount;
 	private String unit;
 	private String unitname;
-	private String value2;//1为大件 2为小件
+	private String value2;//1为大件 2为小件,3产出表,4稀释液转动表
 	private String value3;
 	private String value4;
 	private String value5;
@@ -76,12 +76,6 @@ public class CarCode implements Serializable{
 	public void setMatname(String matname) {
 		this.matname = matname;
 	}
-	public String getAmount() {
-		return amount;
-	}
-	public void setAmount(String amount) {
-		this.amount = amount;
-	}
 	public String getUnit() {
 		return unit;
 	}
@@ -123,6 +117,12 @@ public class CarCode implements Serializable{
 	}
 	public void setState(String state) {
 		this.state = state;
+	}
+	public Double getAmount() {
+		return amount;
+	}
+	public void setAmount(Double amount) {
+		this.amount = amount;
 	}
 	
 	

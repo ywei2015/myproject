@@ -32,6 +32,7 @@ function initTable(dataj){
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
+	if(f_workorder_code!=null&&f_workorder_code!=""){
 	$.ajax({
 		type : "post",
 		url: cqt_prefix+'silkorder/getBatWorkOrderInput',
@@ -112,15 +113,16 @@ function initTable(dataj){
 			
 		}
 		    if(biaoji==0){
-				tishi_type.style.display="none";
+		    	type_tishi.style.display="none";
 				console.info(biaoji);
 			}else{
-				tishi_type.style.display="block";
+				type_tishi.style.display="block";
 				console.info(biaoji);
 			};
 		}
 	
 	});
+	}
 	theTable.appendChild(b);
 }
 var Id;

@@ -41,7 +41,7 @@ public class SpiceRemainService {
 			batSpiceRemain.setIsrepair("1");
 			return batSpiceRemain;
 		}else{
-			CarCode carCode = batchStorageService.getResolveValue(matbatch);
+			CarCode carCode = batchStorageService.getResolveValue(matbatch,"JM03");
 			if(carCode.getMatcode()==null){
 				return batSpiceRemain;
 			}

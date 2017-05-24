@@ -16,7 +16,7 @@ import java.io.Serializable;
  */
 public class ResponseStatus implements Serializable {
 	private String message = "成功！";
-	private String code = "0";
+	private String code = "1";
 	public String getMessage() {
 		return message;
 	}

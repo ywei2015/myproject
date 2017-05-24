@@ -1,4 +1,4 @@
-var title= ["序号","名称","批次号","数量","单位","开始","操作"];
+var title= ["序号","名称","批次号","数量","单位","时间","操作"];
 var theTable=document.getElementById("table");
 var userId=getQueryString('userId');
 var f_workorder_code=getQueryString('f_workorder_code'); //工单:20161208HZ-YCX-01
@@ -31,10 +31,8 @@ function initTable(dataj){
 		td.innerHTML=''+title_table;
 		title_r.appendChild(td);
 	}
-	if(f_workorder_code!=null&&f_workorder_code!=""){
-
 	b.appendChild(title_r);
-	if(userId!=null){
+	if(f_workorder_code!=null&&f_workorder_code!=""){
 	$.ajax({
 		type : "post",
 		url:cqt_prefix+'silkorder/getBatWorkOrderInput',
@@ -117,13 +115,13 @@ function initTable(dataj){
 			
 		}
 			 if(biaoji==0){
-					tishi_type.style.display="none";
+				 type_tishi.style.display="none";
 				}else{
-					tishi_type.style.display="block";
+					type_tishi.style.display="block";
 				};
 		}
 	});
-	}
+	
 	}
 	theTable.appendChild(b);
 }

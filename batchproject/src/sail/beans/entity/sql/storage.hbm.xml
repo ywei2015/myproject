@@ -21,24 +21,17 @@
 	<query name="STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST">
 		<![CDATA[
     	SELECT detail FROM sail.beans.entity.BatDepotIoDetail detail,sail.beans.entity.BatDepotIoBill bill
-    	 where bill.billno = ? and bill.doctype = ? and detail.remark5 = ? and detail.matbatch = ? 
+    	 where bill.billno = ? and bill.doctype = ? and detail.isEnter = ? and detail.matbatch = ? 
     	 and bill.sysflag = '1' and bill.pid = detail.billpid and detail.sysflag= '1' 
     	 order by detail.createtime desc
     ]]>
 	</query>	
 	
-	<query name="STORAGE.T_BAT_STROAGVALIDATE_.LIST">
+	<query name="STORAGE.T_BAT_DEPOT_IOBILLDETAIL2.LIST">
 		<![CDATA[
     	SELECT detail FROM sail.beans.entity.BatDepotIoDetail detail,sail.beans.entity.BatDepotIoBill bill
-    	 where bill.billno = ? and bill.doctype = ? and bill.sysflag = '1' and bill.pid = detail.billpid and detail.sysflag= '1' 
-    	 and bill.isEnter = ? and detail.isEnter = ? order by detail.createtime desc
-    ]]>
-	</query>
-	
-	<query name="STORAGE.T_BAT_DEPOT_IOBILLDETAILJ.LIST">
-		<![CDATA[
-    	SELECT detail FROM sail.beans.entity.BatDepotIoDetail detail,sail.beans.entity.BatDepotIoBill bill
-    	 where detail.matbatch = ? and bill.doctype = 'ZO40'  and bill.sysflag = '1' and bill.pid = detail.billpid and detail.sysflag= '1' 
+    	 where bill.billno = ? and bill.doctype = ? and detail.remark5 = ? and detail.matbatch = ? 
+    	 and bill.sysflag = '1' and bill.pid = detail.billpid and detail.sysflag= '1' 
     	 order by detail.createtime desc
     ]]>
 	</query>
@@ -46,21 +39,21 @@
 	<query name="STORAGE.T_BAT_BATADJUST_DETAILSLAVE.LIST">
 		<![CDATA[
 			select de from sail.beans.entity.BatBatAdjustDetail de where de.slavebatch = ? and de.newmasterbatch = ?  and de.sysflag = '1'
+			order by de.createtime desc
 		]]>
 	</query>
 	<sql-query name="STORAGE.GET_RESOLVEVAlUE">
 		<![CDATA[
 			select d.f_pid, d.f_bill_pid, d.f_mat_code, d.f_mat_name, d.f_mat_batch as f_batch,  
 			d.F_INVENTORY_TYPE as f_state,
-			(select sum(s.f_quantity) from t_bat_depot_iodetaillist s where s.f_billdetail_pid=d.f_pid and s.f_sys_flag='1') as f_quantity,
-			(select s.f_unit from t_bat_depot_iodetaillist s where s.f_billdetail_pid=d.f_pid and rownum=1) as f_unit,
+			d.F_QUANTITY as f_quantity,
+			d.F_UNIT as f_unit,
 			d.F_SUPPLIER_SORTCODE 
 			from T_BAT_DEPOT_IODETAIL d,T_BAT_DEPOT_IOBILL t
 			where  d.f_Mat_Batch = ?
 			and d.f_sys_flag='1' 
 			and d.f_bill_pid=t.f_pid
 			and t.f_sys_flag='1' 
-			
 		]]>
 	</sql-query>	
 	
@@ -68,13 +61,14 @@
 		<![CDATA[
 			select d.f_pid, d.f_bill_pid, d.f_mat_code, d.f_mat_name, s.f_slave_batch as f_batch, 
 			d.F_INVENTORY_TYPE as f_state,s.f_quantity,s.f_unit,
-			d.F_SUPPLIER_SORTCODE 
+			d.F_SUPPLIER_SORTCODE,d.F_MAT_BATCH
 			from T_BAT_DEPOT_IODETAIL d, t_bat_depot_iodetaillist s,T_BAT_DEPOT_IOBILL t
 			where  s.f_slave_batch = ? 
 			and d.f_sys_flag='1'  
 			and s.f_billdetail_pid=d.f_pid
 			and d.f_bill_pid=t.f_pid
 			and t.f_sys_flag='1'
+			and s.f_sys_flag='1'
 			
 		]]>
 	</sql-query>
@@ -95,8 +89,9 @@
 	</sql-query>
 	<query name="storage.getbatDepotIoDetailList.bybatch">
 		<![CDATA[
-    	SELECT detail FROM sail.beans.entity.BatDepotIoDetailList detail where detail.slavebatch = ?  
-    	order by detail.createtime desc
+    	SELECT detail FROM sail.beans.entity.BatDepotIoDetailList detail,sail.beans.entity.BatDepotIoDetail detailb
+    	 where detail.slavebatch = ?  and detail.billdetailpid=detailb.pid and detailb.pid = ? 
+    	and detail.sysflag = '1' order by detail.createtime desc
     ]]>
 	</query>
 </hibernate-mapping>

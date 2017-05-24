@@ -53,7 +53,7 @@ public class BatTransYesiIntoCabinetService extends CommonService{
 							output.setCreatetime(DateBean.getSysdateTime());
 							genericDao.save(output);
 							//转储完数据后更新转储状态
-							UBatTransToBaccoOutCabinet main1 = (UBatTransToBaccoOutCabinet)genericDao.getById(UBatTransToBaccoOutCabinet.class,mainList.get(i).getPid());
+							UBatTransYesiIntoCabinet main1 = (UBatTransYesiIntoCabinet)genericDao.getById(UBatTransYesiIntoCabinet.class,mainList.get(i).getPid());
 							main1.setSynchroFlag(Constants.SYN_CHRO_USED);
 							main1.setSynchroTime(DateBean.getSysdateTime());
 							genericDao.save(main1);

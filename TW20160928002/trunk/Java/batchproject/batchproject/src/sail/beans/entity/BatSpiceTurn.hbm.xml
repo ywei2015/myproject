@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ 	<class name="sail.beans.entity.BatSpiceTurn" table="T_BAT_SPICE_TURN">
+   		<id name="pid" column="F_PID" length="36" type="string" unsaved-value="">
+			<generator class="uuid.hex" />
+		</id> 
+		<property name="workorder" column="F_WORKORDER_OUT" length="100" type="string"/>
+		<property name="producedate" column="F_PRODUCE_DATE" length="50" type="string"/>
+		<property name="matecode" column="F_MAT_CODE" length="50" type="string"/>
+		<property name="matename" column="F_MAT_NAME" length="50" type="string"/>
+		<property name="masterbatch" column="F_MASTER_BATCH" length="50" type="string"/>
+		<property name="dilutepotcode" column="F_DILUTE_POTCODE" length="50" type="string"/>
+		<property name="dilutepotname" column="F_DILUTE_POTNAME" length="50" type="string"/>
+		<property name="slave_batch" column="F_SLAVE_BATCH" length="50" type="string" />
+		<property name="quantity" column="F_QUANTITY" precision="12" scale="4" not-null="true" type="java.lang.Double"/>
+		<property name="unit" column="F_UNIT" length="50" type="string"/>
+		<property name="operator" column="F_OPERATOR" length="50" type="string"/>
+		<property name="operatorname" column="F_OPERATOR_NAME" length="50" type="string"/>
+		<property name="operatetime" column="F_OPERATE_TIME" length="50" type="string"/>
+		<property name="iscost" column="F_ISCOST" length="2" type="string"/>
+		<property name="workorderin" column="F_WORKORDER_IN" length="50" type="string"/>
+		<property name="inpotcode" column="F_INPOT_CODE" length="50" type="string"/>
+		<property name="inpotname" column="F_INPOT_NAME" length="50" type="string"/>
+		<property name="operator2" column="F_OPERATOR2" length="50" type="string"/>
+		<property name="operatorname2" column="F_OPERATOR_NAME2" length="50" type="string"/>
+		<property name="operatetime2" column="F_OPERATE_TIME2" length="50" type="string"/>
+		<property name="remark1" column="F_REMARK1" length="50" type="string"/>
+		<property name="remark2" column="F_REMARK2" length="50" type="string"/>
+		<property name="remark3" column="F_REMARK3" length="50" type="string"/>
+		<property name="remark4" column="F_REMARK4" length="50" type="string"/>
+		<property name="remark5" column="F_REMARK5" length="50" type="string"/>
+		<property name="remark" column="F_REMARK" length="50" type="string"/>
+		<property name="sysflag" column="F_SYS_FLAG" length="50" type="string"/>
+		<property name="creator" column="F_CREATOR" length="50" type="string"/>
+		<property name="createtime" column="F_CREATE_TIME" length="50" type="string"/>
+		<property name="lastmodifier" column="F_LAST_MODIFIER" length="50" type="string"/>
+		<property name="lastmodifiedtime" column="F_LAST_MODIFIED_TIME" length="50" type="string"/>
+	</class>
+</hibernate-mapping>

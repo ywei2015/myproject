@@ -27,7 +27,7 @@ public class TransformProduceDateService {
 	@Autowired
 	private SpcQmsBatchDataService spcQmsBatchDataService;
 	
-	private String taskday=DateBean.getBeforDay(DateBean.getSysdate(), 3);
+	private String taskday=DateBean.getBeforDay(DateBean.getSysdate(), 1);
 
 	/**
 	 * 卷包成型生产转储

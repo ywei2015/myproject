@@ -138,20 +138,7 @@ function deleteRow(i){
 
 function verifySubmit(){
 	    var aa=Id;
-
-		var falg=1;
-		if(falg==0)
-			$("#tishi").text("删除失败！");
-		if(falg==1){
-			$("#tishi").text("删除成功！");
-			$("#ok").bind('click',function(){
-				 initTable(data_p);
-				 $("#ok").unbind("click");
-			   });
-		    
-		}
-		
-    	/*$.ajax({
+    	$.ajax({
     		type : "post",
     		url: cqt_prefix+'silkorder/deleteBatWorkOrderInput',
     		data:{'f_pid':billarray[Id],'userId':userId,'remark':2},
@@ -168,7 +155,7 @@ function verifySubmit(){
 			    
 			}
 			}
-    	});  */
+    	});  
   
 }
 

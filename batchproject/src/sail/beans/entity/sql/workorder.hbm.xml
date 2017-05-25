@@ -60,7 +60,7 @@
 		<![CDATA[
     	select order from sail.beans.entity.BatWorkOrder order where order.workordertype = ? and
     	order.workorderstate='10' 
-    	and order.producedate >= to_char(sysdate-5,'YYYYMMDD') and order.sysflag = '1'
+    	and order.producedate >= to_char(sysdate-1,'YYYYMMDD') and order.sysflag = '1'
     	order by order.workordercode
     ]]>
 	</query>

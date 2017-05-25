@@ -139,7 +139,7 @@ public class RollBatchService {
 	 */
 	public Map<String,List> getWorkOrderAndProcess(String workType){
 		String date1=DateBean.getSysdate();
-		String date=DateBean.getBeforDay(DateBean.getSysdate(),5);
+		String date=DateBean.getBeforDay(DateBean.getSysdate(),1);
 		Map<String,List> workOrderMap=new HashMap();
 		List<Object[]> workData=null;
 		try {

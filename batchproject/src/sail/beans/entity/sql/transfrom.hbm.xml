@@ -21,7 +21,7 @@
             ,(select d9.F_ESB_CODE from V_BAT_PRODUCT_SECTION d9 where d9.f_pid=t.f_workunit_id)  as f_zhisi_code 
 			,(select d10.F_ESB_CODE from V_BAT_CPMAT d10 where d10.f_pid=t.F_MAT_ID)  as f_cpbrand_code   
 			from T_APS_WORKORDER t,t_aps_workplan d
-			where t.f_workday >= to_char(sysdate-2,'YYYYMMDD')
+			where t.f_workday >= to_char(sysdate,'YYYYMMDD')
 			and t.f_workday <= to_char(sysdate+1,'YYYYMMDD') 
 			and d.F_PLANTYPE_FLAG = ? 
 			and t.f_workunit_id = ? 
@@ -53,8 +53,10 @@
 			,(select d10.F_CPESB_CODE from V_BAT_ZSCPMAT d10 where d10.F_YSMAT_PID=t.F_MAT_ID)  as f_ZSbrand_code    
 			,(select d11.F_YP_NAME from V_BAT_ZSMAT_BCP d11 where d11.f_pid = t.f_mat_id) as F_YP_NAME
 			,(select d12.F_YS_NAME from V_BAT_ZSMAT_BCP d12 where d12.f_pid = t.f_mat_id) as F_YS_NAME
+			,(select d11.F_YS_ESBCODE from V_BAT_ZSMAT_BCP d11 where d11.f_pid = t.f_mat_id) as F_YS_ESBCODE
+			,(select d12.F_YP_ESBCODE from V_BAT_ZSMAT_BCP d12 where d12.f_pid = t.f_mat_id) as F_YP_ESBCODE
 			from T_APS_WORKORDER t,t_aps_workplan d
-			where t.f_workday >= to_char(sysdate-2,'YYYYMMDD')
+			where t.f_workday >= to_char(sysdate,'YYYYMMDD')
 			and t.f_workday <= to_char(sysdate+1,'YYYYMMDD') 
 			and d.F_PLANTYPE_FLAG = ? 
 			and t.f_workunit_id = ? 
@@ -85,7 +87,7 @@
             ,(select d9.F_ESB_CODE from V_BAT_PRODUCT_SECTION d9 where d9.f_pid=t.f_workunit_id)  as f_zhisi_code 
 			,(select d10.F_CPESB_CODE from V_BAT_ZSCPMAT d10 where d10.F_YSMAT_PID=t.F_MAT_ID)  as f_ZSbrand_code    
 			from T_APS_WORKORDER t,t_aps_workplan d
-			where t.f_workday >= to_char(sysdate-2,'YYYYMMDD')
+			where t.f_workday >= to_char(sysdate,'YYYYMMDD')
 			and t.f_workday <= to_char(sysdate+1,'YYYYMMDD') 
 			and d.F_PLANTYPE_FLAG = ? 
 			and t.f_workunit_id = ? 
@@ -173,5 +175,11 @@
 		]]>
 	</query>
 	
+	<!-- <query name="transfrom.workorderteam.list">
+		<![CDATA[
+			select in from sail.beans.entity.BatWorkOrderInput in where in.workorderpid = ? 
+			and in.sysflag = '1' order by in.createtime
+		]]>
+	</query> -->
 	
 </hibernate-mapping>

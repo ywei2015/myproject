@@ -11,6 +11,7 @@ import sail.beans.dao.GenericDao;
 import sail.beans.entity.BatWorkOrder;
 import sail.beans.entity.BatWorkOrderOutput;
 import sail.beans.entity.UBatTransPeduncleCabinet;
+import sail.beans.service.TransfromWorkCodeDataService;
 import sail.beans.support.DateBean;
 import sail.beans.support.StingUtil;
 
@@ -18,7 +19,8 @@ import sail.beans.support.StingUtil;
 public class BatTransPeduncleCabinetService extends CommonService{
 	@Autowired
 	private GenericDao genericDao;  
-	
+	@Autowired
+	private TransfromWorkCodeDataService service;
 	/**
 	 * 获取待转储并新增生产工单投料后台服务（梗丝进柜）
 	 * @return
@@ -56,13 +58,12 @@ public class BatTransPeduncleCabinetService extends CommonService{
 						main1.setSynchroTime(DateBean.getSysdateTime());
 						genericDao.save(main1);
 						//将工单表中该批次类型为ZP13的工单状态置为20已执行、工单完成时间为入柜完成时间、实际产量为入柜数量
+						service.TransfromWorkOrder(batWorkOrder);
 						batWorkOrder.setWorkorderstate("20");
-						batWorkOrder.setActualstarttime(order.getActualStarttime());
-						batWorkOrder.setActualendtime(order.getActualEndtime());
 						batWorkOrder.setActualquantity(order.getQuantity());
 						batWorkOrder.setUnit(order.getUnit());
 						batWorkOrder.setLastmodifier(this.getUserIdByUserCode(order.getOperateUsercode()));
-						batWorkOrder.setLastmodifiedtime(DateBean.getSysdateTime());
+						genericDao.save(batWorkOrder);
 					}
 				}
 			}

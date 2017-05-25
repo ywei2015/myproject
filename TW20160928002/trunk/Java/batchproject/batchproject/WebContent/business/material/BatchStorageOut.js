@@ -1,4 +1,4 @@
-var title= ["编码","名称","批次号","数量","单位","时间","操作"];
+var title= ["序号","编码","名称","批次号","数量","单位","时间","操作"];
 var theTable=document.getElementById("table");
 var userId=getQueryString('userId');
 var f_bill_no=getQueryString('f_bill_no'); //test:1
@@ -51,6 +51,12 @@ function initTable(dataj){
 					if(rowdata!=null||rowdata!=undefined){
 						var td;
 						var data_td1;
+						
+						td=document.createElement('td');
+						data_td1=1+i;//序号
+						td.innerHTML=data_td1;
+						r.appendChild(td);
+						
 						td=document.createElement('td');
 						data_td1=rowdata.matcode;//编码
 						td.innerHTML=data_td1;

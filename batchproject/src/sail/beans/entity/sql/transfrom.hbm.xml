@@ -177,9 +177,9 @@
 	
 	<query name="transfrom.workorderteam.list">
 		<![CDATA[
-			select in from sail.beans.entity.BatWorkOrderInput in where in.workorderpid = ? 
-			and in.sysflag = '1' order by in.createtime
+			select T from sail.beans.entity.BatWorkOrderInput T where T.workorderpid = ? 
+			and T.sysflag = '1' order by T.createtime
 		]]>
-	</query> 
+	</query>
 	
 </hibernate-mapping>

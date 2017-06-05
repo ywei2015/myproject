@@ -45,6 +45,11 @@ public class Constants {
 	public final static String SYN_CHRO_USED = "1";
 	
 	/**
+	 * 转储标识-未找到工单
+	 */
+	public final static String SYN_CHRO_UNFIND = "2";
+	
+	/**
 	 * 汉中卷包车间ID
 	 */
 	public final static String WORKAREA_ID = "86ebc921-ebcd-4fe8-a887-ffb587910bdc";

@@ -67,6 +67,11 @@ public class BatTransYesiIntoCabinetService extends CommonService{
 							batWorkOrder.setLastmodifier(this.getUserIdByUserCode(order.getOperateUsercode()));
 							batWorkOrder.setLastmodifiedtime(DateBean.getSysdateTime());
 							genericDao.save(batWorkOrder);
+						}else{
+							UBatTransYesiIntoCabinet main1 = (UBatTransYesiIntoCabinet)genericDao.getById(UBatTransYesiIntoCabinet.class,mainList.get(i).getPid());
+							main1.setSynchroFlag(Constants.SYN_CHRO_UNFIND);
+							main1.setSynchroTime(DateBean.getSysdateTime());
+							genericDao.save(main1);
 						}
 					}
 				}

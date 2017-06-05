@@ -61,6 +61,11 @@ public class BatTransLeafSpiceFeedingService extends CommonService{
 						main1.setSynchroFlag(Constants.SYN_CHRO_USED);
 						main1.setSynchroTime(DateBean.getSysdateTime());
 						genericDao.save(main1);
+					}else{
+						UBatTransLeafSpiceFeeding main1 = (UBatTransLeafSpiceFeeding)genericDao.getById(UBatTransLeafSpiceFeeding.class,mainList.get(i).getPid());
+						main1.setSynchroFlag(Constants.SYN_CHRO_UNFIND);
+						main1.setSynchroTime(DateBean.getSysdateTime());
+						genericDao.save(main1);
 					}
 				}
 			}

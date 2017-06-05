@@ -64,6 +64,11 @@ public class BatTransToBaccoInCabinetService extends CommonService{
 						batWorkOrder.setUnit(order.getUnit());
 						batWorkOrder.setLastmodifier(this.getUserIdByUserCode(order.getOperateUsercode()));
 						genericDao.save(batWorkOrder);
+					}else{
+						UBatTransToBaccoInCabinet main1 = (UBatTransToBaccoInCabinet)genericDao.getById(UBatTransToBaccoInCabinet.class,mainList.get(i).getPid());
+						main1.setSynchroFlag(Constants.SYN_CHRO_UNFIND);
+						main1.setSynchroTime(DateBean.getSysdateTime());
+						genericDao.save(main1);
 					}
 				}
 			}

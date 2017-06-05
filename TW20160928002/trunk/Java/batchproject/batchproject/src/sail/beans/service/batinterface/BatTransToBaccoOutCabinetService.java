@@ -65,6 +65,11 @@ public class BatTransToBaccoOutCabinetService extends CommonService{
 							main1.setSynchroTime(DateBean.getSysdateTime());
 							genericDao.save(main1);
 						}
+					}else{
+						UBatTransToBaccoOutCabinet main1 = (UBatTransToBaccoOutCabinet)genericDao.getById(UBatTransToBaccoOutCabinet.class,mainList.get(i).getPid());
+						main1.setSynchroFlag(Constants.SYN_CHRO_UNFIND);
+						main1.setSynchroTime(DateBean.getSysdateTime());
+						genericDao.save(main1);
 					}	
 				}
 			}

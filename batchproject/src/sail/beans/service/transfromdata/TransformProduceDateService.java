@@ -47,8 +47,8 @@ public class TransformProduceDateService {
 					 BatWorkOrder batWorkOrder=(BatWorkOrder) yzMess.get("workorder");
 					 BatWorkOrderOutput batWorkOrderOutput=new BatWorkOrderOutput();
 					 batWorkOrderOutput.setWorkorderpid(batWorkOrder.getPid());
-					 if(jizu[11]!=null)
-						 batWorkOrderOutput.setQuantity(Double.parseDouble(jizu[11].toString()));
+					 if(jizu[45]!=null)
+						 batWorkOrderOutput.setQuantity(Double.parseDouble(jizu[45].toString()));
 					 batWorkOrderOutput.setMatbatch(batWorkOrder.getWorkordercode());
 					 if(batWorkOrder.getUnit()==null||batWorkOrder.getUnit().trim().length()==0)
 						 batWorkOrderOutput.setUnit("PAN");
@@ -80,6 +80,8 @@ public class TransformProduceDateService {
 					 batWorkOrder.setLastmodifiedtime(DateBean.getSysdateTime());
 					 batWorkOrder.setActualstarttime(batWorkOrder.getPlanstarttime());
 					 batWorkOrder.setActualendtime(batWorkOrder.getPlanendtime());
+					 if(jizu[11]!=null)
+						 batWorkOrder.setPlanquantity(Double.parseDouble(jizu[11].toString()));
 					 batWorkOrder.setActualquantity(batWorkOrderOutput.getQuantity());
 					 this.genericDao.save(batWorkOrder);
 					 }

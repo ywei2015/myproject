@@ -29,16 +29,16 @@ public class BatTransLeafFeedingOrderService extends CommonService{
 			List<UBatTransLeafFeedingOrder> mainList = genericDao.getListWithVariableParas("SYNCHRO.U_BAT_TRANSLEAFFEEDINGORDER.LIST", new Object[]{});
 			if (mainList != null && mainList.size() > 0){
 				for(int i=0;i<mainList.size();i++){
-					String matBatch = mainList.get(i).getMatBatch().toString()+Constants.ZP12;
+					String matBatch = mainList.get(i).getMatBatch().toString()+Constants.ZP13;
 					BatWorkOrder batWorkOrder = this.getWorkorderByBatch(matBatch);
 					if(!StingUtil.isEmpty(batWorkOrder)){
 						BatWorkOrderInput input = new BatWorkOrderInput();
 						UBatTransLeafFeedingOrder order = mainList.get(i);
 						input.setWorkorderpid(batWorkOrder.getPid());
 						input.setTltype(Constants.TL_TYPE);
-						input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString()+Constants.ZP12);
+						input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString()+Constants.ZP13);
 						input.setMatcode(order.getMatCode()==null?"":order.getMatCode().toString());
-						input.setMatname(order.getMatName()==null?"":order.getMatName().toString());
+						input.setMatname(this.getBatZsMatBcp(order.getMatCode().toString()));
 						input.setLocation(order.getLocation()==null?"":order.getLocation().toString());
 						input.setLocationname(order.getLocationName()==null?"":order.getLocationName().toString());
 						input.setQuantity(order.getQuantity()==null?0.0:Double.parseDouble(order.getQuantity().toString()));

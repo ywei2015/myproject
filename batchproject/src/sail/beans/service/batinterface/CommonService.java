@@ -134,4 +134,23 @@ public class CommonService {
 		}
 		return conList.get(0);
 	}
+	
+	/**
+	 * 根据叶片ESB编码查找叶片名称
+	 * @param ypEsbCode
+	 * @return
+	 */
+	public String getBatZsMatBcp(String ypEsbCode)
+	{
+		if(StingUtil.isEmpty(ypEsbCode)){
+			return null;
+		}
+		String sql = "SELECT F_YP_NAME from V_BAT_ZSMAT_BCP WHERE F_YP_ESBCODE ='"+ypEsbCode+"'";
+		List conList = this.genericDao.getListWithNativeSql(sql);
+		if (conList == null || conList.size() == 0)
+		{
+			return null;
+		}
+		return conList.get(0).toString();
+	}
 }

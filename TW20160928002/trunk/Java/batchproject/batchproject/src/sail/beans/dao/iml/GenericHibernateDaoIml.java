@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -33,10 +32,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.hql.internal.classic.QueryTranslatorImpl;
 import org.hibernate.jdbc.Work;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import sail.beans.dao.GenericDao;
 import sail.beans.dao.iml.cacheQueryCount.CountCache;
@@ -44,10 +40,11 @@ import sail.beans.dao.iml.cacheQueryCount.SqlParams;
 import sail.beans.exception.BusinessException;
 
 @Repository("GenericDao")
-public class GenericHibernateDaoIml implements GenericDao {
+public class GenericHibernateDaoIml  implements GenericDao  {
 	
 	
 	private SessionFactory sessionFactory;
+	
 	
 	
 

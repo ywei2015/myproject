@@ -38,7 +38,7 @@ public class BatTransToBaccoInCabinetService extends CommonService{
 						BatWorkOrderOutput output = new BatWorkOrderOutput();
 						UBatTransToBaccoInCabinet order = mainList.get(i);
 						output.setWorkorderpid(batWorkOrder.getPid());
-						output.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());
+						output.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString()+Constants.ZP03);
 						output.setLocation(order.getLocation()==null?"":order.getLocation().toString());
 						output.setLocationname(order.getLocationName()==null?"":order.getLocationName().toString());
 						output.setStime2(order.getStarttime()==null?"":order.getStarttime().toString());

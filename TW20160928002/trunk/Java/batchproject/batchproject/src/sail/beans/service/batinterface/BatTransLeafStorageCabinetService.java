@@ -42,7 +42,7 @@ public class BatTransLeafStorageCabinetService extends CommonService{
 						BatWorkOrderOutput output = new BatWorkOrderOutput();
 						UBatTransLeafStorageCabinet order = mainList.get(i);
 						output.setWorkorderpid(batWorkOrder.getPid());
-						output.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());
+						output.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString()+Constants.ZP12);
 						output.setWater(null);
 						output.setLocation(tankList.get(0).getLocation()==null?"":tankList.get(0).getLocation().toString());
 						output.setLocationname(tankList.get(0).getLocationName()==null?"":tankList.get(0).getLocationName().toString());

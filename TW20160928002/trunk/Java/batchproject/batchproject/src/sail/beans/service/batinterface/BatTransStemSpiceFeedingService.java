@@ -38,7 +38,7 @@ public class BatTransStemSpiceFeedingService extends CommonService{
 						input.setTltype(Constants.TL_TYPE);
 						//批次根据罐号(来源位置)找出对应的投入批次号
 						//罐号和批次号关系还未建立
-						input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());
+						input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString()+Constants.ZP05);
 						input.setMatcode(order.getMatCode()==null?"":order.getMatCode().toString());
 						input.setMatname(order.getMatName()==null?"":order.getMatName().toString());
 						input.setLocation(order.getLocation()==null?"":order.getLocation().toString());

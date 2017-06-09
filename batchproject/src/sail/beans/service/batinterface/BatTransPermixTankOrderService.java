@@ -38,7 +38,7 @@ public class BatTransPermixTankOrderService extends CommonService{
 						BatWorkOrderOutput output = new BatWorkOrderOutput();
 						UBatTransPermixTankOrder order = mainList.get(i);
 						output.setWorkorderpid(batWorkOrder.getPid());
-						output.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());
+						output.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString()+Constants.ZP12);
 						output.setWater(null);
 						output.setLocation(order.getLocation()==null?"":order.getLocation().toString());
 						output.setLocationname(order.getLocationName()==null?"":order.getLocationName().toString());

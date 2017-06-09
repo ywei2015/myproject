@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import sail.beans.dao.GenericDao;
 import sail.beans.entity.BatWorkOrder;
-import sail.beans.entity.Dic;
 import sail.beans.entity.Matdic;
 import sail.beans.entity.UBatTransBlendingOrder;
 import sail.beans.entity.User;
@@ -153,4 +152,24 @@ public class CommonService {
 		}
 		return conList.get(0).toString();
 	}
+	
+	/**
+	 * 根据烟丝ESB编码查找叶丝名称
+	 * @param ypEsbCode
+	 * @return
+	 */
+	public String getBatYsName(String ysEsbCode)
+	{
+		if(StingUtil.isEmpty(ysEsbCode)){
+			return null;
+		}
+		String sql = "SELECT F_YS_NAME from V_BAT_ZSMAT_BCP WHERE F_ESB_ESBCODE ='"+ysEsbCode+"'";
+		List conList = this.genericDao.getListWithNativeSql(sql);
+		if (conList == null || conList.size() == 0)
+		{
+			return null;
+		}
+		return conList.get(0).toString();
+	}
+	
 }

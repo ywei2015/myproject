@@ -37,7 +37,7 @@ public class BatTransPeduncleCabinetService extends CommonService{
 						BatWorkOrderOutput output = new BatWorkOrderOutput();
 						UBatTransPeduncleCabinet order = mainList.get(i);
 						output.setWorkorderpid(batWorkOrder.getPid());
-						output.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString());
+						output.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString()+Constants.ZP05);
 						output.setWater(null);
 						output.setLocation(order.getLocation()==null?"":order.getLocation().toString());
 						output.setLocationname(order.getLocationName()==null?"":order.getLocationName().toString());

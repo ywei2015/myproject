@@ -126,7 +126,8 @@
     <!--批次管理_五丝掺配begin-->
 	<query name="SYNCHRO.U_BAT_TRANSBLENDINGORDER.LIST">
 		<![CDATA[
-    	SELECT main FROM sail.beans.entity.UBatTransBlendingOrder main where main.synchroFlag = '0' 
+    	SELECT main FROM sail.beans.entity.UBatTransBlendingOrder main where main.synchroFlag = '0'  
+    		and main.blendingType in('1','2')
     ]]>
     </query>
     

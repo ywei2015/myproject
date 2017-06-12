@@ -10,7 +10,7 @@ public class CarCode implements Serializable{
 	private Double amount;
 	private String unit;
 	private String unitname;
-	private String value2;//1为大件 2为小件,3产出表,4稀释液转动表
+	private String value2;//1为大件 2为小件,3产出表,4稀释液转动表,5从余料退回表获取
 	private String value3;
 	private String value4;
 	private String value5;

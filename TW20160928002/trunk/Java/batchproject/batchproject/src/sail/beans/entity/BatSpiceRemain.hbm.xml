@@ -11,6 +11,7 @@
 		<property name="workarea" column="F_WORKAREA" length="50" type="string"/>
 		<property name="depot" column="F_DEPOT" length="50" type="string"/>
 		<property name="matcode" column="F_MAT_CODE" length="50" type="string"/>
+		<property name="matname" column="F_MAT_NAME" length="50" type="string"/>
 		<property name="oldbatch" column="F_OLD_BATCH" length="50" type="string"/>
 		<property name="newbatch" column="F_NEW_BATCH" length="100" type="string"/>
 		<property name="location" column="F_LOCATION" length="50" type="string"/>

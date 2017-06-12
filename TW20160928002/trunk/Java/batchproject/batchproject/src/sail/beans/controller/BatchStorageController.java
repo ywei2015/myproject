@@ -165,6 +165,9 @@ public class BatchStorageController {
 		return map;
 	}
 	
+	/**
+	 * 出库工单自动生成
+	 * */
 	@ResponseBody
 	@RequestMapping(value="/getBillNoList")
 	public ResponseBase getBillNoList(HttpServletRequest request){

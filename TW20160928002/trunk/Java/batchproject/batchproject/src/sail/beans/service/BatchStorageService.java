@@ -231,75 +231,7 @@ public class BatchStorageService {
 		return batDepotIoDetail;
 	}
 
-	/**
-	 * 大小件调整之后生产领域物资退回入库
-	 * */
-	public void saveBatchInStorageForAdjust(String userId,String slavebatch,String masterbatch,CarCode carcode){
-		BatDepotIoBill batDepotIoBill = null;
-		BatDepotIoDetail batDepotIoDetail=null;
-		BatDepotIoDetailList batDepotIoDetailList=null;
-		double quality=0;
-		String uint="";
-		String bill=DateBean.getSysdate()+"ZI30";
-		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{null,"ZI30",null,masterbatch});
-		if (detailList != null && detailList.size() > 0){
-			batDepotIoDetail = detailList.get(0);
-		}else{
-			batDepotIoDetail=new BatDepotIoDetail();
-			batDepotIoDetail.setBillpid(batDepotIoBill.getPid());
-			batDepotIoDetail.setLastmodifiedtime(DateBean.getSysdateTime());
-			batDepotIoDetail.setLastmodifier(userId);
-			batDepotIoDetail.setCreator(userId);
-			batDepotIoDetail.setCreatetime(DateBean.getSysdateTime());
-			batDepotIoDetail.setRemark5("1");
-			batDepotIoDetail.setIsEnter("1");
-			batDepotIoDetail.setSysflag("1");
-			batDepotIoDetail.setMatbatch(masterbatch);
-			batDepotIoDetail.setMatcode(carcode.getMatcode());
-			batDepotIoDetail.setMatname(carcode.getMatname());
-			this.genericDao.save(batDepotIoDetail);
-		}	
-		List<BatDepotIoBill> batDepotIoBillList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST", new Object[]{bill,"ZI30"});
-		if(batDepotIoBillList!=null&&batDepotIoBillList.size()>0){
-			batDepotIoBill=batDepotIoBillList.get(0);
-		}else{
-			batDepotIoBill=new BatDepotIoBill();
-			batDepotIoBill.setBillno(bill);
-			batDepotIoBill.setBiztype("MM2143");
-			batDepotIoBill.setBilltype("11");
-			batDepotIoBill.setDoctype("ZI30");
-			batDepotIoBill.setDepot("HZ10");
-			batDepotIoBill.setFactory("2200");
-			batDepotIoBill.setIsEnter("1");
-			batDepotIoBill.setSysflag("1");
-			batDepotIoBill.setCreator(userId);
-			batDepotIoBill.setCreatetime(DateBean.getSysdateTime());
-			batDepotIoBill.setDate(DateBean.getSysdate());
-			batDepotIoBill.setOperatetime(DateBean.getSysdateTime());
-			batDepotIoBill.setOperateuserid(userId);
-			batDepotIoBill.setLastmodifiedtime(DateBean.getSysdateTime());
-			batDepotIoBill.setLastmodifier(userId);
-			this.genericDao.save(batDepotIoBill);
-		}
-		List <BatDepotIoDetailList> batDepotIoDetailList_=this.genericDao.getListWithVariableParas("storage.getbatDepotIoDetailList.bybatch", new Object[]{slavebatch,batDepotIoDetail.getPid()});
-		if(batDepotIoDetailList_==null||batDepotIoDetailList_.size()==0){
-			batDepotIoDetailList=new BatDepotIoDetailList();
-		//	batDepotIoDetailList=batDepotIoDetailList_.get(0);
-			batDepotIoDetailList.setBilldetailpid(batDepotIoDetail.getPid());
-			quality=quality+batDepotIoDetailList.getQuantity();
-			batDepotIoDetailList.setSysflag("1");
-			batDepotIoDetailList.setCreator(userId);
-			batDepotIoDetailList.setCreatetime(DateBean.getSysdateTime());
-			batDepotIoDetailList.setLastmodifiedtime(DateBean.getSysdateTime());
-			batDepotIoDetailList.setLastmodifier(userId);
-			batDepotIoDetailList.setRemark5("1");
-			batDepotIoDetailList.setUnit(carcode.getUnit());
-			this.genericDao.save(batDepotIoDetailList);
-		}
-		batDepotIoDetail.setQuantity(quality);
-		batDepotIoDetail.setUnit(carcode.getUnit());
-		//this.genericDao.save(batDepotIoDetail);
-	}
+	
 	
 	/**物资退回入库
 	 * 根据大件批次号从大小件关系表获取大小件信息，并把它作为入库信息转录到入库明细及其子表当中
@@ -522,21 +454,6 @@ public class BatchStorageService {
 				genericDao.save(batBatAdjust);
 				batBatAdjustDetail = this.saveDetail(batBatAdjust.getPid(), operuser, slavebatch, masterbatch);
 			}
-			ExecutorService service= Executors.newFixedThreadPool(1);
-		    Runnable run = new Runnable() {
-	             public void run() {
-	            	/* ApplicationContext ac = new FileSystemXmlApplicationContext("classpath:applicationContext.xml"); 
-	            	 SessionFactory sessionFactory = (SessionFactory)ac.getBean("sessionFactory");  
-	                 //添加hibernate session 到当前线程 
-	            	 boolean participate = ConcurrentUtil.bindHibernateSessionToThread(sessionFactory); 
-	            	 //业务处理
-	                  saveBatchInStorageForAdjust(operuser, slavebatch, masterbatch, carcode);
-	                //删除hibernate session 到当前线程 
-	                  ConcurrentUtil.closeHibernateSessionFromThread(participate, sessionFactory);*/
-	            	// Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-	             }
-	         };
-	        service.execute(run);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException();

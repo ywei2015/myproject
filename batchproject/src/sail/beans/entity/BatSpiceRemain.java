@@ -9,6 +9,7 @@ public class BatSpiceRemain implements Serializable{
 	private String workarea;
 	private String depot;
 	private String matcode;
+	private String matname;
 	private String oldbatch;
 	private String newbatch;
 	private String location;
@@ -187,6 +188,12 @@ public class BatSpiceRemain implements Serializable{
 	}
 	public void setIsrepair(String isrepair) {
 		this.isrepair = isrepair;
+	}
+	public String getMatname() {
+		return matname;
+	}
+	public void setMatname(String matname) {
+		this.matname = matname;
 	}
 
 	

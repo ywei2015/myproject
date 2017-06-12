@@ -4,6 +4,7 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
     
 <hibernate-mapping>
+	<!--卷包工单计划转储  -->
 	<sql-query name="transfrom.produceData.list">
 		<![CDATA[
 			select t.*
@@ -34,7 +35,7 @@
       		order by d.F_CREATE_TIME
 		]]>
 	</sql-query>
-	
+	<!--制丝工单计划转储  -->
 	<sql-query name="transfrom.produceDataZS.list">
 		<![CDATA[
 			select t.*
@@ -69,7 +70,7 @@
       		order by d.F_CREATE_TIME
 		]]>
 	</sql-query>
-	
+	<!--制丝工单计划手动转储  -->
 	<sql-query name="transfrom.produceDataZSBF.list">
 		<![CDATA[
 			select t.*
@@ -100,7 +101,7 @@
       		order by d.F_CREATE_TIME
 		]]>
 	</sql-query>
-	
+	<!--梗丝工单计划转储  -->
 	<sql-query name="transfrom.produceDataGS.list">
 		<![CDATA[
 			select t.*
@@ -147,7 +148,7 @@
 		order by t1.F_CREATE_TIME desc
 		]]>
 	</sql-query>
-	
+	<!--卷包成型产出转储  -->
 	<sql-query name="transfrom.produceJBData.list">
 		<![CDATA[
 			select                                                

@@ -80,7 +80,6 @@
 		]]>
 	</sql-query>	
 	
-	
 	<sql-query name="STORAGE.GET_SILKREUSE_VALUE">
 		<![CDATA[
 			select t.* from T_BAT_SILK_REUSE t where t.F_NEW_MATBATCH = ? and t.f_sys_flag='1'

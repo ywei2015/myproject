@@ -26,16 +26,11 @@ public class RollBatchService {
 	private MatBomService matBomService; 
 	
 	/**
-	 * 卷包批次保存
+	 * 卷包成型投料批次保存
 	 * @param workOrderCode
 	 * @param machineId
 	 * @param matBatch
 	 * @param operuser
-	 * @return
-	 * @throws NoSuchFieldException
-	 * @throws SecurityException
-	 * @throws IllegalArgumentException
-	 * @throws IllegalAccessException
 	 */
 	public BatWorkOrderInput saveBatWorkOrderInput(String workOrderCode,String machineId,String matBatch,String operuser){
 		List<BatWorkOrder> batWorkList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDERLIST.LIST", new Object[]{workOrderCode});
@@ -62,7 +57,7 @@ public class RollBatchService {
 					return batWorkOrderInput;
 				}
 				batWorkOrderInput.setWorkorderpid(BatWorkOrder.getPid());
-				batWorkOrderInput.setTltype("2");
+				batWorkOrderInput.setTltype("0");
 				batWorkOrderInput.setMatbatch(matBatch);
 				batWorkOrderInput.setMatcode(carCode.getMatcode());
 				batWorkOrderInput.setMatname(carCode.getMatname());
@@ -90,7 +85,6 @@ public class RollBatchService {
 	 * 根据ID删除对应的数据
 	 * @param pid
 	 * @param operuser
-	 * @return
 	 */
 	public boolean deleteBatWorkOrderInput(String pid,String operuser){
 		boolean falg = false;
@@ -138,15 +132,15 @@ public class RollBatchService {
 	 * @return
 	 */
 	public Map<String,List> getWorkOrderAndProcess(String workType){
-		String date1=DateBean.getSysdate();
-		String date=DateBean.getBeforDay(DateBean.getSysdate(),1);
+		String date=DateBean.getSysdate();
+		String date1=DateBean.getBeforDay(DateBean.getSysdate(),1);
 		Map<String,List> workOrderMap=new HashMap();
 		List<Object[]> workData=null;
 		try {
 			if(workType.equals("ZP01")){
-			     workData=genericDao.getListWithNativeSql("WORKORDER.T_BAT_PROCESSID_LIST",new Object[]{workType,date});
+			     workData=genericDao.getListWithNativeSql("WORKORDER.T_BAT_PROCESSID_LIST",new Object[]{workType});
 			}else{
-			     workData=genericDao.getListWithNativeSql("WORKORDER.T_BAT_PROCESSID1_LIST",new Object[]{workType,date});
+			     workData=genericDao.getListWithNativeSql("WORKORDER.T_BAT_PROCESSID1_LIST",new Object[]{workType});
 			}
 			if(workData!=null&&workData.size()>0){
 				for (int i = 0; i < workData.size(); i++) {

@@ -11,7 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import sail.beans.dao.GenericDao;
 import sail.beans.entity.BatWorkOrder;
 import sail.beans.support.DateBean;
-
+/**
+ * 工单转储服务类
+ * @author Administrator
+ * @time 2017-06-07
+ * **/
 @Service
 public class TransfromdataService {
 	@Autowired
@@ -47,6 +51,7 @@ public class TransfromdataService {
 						batWorkOrder.setWorkteam(getWorkteam(batWorkOrder.getPlanstarttime()));
 						batWorkOrder.setWorkordercode(billno);
 						batWorkOrder.setWorkordertype("ZP01");
+						batWorkOrder.setUnit("JAN");
 						batWorkOrder.setProcess(jizu[49]==null?"":jizu[49].toString());
 						this.genericDao.save(batWorkOrder);
 					}

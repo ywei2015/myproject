@@ -50,10 +50,7 @@ public class TransformProduceDateService {
 					 if(jizu[45]!=null)
 						 batWorkOrderOutput.setQuantity(Double.parseDouble(jizu[45].toString()));
 					 batWorkOrderOutput.setMatbatch(batWorkOrder.getWorkordercode());
-					 if(batWorkOrder.getUnit()==null||batWorkOrder.getUnit().trim().length()==0)
-						 batWorkOrderOutput.setUnit("PAN");
-					 else 
-						 batWorkOrderOutput.setUnit(batWorkOrder.getUnit());
+					 batWorkOrderOutput.setUnit("JAN");
 					 batWorkOrderOutput.setDepot("HZN20");
 					 batWorkOrderOutput.setSysflag("1");
 					 batWorkOrderOutput.setOperateuserid(jizu[15]==null?"":jizu[15].toString());

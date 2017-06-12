@@ -38,6 +38,7 @@ public class NozzlebarAddService {
 					batFiltertipPut.setSysflag("1");
 					batFiltertipPut.setCreatetime(DateBean.getSysdateTime());
 					batFiltertipPut.setCreator(userId);
+					batFiltertipPut.setRemark1(esb);
 					batFiltertipPut.setLastmodifiedtime(DateBean.getSysdateTime());
 					batFiltertipPut.setLastmodifier(userId);
 					batFiltertipPut.setMatbatch(f_mat_batch);

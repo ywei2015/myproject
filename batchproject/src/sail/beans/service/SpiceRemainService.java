@@ -35,7 +35,7 @@ public class SpiceRemainService {
 	 */
 	public BatSpiceRemain saveBatSpiceRemain(String matbatch,String location,String quantity,String operuser) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
 		BatSpiceRemain batSpiceRemain = null;
-		List<BatSpiceRemain> remainList = genericDao.getListWithVariableParas("SPICEREMAIN.T_BAT_SPICE_REMAIN.LIST", new Object[]{matbatch});
+		List<BatSpiceRemain> remainList = genericDao.getListWithVariableParas("SPICEREMAIN.T_BAT_SPICE_REMAIN.LIST", new Object[]{matbatch,null});
 		if (remainList != null && remainList.size() > 0){
 			batSpiceRemain = remainList.get(0);
 			batSpiceRemain.setIsrepair("1");

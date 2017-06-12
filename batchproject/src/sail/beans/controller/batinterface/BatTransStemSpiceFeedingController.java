@@ -1,7 +1,6 @@
 package sail.beans.controller.batinterface;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
 import sail.beans.service.batinterface.BatTransStemSpiceFeedingService;
@@ -19,7 +18,7 @@ public class BatTransStemSpiceFeedingController {
 	 * 新增制丝中控－梗丝香精香料投料
 	 */
 //	@Scheduled(cron = "0 18 10 * * ?")
-	@Scheduled(cron = "0/30 0/2 * * * ?")
+//	@Scheduled(cron = "0/30 0/2 * * * ?")
 	public void saveBatTransStemSpiceFeeding(){
 		if(batTransStemSpiceFeedingService==null) return;
 		batTransStemSpiceFeedingService.SaveBatTransStemSpiceFeeding();

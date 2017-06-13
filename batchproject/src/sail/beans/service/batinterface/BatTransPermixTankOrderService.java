@@ -64,6 +64,7 @@ public class BatTransPermixTankOrderService extends CommonService{
 						batWorkOrder.setActualquantity(order.getQuantity());
 						batWorkOrder.setUnit(order.getUnit());
 						batWorkOrder.setLastmodifier(this.getUserIdByUserCode(order.getOperateUsercode()));
+						batWorkOrder.setLastmodifiedtime(DateBean.getSysdateTime());
 						genericDao.save(batWorkOrder);
 					}else{
 						UBatTransPermixTankOrder main1 = (UBatTransPermixTankOrder)genericDao.getById(UBatTransPermixTankOrder.class,mainList.get(i).getPid());

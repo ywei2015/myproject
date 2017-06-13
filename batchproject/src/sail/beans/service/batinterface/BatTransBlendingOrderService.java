@@ -12,6 +12,7 @@ import sail.beans.entity.BatWorkOrder;
 import sail.beans.entity.BatWorkOrderInput;
 import sail.beans.entity.BatWorkOrderOutput;
 import sail.beans.entity.UBatTransBlendingOrder;
+import sail.beans.service.TransfromWorkCodeDataService;
 import sail.beans.support.DateBean;
 import sail.beans.support.StingUtil;
 
@@ -19,6 +20,8 @@ import sail.beans.support.StingUtil;
 public class BatTransBlendingOrderService extends CommonService{
 	@Autowired
 	private GenericDao genericDao;  
+	@Autowired
+	private TransfromWorkCodeDataService service;
 	
 	/**
 	 * 获取待转储并新增生产工单投料后台服务（五丝掺配）
@@ -52,6 +55,15 @@ public class BatTransBlendingOrderService extends CommonService{
 						output.setCreator(Constants.USERID);
 						output.setCreatetime(DateBean.getSysdateTime());
 						genericDao.save(output);
+						
+						//将工单表中该批次类型为ZP13的工单状态置为20已执行、工单完成时间为入柜完成时间、实际产量为入柜数量
+						service.TransfromWorkOrder(batWorkOrderZP13);
+						batWorkOrderZP13.setWorkorderstate("20");
+						batWorkOrderZP13.setActualquantity(order.getQuantity());
+						batWorkOrderZP13.setUnit(order.getUnit());
+						batWorkOrderZP13.setLastmodifier(this.getUserIdByUserCode(order.getOperateUsercode()));
+						batWorkOrderZP13.setLastmodifiedtime(DateBean.getSysdateTime());
+						genericDao.save(batWorkOrderZP13);
 						
 						input.setWorkorderpid(batWorkOrderZP03.getPid());
 						input.setTltype(Constants.TL_TYPE);

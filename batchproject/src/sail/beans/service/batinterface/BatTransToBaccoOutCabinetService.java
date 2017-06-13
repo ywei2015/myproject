@@ -54,6 +54,7 @@ public class BatTransToBaccoOutCabinetService extends CommonService{
 							input.setOperatetime(order.getOperateTime()==null?"":order.getOperateTime().toString());
 							input.setMasterslaveflag("0");
 							input.setRemark(order.getRemark()==null?"":order.getRemark().toString());
+							input.setRemark1(wirefeedingCode);
 							input.setSysflag(Constants.SYS_FLAG_USEING);
 							input.setCreator(Constants.USERID);
 							input.setCreatetime(DateBean.getSysdateTime());

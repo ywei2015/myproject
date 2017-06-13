@@ -63,6 +63,7 @@ public class BatTransPeduncleCabinetService extends CommonService{
 						batWorkOrder.setActualquantity(order.getQuantity());
 						batWorkOrder.setUnit(order.getUnit());
 						batWorkOrder.setLastmodifier(this.getUserIdByUserCode(order.getOperateUsercode()));
+						batWorkOrder.setLastmodifiedtime(DateBean.getSysdateTime());
 						genericDao.save(batWorkOrder);
 					}else{
 						UBatTransPeduncleCabinet main1 = (UBatTransPeduncleCabinet)genericDao.getById(UBatTransPeduncleCabinet.class,mainList.get(i).getPid());

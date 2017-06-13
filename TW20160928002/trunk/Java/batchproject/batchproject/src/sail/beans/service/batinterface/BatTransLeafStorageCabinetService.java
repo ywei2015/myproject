@@ -72,6 +72,7 @@ public class BatTransLeafStorageCabinetService extends CommonService{
 						batWorkOrder.setActualquantity(order.getQuantity());
 						batWorkOrder.setUnit(order.getUnit());
 						batWorkOrder.setLastmodifier(this.getUserIdByUserCode(order.getOperateUsercode()));
+						batWorkOrder.setLastmodifiedtime(DateBean.getSysdateTime());
 						genericDao.save(batWorkOrder);
 					}else{
 						UBatTransLeafStorageCabinet main1 = (UBatTransLeafStorageCabinet)genericDao.getById(UBatTransLeafStorageCabinet.class,mainList.get(i).getPid());

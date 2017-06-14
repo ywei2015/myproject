@@ -41,7 +41,7 @@ public class BatTransToBaccoOutCabinetService extends CommonService{
 							UBatTransToBaccoOutCabinet order = mainList.get(i);
 							input.setWorkorderpid(obj[0].toString());
 							input.setTltype(Constants.TL_TYPE);
-							input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString()+Constants.ZP03);
+							input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString()+Constants.ZP01);
 							input.setMatcode(order.getMatCode()==null?"":order.getMatCode().toString());
 							input.setMatname(order.getMatName()==null?"":order.getMatName().toString());
 							input.setLocation(order.getLocation()==null?"":order.getLocation().toString());

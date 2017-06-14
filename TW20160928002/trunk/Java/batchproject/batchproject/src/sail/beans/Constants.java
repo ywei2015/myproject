@@ -106,4 +106,9 @@ public class Constants {
 	 */
 	public final static String ZP13 = "ZP13";
 	
+	/**
+	 * 卷包生产工单类型
+	 */
+	public final static String ZP01 = "ZP01";
+	
 }

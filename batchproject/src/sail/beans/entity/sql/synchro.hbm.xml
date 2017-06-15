@@ -162,11 +162,12 @@
     <!--根据相对应的机组和投料时间查找工单号-->
     <sql-query name="SYNCHRO.GET.WORKORDER.CODE">
     	<![CDATA[
-    	select w.f_pid,w.f_workorder_code from t_bat_workorder w where w.f_process  
-        	in( select distinct t.f_next_device from T_BAT_EQU_LINK t 
-        	where t.f_link_type='2' and t.f_pre_device= ?  and t.f_sys_flag='1' ) 
-    		 and to_date(w.f_actual_starttime,'yyyy-mm-dd hh24:mi:ss') <= to_date(?,'yyyy-mm-dd hh24:mi:ss')  
-    		 and to_date(w.f_actual_endtime,'yyyy-mm-dd hh24:mi:ss') >= to_date(?,'yyyy-mm-dd hh24:mi:ss') 
+    		select w.f_pid,w.f_workorder_code from t_bat_workorder w where w.f_process in(
+				select f_next_device from (
+  				select * from V_BAT_EQU_LINK t
+  					where t.f_pre_device= ? and t.f_link_starttime<= ? and t.f_link_endtime> ? 
+				order by t.f_link_starttime desc  
+			) ) and w.f_actual_starttime<= ?  and w.f_actual_endtime>= ? 
     	]]>
     </sql-query>
     

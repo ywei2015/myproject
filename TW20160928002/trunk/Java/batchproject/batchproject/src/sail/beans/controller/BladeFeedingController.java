@@ -49,7 +49,7 @@ public class BladeFeedingController {
 					}else if("2".equalsIgnoreCase(batWorkOrderInput.getRemark5())){
 						res.setResponseData("0", "操作失败,该批次处于冻结状态!");
 					}else{
-						res.setResponseData("1", "操作成功!");
+						res.setResponseData("1", "保存成功!");
 						res.setDataset(batWorkOrderInput, "batworkorderinput");
 					}
 				}

@@ -63,7 +63,7 @@ public class NozzlebarAddService {
 	public List<Map> getJiTaiMes() {
 		List<Map> list=new ArrayList<>();
 		String nativeSql="select t.f_dic_name,t.F_ESB_CODE from " +
-				"v_bat_equ t where  t.F_PEOCESS_CODE='HZ-CXD-702'";
+				"v_bat_equ t where  t.F_PROCESS_CODE='HZ-CXD-702'";
 		List<Object[]> jiaiList=this.genericDao.getListWithNativeSql(nativeSql);
 		if(jiaiList!=null&&jiaiList.size()>0){
 			for (Object[] objects : jiaiList) {
@@ -100,6 +100,5 @@ public class NozzlebarAddService {
 		}
 		return flag;
 	}
-
 	
 }

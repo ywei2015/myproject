@@ -54,6 +54,7 @@ function initTable(dataj){
 					if(rowdata!=null||rowdata!=undefined){
 						var td;
 						var data_td1;
+						
 						td=document.createElement('td');
 						data_td1=1+i;//序号
 						td.innerHTML=data_td1;
@@ -103,13 +104,15 @@ function initTable(dataj){
 						r.appendChild(td);
 					}
 					if("w"==rowdata.remark5){
-						r.style.color='yellow';
+						r.style.backgroundColor='yellow';
 						biaoji++;
 					}
+					
 					if("0"==rowdata.remark4){
 						r.style.color='red';
 						biaoji++;
 					}
+					
 					b.appendChild(r);
 				}
 			}

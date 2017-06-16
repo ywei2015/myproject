@@ -38,7 +38,7 @@ public class BatchStorageController {
 			if("1".equals(batDepotIoDetail.getRepeated())){
 				res.setResponseData("0", "该批次已经存在!");
 			}else{
-				res.setResponseData("1", "操作成功!");
+				res.setResponseData("1", "保存成功!");
 				res.setDataset(batDepotIoDetail, "batdepotiodetail");
 			}
 		}else{

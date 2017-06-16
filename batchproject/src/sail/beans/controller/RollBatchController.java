@@ -43,6 +43,8 @@ public class RollBatchController {
 					res.setResponseData("0", "操作失败,该批次处于禁止状态!");
 				}else if("2".equalsIgnoreCase(batWorkOrderInput.getRemark5())){
 					res.setResponseData("0", "操作失败,该批次处于冻结状态!");
+				}else if("w".equalsIgnoreCase(batWorkOrderInput.getRemark5())){
+					res.setResponseData("1", "该批次需要关注!");
 				}else{
 					res.setResponseData("1", "操作成功!");
 					res.setDataset(batWorkOrderInput, "batworkorderinput");

@@ -31,8 +31,8 @@
 		<![CDATA[
     	SELECT detail FROM sail.beans.entity.BatDepotIoDetail detail,sail.beans.entity.BatDepotIoBill bill
     	 where bill.billno = ? and bill.doctype = ? and detail.remark5 = ? and detail.matbatch = ? 
-    	 and bill.sysflag = '1' and bill.pid = detail.billpid and detail.sysflag= '1' 
-    	 order by detail.createtime desc
+    	 and bill.sysflag = '1' and bill.pid = detail.billpid and detail.sysflag= '1' and
+    	 substr(detail.createtime,0,8) > to_char(sysdate-30,'YYYYMMDD') order by detail.createtime desc
     ]]>
 	</query>
 	
@@ -54,6 +54,7 @@
 			and d.f_sys_flag='1' 
 			and d.f_bill_pid=t.f_pid
 			and t.f_sys_flag='1' 
+			order by d.F_CREATE_TIME desc
 		]]>
 	</sql-query>	
 	

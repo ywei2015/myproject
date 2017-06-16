@@ -1,4 +1,4 @@
-var title= ["质量追溯码","一号工程码","扫码时间","操作"];
+var title= ["一号工程码","质量追溯码","扫码时间","操作"];
 var theTable=document.getElementById("table");
 var userId=getQueryString('userId');
 var f_workorder_code=getQueryString('f_workorder_code'); //test:1
@@ -76,7 +76,7 @@ function initTable(dataj){
 						r.appendChild(td);
 					}
 					if("w"==rowdata.remark5){
-						r.style.color='yellow';
+						r.style.backgroundColor='yellow';
 						biaoji++;
 					}
 					if("0"==rowdata.remark4){

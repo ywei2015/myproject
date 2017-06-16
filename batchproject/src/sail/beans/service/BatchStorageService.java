@@ -233,59 +233,8 @@ public class BatchStorageService {
 
 	
 	
-	/**物资退回入库
-	 * 根据大件批次号从大小件关系表获取大小件信息，并把它作为入库信息转录到入库明细及其子表当中
-	 * @param billNo
-	 * @param docType
-	 * @return
-	 */
-	 @Transactional
-	public void saveBatDepotIoDetailByAdjust(List<BatBatAdjustDetail> batBatAdjustDetailList,BatDepotIoBill batDepotIoBill,String matBatch,String userId){
-		double quality=0;
-		String uint="";
-		BatDepotIoDetail batDepotIoDetail=null;
-		BatDepotIoDetailList batDepotIoDetailList=null;
-		String bill=DateBean.getSysdate()+"ZI30";
-			batDepotIoDetail=new BatDepotIoDetail();
-			batDepotIoDetail.setBillpid(batDepotIoBill.getPid());
-			batDepotIoDetail.setLastmodifiedtime(DateBean.getSysdateTime());
-			batDepotIoDetail.setLastmodifier(userId);
-			batDepotIoDetail.setCreator(userId);
-			batDepotIoDetail.setCreatetime(DateBean.getSysdateTime());
-			batDepotIoDetail.setRemark5("1");
-			batDepotIoDetail.setIsEnter("1");
-			batDepotIoDetail.setSysflag("1");
-			batDepotIoDetail.setMatbatch(matBatch);
-			batDepotIoDetail.setMatcode(batBatAdjustDetailList.get(0).getMatcode());
-			batDepotIoDetail.setMatname(batBatAdjustDetailList.get(0).getMatname());
-			this.genericDao.save(batDepotIoDetail);
-			for (int i = 0; i < batBatAdjustDetailList.size(); i++) {
-				BatBatAdjustDetail batBatAdjustDetail=batBatAdjustDetailList.get(i);
-				String slavbatch=batBatAdjustDetail.getSlavebatch();
-				//
-				List <BatDepotIoDetailList> batDepotIoDetailList_=this.genericDao.getListWithVariableParas("storage.getbatDepotIoDetailList.bybatch", new Object[]{slavbatch,null});
-				if(batDepotIoDetailList_!=null&&batDepotIoDetailList_.size()>0){
-					batDepotIoDetailList=new BatDepotIoDetailList();
-				//	batDepotIoDetailList=batDepotIoDetailList_.get(0);
-					batDepotIoDetailList.setBilldetailpid(batDepotIoDetail.getPid());
-					quality=quality+batDepotIoDetailList.getQuantity();
-					batDepotIoDetailList.setSysflag("1");
-					batDepotIoDetailList.setCreator(userId);
-					batDepotIoDetailList.setCreatetime(DateBean.getSysdateTime());
-					batDepotIoDetailList.setLastmodifiedtime(DateBean.getSysdateTime());
-					batDepotIoDetailList.setLastmodifier(userId);
-					batDepotIoDetailList.setRemark5("1");
-					uint=batDepotIoDetailList.getUnit();
-					this.genericDao.save(batDepotIoDetailList);
-				}
-				
-			}
-			batDepotIoDetail.setQuantity(quality);
-			batDepotIoDetail.setUnit(uint);
-			this.genericDao.save(batDepotIoDetail);
-		}
 	
-	/**物资退回入库
+	/**
 	 * 根据大件批次号从入库表获取大小件信息，进行一次退回入库的操作
 	 * @param billNo
 	 * @param docType
@@ -392,6 +341,16 @@ public class BatchStorageService {
 			batDepotIoDetail.setLastmodifiedtime(DateBean.getSysdateTime());
 			batDepotIoDetail.setLastmodifier(operuser);
 			genericDao.save(batDepotIoDetail);
+			List<BatDepotIoDetailList> batDepotIoDetailList = genericDao.getListWithVariableParas("BATCHDATA_DEPOT_IODETAILLIST_BYPID", new Object[]{batDepotIoDetail.getPid()});
+			if(batDepotIoDetailList!=null&&batDepotIoDetailList.size()>0){
+				for (int i = 0; i < batDepotIoDetailList.size(); i++) {
+					BatDepotIoDetailList batDepotIoDetailLists=batDepotIoDetailList.get(i);
+					batDepotIoDetailLists.setSysflag("0");
+					batDepotIoDetailLists.setLastmodifiedtime(DateBean.getSysdateTime());
+					batDepotIoDetailLists.setLastmodifier(operuser);
+					this.genericDao.save(batDepotIoDetailLists);
+				}
+			}
 			falg = true;
 		}
 		
@@ -534,7 +493,7 @@ public class BatchStorageService {
 		 BatDepotIoDetail batDepotIoDetail=null;
 		 BatDepotIoDetailList batDepotIoDetailList=null;
 		 try{
-				List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{null,null,null,f_mat_batch});
+				List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{f_bill_no,null,null,f_mat_batch});
 				if (detailList != null && detailList.size() > 0){
 					BatDepotIoDetail batDepotIoDetail1 = detailList.get(0);
 					String pid=batDepotIoDetail1.getPid();
@@ -543,7 +502,6 @@ public class BatchStorageService {
 						batDepotIoDetail.setRepeated("1");
 						return batDepotIoDetail;
 					}
-					   //STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST
 					List<BatDepotIoBill> batDepotIoBillList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST", new Object[]{f_bill_no,f_doc_type});
 					if (batDepotIoBillList != null && batDepotIoBillList.size() > 0)
 						batDepotIoBill=batDepotIoBillList.get(0);
@@ -563,6 +521,8 @@ public class BatchStorageService {
 						batDepotIoBill.setCreator(userId);
 						batDepotIoBill.setOperateuserid(userId);
 						batDepotIoBill.setOperatetime(DateBean.getSysdateTime());
+						batDepotIoBill.setLastmodifiedtime(DateBean.getSysdateTime());
+						batDepotIoBill.setLastmodifier(userId);
 						this.genericDao.save(batDepotIoBill);
 					}
 				   batDepotIoDetail=new BatDepotIoDetail();
@@ -585,6 +545,8 @@ public class BatchStorageService {
 					batDepotIoDetail.setStatus("A");
 					batDepotIoDetail.setInventorytype("0");
 					batDepotIoDetail.setCreatetime(DateBean.getSysdateTime());
+					batDepotIoDetail.setLastmodifiedtime(DateBean.getSysdateTime());
+					batDepotIoDetail.setLastmodifier(userId);
 					batDepotIoDetail.setCreator(userId);
 					batDepotIoDetail.setSysflag("1");
 					this.genericDao.save(batDepotIoDetail);
@@ -602,6 +564,8 @@ public class BatchStorageService {
 							batDepotIoDetailList1.setCreatetime(DateBean.getSysdateTime());
 							batDepotIoDetailList1.setCreator(userId);
 							batDepotIoDetailList1.setRemark5("2");
+							batDepotIoDetailList1.setLastmodifiedtime(DateBean.getSysdateTime());
+							batDepotIoDetailList1.setLastmodifier(userId);
 							this.genericDao.save(batDepotIoDetailList1);
 						}
 					}

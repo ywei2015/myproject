@@ -107,7 +107,7 @@ function initTable(dataj){
 						r.appendChild(td);
 					}
 					if("w"==rowdata.remark5){
-						r.style.color='yellow';
+						r.style.backgroundColor='yellow';
 						biaoji++;
 					}
 					if("0"==rowdata.remark4){

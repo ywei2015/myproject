@@ -51,7 +51,7 @@ public class TransfromdataService {
 						batWorkOrder.setWorkteam(getWorkteam(batWorkOrder.getPlanstarttime()));
 						batWorkOrder.setWorkordercode(billno);
 						batWorkOrder.setWorkordertype("ZP01");
-						batWorkOrder.setUnit("JAN");
+						batWorkOrder.setUnit("万支");
 						batWorkOrder.setProcess(jizu[49]==null?"":jizu[49].toString());
 						this.genericDao.save(batWorkOrder);
 					}

@@ -167,7 +167,7 @@
   				select * from V_BAT_EQU_LINK t
   					where t.f_pre_device= ? and t.f_link_starttime<= ? and t.f_link_endtime> ? 
 				order by t.f_link_starttime desc  
-			) ) and w.f_actual_starttime<= ?  and w.f_actual_endtime>= ? 
+			) ) and w.f_sys_flag='1'  and w.f_plan_starttime<= ?  and w.f_plan_endtime>= ? 
     	]]>
     </sql-query>
     

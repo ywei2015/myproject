@@ -163,7 +163,7 @@ public class CommonService {
 		if(StingUtil.isEmpty(ysEsbCode)){
 			return null;
 		}
-		String sql = "SELECT F_YS_NAME from V_BAT_ZSMAT_BCP WHERE F_ESB_ESBCODE ='"+ysEsbCode+"'";
+		String sql = "SELECT F_YS_NAME from V_BAT_ZSMAT_BCP WHERE F_YS_ESBCODE ='"+ysEsbCode+"'";
 		List conList = this.genericDao.getListWithNativeSql(sql);
 		if (conList == null || conList.size() == 0)
 		{

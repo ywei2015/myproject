@@ -36,7 +36,7 @@ public class RollBatchService {
 		List<BatWorkOrder> batWorkList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDERLIST.LIST", new Object[]{workOrderCode});
 		BatWorkOrderInput batWorkOrderInput = null;
 		if (batWorkList != null && batWorkList.size() > 0){
-			BatWorkOrder BatWorkOrder = batWorkList.get(0);
+			BatWorkOrder batWorkOrder = batWorkList.get(0);
 			List<BatWorkOrderInput> inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST.LIST", new Object[]{matBatch,workOrderCode,null});
 			if (inputList != null && inputList.size() > 0){
 				batWorkOrderInput = inputList.get(0);
@@ -56,8 +56,10 @@ public class RollBatchService {
 					batWorkOrderInput.setRemark5("e");
 					return batWorkOrderInput;
 				}
-				batWorkOrderInput.setWorkorderpid(BatWorkOrder.getPid());
+				batWorkOrderInput.setWorkorderpid(batWorkOrder.getPid());
 				batWorkOrderInput.setTltype("0");
+				if(batWorkOrder.getWorkordertype().equals("ZP02"))
+					batWorkOrderInput.setTltype("2");
 				batWorkOrderInput.setMatbatch(matBatch);
 				batWorkOrderInput.setMatcode(carCode.getMatcode());
 				batWorkOrderInput.setMatname(carCode.getMatname());

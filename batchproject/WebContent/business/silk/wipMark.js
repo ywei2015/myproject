@@ -56,7 +56,7 @@ function initTable(dataj){
 						picihao[i]=data_td1;
 						
 						td=document.createElement('td');
-						data_td1=rowdata.refbatchno;//
+						data_td1=rowdata.remark5;//
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						

@@ -33,7 +33,11 @@ public class WipMarkController {
 		BatWipMarkDetail batWipMarkDetail=wipMarkService.saveWipMark(billno,batchno,refbatchno,userId);
 		if (batWipMarkDetail != null){
 			if("1".equals(batWipMarkDetail.getIsrepeat())){
-				res.setResponseData("0", "失败!改批次已经存在!");
+				res.setResponseData("0", "失败!扫码信息已经存在!");
+			}else if("01".equals(batWipMarkDetail.getRemark5())){
+				res.setResponseData("0", "失败!一号工程码信息不存在!");
+			}else if("02".equals(batWipMarkDetail.getRemark5())){
+				res.setResponseData("0", "失败!质量追溯码信息不存在!");
 			}else{
 				res.setResponseData("1", "操作成功!");
 				res.setDataset(batWipMarkDetail, "batdepotiodetail");
@@ -66,8 +70,6 @@ public class WipMarkController {
 		String pid=request.getParameter("f_pid");
 		String userId=request.getParameter("userId");
 		ResponseBase res=new ResponseBase();
-		/*Map map=new HashMap<>();
-		map.put("1","aa");*/
 		boolean falg=wipMarkService.deleteWipMark(pid,userId);
 		if (falg){
 			res.setResponseData("1", "操作成功!");

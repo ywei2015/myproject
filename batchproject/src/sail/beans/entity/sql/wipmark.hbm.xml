@@ -23,7 +23,7 @@
 	<query name="WIPMARK.WIPMARKDATAILS.BYLIST">
 		<![CDATA[
     	select mark from sail.beans.entity.BatWipMarkDetail mark where mark.sysflag='1' 
-    	and mark.batchno = ? and mark.refbatchno = ? order by mark.createtime desc           		
+    	and mark.batchno = ? and mark.remark5 = ? order by mark.createtime desc           		
     ]]>
 	</query>
 </hibernate-mapping>

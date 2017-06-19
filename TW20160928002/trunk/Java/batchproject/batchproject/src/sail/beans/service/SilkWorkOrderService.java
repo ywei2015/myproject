@@ -127,9 +127,6 @@ public class SilkWorkOrderService {
 						}
 						if(remark!=null&&!remark.equals("")){
 							batWorkOrderInput.setRemark3(remark);
-							if(remark.equals("3")){
-								batWorkOrderInput.setTltype("1");
-							}
 						}
 						batWorkOrderInput.setUnit(carCode.getUnit());
 						batWorkOrderInput.setStarttime(DateBean.getSysdateTime());
@@ -393,14 +390,16 @@ public class SilkWorkOrderService {
 		return batDepotIoDetail;
 
 	}
-
+/**
+ * 片烟投料剔除
+ * */
 	public boolean deleteIeafInput(String batch, String userId) {
 		boolean falg = false;
 		List<BatWorkOrderInput> BatWorkOrderInputList = genericDao.getListWithVariableParas("ieafInput.getbatworkinput.bybatch", new Object[]{batch});
 		if (BatWorkOrderInputList !=null){
 			BatWorkOrderInput batWorkOrderInput=BatWorkOrderInputList.get(0);
-			batWorkOrderInput.setSysflag("0");
 			batWorkOrderInput.setLastmodifier(userId);
+			batWorkOrderInput.setTltype("1");
 			batWorkOrderInput.setLastmodifiedtime(DateBean.getSysdateTime());
 			genericDao.save(batWorkOrderInput);
 			falg = true;

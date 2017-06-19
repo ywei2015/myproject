@@ -74,7 +74,7 @@
 	 <query name="WORKORDER.T_BAT_WORKORDER_INPUTLIST.LIST">
 		<![CDATA[ 
 	    	select detail from sail.beans.entity.BatWorkOrderInput detail,sail.beans.entity.BatWorkOrder order 
-	    	where detail.matbatch = ? and order.workordercode = ? 
+	    	where detail.tltype!='1' and detail.matbatch = ? and order.workordercode = ? 
 	    	and order.pid = detail.workorderpid and detail.remark3 = ?  
 	    	and order.sysflag = '1' and detail.sysflag = '1' order by detail.createtime desc
 	    ]]>

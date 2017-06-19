@@ -4,7 +4,6 @@ var userId=getQueryString('userId');
 var f_workorder_code=getQueryString('f_workorder_code'); //生产工单号 20161208HZ-YCX-01
 var data_p={
 		'f_workorder_code':f_workorder_code,
-         'f_tl_type' :1
 };
 var img = new Image(); 
 function loadImage() { 
@@ -137,7 +136,7 @@ function verifySubmit(){
 	    var aa=Id;
     	$.ajax({
     		type : "post",
-    		url: cqt_prefix+'silkorder/deleteBatWorkOrderInput',
+    		url: cqt_prefix+'silkorder/deleteIeafInput',
     		data:{'f_pid':billarray[Id],'userId':userId},
     		success : function(data) {var falg=data.dataset.response.code;
 			if(falg==0)

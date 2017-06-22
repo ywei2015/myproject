@@ -34,24 +34,24 @@ public class ExpansionWireController {
 		String tl_type=request.getParameter("f_tl_type");
 		String remark=request.getParameter("remark");
 		ResponseBase res = new ResponseBase();
-			BatWorkOrderInput batWorkOrderInput = silkWorkOrderService.saveBatWorkOrderInput(workOrderCode, matBatch, quantity, location,userId,tl_type,remark,"JM01");
-			if (batWorkOrderInput != null){
-				if ("1".equals(batWorkOrderInput.getIsrepair())){
-					res.setResponseData("0", "该批次数据已经存在!");
-				}else{
-					if("e".equalsIgnoreCase(batWorkOrderInput.getRemark5())){
-						res.setResponseData("0", "操作失败,该批次处于禁止状态!");
-					}else if("2".equalsIgnoreCase(batWorkOrderInput.getRemark5())){
-						res.setResponseData("0", "操作失败,该批次处于冻结状态!");
-					}else{
-						res.setResponseData("1", "操作成功!");
-						res.setDataset(batWorkOrderInput, "batworkorderinput");
-					}
-				}
+		BatWorkOrderInput batWorkOrderInput = silkWorkOrderService.saveBatWorkOrderInput(workOrderCode, matBatch, quantity, location,userId,tl_type,remark,"JM01");
+		if (batWorkOrderInput != null){
+			if ("1".equals(batWorkOrderInput.getIsrepair())){
+				res.setResponseData("0", "该批次数据已经存在!");
 			}else{
-				res.setResponseData("0", "该批次信息有误,请进行核对!");
+				if("e".equalsIgnoreCase(batWorkOrderInput.getRemark5())){
+					res.setResponseData("0", "操作失败,该批次处于禁止状态!");
+				}else if("2".equalsIgnoreCase(batWorkOrderInput.getRemark5())){
+					res.setResponseData("0", "操作失败,该批次处于冻结状态!");
+				}else{
+					res.setResponseData("1", "操作成功!");
+					res.setDataset(batWorkOrderInput, "batworkorderinput");
+				}
 			}
-		return res;
+		}else{
+			res.setResponseData("0", "该批次信息有误,请进行核对!");
+		}
+	return res;	
 	}
 	
 }

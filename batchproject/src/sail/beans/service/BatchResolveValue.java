@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sail.beans.dao.GenericDao;
+import sail.beans.entity.BatSilkReuse;
 import sail.beans.entity.BatSpiceRemain;
 import sail.beans.entity.BatSpiceTurn;
 import sail.beans.entity.CarCode;
@@ -20,22 +21,23 @@ import sail.beans.entity.CarCode;
 public class BatchResolveValue {
 	@Autowired
 	private GenericDao genericDao;  
-	private String []methodName= new String[] {"getResolveValueByDetail","getResolveValueByDetailList","getResolveValueByOutput","getResolveValueBySpicet","getResolveValueByRemian"};
+	private String []methodName= new String[] {"getResolveValueByDetail","getResolveValueByDetailList","getResolveValueByOutput",
+			"getResolveValueBySpicet","getResolveValueByRemian","getResolveValueBySilkReuse"};
 
 	
 	public CarCode getResolveValue(String match,String type){
 		CarCode carCode = new CarCode();
 		String []methodNamej=null;
 		if("JM01".equals(type)){
-			methodNamej= new String[]{methodName[0],methodName[1],methodName[2],methodName[3],methodName[4]};
+			methodNamej= new String[]{methodName[0],methodName[1],methodName[5],methodName[2],methodName[3],methodName[4]};
 		}else if("JM02".equals(type)){
-			methodNamej= new String[]{methodName[2],methodName[0],methodName[4],methodName[1],methodName[3]};
+			methodNamej= new String[]{methodName[2],methodName[0],methodName[4],methodName[1],methodName[3],methodName[5]};
 		}else if("JM03".equals(type)){
-			methodNamej= new String[]{methodName[2],methodName[3],methodName[4],methodName[0],methodName[1]};
+			methodNamej= new String[]{methodName[2],methodName[3],methodName[4],methodName[0],methodName[1],methodName[5]};
 		}else if("JM04".equals(type)){
-			methodNamej= new String[]{methodName[1],methodName[2],methodName[0],methodName[3],methodName[4]};
+			methodNamej= new String[]{methodName[1],methodName[2],methodName[0],methodName[3],methodName[4],methodName[5]};
 		}else
-			methodNamej= new String[]{methodName[0],methodName[1],methodName[2],methodName[3],methodName[4]};
+			methodNamej= new String[]{methodName[0],methodName[1],methodName[2],methodName[3],methodName[4],methodName[5]};
 		try {
 			for (int j = 0; j < methodNamej.length; j++) {
 				Method m = this.getClass().getDeclaredMethod(methodNamej[j], String.class);
@@ -161,6 +163,24 @@ public class BatchResolveValue {
 			carCode.setAmount(batSpiceRemain.getQuantity());
 			carCode.setUnit(batSpiceRemain.getUnit());
 			carCode.setValue2("5");
+		}
+		return carCode;
+}
+	
+	/**
+	 * 从残烟丝回用表获取
+	 * */
+	public CarCode getResolveValueBySilkReuse(String match){
+		CarCode carCode = new CarCode();
+		List<Object[]> carList=null;
+		List<BatSilkReuse> batSilkReuseList = genericDao.getListWithVariableParas("STORAGE.GET_RESOLVEVAlUE.SILKREUSE", new Object[]{match});
+		if(batSilkReuseList!=null&&batSilkReuseList.size()>0){
+			BatSilkReuse batSilkReuse=batSilkReuseList.get(0);
+			carCode.setMatname(batSilkReuse.getNewmatid());
+			carCode.setMatcode(batSilkReuse.getNewmatname());
+			carCode.setAmount(batSilkReuse.getQuantity());
+			carCode.setUnit(batSilkReuse.getUnit());
+			carCode.setValue2("6");
 		}
 		return carCode;
 }

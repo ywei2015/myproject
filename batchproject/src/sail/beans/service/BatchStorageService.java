@@ -493,7 +493,7 @@ public class BatchStorageService {
 		 BatDepotIoDetail batDepotIoDetail=null;
 		 BatDepotIoDetailList batDepotIoDetailList=null;
 		 try{
-				List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{f_bill_no,null,null,f_mat_batch});
+				List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{null,null,null,f_mat_batch});
 				if (detailList != null && detailList.size() > 0){
 					BatDepotIoDetail batDepotIoDetail1 = detailList.get(0);
 					String pid=batDepotIoDetail1.getPid();

@@ -32,7 +32,7 @@
     	SELECT detail FROM sail.beans.entity.BatDepotIoDetail detail,sail.beans.entity.BatDepotIoBill bill
     	 where bill.billno = ? and bill.doctype = ? and detail.remark5 = ? and detail.matbatch = ? 
     	 and bill.sysflag = '1' and bill.pid = detail.billpid and detail.sysflag= '1' and
-    	 substr(detail.createtime,0,8) > to_char(sysdate-30,'YYYYMMDD') order by detail.createtime desc
+    	 substr(detail.lastmodifiedtime,0,8) > to_char(sysdate-1,'YYYYMMDD') order by detail.lastmodifiedtime desc
     ]]>
 	</query>
 	
@@ -87,6 +87,14 @@
 			
 		]]>
 	</sql-query>
+	
+	<query name="STORAGE.GET_RESOLVEVAlUE.SILKREUSE">
+		<![CDATA[
+    	SELECT detail FROM sail.beans.entity.BatSilkReuse detail where detail.newmatbatch = ? 
+    	and detail.sysflag = '1' order by detail.createtime desc
+    ]]>
+	</query>
+	
 	<query name="storage.getbatDepotIoDetailList.bybatch">
 		<![CDATA[
     	SELECT detail FROM sail.beans.entity.BatDepotIoDetailList detail,sail.beans.entity.BatDepotIoDetail detailb

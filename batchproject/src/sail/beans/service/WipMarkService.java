@@ -31,12 +31,12 @@ public class WipMarkService {
 			List<String> batchnoList=valiteWipMarkNo(batchno);
 			//验证质量追溯码
 			List<String> refbatchnoList=valiteWipMarkNo(refbatchno);
-			if(batchnoList==null){
+			if(batchnoList==null||batchnoList.size()==0){
 				batWipMarkDetail=new BatWipMarkDetail();
 				batWipMarkDetail.setRemark5("01");//一号工程码信息不存在
 				return batWipMarkDetail;
 			}
-			if(refbatchnoList==null){
+			if(refbatchnoList==null||refbatchnoList.size()==0){
 				batWipMarkDetail=new BatWipMarkDetail();
 				batWipMarkDetail.setRemark5("02");//质量追溯码信息不存在
 				return batWipMarkDetail;
@@ -96,7 +96,7 @@ public class WipMarkService {
 				batWipMarkDetail.setCreatetime(DateBean.getSysdateTime());
 				batWipMarkDetail.setCreator(userId);
 				batWipMarkDetail.setOpertime(DateBean.getSysdateTime());
-				batWipMarkDetail.setRemark5("PDA");
+				batWipMarkDetail.setRemark("PDA");
 				batWipMarkDetail.setSysflag("1");
 				batWipMarkDetail.setLastmodifiedtime(DateBean.getSysdateTime());
 				batWipMarkDetail.setLastmodifier(userId);

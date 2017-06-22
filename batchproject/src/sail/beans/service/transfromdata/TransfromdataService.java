@@ -93,7 +93,7 @@ public class TransfromdataService {
 					}
 					if(batWorkOrder!=null){
 						batWorkOrder.setWorkordercode(billno);
-						batWorkOrder.setSession(jizu[50]==null?"":jizu[50].toString());
+						batWorkOrder.setSession("HZS0020");
 						batWorkOrder.setMatname(jizu[52]==null?"":jizu[52].toString());
 						batWorkOrder.setMatcode(jizu[55]==null?"":jizu[55].toString());
 						batWorkOrder.setWorkordertype(bill_type[t]);
@@ -140,7 +140,7 @@ public class TransfromdataService {
 						
 						if(batWorkOrder!=null){
 							batWorkOrder.setWorkordercode(billno);
-							batWorkOrder.setSession(jizu[50]==null?"":jizu[50].toString());
+							batWorkOrder.setSession("HZS0030");
 							if(t==0){
 								batWorkOrder.setMatname(jizu[53]==null?"":jizu[53].toString());
 								batWorkOrder.setMatcode(jizu[54]==null?"":jizu[54].toString());
@@ -193,7 +193,7 @@ public class TransfromdataService {
 					if(batWorkOrder!=null){
 						batWorkOrder.setWorkordercode(billno);
 						batWorkOrder.setWorkordertype("ZP05");
-						batWorkOrder.setSession(jizu[50]==null?"":jizu[50].toString());
+						batWorkOrder.setSession("HYG0020");
 						batWorkOrder.setUnit("KG");
 						this.genericDao.save(batWorkOrder);
 					}

@@ -33,8 +33,10 @@ public class BatTransToBaccoOutCabinetService extends CommonService{
 					String wirefeedingCode = mainList.get(i).getWirefeedingCode().toString();
 					//根据喂丝机ESB编码和投料开始结束时间查找工单号得到主键T_BAT_WORKORDER主键ID
 					List workorderCodeList = genericDao.getListWithNativeSql("SYNCHRO.GET.WORKORDER.CODE", 
-							new Object[]{wirefeedingCode,mainList.get(i).getStarttime(),mainList.get(i).getEndtime()
-							,mainList.get(i).getStarttime(),mainList.get(i).getEndtime()});
+							new Object[]{wirefeedingCode,mainList.get(i).getStarttime(),mainList.get(i).getStarttime(),
+							mainList.get(i).getEndtime(),mainList.get(i).getEndtime(),
+							mainList.get(i).getStarttime(),mainList.get(i).getEndtime(),
+							mainList.get(i).getStarttime(),mainList.get(i).getEndtime()});
 					if(workorderCodeList != null && workorderCodeList.size() > 0){
 						for(int j=0;j<workorderCodeList.size();j++){
 							Object [] obj = (Object[])workorderCodeList.get(j);

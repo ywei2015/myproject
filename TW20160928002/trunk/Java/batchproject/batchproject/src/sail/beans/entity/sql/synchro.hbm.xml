@@ -163,11 +163,14 @@
     <sql-query name="SYNCHRO.GET.WORKORDER.CODE">
     	<![CDATA[
     		select w.f_pid,w.f_workorder_code from t_bat_workorder w where w.f_process in(
-				select f_next_device from (
-  				select * from V_BAT_EQU_LINK t
-  					where t.f_pre_device= ? and t.f_link_starttime<= ? and t.f_link_endtime> ? 
-				order by t.f_link_starttime desc  
-			) ) and w.f_sys_flag='1'  and w.f_plan_starttime<= ?  and w.f_plan_endtime>= ? 
+        select f_next_device from (
+          select v.* from v_bat_equ_link v 
+            where v.f_link_type='2' and v.f_pre_device= ?  
+						and ((v.f_link_starttime<= ? and v.f_link_endtime>= ? ) 
+            or  (v.f_link_starttime<= ? and v.f_link_endtime>= ? ))    
+      ) ) and w.f_sys_flag='1'  
+			and ((w.f_actual_starttime>= ?  and w.f_actual_starttime<= ? )  
+      or   (w.f_actual_endtime>= ?  and w.f_actual_endtime<= ? ))
     	]]>
     </sql-query>
     
@@ -223,4 +226,7 @@
       		and t.f_start_time<= ?  and t.f_end_time>= ? 
       ]]>
     </sql-query>
+    <!--select to_date(t.f_getdata_time,'yyyy-mm-dd hh24:mi:ss'),t.* from U_BAT_TRANSYESIINTOCABINET t 
+where to_date(t.f_getdata_time,'yyyy-mm-dd hh24:mi:ss')>=sysdate-2
+ order by t.f_getdata_time desc;-->
 </hibernate-mapping>

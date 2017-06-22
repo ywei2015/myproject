@@ -22,7 +22,7 @@ public class TransformInputData {
 		transformInputDateService.TransformAdjustData();
 	}
 	 @ResponseBody
-	// @Scheduled(cron = "0 0 * * * ?")
+	 @Scheduled(cron = "0 0 * * * ?")
 	 @RequestMapping(value="/transfromfiltertipput")
 	public void TransformFiltertipPut(){
 		transformInputDateService.TransformFiltertipPut();

@@ -4,11 +4,25 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping>
 	
-	<sql-query name="MAT.T_MAT_BOM_LIST.CHECK">
+	<sql-query name="MAT.T_MAT_BOM_LIST.CHECK1">
 	<![CDATA[
     SELECT  l.*  FROM T_BAT_WORKORDER w,T_MAT_BOM b,T_MAT_BOM_LIST l WHERE w.F_MAT_CODE = b.f_mat_pid and  
     b.F_PID = l.F_BOM_PID AND b.F_SYS_FLAG='1' AND l.F_SYS_FLAG='1' AND w.F_SYS_FLAG='1' 
     AND w.F_WORKORDER_CODE = ? AND l.f_mat_pid =(select z.f_pid from t_mat_dic z where z.f_code = ? )          		
+    ]]>
+	</sql-query>
+	
+	<sql-query name="MAT.T_MAT_BOM_LIST.CHECK">
+	<![CDATA[
+    SELECT  l.*  FROM T_MAT_BOM b,T_MAT_BOM_LIST l WHERE b.f_mat_pid = ? and  
+    b.F_PID = l.F_BOM_PID AND b.F_SYS_FLAG='1' AND l.F_SYS_FLAG='1' AND 
+     AND l.f_mat_pid =(select z.f_pid from t_mat_dic z where z.f_code = ? )          		
+    ]]>
+	</sql-query>      
+	
+	<sql-query name="MAT.T_MAT_BOM.YSESBCODE">
+	<![CDATA[
+    select t.F_YS_ESBCODE from V_BAT_ZSMAT_BCP t where t.F_YP_ESBCODE = ?         		
     ]]>
 	</sql-query>
 	

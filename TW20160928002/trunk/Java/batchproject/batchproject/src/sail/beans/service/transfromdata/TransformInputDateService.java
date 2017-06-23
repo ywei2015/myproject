@@ -157,7 +157,7 @@ public class TransformInputDateService {
 									batWorkOrderInput.setSysflag("1");
 									batWorkOrderInput.setCreator(batFiltertipPut.getOperateuserid());
 									batWorkOrderInput.setCreatetime(DateBean.getSysdateTime()); //为转储时间
-									List matList=matBomService.getBomByWorkOrder(batWorkOrder.getWorkordercode(),null,batFiltertipPut.getMatcode());
+									List matList=matBomService.getBomByWorkOrder(batWorkOrder,null,batFiltertipPut.getMatcode());
 									if(matList.size()==0)
 										batWorkOrderInput.setRemark4("0");
 									genericDao.save(batWorkOrderInput);

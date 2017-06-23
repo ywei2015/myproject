@@ -138,7 +138,7 @@ public class SilkWorkOrderService {
 						batWorkOrderInput.setCreatetime(DateBean.getSysdateTime());
 						batWorkOrderInput.setLastmodifier(operuser);
 						batWorkOrderInput.setLastmodifiedtime(DateBean.getSysdateTime());
-						List matList=matBomService.getBomByWorkOrder(workOrderCode,null,carCode.getMatcode().toString());
+						List matList=matBomService.getBomByWorkOrder(BatWorkOrder,null,carCode.getMatcode().toString());
 						if(matList.size()==0)
 							batWorkOrderInput.setRemark4("0");
 						genericDao.save(batWorkOrderInput);
@@ -228,7 +228,7 @@ public class SilkWorkOrderService {
 							batWorkOrderInput.setCreatetime(DateBean.getSysdateTime());
 							batWorkOrderInput.setLastmodifier(operuser);
 							batWorkOrderInput.setLastmodifiedtime(DateBean.getSysdateTime());
-							List matList=matBomService.getBomByWorkOrder(workOrderCode,null,carCode.getMatcode().toString());
+							List matList=matBomService.getBomByWorkOrder(BatWorkOrder,null,carCode.getMatcode().toString());
 							if(matList.size()==0)
 								batWorkOrderInput.setRemark4("0");
 							genericDao.save(batWorkOrderInput);

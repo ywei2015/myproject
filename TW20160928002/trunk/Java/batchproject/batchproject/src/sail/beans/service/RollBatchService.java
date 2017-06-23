@@ -72,7 +72,7 @@ public class RollBatchService {
 				batWorkOrderInput.setSysflag("1");
 				batWorkOrderInput.setCreator(operuser);
 				batWorkOrderInput.setCreatetime(DateBean.getSysdateTime());
-				List matList=matBomService.getBomByWorkOrder(workOrderCode,null,carCode.getMatcode().toString());
+				List matList=matBomService.getBomByWorkOrder(batWorkOrder,null,carCode.getMatcode().toString());
 				if(matList.size()==0)
 					batWorkOrderInput.setRemark4("0");
 				genericDao.save(batWorkOrderInput);

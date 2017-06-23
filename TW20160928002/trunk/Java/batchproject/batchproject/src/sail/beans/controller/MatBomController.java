@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import sail.beans.base.ResponseBase;
+import sail.beans.entity.BatWorkOrder;
 import sail.beans.service.MatBomService;
 
 
@@ -39,10 +40,11 @@ public class MatBomController{
 	@RequestMapping(value="/getBomByWorkOrder")	 
 	public ResponseBase getBomByWorkOrder(HttpServletRequest request){  
 		ResponseBase res = new ResponseBase();
+		BatWorkOrder batWorkOrder=new BatWorkOrder();
 		String workorderCode = request.getParameter("f_workorder_code");
 		String process = request.getParameter("f_process");
 		String matCode = request.getParameter("f_mat_code");
-		List list = matBomService.getBomByWorkOrder(workorderCode, process, matCode);
+		List list = matBomService.getBomByWorkOrder(batWorkOrder, process, matCode);
 		if (list.size() > 0){
 			res.setResponseData("1", "操作成功!");
 		}else{

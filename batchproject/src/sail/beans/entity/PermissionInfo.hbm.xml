@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 2008-12-16 10:45:42 by mars -->
 <hibernate-mapping>
-    <class name="sail.beans.entity.PermissionInfo" table="V_PERMISSION_INFO">
+    <class name="sail.beans.entity.PermissionInfo" table="V_BAT_PERMISSIONINFO">
     	<id name="pid" column="F_PID" length="36" type="string" unsaved-value="">
 			<generator class="uuid.hex" />
 		</id> 

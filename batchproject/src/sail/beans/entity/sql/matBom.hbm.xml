@@ -16,7 +16,7 @@
 	<![CDATA[
     SELECT  l.*  FROM T_MAT_BOM b,T_MAT_BOM_LIST l WHERE b.f_mat_pid = ? and  
     b.F_PID = l.F_BOM_PID AND b.F_SYS_FLAG='1' AND l.F_SYS_FLAG='1' AND 
-     AND l.f_mat_pid =(select z.f_pid from t_mat_dic z where z.f_code = ? )          		
+    l.f_mat_pid =(select z.f_pid from t_mat_dic z where z.f_code = ? )          		
     ]]>
 	</sql-query>      
 	

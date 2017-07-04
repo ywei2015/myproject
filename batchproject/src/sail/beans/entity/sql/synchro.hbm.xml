@@ -168,7 +168,7 @@
             where v.f_link_type='2' and v.f_pre_device= ?  
 						and ((v.f_link_starttime<= ? and v.f_link_endtime>= ? ) 
             or  (v.f_link_starttime<= ? and v.f_link_endtime>= ? ))    
-      ) ) and w.f_sys_flag='1'  
+      ) ) and w.f_sys_flag='1' and w.f_mat_code =(select F_CPESB_CODE from v_bat_zscpmat where F_YSESB_CODE= ? ) 
 			and ((w.f_actual_starttime>= ?  and w.f_actual_starttime<= ? )  
       or   (w.f_actual_endtime>= ?  and w.f_actual_endtime<= ? ))
     	]]>

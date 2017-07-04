@@ -135,41 +135,41 @@ public class CommonService {
 	}
 	
 	/**
-	 * 根据叶片ESB编码查找叶片名称
-	 * @param ypEsbCode
+	 * 根据烟丝ESB编码查找叶片编码和叶片名称
+	 * @param ysEsbCode
 	 * @return
 	 */
-	public String getBatZsMatBcp(String ypEsbCode)
-	{
-		if(StingUtil.isEmpty(ypEsbCode)){
-			return null;
-		}
-		String sql = "SELECT F_YP_NAME from V_BAT_ZSMAT_BCP WHERE F_YP_ESBCODE ='"+ypEsbCode+"'";
-		List conList = this.genericDao.getListWithNativeSql(sql);
-		if (conList == null || conList.size() == 0)
-		{
-			return null;
-		}
-		return conList.get(0).toString();
-	}
-	
-	/**
-	 * 根据烟丝ESB编码查找叶丝名称
-	 * @param ypEsbCode
-	 * @return
-	 */
-	public String getBatYsName(String ysEsbCode)
+	public List getBatYpName(String ysEsbCode)
 	{
 		if(StingUtil.isEmpty(ysEsbCode)){
 			return null;
 		}
-		String sql = "SELECT F_YS_NAME from V_BAT_ZSMAT_BCP WHERE F_YS_ESBCODE ='"+ysEsbCode+"'";
+		String sql = "SELECT F_YP_ESBCODE,F_YP_NAME from V_BAT_ZSMAT_BCP WHERE F_ESB_CODE ='"+ysEsbCode+"'";
 		List conList = this.genericDao.getListWithNativeSql(sql);
 		if (conList == null || conList.size() == 0)
 		{
 			return null;
 		}
-		return conList.get(0).toString();
+		return conList;
+	}
+	
+	/**
+	 * 根据烟丝ESB编码查找叶丝编码和叶丝名称
+	 * @param ypEsbCode
+	 * @return
+	 */
+	public List getBatYsName(String ysEsbCode)
+	{
+		if(StingUtil.isEmpty(ysEsbCode)){
+			return null;
+		}
+		String sql = "SELECT F_YS_ESBCODE,F_YS_NAME from V_BAT_ZSMAT_BCP WHERE F_ESB_CODE ='"+ysEsbCode+"'";
+		List conList = this.genericDao.getListWithNativeSql(sql);
+		if (conList == null || conList.size() == 0)
+		{
+			return null;
+		}
+		return conList;
 	}
 	
 }

@@ -34,11 +34,13 @@ public class BatTransLeafFeedingOrderService extends CommonService{
 					if(!StingUtil.isEmpty(batWorkOrder)){
 						BatWorkOrderInput input = new BatWorkOrderInput();
 						UBatTransLeafFeedingOrder order = mainList.get(i);
+						List list = this.getBatYpName(order.getMatCode().toString());
+						Object []obj = (Object[])list.get(0);
 						input.setWorkorderpid(batWorkOrder.getPid());
 						input.setTltype(Constants.TL_TYPE);
 						input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString()+Constants.ZP13);
-						input.setMatcode(order.getMatCode()==null?"":order.getMatCode().toString());
-						input.setMatname(this.getBatZsMatBcp(order.getMatCode().toString()));
+						input.setMatcode(obj[0].toString());
+						input.setMatname(obj[1].toString());
 						input.setLocation(order.getLocation()==null?"":order.getLocation().toString());
 						input.setLocationname(order.getLocationName()==null?"":order.getLocationName().toString());
 						input.setQuantity(order.getQuantity()==null?0.0:Double.parseDouble(order.getQuantity().toString()));

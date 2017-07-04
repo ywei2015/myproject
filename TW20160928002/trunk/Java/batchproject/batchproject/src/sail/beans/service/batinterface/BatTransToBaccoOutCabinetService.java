@@ -35,6 +35,7 @@ public class BatTransToBaccoOutCabinetService extends CommonService{
 					List workorderCodeList = genericDao.getListWithNativeSql("SYNCHRO.GET.WORKORDER.CODE", 
 							new Object[]{wirefeedingCode,mainList.get(i).getStarttime(),mainList.get(i).getStarttime(),
 							mainList.get(i).getEndtime(),mainList.get(i).getEndtime(),
+							mainList.get(i).getMatCode(),
 							mainList.get(i).getStarttime(),mainList.get(i).getEndtime(),
 							mainList.get(i).getStarttime(),mainList.get(i).getEndtime()});
 					if(workorderCodeList != null && workorderCodeList.size() > 0){

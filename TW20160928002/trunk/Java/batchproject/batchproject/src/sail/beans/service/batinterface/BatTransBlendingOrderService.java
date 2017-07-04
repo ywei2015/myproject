@@ -40,6 +40,8 @@ public class BatTransBlendingOrderService extends CommonService{
 					BatWorkOrderInput input = new BatWorkOrderInput();
 					BatWorkOrderOutput output = new BatWorkOrderOutput();
 					UBatTransBlendingOrder order = mainList.get(i);
+					List list = this.getBatYsName(order.getMatCode());
+					Object []obj = (Object[])list.get(0);
 					//叶丝转成ZP13叶丝工单的产出，同时转成掺配工单ZP03的投料，1：叶丝  2：梗丝
 					if(!StingUtil.isEmpty(batWorkOrderZP03) && !StingUtil.isEmpty(batWorkOrderZP13) && "1".equals(order.getBlendingType())){
 						output.setWorkorderpid(batWorkOrderZP13.getPid());
@@ -68,8 +70,8 @@ public class BatTransBlendingOrderService extends CommonService{
 						input.setWorkorderpid(batWorkOrderZP03.getPid());
 						input.setTltype(Constants.TL_TYPE);
 						input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString()+Constants.ZP03);
-						input.setMatcode(order.getMatCode()==null?"":order.getMatCode().toString());
-						input.setMatname(this.getBatYsName(order.getMatCode().toString()));
+						input.setMatcode(obj[0].toString());
+						input.setMatname(obj[1].toString());
 						input.setLocation(order.getLocation()==null?"":order.getLocation().toString());
 						input.setLocationname(order.getLocationName()==null?"":order.getLocationName().toString());
 						input.setQuantity(order.getQuantity()==null?0.0:Double.parseDouble(order.getQuantity().toString()));
@@ -94,8 +96,8 @@ public class BatTransBlendingOrderService extends CommonService{
 						input.setWorkorderpid(batWorkOrderZP03.getPid());
 						input.setTltype(Constants.TL_TYPE);
 						input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString()+Constants.ZP03);
-						input.setMatcode(order.getMatCode()==null?"":order.getMatCode().toString());
-						input.setMatname(this.getBatYsName(order.getMatCode().toString()));
+						input.setMatcode(obj[0].toString());
+						input.setMatname(obj[1].toString());
 						input.setLocation(order.getLocation()==null?"":order.getLocation().toString());
 						input.setLocationname(order.getLocationName()==null?"":order.getLocationName().toString());
 						input.setQuantity(order.getQuantity()==null?0.0:Double.parseDouble(order.getQuantity().toString()));

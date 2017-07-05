@@ -183,4 +183,10 @@
 		]]>
 	</query>
 	
+	<sql-query name="transfrom.produceData_version.list">
+		<![CDATA[
+			select T.F_BOM_EXEVER,t.F_BOM_VERSION,t.F_TECH_VERSION,t.F_TECH_EXEVER from V_BAT_MATVERSION T where T.F_MAT_CODE = ? 
+		]]>
+	</sql-query>
+	
 </hibernate-mapping>

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+	<query name="TRANSFORM_INPUT.ADJUST.LIST">
+		<![CDATA[
+			select T from sail.beans.entity.BatBatAdjustDetail T where T.remark5 is null
+			and T.sysflag = '1' order by T.createtime
+		]]>
+	</query>
+	
+	<query name="TRANSFORM_INPUT.FILTERTIPPUT.LIST">
+		<![CDATA[
+			select T from sail.beans.entity.BatFiltertipPut T where T.isdeal = '0'
+			and T.sysflag = '1' and substr(T.createtime,0,8) > to_char(sysdate,'YYYYMMDD') 
+			order by T.createtime
+		]]>
+	</query>
+	
+	<query name="TRANSFORM_INPUT.WORKORDERCODE.LIST">
+		<![CDATA[
+    	select order from sail.beans.entity.BatWorkOrder order where order.producedate = ? 
+    	and order.workordertype = ? and order.process = ? 
+    	and order.sysflag = '1'
+    ]]>
+	</query>
+	
+	<sql-query name="TRANSFORM_INPUT.WORKORDERJITAI.LIST">
+		<![CDATA[
+		select t2.F_GROUP_ESBCODE from v_bat_equ t2 where t2.F_ESB_CODE=(
+      select t1.F_NEXT_DEVICE,t1.F_LINK_STARTTIME from t_bat_equ_link t1 where t1.f_link_type='3' and t1.f_pre_device = ? 
+	 and t1.F_LINK_STARTTIME <= ? and t1.F_LINK_ENDTIME >= ? )
+		]]>
+	</sql-query>
+	
+		<query name="TRANSFORM_INPUT.WORKORDEROUT.LIST">
+		<![CDATA[
+			select out from sail.beans.entity.BatWorkOrderOutput out where out.workorderpid = ? 
+			and out.sysflag = '1'
+		]]>
+	</query>
+	
+</hibernate-mapping>

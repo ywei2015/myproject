@@ -95,6 +95,31 @@ public class BatchStorageController {
 		return res;
 	}
 	
+	/**
+	 * 通过人员,日期，出入库类型获取详细列表
+	 * */
+	@ResponseBody
+	@RequestMapping(value="/getBatDepotIoDetailByDate")	 
+	public ResponseBase getBatDepotIoDetailListByDate(HttpServletRequest request){
+		ResponseBase res = new ResponseBase();
+		String f_bill_no = request.getParameter("f_bill_no");
+		String f_doc_type = request.getParameter("f_doc_type");
+		if(f_doc_type.equals("ZI101"))
+			f_doc_type="ZI20";
+		String batch = request.getParameter("f_mat_batch");
+		String remark=request.getParameter("remark5");
+		String userId = request.getParameter("userId");
+		List<BatDepotIoDetail> batdepotiodetaillist=null;
+		batdepotiodetaillist = batchStorageService.getBatDepotIoDetailListByDate(f_doc_type,remark,userId);
+		if (batdepotiodetaillist != null && batdepotiodetaillist.size() > 0){
+			res.setResponseData("1", "操作成功!");
+			res.setDataset(batdepotiodetaillist, "batdepotiodetail");
+		}else{
+			res.setResponseData("0", "牌号信息不匹配!");
+		}
+		return res;
+	}
+	
 	
 	@ResponseBody
 	@RequestMapping(value="/deleteBatDepotIoDetail")	 

@@ -27,12 +27,22 @@
     ]]>
 	</query>	
 	
+	<!--根据工单，工单类型，出入库类型，批次号获取详细列表-->
 	<query name="STORAGE.T_BAT_DEPOT_IOBILLDETAIL2.LIST">
 		<![CDATA[
     	SELECT detail FROM sail.beans.entity.BatDepotIoDetail detail,sail.beans.entity.BatDepotIoBill bill
     	 where bill.billno = ? and bill.doctype = ? and detail.remark5 = ? and detail.matbatch = ? 
     	 and bill.sysflag = '1' and bill.pid = detail.billpid and detail.sysflag= '1' and
     	 substr(detail.lastmodifiedtime,0,8) > to_char(sysdate-1,'YYYYMMDD') order by detail.lastmodifiedtime desc
+    ]]>
+	</query>
+	<!--根据日期，操作人员，出入库类型获取详细列表-->
+	<query name="STORAGE.T_BAT_DEPOT_IOBILLDETAIL3.LIST">
+		<![CDATA[
+    	SELECT detail FROM sail.beans.entity.BatDepotIoDetail detail,sail.beans.entity.BatDepotIoBill bill
+    	 where  bill.doctype = ? and detail.remark5 = ? and detail.lastmodifier = ? 
+    	 and bill.sysflag = '1' and bill.pid = detail.billpid and detail.sysflag= '1' and
+    	 substr(detail.lastmodifiedtime,0,8) = to_char(sysdate,'YYYYMMDD') order by detail.lastmodifiedtime desc
     ]]>
 	</query>
 	

@@ -6,7 +6,8 @@ var f_doc_type=getQueryString('f_doc_type');//test:ZI10
 var data_p={
 		'f_bill_no':f_bill_no,
 		'f_doc_type':f_doc_type,
-		'remark5':2
+		'remark5':2,
+		'userId':userId
 };
 var img = new Image(); 
 function loadImage() { 
@@ -31,10 +32,10 @@ function initTable(dataj){
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
-	if(f_bill_no!=null&&f_bill_no!=""){
+	//if(f_bill_no!=null&&f_bill_no!=""){
 	$.ajax({
 		type : "post",
-		url: cqt_prefix+'storage/getBatDepotIoDetailList',
+		url: cqt_prefix+'storage/getBatDepotIoDetailByDate',
 		data:dataj,
 		success : function(data) {
 			//var str=eval('(' + data + ')');   //解析json
@@ -108,7 +109,7 @@ function initTable(dataj){
 		}
 		}
 	});
-	}
+	//}
 	theTable.appendChild(b);
 }
 var Id

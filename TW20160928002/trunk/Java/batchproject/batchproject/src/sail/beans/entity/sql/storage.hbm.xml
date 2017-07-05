@@ -70,7 +70,7 @@
 			and d.f_bill_pid=t.f_pid
 			and t.f_sys_flag='1'
 			and s.f_sys_flag='1'
-			
+			order by s.F_CREATE_TIME desc
 		]]>
 	</sql-query>
 	

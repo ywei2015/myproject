@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2008-12-16 10:45:42 by mars -->
+<hibernate-mapping>
+    <class name="sail.beans.entity.BatSilkReuse" table="T_BAT_SILK_REUSE">
+    	<id name="pid" column="F_PID" length="50" type="string" unsaved-value="">
+			<generator class="uuid.hex" />
+		</id> 
+		<property name="bizid" column="F_BIZ_ID" length="50" type="string"/>
+		<property name="newmatid" column="F_NEW_MATID" length="50" type="string"/>
+		<property name="newmatname" column="F_NEW_MATNAME" length="50" type="string"/>
+		<property name="newmatbatch" column="F_NEW_MATBATCH" length="50" type="string"/>
+		<property name="quantity" column="F_QUANTITY" precision="12" scale="4" not-null="true" type="java.lang.Double"/>
+		<property name="unit" column="F_UNIT" length="1" type="string"/>
+		<property name="water" column="F_WATER" length="50" type="string"/>
+		<property name="remark1" column="F_REMARK1" length="1" type="string"/>
+		<property name="remark2" column="F_REMARK2" length="1" type="string"/>
+		<property name="remark3" column="F_REMARK3" length="1" type="string"/>
+		<property name="remark4" column="F_REMARK4" length="1" type="string"/>
+		<property name="remark5" column="F_REMARK5" length="1" type="string"/>
+		<property name="remark" column="F_REMARK" length="1" type="string"/>
+		<property name="sysflag" column="F_SYS_FLAG" length="1" type="string"/>
+		<property name="creator" column="F_CREATOR" length="1" type="string"/>
+		<property name="createtime" column="F_CREATE_TIME" length="1" type="string"/>
+		<property name="lastmodifier" column="F_LAST_MODIFIER" length="1" type="string"/>
+		<property name="lastmodifiedtime" column="F_LAST_MODIFIED_TIME" length="1" type="string"/>
+    </class>
+</hibernate-mapping>

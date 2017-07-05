@@ -8,7 +8,8 @@ var data_p={
 		'f_bill_no':f_bill_no,
 		'f_doc_type':f_doc_type,
 		'remark5':1,
-		'f_mat_batch':f_mat_batch
+		'f_mat_batch':f_mat_batch,
+		'userId':userId
 };
 var img = new Image(); 
 function loadImage() { 
@@ -33,10 +34,10 @@ function initTable(dataj){
 		title_r.appendChild(td);
 	}
 	b.appendChild(title_r);
-	if(f_mat_batch!=null&&f_mat_batch!=""){
+	//if(f_mat_batch!=null&&f_mat_batch!=""){
 	$.ajax({
 		type : "post",
-		url:cqt_prefix+'storage/getBatDepotIoDetailList',
+		url:cqt_prefix+'storage/getBatDepotIoDetailByDate',
 		data:dataj,
 		success : function(data) {
 			//var str=eval('(' + data + ')');   //解析json
@@ -112,7 +113,7 @@ function initTable(dataj){
 		}
 		}
 	});
-	}
+	//}
 	theTable.appendChild(b);
 }
 var Id;

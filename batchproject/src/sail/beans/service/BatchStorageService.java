@@ -296,6 +296,19 @@ public class BatchStorageService {
 	}
 	
 	/**
+	 * 根据日期和操作ID
+	 * @param date
+	 * @param docType
+	 * @param userId
+	 * @return
+	 */
+	public List<BatDepotIoDetail> getBatDepotIoDetailListByDate(String docType,String remark,String userId){
+		List<BatDepotIoDetail> detailList=null;
+		detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL3.LIST", new Object[]{docType,remark,userId});
+		return detailList;
+	}
+	
+	/**
 	 * 删除出库入库对应明细数据
 	 * @param detailpid
 	 */

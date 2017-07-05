@@ -159,6 +159,7 @@ public class RollBatchService {
 						if("02".equals(tou)) paihao=paihao.replaceFirst(tou, "白班");
 						if("03".equals(tou)) paihao=paihao.replaceFirst(tou, "中班");
 						processWorkList.add(paihao);
+						
 					}
 				}
 			}

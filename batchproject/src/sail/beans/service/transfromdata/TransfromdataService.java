@@ -53,7 +53,7 @@ public class TransfromdataService {
 						batWorkOrder.setWorkordertype("ZP01");
 						batWorkOrder.setUnit("万支");
 						batWorkOrder.setProcess(jizu[49]==null?"":jizu[49].toString());
-						this.genericDao.save(batWorkOrder);
+						this.genericDao.save(setBatWorkOrderVersion(batWorkOrder));
 					}
 						
 				}
@@ -98,7 +98,7 @@ public class TransfromdataService {
 						batWorkOrder.setMatcode(jizu[55]==null?"":jizu[55].toString());
 						batWorkOrder.setWorkordertype(bill_type[t]);
 						batWorkOrder.setUnit("KG");
-						this.genericDao.save(batWorkOrder);
+						this.genericDao.save(setBatWorkOrderVersion(batWorkOrder));
 					}
 					t++;
 				}
@@ -147,9 +147,8 @@ public class TransfromdataService {
 							}
 							batWorkOrder.setWorkordertype(bill_type[t]);
 							batWorkOrder.setUnit("KG");
-							this.genericDao.save(batWorkOrder);
+							this.genericDao.save(setBatWorkOrderVersion(batWorkOrder));
 						}
-							
 						t++;
 					}
 				
@@ -195,7 +194,7 @@ public class TransfromdataService {
 						batWorkOrder.setWorkordertype("ZP05");
 						batWorkOrder.setSession("HYG0020");
 						batWorkOrder.setUnit("KG");
-						this.genericDao.save(batWorkOrder);
+						this.genericDao.save(setBatWorkOrderVersion(batWorkOrder));
 					}
 						
 				}
@@ -205,8 +204,10 @@ public class TransfromdataService {
 			throw new RuntimeException();
 		}
 	}
-
 	
+/**
+ * 根据工单规则生成工单
+ * */
 	public String getBrandNo(Object[]jizu, String type){
 		String billno=null;
 		if(type.equals("juanbao")){
@@ -269,8 +270,10 @@ public class TransfromdataService {
 		}
 		return workteam;
 	}
+	/**
+	 * 制丝工单手动生成方法ZP12
+	 * */
 	public void transformDataSilkBF(String batch) {
-
 		try{
 			//String taskday=DateBean.getAfterDay(DateBean.getSysdate(), 1);
 			String taskday=DateBean.getSysdate();
@@ -313,7 +316,9 @@ public class TransfromdataService {
 	
 		
 	}
-
+	/**
+	 * 制丝工单手动生成方法ZP13，ZP03
+	 * */
 	public void transformDataSilkBF2(String batch) {
 
 		try{
@@ -363,6 +368,19 @@ public class TransfromdataService {
 	
 		
 	}
-
+/**
+ * 设置工单版本相关信息
+ * */
+	public BatWorkOrder setBatWorkOrderVersion(BatWorkOrder batWorkOrder){
+		List<String[]> list_version=genericDao.getListWithNativeSql("transfrom.produceData_version.list",new Object[]{batWorkOrder.getMatcode()});
+		if(list_version!=null&&list_version.size()>0){
+			String[] version=list_version.get(0);
+			batWorkOrder.setRecipebver(version[0]==null?"":version[0]);    //配方大版本号
+			batWorkOrder.setRecipeever(version[1]==null?"":version[1]);
+			batWorkOrder.setCraftver(version[2]==null?"":version[2]);    //
+			batWorkOrder.setCraftsver(version[3]==null?"":version[3]);   //工艺大版本号
+		}
+		return batWorkOrder;
+	}
 
 }

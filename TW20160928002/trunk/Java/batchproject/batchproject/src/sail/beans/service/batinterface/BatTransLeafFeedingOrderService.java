@@ -38,7 +38,7 @@ public class BatTransLeafFeedingOrderService extends CommonService{
 						Object []obj = (Object[])list.get(0);
 						input.setWorkorderpid(batWorkOrder.getPid());
 						input.setTltype(Constants.TL_TYPE);
-						input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString()+Constants.ZP13);
+						input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString()+Constants.ZP12);
 						input.setMatcode(obj[0].toString());
 						input.setMatname(obj[1].toString());
 						input.setLocation(order.getLocation()==null?"":order.getLocation().toString());

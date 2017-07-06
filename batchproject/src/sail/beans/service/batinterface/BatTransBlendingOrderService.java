@@ -69,7 +69,7 @@ public class BatTransBlendingOrderService extends CommonService{
 						
 						input.setWorkorderpid(batWorkOrderZP03.getPid());
 						input.setTltype(Constants.TL_TYPE);
-						input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString()+Constants.ZP03);
+						input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString()+Constants.ZP13);
 						input.setMatcode(obj[0].toString());
 						input.setMatname(obj[1].toString());
 						input.setLocation(order.getLocation()==null?"":order.getLocation().toString());

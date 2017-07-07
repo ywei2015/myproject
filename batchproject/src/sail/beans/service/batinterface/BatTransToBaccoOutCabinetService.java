@@ -10,12 +10,15 @@ import sail.beans.Constants;
 import sail.beans.dao.GenericDao;
 import sail.beans.entity.BatWorkOrderInput;
 import sail.beans.entity.UBatTransToBaccoOutCabinet;
+import sail.beans.service.SpcQmsBatchDataService;
 import sail.beans.support.DateBean;
 
 @Service
 public class BatTransToBaccoOutCabinetService extends CommonService{
 	@Autowired
 	private GenericDao genericDao;  
+	@Autowired
+	private SpcQmsBatchDataService spcQmsBatchDataService;
 	
 	/**
 	 * 获取待转储并新增生产工单投料后台服务（成品烟丝出柜）
@@ -69,6 +72,8 @@ public class BatTransToBaccoOutCabinetService extends CommonService{
 							main1.setSynchroFlag(Constants.SYN_CHRO_USED);
 							main1.setSynchroTime(DateBean.getSysdateTime());
 							genericDao.save(main1);
+							
+							spcQmsBatchDataService.SaveSpcQmsBatchData(order.getMatBatch());
 						}
 					}else{
 						UBatTransToBaccoOutCabinet main1 = (UBatTransToBaccoOutCabinet)genericDao.getById(UBatTransToBaccoOutCabinet.class,mainList.get(i).getPid());

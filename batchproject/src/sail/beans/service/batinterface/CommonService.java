@@ -139,18 +139,18 @@ public class CommonService {
 	 * @param ysEsbCode
 	 * @return
 	 */
-	public List getBatYpName(String ysEsbCode)
+	public String getBatYpName(String ypEsbCode)
 	{
-		if(StingUtil.isEmpty(ysEsbCode)){
+		if(StingUtil.isEmpty(ypEsbCode)){
 			return null;
 		}
-		String sql = "SELECT F_YP_ESBCODE,F_YP_NAME from V_BAT_ZSMAT_BCP WHERE F_ESB_CODE ='"+ysEsbCode+"'";
+		String sql = "SELECT F_YP_NAME from V_BAT_ZSMAT_BCP WHERE F_YP_ESBCODE ='"+ypEsbCode+"'";
 		List conList = this.genericDao.getListWithNativeSql(sql);
 		if (conList == null || conList.size() == 0)
 		{
 			return null;
 		}
-		return conList;
+		return conList.get(0).toString();
 	}
 	
 	/**

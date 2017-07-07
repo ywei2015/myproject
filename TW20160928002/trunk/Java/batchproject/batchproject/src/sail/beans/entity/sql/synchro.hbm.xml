@@ -198,7 +198,8 @@
     	select t.f_batch,t.f_batch || g.f_workorder_type  as F_WORKORDERCODE,g.f_gd_esb_code,g.f_gd_name,g.f_gx_esb_code,
           v.f_dic_name,t.F_START_TIME,t.f_end_time, count(1) as F_ROWCOUNT
       from SPC.QMS_TB_BATCHSTAT t,SPC.QMS_TB_PARAMETER p,SPC.T_BAT_GX_DIC g,v_bat_product_process v
-      where t.f_param_id = p.f_pid and g.f_gx_code = p.f_section_id and t.f_batch = ?  and g.f_gx_esb_code=v.F_ESB_CODE 
+      where t.f_param_id = p.f_pid and g.f_gx_code = p.f_section_id and t.f_batch = ?  and g.f_gx_esb_code=v.F_ESB_CODE  
+      and t.f_state = '2' 
       group by  t.f_batch,t.f_batch || g.f_workorder_type ,g.f_gd_esb_code,g.f_gd_name,g.f_gx_esb_code,v.f_dic_name
       ,t.F_START_TIME,t.f_end_time
       ]]>
@@ -210,7 +211,7 @@
       		g.f_gx_name,p.f_esb_code,p.f_name,p.f_unit,t.f_start_time,t.f_end_time,
       		t.f_upline,t.f_lowline,t.f_target,t.f_cpk,t.f_sigma,t.f_average,t.f_maxvalue,t.f_minvalue,t.f_overnum,t.f_qrate
     	from SPC.QMS_TB_BATCHSTAT t,SPC.QMS_TB_PARAMETER p,SPC.T_BAT_GX_DIC g
-    	where t.f_param_id = p.f_pid and g.f_gx_code = p.f_section_id   
+    	where t.f_param_id = p.f_pid and g.f_gx_code = p.f_section_id  and t.f_state = '2' 
 		    and t.f_batch || g.f_workorder_type = ?  and g.f_gx_esb_code = ? 
     ]]>
     </sql-query>

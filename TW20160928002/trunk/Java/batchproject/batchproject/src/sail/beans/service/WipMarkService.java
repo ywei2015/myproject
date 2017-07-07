@@ -31,37 +31,34 @@ public class WipMarkService {
 			List<String> batchnoList=valiteWipMarkNo(batchno);
 			//验证质量追溯码
 			List<String> refbatchnoList=valiteWipMarkNo(refbatchno);
-			if(batchnoList==null||batchnoList.size()==0){
-				batWipMarkDetail=new BatWipMarkDetail();
-				batWipMarkDetail.setRemark5("01");//一号工程码信息不存在
-				return batWipMarkDetail;
-			}
-			if(refbatchnoList==null||refbatchnoList.size()==0){
+			if(refbatchnoList.size()==0&&batchnoList.size()==0){
 				batWipMarkDetail=new BatWipMarkDetail();
 				batWipMarkDetail.setRemark5("02");//质量追溯码信息不存在
 				return batWipMarkDetail;
 			}
-			if("00".equals(batchnoList.get(0))){
-				batchnoj=batchnoList.get(2);
-			}else if("01".equals(batchnoList.get(0))){
-				refbatchnoj=batchnoList.get(4);
-				f_ucode=batchnoList.get(1);
-				f_lcode=batchnoList.get(2);
-				f_remark4=batchnoList.get(3);
+			if(refbatchnoList!=null&&refbatchnoList.size()>=0){
+				if("00".equals(refbatchnoList.get(0))){
+					refbatchnoj=refbatchnoList.get(4);
+					f_ucode=refbatchnoList.get(1);
+					f_lcode=refbatchnoList.get(2);
+					f_remark4=refbatchnoList.get(3);
+					batchnoj=batchno;
+				}
 			}
-			if("00".equals(refbatchnoList.get(0))){
-				batchnoj=refbatchnoList.get(2);
-			}else if("01".equals(refbatchnoList.get(0))){
-				refbatchnoj=refbatchnoList.get(4);
-				f_ucode=refbatchnoList.get(1);
-				f_lcode=refbatchnoList.get(2);
-				f_remark4=refbatchnoList.get(3);
+			if(batchnoList!=null&&batchnoList.size()>0){
+				if("00".equals(batchnoList.get(0))){
+					refbatchnoj=batchnoList.get(4);
+					f_ucode=batchnoList.get(1);
+					f_lcode=batchnoList.get(2);
+					f_remark4=batchnoList.get(3);
+					batchnoj=refbatchno;
+				}
 			}
-			if(batchnoj==null){
+			/*if(batchnoj==null){
 				batWipMarkDetail=new BatWipMarkDetail();
 				batWipMarkDetail.setRemark5("01");//一号工程码信息不存在
 				return batWipMarkDetail;
-			}
+			}*/
 			if(refbatchnoj==null){
 				batWipMarkDetail=new BatWipMarkDetail();
 				batWipMarkDetail.setRemark5("02");//质量追溯码信息不存在
@@ -88,7 +85,7 @@ public class WipMarkService {
 					this.genericDao.save(batWorkMark);
 				}
 				batWipMarkDetail=new BatWipMarkDetail();
-				batWipMarkDetail.setBatchno(batchnoj);
+				batWipMarkDetail.setBatchno(batchnoj);//
 				batWipMarkDetail.setRefbatchno(f_lcode);
 				batWipMarkDetail.setRemark3(f_ucode);
 				batWipMarkDetail.setRemark4(f_remark4);

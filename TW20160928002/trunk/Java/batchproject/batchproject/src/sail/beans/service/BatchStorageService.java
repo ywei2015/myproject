@@ -33,6 +33,9 @@ public class BatchStorageService {
 	
 	@Autowired
 	private BatchResolveValue batchResolveValue;
+	
+	@Autowired
+	private BarCodeLimit barCodeLimit;
 	/**
 	 * 入库后台服务
 	 * @param billNo
@@ -118,64 +121,64 @@ public class BatchStorageService {
 		BatDepotIoBill batDepotIoBill = null;
 		BatDepotIoDetail batDepotIoDetail=null;
 		String bill="SS303200"+DateBean.getSysdate("YYYYMMDDHH");
-		List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{null,"ZI20",null,matBatch});
-		if (detailList != null && detailList.size() > 0){
-			batDepotIoDetail = detailList.get(0);
-			batDepotIoDetail.setRepeated("1");
-			return batDepotIoDetail;
-		}else{
-			List<BatDepotIoBill> batDepotIoBillList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST", new Object[]{bill,"ZI20"});
-			if(batDepotIoBillList!=null&&batDepotIoBillList.size()>0){
-				batDepotIoBill=batDepotIoBillList.get(0);
+		if(barCodeLimit.barCodeLimitByType("ZI20", matBatch)){
+			List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{null,"ZI20",null,matBatch});
+			if (detailList != null && detailList.size() > 0){
+				batDepotIoDetail = detailList.get(0);
+				batDepotIoDetail.setRepeated("1");
+				return batDepotIoDetail;
 			}else{
-				batDepotIoBill=new BatDepotIoBill();
-				batDepotIoBill.setBillno(bill);
-				batDepotIoBill.setBiztype("MM2141");
-				batDepotIoBill.setBilltype("11");
-				batDepotIoBill.setDoctype("ZI20");
-				batDepotIoBill.setDepot("HZ10");
-				batDepotIoBill.setFactory("2200");
-				batDepotIoBill.setIsEnter("1");
-				batDepotIoBill.setSysflag("1");
-				batDepotIoBill.setWorkshop("2220");
-				batDepotIoBill.setCreator(userId);
-				batDepotIoBill.setCreatetime(DateBean.getSysdateTime());
-				batDepotIoBill.setDate(DateBean.getSysdate());
-				batDepotIoBill.setOperatetime(DateBean.getSysdateTime());
-				batDepotIoBill.setOperateuserid(userId);
-				batDepotIoBill.setLastmodifiedtime(DateBean.getSysdateTime());
-				batDepotIoBill.setLastmodifier(userId);
+				List<BatDepotIoBill> batDepotIoBillList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST", new Object[]{bill,"ZI20"});
+				if(batDepotIoBillList!=null&&batDepotIoBillList.size()>0){
+					batDepotIoBill=batDepotIoBillList.get(0);
+				}else{
+					batDepotIoBill=new BatDepotIoBill();
+					batDepotIoBill.setBillno(bill);
+					batDepotIoBill.setBiztype("MM2141");
+					batDepotIoBill.setBilltype("11");
+					batDepotIoBill.setDoctype("ZI20");
+					batDepotIoBill.setDepot("HZ10");
+					batDepotIoBill.setFactory("2200");
+					batDepotIoBill.setIsEnter("1");
+					batDepotIoBill.setSysflag("1");
+					batDepotIoBill.setWorkshop("2220");
+					batDepotIoBill.setCreator(userId);
+					batDepotIoBill.setCreatetime(DateBean.getSysdateTime());
+					batDepotIoBill.setDate(DateBean.getSysdate());
+					batDepotIoBill.setOperatetime(DateBean.getSysdateTime());
+					batDepotIoBill.setOperateuserid(userId);
+					batDepotIoBill.setLastmodifiedtime(DateBean.getSysdateTime());
+					batDepotIoBill.setLastmodifier(userId);
+				}	
+				this.genericDao.save(batDepotIoBill);
+				batDepotIoDetail=new BatDepotIoDetail();
+				batDepotIoDetail.setBillpid(batDepotIoBill.getPid());
+				batDepotIoDetail.setLastmodifiedtime(DateBean.getSysdateTime());
+				batDepotIoDetail.setLastmodifier(userId);
+				batDepotIoDetail.setCreator(userId);
+				batDepotIoDetail.setCreatetime(DateBean.getSysdateTime());
+				batDepotIoDetail.setRemark5("1");
+				batDepotIoDetail.setIsEnter("1");
+				batDepotIoDetail.setSysflag("1");
+				batDepotIoDetail.setMatbatch(matBatch);
+				batDepotIoDetail.setMatcode("201010002");
+				batDepotIoDetail.setMatkl("2001");
+				batDepotIoDetail.setShkzg("S");
+				batDepotIoDetail.setStatus("A");
+				batDepotIoDetail.setInventorytype("0");
+				batDepotIoDetail.setSuppliersortcode("XA");
+				batDepotIoDetail.setMatname("二醋酸纤维丝束(3.0Y/32000)");
+			//	batDepotIoDetail.setQuantity(quantity);
+				try {
+					quanlity=Double.parseDouble(matBatch.substring(matBatch.length()-4, matBatch.length()))/10;
+				} catch (Exception e) {
+					quanlity=320;
+				}
+				batDepotIoDetail.setUnit("KG");
+				batDepotIoDetail.setQuantity(quanlity);
+				this.genericDao.save(batDepotIoDetail);	
 			}	
-			this.genericDao.save(batDepotIoBill);
-			batDepotIoDetail=new BatDepotIoDetail();
-			batDepotIoDetail.setBillpid(batDepotIoBill.getPid());
-			batDepotIoDetail.setLastmodifiedtime(DateBean.getSysdateTime());
-			batDepotIoDetail.setLastmodifier(userId);
-			batDepotIoDetail.setCreator(userId);
-			batDepotIoDetail.setCreatetime(DateBean.getSysdateTime());
-			batDepotIoDetail.setRemark5("1");
-			batDepotIoDetail.setIsEnter("1");
-			batDepotIoDetail.setSysflag("1");
-			batDepotIoDetail.setMatbatch(matBatch);
-			batDepotIoDetail.setMatcode("201010002");
-			batDepotIoDetail.setMatkl("2001");
-			batDepotIoDetail.setShkzg("S");
-			batDepotIoDetail.setStatus("A");
-			batDepotIoDetail.setInventorytype("0");
-			batDepotIoDetail.setSuppliersortcode("XA");
-			batDepotIoDetail.setMatname("二醋酸纤维丝束(3.0Y/32000)");
-		//	batDepotIoDetail.setQuantity(quantity);
-			try {
-				quanlity=Double.parseDouble(matBatch.substring(matBatch.length()-4, matBatch.length()))/10;
-			} catch (Exception e) {
-				quanlity=320;
-			}
-			batDepotIoDetail.setUnit("KG");
-			batDepotIoDetail.setQuantity(quanlity);
-			this.genericDao.save(batDepotIoDetail);	
-			
-		}	
-		
+		}
 		return batDepotIoDetail;
 	}
 	/**

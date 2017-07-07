@@ -11,6 +11,7 @@ import sail.beans.dao.GenericDao;
 import sail.beans.entity.BatWorkOrder;
 import sail.beans.entity.BatWorkOrderOutput;
 import sail.beans.entity.UBatTransToBaccoInCabinet;
+import sail.beans.service.SpcQmsBatchDataService;
 import sail.beans.service.TransfromWorkCodeDataService;
 import sail.beans.support.DateBean;
 import sail.beans.support.StingUtil;
@@ -21,6 +22,8 @@ public class BatTransToBaccoInCabinetService extends CommonService{
 	private GenericDao genericDao;  
 	@Autowired
 	private TransfromWorkCodeDataService service;
+	@Autowired
+	private SpcQmsBatchDataService spcQmsBatchDataService;
 	
 	/**
 	 * 获取待转储并新增生产工单投料后台服务（成品烟丝进柜）
@@ -65,6 +68,8 @@ public class BatTransToBaccoInCabinetService extends CommonService{
 						batWorkOrder.setLastmodifier(this.getUserIdByUserCode(order.getOperateUsercode()));
 						batWorkOrder.setLastmodifiedtime(DateBean.getSysdateTime());
 						genericDao.save(batWorkOrder);
+						
+						spcQmsBatchDataService.SaveSpcQmsBatchData(order.getMatBatch());
 					}else{
 						UBatTransToBaccoInCabinet main1 = (UBatTransToBaccoInCabinet)genericDao.getById(UBatTransToBaccoInCabinet.class,mainList.get(i).getPid());
 						main1.setSynchroFlag(Constants.SYN_CHRO_UNFIND);

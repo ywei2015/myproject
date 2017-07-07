@@ -23,7 +23,7 @@
     	SELECT detail FROM sail.beans.entity.BatDepotIoDetail detail,sail.beans.entity.BatDepotIoBill bill
     	 where bill.billno = ? and bill.doctype = ? and detail.isEnter = ? and detail.matbatch = ? 
     	 and bill.sysflag = '1' and bill.pid = detail.billpid and detail.sysflag= '1' 
-    	 order by detail.createtime desc
+    	 order by detail.lastmodifiedtime desc
     ]]>
 	</query>	
 	

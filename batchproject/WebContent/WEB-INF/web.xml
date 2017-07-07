@@ -24,11 +24,12 @@
     <load-on-startup>3</load-on-startup>
 	</servlet>
 	
+	
 	<servlet-mapping>
 	    <servlet-name>Dispatcher</servlet-name>
 	    <url-pattern>/dynamic/*</url-pattern>
   	</servlet-mapping>
- 
+  	
 	<!--Hibernate Open Session in View Filter-->
 
 	<filter>
@@ -40,12 +41,14 @@
 	          <param-name>sessionFactoryBeanName</param-name>
               <param-value>sessionFactory</param-value>
         </init-param>
-			
 	</filter>
+	
+	
 	<filter-mapping>
 		<filter-name>hibernateFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -78,6 +81,8 @@
 			<param-value>/business/sec/login.jsp</param-value>
 		</init-param>
 	</filter>
+	
+	
 	
 	<filter-mapping>
 		<filter-name>sessionFilter</filter-name>

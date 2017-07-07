@@ -372,13 +372,13 @@ public class TransfromdataService {
  * 设置工单版本相关信息
  * */
 	public BatWorkOrder setBatWorkOrderVersion(BatWorkOrder batWorkOrder){
-		List<String[]> list_version=genericDao.getListWithNativeSql("transfrom.produceData_version.list",new Object[]{batWorkOrder.getMatcode()});
+		List<Object[]> list_version=genericDao.getListWithNativeSql("transfrom.produceData_version.list",new Object[]{batWorkOrder.getMatcode()});
 		if(list_version!=null&&list_version.size()>0){
-			String[] version=list_version.get(0);
-			batWorkOrder.setRecipebver(version[0]==null?"":version[0]);    //配方大版本号
-			batWorkOrder.setRecipeever(version[1]==null?"":version[1]);
-			batWorkOrder.setCraftver(version[2]==null?"":version[2]);    //
-			batWorkOrder.setCraftsver(version[3]==null?"":version[3]);   //工艺大版本号
+			Object[] version=list_version.get(0);
+			batWorkOrder.setRecipebver(version[0]==null?"":version[0].toString());    //配方大版本号
+			batWorkOrder.setRecipeever(version[1]==null?"":version[1].toString());
+			batWorkOrder.setCraftver(version[2]==null?"":version[2].toString());    //
+			batWorkOrder.setCraftsver(version[3]==null?"":version[3].toString());   //工艺大版本号
 		}
 		return batWorkOrder;
 	}

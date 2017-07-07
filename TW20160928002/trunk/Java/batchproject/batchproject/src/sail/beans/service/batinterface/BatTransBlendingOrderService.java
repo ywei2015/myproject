@@ -40,10 +40,10 @@ public class BatTransBlendingOrderService extends CommonService{
 					BatWorkOrderInput input = new BatWorkOrderInput();
 					BatWorkOrderOutput output = new BatWorkOrderOutput();
 					UBatTransBlendingOrder order = mainList.get(i);
-					List list = this.getBatYsName(order.getMatCode());
-					Object []obj = (Object[])list.get(0);
 					//叶丝转成ZP13叶丝工单的产出，同时转成掺配工单ZP03的投料，1：叶丝  2：梗丝
 					if(!StingUtil.isEmpty(batWorkOrderZP03) && !StingUtil.isEmpty(batWorkOrderZP13) && "1".equals(order.getBlendingType())){
+						List list = this.getBatYsName(order.getMatCode());
+						Object []obj = (Object[])list.get(0);
 						output.setWorkorderpid(batWorkOrderZP13.getPid());
 						output.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString()+Constants.ZP13);
 						output.setStime2(order.getStarttime()==null?"":order.getStarttime().toString());
@@ -93,6 +93,8 @@ public class BatTransBlendingOrderService extends CommonService{
 						main1.setSynchroTime(DateBean.getSysdateTime());
 						genericDao.save(main1);
 					}else if(!StingUtil.isEmpty(batWorkOrderZP03) && "2".equals(order.getBlendingType())){  //梗丝
+						List list = this.getBatYsName(order.getMatCode());
+						Object []obj = (Object[])list.get(0);
 						input.setWorkorderpid(batWorkOrderZP03.getPid());
 						input.setTltype(Constants.TL_TYPE);
 						input.setMatbatch(order.getMatBatch()==null?"":order.getMatBatch().toString()+Constants.ZP03);

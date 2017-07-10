@@ -221,10 +221,11 @@ public class BatchStorageService {
 				this.genericDao.save(batDepotIoBill);
 			}
 			//根据批次号到出入库表获取批次信息
-			List<BatDepotIoDetail> BatDepotIoDetailList1=this.genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{null,null,null,matBatch});
+			/*List<BatDepotIoDetail> BatDepotIoDetailList1=this.genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{null,null,null,matBatch});
 			if(BatDepotIoDetailList1!=null&&BatDepotIoDetailList1.size()>0){
 				batDepotIoDetail=saveBatDepotIoDetail(BatDepotIoDetailList1,batDepotIoBill,matBatch,userId);
-			}
+			}*/
+			batDepotIoDetail=saveBatDepotIoDetail(detailList,batDepotIoBill,matBatch,userId);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -250,6 +251,7 @@ public class BatchStorageService {
 		batDepotIoDetail=new BatDepotIoDetail();
 		batDepotIoDetail.setBillpid(batDepotIoBill.getPid());
 		batDepotIoDetail.setLastmodifiedtime(DateBean.getSysdateTime());
+		batDepotIoDetail.setLastmodifier(userId);
 		batDepotIoDetail.setRemark5("1");
 		batDepotIoDetail.setIsEnter("1");
 		batDepotIoDetail.setSysflag("1");
@@ -305,9 +307,37 @@ public class BatchStorageService {
 	 * @param userId
 	 * @return
 	 */
-	public List<BatDepotIoDetail> getBatDepotIoDetailListByDate(String docType,String remark,String userId){
+	public List<BatDepotIoDetail> getBatDepotIoDetailListByDate(String remark,String userId,String billno,String matcode){
 		List<BatDepotIoDetail> detailList=null;
-		detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL3.LIST", new Object[]{docType,remark,userId});
+		String date=null;
+		if(remark.equals("1")){
+			date=DateBean.getSysdate();//出库根据单号查询不要日期限制，入库根据人员查询当天记录
+		}
+		detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL3.LIST", new Object[]{remark,userId,billno,matcode,date});
+		return detailList;
+	}
+	/**
+	 * 根据日期和操作ID分组查询
+	 * @param date
+	 * @param docType
+	 * @param userId
+	 * @return
+	 */
+	public List<BatDepotIoDetail> getBatDepotIoDetailListByFZ(String f_bill_no,String userId) {
+		List<BatDepotIoDetail> detailList=new ArrayList<BatDepotIoDetail>();
+		List<Object[]>detailObject = genericDao.getListWithNativeSql("STORAGE.T_BAT_DEPOT_IOBILLDETAIL4.LIST", new Object[]{f_bill_no,userId});
+		if(detailObject!=null&&detailObject.size()>0){
+			for (int i = 0; i < detailObject.size(); i++) {
+				Object[]detail=detailObject.get(i);
+				BatDepotIoDetail batDepotIoDetail=new BatDepotIoDetail();
+				batDepotIoDetail.setMatcode(detail[0]==null?"":detail[0].toString());
+				batDepotIoDetail.setMatname(detail[1]==null?"":detail[1].toString());
+				batDepotIoDetail.setRemark(detail[2]==null?"":detail[2].toString());
+				batDepotIoDetail.setLastmodifiedtime(detail[3]==null?"":detail[3].toString());
+				if(!batDepotIoDetail.getLastmodifiedtime().isEmpty())
+					detailList.add(batDepotIoDetail);
+			}
+		}
 		return detailList;
 	}
 	
@@ -326,6 +356,8 @@ public class BatchStorageService {
 		}
 		//入库信息回撤
 		if("1".equals(batDepotIoDetail.getRemark5())){
+			if("201010002".equals(batDepotIoDetail.getMatcode()))
+				batDepotIoDetail.setSysflag("0");
 			batDepotIoDetail.setIsEnter("0");
 			batDepotIoDetail.setRemark5("");
 			batDepotIoDetail.setLastmodifiedtime(DateBean.getSysdateTime());
@@ -636,9 +668,9 @@ public List<String> getBillNoList(String userId,String userCode) {
 	String yestoday=DateBean.getBeforDay(today, 1);
 	//String userCode=userService.getEsbCodeById(userId);
 	String sql="select count(1) from t_bat_depot_iobill u where u.F_SYS_FLAG='1' and " +
-			"substr(u.F_CREATE_TIME,0,8)=to_char(sysdate,'YYYYMMDD') and u.F_CREATOR='"+userId+"'";
+			"substr(u.F_CREATE_TIME,0,8)=to_char(sysdate,'YYYYMMDD') and u.F_BILL_TYPE='12' and u.F_CREATOR='"+userId+"'";
 	String sql1="select count(1) from t_bat_depot_iobill u where u.F_SYS_FLAG='1'and " +
-			"substr(u.F_CREATE_TIME,0,8)=to_char(sysdate-1,'YYYYMMDD') and u.F_CREATOR='"+userId+"'";
+			"substr(u.F_CREATE_TIME,0,8)=to_char(sysdate-1,'YYYYMMDD') and u.F_BILL_TYPE='12' and u.F_CREATOR='"+userId+"'";
 	List<Object> billNoT=this.genericDao.getListWithNativeSql(sql);
 	List<Object> billNoY=this.genericDao.getListWithNativeSql(sql1);
 	if(billNoY.size()>0){
@@ -656,5 +688,7 @@ public List<String> getBillNoList(String userId,String userCode) {
 	}
 	return billList;
 }
+
+
 
 }

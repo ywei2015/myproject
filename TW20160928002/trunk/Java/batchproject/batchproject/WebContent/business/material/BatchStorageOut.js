@@ -1,13 +1,15 @@
-var title= ["序号","编码","名称","批次号","数量","单位","时间","操作"];
+var title= ["序号","名称","编码","批次号","数量","单位","时间","操作"];
 var theTable=document.getElementById("table");
 var userId=getQueryString('userId');
+var matcode=getQueryString('matcode');
 var f_bill_no=getQueryString('f_bill_no'); //test:1
 var f_doc_type=getQueryString('f_doc_type');//test:ZI10
 var data_p={
 		'f_bill_no':f_bill_no,
 		'f_doc_type':f_doc_type,
 		'remark5':2,
-		'userId':userId
+		'userId':userId,
+		'matcode':matcode
 };
 var img = new Image(); 
 function loadImage() { 
@@ -54,17 +56,18 @@ function initTable(dataj){
 						var data_td1;
 						
 						td=document.createElement('td');
-						data_td1=1+i;//序号
+						data_td1=length-i;//序号
+						td.innerHTML=data_td1;
+						r.appendChild(td);
+						
+						td=document.createElement('td');
+						td.style.color='blue';
+						data_td1=rowdata.matname;//名称
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
 						td=document.createElement('td');
 						data_td1=rowdata.matcode;//编码
-						td.innerHTML=data_td1;
-						r.appendChild(td);
-						td=document.createElement('td');
-						td.style.color='blue';
-						data_td1=rowdata.matname;//名称
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
@@ -84,6 +87,7 @@ function initTable(dataj){
 						data_td1=rowdata.unit;//单位
 						td.innerHTML=data_td1;
 						r.appendChild(td);
+						td.id="weizhi"+i;
 						
 						td=document.createElement('td');
 						var data_td2=rowdata.createtime;//开始
@@ -95,7 +99,7 @@ function initTable(dataj){
 						var pid=rowdata.pid;
 						billarray[i]=pid;
 						var shanchu="<div ><img height='32' width='30' src='../js/image/shanch.png'></img></div>";
-						data_td="<a  onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='window'" +
+						data_td="<a  onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='weizhi'" +
 						">"+shanchu+"</a>";
 						td.innerHTML=data_td;
 						r.appendChild(td);

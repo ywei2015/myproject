@@ -103,6 +103,7 @@ public class BatchStorageController {
 	public ResponseBase getBatDepotIoDetailListByDate(HttpServletRequest request){
 		ResponseBase res = new ResponseBase();
 		String f_bill_no = request.getParameter("f_bill_no");
+		String matcode = request.getParameter("matcode");
 		String f_doc_type = request.getParameter("f_doc_type");
 		if(f_doc_type.equals("ZI101"))
 			f_doc_type="ZI20";
@@ -110,7 +111,31 @@ public class BatchStorageController {
 		String remark=request.getParameter("remark5");
 		String userId = request.getParameter("userId");
 		List<BatDepotIoDetail> batdepotiodetaillist=null;
-		batdepotiodetaillist = batchStorageService.getBatDepotIoDetailListByDate(f_doc_type,remark,userId);
+		batdepotiodetaillist = batchStorageService.getBatDepotIoDetailListByDate(remark,userId,f_bill_no,matcode);
+		if (batdepotiodetaillist != null && batdepotiodetaillist.size() > 0){
+			res.setResponseData("1", "操作成功!");
+			res.setDataset(batdepotiodetaillist, "batdepotiodetail");
+		}else{
+			res.setResponseData("0", "牌号信息不匹配!");
+		}
+		return res;
+	}
+	
+	/**
+	 * 通过人员,日期，出入库类型获取详细列表
+	 * */
+	@ResponseBody
+	@RequestMapping(value="/getBatDepotIoDetailByFZ")	 
+	public ResponseBase getBatDepotIoDetailByFZ(HttpServletRequest request){
+		ResponseBase res = new ResponseBase();
+		String f_bill_no = request.getParameter("f_bill_no");
+		String matcode = request.getParameter("matcode");
+		String f_doc_type = request.getParameter("f_doc_type");
+		String batch = request.getParameter("f_mat_batch");
+		String remark=request.getParameter("remark5");
+		String userId = request.getParameter("userId");
+		List<BatDepotIoDetail> batdepotiodetaillist=null;
+		batdepotiodetaillist = batchStorageService.getBatDepotIoDetailListByFZ(f_bill_no,userId);
 		if (batdepotiodetaillist != null && batdepotiodetaillist.size() > 0){
 			res.setResponseData("1", "操作成功!");
 			res.setDataset(batdepotiodetaillist, "batdepotiodetail");

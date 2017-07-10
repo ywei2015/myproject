@@ -71,7 +71,7 @@
 	<context:annotation-config />
     <context:component-scan base-package="sail.beans" />
 
-	<tx:advice id="txAdvice">
+    <tx:advice id="txAdvice">
          <tx:attributes>
             <tx:method name="fetch*" propagation="REQUIRED" />
 			<tx:method name="find*" propagation="REQUIRED" />
@@ -85,6 +85,9 @@
      <aop:config proxy-target-class="true">
          <aop:pointcut expression="execution(* sail.beans.service..*.*(..))" id="pointcut"/>
          <aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut"/>
-     </aop:config>
+     </aop:config> 
+     
+      <!-- 开启事务控制的注解支持 --> 
+     <tx:annotation-driven transaction-manager="transactionManager"/> 
      
 </beans>

@@ -51,7 +51,7 @@ public class TransfromdataService {
 						batWorkOrder.setWorkteam(getWorkteam(batWorkOrder.getPlanstarttime()));
 						batWorkOrder.setWorkordercode(billno);
 						batWorkOrder.setWorkordertype("ZP01");
-						batWorkOrder.setUnit("万支");
+						batWorkOrder.setUnit("WZI");
 						batWorkOrder.setProcess(jizu[49]==null?"":jizu[49].toString());
 						this.genericDao.save(setBatWorkOrderVersion(batWorkOrder));
 					}
@@ -108,7 +108,9 @@ public class TransfromdataService {
 			throw new RuntimeException();
 		}
 	}
-	
+	/**
+	 * ZP13,ZP03工单
+	 * */
 	@Transactional(rollbackFor=Exception.class) 
 	public void transformDataSilk2() {
 		try{
@@ -255,7 +257,7 @@ public class TransfromdataService {
 		batWorkOrder.setRemark(jizu[25]==null?"":jizu[25].toString());
 		batWorkOrder.setSysflag(jizu[26].toString());
 		batWorkOrder.setCreator(jizu[27]==null?"":jizu[27].toString());
-		batWorkOrder.setCreatetime(jizu[28]==null?"":jizu[28].toString());
+		batWorkOrder.setCreatetime(jizu[30]==null?"":jizu[30].toString());
 		batWorkOrder.setLastmodifier(jizu[29]==null?"":jizu[29].toString());
 		batWorkOrder.setLastmodifiedtime(jizu[30]==null?"":jizu[30].toString());
 		return batWorkOrder;

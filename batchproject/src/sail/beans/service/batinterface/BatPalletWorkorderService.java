@@ -39,28 +39,30 @@ public class BatPalletWorkorderService {
 					batPalletWorkorder.setFactory(Constants.FACTORY);
 					
 					batPalletWorkorder.setWorkarea("07ef0be1-82f3-40fe-a1eb-e5d7f37fb179");  //固定值卷包车间
-					//bat_worktime_zao	1	早	bat_worktime_zong	2	中	bat_worktime_wan	3	晚
-					if(!StingUtil.isEmpty(main.getWorktimeCode())){
-						if("1".equals(main.getWorktimeCode())){
-							batPalletWorkorder.setWorktime("bat_worktime_zao");
-						}else if("2".equals(main.getWorktimeCode())){
-							batPalletWorkorder.setWorktime("bat_worktime_zong");
-						}else if("3".equals(main.getWorktimeCode())){
-							batPalletWorkorder.setWorktime("bat_worktime_wan");
-						}
-					}
+					batPalletWorkorder.setWorktime(main.getWorktimeCode()); //XSH_Modify_20170710
+//					//bat_worktime_zao	1	早	bat_worktime_zong	2	中	bat_worktime_wan	3	晚
+//					if(!StingUtil.isEmpty(main.getWorktimeCode())){
+//						if("1".equals(main.getWorktimeCode())){
+//							batPalletWorkorder.setWorktime("bat_worktime_zao");
+//						}else if("2".equals(main.getWorktimeCode())){
+//							batPalletWorkorder.setWorktime("bat_worktime_zong");
+//						}else if("3".equals(main.getWorktimeCode())){
+//							batPalletWorkorder.setWorktime("bat_worktime_wan");
+//						}
+//					}
+					batPalletWorkorder.setWorkteam(main.getWorkteamCode()); //XSH_Modify_20170710
 					//bat_workteam_jia	1甲  bat_workteam_yi 2乙  bat_workteam_bin	 3丙  bat_workteam_ding	4丁
-					if(!StingUtil.isEmpty(main.getWorkteamCode())){
-						if("1".equals(main.getWorkteamCode())){
-							batPalletWorkorder.setWorkteam("bat_workteam_jia");
-						}else if("2".equals(main.getWorkteamCode())){
-							batPalletWorkorder.setWorkteam("bat_workteam_yi");
-						}else if("3".equals(main.getWorkteamCode())){
-							batPalletWorkorder.setWorkteam("bat_workteam_bin");
-						}else if("4".equals(main.getWorkteamCode())){
-							batPalletWorkorder.setWorkteam("bat_workteam_ding");
-						}
-					}
+//					if(!StingUtil.isEmpty(main.getWorkteamCode())){
+//						if("1".equals(main.getWorkteamCode())){
+//							batPalletWorkorder.setWorkteam("bat_workteam_jia");
+//						}else if("2".equals(main.getWorkteamCode())){
+//							batPalletWorkorder.setWorkteam("bat_workteam_yi");
+//						}else if("3".equals(main.getWorkteamCode())){
+//							batPalletWorkorder.setWorkteam("bat_workteam_bin");
+//						}else if("4".equals(main.getWorkteamCode())){
+//							batPalletWorkorder.setWorkteam("bat_workteam_ding");
+//						}
+//					}
 					batPalletWorkorder.setWorkorderState(main.getWorkorderState());
 					batPalletWorkorder.setRemark(main.getRemark()==null?"":main.getRemark().toString());
 					batPalletWorkorder.setSysFlag(Constants.SYS_FLAG_USEING);

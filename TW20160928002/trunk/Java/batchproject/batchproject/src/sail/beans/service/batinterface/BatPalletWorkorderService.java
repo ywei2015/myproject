@@ -38,7 +38,7 @@ public class BatPalletWorkorderService {
 					batPalletWorkorder.setProduceDate(main.getProduceDate()==null?"":main.getProduceDate().toString());
 					batPalletWorkorder.setFactory(Constants.FACTORY);
 					
-					batPalletWorkorder.setWorkarea("07ef0be1-82f3-40fe-a1eb-e5d7f37fb179");  //固定值卷包车间
+					batPalletWorkorder.setWorkarea("2220");  //XSH_Modify_20170719 固定值卷包车间07ef0be1-82f3-40fe-a1eb-e5d7f37fb179
 					batPalletWorkorder.setWorktime(main.getWorktimeCode()); //XSH_Modify_20170710
 //					//bat_worktime_zao	1	早	bat_worktime_zong	2	中	bat_worktime_wan	3	晚
 //					if(!StingUtil.isEmpty(main.getWorktimeCode())){

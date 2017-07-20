@@ -40,8 +40,8 @@
 	<query name="STORAGE.T_BAT_DEPOT_IOBILLDETAIL3.LIST">
 		<![CDATA[
     	SELECT detail FROM sail.beans.entity.BatDepotIoDetail detail,sail.beans.entity.BatDepotIoBill bill
-    	 where detail.remark5 = ? and detail.lastmodifier = ? and bill.billno = ? 
-    	 and detail.matcode = ? and bill.sysflag = '1' and bill.pid = detail.billpid and detail.sysflag= '1' and
+    	 where detail.remark5 = ? and detail.lastmodifier = ? and bill.billno = ? and detail.matcode = ? and 
+    	 bill.sysflag = '1' and bill.pid = detail.billpid and detail.sysflag= '1' and
     	 substr(detail.lastmodifiedtime,0,8) = ? order by detail.lastmodifiedtime desc
     ]]>
 	</query>
@@ -51,7 +51,8 @@
 		<![CDATA[
     	select t.f_mat_code,t.f_mat_name,count(t.F_MAT_BATCH),max(t.F_LAST_MODIFIED_TIME) from t_bat_depot_iobill d,t_bat_depot_iodetail t 
 		where d.f_pid=t.f_bill_pid and t.f_sys_flag='1' and d.f_sys_flag='1'  and d.F_BILL_NO = ? 
-		and t.F_LAST_MODIFIER = ? and t.F_REMARK5='2' group by t.f_mat_code,t.f_mat_name 
+		and t.F_LAST_MODIFIER = ? and t.F_REMARK5 = ? and substr(t.F_LAST_MODIFIED_TIME,0,8) = ? 
+		group by t.f_mat_code,t.f_mat_name 
     	order by max(t.F_LAST_MODIFIED_TIME) desc
     ]]>
 	</sql-query>

@@ -47,7 +47,7 @@ public class TransformProduceDateService {
 					 BatWorkOrder batWorkOrder=(BatWorkOrder) yzMess.get("workorder");
 					 BatWorkOrderOutput batWorkOrderOutput=new BatWorkOrderOutput();
 					 batWorkOrderOutput.setWorkorderpid(batWorkOrder.getPid());
-					 if(jizu[45]!=null)
+					 if(jizu[45]!=null&&!(jizu[45].toString()).isEmpty())
 						 batWorkOrderOutput.setQuantity(Double.parseDouble(jizu[45].toString()));
 					 batWorkOrderOutput.setMatbatch(batWorkOrder.getWorkordercode());
 					 batWorkOrderOutput.setUnit("WZI");

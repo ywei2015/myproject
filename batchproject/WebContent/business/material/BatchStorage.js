@@ -1,11 +1,9 @@
-var title= ["序号","编码","名称","批次号","数量","单位","时间","操作"];
+var title= ["已扫","名称","最近录入时间","操作"];
 var theTable=document.getElementById("table");
 var userId=getQueryString('userId');
-var f_bill_no=getQueryString('f_bill_no'); //test:
 var f_doc_type=getQueryString('f_doc_type');//test:
 var f_mat_batch=getQueryString('f_mat_batch');
 var data_p={
-		'f_bill_no':f_bill_no,
 		'f_doc_type':f_doc_type,
 		'remark5':1,
 		'f_mat_batch':f_mat_batch,
@@ -22,6 +20,7 @@ loadImage();
 
 var billarray=[];
 var picihao=[];
+var picishu=0;
 function initTable(dataj){
 	theTable.innerHTML="";
 	var b = document.createElement('tbody');
@@ -37,7 +36,7 @@ function initTable(dataj){
 	//if(f_mat_batch!=null&&f_mat_batch!=""){
 	$.ajax({
 		type : "post",
-		url:cqt_prefix+'storage/getBatDepotIoDetailByDate',
+		url:cqt_prefix+'storage/getBatDepotIoDetailByFZ',
 		data:dataj,
 		success : function(data) {
 			//var str=eval('(' + data + ')');   //解析json
@@ -57,14 +56,11 @@ function initTable(dataj){
 						var data_td1;
 						
 						td=document.createElement('td');
-						data_td1=length-i;//序号
+						data_td1=rowdata.remark;//数量
 						td.innerHTML=data_td1;
 						r.appendChild(td);
-						
-						td=document.createElement('td');
-						data_td1=rowdata.matcode;//编码
-						td.innerHTML=data_td1;
-						r.appendChild(td);
+						var shu=parseInt(data_td1);
+						picishu=shu+picishu;
 						
 						td=document.createElement('td');
 						td.style.color='blue';
@@ -73,45 +69,26 @@ function initTable(dataj){
 						r.appendChild(td);
 						
 						td=document.createElement('td');
-						td.id="picihao";
-						data_td1=rowdata.matbatch;//批次号
-					    picihao[i]=data_td1;
-						td.innerHTML=data_td1;
-						r.appendChild(td);
-						
-						td=document.createElement('td');
-						data_td1=rowdata.quantity;//数量
-						td.innerHTML=data_td1;
-						r.appendChild(td);
-						
-						td=document.createElement('td');
-						data_td1=rowdata.unit;//单位
-						td.innerHTML=data_td1;
-						r.appendChild(td);
-						td.id="weizhi"+i;
-						
-						td=document.createElement('td');
 						var data_td2=rowdata.lastmodifiedtime;//开始
 						data_td1=data_td2.substring(4,6)+'-'+data_td2.substring(6,8)+' '+data_td2.substring(8,10)+':'+data_td2.substring(10,12);
 						td.innerHTML=data_td1;
 						r.appendChild(td);
 						
 						td=document.createElement('td');
-						var pid=rowdata.pid;
-						billarray[i]=pid;
-						var shanchu="<div ><img height='30' width='28' src='../js/image/shanch.png'></img></div>";
-						data_td="<a  onclick='deleteRow("+i+")' href='#popupDialog' data-rel='popup'  data-position-to='weizhi'" +
-						">"+shanchu+"</a>";
+						var matcodeid=rowdata.matcode;
+						data_td="<a href='javascript:' onclick='tiaozhuan("+matcodeid+")'>查看 </a>";
+						//data_td="<a href='BatchStorageOut.html?userId='"+userId+"'>查看 </a>";
 						td.innerHTML=data_td;
 						r.appendChild(td);
 					}
 					b.appendChild(r);
 				}
-				
-				
+				var tishi=document.getElementById("cailiao");
+				 tishi.innerHTML=picishu;
 			}
 			
 		}
+			 
 		}
 	});
 	//}
@@ -124,6 +101,9 @@ function deleteRow(i){
 	$("#sure").text(picihao[i]);
 }
 
+function tiaozhuan(matcode){
+	window.location.href="BatchStorageDetail.html?userId="+userId+"&matcode="+matcode;
+}
 
 function verifySubmit(){
 	    var aa=Id;

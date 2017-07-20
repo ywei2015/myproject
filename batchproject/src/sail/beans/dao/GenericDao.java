@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import sail.beans.dao.iml.Pager;
 import sail.beans.dao.iml.PaginationSupport;
 
 public interface GenericDao {
@@ -100,11 +101,13 @@ public interface GenericDao {
 	 */
 	public List getListWithVariableParas(String queryName, Object[] objs);
 	
+	public Pager getListWithVariableParasFY(String queryName, Object[] objs,int[]page);
+	
 	public List getListWithNativeSql(final String nativeSql);
 
 	public List getListWithNativeSql(String queryName, Object[] objs);
 	
-	
+	public Pager getListWithNativeSqlFY(final String queryName, final Object[] objs,int[]pages);
 	
 	public List getListWithNativeSql(String queryName, Object[] objs, String[] clazzNames);
 

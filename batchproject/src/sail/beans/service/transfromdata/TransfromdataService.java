@@ -226,7 +226,6 @@ public class TransfromdataService {
 	
 	public BatWorkOrder getBatWorkOrder(Object[]jizu,BatWorkOrder batWorkOrder){
 		String produceDay=jizu[8]==null?"":jizu[8].toString();
-		batWorkOrder.setCreatetime(DateBean.getSysdateTime());
 		batWorkOrder.setWorkordertype(jizu[4]==null?"":jizu[4].toString());//ZP01
 		batWorkOrder.setProducedate(jizu[8]==null?"":jizu[8].toString());
 		batWorkOrder.setFactory("2200");
@@ -257,7 +256,10 @@ public class TransfromdataService {
 		batWorkOrder.setRemark(jizu[25]==null?"":jizu[25].toString());
 		batWorkOrder.setSysflag(jizu[26].toString());
 		batWorkOrder.setCreator(jizu[27]==null?"":jizu[27].toString());
-		batWorkOrder.setCreatetime(jizu[30]==null?"":jizu[30].toString());
+		if(jizu[28]==null)
+			batWorkOrder.setCreatetime(DateBean.getSysdateTime());
+		else
+			batWorkOrder.setCreatetime(jizu[28]==null?"":jizu[28].toString());
 		batWorkOrder.setLastmodifier(jizu[29]==null?"":jizu[29].toString());
 		batWorkOrder.setLastmodifiedtime(jizu[30]==null?"":jizu[30].toString());
 		return batWorkOrder;

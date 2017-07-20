@@ -359,6 +359,24 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 	return queryObject.list();
 
 	}
+	@Override
+	public Pager getListWithVariableParasFY(String queryName, Object[] objs,
+			int[] pagec) {
+		Pager page=new Pager();
+		final String sql = filterContion(queryName, objs);
+		final Object[] objects = filterNull(objs);
+		Query queryObject = sessionFactory.getCurrentSession().createQuery(sql);
+		if (objs != null) {
+			for (int i = 0; i < objects.length; i++) {
+				queryObject.setParameter(i, objects[i]);
+			}
+		}
+		page.setPageTotal(queryObject.list().size());
+		queryObject.setFirstResult(pagec[0]);
+		queryObject.setMaxResults(pagec[1]);
+		page.setList(queryObject.list());
+		return page;
+	}
 	
 	public List getListWithNativeSql(final String nativeSql) {
 		Query queryObject = sessionFactory.getCurrentSession().createSQLQuery(nativeSql);
@@ -401,7 +419,7 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 	public List getListWithNativeSql(final String queryName, final Object[] objs) {
 		final String sql = filterContion(queryName,objs);
 		final Object[] objects = filterNull(objs);
-		String sql_=filterSql(sql,objs);
+		String sql_=filterSql(sql,objects);
 		Query queryObject = sessionFactory.getCurrentSession().createSQLQuery(sql_);
 
 		if (objs != null) {
@@ -410,6 +428,27 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 			}
 		}
 		return queryObject.list();
+
+	}
+	
+	public Pager getListWithNativeSqlFY(final String queryName, final Object[] objs,int[]pages) {
+		final String sql = filterContion(queryName,objs);
+		final Object[] objects = filterNull(objs);
+		String sql_=filterSql(sql,objs);
+		Pager page=new Pager();
+		Query queryObject = sessionFactory.getCurrentSession().createSQLQuery(sql_);
+
+		if (objs != null) {
+			for (int i = 0; i < objects.length; i++) {
+				queryObject.setParameter(i, objects[i]);
+			}
+		}
+		int length=queryObject.list().size();
+		page.setRowsTotal(length);
+		queryObject.setFirstResult(pages[0]);
+		queryObject.setMaxResults(pages[1]);
+		page.setList(queryObject.list());
+		return page;
 
 	}
 	
@@ -883,6 +922,10 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
+
+
 
 
 }

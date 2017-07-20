@@ -9,7 +9,7 @@
     	select d.F_DIC_NAME, substr(t.f_worktime,length(t.f_worktime)-1,length(t.f_worktime))||'-'||t.F_MAT_NAME||'-'||t.f_workorder_code  
     	,F_BAT_GET_WORKTIME_CHAI(t.f_worktime) as cha
     	from T_BAT_WORKORDER t,V_BAT_JBGROUP_EQU d where t.F_WORKORDER_TYPE = ? 
-    	and t.F_PRODUCE_DATE >= to_char(sysdate-1,'YYYYMMDD')
+    	and t.F_PRODUCE_DATE >= to_char(sysdate,'YYYYMMDD')
     	and t.F_PRODUCE_DATE <= to_char(sysdate,'YYYYMMDD')
     	and t.f_workorder_state='10' and t.f_process=d.F_ESB_CODE 
         and  t.f_sys_flag='1'  order by t.F_PROCESS,cha 
@@ -21,7 +21,7 @@
     	select d.F_DIC_NAME, substr(t.f_worktime,length(t.f_worktime)-1,length(t.f_worktime))||'-'||t.F_MAT_NAME||'-'||t.f_workorder_code  
 		,F_BAT_GET_WORKTIME_CHAI(t.f_worktime) as cha
     	from T_BAT_WORKORDER t,v_bat_cxjtgroup_equ d where t.F_WORKORDER_TYPE = ? 
-    	and t.F_PRODUCE_DATE >= to_char(sysdate-1,'YYYYMMDD')
+    	and t.F_PRODUCE_DATE >= to_char(sysdate,'YYYYMMDD')
     	and t.F_PRODUCE_DATE <= to_char(sysdate,'YYYYMMDD')
     	and t.f_workorder_state='10' and t.f_process=d.F_ESB_CODE 
         and t.f_sys_flag='1'  order by t.F_PROCESS,cha 

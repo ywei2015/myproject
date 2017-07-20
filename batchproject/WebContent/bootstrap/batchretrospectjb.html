@@ -1,0 +1,64 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title></title>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap-table.min.css">
+
+ <script type="text/javascript" src="js/jquery-2.1.3.min.js"></script> 
+ <script src="js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="js/bootstrap-table.min.js"></script> 
+ <script type="text/javascript" src="js/bootstrap-table-zh-CN.js"></script> 
+  <script type="text/javascript" src="../business/js/Constant.js"></script> 
+ <script type="text/javascript" src="batchretrospectjb.js"></script>
+<style type="text/css">
+.container {
+	width:95%;
+    margin-right: auto;
+    margin-left: auto;
+}
+.fixed-table-container{
+height:45%;
+margin-right: 13;
+margin-left: 13;
+}
+
+</style>
+</head>
+<body>
+		<div class="container">
+		<div class="panel panel-info" style="margin-top:35px">
+ 				<div class="panel-heading">
+ 					<font  size="4" class="text-center">
+						卷包工单信息
+					</font>
+ 				</div>
+ 			<div class="panel-body" style="padding:0px">
+ 			<div class="row" >
+			<table class="table table-hover" id="cusTable" 
+			data-pagination="true"  
+			>
+			<thead>
+        	<tr>
+            <th data-field="pid"             data-align="center" data-visible="false"></th>
+            <th data-field="workordercode"        data-align="center">工单号</th>
+            <th data-field="process"       data-align="center">机台</th>
+            <th data-field="producedate"       data-align="center">生产日期</th>
+            <th data-field="matcode"     data-align="center">物料编码</th>
+            <th data-field="matname"           data-align="center">物料名称</th>
+            <th data-field="worktime"           data-align="center">班次</th>
+            <th data-field="workteam"        data-align="center">班组</th>
+            <th data-field="actualstarttime"        data-align="center">开始时间</th>
+            <th data-field="actualendtime"        data-align="center">结束时间</th>
+            <th data-field="opuserid"        data-align="center">操作人</th>
+        </tr>
+    </thead>
+			</table>
+			</div>
+			</div>
+			</div>
+			</div>
+</body>
+
+</html>

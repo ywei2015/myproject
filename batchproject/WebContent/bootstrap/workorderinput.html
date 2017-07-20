@@ -1,0 +1,136 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title></title>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap-table.min.css">
+
+ <script type="text/javascript" src="js/jquery-2.1.3.min.js"></script> 
+ <script src="js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="js/table-header-fixed.js"></script> 
+ <script type="text/javascript" src="js/bootstrap-table.min.js"></script> 
+ <script type="text/javascript" src="js/bootstrap-table-zh-CN.js"></script> 
+  <script type="text/javascript" src="../business/js/Constant.js"></script> 
+ <script type="text/javascript" src="workorderinput.js"></script>
+<style type="text/css">
+.container {
+	width:95%;
+    margin-right: auto;
+    margin-left: auto;
+}
+.fixed-table-container{
+margin-right: 13;
+margin-left: 13;
+}
+ table.table-fixed-head .table-fixed-head-thead {
+            border-bottom: 1px solid #dddddd;
+            border-top: 1px solid #dddddd;
+            background: #fff;
+        }；
+</style>
+</head>
+<body>
+		<div class="container">
+		<div class="panel panel-info" style="margin-top:35px">
+ 				<div class="panel-heading">
+ 					<font  size="4" class="text-center" id="message">
+						卷包工单信息
+					</font>
+ 				</div>
+ 			<div class="panel-body" style="padding:0px">
+ <form class="form-horizontal" role="form">
+  <div class="form-group">
+    <label for="workordercode" class="col-sm-1 control-label" >工单号</label>
+    <div class="col-sm-2">
+      <input type="text" class="form-control" id="workordercode" disabled>
+    </div>
+    <label for="process" class="col-sm-1 control-label">机台</label>
+    <div class="col-sm-2">
+      <input type="text" class="form-control" id="process" disabled>
+    </div>
+    <label for="producedate" class="col-sm-1 control-label">生产日期</label>
+    <div class="col-sm-2">
+      <input type="text" class="form-control" id="producedate" disabled>
+    </div>
+    <label for="matname" class="col-sm-1 control-label">物料名称</label>
+    <div class="col-sm-2">
+      <input type="text" class="form-control" id="matname" disabled>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="actualstarttime" class="col-sm-1 control-label">开始时间</label>
+    <div class="col-sm-2">
+      <input type="text" class="form-control" id="actualstarttime" disabled>
+    </div>
+     <label for="actualendtime" class="col-sm-1 control-label">结束时间</label>
+    <div class="col-sm-2">
+      <input type="text" class="form-control" id="actualendtime" disabled>
+    </div>
+     <label for="worktime" class="col-sm-1 control-label">班次</label>
+    <div class="col-sm-2">
+      <input type="text" class="form-control" id="worktime" disabled>
+    </div>
+     <label for="workteam" class="col-sm-1 control-label">班组</label>
+    <div class="col-sm-2">
+      <input type="text" class="form-control" id="workteam" disabled>
+    </div>
+  </div>
+</form>
+ 			</div>
+ 			</div>
+		<div class="panel panel-info" style="margin-top:25px">
+ 				<div class="panel-heading">
+ 					<font  size="4" class="text-center" id="message2">
+						卷包工单汇总信息
+					</font>
+ 				</div>
+ 			<div class="panel-body" style="padding:0px">
+ 			<div class="row" style="height:30%">
+			<table class="table table-hover" id="cusTable"
+			data-pagination="true"  
+			>
+			<thead>
+        	<tr>
+            <th data-field="pid"             data-align="center" data-visible="false" ></th>
+            <th data-field="matcode"        data-align="center">物料编码</th>
+            <th data-field="matname"       data-align="center">物料名称</th>
+            <th data-field="remark"       data-align="center">投入次数</th>
+            <th data-field="remark1"     data-align="center">总数量</th>
+            <th data-field="unit"           data-align="center">单位</th>
+        </tr>
+    </thead>
+			</table>
+			</div>
+			</div>
+			</div>
+			
+			<div id="input" class="panel panel-info" style="margin-top:25px; display: none">
+ 				<div class="panel-heading">
+ 					<font  size="4" class="text-center" id="message2">
+						工单投料信息详情
+					</font>
+ 				</div>
+ 			<div class="panel-body" style="padding:0px">
+ 			<div class="row" style="height:45%">
+			<table class="table table-hover" id="cusTable1" data-pagination="true">
+			<thead>
+        	<tr>
+            <th data-field="pid"          data-valign="middle"   data-align="center" data-visible="false" ></th>
+            <th data-field="matbatch"     data-valign="middle"   data-align="center">批次号</th>
+            <th data-field="matcode"      data-valign="middle"  data-align="center">物料编码</th>
+            <th data-field="matname"      data-valign="middle" data-align="center">物料名称</th>
+            <th data-field="quantity"     data-valign="middle"  data-align="center">投入数量</th>
+            <th data-field="unit"          data-valign="middle" data-align="center">单位</th>
+            <th data-field="operatetime"   data-valign="middle"  data-align="center">投料时间</th>
+        </tr>
+    </thead>
+			</table>
+			</div>
+			</div>
+			</div>
+			
+			</div>
+</body>
+
+</html>

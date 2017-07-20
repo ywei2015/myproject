@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+	<sql-query name="retrospect.jianyan.list">
+		<![CDATA[
+    	  select --*
+         t.f_pid, 
+         t.f_produce_time  as times, 
+         t.f_code_type, --码类别
+         (case t.f_code_type when '00' then '一号工程码' else '质量追溯码' end) as f_codetype_name, --码类别名称
+        to_char(to_date(t.f_produce_time,'yyyyMMddhh24miss')，'yyyy-MM-dd hh24:mi') as f_produce_time ,  --生产时间
+         t.f_ucode, --上段码
+         t.f_lcode, --下段码
+         t.f_worktime,
+         (select v.f_dic_name from v_bat_worktime v where v.F_ESB_CODE=t.f_worktime) as f_worktime_name, --班次名称
+         t.f_workteam,
+         (select v.f_dic_name from v_bat_workteam v where v.F_ESB_CODE=t.f_workteam) as f_workteam_name, --班组名称
+         t.f_brand_id as f_brand_esbcode, --牌号ESBCODE
+         (select v.f_name from v_bat_cpmat v where v.F_ESB_CODE=t.f_brand_id) as f_brand_name, --牌号名称
+         
+         (select f.f_dic_name from V_BAT_EQU_FX f where f.F_ONEPROJECT_CODE=t.f_Process ) as process ,--机台号
+         t.f_operate_username
+  from t_bat_packbox_code t
+  where t.f_sys_flag='1' 
+          and (
+             t.f_lcode = ? 
+            or t.f_lcode=(select w.f_ref_batch_no from t_bat_wip_mark_detail w where
+             w.f_batch_no = ? )
+              or t.f_lcode=(select w.f_remark5 from t_bat_wip_mark_detail w where w.f_batch_no='${code}')
+             and rownum=1)
+        
+    ]]>
+	</sql-query>
+	
+	<sql-query name="retrospect.juanbao.list">
+		<![CDATA[
+		select 
+w.*,(select v.f_dic_name from v_bat_worktime v where v.F_ESB_CODE=w.f_worktime) as f_worktime_name, --班次名称
+         (select v.f_dic_name from v_bat_workteam v where v.F_ESB_CODE=w.f_workteam) as f_workteam_name ,--班组名称 
+(select f.f_dic_name from V_BAT_EQU f where f.F_ESB_CODE=w.f_Process ) as process --机台号         
+from t_bat_workorder w
+where w.f_sys_flag='1' 
+     and w.f_workorder_type='ZP01' --卷包工单
+     and w.f_mat_code=
+       ( select t.f_brand_id
+  from t_bat_packbox_code t
+  where t.f_sys_flag='1' 
+
+          and (
+             t.f_lcode = ? 
+            or t.f_lcode=(select w.f_ref_batch_no from t_bat_wip_mark_detail w where
+             w.f_batch_no = ? and rownum=1)
+              or t.f_lcode=(select w.f_remark5 from t_bat_wip_mark_detail w where w.f_batch_no = ? and rownum=1)
+             ))
+     and w.f_actual_starttime<=
+     ( select t.F_PRODUCE_TIME
+  from t_bat_packbox_code t
+  where t.f_sys_flag='1' 
+          and (
+             t.f_lcode = ? 
+            or t.f_lcode=(select w.f_ref_batch_no from t_bat_wip_mark_detail w where
+             w.f_batch_no = ? and rownum=1)
+              or t.f_lcode=(select w.f_remark5 from t_bat_wip_mark_detail w where w.f_batch_no = ? and rownum=1)
+             ))
+     and w.f_actual_endtime>=
+      ( select t.F_PRODUCE_TIME
+  from t_bat_packbox_code t
+  where t.f_sys_flag='1' 
+          and (
+             t.f_lcode = ? 
+            or t.f_lcode=(select w.f_ref_batch_no from t_bat_wip_mark_detail w where
+             w.f_batch_no = ? and rownum=1)
+              or t.f_lcode=(select w.f_remark5 from t_bat_wip_mark_detail w where w.f_batch_no = ? and rownum=1)
+             ))
+     ---封箱打码时间在生产时间内的 
+     and w.f_process in (
+        select
+         v.f_pre_device --卷包机组  
+        from v_bat_equ_link v 
+        where v.f_link_type=4 
+              and v.f_next_device=(select f.F_ESB_CODE from v_bat_equ_fx f where f.F_ONEPROJECT_CODE=
+               ( select t.F_PROCESS
+  from t_bat_packbox_code t
+  where t.f_sys_flag='1' 
+          and (
+             t.f_lcode = ? 
+            or t.f_lcode=(select w.f_ref_batch_no from t_bat_wip_mark_detail w where
+             w.f_batch_no = ? and rownum=1)
+              or t.f_lcode=(select w.f_remark5 from t_bat_wip_mark_detail w where w.f_batch_no = ? and rownum=1)
+             ))
+              ) 
+              ---封箱打码时间 在连接开始与结束时间段内
+              and v.f_link_starttime<=
+               ( select t.F_PRODUCE_TIME
+  from t_bat_packbox_code t
+  where t.f_sys_flag='1' 
+          and (
+             t.f_lcode = ? 
+            or t.f_lcode=(select w.f_ref_batch_no from t_bat_wip_mark_detail w where
+             w.f_batch_no = ? and rownum=1)
+              or t.f_lcode=(select w.f_remark5 from t_bat_wip_mark_detail w where w.f_batch_no = ? and rownum=1)
+             ))
+              and v.f_link_endtime>=
+                ( select t.F_PRODUCE_TIME
+  from t_bat_packbox_code t
+  where t.f_sys_flag='1' 
+          and (
+             t.f_lcode = ? 
+            or t.f_lcode=(select w.f_ref_batch_no from t_bat_wip_mark_detail w where
+             w.f_batch_no = ? and rownum=1)
+              or t.f_lcode=(select w.f_remark5 from t_bat_wip_mark_detail w where w.f_batch_no = ? and rownum=1)
+             )) 
+     )
+		
+		]]>
+	</sql-query>
+	
+	<sql-query name="retrospect.worktime.list">
+		<![CDATA[
+			select v.f_dic_name from v_bat_worktime v where v.F_ESB_CODE = ? 
+    ]]>
+	</sql-query>
+	
+	<sql-query name="retrospect.workteam.list">
+		<![CDATA[
+			select v.f_dic_name from v_bat_workteam v where v.F_ESB_CODE = ? 
+    ]]>
+	</sql-query>
+	
+	<sql-query name="retrospect.inputbygroup.list">
+		<![CDATA[
+			select 
+   i.f_mat_code,  --物料单位
+   max(i.f_mat_name) as f_mat_name, --物料名称
+   count(1) as f_batch_count, --投入批次数
+   sum(i.f_quantity) as f_quantity, --投入总数量
+   max(i.f_unit) as f_unit --单位
+from t_bat_workorder w, t_bat_workorder_input i 
+where w.f_pid=i.f_workorder_pid and w.f_sys_flag='1' and i.f_sys_flag='1'  
+      and w.f_workorder_code = ? 
+	group by i.f_mat_code 
+
+    ]]>
+	</sql-query>
+	
+	<query name="retrospect.workorder_input.list">
+		<![CDATA[ 
+	    	select detail from sail.beans.entity.BatWorkOrderInput detail,sail.beans.entity.BatWorkOrder order 
+	    	where order.workordercode = ? and order.pid = detail.workorderpid 
+	    	and order.sysflag = '1' and detail.sysflag = '1' order by detail.createtime desc
+	    ]]>
+	</query> 
+	
+	<query name="retrospect.workorder_out.list">
+		<![CDATA[
+			select order from sail.beans.entity.BatWorkOrderOutput out,sail.beans.entity.BatWorkOrder order 
+			where out.matbatch = ? and order.pid = out.workorderpid 
+	    	and order.sysflag = '1' and out.sysflag = '1' 
+		]]>
+	</query>
+	
+</hibernate-mapping>

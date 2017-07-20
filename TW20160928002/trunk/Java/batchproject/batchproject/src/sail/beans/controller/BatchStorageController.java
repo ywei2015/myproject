@@ -135,7 +135,7 @@ public class BatchStorageController {
 		String remark=request.getParameter("remark5");
 		String userId = request.getParameter("userId");
 		List<BatDepotIoDetail> batdepotiodetaillist=null;
-		batdepotiodetaillist = batchStorageService.getBatDepotIoDetailListByFZ(f_bill_no,userId);
+		batdepotiodetaillist = batchStorageService.getBatDepotIoDetailListByFZ(f_bill_no,userId,remark);
 		if (batdepotiodetaillist != null && batdepotiodetaillist.size() > 0){
 			res.setResponseData("1", "操作成功!");
 			res.setDataset(batdepotiodetaillist, "batdepotiodetail");

@@ -12,7 +12,11 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.sun.tools.apt.Main;
 
 import sail.beans.dao.GenericDao;
 import sail.beans.entity.BatBatAdjust;
@@ -43,7 +47,7 @@ public class BatchStorageService {
 	 * @param matBatch
 	 * @return
 	 */
-	@Transactional(rollbackFor=Exception.class) 
+	 @Transactional(propagation = Propagation.REQUIRES_NEW,isolation=Isolation.SERIALIZABLE) 
 	public BatDepotIoDetail saveBatchInStorage(String billNo,String docType,String matBatch,String busType,String userId){
 		BatDepotIoBill batDepotIoBill = null;
 		BatDepotIoDetail batDepotIoDetail=null;
@@ -134,7 +138,7 @@ public class BatchStorageService {
 				}else{
 					batDepotIoBill=new BatDepotIoBill();
 					batDepotIoBill.setBillno(bill);
-					batDepotIoBill.setBiztype("MM2141");
+					batDepotIoBill.setBiztype("MM2142");
 					batDepotIoBill.setBilltype("11");
 					batDepotIoBill.setDoctype("ZI20");
 					batDepotIoBill.setDepot("HZ10");
@@ -323,9 +327,13 @@ public class BatchStorageService {
 	 * @param userId
 	 * @return
 	 */
-	public List<BatDepotIoDetail> getBatDepotIoDetailListByFZ(String f_bill_no,String userId) {
+	public List<BatDepotIoDetail> getBatDepotIoDetailListByFZ(String f_bill_no,String userId,String remark) {
+		String date=null;
+		if(remark.equals("1")){
+			date=DateBean.getSysdate();//出库根据单号查询不要日期限制，入库根据人员查询当天记录
+		}
 		List<BatDepotIoDetail> detailList=new ArrayList<BatDepotIoDetail>();
-		List<Object[]>detailObject = genericDao.getListWithNativeSql("STORAGE.T_BAT_DEPOT_IOBILLDETAIL4.LIST", new Object[]{f_bill_no,userId});
+		List<Object[]>detailObject = genericDao.getListWithNativeSql("STORAGE.T_BAT_DEPOT_IOBILLDETAIL4.LIST", new Object[]{f_bill_no,userId,remark,date});
 		if(detailObject!=null&&detailObject.size()>0){
 			for (int i = 0; i < detailObject.size(); i++) {
 				Object[]detail=detailObject.get(i);
@@ -535,11 +543,12 @@ public class BatchStorageService {
 	 * @param 
 	 * @return
 	 */
-	 @Transactional(rollbackFor=Exception.class) 
+	 @Transactional(propagation = Propagation.REQUIRES_NEW,isolation=Isolation.SERIALIZABLE) 
 	public BatDepotIoDetail saveBatchStorageOut(String f_bill_no,String f_doc_type,String f_bus_type,String f_mat_batch,String userId) {
-		 BatDepotIoBill batDepotIoBill = null;
+		BatDepotIoBill batDepotIoBill = null;
 		 BatDepotIoDetail batDepotIoDetail=null;
 		 BatDepotIoDetailList batDepotIoDetailList=null;
+		 synchronized (this) {
 		 try{
 				List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{null,null,null,f_mat_batch});
 				if (detailList != null && detailList.size() > 0){
@@ -622,6 +631,7 @@ public class BatchStorageService {
 			 e.printStackTrace();
 			 throw new RuntimeException();
 		 }
+		 }
 		return batDepotIoDetail;
 	}
 	
@@ -688,7 +698,5 @@ public List<String> getBillNoList(String userId,String userCode) {
 	}
 	return billList;
 }
-
-
 
 }

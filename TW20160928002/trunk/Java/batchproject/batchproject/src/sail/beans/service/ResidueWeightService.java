@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sail.beans.dao.GenericDao;
 import sail.beans.entity.BatDepotIoBill;
 import sail.beans.entity.BatDepotIoDetail;
+import sail.beans.entity.BatWorkOrderInput;
 import sail.beans.support.DateBean;
 import sqlj.runtime.error.RuntimeErrors;
 
@@ -28,11 +29,11 @@ public class ResidueWeightService {
 	public BatDepotIoDetail saveResidueWeight(String batch, String weight,String userId) {
 		BatDepotIoDetail batDepotIoDetail=null;
 		BatDepotIoBill batDepotIoBill=null;
-		String billno=DateBean.getSysdate().substring(0, 6)+"CJYL";	
+		String billno=DateBean.getSysdate()+"CJYL";	
 		BatDepotIoDetail batDepotIoDetailj=null;
 		try {
 			//首先在物资出入明细表中查找是否已经存在
-			List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{null,"YL01",null,batch});
+			List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{billno,null,null,batch});
 			if (detailList != null && detailList.size() > 0){
 				batDepotIoDetail = detailList.get(0);
 				batDepotIoDetail.setRepeated("1");
@@ -85,6 +86,7 @@ public class ResidueWeightService {
 					batDepotIoDetail.setMatname(batDepotIoDetailj.getMatname());
 					batDepotIoDetail.setInventorytype(batDepotIoDetailj.getInventorytype());
 					this.genericDao.save(batDepotIoDetail);
+					modifyInputWeight(batch,weight);
 				}
 			}
 		} catch (Exception e) {
@@ -110,5 +112,18 @@ public class ResidueWeightService {
 		}
 		return falg;
 	}
-
+/**
+ * 根据退回余料数量修改批次投料数量
+ * */
+	public void modifyInputWeight(String batch,String weight){
+		List<BatWorkOrderInput> inputList = genericDao.getListWithVariableParas("WORKORDER.T_BAT_WORKORDER_INPUTLIST.LIST", new Object[]{batch,null,null});
+		if(inputList!=null&&inputList.size()>0){
+			BatWorkOrderInput batWorkOrderInput=inputList.get(0);
+			double weight1=batWorkOrderInput.getQuantity()-Double.parseDouble(weight);
+			if(weight1>0){
+				batWorkOrderInput.setQuantity(weight1);
+				genericDao.save(batWorkOrderInput);
+			}
+		}
+	}
 }

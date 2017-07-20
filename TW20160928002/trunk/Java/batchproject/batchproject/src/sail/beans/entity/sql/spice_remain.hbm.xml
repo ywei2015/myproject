@@ -6,7 +6,7 @@
 	<query name="SPICEREMAIN.T_BAT_SPICE_REMAIN.LIST">
 		<![CDATA[
     	SELECT dic FROM sail.beans.entity.BatSpiceRemain dic Where dic.sysflag = '1' 
-    	and dic.oldbatch = ? and dic.newbatch = ?              		
+    	and dic.oldbatch = ? and dic.newbatch = ? order by dic.lastmodifiedtime desc             		
     ]]>
 	</query>
 	<query name="STORAGE.T_BAT_SPICEREMAIN.LIST">

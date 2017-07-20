@@ -27,4 +27,11 @@ public class TransformInputData {
 	public void TransformFiltertipPut(){
 		transformInputDateService.TransformFiltertipPut();
 	}
+	 
+	 @ResponseBody
+	 @Scheduled(cron = "0 */25 * * * ?")
+	 @RequestMapping(value="/transformInPutToStroage")
+	public void TransformInPutToStroage(){
+		transformInputDateService.TransformInPutToStroage();
+	}
 }

@@ -123,4 +123,9 @@ public class Page implements Serializable {
 	public static int getStartOfPage(int pageNo, int _pageSize) {
 		return (pageNo - 1) * _pageSize;
 	}
+
+	public void setRowsTotal(int size) {
+		// TODO Auto-generated method stub
+		
+	}
 }

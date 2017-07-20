@@ -59,10 +59,15 @@
 		</property>
 	</bean>
 	
+     
     <bean id="transactionManager"
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="dataSource" ref="dataSource"  /> 
 	</bean>
+     
+     <!-- 开启事务控制的注解支持 --> 
+     <tx:annotation-driven transaction-manager="transactionManager"/> 
      
      <bean id="genericDao" class="sail.beans.dao.iml.GenericHibernateDaoIml">
      	<property name="sessionFactory" ref="sessionFactory"></property>
@@ -71,6 +76,8 @@
 	<context:annotation-config />
     <context:component-scan base-package="sail.beans" />
 
+     
+     
     <tx:advice id="txAdvice">
          <tx:attributes>
             <tx:method name="fetch*" propagation="REQUIRED" />
@@ -87,7 +94,6 @@
          <aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut"/>
      </aop:config> 
      
-      <!-- 开启事务控制的注解支持 --> 
-     <tx:annotation-driven transaction-manager="transactionManager"/> 
+      
      
 </beans>

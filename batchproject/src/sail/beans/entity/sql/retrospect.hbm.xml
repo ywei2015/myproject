@@ -144,11 +144,18 @@ where w.f_pid=i.f_workorder_pid and w.f_sys_flag='1' and i.f_sys_flag='1'
 
     ]]>
 	</sql-query>
+	 
+	  
+	 <sql-query name="retrospect.getbatchsource.list">
+		<![CDATA[
+			 select count(1) from t_bat_workorder_output o where o.f_mat_batch = ? and o.f_sys_flag='1'
+    ]]>
+	</sql-query>
 	
 	<query name="retrospect.workorder_input.list">
 		<![CDATA[ 
 	    	select detail from sail.beans.entity.BatWorkOrderInput detail,sail.beans.entity.BatWorkOrder order 
-	    	where order.workordercode = ? and order.pid = detail.workorderpid 
+	    	where order.workordercode = ? and detail.matcode = ? and order.pid = detail.workorderpid 
 	    	and order.sysflag = '1' and detail.sysflag = '1' order by detail.createtime desc
 	    ]]>
 	</query> 
@@ -160,5 +167,66 @@ where w.f_pid=i.f_workorder_pid and w.f_sys_flag='1' and i.f_sys_flag='1'
 	    	and order.sysflag = '1' and out.sysflag = '1' 
 		]]>
 	</query>
+	
+	<sql-query name="retrospect.get_workorder_name.list">
+		<![CDATA[
+			select t.f_dic_name from V_BAT_WO_TYPE t where t.f_dic_code = ? 
+		]]>
+	</sql-query>
+	
+	<sql-query name="retrospect.t_bat_depot_iobilldetail.out">
+		<![CDATA[
+    	
+-----查批次的出入库流水日志------------
+select * from (
+    -----查大件批次的日志------------
+    select 
+    case b.f_bill_type when '11' then '入库' else '出库' end as f_bill_type,   
+    (select p.f_remark from t_pub_dic p where p.f_sys_flag='1' and p.f_dic_code=b.f_doc_type and rownum=1) as f_biztype,
+    b.f_date as f_date,
+    (select u.f_name from t_sec_user u where u.f_pid=b.f_operate_userid) as f_operator,  
+    NVL(d.f_last_modified_time, d.f_create_time) as f_operate_time,
+    d.f_mat_code,
+    d.f_mat_name,  
+    d.f_mat_batch,  
+    (select s.f_dic_name from v_bat_storagestate s where s.f_dic_code=d.f_inventory_type) as f_status, 
+    d.f_quantity,
+    d.f_unit,
+    d.f_matkl
+    --d.* 
+    from t_bat_depot_iobill b, t_bat_depot_iodetail d 
+    where b.f_pid=d.f_bill_pid  
+          and b.f_doc_type<>'YL01' --作料暂存不退库 
+          and b.f_sys_flag='1' and d.f_sys_flag='1' 
+          and d.f_mat_batch = ?  
+          and b.f_date is not null  
+    union       
+    -----查小件批次的日志------------
+    select 
+    case b.f_bill_type when '11' then '入库' else '出库' end as f_bill_type,
+    (select p.f_remark from t_pub_dic p where p.f_sys_flag='1' and p.f_dic_code=b.f_doc_type and rownum=1) as f_biztype,
+    b.f_date as f_date,
+    (select u.f_name from t_sec_user u where u.f_pid=b.f_operate_userid) as f_operator, 
+    NVL(d.f_last_modified_time, d.f_create_time) as f_operate_time,
+    d.f_mat_code,
+    d.f_mat_name,
+    d.f_mat_batch,  
+    (select s.f_dic_name from v_bat_storagestate s where s.f_dic_code=d.f_inventory_type) as f_status, 
+    x.f_quantity,
+    d.f_unit,
+    d.f_matkl
+    --d.* 
+    from t_bat_depot_iobill b, t_bat_depot_iodetail d, t_bat_depot_iodetaillist x 
+    where b.f_pid=d.f_bill_pid and d.f_pid=x.f_billdetail_pid 
+          and b.f_doc_type<>'YL01' --作料暂存不退库
+          and b.f_sys_flag='1' and d.f_sys_flag='1' and x.f_sys_flag='1' 
+          and x.f_slave_batch = ? 
+          and b.f_date is not null 
+) BatchLog order by f_operate_time desc          
+     
+
+    ]]>
+	</sql-query>
+	
 	
 </hibernate-mapping>

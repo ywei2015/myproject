@@ -1,8 +1,11 @@
-var lcode=getQueryString('lcode');
+var workcode=getQueryString('workcode');
 var batchj=getQueryString('batch');
+var workname;
+var matcode;
+console.info(batchj);
 function initform(){
 	var dataj={
-			'workcode':lcode,
+			'workcode':workcode,
 			'batch':batchj
 	};
 	$.ajax({
@@ -20,6 +23,10 @@ function initform(){
 			$('#actualendtime').val(workorder.actualendtime);
 			$('#worktime').val(workorder.worktime);
 			$('#workteam').val(workorder.workteam);
+			workname=workorder.remark;
+			$('#message').text(workname+"工单信息");
+			$('#message2').text(workname+"投料汇总信息");
+			$('#message3').text(workname+"投料批次信息");
 		}
 	});
 }
@@ -40,13 +47,14 @@ function initTable() {
         //设置为limit可以获取limit, offset, search, sort, order  
         queryParamsType : "undefined", 
         onClickRow: function (item, $element) {
+        	matcode=item.matcode;
         	$('#input').show();
         	initTable1();
         	//window.location.href="workorderinput.html?lcode="+item.workordercode;
         },
         queryParams: function queryParams(params) {   //设置查询参数  
           var param = {    
-        	  workcode:lcode,
+        	  workcode:workcode,
         	  batch:batchj
           };    
           return param;                  
@@ -79,17 +87,20 @@ function initTable1() {
         //设置为limit可以获取limit, offset, search, sort, order  
         queryParamsType : "undefined",  
         onClickRow: function (item, $element) {
-        	 var param = {    
-               	  batch:item.matbatch
-                 };
-        	location.reload(param);   
+        	if(item.remark>0){
+        		self.location='workorderinput.html?batch='+item.matbatch;
+        	}else{
+        		window.location.href="batchretrospectout.html?batch="+item.matbatch;
+        	}
+        	  
         },
         queryParams: function queryParams(params) {   //设置查询参数  
           var param = {
         	  pageNumber: params.pageNumber,    
               pageSize: params.pageSize,  
-        	  workcode:lcode,
-        	  batch:batchj
+        	  workcode:workcode,
+        	  batch:batchj,
+        	  matcode:matcode
           };    
           return param;                  
         }/*,  

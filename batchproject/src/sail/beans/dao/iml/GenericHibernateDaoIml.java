@@ -434,9 +434,8 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 	public Pager getListWithNativeSqlFY(final String queryName, final Object[] objs,int[]pages) {
 		final String sql = filterContion(queryName,objs);
 		final Object[] objects = filterNull(objs);
-		String sql_=filterSql(sql,objs);
 		Pager page=new Pager();
-		Query queryObject = sessionFactory.getCurrentSession().createSQLQuery(sql_);
+		Query queryObject = sessionFactory.getCurrentSession().createSQLQuery(sql);
 
 		if (objs != null) {
 			for (int i = 0; i < objects.length; i++) {

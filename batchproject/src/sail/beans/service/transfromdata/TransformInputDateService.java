@@ -215,7 +215,7 @@ public class TransformInputDateService {
 	public void TransformInPutToStroage() {
 		String date=DateBean.getSysdate();
 		try {
-			List<BatWorkOrderInput> batWorkOrderInputList=this.genericDao.getListWithVariableParas("transfrom.workorder_input.list", new Object[]{date});
+			List<BatWorkOrderInput> batWorkOrderInputList=this.genericDao.getListWithVariableParas("transfrom.workorder_input.list", new Object[]{null});
 			if(batWorkOrderInputList!=null&&batWorkOrderInputList.size()>0){
 				for (int i = 0; i <batWorkOrderInputList.size(); i++) {
 					BatWorkOrderInput batWorkOrderInput=batWorkOrderInputList.get(i);
@@ -239,52 +239,54 @@ public class TransformInputDateService {
 		BatDepotIoDetailList batDepotIoDetailList=null;
 		String bill="ZO30YL"+workcode.getWorkordercode();
 		try {
-			List<BatDepotIoBill> batDepotIoBillList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST", new Object[]{bill,null});
-			if(batDepotIoBillList!=null&&batDepotIoBillList.size()>0){
-				batDepotIoBill=batDepotIoBillList.get(0);
-			}else{
-				batDepotIoBill=new BatDepotIoBill();
-				batDepotIoBill.setBillno(bill);
-				batDepotIoBill.setBiztype("MM2152");
-				batDepotIoBill.setBilltype("12");
-				batDepotIoBill.setDoctype("ZO30");
-				batDepotIoBill.setDepot("HZ10");
-				batDepotIoBill.setFactory("2200");
-				batDepotIoBill.setIsEnter("1");
-				batDepotIoBill.setSysflag("1");
-				batDepotIoBill.setCreator("admin");
-				batDepotIoBill.setCreatetime(DateBean.getSysdateTime());
-				batDepotIoBill.setDate(DateBean.getSysdate());
-				batDepotIoBill.setOperatetime(DateBean.getSysdateTime());
-				batDepotIoBill.setOperateuserid("admin");
-				batDepotIoBill.setLastmodifiedtime(DateBean.getSysdateTime());
-				batDepotIoBill.setLastmodifier("admin");
-				this.genericDao.save(batDepotIoBill);
-			}
-			//根据批次号获取出入库数据得到物料组信息
 			List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{null,null,null,batWorkOrderInput.getMatbatch()});
 			if(detailList!=null&&detailList.size()>0){
 				BatDepotIoDetail batDepotIoDetail1=detailList.get(0);
-				batDepotIoDetail=new BatDepotIoDetail();
-				batDepotIoDetail.setBillpid(batDepotIoBill.getPid());
-				batDepotIoDetail.setLastmodifiedtime(DateBean.getSysdateTime());
-				batDepotIoDetail.setLastmodifier("admin");
-				batDepotIoDetail.setRemark5("2");
-				batDepotIoDetail.setIsEnter("1");
-				batDepotIoDetail.setSysflag("1");
-				batDepotIoDetail.setShkzg("S");
-				batDepotIoDetail.setStatus("A");
-				batDepotIoDetail.setInventorytype("0");
-				batDepotIoDetail.setBillpid(batDepotIoBill.getPid());
-				batDepotIoDetail.setMatbatch(batWorkOrderInput.getMatbatch());
-				batDepotIoDetail.setMatkl(batDepotIoDetail1.getMatkl());
-				batDepotIoDetail.setMatcode(batWorkOrderInput.getMatcode());
-				batDepotIoDetail.setMatname(batWorkOrderInput.getMatname());
-				batDepotIoDetail.setQuantity(batWorkOrderInput.getQuantity());
-				batDepotIoDetail.setUnit(batWorkOrderInput.getUnit());
-				this.genericDao.save(batDepotIoDetail);
+				String makl=batDepotIoDetail1.getMatkl();
+				if(makl.equalsIgnoreCase("9205")||makl.equalsIgnoreCase("9212")){
+					List<BatDepotIoBill> batDepotIoBillList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST", new Object[]{bill,null});
+					if(batDepotIoBillList!=null&&batDepotIoBillList.size()>0){
+						batDepotIoBill=batDepotIoBillList.get(0);
+					}else{
+						batDepotIoBill=new BatDepotIoBill();
+						batDepotIoBill.setBillno(bill);
+						batDepotIoBill.setBiztype("MM2152");
+						batDepotIoBill.setBilltype("12");
+						batDepotIoBill.setDoctype("ZO30");
+						batDepotIoBill.setDepot("HZ10");
+						batDepotIoBill.setFactory("2200");
+						batDepotIoBill.setIsEnter("1");
+						batDepotIoBill.setSysflag("1");
+						batDepotIoBill.setCreator("admin");
+						batDepotIoBill.setCreatetime(DateBean.getSysdateTime());
+						batDepotIoBill.setDate(DateBean.getSysdate());
+						batDepotIoBill.setOperatetime(DateBean.getSysdateTime());
+						batDepotIoBill.setOperateuserid("admin");
+						batDepotIoBill.setLastmodifiedtime(DateBean.getSysdateTime());
+						batDepotIoBill.setLastmodifier("admin");
+						this.genericDao.save(batDepotIoBill);
+					}
+					//根据批次号获取出入库数据得到物料组信息
+						batDepotIoDetail=new BatDepotIoDetail();
+						batDepotIoDetail.setBillpid(batDepotIoBill.getPid());
+						batDepotIoDetail.setLastmodifiedtime(DateBean.getSysdateTime());
+						batDepotIoDetail.setLastmodifier("admin");
+						batDepotIoDetail.setRemark5("2");
+						batDepotIoDetail.setIsEnter("1");
+						batDepotIoDetail.setSysflag("1");
+						batDepotIoDetail.setShkzg("S");
+						batDepotIoDetail.setStatus("A");
+						batDepotIoDetail.setInventorytype("0");
+						batDepotIoDetail.setBillpid(batDepotIoBill.getPid());
+						batDepotIoDetail.setMatbatch(batWorkOrderInput.getMatbatch());
+						batDepotIoDetail.setMatkl(batDepotIoDetail1.getMatkl());
+						batDepotIoDetail.setMatcode(batWorkOrderInput.getMatcode());
+						batDepotIoDetail.setMatname(batWorkOrderInput.getMatname());
+						batDepotIoDetail.setQuantity(batWorkOrderInput.getQuantity());
+						batDepotIoDetail.setUnit(batWorkOrderInput.getUnit());
+						this.genericDao.save(batDepotIoDetail);
+				}
 			}
-			
 			//根据PID
 		} catch (Exception e) {
 			// TODO: handle exception

@@ -19,7 +19,7 @@
     margin-left: auto;
 }
 .fixed-table-container{
-height:25%;
+height:20%;
 margin-right: 13;
 margin-left: 13;
 }
@@ -27,24 +27,24 @@ margin-left: 13;
 </head>
 <body>
 	<div class="container">
-			<h3 class="text-center">
-				汉中批次系统追溯
+			<h3 class="text-center" style="margin-top:100px">
+				汉中批次件烟追溯系统
 			</h3>
 				<form class="bs-example bs-example-form" role="form" style="margin-top:20">
-				<div class="form-group">
-					 <div class="input-group">
-					 	<input type=text class="form-control" id="orderNum" />
-						<span class="input-group-addon" id="search">追溯</span>
+				<div class="form-group" align="center">
+					 <div class="input-group col-sm-7">
+					 	<input type=text class="form-control" placeholder="请输入件烟码" id="orderNum" />
+						<span class="input-group-addon" style="width:100px" onclick="showMytable()" id="search">追溯</span>
 					 </div>
 					
 				</div>
 			</form>
-		<div class="panel panel-info" style="margin-top:50px">
+		<div id="mytable" class="panel panel-info" style="margin-top:50px;display: none">
  				<div class="panel-heading">
  					<font size="3">封箱打码信息</font>
  				</div>
  			<div class="panel-body row" style="padding:0px;">
-			<table class="table table-hover" id="cusTable" 
+			<table class="table table-hover" id="cusTable"
 			>
 			<thead>
         		<tr>

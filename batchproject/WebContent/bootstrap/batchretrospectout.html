@@ -11,7 +11,7 @@
  <script type="text/javascript" src="js/bootstrap-table.min.js"></script> 
  <script type="text/javascript" src="js/bootstrap-table-zh-CN.js"></script> 
   <script type="text/javascript" src="../business/js/Constant.js"></script> 
- <script type="text/javascript" src="batchretrospectjb.js"></script>
+ <script type="text/javascript" src="batchretrospectout.js"></script>
 <style type="text/css">
 .container {
 	width:95%;
@@ -28,30 +28,30 @@ margin-left: 13;
 </head>
 <body>
 		<div class="container">
-		<div class="panel panel-info" style="margin-top:80px">
+		<div class="panel panel-info" style="margin-top:35px">
  				<div class="panel-heading">
  					<font  size="4" class="text-center">
-						卷包工单信息
+						批次出入库流水记录
 					</font>
  				</div>
  			<div class="panel-body" style="padding:0px">
  			<div class="row" >
 			<table class="table table-hover" id="cusTable" 
-			data-pagination="true"  
 			>
 			<thead>
         	<tr>
             <th data-field="pid"             data-align="center" data-visible="false"></th>
-            <th data-field="workordercode"        data-align="center">工单号</th>
-            <th data-field="process"       data-align="center">机台</th>
-            <th data-field="producedate"       data-align="center">生产日期</th>
-            <th data-field="matcode"     data-align="center">物料编码</th>
-            <th data-field="matname"           data-align="center">物料名称</th>
-            <th data-field="worktime"           data-align="center">班次</th>
-            <th data-field="workteam"        data-align="center">班组</th>
-            <th data-field="actualstarttime"        data-align="center">开始时间</th>
-            <th data-field="actualendtime"        data-align="center">结束时间</th>
-            <th data-field="opuserid"        data-align="center">操作人</th>
+            <th data-field="remark"        data-align="center">工单类型</th>
+            <th data-field="remark1"       data-align="center">出入库类型</th>
+            <th data-field="remark2"       data-align="center">操作日期</th>
+            <th data-field="creator"     data-align="center">操作人</th>
+            <th data-field="createtime"           data-align="center">操作时间</th>
+            <th data-field="matname"           data-align="center">名称</th>
+            <th data-field="matbatch"      data-align="center">批次</th>
+            <th data-field="status"        data-align="center">状态</th>
+            <th data-field="quantity"        data-align="center">质量</th>
+            <th data-field="unitname"        data-align="center">单位</th>
+            <th data-field="matkl"        data-align="center">物料组</th>
         </tr>
     </thead>
 			</table>

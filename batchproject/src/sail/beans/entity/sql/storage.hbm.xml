@@ -36,6 +36,16 @@
     	 substr(detail.lastmodifiedtime,0,8) > to_char(sysdate-1,'YYYYMMDD') order by detail.lastmodifiedtime desc
     ]]>
 	</query>
+	
+	<query name="STORAGE.T_BAT_DEPOT_IOBILLDETAIL.OUT">
+		<![CDATA[
+    	SELECT detail FROM sail.beans.entity.BatDepotIoDetail detail,sail.beans.entity.BatDepotIoBill bill
+    	 where  detail.remark5 = ? and detail.matbatch = ? 
+    	 and bill.sysflag = '1' and bill.pid = detail.billpid and detail.sysflag= '1' 
+    	  order by detail.lastmodifiedtime desc
+    ]]>
+	</query>
+	
 	<!--根据日期，操作人员，出入库类型获取详细列表-->
 	<query name="STORAGE.T_BAT_DEPOT_IOBILLDETAIL3.LIST">
 		<![CDATA[

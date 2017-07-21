@@ -29,7 +29,7 @@ public class TransformInputData {
 	}
 	 
 	 @ResponseBody
-	 @Scheduled(cron = "0 */25 * * * ?")
+	 @Scheduled(cron = "0 0/25 * * * ?")
 	 @RequestMapping(value="/transformInPutToStroage")
 	public void TransformInPutToStroage(){
 		transformInputDateService.TransformInPutToStroage();

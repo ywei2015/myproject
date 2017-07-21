@@ -47,7 +47,7 @@ public class BatchStorageService {
 	 * @param matBatch
 	 * @return
 	 */
-	 @Transactional(propagation = Propagation.REQUIRES_NEW,isolation=Isolation.SERIALIZABLE) 
+	 @Transactional 
 	public BatDepotIoDetail saveBatchInStorage(String billNo,String docType,String matBatch,String busType,String userId){
 		BatDepotIoBill batDepotIoBill = null;
 		BatDepotIoDetail batDepotIoDetail=null;
@@ -543,22 +543,22 @@ public class BatchStorageService {
 	 * @param 
 	 * @return
 	 */
-	 @Transactional(propagation = Propagation.REQUIRES_NEW,isolation=Isolation.SERIALIZABLE) 
+	 @Transactional(isolation=Isolation.SERIALIZABLE,propagation = Propagation.REQUIRES_NEW) 
 	public BatDepotIoDetail saveBatchStorageOut(String f_bill_no,String f_doc_type,String f_bus_type,String f_mat_batch,String userId) {
 		BatDepotIoBill batDepotIoBill = null;
 		 BatDepotIoDetail batDepotIoDetail=null;
 		 BatDepotIoDetailList batDepotIoDetailList=null;
-		 synchronized (this) {
 		 try{
+				List<BatDepotIoDetail> detailoutList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.OUT", new Object[]{"2",f_mat_batch});
+				if (detailoutList != null && detailoutList.size() > 0){
+					batDepotIoDetail=new BatDepotIoDetail();
+					batDepotIoDetail.setRepeated("1");
+					return batDepotIoDetail;	
+				}
 				List<BatDepotIoDetail> detailList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLDETAIL.LIST", new Object[]{null,null,null,f_mat_batch});
 				if (detailList != null && detailList.size() > 0){
 					BatDepotIoDetail batDepotIoDetail1 = detailList.get(0);
 					String pid=batDepotIoDetail1.getPid();
-					if("2".equals(batDepotIoDetail1.getRemark5())){
-						batDepotIoDetail=new BatDepotIoDetail();
-						batDepotIoDetail.setRepeated("1");
-						return batDepotIoDetail;
-					}
 					List<BatDepotIoBill> batDepotIoBillList = genericDao.getListWithVariableParas("STORAGE.T_BAT_DEPOT_IOBILLLIST.LIST", new Object[]{f_bill_no,f_doc_type});
 					if (batDepotIoBillList != null && batDepotIoBillList.size() > 0)
 						batDepotIoBill=batDepotIoBillList.get(0);
@@ -630,7 +630,6 @@ public class BatchStorageService {
 		 }catch(Exception e){
 			 e.printStackTrace();
 			 throw new RuntimeException();
-		 }
 		 }
 		return batDepotIoDetail;
 	}

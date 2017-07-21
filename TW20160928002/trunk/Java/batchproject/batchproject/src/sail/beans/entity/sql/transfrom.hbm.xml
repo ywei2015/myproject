@@ -192,9 +192,9 @@
 	<query name="transfrom.workorder_input.list">
 		<![CDATA[ 
 	    	select detail from sail.beans.entity.BatWorkOrderInput detail,sail.beans.entity.BatWorkOrder order 
-	    	where  order.producedate >= to_char(sysdate-2,'YYYYMMDD') AND workordertype = 'ZP12' and 
-	    	order.pid = detail.workorderpid and detail.remark3 = '1'  
-	    	and order. and order.sysflag = '1' and detail.sysflag = '1' order by detail.createtime desc
+	    	where  order.producedate >= to_char(sysdate-2,'YYYYMMDD') AND order.workordertype = 'ZP12' and 
+	    	order.pid = detail.workorderpid and detail.remark3 = '3'  and order.sysflag = '1' 
+	    	and detail.sysflag = '1' order by detail.createtime desc
 	    ]]>
 	</query> 
 	
@@ -202,7 +202,7 @@
 		<![CDATA[
     	SELECT detail FROM sail.beans.entity.BatDepotIoDetail detail,sail.beans.entity.BatDepotIoBill bill
     	 where bill.doctype = 'ZO30' and detail.remark5 = '2' and detail.matbatch = ? 
-    	 and bill.sysflag = '1' and bill.pid = detail.billpid and detail.sysflag= '1' and
+    	 and bill.sysflag = '1' and bill.pid = detail.billpid and detail.sysflag= '1'
     	  order by detail.lastmodifiedtime desc
     ]]>
 	</query>

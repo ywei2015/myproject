@@ -44,9 +44,8 @@ public class LeafSpiceController {
 		String location = request.getParameter("location");
 		String userId = request.getParameter("userId");
 		String tl_type=request.getParameter("f_tl_type");
-		String remark=request.getParameter("remark");
 		ResponseBase res = new ResponseBase();
-			BatWorkOrderInput batWorkOrderInput = silkWorkOrderService.saveBatWorkOrderInput(workOrderCode, matBatch, quantity, location,userId,tl_type,remark,"JM03");
+			BatWorkOrderInput batWorkOrderInput = silkWorkOrderService.saveBatWorkOrderInput(workOrderCode, matBatch, quantity, location,userId,tl_type,"2","JM03");
 			if (batWorkOrderInput != null){
 				if ("1".equals(batWorkOrderInput.getIsrepair())){
 					res.setResponseData("0", "该批次数据已经存在!");

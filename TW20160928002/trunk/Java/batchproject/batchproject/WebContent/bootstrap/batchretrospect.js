@@ -47,10 +47,17 @@ function initTable() {
   }  
   $(document).ready(function () {          
       //调用函数，初始化表格  
-      initTable();  
       //当点击查询按钮的时候执行  
-      $("#search").bind("click", initTable);  
-  });  
+     /* $("#search").bind("click", function(){
+    	  $('#mytable').show();
+    	  initTable();
+      });  */
+  });
+function showMytable(){
+	 $('#mytable').show();
+	  initTable();
+}  
+  
 function operateFormatter(value,row,index){
 	//window.location.href="batchretrospectjb.html?lcode="+value;
 }  

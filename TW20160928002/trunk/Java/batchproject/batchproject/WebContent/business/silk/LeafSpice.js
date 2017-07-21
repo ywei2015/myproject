@@ -4,7 +4,7 @@ var userId=getQueryString('userId');
 var f_workorder_code=getQueryString('f_workorder_code'); //生产工单号 20161208HZ-YCX-01
 var data_p={
 		'f_workorder_code':f_workorder_code,
-		'remark':1
+		'remark':2
 };
 
 var img = new Image(); 

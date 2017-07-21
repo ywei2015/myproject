@@ -23,11 +23,11 @@
 margin-right: 13;
 margin-left: 13;
 }
- table.table-fixed-head .table-fixed-head-thead {
-            border-bottom: 1px solid #dddddd;
-            border-top: 1px solid #dddddd;
-            background: #fff;
-        }；
+.panel-heading{
+padding-left : 10px;
+padding-top : 5px;
+padding-bottom : 5px;
+}
 </style>
 </head>
 <body>
@@ -35,15 +35,14 @@ margin-left: 13;
 		<div class="panel panel-info" style="margin-top:35px">
  				<div class="panel-heading">
  					<font  size="4" class="text-center" id="message">
-						卷包工单信息
 					</font>
  				</div>
- 			<div class="panel-body" style="padding:0px">
+ 			<div class="panel-body">
  <form class="form-horizontal" role="form">
   <div class="form-group">
     <label for="workordercode" class="col-sm-1 control-label" >工单号</label>
-    <div class="col-sm-2">
-      <input type="text" class="form-control" id="workordercode" disabled>
+    <div class="col-sm-2" style="overflow-y:scoller;">
+      <input type="text" class="form-control" id="workordercode"  disabled>
     </div>
     <label for="process" class="col-sm-1 control-label">机台</label>
     <div class="col-sm-2">
@@ -107,8 +106,8 @@ margin-left: 13;
 			
 			<div id="input" class="panel panel-info" style="margin-top:25px; display: none">
  				<div class="panel-heading">
- 					<font  size="4" class="text-center" id="message2">
-						工单投料信息详情
+ 					<font  size="4" class="text-center" id="message3">
+						
 					</font>
  				</div>
  			<div class="panel-body" style="padding:0px">
@@ -123,6 +122,7 @@ margin-left: 13;
             <th data-field="quantity"     data-valign="middle"  data-align="center">投入数量</th>
             <th data-field="unit"          data-valign="middle" data-align="center">单位</th>
             <th data-field="operatetime"   data-valign="middle"  data-align="center">投料时间</th>
+            <th data-field="remark"         data-valign="middle"  data-align="center">来源</th>
         </tr>
     </thead>
 			</table>

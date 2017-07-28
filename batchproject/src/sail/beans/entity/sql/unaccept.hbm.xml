@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+	<!--原生sql-->
+	<!-- 未确认批次  -->
+	<sql-query name="unaccept.base.list">
+		<![CDATA[
+			select --*
+			  b.f_billgive_date, --清单下达日期
+			  d.f_mat_code,  --物料编码
+			  d.f_mat_name,  --物料名称
+			  count(1) f_batch_count_total, --总件数  
+			  count(case d.f_isenter  when '1' then 1 end) as f_batch_count_y,--已确认“件”数
+			  count(case d.f_isenter  when '0' then 1 end) as f_batch_count_n, --未确认件数
+			  sum(case d.f_isenter  when '0' then d.f_quantity else 0 end)  ||max(d.f_unit) as f_quantity --未确认总数 
+			from t_bat_depot_iobill b, t_bat_depot_iodetail d 
+			where b.f_pid=d.f_bill_pid 
+			      and b.f_sys_flag='1'   --主表记录有效
+			      and d.f_sys_flag='1'   --子表记录有效
+			      --and d.f_isenter='0'    --“子表”未确认接受
+			      and b.f_billgive_date is not null   --日期不为空
+			      and d.f_mat_code = ? 
+			      and b.f_billgive_date >= ? 
+			      and b.f_billgive_date <= ? 
+			group by b.f_billgive_date, d.f_mat_code, d.f_mat_name       
+			order by f_billgive_date desc
+		]]>
+	</sql-query>
+	
+	<!-- 批次明细 -->
+	<sql-query name="unaccept.detail.list">
+		<![CDATA[
+			select --*
+		        b.f_billgive_date, --预约日期
+		        d.f_mat_code,  --物料编码
+		        d.f_mat_name,  --物料名称 
+		        d.f_mat_batch, --批次
+		        (d.f_quantity || d.f_unit) as f_quantity --数量
+		      from t_bat_depot_iobill b, t_bat_depot_iodetail d 
+		      where b.f_pid=d.f_bill_pid 
+		            and b.f_sys_flag='1' 
+		            and d.f_sys_flag='1'
+		            and d.f_isenter='0' 
+		            and b.f_billgive_date is not null 
+		            and d.f_mat_code = ? 
+		            and b.f_billgive_date= ? 
+		      order by f_billgive_date desc
+		]]>
+	</sql-query>
+
+</hibernate-mapping>

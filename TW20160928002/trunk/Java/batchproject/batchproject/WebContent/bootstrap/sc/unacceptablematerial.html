@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>物资</title>
+<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../css/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css" href="../css/bootstrap-datetimepicker.min.css">
+
+ <script type="text/javascript" src="../js/jquery-2.1.3.min.js"></script> 
+ <script src="../js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="../js/bootstrap-table.min.js"></script> 
+ <script type="text/javascript" src="../js/bootstrap-table-zh-CN.js"></script> 
+ <script type="text/javascript" src="../js/bootstrap-datetimepicker.min.js"></script> 
+ <script type="text/javascript" src="../js/bootstrap-datetimepicker.zh-CN.js"></script> 
+  <script type="text/javascript" src="/batchproject/business/js/Constant.js"></script> 
+ <script type="text/javascript" src="../sc/unacceptablematerial.js"></script>  
+ <style type="text/css">
+.container {
+	width:95%;
+    margin-right: auto;
+    margin-left: auto;
+}
+/* .fixed-table-container */
+</style>
+</head>
+<body>
+	<div class="container">
+		<div id="search-box"  style="margin:10px 0;">
+			物料编码<input id="matCode" type="text" name="matCode" value="">
+			开始日期
+			<input id="startDate" name="startDate" size="14" type="text"  readonly class="form_datetime" style="text-align: center;">
+			结束日期
+			<input id="endDate" name="endDate" size="14" type="text"  readonly class="form_datetime" style="text-align: center;">
+			<button id="search" type="button" class="btn btn-default">搜索</button>
+		</div>
+		<!-- ------------------------------------------------分割线--------------------------------------------- -->
+		<div id="tablebox1" class="panel panel-info" style="">
+ 				<div class="panel-heading">
+ 					<font  size="4" class="text-center">
+						物资确认情况清单
+					</font>
+ 				</div>
+ 			<div class="panel-body" style="padding:0px">
+ 			<!-- <div class="row" > -->    <!-- 有这个div影响样式 -->
+			<table class="table table-hover" id="cusTable">
+			  <thead>
+		   		<tr>
+		          <th data-field="operate"             		data-align="center">操作</th>
+		       	  <th data-field="billGiveDate"     		data-align="center">预约日期 </th>
+		       	  <th data-field="matCode"        		data-align="center">物料编码</th>
+		       	  <th data-field="matName"        		data-align="center">物料名称</th>
+		       	  <th data-field="batchCountTotal"      data-align="center">总件数</th>
+		          <th data-field="batchCountY"        	data-align="center">已确认“件”数</th>
+		      	  <th data-field="batchCountN"     		data-align="center">未确认大件数</th>
+		      	  <th data-field="quantity"     			data-align="center">未确认总重</th>
+		  	    </tr>
+			  </thead>
+			</table>
+			</div></div><!-- </div> -->
+		
+		<!----------------------------分割线---------------------------------------------------  -->
+		
+		
+		<div id="tablebox2" class="panel panel-info" style="display:none;">
+ 			<div class="panel-heading">
+ 				<font id="matDetail" size="4" class="text-center">
+					当前未接收物资清单明细
+				</font>
+ 			</div>
+ 			<div class="panel-body" style="padding:0px">
+ 			<!-- <div class="row" > -->    <!-- 有这个div影响样式 -->
+			<table class="table table-hover" id="cusTable2">
+			  <thead>
+		   		<tr>
+		       	  <th data-field="billGiveDate"     		data-align="center">预约日期 </th>
+		       	  <th data-field="matCode"        			data-align="center">物料编码</th>
+		       	  <th data-field="matName"        			data-align="center">物料名称</th>
+		      	  <th data-field="matBatch"     			data-align="center">批次</th>
+		      	  <th data-field="quantity"     			data-align="center">数量</th>
+		  	    </tr>
+			  </thead>
+			</table>
+			</div>
+		</div><!-- </div> -->
+	</div>
+
+
+
+</body>
+</html>

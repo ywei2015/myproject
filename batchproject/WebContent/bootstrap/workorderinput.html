@@ -24,9 +24,8 @@ margin-right: 13;
 margin-left: 13;
 }
 .panel-heading{
-padding-left : 10px;
-padding-top : 5px;
-padding-bottom : 5px;
+padding:5px;
+background-color: rgb(238,238,238) !important;
 }
 </style>
 </head>
@@ -34,6 +33,9 @@ padding-bottom : 5px;
 		<div class="container">
 		<div class="panel panel-info" style="margin-top:35px">
  				<div class="panel-heading">
+ 					 <a onclick="backHistroy()" href="#" class="btn btn-info">
+        				  <span  class="glyphicon glyphicon-arrow-left"></span>上一步
+       				 </a>
  					<font  size="4" class="text-center" id="message">
 					</font>
  				</div>
@@ -85,7 +87,7 @@ padding-bottom : 5px;
 					</font>
  				</div>
  			<div class="panel-body" style="padding:0px">
- 			<div class="row" style="height:30%">
+ 			<div class="row" style="height:30%" >
 			<table class="table table-hover" id="cusTable"
 			data-pagination="true"  
 			>
@@ -122,7 +124,7 @@ padding-bottom : 5px;
             <th data-field="quantity"     data-valign="middle"  data-align="center">投入数量</th>
             <th data-field="unit"          data-valign="middle" data-align="center">单位</th>
             <th data-field="operatetime"   data-valign="middle"  data-align="center">投料时间</th>
-            <th data-field="remark"         data-valign="middle"  data-align="center">来源</th>
+            <th data-field="remark"         data-valign="middle"  data-align="center" data-visible="false">来源</th>
         </tr>
     </thead>
 			</table>

@@ -45,8 +45,64 @@
 		            and d.f_isenter='0' 
 		            and b.f_billgive_date is not null 
 		            and d.f_mat_code = ? 
-		            and b.f_billgive_date= ? 
+		            and b.f_billgive_date = ? 
 		      order by f_billgive_date desc
+		]]>
+	</sql-query>
+	<!-- 表香余重 -->
+	<sql-query name="unaccept.topdressflavor.list">
+		<![CDATA[
+		   select d.f_mat_code,d.f_mat_name,d.f_mat_batch,d.f_quantity,d.f_unit,d.F_CREATE_TIME  
+	       from T_BAT_DEPOT_IOBILL t, T_BAT_DEPOT_IODETAIL d 
+	       where t.f_pid = d.f_bill_pid 
+	       and d.f_mat_batch = ? 
+	       and d.F_CREATE_TIME >= ? 
+	       and d.F_CREATE_TIME <= ? 
+	       order by t.f_pid
+		]]>
+	</sql-query>
+	<!-- 生产工单 -->
+	<sql-query name="unaccept.productworkorder.list">
+		<![CDATA[
+			select t.F_WORKORDER_CODE,t.F_PRODUCE_DATE,
+			  t.F_WORKORDER_STATE,
+			  count(F_MAT_BATCH) ,t.F_ACTUAL_QUANTITY,
+			  (case t.F_WORKORDER_STATE when '10' then '未下发' when '20' then '已下发' else '错误' end) rls_status -- 下发状态
+			  from t_bat_workorder t left join t_bat_workorder_input t1 on t.f_pid = t1.F_WORKORDER_PID
+			  where t.F_WORKORDER_CODE = ? 
+			  and t.F_PRODUCE_DATE >= ? 
+			  and t.F_PRODUCE_DATE <= ? 
+			  group by t.F_WORKORDER_CODE,t.F_PRODUCE_DATE,t.F_WORKORDER_STATE,t.F_ACTUAL_QUANTITY
+		]]>
+	</sql-query>
+	<!-- 投料统计 -->
+	<sql-query name="unaccept.feedstatistic.list">
+		<![CDATA[
+			select t.f_workorder_code,t.f_produce_date,t1.f_mat_name,t1.f_mat_batch,t1.f_operate_time,ts.f_name      
+			from t_bat_workorder t,t_bat_workorder_input t1 ,t_sec_user ts
+			where t1.f_workorder_pid=t.f_pid and t1.f_operate_userid = ts.f_pid
+			      and ts.f_code = ? 
+			      and t.f_workorder_type = ? 
+			      and t.f_produce_date >= ? 
+			      and t.f_produce_date <= ? 
+		]]>
+	</sql-query>
+	<!-- 投料统计  下拉框 工单类型 -->
+	<sql-query name="unaccept.feedworkordertype.list">
+		<![CDATA[
+			select distinct f_workorder_type from t_bat_workorder order by f_workorder_type
+		]]>
+	</sql-query>
+	<!-- 人员投料统计 -->
+	<sql-query name="unaccept.personfeedstatistic.list">
+		<![CDATA[
+			select ts.f_name,count(t1.f_mat_batch),count(distinct t1.f_workorder_pid)
+		       from t_bat_workorder_input t1,t_sec_user ts  
+		       where t1.f_operate_userid = ts.f_pid 
+		       and ts.f_code = ? 
+		       and t1.F_OPERATE_TIME >= ? 
+		       and t1.F_OPERATE_TIME <= ? 
+		       group by (ts.f_name)
 		]]>
 	</sql-query>
 

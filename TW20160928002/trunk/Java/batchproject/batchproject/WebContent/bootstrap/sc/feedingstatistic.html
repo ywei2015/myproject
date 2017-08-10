@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>投料查询</title>
+<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../css/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css" href="../css/bootstrap-datetimepicker.min.css">
+
+ <script type="text/javascript" src="../js/jquery-2.1.3.min.js"></script> 
+ <script src="../js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="../js/bootstrap-table.min.js"></script> 
+ <script type="text/javascript" src="../js/bootstrap-table-zh-CN.js"></script> 
+ <script type="text/javascript" src="../js/bootstrap-datetimepicker.min.js"></script> 
+ <script type="text/javascript" src="../js/bootstrap-datetimepicker.zh-CN.js"></script> 
+  <script type="text/javascript" src="/batchproject/business/js/Constant.js"></script> 
+  
+ <script type="text/javascript" src="../sc/feedingstatistic.js"></script>  
+ <style type="text/css">
+.container {
+	width:95%;
+    margin-right: auto;
+    margin-left: auto;
+}
+/* .fixed-table-container */
+</style>
+</head>
+<body>
+	<div class="container">
+		<div id="search-box"  style="margin:10px 0;">
+			
+			员工编号<input id="code" type="text" name="code" value="">
+			开始日期
+			<input id="startDate"  name="startDate" size="14" type="text"  readonly class="form_datetime" style="text-align: center;">
+			结束日期
+			<input id="endDate"  name="endDate" size="14" type="text"  readonly class="form_datetime" style="text-align: center;">
+			 工单类型
+			  <select id="workorderType" style="height:26px">
+			    <option>不选</option>
+			  </select>
+			<button id="search" type="button" class="btn btn-default">搜索</button>
+		</div>
+	
+		<div id="tablebox" class="panel panel-info" style="">
+ 				<div class="panel-heading">
+ 					<font  size="4" class="text-center">
+						投料信息
+					</font>
+ 				</div>
+ 			<div class="panel-body" style="padding:0px">
+ 			<!-- <div class="row" > -->    <!-- 有这个div影响样式 -->
+			<table class="table table-hover" id="cusTable">
+			  <thead>
+		   		<tr>
+		   			<!-- 加个序号？ -->
+		   		  <th data-field="index"     			data-align="center">序号</th>
+		   		  <th data-field="workorderCode"     	data-align="center">工单号</th>
+		   		  <th data-field="produceDate"     		data-align="center">生产日期</th>
+		   		  <th data-field="matName"     			data-align="center">物料</th>
+		   		  <th data-field="matBatch"     		data-align="center">批次</th>
+		   		  <th data-field="operateTime"     		data-align="center">时间</th>
+		   		  <th data-field="name"     		 	data-align="center">操作人</th>
+		  	    </tr>
+			  </thead>
+			</table>
+			</div>
+		</div>
+	</div>
+
+
+
+</body>
+</html>

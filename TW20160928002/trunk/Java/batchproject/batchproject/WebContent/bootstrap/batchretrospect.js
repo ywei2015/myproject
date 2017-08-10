@@ -23,10 +23,10 @@ function initTable() {
         //设置为undefined可以获取pageNumber，pageSize，searchText，sortName，sortOrder  
         //设置为limit可以获取limit, offset, search, sort, order  
         queryParamsType : "undefined",  
-        onClickRow: function (item, $element) {
+       /* onClickRow: function (item, $element) {
         	console.info(item.lcode);
         	window.location.href="batchretrospectjb.html?lcode="+item.lcode;
-        },
+        },*/
         queryParams: function queryParams(params) {   //设置查询参数  
           var param = {    
               pageNumber: params.pageNumber,    
@@ -36,14 +36,9 @@ function initTable() {
 
           };    
           return param;                  
-        }/*,  
-        onLoadSuccess: function(){  //加载成功时执行  
-          layer.msg("加载成功");  
-        },  
-        onLoadError: function(){  //加载失败时执行  
-          layer.msg("加载数据失败", {time : 1500, icon : 2});  
-        } */ 
+        }
       });  
+    
   }  
   $(document).ready(function () {          
       //调用函数，初始化表格  
@@ -56,13 +51,25 @@ function initTable() {
 function showMytable(){
 	 $('#mytable').show();
 	  initTable();
+	  
 }  
+
   
 function operateFormatter(value,row,index){
-	//window.location.href="batchretrospectjb.html?lcode="+value;
+	 var canshu=row;
+	 console.info(row);
+	  return [
+              '<button type="button" onclick="openRoleOfA('+row.lcode+')" class=" btn btn-default  btn-sm" style="margin-right:5px;">向前追溯</button>',
+              '<button type="button" onclick="openRoleOfB('+canshu+')" class="btn btn-default  btn-sm" style="margin-right:5px;">向后追溯</button>',
+          ].join('');
 }  
-  
-
+function  openRoleOfA(e){
+	alert(e);
+}
+function  openRoleOfB(e){
+	console.info(e.lcode);
+	//window.location.href="batchretrospectjb.html?lcode="+e;
+}
 function getQueryString(name) {
 	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
 	var r = window.location.search.substr(1).match(reg); 

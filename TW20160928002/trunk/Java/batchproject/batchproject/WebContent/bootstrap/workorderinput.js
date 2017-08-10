@@ -119,6 +119,10 @@ function initTable1() {
       initTable();  
       //当点击查询按钮的时候执行  
   });  
+function backHistroy(){
+ 	 window.history.go(-1);
+}  
+  
 
 function getQueryString(name) {
 	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 

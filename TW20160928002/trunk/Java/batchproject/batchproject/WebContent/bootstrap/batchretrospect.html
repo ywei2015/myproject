@@ -23,6 +23,13 @@ height:20%;
 margin-right: 13;
 margin-left: 13;
 }
+.panel-heading{
+padding:5px;
+background-color: rgb(238,238,238) !important;
+}
+.panel-body{
+border-bottom: none;
+}
 </style>
 </head>
 <body>
@@ -30,13 +37,13 @@ margin-left: 13;
 			<h3 class="text-center" style="margin-top:100px">
 				汉中批次件烟追溯系统
 			</h3>
-				<form class="bs-example bs-example-form" role="form" style="margin-top:20">
+			<form class="bs-example bs-example-form" role="form" style="margin-top:30">
 				<div class="form-group" align="center">
 					 <div class="input-group col-sm-7">
 					 	<input type=text class="form-control" placeholder="请输入件烟码" id="orderNum" />
-						<span class="input-group-addon" style="width:100px" onclick="showMytable()" id="search">追溯</span>
+					    <span class="input-group-addon" style="width:100px" onclick="showMytable()" 
+						id="search">追溯</span> 
 					 </div>
-					
 				</div>
 			</form>
 		<div id="mytable" class="panel panel-info" style="margin-top:50px;display: none">
@@ -58,6 +65,7 @@ margin-left: 13;
                 	 <th data-field="worktime"        data-align="center">班次</th>
             	     <th data-field="workteam"        data-align="center">班组</th>
            			 <th data-field="process"        data-align="center">机台号</th>
+           			 <th   data-formatter="operateFormatter"  data-align="center">操作</th>
        			 </tr>
    		    </thead>
 			</table>

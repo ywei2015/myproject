@@ -42,8 +42,12 @@ function initTable() {
       //调用函数，初始化表格  
       initTable();  
       //当点击查询按钮的时候执行  
-      $("#search").bind("click", initTable);  
+      $("#back").bind("click", backHistroy);  
   });  
+  
+  function backHistroy(){
+	 	 window.history.go(-1);
+	}   
 
 function getQueryString(name) {
 	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 

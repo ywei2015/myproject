@@ -36,7 +36,9 @@ function initTable() {
       //当点击查询按钮的时候执行  
       $("#search").bind("click", initTable);  
   });  
-
+  function backHistroy(){
+	 	 window.history.go(-1);
+	}  
 function getQueryString(name) {
 	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
 	var r = window.location.search.substr(1).match(reg); 

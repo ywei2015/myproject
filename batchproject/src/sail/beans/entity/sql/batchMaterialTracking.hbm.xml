@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+	<sql-query name="BATCH.MATERIAL.TRACKING">
+		<![CDATA[
+    	     SELECT t.f_create_time,t.f_remark5,
+             t.f_last_modified_time,
+             (SELECT f_name FROM t_sec_user t7 WHERE t7.f_pid=t.f_last_modifier) f_name,
+             t3.F_BIZ_TYPE,'10',t.f_mat_name,
+             t.f_mat_code,t.f_quantity,
+             t.f_unit,t.F_MAT_BATCH
+             FROM t_BAT_DEPOT_IODETAIL t,T_BAT_DEPOT_IOBILL t3
+             WHERE t.F_MAT_BATCH =?
+             AND t.f_bill_pid=t3.f_pid
+             AND t3.F_BIZ_TYPE='MM2141'
+             UNION ALL 
+             SELECT t1.f_create_time,t1.f_remark5,
+             t1.f_last_modified_time,
+             (SELECT f_name FROM t_sec_user t8 WHERE t8.f_pid=t1.f_last_modifier) f_name,
+             t5.f_biz_type,'11',t4.f_mat_name,
+             t4.f_mat_code,t1.f_quantity,
+             t1.f_unit,t1.F_SLAVE_BATCH
+             FROM t_BAT_DEPOT_IODETAILLIST t1,t_BAT_DEPOT_IODETAIL t4,T_BAT_DEPOT_IOBILL t5
+             WHERE t1.F_SLAVE_BATCH =?
+             AND t1.f_billdetail_pid=t4.f_pid AND t4.f_bill_pid=t5.f_pid
+             AND t5.F_BIZ_TYPE='MM2141'
+ 
+    ]]>
+	</sql-query>
+
+ 	<sql-query name="BATCH.MATERIAL.INOUTSTOCK"> 
+			<![CDATA[  
+	    	 SELECT t.f_create_time,t.f_remark5,
+             t.f_last_modified_time,
+             (SELECT f_name FROM t_sec_user t7 WHERE t7.f_pid=t.f_last_modifier) f_name,
+             t3.F_BIZ_TYPE,'10',t.f_mat_name,
+             t.f_mat_code,t.f_quantity,
+             t.f_unit,t.F_MAT_BATCH
+             FROM t_BAT_DEPOT_IODETAIL t,T_BAT_DEPOT_IOBILL t3
+             WHERE t.F_MAT_BATCH =?
+             AND t.f_bill_pid=t3.f_pid
+             UNION ALL 
+             SELECT t1.f_create_time,t1.f_remark5,
+             t1.f_last_modified_time,
+             (SELECT f_name FROM t_sec_user t8 WHERE t8.f_pid=t1.f_last_modifier) f_name,
+             t5.f_biz_type,'11',t4.f_mat_name,
+             t4.f_mat_code,t1.f_quantity,
+             t1.f_unit,t1.F_SLAVE_BATCH
+             FROM t_BAT_DEPOT_IODETAILLIST t1,t_BAT_DEPOT_IODETAIL t4,T_BAT_DEPOT_IOBILL t5
+             WHERE t1.F_SLAVE_BATCH =?
+             AND t1.f_billdetail_pid=t4.f_pid AND t4.f_bill_pid=t5.f_pid
+	 
+	    ]]> 
+ 		</sql-query> 
+
+
+	<sql-query name="BATCH.MATERIAL.CHARGE">
+		<![CDATA[
+    	      select t.f_workOrder_type,t.f_workorder_code,
+          t.f_produce_date,(select v.f_dic_name from v_bat_worktime v where v.F_ESB_CODE = t.f_worktime) as f_worktime_name,  --班次名称
+                             (select v1.f_dic_name from v_bat_workteam v1 where v1.F_ESB_CODE = t.f_workteam) as f_workteam_name , --班组名称 
+            t.f_mat_name,
+          t1.f_create_time,t.f_plan_quantity,
+          t.f_actual_quantity,t.f_unit,t6.f_name
+	      FROM t_bat_workorder t, t_bat_workorder_input t1,
+	      t_bat_depot_iodetail t2,T_SEC_USER t6
+	      WHERE t.f_pid=t1.f_workorder_pid 
+	      AND t1.f_mat_batch=t2.f_mat_batch 
+	      AND t1.f_mat_batch=?
+	          AND t6.f_pid = t.f_last_modifier
+	      UNION ALL
+	      select t3.f_workOrder_type,t3.f_workorder_code,
+	      t3.f_produce_date,(select v.f_dic_name from v_bat_worktime v where v.F_ESB_CODE = t3.f_worktime) as f_worktime_name,  --班次名称
+	                             (select v1.f_dic_name from v_bat_workteam v1 where v1.F_ESB_CODE = t3.f_workteam) as f_workteam_name , --班组名称 
+	      t3.f_mat_name,
+	      t4.f_create_time,t3.f_plan_quantity,
+	      t3.f_actual_quantity,t3.f_unit,t7.f_name
+	      FROM t_bat_workorder t3, t_bat_workorder_input t4,
+	      t_bat_depot_iodetaillist t5,T_SEC_USER t7
+	      WHERE t3.f_pid=t4.f_workorder_pid 
+	      AND t4.f_mat_batch=t5.f_slave_batch
+	      AND t4.f_mat_batch=?
+	      AND t7.f_pid = t3.f_last_modifier
+ 			
+    ]]>
+	</sql-query>
+</hibernate-mapping>

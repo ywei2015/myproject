@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+	<sql-query name="BATCH.WORKORDER.SELECT">
+		<![CDATA[
+    	  SELECT t.f_workorder_code,
+(select v2.f_pre_devicename from V_BAT_EQU_CURLINK v2 where v2.f_pre_device = t.f_process) AS f_process,
+t.f_mat_name,
+(select v.f_dic_name from v_bat_worktime v where v.F_ESB_CODE = t.f_worktime) AS f_worktime,
+(select v1.f_dic_name from v_bat_workteam v1 where v1.F_ESB_CODE = t.f_workteam) as f_workteam_name  FROM t_bat_workorder t
+ WHERE t.f_worktime = ? AND ( t.f_produce_date >= ? AND t.f_produce_date <= ?)  AND t.f_workorder_type = ?
+ 
+    ]]>
+	</sql-query>
+
+</hibernate-mapping>

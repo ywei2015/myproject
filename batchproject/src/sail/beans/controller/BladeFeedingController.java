@@ -73,10 +73,6 @@ public class BladeFeedingController {
 			res.setResponseData("0", "删除数据失败!");
 		}
 		return res;
-	}
-	
-	
-	
-		
+	}	
 	
 }

@@ -1,0 +1,136 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title></title>
+
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="css/font-awesome.css">
+<link rel="stylesheet" type="text/css" media="all"
+	href="css/daterangepicker-bs3.css" />
+<link rel="stylesheet" type="text/css"
+	href="css/bootstrap-table.min.css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/moment.js"></script>
+<script type="text/javascript" src="js/daterangepicker.js"></script>
+<script type="text/javascript" src="js/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="../business/js/Constant.js"></script>
+<script type="text/javascript" src="workOrderRelease.js"></script>
+
+<style type="text/css">
+.container {
+	width: 95%;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.fixed-table-container {
+	height: 20%;
+	margin-right: 13;
+	margin-left: 13;
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<h3 class="text-center" style="margin-top: 100px">工单投料查询</h3>
+		<form class="bs-example bs-example-form" role="form"
+			style="margin-top: 20">
+
+			<div class="container">
+				<div class="span12">
+				<div class="dropdown" style="float: left">
+				<span>班次：</span>
+				<select id="worktime" name="worktime" onclick="showSelect1()">
+					<option id="choose1">请选择</option>
+					<option value="HZ01">制丝早班</option>
+					<option value="830302">制丝中班</option>
+					<option value="HZ02">制丝白班</option>
+					<option value="HB01">卷包早班</option>
+					<option value="HB03">卷包中班</option>
+					<option value="HB02">卷包白班</option>
+				</select>
+			</div>
+
+			<div class="dropdown" style="float: left; margin-left: 10px">
+				<span>工单类型：</span> <select id="workorderType" name="workorderType"
+					onclick="showSelect()">
+					<option id="choose">请选择</option>
+					<option value="ZP01">卷包生产</option>
+					<option value="ZP02">嘴棒生产</option>
+					<option value="ZP03">烟丝生产</option>
+					<option value="ZP04">膨胀烟丝生产</option>
+					<option value="ZP05">梗丝生产</option>
+					<option value="ZP06">香精香料生产</option>
+					<option value="ZP12">叶片生产</option>
+					<option value="ZP13">叶丝生产</option>
+					<option value="ZP15">香精香料稀释生产</option>
+				</select>
+			</div>
+			<br /><br /><br />
+					<hr />
+					<h4>选择日期</h4>
+					<div class="well">
+						<form class="form-horizontal">
+							<fieldset>
+								<div class="control-group">
+									<div class="controls">
+										<div class="input-prepend input-group">
+											<span class="add-on input-group-addon"><i
+												class="glyphicon glyphicon-calendar fa fa-calendar"></i></span> <input
+												type="text" readonly style="width: 200px" name="orderNum"
+												id="orderNum" class="form-control"
+												value="2017-5-21 - 2017-6-21" />
+										</div>
+									</div>
+								</div>
+							</fieldset>
+						</form>
+						<script type="text/javascript">
+							$(document).ready(
+								function() {
+									$('#orderNum').daterangepicker(
+										null,
+										function(start, end, label) {
+											console.log(start
+												.toISOString(), end
+												.toISOString(),
+												label);
+									});
+							});
+						</script>
+					</div>
+				</div>
+			</div>
+			<div class="form-group" align="center">
+				<span class="input-group-addon" style="width: 100px"
+					onclick="showMytable()" id="search">查询</span>
+			</div>
+		</form>
+		<div id="mytable" class="panel panel-info"
+			style="margin-top: 50px; display: none">
+			<div class="panel-heading">
+				<font size="3">工单投料统计</font>
+			</div>
+			<div class="panel-body row" style="padding: 0px;">
+				<table class="table table-hover" id="cusTable">
+					<thead>
+						<tr>
+							<th data-field="pid" data-align="center" data-visible="false"></th>
+							<th data-field="orderCode" data-align="center">工单号</th>
+							<th data-field="productMachine" data-align="center">生产机台</th>
+							<th data-field="cardCode" data-align="center">牌号</th>
+							<th data-field="worktime" data-align="center">班次</th>
+							<th data-field="workteam" data-align="center">班组</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>

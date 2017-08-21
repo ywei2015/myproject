@@ -40,17 +40,9 @@ import sail.beans.dao.iml.cacheQueryCount.SqlParams;
 import sail.beans.exception.BusinessException;
 
 @Repository("GenericDao")
-public class GenericHibernateDaoIml  implements GenericDao  {
-	
-	
+public class GenericHibernateDaoIml implements GenericDao {
+
 	private SessionFactory sessionFactory;
-	
-	
-	
-
-
-
-	
 
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
@@ -62,6 +54,7 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 
 	/**
 	 * 从cache中得到记录总数
+	 * 
 	 * @param queryString
 	 * @param params
 	 * @param values
@@ -76,6 +69,7 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 
 	/**
 	 * 把记录总数加入cache中
+	 * 
 	 * @param queryString
 	 * @param params
 	 * @param values
@@ -88,7 +82,6 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 		Long l = new Long(count);
 		CountCache.getInstance().set(sql, l, beginExecTime);
 	}
-
 
 	/**
 	 * 
@@ -105,76 +98,79 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 			throw new BusinessException("保存出错。");
 		}
 	}
-	
+
 	/**
 	 * 调用存储过程
-	 * @param storageName 存储过程名称
-	 * @param params 存储过程变量数组
+	 * 
+	 * @param storageName
+	 *            存储过程名称
+	 * @param params
+	 *            存储过程变量数组
 	 * @author Xu Xinwei
 	 * @Data 20091124
-	 */	
-	public void executeStorage(final String storageName,final String[]params){
-		//参数判断
-		if(StringUtils.isBlank(storageName)||null==params){
+	 */
+	public void executeStorage(final String storageName, final String[] params) {
+		// 参数判断
+		if (StringUtils.isBlank(storageName) || null == params) {
 			throw new BusinessException("传入参数错误");
 		}
-		//参数格式化
-		final String param=paramInit(params);
+		// 参数格式化
+		final String param = paramInit(params);
 		sessionFactory.getCurrentSession().doWork(new Work() {
-			public void execute(Connection connection) {                  
-                String sql = "{call "+storageName+"("+param+")}"; 
-                CallableStatement stmt;
+			public void execute(Connection connection) {
+				String sql = "{call " + storageName + "(" + param + ")}";
+				CallableStatement stmt;
 				try {
 					stmt = connection.prepareCall(sql);
-					for(int i=1;i<=params.length;i++){
-		               stmt.setString(i, params[i-1]);
-		            }
-					stmt.execute();    
+					for (int i = 1; i <= params.length; i++) {
+						stmt.setString(i, params[i - 1]);
+					}
+					stmt.execute();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} 
-               
-			}  
-		});
-		
-	}
-	
+				}
 
-	
+			}
+		});
+
+	}
 
 	/**
 	 * 调用存储过程
-	 * @param storageName 存储过程名称
+	 * 
+	 * @param storageName
+	 *            存储过程名称
 	 * @param 不带参数
 	 * @author lhb
 	 * @Data 20110721
-	 */	
-	public void executeStorage(final String storageName){
+	 */
+	public void executeStorage(final String storageName) {
 		sessionFactory.getCurrentSession().doWork(new Work() {
 			public void execute(Connection connection) {
-				String sql = "{call "+storageName+"()}"; 
-		        CallableStatement stmt;
+				String sql = "{call " + storageName + "()}";
+				CallableStatement stmt;
 				try {
 					stmt = connection.prepareCall(sql);
-					stmt.execute();   
+					stmt.execute();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} 
-			}  
+				}
+			}
 		});
 	}
+
 	/**
 	 * @param params
 	 */
 	private String paramInit(String[] params) {
-		StringBuffer pa=new StringBuffer();
-		for(int i=0;i<params.length;i++){
+		StringBuffer pa = new StringBuffer();
+		for (int i = 0; i < params.length; i++) {
 			pa.append("?,");
 		}
-		if(pa.length()>0){
-			pa=pa.deleteCharAt(pa.length()-1);
+		if (pa.length() > 0) {
+			pa = pa.deleteCharAt(pa.length() - 1);
 		}
 		return pa.toString();
 	}
@@ -196,7 +192,7 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 			throw new BusinessException("保存出错。");
 		}
 	}
-	
+
 	public void flush() {
 		try {
 			sessionFactory.getCurrentSession().flush();
@@ -204,7 +200,8 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 			ex.printStackTrace();
 			throw new BusinessException("保存出错。");
 		}
-	}	
+	}
+
 	/**
 	 * 
 	 * 方法说明： 删除数据库中记录。
@@ -251,8 +248,9 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 	 */
 	public List getListDefault(String queryName) {
 		try {
-			//return getHibernateTemplate().findByNamedQuery(queryName);
-			return sessionFactory.getCurrentSession().getNamedQuery(queryName).list();
+			// return getHibernateTemplate().findByNamedQuery(queryName);
+			return sessionFactory.getCurrentSession().getNamedQuery(queryName)
+					.list();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			throw new BusinessException("查询出错。");
@@ -269,7 +267,7 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 		Query query = sessionFactory.getCurrentSession().createSQLQuery(sql);
 		query.executeUpdate();
 	}
-	
+
 	/**
 	 * 
 	 * 方法说明： 根据带参数的命名查询获取结果对象集。
@@ -279,9 +277,9 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 	 * @return List 返回所有符合条件的POJO对象集合
 	 */
 	public List getList(String queryName, Object obj) {
-		
-		final String sql = filterContion(queryName, new Object[]{obj});
-		final Object[] objects = new Object[]{obj};
+
+		final String sql = filterContion(queryName, new Object[] { obj });
+		final Object[] objects = new Object[] { obj };
 		Query queryObject = sessionFactory.getCurrentSession().createQuery(sql);
 		if (objects != null) {
 			for (int i = 0; i < objects.length; i++) {
@@ -321,15 +319,18 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 	 * 方法说明： 对于查询参数中含有In语句的HQL，请调用本方法进行查询。 获取命名查询的结果对象集。
 	 * 
 	 * @param queryName
-	 * @param paramName:参数名
-	 * @param value:参数值。In中的所有可能的参数值设置为一个List对象传入即可。
+	 * @param paramName
+	 *            :参数名
+	 * @param value
+	 *            :参数值。In中的所有可能的参数值设置为一个List对象传入即可。
 	 * @return List 返回所有符合条件的POJO对象集合
 	 */
 
 	public List getListWithIn(final String queryName, final String paramName,
 			final List value) {
 		Session session = sessionFactory.getCurrentSession();
-		String sql = sessionFactory.getCurrentSession().getNamedQuery(queryName).getQueryString();
+		String sql = sessionFactory.getCurrentSession()
+				.getNamedQuery(queryName).getQueryString();
 		Query queryObject = session.createQuery(sql);
 		queryObject.setParameterList(paramName, value);
 		List list = queryObject.list();
@@ -356,13 +357,14 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 				queryObject.setParameter(i, objects[i]);
 			}
 		}
-	return queryObject.list();
+		return queryObject.list();
 
 	}
+
 	@Override
 	public Pager getListWithVariableParasFY(String queryName, Object[] objs,
 			int[] pagec) {
-		Pager page=new Pager();
+		Pager page = new Pager();
 		final String sql = filterContion(queryName, objs);
 		final Object[] objects = filterNull(objs);
 		Query queryObject = sessionFactory.getCurrentSession().createQuery(sql);
@@ -377,18 +379,14 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 		page.setList(queryObject.list());
 		return page;
 	}
-	
+
 	public List getListWithNativeSql(final String nativeSql) {
-		Query queryObject = sessionFactory.getCurrentSession().createSQLQuery(nativeSql);
+		Query queryObject = sessionFactory.getCurrentSession().createSQLQuery(
+				nativeSql);
 		return queryObject.list();
 
-	}	
-	
-	
-	
-	
-	
-	
+	}
+
 	/**
 	 * 
 	 * 方法说明： 过滤掉HQL中的无效条件，主要指objs中可能有NULL值， 应将对应的HQL中的条件过滤掉。
@@ -397,9 +395,11 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 	 * @param objs
 	 * @return String
 	 */
-	private String filterContion(final String queryName, final Object[] objs, final String tableName) {
-
-		String sql = sessionFactory.getCurrentSession().getNamedQuery(queryName).getQueryString();
+	private String filterContion(final String queryName, final Object[] objs,
+			final String tableName) {
+		
+		String sql = sessionFactory.getCurrentSession()
+				.getNamedQuery(queryName).getQueryString();
 		if (operator.size() < 2) {
 			initMap();
 		}
@@ -417,10 +417,11 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 	 */
 
 	public List getListWithNativeSql(final String queryName, final Object[] objs) {
-		final String sql = filterContion(queryName,objs);
+		final String sql = filterContion(queryName, objs);
 		final Object[] objects = filterNull(objs);
-		String sql_=filterSql(sql,objects);
-		Query queryObject = sessionFactory.getCurrentSession().createSQLQuery(sql_);
+		String sql_ = filterSql(sql, objects);
+		Query queryObject = sessionFactory.getCurrentSession().createSQLQuery(
+				sql_);
 
 		if (objs != null) {
 			for (int i = 0; i < objects.length; i++) {
@@ -430,19 +431,20 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 		return queryObject.list();
 
 	}
-	
-	public Pager getListWithNativeSqlFY(final String queryName, final Object[] objs,int[]pages) {
-		final String sql = filterContion(queryName,objs);
-		final Object[] objects = filterNull(objs);
-		Pager page=new Pager();
-		Query queryObject = sessionFactory.getCurrentSession().createSQLQuery(sql);
 
+	public Pager getListWithNativeSqlFY(final String queryName,
+			final Object[] objs, int[] pages) {
+		final String sql = filterContion(queryName, objs);
+		final Object[] objects = filterNull(objs);
+		Pager page = new Pager();
+		Query queryObject = sessionFactory.getCurrentSession().createSQLQuery(
+				sql);
 		if (objs != null) {
 			for (int i = 0; i < objects.length; i++) {
 				queryObject.setParameter(i, objects[i]);
 			}
 		}
-		int length=queryObject.list().size();
+		int length = queryObject.list().size();
 		page.setRowsTotal(length);
 		queryObject.setFirstResult(pages[0]);
 		queryObject.setMaxResults(pages[1]);
@@ -450,12 +452,13 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 		return page;
 
 	}
-	
-	public String filterSql(String sql,Object[] objs){
-		if(objs!=null){
-			if(objs[0]==null){
-				String sqlj=sql.substring(sql.indexOf("where")+5, sql.indexOf("?")+5);
-				sql=sql.replace(sqlj,"");
+
+	public String filterSql(String sql, Object[] objs) {
+		if (objs != null) {
+			if (objs[0] == null) {
+				String sqlj = sql.substring(sql.indexOf("where") + 5,
+						sql.indexOf("?") + 5);
+				sql = sql.replace(sqlj, "");
 			}
 		}
 		return sql;
@@ -466,7 +469,8 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 		final String sql = filterContion(queryName, objs);
 		final Object[] objects = filterNull(objs);
 
-		Query queryObject = sessionFactory.getCurrentSession().createSQLQuery(sql);
+		Query queryObject = sessionFactory.getCurrentSession().createSQLQuery(
+				sql);
 
 		if (clazzNames != null && clazzNames.length > 0) {
 			for (int i = 0; i < clazzNames.length; i++) {
@@ -494,14 +498,15 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 	 */
 	private String filterContion(final String queryName, final Object[] objs) {
 
-		String sql = sessionFactory.getCurrentSession().getNamedQuery(queryName).getQueryString();
+		String sql = sessionFactory.getCurrentSession()
+				.getNamedQuery(queryName).getQueryString();
 		if (operator.size() < 2) {
 			initMap();
 		}
 
 		return process(preSql(sql), objs);
 	}
-	
+
 	private String filterContionForHql(final String hql, final Object[] objs) {
 		if (operator.size() < 2) {
 			initMap();
@@ -509,32 +514,33 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 		return process(preSql(hql), objs);
 	}
 
-//	/**
-//	 * 
-//	 * 方法说明： 获取数据库实体对象。
-//	 * 
-//	 * @param clazz
-//	 * @return List 返回数据库中所有该类的对象集合。
-//	 */
-//	public List getAll(Class clazz) {
-//		return getHibernateTemplate().loadAll(clazz);
-//	}
-//
-//	/**
-//	 * 
-//	 * 方法说明： 根据组合查询条件获取结果集。
-//	 * 
-//	 * @param obj
-//	 * @return List
-//	 */
-//	public List findByCriteria(DetachedCriteria obj) {
-//		return getHibernateTemplate().findByCriteria(obj);
-//	}
+	// /**
+	// *
+	// * 方法说明： 获取数据库实体对象。
+	// *
+	// * @param clazz
+	// * @return List 返回数据库中所有该类的对象集合。
+	// */
+	// public List getAll(Class clazz) {
+	// return getHibernateTemplate().loadAll(clazz);
+	// }
+	//
+	// /**
+	// *
+	// * 方法说明： 根据组合查询条件获取结果集。
+	// *
+	// * @param obj
+	// * @return List
+	// */
+	// public List findByCriteria(DetachedCriteria obj) {
+	// return getHibernateTemplate().findByCriteria(obj);
+	// }
 
-	public void execute(final String hql){
+	public void execute(final String hql) {
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.executeUpdate();
 	}
+
 	/**
 	 * 
 	 * 方法说明： 执行原生的UPDATE和DELETE等SQL命令。
@@ -544,7 +550,8 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 	 *            void
 	 */
 	public void execute(final String queryName, final Object[] values) {
-		Query query = sessionFactory.getCurrentSession().getNamedQuery(queryName);
+		Query query = sessionFactory.getCurrentSession().getNamedQuery(
+				queryName);
 		if (values != null) {
 			for (int i = 0; i < values.length; i++) {
 				query.setParameter(i, values[i]);
@@ -585,17 +592,6 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 	 * =========================================================================
 	 */
 
-	
-
-
-	
-	
-
-	
-
-	
-
-	
 	@SuppressWarnings("unchecked")
 	public List getListByHql(String hql) {
 		try {
@@ -605,11 +601,10 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 			throw new BusinessException("查询出错。");
 		}
 	}
-	
-	
 
 	@SuppressWarnings("unchecked")
-	public List getListWithVariableParasByHQL(final String hql, final Object[] values){
+	public List getListWithVariableParasByHQL(final String hql,
+			final Object[] values) {
 		final String sql = filterContionForHql(hql, values);
 		final Object[] objects = filterNull(values);
 
@@ -622,33 +617,34 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 		}
 		return queryObject.list();
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public List getListWithNamedParams(final String queryName, final Map<String, String> params){
+	public List getListWithNamedParams(final String queryName,
+			final Map<String, String> params) {
 		Session session = sessionFactory.getCurrentSession();
 		String sql = session.getNamedQuery(queryName).getQueryString();
 		Query queryObject = null;
-		if(sql.contains("*+*")){
-			queryObject=session.createSQLQuery(sql);
-		}else{
-			queryObject=session.createQuery(sql);
+		if (sql.contains("*+*")) {
+			queryObject = session.createSQLQuery(sql);
+		} else {
+			queryObject = session.createQuery(sql);
 		}
-		
+
 		Iterator<String> iterator = params.keySet().iterator();
 		while (iterator.hasNext()) {
 			String key = iterator.next();
 			String param = params.get(key);
-			if(param.indexOf(':') > 0){
+			if (param.indexOf(':') > 0) {
 				queryObject.setParameterList(key, param.split(":"));
-			}
-			else{
+			} else {
 				queryObject.setParameter(key, param);
 			}
 		}
-		
+
 		List list = queryObject.list();
 		return list;
 	}
+
 	/**
 	 * 方法说明： 生成查询记录集条数的查询。
 	 * 
@@ -659,10 +655,8 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 	private String getCountSql(String hql,
 			org.hibernate.SessionFactory sessionFactory) {
 		if (hql.indexOf("*") == -1) {
-			QueryTranslatorImpl queryTranslator = new QueryTranslatorImpl(
-					hql,
-					hql,
-					Collections.EMPTY_MAP,
+			QueryTranslatorImpl queryTranslator = new QueryTranslatorImpl(hql,
+					hql, Collections.EMPTY_MAP,
 					(SessionFactoryImplementor) sessionFactory);
 
 			queryTranslator.compile(Collections.EMPTY_MAP, false);
@@ -699,16 +693,14 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 	private int getCount(Session session, String queryString,
 			final String[] params, final Object[] values) {
 		int ret = 0;
-		//从cache中得到记录总数
-		Long lCountCache = getCount4Cache(queryString,params,values); 
+		// 从cache中得到记录总数
+		Long lCountCache = getCount4Cache(queryString, params, values);
 		long beginTime = System.currentTimeMillis();
-		if(lCountCache != null ){
+		if (lCountCache != null) {
 			return lCountCache.intValue();
 		}
-		
 
 		String sql = getCountSql(queryString, session.getSessionFactory());
-
 
 		Query countQuery = session.createSQLQuery(sql);
 
@@ -721,7 +713,7 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 		ret = (int) ((BigDecimal) countQuery.list().iterator().next())
 				.doubleValue();
 
-		//把记录总数加入cache中
+		// 把记录总数加入cache中
 		setCount4Cache(queryString, params, values, ret, beginTime);
 		return ret;
 	}
@@ -729,17 +721,15 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 	private int getCount(Session session, String queryString,
 			final Object[] values) {
 		int ret = 0;
-		//从cache中得到记录总数
+		// 从cache中得到记录总数
 		Long lCountCache = getCount4Cache(queryString, null, values);
 		long beginTime = System.currentTimeMillis();
-		if(lCountCache != null ){
+		if (lCountCache != null) {
 			return lCountCache.intValue();
 		}
-		
 
 		Object[] objects = filterNull(values);
 		String sql = getCountSql(queryString, session.getSessionFactory());
-
 
 		Query countQuery = session.createSQLQuery(sql);
 
@@ -753,7 +743,7 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 		ret = (int) ((BigDecimal) countQuery.list().iterator().next())
 				.doubleValue();
 
-		//把记录总数加入cache中
+		// 把记录总数加入cache中
 		setCount4Cache(queryString, null, values, ret, beginTime);
 		return ret;
 	}
@@ -764,7 +754,6 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 		List ret;
 		Object[] objects = filterNull(values);
 		String sql = getSql(queryString, session.getSessionFactory());
-
 
 		Query countQuery = session.createSQLQuery(sql);
 
@@ -799,12 +788,14 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 		ArrayList ar1 = new ArrayList();
 
 		while (middle.indexOf("[") != -1) {
-			String sql = middle.substring(middle.indexOf("[") + 1, middle
-					.indexOf("]"));
+			String sql = middle.substring(middle.indexOf("[") + 1,
+					middle.indexOf("]"));
 
-			String sql2 = middle.substring(middle.indexOf("]") + 1, middle
-					.indexOf("[", middle.indexOf("[") + 1) > -1 ? middle
-					.indexOf("[", middle.indexOf("[") + 1) : middle.length());
+			String sql2 = middle.substring(
+					middle.indexOf("]") + 1,
+					middle.indexOf("[", middle.indexOf("[") + 1) > -1 ? middle
+							.indexOf("[", middle.indexOf("[") + 1) : middle
+							.length());
 			ar1.add(sql2);
 			StringBuffer bf = new StringBuffer(sql);
 			ar.add(bf);
@@ -818,7 +809,7 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 			int count = count(sql);
 
 			for (int j = count1; j < count + count1; j++) {
-				
+
 				if (objects[j] == null || "".equals(objects[j])) {
 					sql = "1=1";
 				}
@@ -921,10 +912,5 @@ public class GenericHibernateDaoIml  implements GenericDao  {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	
-
-
-
 
 }

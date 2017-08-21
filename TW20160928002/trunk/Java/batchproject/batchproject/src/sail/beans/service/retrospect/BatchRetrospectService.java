@@ -15,6 +15,7 @@ import sail.beans.entity.BatDepotIoDetail;
 import sail.beans.entity.BatWorkOrder;
 import sail.beans.entity.BatWorkOrderInput;
 import sail.beans.entity.BatWorkOrderOutput;
+import sail.beans.entity.BatchMeterialTracking;
 import sail.beans.entity.BatchRetrospect;
 
 @Service
@@ -32,7 +33,7 @@ public class BatchRetrospectService {
 				List<Object[]> RetrospectList=(List<Object[]>) page.getList();
 				if(RetrospectList!=null&&RetrospectList.size()>0){
 					for (int i = 0; i < RetrospectList.size(); i++) {
-						Object[] result=RetrospectList.get(0);
+						Object[] result=RetrospectList.get(i);
 						BatchRetrospect batchRetrospect=new BatchRetrospect();
 						batchRetrospect.setPid(result[0].toString());
 						batchRetrospect.setCodetype(result[2]==null?"":result[2].toString());
@@ -57,7 +58,7 @@ public class BatchRetrospectService {
 		}
 		return  page;
 	}
-
+	
 	public Pager batchRetrospectForJBao(int pageSize, int pageNumber,String code) {
 		Pager page=null;
 		Object []shuzu=new Object[18];

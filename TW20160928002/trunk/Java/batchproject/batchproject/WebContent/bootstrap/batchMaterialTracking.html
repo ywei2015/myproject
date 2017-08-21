@@ -1,0 +1,121 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title></title>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css"
+	href="css/bootstrap-table.min.css">
+
+<script type="text/javascript" src="js/jquery-2.1.3.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="../business/js/Constant.js"></script>
+<script type="text/javascript" src="batchMaterialTracking.js"></script>
+<style type="text/css">
+.container {
+	width: 95%;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.fixed-table-container {
+	height: 20%;
+	margin-right: 13;
+	margin-left: 13;
+}
+</style>
+</head>
+<body  >
+	<div class="container">
+		<h3 class="text-center" style="margin-top: 100px">物次批料追踪</h3>
+		<form class="bs-example bs-example-form" role="form"
+			style="margin-top: 20">
+			<div class="form-group" align="center">
+				<div class="input-group col-sm-7">
+					<input type=text  class="form-control" placeholder="请输入批次号"
+						id="orderNum" /> <span class="input-group-addon"
+						style="width: 100px" onclick="showMytable()" id="search">追溯</span>
+				</div>
+
+			</div>
+		</form>
+		<div id="mytable" class="panel panel-info"
+			style="margin-top: 50px; display: none">
+			<div class="panel-heading">
+				<font size="3">物料批次号信息</font>
+			</div>
+			<div class="panel-body row" style="padding: 0px;">
+				<table class="table table-hover" id="cusTable">
+					<thead>
+						<tr>
+							<th data-field="pid" data-align="center" data-visible="false"></th>
+							<th data-field="createDate" data-align="center">下达时间</th>
+							<th data-field="sizeOfA" data-align="center">大小件</th>
+							<th data-field="reception" data-align="center">是否接收</th>
+							<th data-field="materialName" data-align="center">物料名称</th>
+							<th data-field="materialCode" data-align="center">物料编码</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+		<div id="mytable1" class="panel panel-info"
+			style="margin-top: 50px; display: none">
+			<div class="panel-heading">
+				<font size="3">出入库详情</font>
+			</div>
+			<div class="panel-body row" style="padding: 0px;">
+				<table class="table table-hover" id="cusTable1">
+					<thead>
+						<tr>
+							<th data-field="pid" data-align="center" data-visible="false"></th>
+							<th data-field="batchNum" data-align="center">批次号</th>
+							<th data-field="materialName" data-align="center">物料名称</th>
+							<th data-field="materialCode" data-align="center">物料编码</th>
+							<th data-field="sizeOfA" data-align="center">大小件</th>
+							<th data-field="bizType" data-align="center">业务类别</th>
+							<th data-field="quantity" data-align="center">数量</th>
+							<th data-field="unit" data-align="center">单位</th>
+							<th data-field="operation" data-align="center">操作人</th>
+							<th data-field="lastModifyTime" data-align="center">操作时间</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+		
+		
+		<div id="mytable2" class="panel panel-info"
+			style="margin-top: 50px; display: none">
+			<div class="panel-heading">
+				<font size="3">批次号投料记录</font>
+			</div>
+			<div class="panel-body row" style="padding: 0px;">
+				<table class="table table-hover" id="cusTable2">
+					<thead>
+						<tr>
+							<th data-field="pid" data-valign="middle"  data-align="center" data-visible="false"></th>
+							<th data-field="workOrderType" data-valign="middle" data-align="center">工单类别</th>
+							<th data-field="workOrderCode" data-valign="middle" data-align="center">工单号</th>
+							<th data-field="produceDate" data-valign="middle" data-align="center">生产日期</th>
+							<th data-field="workTime" data-valign="middle" data-align="center">班次</th>
+							<th data-field="workTeam" data-valign="middle" data-align="center">班组</th>
+							<th data-field="matName" data-valign="middle" data-align="center">产出物名称</th>
+							<th data-field="createTime" data-valign="middle" data-align="center">投料时间</th>
+							<th data-field="planQuantity" data-valign="middle" data-align="center">计划数量</th>
+							<th data-field="actualQuantity" data-valign="middle" data-align="center">实际数量</th>
+							<th data-field="unit1" data-valign="middle" data-align="center">单位</th>
+							<th data-field="lastModifier" data-valign="middle" data-align="center">操作人</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	
+</body>
+
+</html>

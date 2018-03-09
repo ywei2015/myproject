@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE hibernate-mapping PUBLIC     "-//Hibernate/Hibernate Mapping DTD 3.0//EN"     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> <hibernate-mapping> 
+    <class name="spc.beans.entity.spc.TSpcAbnormal" table="T_SPC_ABNORMAL"> 
+  <id name="FPid" type="java.lang.String"> 
+    <column name="F_PID"> 
+     <comment>主键ID</comment>  
+     </column> 
+     <generator class="assigned"></generator>
+     <!-- <generator class="uuid.hex"></generator> -->
+  </id> 
+  <property name="FAbnormalType" type="java.lang.String">
+     <column name="F_ABNORMAL_TYPE"> 
+    	<comment>异常类型(10-预警,20-报警)</comment>
+     </column> 
+  </property> 
+  <property name="FRuleId" type="java.lang.String">
+     <column name="F_RULE_ID"> 
+    <comment>规则ID</comment>
+     </column> 
+  </property> 
+  <property name="FRuleName" type="java.lang.String">
+     <column name="F_RULE_NAME"> 
+    <comment>规则名称</comment>
+     </column> 
+  </property> 
+  <property name="FBatch" type="java.lang.String">
+     <column name="F_BATCH"> 
+    <comment>批次号</comment>
+     </column> 
+  </property> 
+  <property name="FWorkshop" type="java.lang.String">
+     <column name="F_WORKSHOP"> 
+    <comment>车间</comment>
+     </column> 
+  </property> 
+  <property name="FWorkshopName" type="java.lang.String">
+     <column name="F_WORKSHOP_NAME"> 
+    <comment>车间名称</comment>
+     </column> 
+  </property> 
+  <property name="FProductLine" type="java.lang.String">
+     <column name="F_PRODUCT_LINE"> 
+    <comment>线别</comment>
+     </column> 
+  </property> 
+  <property name="FProductLinename" type="java.lang.String">
+     <column name="F_PRODUCT_LINENAME"> 
+    <comment>线别名称</comment>
+     </column> 
+  </property> 
+  <property name="FWorksection" type="java.lang.String">
+     <column name="F_WORKSECTION"> 
+    <comment>工段</comment>
+     </column> 
+  </property> 
+  <property name="FWorksectionName" type="java.lang.String">
+     <column name="F_WORKSECTION_NAME"> 
+    <comment>工段名称</comment>
+     </column> 
+  </property> 
+  <property name="FProcess" type="java.lang.String">
+     <column name="F_PROCESS"> 
+    <comment>工序</comment>
+     </column> 
+  </property> 
+  <property name="FProcessName" type="java.lang.String">
+     <column name="F_PROCESS_NAME"> 
+    <comment>工序名称</comment>
+     </column> 
+  </property> 
+  <property name="FParamId" type="java.lang.String">
+     <column name="F_PARAM_ID"> 
+    <comment>参数ID</comment>
+     </column> 
+  </property> 
+  <property name="FParamName" type="java.lang.String">
+     <column name="F_PARAM_NAME"> 
+    <comment>参数名称</comment>
+     </column> 
+  </property> 
+  <property name="FBrandId" type="java.lang.String">
+     <column name="F_BRAND_ID"> 
+    <comment>牌号ID</comment>
+     </column> 
+  </property> 
+  <property name="FBrandName" type="java.lang.String">
+     <column name="F_BRAND_NAME"> 
+    <comment>牌号名称</comment>
+     </column> 
+  </property> 
+  <property name="FWorktime" type="java.lang.String">
+     <column name="F_WORKTIME"> 
+    <comment>班次</comment>
+     </column> 
+  </property> 
+  <property name="FWorkteam" type="java.lang.String">
+     <column name="F_WORKTEAM"> 
+    <comment>班组</comment>
+     </column> 
+  </property> 
+  <property name="FDescription" type="java.lang.String">
+     <column name="F_DESCRIPTION"> 
+    <comment>异常描述</comment>
+     </column> 
+  </property> 
+  <property name="FDegree" type="java.lang.String">
+     <column name="F_DEGREE"> 
+    <comment>严重等级</comment>
+     </column> 
+  </property> 
+  <property name="FReasonType" type="java.lang.String">
+     <column name="F_REASON_TYPE"> 
+    <comment>所属原因分类</comment>
+     </column> 
+  </property> 
+  <property name="FState" type="java.lang.String">
+     <column name="F_STATE"> 
+    <comment>异常状态(0:待操作工处理,10-已开始处理中,20-处理结束待验证,30-验证结束)</comment>
+     </column> 
+  </property> 
+  <property name="FOccurStime" type="java.lang.String">
+     <column name="F_OCCUR_STIME"> 
+    <comment>发生时间1(开始)</comment>
+     </column> 
+  </property> 
+  <property name="FOccurEtime" type="java.lang.String">
+     <column name="F_OCCUR_ETIME"> 
+    <comment>发生时间2(结束)</comment>
+     </column> 
+  </property> 
+  <property name="FRemark1" type="java.lang.String">
+     <column name="F_REMARK1"> 
+    <comment>预留1</comment>
+     </column> 
+  </property> 
+  <property name="FRemark2" type="java.lang.String">
+     <column name="F_REMARK2"> 
+    <comment>预留2</comment>
+     </column> 
+  </property> 
+  <property name="FRemark3" type="java.lang.String">
+     <column name="F_REMARK3"> 
+    <comment>预留3</comment>
+     </column> 
+  </property> 
+  <property name="FRemark4" type="java.lang.String">
+     <column name="F_REMARK4"> 
+    <comment>预留4</comment>
+     </column> 
+  </property> 
+  <property name="FRemark5" type="java.lang.String">
+     <column name="F_REMARK5"> 
+    <comment>预留5</comment>
+     </column> 
+  </property> 
+  <property name="FSysFlag" type="java.lang.String">
+     <column name="F_SYS_FLAG"> 
+     </column> 
+  </property> 
+  <property name="FCreator" type="java.lang.String">
+     <column name="F_CREATOR"> 
+    <comment>创建人</comment>
+     </column> 
+  </property> 
+  <property name="FCreateTime" type="java.lang.String">
+     <column name="F_CREATE_TIME"> 
+    <comment>创建时间</comment>
+     </column> 
+  </property> 
+  <property name="FLastModifier" type="java.lang.String">
+     <column name="F_LAST_MODIFIER"> 
+    <comment>修改人</comment>
+     </column> 
+  </property> 
+  <property name="FLastModifiedTime" type="java.lang.String">
+     <column name="F_LAST_MODIFIED_TIME"> 
+    <comment>修改时间</comment>
+     </column> 
+  </property> 
+    </class> 
+ </hibernate-mapping>

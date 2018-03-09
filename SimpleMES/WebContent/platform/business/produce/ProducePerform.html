@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>工单执行</title>
+<link rel="stylesheet" href="../../support/css/bootstrap.min.css" />
+<link rel="stylesheet" href="../../support/css/bootstrap-table.all.css" />
+<link rel="stylesheet"
+	href="../../support/css/bootstrap-datetimepicker.min.css" />
+<script type="text/javascript" src="../../public/pub.js"></script>
+<script type="text/javascript" src="../../support/js/jquery.min.js"></script>
+<script type="text/javascript" src="../../support/js/bootstrap.min.js"></script>
+<script type="text/javascript"
+	src="../../support/js/bootstrap-table.all.js"></script>
+<script type="text/javascript"
+	src="../../support/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="../../support/js/Pub.js"></script>
+<script type="text/javascript" src="../../public/SmartForm.js"></script>
+<script type="text/javascript" src="../../public/common.js"></script>
+<script type="text/javascript" src="ProducePerform.js"></script>
+</head>
+<body>
+	<div title="TestPanel" id="TestPanel" class="panel-body">
+		<div title="SearchPanel" id="SearchPanel"
+			class="row col-md-12 form-inline"></div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="container" style="width: 100%;">
+				<div class="table-responsive">
+					<div id="toolbar">
+						<button id="BtnBegin" class="btn btn-primary btn-sm">
+							<li class="glyphicon glyphicon-play">开始工单</li>
+						</button>
+						<button id="BtnEnd" class="btn btn-primary btn-sm">
+							<li class="glyphicon glyphicon-stop">结束工单</li>
+						</button>
+					</div>
+					<table id="table" data-show-columns="true"
+						class="table table-bordered">
+						<caption class="text-left text-primary">
+							<strong>&nbsp;&nbsp;生产工单列表</strong>
+						</caption>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="container-fluid">
+				<div class="row-fluid">
+					<div class="span12">
+						<div class="tabbable" id="tabs-512838">
+							<ul id="myTab" class="nav nav-tabs">
+								<li class="active"><a href="#proInList" data-toggle="tab"
+									id="proInList1">工单投入</a></li>
+								<li><a href="#proOutList" data-toggle="tab" id="proOutList2">工单产出</a></li>
+							</ul>
+							<div id="myTabContent" class="tab-content">
+								<div class="tab-pane fade in active" id="proInList">
+									<div class="container" style="width: 100%;">
+										<div class="table-responsive">
+											<div id="toolbar1">
+												<button id="BtnInAdd" class="btn btn-primary btn-sm">
+													<li class="glyphicon glyphicon-edit">新增</li>
+												</button>
+												<button id="BtnInDel" class="btn btn-primary btn-sm">
+													<li class="glyphicon glyphicon-floppy-remove">删除</li>
+												</button>
+											</div>
+											<table id="table1" data-show-columns="true"
+												class="table table-bordered">
+												<caption class="text-center text-primary">
+													<strong>工单投入列表</strong>
+												</caption>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="proOutList">
+									<div class="container" style="width: 100%;">
+										<div class="table-responsive">
+											<div id="toolbar2">
+												<button id="BtnOutAdd" class="btn btn-primary btn-sm">
+													<li class="glyphicon glyphicon-edit">新增</li>
+												</button>
+												<button id="BtnOutDel" class="btn btn-primary btn-sm">
+													<li class="glyphicon glyphicon-floppy-remove">删除</li>
+												</button>
+											</div>
+											<table id="table2" data-show-columns="true"
+												class="table table-bordered">
+												<caption class="text-center text-primary">
+													<strong>工单产出列表</strong>
+												</caption>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- <div  class="col-md-12">
+			<div class="container" style="width:100%;">
+			    <div class="table-responsive"> 
+			        <div id="toolbar1">
+			        	<button id="InBtnAdd"  class="btn btn-primary btn-sm"><li class="glyphicon glyphicon-edit"> 新增 </li></button> 
+			        	<button id="InBtnDel"  class="btn btn-primary btn-sm"><li class="glyphicon glyphicon-floppy-remove"> 删除</li></button>	        
+			        </div>
+					<table id="table1" data-show-columns="true" class="table table-bordered">
+						<caption class="text-left text-primary">
+							<strong>&nbsp;&nbsp;生产工单投入列表</strong>
+						</caption>
+					</table>
+			   </div>
+			</div>
+		</div> -->
+	</div>
+
+	<div>
+		<input id='hiddenPwoId' type="hidden">
+	</div>
+</body>
+</html>

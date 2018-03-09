@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>智能制造敏捷MES</title>
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="../support/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link href="../support/css/font-awesome.css" rel="stylesheet" />
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../support/css/AdminLTE.css">
+    <link rel="stylesheet" href="../support/css/_all-skins.css">
+    <link href="../support/css/supershopui.common.min.css" rel="stylesheet" />
+  
+    <style type="text/css">
+         html {
+            overflow: hidden;
+        }
+    </style>
+	<script src="../support/js/jquery-2.2.3.min.js"></script>
+    <script src="../support/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="mainheader.js"></script>
+      <script type="text/javascript" src="../public/SmartForm.js" ></script> 
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini fixed">
+<div class="wrapper">
+<!-- Main Header -->
+<header class="main-header">
+    <!-- Logo -->
+    <a href="" class="logo">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini"><b>MES</b></span> <!-- logo for regular state and mobile devices -->
+		<span class="logo-lg"><b>智能制造敏捷MES</b></span>
+    </a>
+   
+    <!-- Header Navbar -->
+    <nav class="navbar navbar-static-top" role="navigation">
+        <!-- Sidebar toggle button-->
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">切换导航</span>
+        </a>
+        
+        <!-- Navbar Right Menu -->
+        <div class="navbar-custom-menu"> 
+            <ul class="nav navbar-nav">
+	             <!-- BEGIN SUPPORT -->
+	             <!-- START message -->
+	             <li class="dropdown notifications-menu" id="ames_sysNotifyMenu">
+		         </li>
+	             <!-- END message -->
+	             <!-- START news -->
+	          <!--    <li class="dropdown notifications-menu" id="ames_sysNewsMenu">
+		         </li> -->
+	             <!-- END news -->
+	             <!-- START help -->
+	             <li class="dropdown notifications-menu" id="ames_sysHelpMenu">
+		         </li>
+	             <!-- END help -->
+	             <!-- END SUPPORT -->
+                <!-- User Account Menu -->
+                <li class="dropdown user user-menu">
+                    <!-- Menu Toggle Button -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <!-- The user image in the navbar-->
+                        <img src="../support/images/timg.jpg" class="user-image" alt="User Image">
+                        <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                        <span class="hidden-xs" id="username"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <!-- The user image in the menu -->
+                        <li class="user-header">
+                            <img src="../support/images/timg.jpg" class="img-circle" alt="User Image">
+                            <p id="pusername"></p>
+                        </li>
+                        <!-- Menu Body -->
+                        
+                        <!-- Menu Footer-->
+                        <li class="user-footer">
+                        	<div class="pull-left">
+                                <a href="#" class="btn btn-default btn-flat" onclick="addTabs({id:'9990001',title: '个人中心',close: true,url: '/platform/sysbase/sec/PersonalCenter.html'});">个人中心</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="javascript:void(0);" class="btn btn-default btn-flat"
+											onclick="logonOut();">退出</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Control Sidebar Toggle Button -->
+                <li>
+                    <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar Menu -->
+        <ul class="sidebar-menu" data-widget="tree">
+      </ul>
+    </section>
+</aside>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper"  id="content-wrapper">
+    <div class="content-tabs">
+        <button class="roll-nav roll-left tabLeft" onclick="scrollTabLeft()">
+            <i class="fa fa-backward"></i>
+        </button>
+        <nav class="page-tabs menuTabs tab-ui-menu" id="tab-menu">
+            <div class="page-tabs-content" style="margin-left: 0px;">
+
+            </div>
+        </nav>
+        <button class="roll-nav roll-right tabRight" onclick="scrollTabRight()">
+            <i class="fa fa-forward" style="margin-left: 3px;"></i>
+        </button>
+        <div class="btn-group roll-nav roll-right">
+            <button class="dropdown tabClose" data-toggle="dropdown">
+                页签操作<i class="fa fa-caret-down" style="padding-left: 3px;"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right" style="min-width: 128px;">
+                <li><a class="tabReload" href="javascript:refreshTab();">刷新当前</a></li>
+                <li><a class="tabCloseCurrent" href="javascript:closeCurrentTab();">关闭当前</a></li>
+                <li><a class="tabCloseAll" href="javascript:closeOtherTabs(true);">全部关闭</a></li>
+                <li><a class="tabCloseOther" href="javascript:closeOtherTabs();">除此之外全部关闭</a></li>
+            </ul>
+        </div>
+        <button class="roll-nav roll-right fullscreen" ><i class="fa fa-arrows-alt"></i></button>
+    </div>
+    <div class="content-iframe " style="background-color: #ffffff; ">
+        <div class="tab-content " id="tab-content">
+
+        </div>
+    </div>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<!-- Main Footer -->
+<!-- <footer class="main-footer">
+    To the right
+    <div class="pull-right hidden-xs">
+       SuperShop项目组
+    </div>
+    Default to the left
+    版权所有 &copy;tzhsweet 2015-2018&nbsp;&nbsp;&nbsp;&nbsp;   粤ICP备16024545号-1
+</footer> -->
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Create the tabs -->
+    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <!-- Home tab content -->
+        <div class="tab-pane" id="control-sidebar-home-tab">
+            <!-- /.control-sidebar-menu -->
+        </div>
+        <!-- /.tab-pane -->
+        <!-- Stats tab content -->
+        <div class="tab-pane" id="control-sidebar-stats-tab">状态面板设置</div>
+        <!-- /.tab-pane -->
+        <!-- Settings tab content -->
+        
+        <!-- /.tab-pane -->
+    </div>  
+</aside>
+<!-- /.control-sidebar -->
+<!-- Add the sidebar's background. This div must be placed
+immediately after the control sidebar -->
+<div class="control-sidebar-bg"></div>
+</div>
+ 	<script src="../support/js/supershopui.common.js"></script>
+    <script src="login/main.js"></script>
+</body>
+</html>

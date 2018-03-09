@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"> 
+		<title></title> 
+		<link rel="stylesheet" href="../../support/css/zTreeStyle/metro.css">
+		<link rel="stylesheet" href="../../support/css/zTreeStyle/style.css">
+		<link rel="stylesheet" href="../../support/css/bootstrap.min.css" /> 
+    	<script type="text/javascript" src="../../support/js/jquery.min.js"></script>
+    	<script src="../../support/js/jquery.ztree.min.js"></script>
+		<script type="text/javascript" src="../../support/js/bootstrap.min.js" ></script>
+    	<script type="text/javascript" src="../../public/common.js" ></script> 
+    	<!-- <script type="text/javascript" src="../../support/js/bootstrap.min.js" ></script> -->
+	</head>
+<body>  
+	<div class="modal-header">
+	     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	     <h4 class="modal-title" id="exampleModalLabel">选择节点</h4>
+	</div>
+	<div class="modal-body">
+  		<ul id="tree" class="ztree" style="width:100%;height: 100%; overflow-y:auto;padding: 10px 180px;"></ul>
+  	</div>
+  	<div class="modal-footer">
+        <button type="button" id="btncancel" class="btn btn-default" data-dismiss="modal">取消</button>
+         <button type="button" id="modal-save"  class="btn btn-primary">保存</button>
+	</div> 
+	</body>
+
+</html>
+<script type="text/javascript">
+$(function(){
+	var setting = {
+	  		/*  check: {
+	            enable: true //是否可选中
+	        },*/
+	  		view: {
+	  			dblClickExpand: true, //双击节点时，是否自动展开父节点的标识
+	  			showLine: true, //设置 zTree 是否显示节点的图标。
+	  			selectedMulti: false //设置是否允许同时选中多个节点。
+	  		},
+	  		data: {
+	  			simpleData: {
+	  				//如果设置为 true，请务必设置 setting.data.simpleData 内的其他参数: idKey / pIdKey / rootPId，并且让数据满足父子关系。
+	  				enable: true, //使用简单数据模式
+	  				idKey: "id", //唯一标识名称
+	  				pIdKey: "pId", //父节点唯一标识名称
+	  				rootPId: 0 //。[setting.data.simpleData.enable = true 时生效]
+	  			}
+	  		},
+	  		check: {
+	            enable: true,
+	            chkStyle: "radio",  //单选框
+	            radioType: "all",  //对所有节点设置单选
+	            nocheckInherit: true
+	        },
+	  		callback: {
+	  		},
+	  		edit:{
+	        	enable :true,
+	        	showRemoveBtn : false,
+	        	showRenameBtn : false
+	        },
+	  	   async : {
+						autoParam : ["id"],
+						//contentType : "application/x-www-form-urlencoded",
+						dataFilter : null,
+						dataType : "text",
+						enable : true,
+						
+						otherParam : [],
+						type : "post",
+						url : "../../../dynamic/objBase/getList"
+					}
+
+	  	};
+	var t = $("#tree")
+	  //	var t = $(this).parent().find(".tree");
+	  	t = $.fn.zTree.init(t, setting, null);
+	  	$("#modal-save").click(function(){
+	  		var nodes = t.getCheckedNodes();
+	  		var keys=[nodes[0].name];
+		    var value=[nodes[0].id];
+	  		SF.ChoiceBindResult(this,keys,value);
+	  		/* $("#myModal1").modal("hide");
+	  		$("#myModal2").modal("hide"); */
+	  		$("#btncancel").click(); 
+	  		//向上查询匹配的父节点，查找到删除 ，存在bug， 当不是点击保存时，第二次就会报错。
+	  		$("#btncancel").closest(".modal-content").empty();
+	  	});
+		
+});
+
+</script>

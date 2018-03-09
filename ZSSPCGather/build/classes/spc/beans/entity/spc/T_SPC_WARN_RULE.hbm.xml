@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE hibernate-mapping PUBLIC     "-//Hibernate/Hibernate Mapping DTD 3.0//EN"     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> <hibernate-mapping> 
+    <class name="spc.beans.entity.spc.TSpcWarnRule" table="T_SPC_WARN_RULE"> 
+  <id name="FPid" type="java.lang.String">
+    <column name="F_PID"> 
+     <comment>主键</comment> 
+     </column> 
+     <generator class="uuid.hex"></generator>
+  </id> 
+  <property name="FCode" type="java.lang.String">
+     <column name="F_CODE"> 
+    <comment>预报警规则编码</comment>
+     </column> 
+  </property> 
+  <property name="FName" type="java.lang.String">
+     <column name="F_NAME"> 
+    <comment>预报警规则名称</comment>
+     </column> 
+  </property> 
+  <property name="FProgramMethod" type="java.lang.String">
+     <column name="F_PROGRAM_METHOD"> 
+    <comment>程序过虑器名</comment>
+     </column> 
+  </property> 
+  <property name="FDescription" type="java.lang.String">
+     <column name="F_DESCRIPTION"> 
+    <comment>预报警规则描述</comment>
+     </column> 
+  </property> 
+  <property name="FRuleType" type="java.lang.String">
+     <column name="F_RULE_TYPE"> 
+    <comment>规则类型(10-预警,20-报警)</comment>
+     </column> 
+  </property> 
+  <property name="FOrderby" type="java.lang.String">
+     <column name="F_ORDERBY"> 
+    <comment>排序</comment>
+     </column> 
+  </property> 
+  <property name="FRuleParam1" type="java.lang.String">
+     <column name="F_RULE_PARAM1"> 
+    <comment>规则参数1</comment>
+     </column> 
+  </property> 
+  <property name="FRuleParam2" type="java.lang.String">
+     <column name="F_RULE_PARAM2"> 
+    <comment>规则参数2</comment>
+     </column> 
+  </property> 
+  <property name="FRuleParam3" type="java.lang.String">
+     <column name="F_RULE_PARAM3"> 
+    <comment>规则参数3</comment>
+     </column> 
+  </property> 
+  <property name="FRuleParam4" type="java.lang.String">
+     <column name="F_RULE_PARAM4"> 
+    <comment>规则参数4</comment>
+     </column> 
+  </property> 
+  <property name="FRuleParam5" type="java.lang.String">
+     <column name="F_RULE_PARAM5"> 
+    <comment>规则参数5</comment>
+     </column> 
+  </property> 
+  <property name="FRemark1" type="java.lang.String">
+     <column name="F_REMARK1"> 
+    <comment>预留1</comment>
+     </column> 
+  </property> 
+  <property name="FRemark2" type="java.lang.String">
+     <column name="F_REMARK2"> 
+    <comment>预留2</comment>
+     </column> 
+  </property> 
+  <property name="FRemark3" type="java.lang.String">
+     <column name="F_REMARK3"> 
+    <comment>预留3</comment>
+     </column> 
+  </property> 
+  <property name="FRemark4" type="java.lang.String">
+     <column name="F_REMARK4"> 
+    <comment>预留4</comment>
+     </column> 
+  </property> 
+  <property name="FRemark5" type="java.lang.String">
+     <column name="F_REMARK5"> 
+    <comment>预留5</comment>
+     </column> 
+  </property> 
+  <property name="FEnableFlag" type="java.lang.String">
+     <column name="F_ENABLE_FLAG"> 
+    <comment>0-禁用,1-启用</comment>
+     </column> 
+  </property> 
+  <property name="FSysFlag" type="java.lang.String">
+     <column name="F_SYS_FLAG"> 
+     </column> 
+  </property> 
+  <property name="FCreator" type="java.lang.String">
+     <column name="F_CREATOR"> 
+    <comment>创建人</comment>
+     </column> 
+  </property> 
+  <property name="FCreateTime" type="java.lang.String">
+     <column name="F_CREATE_TIME"> 
+    <comment>创建时间</comment>
+     </column> 
+  </property> 
+  <property name="FLastModifier" type="java.lang.String">
+     <column name="F_LAST_MODIFIER"> 
+    <comment>修改人</comment>
+     </column> 
+  </property> 
+  <property name="FLastModifiedTime" type="java.lang.String">
+     <column name="F_LAST_MODIFIED_TIME"> 
+    <comment>修改时间</comment>
+     </column> 
+  </property> 
+    </class> 
+ </hibernate-mapping>

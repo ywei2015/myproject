@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+	<!--基础物料列表获取 --> 
+	<query name="MATERIAL.LISTMATDIC"> 
+		<![CDATA[
+			SELECT T FROM tw.business.entity.mat.Matdic T WHERE T.sysFlag='1' and T.matCode like ? 
+				and T.matName like ? 
+    	]]>
+	</query>
+	<!--基础物料BOM列表获取 --> 
+	<query name="MATERIALBOM.LISTMAT"> 
+        <![CDATA[
+            SELECT T FROM tw.business.entity.material.MaterialBOMDTO T
+             WHERE T.fSysFlag='1' and T.fBomType = ? 
+             and T.fBomName like ? and T.fStatus = ? 
+        ]]>
+    </query>
+    
+    <!--基础物料BOM详情列表获取 --> 
+    <query name="MATERIALBOM.DETAIL.LISTMAT"> 
+        <![CDATA[
+            SELECT T FROM tw.business.entity.material.MaterialBOMDetailDTO T WHERE T.fSysFlag='1' and T.fBomPid = ? 
+             order by T.fIndex
+        ]]>
+    </query>
+    
+    <sql-query name="MATERIAL_V_MAT_BOMTYPE">
+         <![CDATA[
+            SELECT t.F_NAME FROM v_mat_bomtype t WHERE t.F_PID = ? 
+        ]]>
+    </sql-query>
+    
+     <sql-query name="MATERIAL_V_MAT_MAINTYPE">
+         <![CDATA[
+            SELECT t.F_NAME FROM v_mat_maintype t WHERE t.F_PID = ? 
+        ]]>
+    </sql-query>
+    
+     <sql-query name="MATERIAL_V_MAT_SUBTYPE">
+         <![CDATA[
+            SELECT t.F_NAME FROM v_mat_subtype t WHERE t.F_PID = ? 
+        ]]>
+    </sql-query>
+    
+    <sql-query name="MATERIAL_V_MAT_UNIT">
+         <![CDATA[
+            SELECT t.F_NAME FROM v_mat_units t WHERE t.F_PID = ? 
+        ]]>
+    </sql-query>
+</hibernate-mapping>

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx" 
+   	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:task="http://www.springframework.org/schema/task" 
+       xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   	   http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd  
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd 
+           http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd 
+		   http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+           " 
+	   default-autowire="byName" default-lazy-init="true">
+
+ 	<context:annotation-config />
+ 	
+    <context:component-scan base-package="spc.beans" />
+    <bean id="paramStandardManagerService" class="spc.beans.service.rediscache.ParamStandardManagerService"></bean>
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	 <!-- jedis 配置 -->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig" >
+          <property name="maxIdle" value="${redis.maxIdle}" />
+          <property name="maxWaitMillis" value="${redis.maxWait}" />
+          <property name="testOnBorrow" value="${redis.testOnBorrow}" />
+    </bean >
+   <!-- redis服务器中心 -->
+    <bean id="connectionFactory"  class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" >
+          <property name="poolConfig" ref="jedisPoolConfig" />
+          <property name="port" value="${redis.port}" />
+          <property name="hostName" value="${redis.host}" />
+          <property name="password" value="${redis.password}" />
+          <property name="timeout" value="${redis.timeout}" ></property>
+    </bean >
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate" >
+          <property name="connectionFactory" ref="connectionFactory" />
+          <property name="keySerializer" >
+              <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+          </property>
+          <property name="valueSerializer" >
+              <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+          </property>
+    </bean >
+     <!-- cache配置 -->
+     <bean id="redisUtil" class="spc.beans.support.RedisUtil" >
+          <property name="redisTemplate" ref="redisTemplate" />
+    </bean >
+    <bean id="methodCacheInterceptor" class="spc.beans.support.MethodCacheInterceptor" >
+          <property name="redisUtil" ref="redisUtil" />
+    </bean >
+        <!-- 需要加入缓存的类或方法 -->
+    <aop:config proxy-target-class="true"> 
+    	<aop:pointcut id="MethodPointcut" expression="execution(* spc.beans.service.rediscache.*.get*(..))"/>  
+    	<aop:advisor advice-ref="methodCacheInterceptor" pointcut-ref="MethodPointcut" />  
+	</aop:config> 
+    
+    <!--分割 -->
+    
+    <bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName"
+			value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+
+		<property name="initialSize" value="${dataSource.initialSize}" />
+		<property name="maxIdle" value="${dataSource.maxIdle}" />
+		<property name="minIdle" value="${dataSource.minIdle}" />
+		<property name="maxActive" value="${dataSource.maxActive}" />
+		<property name="maxWait" value="${dataSource.maxWait}" />
+		<property name="defaultAutoCommit"
+			value="${dataSource.defaultAutoCommit}" />
+	</bean>
+	
+	 <bean id="opcSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName"
+			value="${jdbc.driverClassName1}" />
+		<property name="url" value="${jdbc.url1}" />
+		<property name="username" value="${jdbc.username1}" />
+		<property name="password" value="${jdbc.password1}" />
+
+		<property name="initialSize" value="${dataSource.initialSize}" />
+		<property name="maxIdle" value="${dataSource.maxIdle}" />
+		<property name="minIdle" value="${dataSource.minIdle}" />
+		<property name="maxActive" value="${dataSource.maxActive}" />
+		<property name="maxWait" value="${dataSource.maxWait}" />
+		<property name="defaultAutoCommit"
+			value="${dataSource.defaultAutoCommit}" />
+	</bean>
+	
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+	  <property name="dataSource" ref="opcSource" />
+	</bean>	
+	
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">  
+		<property name="dataSource" ref="dataSource" />
+		<property name="mappingDirectoryLocations">
+			<list>
+				<value>classpath:spc/beans/entity/spc/</value>
+			</list>
+		</property> 
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</prop> 
+				<prop key="hibernate.cache.provider_class">net.sf.ehcache.hibernate.EhCacheProvider</prop>
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				<prop key="hibernate.autoReconnect">true</prop>  
+			</props>
+		</property>
+	</bean>
+	
+    <bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+     <tx:annotation-driven transaction-manager="transactionManager"/>
+     
+     <bean id="genericDao" class="spc.beans.dao.iml.GenericHibernateDaoIml">
+     	<property name="sessionFactory" ref="sessionFactory"></property>
+     </bean>
+     
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+      <tx:attributes>
+			<tx:method name="fetch*" read-only="true"/>
+			<tx:method name="find*" read-only="true"/>
+			<tx:method name="*"/>
+			<tx:method name="insert*" read-only="false"/>
+		</tx:attributes>
+     </tx:advice>
+     
+     <aop:config proxy-target-class="true">
+         <aop:pointcut expression="execution(* spc.beans.service..*.*(..))" id="pointcut"/>
+         <aop:pointcut expression="execution(* spc.beans.initial..*.*(..))" id="pointcut"/>  
+         <aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut"/>
+     </aop:config> 
+     
+     <task:annotation-driven/>
+     
+    <!-- 以下定义定时任务的执行对象 --> 
+    <bean id="gatherJob" class="spc.beans.job.GatherJob"></bean> 
+    <bean id="eliminateJob" class="spc.beans.job.EliminateJob"></bean>  
+    <bean id="spcStatisticalJob" class="spc.beans.job.SpcStatisticalJob"></bean>  
+    <bean id="refreshDBConnectJob" class="spc.beans.job.RefreshDBConnectJob"></bean> 
+    <bean id="eliminateJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+        <property name="targetObject" ref="eliminateJob">  
+        </property>
+        <property name="targetMethod">  
+            <value>doEliminateJob</value>  
+        </property>
+        <property name="concurrent">
+			<value>false</value>
+		</property>
+    </bean>
+    <bean id="gatherJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+        <property name="targetObject" ref="gatherJob">  
+        </property>
+        <property name="targetMethod">  
+            <value>doGatherJob</value>  
+        </property>
+        <property name="concurrent">
+			<value>false</value>
+		</property>
+    </bean>
+    <bean id="refreshSourceDBConnectJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+        <property name="targetObject" ref="refreshDBConnectJob">  
+        </property>
+        <property name="targetMethod">  
+            <value>RefreshSourceDBConnect</value>  
+        </property>
+        <property name="concurrent">
+			<value>false</value>
+		</property>
+    </bean>
+    <bean id="refreshTargetDBConnectJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+        <property name="targetObject" ref="refreshDBConnectJob">  
+        </property>
+        <property name="targetMethod">  
+            <value>RefreshTargetDBConnect</value>  
+        </property>
+        <property name="concurrent">
+			<value>false</value>
+		</property>
+    </bean>
+    <bean id="spcStatisticalJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+        <property name="targetObject" ref="spcStatisticalJob">  
+        </property>
+        <property name="targetMethod">  
+            <value>doStatisticsJob</value>  
+        </property>
+        <property name="concurrent">
+			<value>false</value>
+		</property>
+    </bean>
+    <!-- 以下定义定时任务的触发频率 -->
+    <bean id="gatherJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+        <property name="jobDetail" ref="gatherJobDetail"></property>  
+        <property name="cronExpression">  
+            <value>0/8 * * * * ?</value>  
+        </property> 
+    </bean> 
+    <bean id="eliminateJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+        <property name="jobDetail" ref="eliminateJobDetail"></property>  
+        <property name="cronExpression">  
+            <value>0/5 * * * * ?</value>  
+        </property> 
+    </bean>
+    <bean id="spcStatisticalJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+        <property name="jobDetail" ref="spcStatisticalJobDetail"></property>  
+        <property name="cronExpression">  
+            <value>0/15 * * * * ?</value>  
+        </property> 
+    </bean> 
+    <bean id="refreshSourceDBConnectJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+        <property name="jobDetail" ref="refreshSourceDBConnectJobDetail"></property>  
+        <property name="cronExpression">  
+            <value>0/2 * * * * ?</value>  
+        </property> 
+    </bean> 
+    <bean id="refreshTargetDBConnectJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+        <property name="jobDetail" ref="refreshTargetDBConnectJobDetail"></property>  
+        <property name="cronExpression">  
+            <value>0/2 * * * * ?</value>  
+        </property> 
+    </bean> 
+   <!--  以下定义要启动哪些定时任务 -->
+   <bean id="schedulerFactoryBean" autowire="no"  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+        <property name="triggers">  
+            <list>  
+                 <ref bean="refreshSourceDBConnectJobTrigger"/> 
+                 <ref bean="refreshTargetDBConnectJobTrigger"/>
+                 <ref bean="gatherJobTrigger"/> 
+                 <ref bean="eliminateJobTrigger"/>
+                 <ref bean="spcStatisticalJobTrigger"/>
+            </list>  
+        </property> 
+        <property name="autoStartup" value="true"></property>  
+    </bean> 
+</beans>

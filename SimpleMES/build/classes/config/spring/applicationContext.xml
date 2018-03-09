@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd  
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd 
+           http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd 
+           http://www.springframework.org/schema/task 
+        http://www.springframework.org/schema/task/spring-task-4.3.xsd"
+	default-autowire="byName" default-lazy-init="true">
+
+
+
+
+	<mvc:annotation-driven />
+
+	<!-- 属性文件读入 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath*:config/jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+
+
+	<context:annotation-config />
+	<bean
+		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+	<context:component-scan base-package="tw.sysbase.servie.pub" />
+
+
+	<!-- 以AspectJ方式 定义 AOP -->
+	<!-- <aop:config proxy-target-class="true"> <aop:advisor pointcut="execution(* 
+		sail.business.service.*Service.*(..))" advice-ref="txAdvice"/> <aop:advisor 
+		pointcut="execution(* sail.sysbase.service.pub.*Service.*(..))" advice-ref="txAdvice"/> 
+		<aop:advisor pointcut="execution(* sail.sysbase.service.sec.*Service.*(..))" 
+		advice-ref="txAdvice"/> </aop:config> 基本事务定义,使用transactionManager作事务管理. <tx:advice 
+		id="txAdvice"> <tx:attributes> <tx:method name="fetch*" read-only="true"/> 
+		<tx:method name="find*" read-only="true"/> <tx:method name="*" /> <tx:method 
+		name="save*" read-only="false"/> <tx:method name="insert*" read-only="false"/> 
+		<tx:method name="del*" read-only="false"/> </tx:attributes> </tx:advice> -->
+
+</beans>

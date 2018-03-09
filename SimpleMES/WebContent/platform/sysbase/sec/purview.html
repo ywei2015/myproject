@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>用户列表</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../support/css/zTreeStyle/metro.css">
+		<link rel="stylesheet" href="../../support/css/zTreeStyle/style.css">
+    	<script type="text/javascript" src="../../support/js/jquery.min.js"></script>
+    	<script src="../../support/js/jquery.ztree.min.js"></script>
+    	<script type="text/javascript" src="../../support/js/bootstrap.min.js" ></script>
+    
+    <!--自定义-->
+    <script src="purview.js"></script>
+  
+</head>
+<body>
+<div class="clearfix">
+ <div id="category">
+    <div id="scrollsidebar" class="left_Treeview">
+    <div class="show_btn" id="rightArrow"><span></span></div>
+   
+    <div class="widget-box side_content" >
+<!--     <div class="side_title"><a title="隐藏" class="close_btn"><span></span></a></div> -->
+     <div class="side_list">
+      <div class="widget-header header-color-green2">
+          <h4 class="lighter smaller">功能菜单</h4>
+      </div>
+      <div class="widget-body">
+          <div class="widget-main padding-8">
+            <ul id="tree" class="ztree" style="width:200px; overflow:auto;"></ul>
+          </div>
+  </div>
+  </div>
+  </div>  
+  </div>
+<!---->
+ <iframe ID="rightIframe" Name="rightIframe" FRAMEBORDER=0 SCROLLING="no"  class="page_right_style" src=""  frameborder="0" ></iframe>
+ </div>
+</div>
+
+</body>
+<script type="text/javascript">
+		var page_left=$("#scrollsidebar").width();
+		$(function() { 
+			$("#category").fix({
+				float : 'left',
+				//minStatue : true,
+				skin : 'green',	
+				stylewidth:page_left,
+				durationTime :false
+			});
+	
+			//初始化宽度、高度   注意这里减去的宽度应该和上面设置的宽度一样
+			 $(".widget-box").height($(window).height()); 
+			
+			 $(".page_right_style").width($(window).width()-page_left);
+			  //当文档窗口发生改变时 触发  
+			 $(window).resize(function(){
+				$(".widget-box").height($(window).height());
+				 $(".page_right_style").width($(window).width()-page_left);
+				});
+		});
+		
+		
+</script>
+
+</html>

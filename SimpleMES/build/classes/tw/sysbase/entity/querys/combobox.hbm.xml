@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2008-12-16 10:45:42 by mars -->
+<hibernate-mapping>
+	<!--<query name="COMBOBOX."> select dic from tw.sysbase.entity.pub.Dic dic, 
+		tw.sysbase.entity.pub.ObjBase ob where dic.type = ob.id and ob.code = ? and 
+		ob.sysFlag = 1 and dic.sysFlag= 1 order by dic.num1, dic.name <![CDATA[ select 
+		dic from tw.sysbase.entity.pub.Dic dic where dic.sysFlag= 1 order by dic.num1, 
+		dic.name ]]> </query> -->
+
+	<query name="COMBOBOX.WorkClassForSilk">
+		<!-- 制丝班次下拉框add by qhy -->
+    <![CDATA[
+      select id, code, name, value3, value4
+        from tw.sysbase.entity.pub.Dic dic
+       where dic.type = 't_pub_obj_base1007'
+         and dic.name like '制丝%'
+         and dic.sysFlag = '1'
+       order by dic.num1, dic.name
+    ]]>
+	</query>
+
+	<query name="COMBOBOX.userlist">
+		<!-- 制丝班次下拉框add by qhy -->
+    <![CDATA[
+      select id, code, name, value3, value4
+        from tw.sysbase.entity.pub.Dic dic
+       where dic.type = 't_pub_obj_base1007'
+         and dic.name like '制丝%'
+         and dic.sysFlag = '1'
+       order by dic.num1, dic.name
+    ]]>
+	</query>
+
+	<query name="COMBOBOX.">
+    <![CDATA[
+      select dic
+        from tw.sysbase.entity.pub.Dic dic,
+        	 tw.sysbase.entity.pub.ObjBase ob
+       where dic.type = ob.id
+         and ob.code = ?
+         and ob.sysFlag = 1
+         and dic.sysFlag= 1
+       order by dic.num1, dic.name
+    ]]>
+	</query>
+
+	<query name="COMBOBOX.ObjBase">
+    <![CDATA[
+      select id, code, name
+        from tw.sysbase.entity.pub.ObjBase t
+       where t.sysFlag = 1
+       order by t.name
+    ]]>
+	</query>
+	<query name="COMBOBOX.ObjEntityRef">
+    <![CDATA[
+      select t.id, t.code, t.name, ob1.code as parentCode, ob2.code as childCode
+        from tw.sysbase.entity.pub.ObjEntityRef t,
+             tw.sysbase.entity.pub.ObjBase ob1,
+             tw.sysbase.entity.pub.ObjBase ob2
+       where t.parentId = ob1.id
+         and t.childId = ob2.id
+         and t.sysFlag = 1
+       order by t.name
+    ]]>
+	</query>
+	<query name="COMBOBOX.ComboObjBaseType">
+    <![CDATA[
+      select id, code, name
+        from tw.sysbase.entity.pub.ObjType t
+       where t.sysFlag = 1
+       order by t.name
+       
+    ]]>
+	</query>
+	<query name="COMBOBOX.ComboObjAttribute">
+    <![CDATA[
+     
+       select id, code, name
+        from tw.sysbase.entity.pub.Dic t
+       where t.sysFlag = 1 and t.type='4028a0fc249f849401249f93ca010002'
+       order by t.name
+    ]]>
+	</query>
+	<query name="COMBOBOX.ObjBases">
+    <![CDATA[
+      select id, code, name
+        from tw.sysbase.entity.pub.ObjBase t
+       where t.sysFlag = 1 and t.id in ('402847382f67554a012f71c1fd3f51a1','402847382f67554a012f71c166ac519f','402847382f67554a012f71c1be9f51a0')
+       order by t.name
+    ]]>
+	</query>
+
+</hibernate-mapping>

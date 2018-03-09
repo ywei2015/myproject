@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+	<!--获取生产工单列表数据 -->
+	<query name="EQU.FETCH.PRODUCEWO.LIST">
+		<![CDATA[
+			SELECT T
+			FROM tw.business.entity.produce.ProduceWo T
+			 WHERE T.sysFlag='1' 
+			 and Date(T.planSt) >= ? 
+			 and Date(T.planSt) <= ? 
+			 and T.pwoType = ? 
+			 ORDER BY T.createTime DESC 
+    	]]>
+	</query>
+	
+	<!--获取生产工单执行列表数据 -->
+	<query name="EQU.FETCH.PRODUCE.PERFORM.LIST">
+		<![CDATA[
+			SELECT T
+			FROM tw.business.entity.produce.ProduceWo T
+			 WHERE T.sysFlag='1' 
+			 and Date(T.planSt) >= ? 
+			 and Date(T.planSt) <= ? 
+			 and T.status in ('1','10','20')
+			 ORDER BY T.createTime DESC 
+    	]]>
+	</query>
+	
+	<!--获取生产工单投入 -->
+	<query name="EQU.FETCH.PRODUCEIN.LIST">
+		<![CDATA[
+			SELECT T FROM tw.business.entity.produce.ProduceIn T WHERE T.sysFlag='1' and T.pwoId = ?  
+				order by T.createTime DESC
+    	]]>
+	</query>
+	
+	<!--获取生产工单产出 -->
+	<query name="EQU.FETCH.PRODUCEOUT.LIST">
+		<![CDATA[
+			SELECT T FROM tw.business.entity.produce.ProduceOut T WHERE T.sysFlag='1' and T.pwoId = ?  
+				order by T.createTime DESC
+    	]]>
+	</query>
+
+</hibernate-mapping>

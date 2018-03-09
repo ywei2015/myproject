@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+
+<class name="tw.sysbase.entity.Log" table="t_sec_log">
+
+	<id name="id" column="F_PID" length="32" type="string" unsaved-value="">
+		<generator class="uuid.hex" />
+	</id>
+	<property name="userId" column="F_USER_ID" length="32" type="string"/>
+	<property name="userCode" column="F_USER_CODE" length="32" type="string"/>
+	<property name="userName" column="F_USER_NAME" length="32" type="string"/>
+	<property name="loginTime" column="F_LOGIN_TIME" length="14" type="string"/>
+	<property name="clientIp" column="F_CLIENT_IP" length="32" type="string"/>
+	<property name="remark" column="F_REMARK" length="500" type="string"/>
+	 
+</class>
+
+</hibernate-mapping>

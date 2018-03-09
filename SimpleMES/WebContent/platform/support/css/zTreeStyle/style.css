@@ -1,0 +1,75 @@
+body,textarea{border: 0px;margin: 0px;outline: 0px;padding: 0px;}
+
+.b_P_Sort_list li{ line-height:34px; margin-left:10px;}
+.b_P_Sort_list li .grey,
+.b_P_Sort_list li .orange{ margin-right:5px;}
+.left_Treeview{ position:relative; float:left}
+.page_right_style{ float:right; position:absolute; height:100%;}
+.page_right_style.Widescreen{ left:0px}
+.show_btn {
+	display: none;
+	position: fixed;
+	z-index: 1111;
+	top:50%
+}
+
+.show_btn span {
+	background: url(../../images/indexhead_sprite.png) -46px -30px no-repeat;
+	width: 25px;
+	height: 100px;
+	overflow: hidden;
+	float: left;
+	cursor: pointer;
+	position: absolute;
+	left: 0px;
+}
+.side_title span {
+	background: url(../../images/indexhead_sprite.png) -14px -30px no-repeat;
+	width: 25px;
+	height: 40px;
+	overflow: hidden;
+	float: left;
+	cursor: pointer;
+	position: absolute;
+	right: 0px;
+	top: 50%;
+	z-index:111;
+}
+.type_style{}
+@media only screen and (max-width: 767px);
+.widget-box {
+    padding: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-right: 1px solid #CCC;
+    height: 98%;
+    overflow: auto;
+}
+
+.header-color-green2 {
+    background: #62A8D1;
+    border-color: #62A8D1;
+    color: #FFF;
+    border: 1px solid #62A8D1;
+    border-bottom: 1px solid #DDD;
+    padding-left: 12px;
+    min-height: 28px;
+    padding-top: 6px;
+}
+
+.widget-header>.widget-caption, .widget-header>:first-child {
+    line-height: 16px;
+    padding: 0;
+    margin: 0;
+    display: inline;
+}
+
+h4.smaller {
+    font-size: 17px;
+}
+
+h4 {
+    font-size: 18px;
+    font-weight: normal;
+    font-family: "Microsoft YaHei",Helvetica,Arial,sans-serif;
+}

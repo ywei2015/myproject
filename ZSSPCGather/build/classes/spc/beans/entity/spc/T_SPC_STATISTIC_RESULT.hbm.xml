@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE hibernate-mapping PUBLIC     "-//Hibernate/Hibernate Mapping DTD 3.0//EN"     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> <hibernate-mapping> 
+    <class name="spc.beans.entity.spc.TSpcStatisticResult" table="T_SPC_STATISTIC_RESULT"> 
+  <id name="FPid" type="java.lang.String">
+    <column name="F_PID"> 
+     </column> 
+     <generator class="uuid.hex"></generator>
+  </id> 
+  <property name="FBatch" type="java.lang.String">
+     <column name="F_BATCH"> 
+    <comment>批次号</comment>
+     </column> 
+  </property> 
+  <property name="FWorkshop" type="java.lang.String">
+     <column name="F_WORKSHOP"> 
+    <comment>车间</comment>
+     </column> 
+  </property> 
+  <property name="FProductLine" type="java.lang.String">
+     <column name="F_PRODUCT_LINE"> 
+    <comment>线别</comment>
+     </column> 
+  </property> 
+  <property name="FWorksection" type="java.lang.String">
+     <column name="F_WORKSECTION"> 
+    <comment>工段</comment>
+     </column> 
+  </property> 
+  <property name="FProcess" type="java.lang.String">
+     <column name="F_PROCESS"> 
+    <comment>工序</comment>
+     </column> 
+  </property> 
+  <property name="FParamId" type="java.lang.String">
+     <column name="F_PARAM_ID"> 
+    <comment>参数ID</comment>
+     </column> 
+  </property> 
+  <property name="FParamName" type="java.lang.String">
+     <column name="F_PARAM_NAME"> 
+    <comment>参数名称</comment>
+     </column> 
+  </property> 
+  <property name="FBrandId" type="java.lang.String">
+     <column name="F_BRAND_ID"> 
+    <comment>牌号ID</comment>
+     </column> 
+  </property> 
+  <property name="FBrandName" type="java.lang.String">
+     <column name="F_BRAND_NAME"> 
+    <comment>牌号名称</comment>
+     </column> 
+  </property> 
+  <property name="FWorktime" type="java.lang.String">
+     <column name="F_WORKTIME"> 
+    <comment>班次</comment>
+     </column> 
+  </property> 
+  <property name="FWorkteam" type="java.lang.String">
+     <column name="F_WORKTEAM"> 
+    <comment>班组</comment>
+     </column> 
+  </property> 
+  <property name="FStatisticType" type="java.lang.String">
+     <column name="F_STATISTIC_TYPE"> 
+    <comment>批次参数统计类别(0-不统计，1-统计)</comment>
+     </column> 
+  </property> 
+  <property name="FResultType" type="java.lang.String">
+     <column name="F_RESULT_TYPE"> 
+    <comment>批次参数结果类别(0-系统采,1-人工干涉剔除重算)</comment>
+     </column> 
+  </property> 
+  <property name="FStartTime" type="java.lang.String">
+     <column name="F_START_TIME"> 
+    <comment>开始时间</comment>
+     </column> 
+  </property> 
+  <property name="FEndTime" type="java.lang.String">
+     <column name="F_END_TIME"> 
+    <comment>结束时间</comment>
+     </column> 
+  </property> 
+  <property name="FUpline" type="java.lang.Double">
+     <column name="F_UPLINE"> 
+    <comment>上线值</comment>
+     </column> 
+  </property> 
+  <property name="FLowline" type="java.lang.Double">
+     <column name="F_LOWLINE"> 
+    <comment>下线值</comment>
+     </column> 
+  </property> 
+  <property name="FTarget" type="java.lang.Double">
+     <column name="F_TARGET"> 
+    <comment>目标值</comment>
+     </column> 
+  </property> 
+  <property name="FModulus" type="java.lang.Double">
+     <column name="F_MODULUS"> 
+    <comment>加严系数</comment>
+     </column> 
+  </property> 
+  <property name="FSampleCount" type="java.lang.Integer">
+     <column name="F_SAMPLE_COUNT"> 
+    <comment>总样本数</comment>
+     </column> 
+  </property> 
+  <property name="FValidSamplecount" type="java.lang.Integer">
+     <column name="F_VALID_SAMPLECOUNT"> 
+    <comment>总有效样本数</comment>
+     </column> 
+  </property> 
+  <property name="FUnquanlified" type="java.lang.Integer">
+     <column name="F_UNQUANLIFIED"> 
+    <comment>不合格数</comment>
+     </column> 
+  </property> 
+  <property name="FSamplePassrate" type="java.lang.Double">
+     <column name="F_SAMPLE_PASSRATE"> 
+    <comment>样本合格率</comment>
+     </column> 
+  </property> 
+  <property name="FSpcPassrate" type="java.lang.Double">
+     <column name="F_SPC_PASSRATE"> 
+    <comment>SPC合格率</comment>
+     </column> 
+  </property> 
+  <property name="FCa" type="java.lang.Double">
+     <column name="F_CA"> 
+    <comment>准确度</comment>
+     </column> 
+  </property> 
+  <property name="FCp" type="java.lang.Double">
+     <column name="F_CP"> 
+    <comment>用短期标偏算得精密度</comment>
+     </column> 
+  </property> 
+  <property name="FPp" type="java.lang.Double">
+     <column name="F_PP"> 
+    <comment>用长期标偏算得精密度</comment>
+     </column> 
+  </property> 
+  <property name="FCpk" type="java.lang.Double">
+     <column name="F_CPK"> 
+    <comment>用短期标偏算得CPK</comment>
+     </column> 
+  </property> 
+  <property name="FPpk" type="java.lang.Double">
+     <column name="F_PPK"> 
+    <comment>用长期标偏算得</comment>
+     </column> 
+  </property> 
+  <property name="FAverage" type="java.lang.Double">
+     <column name="F_AVERAGE"> 
+    <comment>总体平均值</comment>
+     </column> 
+  </property> 
+  <property name="FMax" type="java.lang.Double">
+     <column name="F_MAX"> 
+    <comment>最大值</comment>
+     </column> 
+  </property> 
+  <property name="FMin" type="java.lang.Double">
+     <column name="F_MIN"> 
+    <comment>最小值</comment>
+     </column> 
+  </property> 
+  <property name="FSigmaShort" type="java.lang.Double">
+     <column name="F_SIGMA_SHORT"> 
+    <comment>短期(分组计算)的标偏,标准偏差σ(短期)=R平均值/d2 (R-bar算法) 或 σ(短期)=S平均值/c4(S-bar算法)</comment>
+     </column> 
+  </property> 
+  <property name="FSigmaLong" type="java.lang.Double">
+     <column name="F_SIGMA_LONG"> 
+    <comment>长期(不分组)的标偏</comment>
+     </column> 
+  </property> 
+  <property name="FRAverage" type="java.lang.Double">
+     <column name="F_R_AVERAGE"> 
+    <comment>分组后全距R平均</comment>
+     </column> 
+  </property> 
+  <property name="FSAverage" type="java.lang.Double">
+     <column name="F_S_AVERAGE"> 
+    <comment>分组后各组标偏S平均值</comment>
+     </column> 
+  </property> 
+  <property name="FGroupsize" type="java.lang.Integer">
+     <column name="F_GROUPSIZE"> 
+    <comment>样本分组每组大小</comment>
+     </column> 
+  </property> 
+  <property name="FGroupcount" type="java.lang.Integer">
+     <column name="F_GROUPCOUNT"> 
+    <comment>样本总分组数</comment>
+     </column> 
+  </property> 
+  <property name="FCv" type="java.lang.Double">
+     <column name="F_CV"> 
+    <comment>变异系数(总体标准偏差与平均值比)</comment>
+     </column> 
+  </property> 
+  <property name="FSkewness" type="java.lang.Double">
+     <column name="F_SKEWNESS"> 
+    <comment>偏度</comment>
+     </column> 
+  </property> 
+  <property name="FKurtosis" type="java.lang.Double">
+     <column name="F_KURTOSIS"> 
+    <comment>峰度</comment>
+     </column> 
+  </property> 
+  <property name="FState" type="java.lang.String">
+     <column name="F_STATE"> 
+    <comment>统计状态(0-创建,10-过程中,20-过程统计结束)</comment>
+     </column> 
+  </property> 
+  <property name="FRemark1" type="java.lang.String">
+     <column name="F_REMARK1"> 
+    <comment>预留1</comment>
+     </column> 
+  </property> 
+  <property name="FRemark2" type="java.lang.String">
+     <column name="F_REMARK2"> 
+    <comment>预留2</comment>
+     </column> 
+  </property> 
+  <property name="FRemark3" type="java.lang.String">
+     <column name="F_REMARK3"> 
+    <comment>预留3</comment>
+     </column> 
+  </property> 
+  <property name="FRemark4" type="java.lang.String">
+     <column name="F_REMARK4"> 
+    <comment>预留4</comment>
+     </column> 
+  </property> 
+  <property name="FRemark5" type="java.lang.String">
+     <column name="F_REMARK5"> 
+    <comment>预留5</comment>
+     </column> 
+  </property> 
+  <property name="FSysFlag" type="java.lang.String">
+     <column name="F_SYS_FLAG"> 
+     </column> 
+  </property> 
+  <property name="FCreator" type="java.lang.String">
+     <column name="F_CREATOR"> 
+    <comment>创建人</comment>
+     </column> 
+  </property> 
+  <property name="FCreateTime" type="java.lang.String">
+     <column name="F_CREATE_TIME"> 
+    <comment>创建时间</comment>
+     </column> 
+  </property> 
+  <property name="FLastModifier" type="java.lang.String">
+     <column name="F_LAST_MODIFIER"> 
+    <comment>修改人</comment>
+     </column> 
+  </property> 
+  <property name="FLastModifiedTime" type="java.lang.String">
+     <column name="F_LAST_MODIFIED_TIME"> 
+    <comment>修改时间</comment>
+     </column> 
+  </property> 
+    </class> 
+ </hibernate-mapping>

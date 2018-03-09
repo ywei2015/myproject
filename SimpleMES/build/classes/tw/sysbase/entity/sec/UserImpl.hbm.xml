@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+
+	<class name="tw.sysbase.entity.sec.UserImpl" table="t_sec_user">
+
+		<id name="id" column="F_PID" length="32" type="string"
+			unsaved-value="">
+			<generator class="uuid.hex" />
+		</id>
+		<property name="name" column="F_NAME" length="128" type="string" />
+		<property name="code" column="F_CODE" length="32" type="string" />
+		<property name="jobno" column="F_JOB_NO" length="32" type="string" />
+		<property name="password" column="F_PASSWORD" length="500"
+			type="string" />
+		<property name="remark" column="F_REMARK" length="500" type="string" />
+		<property name="createTime" column="F_CREATE_TIME" length="14"
+			type="string" />
+		<property name="lastModifiedTime" column="F_LAST_MODIFIED_TIME"
+			length="14" type="string" />
+		<property name="sysFlag" column="F_SYS_FLAG" length="32"
+			type="string" />
+		<property name="tel" column="F_TEL" length="32" type="string" />
+		<property name="mobile" column="F_MOBILE" length="32" type="string" />
+		<property name="secPassword" column="F_SEC_PASSWORD" length="500"
+			type="string" />
+		<property name="cardNO" column="F_CARD_NO" length="500" type="string" />
+		<property name="userCode" column="F_USER_CODE" length="32"
+			type="string" />
+		<many-to-one name="sex" class="tw.sysbase.entity.pub.Dic"
+			cascade="none" outer-join="auto" update="true" insert="true" access="property"
+			column="F_SEX" />
+
+		<many-to-one name="creator" class="tw.sysbase.entity.sec.UserImpl"
+			cascade="none" outer-join="auto" update="true" insert="true" access="property"
+			column="F_CREATOR" />
+
+		<many-to-one name="lastModifier" class="tw.sysbase.entity.sec.UserImpl"
+			cascade="none" outer-join="auto" update="true" insert="true" access="property"
+			column="F_LAST_MODIFIER" />
+
+		<many-to-one name="organization" class="tw.sysbase.entity.pub.Dic"
+			cascade="none" outer-join="auto" update="true" insert="true" access="property"
+			column="F_ORG_ID" />
+
+		<set name="posts" table="t_sec_user_r_post" lazy="true" inverse="false"
+			cascade="save-update">
+			<key column="F_USER_ID" />
+			<many-to-many class="tw.sysbase.entity.pub.Dic" column="F_POST_ID" />
+		</set>
+
+		<set name="roles" table="t_sec_user_r_role" lazy="true" inverse="false"
+			cascade="save-update">
+			<key column="F_USER_ID" />
+			<many-to-many class="tw.sysbase.entity.sec.RoleImpl"
+				column="F_ROLE_ID" />
+		</set>
+
+		<set name="permissions" table="t_sec_user_permission" lazy="true"
+			inverse="false" cascade="delete">
+			<key column="F_USER_ID" />
+			<one-to-many class="tw.sysbase.entity.sec.UserPermissionImpl" />
+		</set>
+
+	</class>
+
+</hibernate-mapping>

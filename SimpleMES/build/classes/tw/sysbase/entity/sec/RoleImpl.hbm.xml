@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+
+	<class name="tw.sysbase.entity.sec.RoleImpl" table="t_sec_role">
+
+		<id name="id" column="F_PID" length="32" type="string"
+			unsaved-value="">
+			<generator class="uuid.hex" />
+		</id>
+		<property name="name" column="F_NAME" length="128" type="string" />
+		<property name="remark" column="F_REMARK" length="500" type="string" />
+		<property name="createTime" column="F_CREATE_TIME" length="14"
+			type="string" />
+		<property name="lastModifiedTime" column="F_LAST_MODIFIED_TIME"
+			length="14" type="string" />
+		<property name="sysFlag" column="F_SYS_FLAG" length="32"
+			type="string" />
+
+
+		<many-to-one name="creator" class="tw.sysbase.entity.sec.UserImpl"
+			cascade="none" outer-join="auto" update="true" insert="true" access="property"
+			column="F_CREATOR" />
+
+		<many-to-one name="lastModifier" class="tw.sysbase.entity.sec.UserImpl"
+			cascade="none" outer-join="auto" update="true" insert="true" access="property"
+			column="F_LAST_MODIFIER" />
+
+		<set name="users" table="t_sec_user_r_role" lazy="true" inverse="false"
+			cascade="save-update">
+			<key column="F_ROLE_ID" />
+			<many-to-many class="tw.sysbase.entity.sec.UserImpl"
+				column="F_USER_ID" />
+		</set>
+		<set name="roles" table="t_sec_role_r_role" lazy="true" inverse="false"
+			cascade="save-update">
+			<key column="F_ROLE_ID" />
+			<many-to-many class="tw.sysbase.entity.sec.RoleImpl"
+				column="F_CONTAIN_ID" />
+		</set>
+
+		<set name="containRoles" table="t_sec_role_r_role" lazy="true"
+			inverse="false" cascade="delete">
+			<key column="F_CONTAIN_ID" />
+			<many-to-many class="tw.sysbase.entity.sec.RoleImpl"
+				column="F_ROLE_ID" />
+		</set>
+
+		<set name="permissions" table="t_sec_role_permission" lazy="true"
+			inverse="false" cascade="delete">
+			<key column="F_ROLE_ID" />
+			<one-to-many class="tw.sysbase.entity.sec.RolePermissionImpl" />
+		</set>
+
+	</class>
+
+</hibernate-mapping>

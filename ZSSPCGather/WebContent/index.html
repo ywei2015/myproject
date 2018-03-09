@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>制丝SPC采集分析服务状态</title>
+
+<script src="js/jquery.js"></script>
+<script type="text/javascript"> 
+$(document).ready(function(){
+	  /* $("#b01").click(function(){
+		  updatedoc();
+	  }); */
+
+	  updatedoc();
+	}); 
+ 
+function updatedoc(){
+	htmlobj=$.ajax({url:"dynamic/test/getAppinfo",async:false});
+	//由JSON字符串转换为JSON对象
+	var appobj = eval('(' + htmlobj.responseText + ')');
+	//console.info(appobj); 
+	if(appobj.dataset.response.success){ 
+		var connok = "<span style='color:white;font-weight:bold;background-color:green;white-space:pre;'>  正常   </span>";
+		var connng = "<span style='color:white;font-weight:bold;background-color:red;white-space:pre;'>  断开  </span>";
+	    $("#appstarttime").html(appobj.dataset.AppInfo.sourceDBTime);
+	    $("#appdurationtime").html(appobj.dataset.AppInfo.DurationTime);
+
+	    $("#srcdbconnected").html(appobj.dataset.AppInfo.sourceDBConnected?connok:connng);
+	    $("#srcdblastrequesttime").html(appobj.dataset.AppInfo.sourceDBRequestTime);
+	    $("#srcdblastreponsetime").html(appobj.dataset.AppInfo.sourceDBTime);
+
+	    $("#targetdbconnected").html(appobj.dataset.AppInfo.targetDBConnected?connok:connng);
+	    $("#targetdblastrequesttime").html(appobj.dataset.AppInfo.targetDBRequestTime);
+	    $("#targetdblastreponsetime").html(appobj.dataset.AppInfo.targetDBTime);
+
+	    $("#lastgathertime").html(appobj.dataset.AppInfo.LastGatherTimePoint);
+	    $("#totalgathercount").html(appobj.dataset.AppInfo.totalegathercount);
+	    $("#lasteliminatetime").html(appobj.dataset.AppInfo.LastEliminateTimePoint);
+	    $("#waiteliminatecount").html(appobj.dataset.AppInfo.waiteliminatecount);
+	    $("#totaleliminatecount").html(appobj.dataset.AppInfo.totaleliminatecount);
+		
+	    $("#laststatistictime").html(appobj.dataset.AppInfo.LastStatisticsTimePoint); 
+	} 
+}
+
+function updateProcessbatch(){
+	//http://localhost:8180/ZSSPCGather/dynamic/test/getProcessBatch
+	htmlobj=$.ajax({url:"dynamic/test/getProcessBatch",async:false});
+	//由JSON字符串转换为JSON对象
+	var appobj = eval('(' + htmlobj.responseText + ')'); 
+	if(appobj.dataset.response.success){ 
+		
+	}
+}
+
+var sss=self.setInterval("updatedoc()",2000);
+	
+</script>
+
+
+</head>
+<body style="margin:0; padding:0;">
+<table id="divmailtable" style="width:80%;height:80%;"> 
+<tr>	
+	<td>
+	<div id="appinfo">
+	<h4>当前应用程序状态</h4> 
+	<p>应用程序启动时间：<span id="appstarttime">2017-0-10-13 10:32:21</span></p>
+	<p>应用程序运行时长：<span id="appdurationtime">0天1小时43分25秒</span></p> 
+	</div>
+	</td>
+	<td>
+	<div> 
+		<a href="regather.html">数据补采</a>
+	</div>
+	</td>
+</tr>
+<tr>
+	<td>
+	<div id="sourcedb">
+	<h4>源数据库状态</h4> 
+	<p>连接状态：<span id="srcdbconnected">正常</span></p> 
+	<p>最后请求时间：<span id="srcdblastrequesttime">2017-0-10-13 10:32:21</span></p>
+	<p>最后返回时间：<span id="srcdblastreponsetime">2017-0-10-13 10:32:20</span></p> 
+	</div>
+	</td>
+	
+	<td>
+	<div id="targetdb">
+	<h4>目标数据库状态</h4> 
+	<p>连接状态：<span id="targetdbconnected">正常</span></p> 
+	<p>最后请求时间：<span id="targetdblastrequesttime">2017-0-10-13 10:32:21</span></p>
+	<p>最后返回时间：<span id="targetdblastreponsetime">2017-0-10-13 10:32:20</span></p> 
+	</div>
+	</td>
+</tr>
+	
+<tr>
+<td>
+	<div id="curgather">
+	<h4>当前采集剔除情况</h4>
+	<p>上一次采集执行时间：<span id="lastgathertime">2017-0-10-13 11:32:21</span></p>
+	<p>总采集时点数量：<span id="totalgathercount">9</span></p>
+	</div>
+</td>
+<td>
+	<div id="cureliminate">
+	<p>上一次剔除执行时间：<span id="lasteliminatetime">2017-0-10-13 11:32:24</span></p>
+	<p>待剔除队列数量：<span id="waiteliminatecount">9</span></p>
+	<p>已完成剔除分析量：<span id="totaleliminatecount">1409</span></p>
+	</div>
+</td>
+</tr>
+<tr>
+	<td>	
+	<div id="curstatistic">
+	<h4>当前统计情况</h4>
+	<p>上一次统计分析执行时间：<span id="laststatistictime">2017-0-10-13 11:33:22</span></p> 
+	</div>
+	</td>
+</tr>
+</table>
+
+<div id="curprocessbatch">
+<h4>当前工序批次状态</h4>
+<table id="processbatchdatatable" style="width:50%;font-size:14px;"> 
+	<tr>
+		<th style="width:25%;">生产工序</th>
+		<th>生产批次</th>
+		<th>当前状态</th>
+	</tr> 
+	<tr>
+		<td>一次加料 </td>
+		<td>201873123</td>
+		<td>结束</td>
+	</tr> 
+	<tr>
+		<td>加香 </td>
+		<td>201873123</td>
+		<td>生产中</td>
+	</tr>
+</table> 
+	
+</div>
+
+</body>
+</html>

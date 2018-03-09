@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE hibernate-mapping PUBLIC     "-//Hibernate/Hibernate Mapping DTD 3.0//EN"     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> <hibernate-mapping> 
+    <class name="spc.beans.entity.spc.TSpcBrand" table="T_SPC_BRAND"> 
+  <id name="FPid" type="java.lang.String">
+    <column name="F_PID"> 
+     <comment>主键</comment> 
+     </column> 
+     <generator class="uuid.hex"></generator>
+  </id> 
+  <property name="FCode" type="java.lang.String">
+     <column name="F_CODE"> 
+    <comment>牌号编码</comment>
+     </column> 
+  </property> 
+  <property name="FName" type="java.lang.String">
+     <column name="F_NAME"> 
+    <comment>牌号名称</comment>
+     </column> 
+  </property> 
+  <property name="FOpcCode" type="java.lang.String">
+     <column name="F_OPC_CODE"> 
+    <comment>OPC代码</comment>
+     </column> 
+  </property> 
+  <property name="FDescription" type="java.lang.String">
+     <column name="F_DESCRIPTION"> 
+    <comment>牌号描述</comment>
+     </column> 
+  </property> 
+  <property name="FOrderby" type="java.lang.String">
+     <column name="F_ORDERBY"> 
+    <comment>排序</comment>
+     </column> 
+  </property> 
+  <property name="FRemark1" type="java.lang.String">
+     <column name="F_REMARK1"> 
+    <comment>预留1</comment>
+     </column> 
+  </property> 
+  <property name="FRemark2" type="java.lang.String">
+     <column name="F_REMARK2"> 
+    <comment>预留2</comment>
+     </column> 
+  </property> 
+  <property name="FRemark3" type="java.lang.String">
+     <column name="F_REMARK3"> 
+    <comment>预留3</comment>
+     </column> 
+  </property> 
+  <property name="FRemark4" type="java.lang.String">
+     <column name="F_REMARK4"> 
+    <comment>预留4</comment>
+     </column> 
+  </property> 
+  <property name="FRemark5" type="java.lang.String">
+     <column name="F_REMARK5"> 
+    <comment>预留5</comment>
+     </column> 
+  </property> 
+  <property name="FEnableFlag" type="java.lang.String">
+     <column name="F_ENABLE_FLAG"> 
+    <comment>0-禁用,1-启用</comment>
+     </column> 
+  </property> 
+  <property name="FExternalFk" type="java.lang.String">
+     <column name="F_EXTERNAL_FK"> 
+    <comment>外部系统编码</comment>
+     </column> 
+  </property> 
+  <property name="FSysFlag" type="java.lang.String">
+     <column name="F_SYS_FLAG"> 
+     </column> 
+  </property> 
+  <property name="FCreator" type="java.lang.String">
+     <column name="F_CREATOR"> 
+    <comment>创建人</comment>
+     </column> 
+  </property> 
+  <property name="FCreateTime" type="java.lang.String">
+     <column name="F_CREATE_TIME"> 
+    <comment>创建时间</comment>
+     </column> 
+  </property> 
+  <property name="FLastModifier" type="java.lang.String">
+     <column name="F_LAST_MODIFIER"> 
+    <comment>修改人</comment>
+     </column> 
+  </property> 
+  <property name="FLastModifiedTime" type="java.lang.String">
+     <column name="F_LAST_MODIFIED_TIME"> 
+    <comment>修改时间</comment>
+     </column> 
+  </property> 
+    </class> 
+ </hibernate-mapping>

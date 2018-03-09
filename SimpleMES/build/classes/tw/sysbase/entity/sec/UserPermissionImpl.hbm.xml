@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+
+	<class name="tw.sysbase.entity.sec.UserPermissionImpl" table="t_sec_user_permission"
+		lazy="false">
+
+		<id name="id" column="F_PID" length="32" type="string"
+			unsaved-value="">
+			<generator class="uuid.hex" />
+		</id>
+
+		<many-to-one name="party" class="tw.sysbase.entity.sec.UserImpl"
+			cascade="none" outer-join="auto" update="true" insert="true" access="property"
+			column="F_USER_ID" />
+
+		<many-to-one name="resource" class="tw.sysbase.entity.sec.ResourceImpl"
+			cascade="none" outer-join="auto" update="true" insert="true" access="property"
+			column="F_RESOURCE_ID" />
+
+		<property name="type" column="F_TYPE" length="128" type="long" />
+
+	</class>
+
+</hibernate-mapping>

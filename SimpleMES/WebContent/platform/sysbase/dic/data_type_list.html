@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+		<link rel="stylesheet" href="../../support/css/bootstrap.min.css" /> 
+		<link rel="stylesheet" href="../../support/css/bootstrap-table.all.css" />   
+		<link rel="stylesheet" href="../../support/css/bootstrap-datetimepicker.min.css" />  
+    	<link href="../../support/css/font-awesome.css" rel="stylesheet" />  
+		<script type="text/javascript" src="../../public/pub.js" ></script>
+		<script type="text/javascript" src="../../support/js/jquery.min.js" ></script> 
+		<script type="text/javascript" src="../../support/js/bootstrap.min.js" ></script>
+		<script type="text/javascript" src="../../support/js/bootstrap-table.all.js" ></script>
+		<script type="text/javascript" src="../../support/js/bootstrap-datetimepicker.min.js" ></script> 
+		<script type="text/javascript" src="../../public/SmartForm.js" ></script> 
+		<script type="text/javascript" src="../../public/common.js" ></script> 
+		
+	<script src="data_type_list_tab1.js"></script>
+	<script src="data_type_list_tab3.js"></script>
+	<script src="data_type_list.js"></script>
+	
+	<script type="text/javascript">
+		function  iconShow(){
+			var el = document.getElementById('imgIcon'); 
+			var cssname = $("#btnIcon").val();
+			el.setAttribute("class", cssname); 
+		}
+		jQuery(function($) { 
+			iconShow(); 
+			$("#btnIcon").change(function(){ 
+				iconShow();
+			});
+			$("#btnIcon").click(function(){  
+				//alert('cssname:'+$("#btnIcon").val());
+				iconShow();
+			});  
+		}); 
+	</script>
+		<title>数据列表</title> 
+</head>
+<body>
+
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="tabbable" id="tabs-512838">
+				<ul id="myTab" class="nav nav-tabs">
+					<li class="active"><a href="#home" data-toggle="tab" id="menuDetail">详细</a></li>
+					<li><a href="#list"  data-toggle="tab" id="childMenuList">列表</a></li>
+					<li><a href="#list1" data-toggle="tab" id="funcMenu">菜单功能项</a></li>
+				</ul>
+				<div id="myTabContent" class="tab-content">
+					<div class="tab-pane fade in active" id="home">
+		    					<div class="container panel-info" id="detailForm"> 
+					 <div class="panel-heading">基础模型维护详情</div>   				
+						 <div class="panel-body">		
+							<form class="form-horizontal" role="form" id="Formbody">
+									<div><input type="hidden" name="typeRefDicId" id="typeRefDicId" value=""> <!-- t_pub_typerefdic主键id -->
+									<input type="hidden" name="objEntityRefId" id="objEntityRefId" value=""> <!-- t_pub_obj_entity_ref f_pid -->
+									<input type="hidden" name="parentId" id="parentId" value=""> <!-- 父节点id -->
+									<input type="hidden" name="type" id="type" value=""> <!-- t_pub_obj_base f_pid -->
+									<input type="hidden" name="id" id="id" value=""> <!-- t_pub_dic主键id -->
+									<input type="hidden" name="typeChild" id="typeChild" value=""><!-- t_pub_obj_entity_ref f_pid -->
+									<input type="hidden" name="structId" id="structId" value=""></div>
+										<div class="row ">
+												  <div class="input-form form-group col-sm-6">
+												    <label class="col-sm-3 control-label">编号</label>
+												    <div class="col-sm-9">
+												     <input class="form-control" type="text" name="code" ">
+												   </div>
+												  </div>
+												  <div class="input-form form-group col-sm-6">
+												    <label for="inputPassword" class="col-sm-3 control-label">名称</label>
+												    <div class="col-sm-9">
+													   <input class="form-control" type="text"  name="name" >
+												    </div>
+												  </div>
+										</div>
+										<div class="row ">
+												  <div class="input-form form-group col-sm-6">
+												    <label class="col-sm-3 control-label">全名称</label>
+												    <div class="col-sm-9">
+												      <input class="form-control" type="text"  name="fullName" > 
+												   </div>
+												  </div>
+												  <div class="input-form form-group col-sm-6">
+												    <label for="inputPassword" class="col-sm-3 control-label">排序值</label>
+												    <div class="col-sm-9">
+												     <input class="form-control" type="number"  name="num1"  >
+												    </div>
+												  </div>
+										</div>
+										<div class="row ">
+												  <div class="input-form form-group col-sm-6">
+												    <label class="col-sm-3 control-label">关系排序</label>
+												    <div class="col-sm-9">
+												     <input class="form-control" type="number" name="trdOrder" >
+												   </div>
+												  </div>
+												  <div class="input-form form-group col-sm-6">
+												    <label for="inputPassword" class="col-sm-3 control-label">网页地址</label>
+												    <div class="col-sm-9">
+												     <input class="form-control" type="text"  name="value2">
+												    </div>
+												  </div>
+										</div>
+										<div class="row ">
+												  <div class="input-form form-group col-sm-6">
+												    <label class="col-sm-3 control-label">是否有效</label>
+												    <div class="col-sm-9">
+												     <select  name="sysFlag" class=" show-tick form-control" >
+																	<option >请选择</option>
+							                                        <option value="1">有效</option>
+							                                        <option value="0">无效</option>
+							                         </select>
+												   </div>
+												  </div>
+												  
+												  <div class="input-form form-group col-sm-6">
+												    <label for="inputPassword" class="col-sm-3 control-label">备注</label>
+												    <div class="col-sm-9">
+												     <input class="form-control" type="text" name="remark" > 
+													<!-- <textarea name="remark" id="remark" class="form-control input-sm"></textarea> -->
+												    </div> 
+												  </div>
+												 
+										</div>
+										<div class="row "> 
+										 <div class="input-form form-group col-sm-6">
+												    <label for="inputPassword" class="col-sm-3 control-label">图标</label>
+												    <div class="col-sm-7">
+												    	<input class="form-control" type="text" id="btnIcon" name="value3" >
+												    </div>
+												    <div class="col-sm-2">
+												    	<i id="imgIcon" class="fa fa-rebel"></i>
+												    </div>
+												  </div>
+												  
+												  <div class="input-form form-group col-sm-5"></div>
+										</div>
+										
+										
+										<div class="row ">
+												  <div class="input-form form-group col-sm-12">
+												    		  <div style="margin-left: 35%;">
+																<button type="button" style="width:150px" class="btn btn-primary" id="btn-save" click="return false">保存</button>
+															</div>
+												  </div>
+												
+										</div>
+									</form>
+								</div>	
+						<div class="panel-footer"></div>
+					</div>	
+					</div>
+					<div class="tab-pane fade" id="list">
+			     	 <div title="TestPanel" id="TestPanel" class="panel-body"> 
+						   <div title="SearchPanel" id="SearchPanel" class="row col-md-12 form-inline">  </div>
+					  </div>
+						  
+						<div class="container" style="width:100%;">
+						    <div class="table-responsive"> 
+						    	<div id="searchpanelA" class="panel-body"> 	</div>
+						    	<!-- 选择begin -->
+						    	<div class="panel-body" id="radioDiv" style="display: none;">
+							  	</div>
+							  		<!-- 选择end -->
+							        <div id="toolbar">
+									        	<button id="btnAdd"  class="btn btn-primary btn-sm"><li class="glyphicon glyphicon-edit"> 新增 </li></button> 
+									        	<button id="btnAdd3"  class="btn btn-primary btn-sm"><li class="glyphicon glyphicon-edit"> 添加已有项 </li></button> 
+									        	<button id="btnDel"  class="btn btn-primary btn-sm"><li class="glyphicon glyphicon-floppy-remove"> 删除</li></button>	        
+									 </div>
+									<table id="table" data-show-columns="true" class="table table-bordered">
+										<caption class="text-center text-primary">
+											<strong>数据列表</strong>
+										</caption>
+									</table>
+							    </div>  
+						 </div> 
+					</div>
+					<div class="tab-pane fade" id="list1">
+		    			 <div title="TestPanel" id="TestPanel2" class="panel-body"> 
+						   <div title="SearchPanel" id="SearchPanel2" class="row col-md-12 form-inline">   </div>
+					    </div>
+						  
+							<div class="container" style="width:100%;">
+								    <div class="table-responsive"> 
+								    	<div id="searchpanel2" class="panel-body">  </div>
+									        <div id="toolbar2">
+											        	<button id="btnAdd2"  class="btn btn-primary btn-sm"><li class="glyphicon glyphicon-edit"> 新增 </li></button> 
+											        	<button id="btnDel2"  class="btn btn-primary btn-sm"><li class="glyphicon glyphicon-floppy-remove"> 删除</li></button>	        
+											 </div>
+											<table id="table2" data-show-columns="true" class="table table-bordered">
+												<caption class="text-center text-primary">
+													<strong>数据表菜单列表</strong>
+												</caption>
+											</table>
+									    </div>  
+								 </div> 
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> 
+</body> 
+</html>

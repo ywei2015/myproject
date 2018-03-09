@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE hibernate-mapping PUBLIC     "-//Hibernate/Hibernate Mapping DTD 3.0//EN"     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> <hibernate-mapping> 
+    <class name="spc.beans.entity.spc.TSpcParameter" table="T_SPC_PARAMETER"> 
+  <id name="FPid" type="java.lang.String">
+    <column name="F_PID"> 
+     <comment>F_PID（PK_参数ID）</comment> 
+     </column> 
+     <generator class="uuid.hex"></generator>
+  </id> 
+  <property name="FCode" type="java.lang.String">
+     <column name="F_CODE"> 
+    <comment>F_CODE（参数代码）</comment>
+     </column> 
+  </property> 
+  <property name="FName" type="java.lang.String">
+     <column name="F_NAME"> 
+    <comment>F_NAME（参数名称）</comment>
+     </column> 
+  </property> 
+  <property name="FProductlineId" type="java.lang.String">
+     <column name="F_PRODUCTLINE_ID"> 
+    <comment>F_SECTION_ID（FK_所在工序ID：）</comment>
+     </column> 
+  </property> 
+  <property name="FProcessId" type="java.lang.String">
+     <column name="F_PROCESS_ID"> 
+    <comment>F_SECTION_ID（FK_所在工序ID：）</comment>
+     </column> 
+  </property> 
+  <property name="FQualityType" type="java.lang.Integer">
+     <column name="F_QUALITY_TYPE"> 
+    <comment>参数类型(1-计量,2-计数)</comment>
+     </column> 
+  </property> 
+  <property name="FControlMode" type="java.lang.String">
+     <column name="F_CONTROL_MODE"> 
+    <comment>管控分类(0-否,1-百分比偏差控制,2-非百分比偏差控,3-允差控制)</comment>
+     </column> 
+  </property> 
+  <property name="FDataTable" type="java.lang.String">
+     <column name="F_DATA_TABLE"> 
+    <comment>参数原始数据存放表名,统一格式T_RTD_LxPy</comment>
+     </column> 
+  </property> 
+  <property name="FOrder" type="java.lang.String">
+     <column name="F_ORDER"> 
+    <comment>F_ORDER（排序）</comment>
+     </column> 
+  </property> 
+  <property name="FTag" type="java.lang.String">
+     <column name="F_TAG"> 
+    <comment>采集标识(如OPC点标识)</comment>
+     </column> 
+  </property> 
+  <property name="FMaster" type="java.lang.String">
+     <column name="F_MASTER"> 
+    <comment>是否是主秤(即稳态生产判别参数)0-不是,1-是</comment>
+     </column> 
+  </property> 
+  <property name="FSteadystateSetval" type="java.lang.Double">
+     <column name="F_STEADYSTATE_SETVAL"> 
+    <comment>稳态判别设定值(仅主秤有效)</comment>
+     </column> 
+  </property> 
+  <property name="FBrankflowDuration" type="java.lang.Long">
+     <column name="F_BRANKFLOW_DURATION"> 
+    <comment>断流统计时长(秒)(仅主秤有效)</comment>
+     </column> 
+  </property> 
+  <property name="FTomasterDelay" type="java.lang.Long">
+     <column name="F_TOMASTER_DELAY"> 
+    <comment>与主秤延时(秒)</comment>
+     </column> 
+  </property> 
+  <property name="FToolId" type="java.lang.String">
+     <column name="F_TOOL_ID"> 
+    <comment>默认监控工具</comment>
+     </column> 
+  </property> 
+  <property name="FExternalFk" type="java.lang.String">
+     <column name="F_EXTERNAL_FK"> 
+    <comment>外部系统编码</comment>
+     </column> 
+  </property> 
+  <property name="FRemark1" type="java.lang.String">
+     <column name="F_REMARK1"> 
+    <comment>预留1</comment>
+     </column> 
+  </property> 
+  <property name="FRemark2" type="java.lang.String">
+     <column name="F_REMARK2"> 
+    <comment>预留2</comment>
+     </column> 
+  </property> 
+  <property name="FRemark3" type="java.lang.String">
+     <column name="F_REMARK3"> 
+    <comment>预留3</comment>
+     </column> 
+  </property> 
+  <property name="FRemark4" type="java.lang.String">
+     <column name="F_REMARK4"> 
+    <comment>预留4</comment>
+     </column> 
+  </property> 
+  <property name="FRemark5" type="java.lang.String">
+     <column name="F_REMARK5"> 
+    <comment>预留5</comment>
+     </column> 
+  </property> 
+  <property name="FEnableFlag" type="java.lang.String">
+     <column name="F_ENABLE_FLAG"> 
+    <comment>0-禁用,1-启用</comment>
+     </column> 
+  </property> 
+  <property name="FSysFlag" type="java.lang.String">
+     <column name="F_SYS_FLAG"> 
+     </column> 
+  </property> 
+  <property name="FCreator" type="java.lang.String">
+     <column name="F_CREATOR"> 
+    <comment>创建人</comment>
+     </column> 
+  </property> 
+  <property name="FCreateTime" type="java.lang.String">
+     <column name="F_CREATE_TIME"> 
+    <comment>创建时间</comment>
+     </column> 
+  </property> 
+  <property name="FLastModifier" type="java.lang.String">
+     <column name="F_LAST_MODIFIER"> 
+    <comment>修改人</comment>
+     </column> 
+  </property> 
+  <property name="FLastModifiedTime" type="java.lang.String">
+     <column name="F_LAST_MODIFIED_TIME"> 
+    <comment>修改时间</comment>
+     </column> 
+  </property> 
+    </class> 
+ </hibernate-mapping>

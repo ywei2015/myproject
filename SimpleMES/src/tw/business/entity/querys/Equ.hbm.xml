@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+	<!--获取设备维保任务定义列表数据 -->
+	<query name="EQU.FETCH.WBTASKDEFINE.LIST">
+		<![CDATA[
+			SELECT T FROM tw.business.entity.equ.EquWbtaskDefine T WHERE T.sysFlag='1' and T.wbTasktype = ? 
+			  and T.taskName like ?
+    	]]>
+	</query>
+
+	<!--获取设备维保任务定义步骤子表 -->
+	<query name="EQU.FETCH.WBTASKSTEPDEFINE.LIST">
+		<![CDATA[
+			SELECT T FROM tw.business.entity.equ.EquWbtaskStepDefine T WHERE T.sysFlag='1' and T.taskdefinePid = ?  
+				order by T.stepIndex asc
+    	]]>
+	</query>
+
+	<!--获取作业对象类型-->
+	<sql-query name="EQU.FETCH.V_EQU_TASKJOBOBJECTTYPE">
+		<![CDATA[
+			SELECT * FROM v_equ_taskjobobjecttype WHERE F_CODE = ?  
+    	]]>
+	</sql-query>
+	
+	<!--获取任务类型名称-->
+	<sql-query name="EQU.FETCH.V_EQU_TASKTYPE">
+		<![CDATA[
+			SELECT * FROM v_equ_tasktype WHERE F_CODE = ?  
+    	]]>
+	</sql-query>
+	
+	<!--获取作业对象名称-->
+	<sql-query name="EQU.FETCH.T_EQU_INFO">
+		<![CDATA[
+			SELECT * FROM t_equ_info WHERE F_EQU_CODE = ?  
+    	]]>
+	</sql-query>
+	
+	<!--获取任务执行者类型名称-->
+	<sql-query name="EQU.FETCH.V_EQU_TASKSENDEETYPE">
+		<![CDATA[
+			SELECT * FROM v_equ_tasksendeetype WHERE F_CODE = ?  
+    	]]>
+	</sql-query>
+	
+	<!--设备维保执行                          BEGIN-->
+	<!--获取设备维保执行列表数据-->
+	<query name="EQU.FETCH.WBTASK.LIST">
+		<![CDATA[
+			SELECT T FROM tw.business.entity.equ.EquWbtask T WHERE T.sysFlag='1' and T.taskName like ? 
+				and T.wbTasktype = ?  and T.equId = ? and T.status = ? order by T.date desc
+    	]]>
+	</query>
+	
+	<!--获取设备维保执行步骤子表-->
+	<query name="EQU.FETCH.WBTASKSTEP.LIST">
+		<![CDATA[
+			SELECT T FROM tw.business.entity.equ.EquWbtaskStep T WHERE T.sysFlag='1' and T.taskPid = ?  
+				order by T.stepIndex asc
+    	]]>
+	</query>
+	
+	<!--获取设备台账列表数据-->
+	<query name="EQU.FETCH.TZINFO.LIST">
+		<![CDATA[
+			SELECT T
+			FROM tw.business.entity.equ.EquInfo T
+			 WHERE
+			  T.sysFlag='1' and T.equName like ? and T.equKind = ? and T.status = ? 
+    	]]>
+	</query> 
+	
+	<!--获取设备维修列表数据-->
+	<query name="EQU.FETCH.REPAIR.LIST">
+		<![CDATA[
+			SELECT T
+			FROM tw.business.entity.equ.EquRepairform T
+			 WHERE T.sysFlag='1' 
+			 and T.equName like ? and T.status = ? 
+			 and Date(T.occurTime) >= ? 
+			 and Date(T.occurTime) <= ? 
+			 order by T.createTime desc
+    	]]>
+	</query> 
+	
+	<!--获取维修记录数据-->
+	<query name="EQU.FETCH.RECORD.LIST">
+		<![CDATA[
+			SELECT T
+			FROM tw.business.entity.equ.EquRepairform T
+			 WHERE
+			  T.sysFlag='1'  and T.status >=10 and  T.status<=29
+			 and T.equName like ? and T.status = ?
+			 order by T.createTime desc 
+    	]]>
+	</query> 
+	
+	<!--获取设备维修数据-->
+	<query name="EQU.FETCH.RECORDBYID.LIST">
+		<![CDATA[
+			SELECT T
+			FROM tw.business.entity.equ.EquRepairform T
+			 WHERE
+			  T.sysFlag='1' and T.issubmitCheck='1' and T.pid= ? 
+    	]]>
+	</query>
+	
+	<!--获取设备验证数据-->
+	<query name="EQU.FETCH.VERIFICAT.LIST">
+		<![CDATA[
+			SELECT T
+			FROM tw.business.entity.equ.EquRepairform T
+			 WHERE
+			  T.sysFlag='1' and T.issubmitCheck='1'
+			   and T.status >=29
+			 and T.equName like ? and T.status = ?
+			 order by T.createTime desc
+    	]]>
+	</query>
+</hibernate-mapping>

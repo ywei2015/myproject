@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2008-12-16 10:45:42 by mars -->
+<hibernate-mapping>
+	<class name="tw.sysbase.entity.pub.ObjStructureRef" table="t_pub_obj_structure_ref">
+		<id name="id" column="F_PID" length="32" type="string">
+			<generator class="uuid.hex" />
+		</id>
+		<property name="structureId" column="F_STRUCTURE_PID" length="32"
+			type="string" />
+		<property name="objRefId" column="F_OBJ_REF_PID" length="32"
+			type="string" />
+	</class>
+</hibernate-mapping>

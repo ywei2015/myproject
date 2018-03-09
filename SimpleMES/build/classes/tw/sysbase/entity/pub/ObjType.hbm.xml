@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="tw.sysbase.entity.pub.ObjType" table="t_pub_obj_type">
+		<id name="id" column="F_PID" length="32" type="string">
+			<generator class="uuid.hex" />
+		</id>
+		<property name="code" column="F_TYPE_CODE" length="500" type="string" />
+		<property name="name" column="F_TYPE_NAME" length="200" type="string" />
+		<property name="typeCate" column="F_TYPE_CATE" length="200"
+			type="string" />
+		<property name="sysFlag" column="F_SYS_FLAG" precision="1"
+			scale="0" type="integer" />
+		<property name="defaultValue" column="F_DEFAULT_VALUE"
+			length="200" type="string" />
+		<property name="defaultLength" column="F_DEFAULT_LENGTH"
+			precision="8" scale="0" type="integer" />
+	</class>
+</hibernate-mapping>

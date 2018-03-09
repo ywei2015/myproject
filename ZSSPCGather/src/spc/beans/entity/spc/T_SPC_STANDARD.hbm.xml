@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE hibernate-mapping PUBLIC     "-//Hibernate/Hibernate Mapping DTD 3.0//EN"     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> <hibernate-mapping> 
+    <class name="spc.beans.entity.spc.TSpcStandard" table="T_SPC_STANDARD"> 
+  <id name="FPid" type="java.lang.String">
+    <column name="F_PID"> 
+     <comment>主键</comment> 
+     </column> 
+     <generator class="uuid.hex"></generator>
+  </id> 
+  <property name="FKBrandid" type="java.lang.String">
+     <column name="FK_BRANDID"> 
+    <comment>产品牌号(FK)</comment>
+     </column> 
+  </property> 
+  <property name="FKParameterid" type="java.lang.String">
+     <column name="FK_PARAMETERID"> 
+    <comment>工艺参数点(FK)</comment>
+     </column> 
+  </property> 
+  <property name="FName" type="java.lang.String">
+     <column name="F_NAME"> 
+    <comment>参数规格名称</comment>
+     </column> 
+  </property> 
+  <property name="FExternalFk" type="java.lang.String">
+     <column name="F_EXTERNAL_FK"> 
+    <comment>外部系统编码</comment>
+     </column> 
+  </property> 
+  <property name="FQualityType" type="java.lang.String">
+     <column name="F_QUALITY_TYPE"> 
+    <comment>参数类型(1-计量,2-计数)</comment>
+     </column> 
+  </property> 
+  <property name="FControlModel" type="java.lang.Integer">
+     <column name="F_CONTROL_MODEL"> 
+    <comment>控制方式(1-双边,2-只有上限,3-只有下限)</comment>
+     </column> 
+  </property> 
+  <property name="FTarget" type="java.lang.Double">
+     <column name="F_TARGET"> 
+    <comment>目标值(规格中心值)</comment>
+     </column> 
+  </property> 
+  <property name="FUsl" type="java.lang.Double">
+     <column name="F_USL"> 
+    <comment>规格上限</comment>
+     </column> 
+  </property> 
+  <property name="FLsl" type="java.lang.Double">
+     <column name="F_LSL"> 
+    <comment>规格下限</comment>
+     </column> 
+  </property>  
+  <property name="FIncludeUSL" type="java.lang.String">
+     <column name="F_INCLUDE_USL"> 
+    <comment>是否包括规格上限</comment>
+     </column> 
+  </property> 
+  <property name="FIncludeLSL" type="java.lang.String">
+     <column name="F_INCLUDE_LSL"> 
+    <comment>是否包括规格下限</comment>
+     </column> 
+  </property> 
+  <property name="FGatherUplimit" type="java.lang.Double">
+     <column name="F_GATHER_UPLIMIT"> 
+    <comment>规格上限</comment>
+     </column> 
+  </property> 
+  <property name="FGatherLowlimit" type="java.lang.Double">
+     <column name="F_GATHER_LOWLIMIT"> 
+    <comment>规格下限</comment>
+     </column> 
+  </property> 
+  <property name="FIsstatistics" type="java.lang.String">
+     <column name="F_ISSTATISTICS"> 
+    <comment>是否统计(0-不统计,1-统计)</comment>
+     </column> 
+  </property> 
+  <property name="FModulus" type="java.lang.Double">
+     <column name="F_MODULUS"> 
+    <comment>规格加严系数(默认为1，将影响作图、判异、指标计算)</comment>
+     </column> 
+  </property> 
+  <property name="FOrderby" type="java.lang.String">
+     <column name="F_ORDERBY"> 
+    <comment>排序</comment>
+     </column> 
+  </property> 
+  <property name="FGreenMin" type="java.lang.Double">
+     <column name="F_GREEN_MIN"> 
+    <comment>彩虹图绿区MIN</comment>
+     </column> 
+  </property> 
+  <property name="FGreenMax" type="java.lang.Double">
+     <column name="F_GREEN_MAX"> 
+    <comment>彩虹图绿区MAX</comment>
+     </column> 
+  </property> 
+  <property name="FYellowMin1" type="java.lang.Double">
+     <column name="F_YELLOW_MIN1"> 
+    <comment>彩虹图黄区MIN1</comment>
+     </column> 
+  </property> 
+  <property name="FYellowMax1" type="java.lang.Double">
+     <column name="F_YELLOW_MAX1"> 
+    <comment>彩虹图黄区MAX1</comment>
+     </column> 
+  </property> 
+  <property name="FYellowMin2" type="java.lang.Double">
+     <column name="F_YELLOW_MIN2"> 
+    <comment>彩虹图黄区MIN2</comment>
+     </column> 
+  </property> 
+  <property name="FYellowMax2" type="java.lang.Double">
+     <column name="F_YELLOW_MAX2"> 
+    <comment>彩虹图黄区MAX2</comment>
+     </column> 
+  </property> 
+  <property name="FRedMin1" type="java.lang.Double">
+     <column name="F_RED_MIN1"> 
+    <comment>彩虹图红区MIN1</comment>
+     </column> 
+  </property> 
+  <property name="FRedMax1" type="java.lang.Double">
+     <column name="F_RED_MAX1"> 
+    <comment>彩虹图红区MAX1</comment>
+     </column> 
+  </property> 
+  <property name="FRedMin2" type="java.lang.Double">
+     <column name="F_RED_MIN2"> 
+    <comment>彩虹图红区MIN2</comment>
+     </column> 
+  </property> 
+  <property name="FRedMax2" type="java.lang.Double">
+     <column name="F_RED_MAX2"> 
+    <comment>彩虹图红区MAX2</comment>
+     </column> 
+  </property> 
+  <property name="FRemark1" type="java.lang.String">
+     <column name="F_REMARK1"> 
+    <comment>预留1</comment>
+     </column> 
+  </property> 
+  <property name="FRemark2" type="java.lang.String">
+     <column name="F_REMARK2"> 
+    <comment>预留2</comment>
+     </column> 
+  </property> 
+  <property name="FRemark3" type="java.lang.String">
+     <column name="F_REMARK3"> 
+    <comment>预留3</comment>
+     </column> 
+  </property> 
+  <property name="FRemark4" type="java.lang.String">
+     <column name="F_REMARK4"> 
+    <comment>预留4</comment>
+     </column> 
+  </property> 
+  <property name="FRemark5" type="java.lang.String">
+     <column name="F_REMARK5"> 
+    <comment>预留5</comment>
+     </column> 
+  </property> 
+  <property name="FVersion" type="java.lang.String">
+     <column name="F_VERSION"> 
+    <comment>版本号</comment>
+     </column> 
+  </property> 
+  <property name="FEnableTime" type="java.lang.String">
+     <column name="F_ENABLE_TIME"> 
+    <comment>生效时间点YYYYMMDDhh24MISS</comment>
+     </column> 
+  </property> 
+  <property name="FDisableTime" type="java.lang.String">
+     <column name="F_DISABLE_TIME"> 
+    <comment>停用时间点YYYYMMDDhh24MISS</comment>
+     </column> 
+  </property> 
+  <property name="FEnableFlag" type="java.lang.String">
+     <column name="F_ENABLE_FLAG"> 
+    <comment>0-禁用,1-启用</comment>
+     </column> 
+  </property> 
+  <property name="FParstdJson" type="java.lang.String">
+     <column name="F_PARSTD_JSON"> 
+    <comment>参数规格项JSON预组,每次记录更新时更新此项</comment>
+     </column> 
+  </property> 
+  <property name="FSysFlag" type="java.lang.String">
+     <column name="F_SYS_FLAG"> 
+     </column> 
+  </property> 
+  <property name="FCreator" type="java.lang.String">
+     <column name="F_CREATOR"> 
+    <comment>创建人</comment>
+     </column> 
+  </property> 
+  <property name="FCreateTime" type="java.lang.String">
+     <column name="F_CREATE_TIME"> 
+    <comment>创建时间</comment>
+     </column> 
+  </property> 
+  <property name="FLastModifier" type="java.lang.String">
+     <column name="F_LAST_MODIFIER"> 
+    <comment>修改人</comment>
+     </column> 
+  </property> 
+  <property name="FLastModifiedTime" type="java.lang.String">
+     <column name="F_LAST_MODIFIED_TIME"> 
+    <comment>修改时间</comment>
+     </column> 
+  </property>     
+  
+    </class> 
+ </hibernate-mapping>

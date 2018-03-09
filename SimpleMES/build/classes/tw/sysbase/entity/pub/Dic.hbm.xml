@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2008-12-16 10:45:42 by mars -->
+<hibernate-mapping>
+	<class name="tw.sysbase.entity.pub.Dic" table="t_pub_dic">
+		<id name="id" column="F_PID" length="32" type="string">
+			<generator class="uuid.hex" />
+		</id>
+		<property name="type" column="F_OBJ_PID" length="32" type="string" />
+		<property name="code" column="F_DIC_CODE" length="500" type="string" />
+		<property name="name" column="F_DIC_NAME" length="200" type="string" />
+		<property name="remark" column="F_REMARK" length="500" type="string" />
+		<property name="creator" column="F_CREATOR" length="32" type="string" />
+		<property name="createTime" column="F_CREATE_TIME" length="14"
+			type="string" />
+		<property name="lastModifier" column="F_LAST_MODIFIER"
+			length="32" type="string" />
+		<property name="lastModifiedTime" column="F_LAST_MODIFIED_TIME"
+			length="14" type="string" />
+		<property name="sysFlag" column="F_SYS_FLAG" precision="1"
+			scale="0" type="integer" />
+		<property name="fullName" column="F_VALUE1" length="500"
+			type="string" />
+
+		<property name="value2" column="F_VALUE2" length="500" type="string" />
+		<property name="value3" column="F_VALUE3" length="500" type="string" />
+		<property name="value4" column="F_VALUE4" length="500" type="string" />
+		<property name="value5" column="F_VALUE5" length="500" type="string" />
+		<property name="value6" column="F_VALUE6" length="500" type="string" />
+		<property name="value7" column="F_VALUE7" length="500" type="string" />
+		<property name="value8" column="F_VALUE8" length="500" type="string" />
+		<property name="value9" column="F_VALUE9" length="500" type="string" />
+		<property name="value10" column="F_VALUE10" length="500"
+			type="string" />
+		<property name="otherId1" column="F_OTHER_PID1" length="32"
+			type="string" />
+		<property name="otherId2" column="F_OTHER_PID2" length="32"
+			type="string" />
+		<property name="otherId3" column="F_OTHER_PID3" length="32"
+			type="string" />
+		<property name="otherId4" column="F_OTHER_PID4" length="32"
+			type="string" />
+		<property name="otherId5" column="F_OTHER_PID5" length="32"
+			type="string" />
+		<property name="flag1" column="F_FLAG1" precision="1" scale="0"
+			type="integer" />
+		<property name="flag2" column="F_FLAG2" precision="1" scale="0"
+			type="integer" />
+		<property name="flag3" column="F_FLAG3" precision="1" scale="0"
+			type="integer" />
+		<property name="flag4" column="F_FLAG4" precision="1" scale="0"
+			type="integer" />
+		<property name="flag5" column="F_FLAG5" precision="1" scale="0"
+			type="integer" />
+		<property name="num1" column="F_NUM1" precision="8" scale="0"
+			type="integer" />
+		<property name="num2" column="F_NUM2" precision="8" scale="0"
+			type="integer" />
+		<property name="num3" column="F_NUM3" precision="8" scale="0"
+			type="integer" />
+		<property name="num4" column="F_NUM4" precision="8" scale="0"
+			type="integer" />
+		<property name="num5" column="F_NUM5" precision="8" scale="0"
+			type="integer" />
+		<property name="double1" column="F_DOUBLE1" precision="16"
+			scale="2" type="double" />
+		<property name="double2" column="F_DOUBLE2" precision="16"
+			scale="2" type="double" />
+		<property name="double3" column="F_DOUBLE3" precision="16"
+			scale="2" type="double" />
+		<property name="double4" column="F_DOUBLE4" precision="16"
+			scale="2" type="double" />
+		<property name="double5" column="F_DOUBLE5" precision="16"
+			scale="2" type="double" />
+	</class>
+</hibernate-mapping>

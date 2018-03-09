@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE hibernate-mapping PUBLIC     "-//Hibernate/Hibernate Mapping DTD 3.0//EN"     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> <hibernate-mapping> 
+    <class name="spc.beans.entity.spc.TSpcProcessBatch" table="T_SPC_PROCESSBATCH"> 
+  <id name="FPid" type="java.lang.String">
+    <column name="F_PID"> 
+     </column> 
+     <generator class="assigned"></generator>
+  </id> 
+  <property name="FBatch" type="java.lang.String">
+     <column name="F_BATCH"> 
+    <comment>生产批次</comment>
+     </column> 
+  </property> 
+  <property name="FBrand" type="java.lang.String">
+     <column name="F_BRAND"> 
+    <comment>产品牌号ID</comment>
+     </column> 
+  </property> 
+  <property name="FProcess" type="java.lang.String">
+     <column name="F_PROCESS"> 
+    <comment>工序ID</comment>
+     </column> 
+  </property> 
+  <property name="FStartTime" type="java.lang.String">
+     <column name="F_START_TIME"> 
+    <comment>批次开始时间</comment>
+     </column> 
+  </property> 
+  <property name="FEndTime" type="java.lang.String">
+     <column name="F_END_TIME"> 
+    <comment>批次结束时间</comment>
+     </column> 
+  </property>   
+  <property name="FState" type="java.lang.String">
+     <column name="F_STATE"> 
+    <comment>批次状态</comment>
+     </column> 
+  </property> 
+  <property name="FRemark1" type="java.lang.String">
+     <column name="F_REMARK1"> 
+    <comment>预留1</comment>
+     </column> 
+  </property> 
+  <property name="FRemark2" type="java.lang.String">
+     <column name="F_REMARK2"> 
+    <comment>预留2</comment>
+     </column> 
+  </property> 
+  <property name="FRemark3" type="java.lang.String">
+     <column name="F_REMARK3"> 
+    <comment>预留3</comment>
+     </column> 
+  </property> 
+  <property name="FRemark4" type="java.lang.String">
+     <column name="F_REMARK4"> 
+    <comment>预留4</comment>
+     </column> 
+  </property> 
+  <property name="FRemark5" type="java.lang.String">
+     <column name="F_REMARK5"> 
+    <comment>预留5</comment>
+     </column> 
+  </property> 
+  <property name="FSysFlag" type="java.lang.String">
+     <column name="F_SYS_FLAG"> 
+    <comment>记录有效标志</comment>
+     </column> 
+  </property> 
+  <property name="FCreateTime" type="java.lang.String">
+     <column name="F_CREATE_TIME"> 
+    <comment>创建时间</comment>
+     </column> 
+  </property> 
+    </class> 
+ </hibernate-mapping>

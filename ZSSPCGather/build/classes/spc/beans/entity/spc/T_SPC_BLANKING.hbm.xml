@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE hibernate-mapping PUBLIC     "-//Hibernate/Hibernate Mapping DTD 3.0//EN"     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> <hibernate-mapping> 
+    <class name="spc.beans.entity.spc.TSpcBlanking" table="T_SPC_BLANKING"> 
+  <id name="FPid" type="java.lang.String">
+    <column name="F_PID"> 
+     <comment>主键</comment> 
+     </column> 
+     <generator class="uuid.hex"></generator>
+  </id> 
+  <property name="FBatch" type="java.lang.String">
+     <column name="F_BATCH"> 
+    <comment>批次号</comment>
+     </column> 
+  </property> 
+  <property name="FProcessId" type="java.lang.String">
+     <column name="F_PROCESS_ID"> 
+    <comment>生产工序ID</comment>
+     </column> 
+  </property> 
+  <property name="FProcessTag" type="java.lang.String">
+     <column name="F_PROCESS_TAG"> 
+    <comment>主秤参数TAG</comment>
+     </column> 
+  </property> 
+  <property name="FCode" type="java.lang.String">
+     <column name="F_CODE"> 
+    <comment>F_CODE（参数代码）</comment>
+     </column> 
+  </property> 
+  <property name="FStartTime" type="java.lang.String">
+     <column name="F_START_TIME"> 
+    <comment>开始时间(YYYYMMDDhhmiss)</comment>
+     </column> 
+  </property> 
+  <property name="FEndTime" type="java.lang.String">
+     <column name="F_END_TIME"> 
+    <comment>结束时间(YYYYMMDDhhmiss)</comment>
+     </column> 
+  </property> 
+  <property name="FTotalTime" type="java.lang.Long">
+     <column name="F_TOTAL_TIME"> 
+    <comment>时长(秒)</comment>
+     </column> 
+  </property> 
+  <property name="FRemark1" type="java.lang.String">
+     <column name="F_REMARK1"> 
+    <comment>预留1</comment>
+     </column> 
+  </property> 
+  <property name="FRemark2" type="java.lang.String">
+     <column name="F_REMARK2"> 
+    <comment>预留2</comment>
+     </column> 
+  </property> 
+  <property name="FRemark3" type="java.lang.String">
+     <column name="F_REMARK3"> 
+    <comment>预留3</comment>
+     </column> 
+  </property> 
+  <property name="FRemark4" type="java.lang.String">
+     <column name="F_REMARK4"> 
+    <comment>预留4</comment>
+     </column> 
+  </property> 
+  <property name="FRemark5" type="java.lang.String">
+     <column name="F_REMARK5"> 
+    <comment>预留5</comment>
+     </column> 
+  </property> 
+  <property name="FSysFlag" type="java.lang.String">
+     <column name="F_SYS_FLAG"> 
+     </column> 
+  </property> 
+  <property name="FCreator" type="java.lang.String">
+     <column name="F_CREATOR"> 
+    <comment>创建人</comment>
+     </column> 
+  </property> 
+  <property name="FCreateTime" type="java.lang.String">
+     <column name="F_CREATE_TIME"> 
+    <comment>创建时间</comment>
+     </column> 
+  </property> 
+  <property name="FLastModifier" type="java.lang.String">
+     <column name="F_LAST_MODIFIER"> 
+    <comment>修改人</comment>
+     </column> 
+  </property> 
+  <property name="FLastModifiedTime" type="java.lang.String">
+     <column name="F_LAST_MODIFIED_TIME"> 
+    <comment>修改时间</comment>
+     </column> 
+  </property> 
+    </class> 
+ </hibernate-mapping>

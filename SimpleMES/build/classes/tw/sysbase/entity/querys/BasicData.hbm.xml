@@ -1,0 +1,449 @@
+<?xml version="1.0"?>
+    <!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+	<!--超级管理员菜单 -->
+	<sql-query name="BD.TREE.FETCHTRD.ALL">
+    <![CDATA[
+	      select trd.f_child_pid,d1.f_dic_name as f_child_name
+	,case when trd.f_parent_pid= ? then null else trd.f_parent_pid end as f_parent_id
+	,d.f_dic_name as f_parent_name,d1.f_value2,? as f_parent_pids,d1.f_value3 from t_pub_typerefdic trd,
+	             t_pub_obj_entity_ref oef,
+	             t_pub_obj_structure_ref osr,t_pub_dic d,t_pub_dic d1
+	       where trd.F_OBJ_REF_PID = oef.f_pid and trd.f_sys_flag = 1
+	         and oef.f_pid = osr.F_OBJ_REF_PID and oef.f_sys_flag = 1
+	         and trd.f_child_pid = d1.f_pid and d1.f_sys_flag =1
+	         and trd.f_parent_pid = d.f_pid and d.f_sys_flag =1
+	         and osr.F_STRUCTURE_PID = '10001' and trd.f_obj_ref_pid='10000'  
+					 order by d.f_dic_name,d1.f_num1
+    ]]>
+	</sql-query>
+
+	<!--角色管理下的功能授权 -->
+	<sql-query name="BD.TREE.FETCHTRD.BYID">
+    <![CDATA[
+	      select trd.f_child_pid as id,d1.f_dic_name as name
+  ,trd.f_parent_pid as pid
+   from t_pub_typerefdic trd,
+               t_pub_obj_entity_ref oef,
+               t_pub_obj_structure_ref osr,t_pub_dic d,t_pub_dic d1
+         where trd.F_OBJ_REF_PID = oef.f_pid and trd.f_sys_flag = 1
+           and oef.f_pid = osr.F_OBJ_REF_PID and oef.f_sys_flag = 1
+           and trd.f_child_pid = d1.f_pid and d1.f_sys_flag =1
+           and trd.f_parent_pid = d.f_pid and d.f_sys_flag =1
+           and osr.F_STRUCTURE_PID = ?
+           order by d.f_dic_name,d1.f_num1
+    ]]>
+	</sql-query>
+
+	<!--用户管理（部门角色联动） -->
+	<sql-query name="BD.TREE.FETCHTRD.BYIDANDPARENTID">
+    <![CDATA[
+	      select trd.f_child_pid as id,d1.f_dic_name as name
+  ,trd.f_parent_pid as pid,d.f_dic_name as f_parent_name,d.f_num1,d1.f_value2,d1.f_pid 
+   from t_pub_typerefdic trd,
+               t_pub_obj_entity_ref oef,
+               t_pub_obj_structure_ref osr,t_pub_dic d,t_pub_dic d1
+         where trd.F_OBJ_REF_PID = oef.f_pid and trd.f_sys_flag = 1
+           and oef.f_pid = osr.F_OBJ_REF_PID and oef.f_sys_flag = 1
+           and trd.f_child_pid = d1.f_pid and d1.f_sys_flag =1
+           and trd.f_parent_pid = d.f_pid and d.f_sys_flag =1
+           and osr.F_STRUCTURE_PID = ?
+           and trd.f_parent_pid= ?
+           order by d.f_dic_name,d1.f_num1
+    ]]>
+	</sql-query>
+	<!--用于刷新树结构 -->
+	<query name="BD.TREE.FETCHTRD.BYIDANDPARENTIDS">
+    <![CDATA[
+    	select new tw.sysbase.entity.pub.TreeNode(trd.childId,d1.name,trd.parentId,d.name,d.num1,d1.value2,d1.id) 
+   			from tw.sysbase.entity.pub.TypeRefDic as trd,
+               tw.sysbase.entity.pub.ObjEntityRef as oef,
+               tw.sysbase.entity.pub.ObjStructureRef as osr,tw.sysbase.entity.pub.Dic as d,tw.sysbase.entity.pub.Dic as d1 
+         where trd.objEntityRefId = oef.id and trd.sysFlag = 1 
+           and oef.id = osr.objRefId and oef.sysFlag = 1 
+           and trd.childId = d1.id and d1.sysFlag =1 
+           and trd.parentId = d.id and d.sysFlag =1 
+           and osr.structureId = ? 
+           order by d.name,d1.num1
+    ]]>
+	</query>
+
+	<!--用户菜单 -->
+	<sql-query name="BD.TREE.FETCHTRD.USERID">
+    <![CDATA[
+      select trd.f_child_pid,p0.f_dic_name as f_child_name,case when trd.f_parent_pid= ? then null else trd.f_parent_pid end as f_parent_id,
+p1.f_dic_name as f_parent_name,p0.f_value2,? as f_parent_pids,p0.f_value3 from t_pub_typerefdic trd 
+inner join t_pub_obj_entity_ref oef on trd.F_OBJ_REF_PID = oef.f_pid and oef.f_sys_flag='1'
+inner join t_pub_obj_structure_ref osr on oef.f_pid = osr.F_OBJ_REF_PID and osr.F_STRUCTURE_PID = '10001'
+inner join t_sec_resource rs on trd.f_child_pid = rs.f_target_id 
+inner join t_sec_role_permission rp on rs.f_pid = rp.f_resource_id
+inner join t_sec_user_r_role ur on rp.f_role_id = ur.f_role_id 
+inner join t_sec_user u on ur.f_user_id = u.f_pid and u.f_pid= ?  and u.f_sys_flag='1'
+inner join t_pub_dic p0 on p0.f_pid = trd.f_child_pid and p0.f_sys_flag='1'
+inner join t_pub_dic p1 on p1.f_pid = trd.f_parent_pid and p1.f_sys_flag='1'
+where trd.f_sys_flag='1' and trd.f_obj_ref_pid='10000' order by p1.f_dic_name,p0.f_num1
+    ]]>
+	</sql-query>
+
+	<sql-query name="BD.TREE.FETCHTRD.ALLS">
+    <![CDATA[
+      select trd.f_child_pid,d1.f_dic_name as f_child_name,trd.f_parent_pid
+    ,d.f_dic_name as f_parent_name,d.f_num1,d1.f_value2,d1.f_value3 from t_pub_typerefdic trd,
+             t_pub_obj_entity_ref oef,
+             t_pub_obj_structure_ref osr,t_pub_dic d,t_pub_dic d1
+       where trd.F_OBJ_REF_PID = oef.f_pid and trd.f_sys_flag = 1
+         and oef.f_pid = osr.F_OBJ_REF_PID and oef.f_sys_flag = 1
+         and trd.f_child_pid = d1.f_pid and d1.f_sys_flag =1
+         and trd.f_parent_pid = d.f_pid and d.f_sys_flag =1
+         and osr.F_STRUCTURE_PID = ?  
+         order by d.f_dic_name,d1.f_num1
+    ]]>
+	</sql-query>
+
+	<!--基础模型维护TREE begin -->
+	<sql-query name="BD.TREE.FETCHTRD.NODE">
+    <![CDATA[
+      select distinct trd.f_parent_pid as f_id,osr.f_structure_pid as f_pid,dic1.f_dic_name as f_name,dic1.f_num1,dic1.f_pid as keyid from t_pub_typerefdic trd,
+      t_pub_obj_entity_ref oef,t_pub_obj_structure_ref osr,t_pub_dic dic,t_pub_dic dic1
+       where trd.F_OBJ_REF_PID = oef.f_pid and trd.f_sys_flag = 1 and oef.f_pid = osr.F_OBJ_REF_PID and oef.f_sys_flag = 1
+         and trd.f_parent_pid = dic1.f_pid and dic1.f_sys_flag =1 and trd.f_child_pid = dic.f_pid and dic.f_sys_flag =1
+         and osr.F_STRUCTURE_PID = ?   
+    order by dic1.f_num1
+    ]]>
+	</sql-query>
+
+	<sql-query name="BD.TREE.FETCHTRD.LEAF">
+		select trd.f_child_pid as f_id,trd.f_parent_pid as f_pid,dic.f_dic_name as
+		f_name,dic1.f_num1,dic.f_pid as keyid from t_pub_typerefdic trd,
+		t_pub_obj_entity_ref oef,
+		t_pub_obj_structure_ref osr,
+		t_pub_dic dic,t_pub_dic dic1
+		where trd.F_OBJ_REF_PID = oef.f_pid and trd.f_sys_flag = 1
+		and oef.f_pid = osr.F_OBJ_REF_PID and oef.f_sys_flag = 1
+		and trd.f_parent_pid = dic1.f_pid and dic1.f_sys_flag =1
+		and trd.f_child_pid = dic.f_pid and dic.f_sys_flag =1
+		and osr.F_STRUCTURE_PID = ?
+		order by dic1.f_num1
+	</sql-query>
+
+	<sql-query name="BD.TREE.FETCHTRD.SUBNODE">
+    <![CDATA[
+      select trd.f_child_pid as f_id,trd.f_parent_pid as f_pid,dic.f_dic_name as f_name,dic1.f_num1 from t_pub_typerefdic trd,
+             t_pub_obj_entity_ref oef,
+             t_pub_obj_structure_ref osr,
+             t_pub_dic dic,t_pub_dic dic1
+       where trd.F_OBJ_REF_PID = oef.f_pid and trd.f_sys_flag = 1
+         and oef.f_pid = osr.F_OBJ_REF_PID and oef.f_sys_flag = 1
+         and trd.f_parent_pid = dic1.f_pid and dic1.f_sys_flag =1
+				 and trd.f_child_pid = dic.f_pid and dic.f_sys_flag =1
+         and osr.F_STRUCTURE_PID = ? 
+    order by dic1.f_num1
+    ]]>
+	</sql-query>
+	<!--基础模型维护TREE end -->
+
+	<!--zw 基础数据树 -->
+	<query name="OBJBASE.GETLIST.GET_BYPCONDITION">
+    <![CDATA[
+		select  new tw.sysbase.entity.pub.ObjBase(t.id, t.code ,t.name,t.sysFlag,t.remark)   from tw.sysbase.entity.pub.ObjBase t
+		where t.sysFlag = '1'
+		  and  t.code like ? 
+	      and t.name like ?  
+	      and t.superClass.id=?
+    ]]>
+	</query>
+	<!--zw 基础数据树 当 id存在时，根据id查，当id不存在时，更加父id查 -->
+	<query name="OBJBASE.GETLIST.GET_BYPID">
+    <![CDATA[
+		select  new tw.sysbase.entity.pub.ObjBase(id, name )   from tw.sysbase.entity.pub.ObjBase t
+		where t.sysFlag = '1' 
+		and t.id = ?  
+	    and t.superClass.id = ? 
+	    and t.sysFlag = ?
+    ]]>
+	</query>
+	<!--zw 关联数据查询 -->
+	<query name="BD.OBJENTITYREF.LIST">
+	    <![CDATA[
+	        from tw.sysbase.entity.pub.ObjEntityRef T 
+	       where T.sysFlag = '1' 
+	       	 and T.code like ?
+	         and T.name like ?
+	         and T.parentId = ?
+	         and T.childId = ? 
+	         and T.sysFlag = ?  
+	    order by T.code
+	    ]]>
+	</query>
+	<!--zw 基础数据分页查询 -->
+	<query name="DIC.FINDLISTPAGINATION.GET_BYPID">
+    <![CDATA[
+	     from tw.sysbase.entity.pub.Dic T 
+	       where T.sysFlag = '1' 
+	         and T.code like ? 
+	         and T.name like ? 
+	         and T.type = ?
+	         and T.sysFlag = ?
+	  		  order by  T.num1,T.name
+	   ]]>
+	</query>
+	<!--zw 基础数据分页查询 -->
+	<query name="OBJBASE.FINDLISTPAGINATION">
+    <![CDATA[
+	    select  new tw.sysbase.entity.pub.ObjBase(
+	    	id, name ,code,sysFlag,remark
+	    	)
+	    	from tw.sysbase.entity.pub.ObjBase T 
+	       where T.code like ? 
+	         and T.name like ? 
+	          and T.superClass.id=?
+	        
+	   ]]>
+	</query>
+
+	<!-- zw -->
+	<query name="TypeRefDic_FIND_BYCHILDID">
+	    <![CDATA[
+	        from tw.sysbase.entity.pub.TypeRefDic as t
+	       where t.childId=?
+	    ]]>
+	</query>
+	<!--基础类型关系维护TREE -->
+	<sql-query name="BD.TREE.FETCHTRD.BASE">
+    <![CDATA[
+	      select t.f_pid,t.f_obj_name as f_name,t.f_superclass_pid,d.f_obj_name from t_pub_obj_base t,t_pub_obj_base d 
+where t.f_superclass_pid = d.f_pid and d.f_Sys_Flag='1' and t.f_Sys_Flag='1' and t.f_superclass_pid= ?
+    ]]>
+	</sql-query>
+	<!--基础数据维护列表 -->
+	<query name="BD.TREE.FETCHDIC.BY.OBJID">
+    <![CDATA[
+	      from tw.sysbase.entity.pub.Dic where type= ? and sysFlag='1' order by num1
+    ]]>
+	</query>
+
+	<!--基础数据模型TREE，根据combobox得到内容TREE -->
+	<sql-query name="BD.TREE.FETCHTRD.BY.COMBOBOX">
+    <![CDATA[
+	      select trd.f_child_pid,d1.f_dic_name as f_child_name
+  ,trd.f_parent_pid,d.f_dic_name as f_parent_name,d1.f_value2,d1.f_pid from t_pub_typerefdic trd,
+               t_pub_obj_entity_ref oef,
+               t_pub_obj_structure_ref osr,t_pub_dic d,t_pub_dic d1
+         where trd.F_OBJ_REF_PID = oef.f_pid and trd.f_sys_flag = 1
+           and oef.f_pid = osr.F_OBJ_REF_PID and oef.f_sys_flag = 1
+           and trd.f_child_pid = d1.f_pid and d1.f_sys_flag =1
+           and trd.f_parent_pid = d.f_pid and d.f_sys_flag =1
+           and osr.F_STRUCTURE_PID = ?   
+           order by d.f_num1
+    ]]>
+	</sql-query>
+	<!--得到第一级COMBOBOX -->
+	<sql-query name="BD.TREE.FETCH.TREE.BY.COMBOBOX">
+    <![CDATA[
+	      select trd.f_child_pid,d1.f_dic_name as f_child_name,trd.f_parent_pid
+    ,d.f_dic_name as f_parent_name,d.f_num1,d1.f_value2,d1.f_pid from t_pub_typerefdic trd,
+             t_pub_obj_entity_ref oef,
+             t_pub_obj_structure_ref osr,t_pub_dic d,t_pub_dic d1
+       where trd.F_OBJ_REF_PID = oef.f_pid and trd.f_sys_flag = 1
+         and oef.f_pid = osr.F_OBJ_REF_PID and oef.f_sys_flag = 1
+         and trd.f_child_pid = d1.f_pid and d1.f_sys_flag =1
+         and trd.f_parent_pid = d.f_pid and d.f_sys_flag =1
+         and osr.F_STRUCTURE_PID = ?  and trd.f_obj_ref_pid = ?   
+         order by d.f_num1  
+    ]]>
+	</sql-query>
+	<sql-query name="BD.TREE.FETCH.TREE.BY.COMBOBOXSUB">
+    <![CDATA[
+	      select trd.f_parent_pid,trd.f_child_pid from t_pub_typerefdic trd,t_pub_obj_entity_ref t,t_pub_obj_structure_ref t1
+			where trd.F_OBJ_REF_PID = t.f_pid and t1.f_obj_ref_pid = t.f_pid and trd.f_sys_flag='1' and t.f_sys_flag='1'  
+				and t1.f_structure_pid = ?  and trd.f_child_pid is null 
+    ]]>
+	</sql-query>
+	<!--父节点得到子节点 -->
+	<!--zw 曾加条件 -->
+	<query name="DB.DIC.FETCHDICDETAILFORMAINTAIN">
+    <![CDATA[
+    	select dic from tw.sysbase.entity.pub.Dic as dic,
+    		tw.sysbase.entity.pub.TypeRefDic as trd,
+    		tw.sysbase.entity.pub.ObjEntityRef oef,
+    		tw.sysbase.entity.pub.ObjStructureRef as osr 
+    	where dic.id = trd.childId and trd.objEntityRefId = oef.id and dic.sysFlag = '1' and trd.sysFlag = '1' 
+			and oef.id = osr.objRefId and oef.sysFlag = 1
+			and trd.parentId = ? and osr.structureId = ? 
+			and dic.code like ? 
+			and dic.name like ?  
+    ]]>
+	</query>
+	<!--查询菜单功能项 -->
+	<query name="DB.DIC.FETCHDICDETAILFORMAINTAIN3">
+    <![CDATA[
+    	select dic from tw.sysbase.entity.pub.Dic as dic,
+    		tw.sysbase.entity.pub.TypeRefDic as trd,
+    		tw.sysbase.entity.pub.ObjEntityRef oef,
+    		tw.sysbase.entity.pub.ObjStructureRef as osr 
+    	where dic.id = trd.childId and trd.objEntityRefId = oef.id and dic.sysFlag = '1' and trd.sysFlag = '1' 
+			and oef.id = osr.objRefId and oef.sysFlag = 1
+			and trd.parentId = ? and osr.structureId = '10001'  and trd.objEntityRefId = ? 
+    ]]>
+	</query>
+	<!--zw -->
+	<query name="BD.DIC.FETCHDICDETAILFORMAINTAIN2">
+    <![CDATA[
+	      select trd
+	        from  tw.sysbase.entity.pub.TypeRefDic as trd,
+	              tw.sysbase.entity.pub.ObjEntityRef as oef,
+	              tw.sysbase.entity.pub.ObjStructureRef as osr
+	       where  
+	       	 trd.objEntityRefId = oef.id
+	       	 and trd.parentId = ?
+	         and trd.sysFlag = 1
+	         and oef.id = osr.objRefId
+	         and oef.sysFlag = 1
+	         and osr.structureId = ?
+
+    ]]>
+    </query>
+    <!--添加已有项传参-->
+    <query name="BD.DIC.FETCHDICDETAIL">
+    <![CDATA[
+    	SELECT oef 
+    		FROM tw.sysbase.entity.pub.ObjEntityRef as oef,
+    			 tw.sysbase.entity.pub.ObjStructureRef as osr,
+    			 tw.sysbase.entity.pub.Dic as d
+			where osr.objRefId = oef.id AND oef.parentId = d.type AND d.sysFlag='1' 
+				and oef.sysFlag = 1 AND osr.structureId = ? AND d.id = ? 
+
+    ]]>
+    </query>
+
+	<query name="BD.DIC.FETCHDICOBJECTTYPE">
+    <![CDATA[
+	   select oef
+          from tw.sysbase.entity.pub.ObjEntityRef as oef,
+         	   tw.sysbase.entity.pub.ObjStructureRef as osr
+         where oef.id = osr.objRefId
+           and osr.structureId = ? 
+           and oef.parentId in (select ref.childId from tw.sysbase.entity.pub.ObjEntityRef as ref where ref.id = ?) 
+    ]]>
+	</query>
+	<!--zw 基础模型维护查看详情 -->
+	<!-- 原有 select trd from tw.sysbase.entity.pub.TypeRefDic as trd, tw.sysbase.entity.pub.ObjEntityRef 
+		as oef, tw.sysbase.entity.pub.ObjStructureRef as osr where trd.objEntityRefId 
+		= oef.id and trd.childId = ? and trd.sysFlag = 1 and oef.id = osr.objRefId 
+		and oef.sysFlag = 1 and osr.structureId = ? 这里的sysFlag可能会成为遗留的bug -->
+	<query name="BD.DIC.FETCHDICDETAILFORMAINTAIN">
+    <![CDATA[
+      select trd
+        from  tw.sysbase.entity.pub.TypeRefDic as trd,
+         tw.sysbase.entity.pub.Dic as dic
+       where   trd.childId = ?
+      	 and trd.childId = dic.id
+         and trd.sysFlag = 1 and dic.sysFlag='1'
+
+    ]]>
+	</query>
+	<!--人员管理（功能授权之功能菜单） -->
+	<query name="BD.OBJSTRUCTURE.ACCESSCONTRL.LIST">
+    <![CDATA[
+        from tw.sysbase.entity.pub.ObjStructure as os
+       where os.sysFlag = 1
+         and os.accessControlId = '4028a07b246a97c201246a9aea380002'
+    order by os.name
+    ]]>
+	</query>
+	<!--基础数据-结构维护 -->
+	<query name="BD.OBJSTRUCTURE.LIST">
+    <![CDATA[
+        from tw.sysbase.entity.pub.ObjStructure as os
+       where os.code like ?
+         and os.name like ?
+         and os.sysFlag = '1'
+    order by os.code
+    ]]>
+	</query>
+	<!--基础数据-结构维护 -->
+	<query name="BD.OBJSTRUCTURE.FETCHOBJSTRUCTURESUB">
+    <![CDATA[
+      select oef
+        from tw.sysbase.entity.pub.ObjEntityRef as oef,
+             tw.sysbase.entity.pub.ObjStructureRef as osr
+       where oef.id = osr.objRefId
+         and osr.structureId = ?
+    ]]>
+	</query>
+	<!--基础数据-结构维护-获取T_PUB_OBJ_STRUCTURE_REF -->
+	<query name="BD.OBJSTRUCTURE.FETCHOBJSTRUCTURELIST">
+    <![CDATA[
+      from tw.sysbase.entity.pub.ObjStructureRef as osr where osr.structureId = ?
+    ]]>
+	</query>
+
+	<sql-query name="BD.DIC.FETCHDICFORADDMAINTAIN">
+    <![CDATA[
+    select d.f_pid,
+	       d.f_dic_code,
+	       d.f_dic_name,
+	       d.f_value1,
+	       d.f_obj_pid
+	  from (select t.f_pid,
+	               t.f_dic_code,
+	               t.f_dic_name,
+	               t.f_value1,
+	               t.f_obj_pid,
+	               tt.id,t.f_sys_flag
+	          from t_pub_dic t left outer join 
+	               (select trd.f_parent_pid as id
+	                  from t_pub_typerefdic        trd,
+	                       t_pub_obj_entity_ref    oer,
+	                       t_pub_obj_structure_ref ref
+	                 where trd.f_obj_ref_pid = oer.f_pid
+	                   and trd.f_sys_flag = '1'
+	                   and oer.f_parent_pid = ? 
+	                   and oer.f_pid = ref.f_obj_ref_pid
+	                   and ref.f_structure_pid = ? 
+	                union
+	                select trd.f_child_pid as id
+	                  from t_pub_typerefdic        trd,
+	                       t_pub_obj_entity_ref    oer,
+	                       t_pub_obj_structure_ref ref
+	                 where trd.f_obj_ref_pid = oer.f_pid
+	                   and trd.f_parent_pid in (select t.f_pid from t_pub_dic t where t.f_sys_flag='1' ) 
+	                   and trd.f_sys_flag = '1'
+	                   and oer.f_child_pid = ? 
+	                   and oer.f_pid = ref.f_obj_ref_pid
+	                   and ref.f_structure_pid = ? ) as tt
+	         on t.f_pid = tt.id 
+	           and t.f_sys_flag = '1') as d
+	 where d.id is null
+	   and d.f_sys_flag = '1'
+	   and d.f_obj_pid = ? 
+	   and f_dic_name like ?
+    ]]>
+	</sql-query>
+	<!--通过菜单url得到基础信息 -->
+	<query name="BD.DIC.FETCHDICBYVALUE">
+    <![CDATA[
+        from tw.sysbase.entity.pub.Dic T 
+       where T.type = '10000' 
+         and T.sysFlag = '1' 
+         and T.value2 = ?  
+    ]]>
+	</query>
+	<!--通过用户ID查找所有资源 -->
+	<!--<query name="BD.DIC.FETCHTARGETBYUSERID"> <![CDATA[ from tw.sysbase.entity.sec.ResourceImpl 
+		as r, tw.sysbase.entity.sec.RolePermissionImpl as rp, where r.id = rp.resource.id 
+		and T.sysFlag = '1' and T.value2 = ? ]]> </query> -->
+	
+	<sql-query name="BD.DIC.FETCHOBJENTITYREFLIST">
+    <![CDATA[
+    	SELECT d.F_PID,d.F_OBJ_CODE AS F_CODE,d.F_OBJ_NAME AS F_NAME,'1' AS F_INDEX 
+			FROM t_pub_obj_base d,t_pub_obj_entity_ref oer,t_pub_obj_structure_ref osr
+		WHERE osr.F_OBJ_REF_PID = oer.F_PID AND oer.F_CHILD_PID = d.F_PID AND d.F_SYS_FLAG='1' AND oer.F_SYS_FLAG='1' 
+			AND osr.F_STRUCTURE_PID = ?  AND oer.F_PARENT_PID = ?
+    ]]>
+	</sql-query>
+	
+</hibernate-mapping>

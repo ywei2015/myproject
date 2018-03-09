@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"> 
+		<title></title> 
+		  <link rel="stylesheet" href="../../support/css/zTreeStyle/metro.css">
+		<link rel="stylesheet" href="../../support/css/zTreeStyle/style.css">
+    	
+		<link rel="stylesheet" href="../../support/css/bootstrap.min.css" /> 
+		<link rel="stylesheet" href="../../support/css/bootstrap-table.all.css" />   
+		<link rel="stylesheet" href="../../support/css/bootstrap-datetimepicker.min.css" />    
+		<script type="text/javascript" src="../../public/pub.js" ></script>
+		<script type="text/javascript" src="../../support/js/jquery.min.js" ></script> 
+		<script type="text/javascript" src="../../support/js/bootstrap.min.js" ></script>
+		<script type="text/javascript" src="../../support/js/bootstrap-table.all.js" ></script>
+		<script type="text/javascript" src="../../support/js/bootstrap-datetimepicker.min.js" ></script>
+		<script src="../../support/js/jquery.ztree.min.js"></script> 
+		<script type="text/javascript" src="../../public/SmartForm.js" ></script> 
+		<script src="../../support/layer/layui.all.js"></script>
+		<script type="text/javascript" src="../../public/common.js" ></script> 
+		<script type="text/javascript" src="struct_index.js" ></script>
+	</head>
+<body>   
+    <div title="TestPanel" id="TestPanel" class="panel-body"> 
+	   <div title="SearchPanel" id="SearchPanel" class="row col-md-12 form-inline">   </div>
+    </div>
+	  
+	<div class="container" style="width:100%;">
+	    <div class="table-responsive"> 
+	    	<div id="searchpanelA" class="panel-body"> 
+		    </div>
+	        <div id="toolbar">
+			        	<button id="btnAdd"  class="btn btn-primary btn-sm"><li class="glyphicon glyphicon-edit"> 新增 </li></button> 
+			        	<button id="btnDel"  class="btn btn-primary btn-sm"><li class="glyphicon glyphicon-floppy-remove"> 删除</li></button>	        
+			        </div>
+					<table id="table" data-show-columns="true" class="table table-bordered">
+						<caption class="text-center text-primary">
+							<strong>结构信息</strong>
+						</caption>
+					</table>
+					 <table id="table2" data-show-columns="true" class="table table-bordered">
+						<caption class="text-center text-primary">
+							<strong>对象关系</strong>
+						</caption>
+					</table> 
+			 </div> 
+			
+	</div> 
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" 
+							aria-hidden="true">
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+							关系展示
+					</h4>
+				</div>
+				<div class="modal-body">
+					<ul id="ztree_show" class="ztree" style="width:100%;height: 100%; overflow-y:auto;padding: 10px 80px;"></ul>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" 
+							data-dismiss="modal">关闭
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+	<!-- <div class="add_data" id="hide_tree_show" style="display:none ">
+			
+	</div> -->
+	<!-- <div class="add_data" id="hide_tree_connection" style="display:none ">
+		<ul id="ztree_connection" class="ztree" style="width:400px;height: 300px; overflow-y:auto;padding: 10px 80px;"></ul>
+	</div> -->
+</body>
+
+</html>

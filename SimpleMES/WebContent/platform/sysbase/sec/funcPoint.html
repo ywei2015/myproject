@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>功能点管理</title>
+<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="../../support/css/zTreeStyle/metro.css">
+		<link rel="stylesheet" href="../../support/css/zTreeStyle/style.css">
+    	<script type="text/javascript" src="../../support/js/jquery.min.js"></script>
+    	<script src="../../support/js/jquery.ztree.min.js"></script>
+    	<script type="text/javascript" src="../../support/js/bootstrap.min.js" ></script>
+
+				<!--自定义-->
+		<script src="funcPoint.js"></script>
+			
+</head>
+<body>
+	<div class="clearfix">
+	 <div id="category">
+	    <div id="scrollsidebar" class="left_Treeview">
+	    <div class="show_btn" id="rightArrow"><span></span></div>
+	   
+	    <div class="widget-box side_content" >
+	    <div class="side_title"><a title="隐藏" class="close_btn"><span></span></a></div>
+	     <div class="side_list">
+	      <div class="widget-header header-color-green2">
+							<h4 class="lighter smaller">功能点管理
+							<input type="hidden" name="structId" id="structId">
+						</div>
+						<div class="widget-body">
+							<div class="widget-main padding-8">
+								<ul id="tree" class="ztree"
+									style="width: 230px; overflow: auto;"></ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!---->
+			<iframe ID="rightIframe" Name="rightIframe" FRAMEBORDER=0
+				SCROLLING=AUTO class="page_right_style" src=""></iframe>
+		</div>
+	</div>
+
+</body>
+<script type="text/javascript">
+	$(function() {
+		 var page_left=$("#scrollsidebar").width();
+		$("#category").fix({
+			float : 'left',
+			stylewidth:page_left,
+			skin : 'green',
+			durationTime : false
+		});
+
+		//初始化宽度、高度   注意这里减去的宽度应该和上面设置的宽度一样
+		 $(".widget-box").height($(window).height()); 
+		 var page_left=$("#scrollsidebar").width();
+		 $(".page_right_style").width($(window).width()-page_left);
+		  //当文档窗口发生改变时 触发  
+		    $(window).resize(function(){
+			$(".widget-box").height($(window).height());
+			 $(".page_right_style").width($(window).width()-page_left);
+			});
+});
+	$(document).ready(function(){
+		
+		var t = $("#tree");
+		var url  = "../../../dynamic/ObjStructure/fetchDicTreeByComboboxSub?structId=10001";
+		$.getJSON(url,function(result){
+			console.log(result.dataset.treenode);
+	        t = $.fn.zTree.init(t, setting,result.dataset.treenode);
+	        demoIframe=$("#rightIframe");
+		});
+	  });
+	$("#mySelect").change(function(){
+		var relationId = $("#mySelect  option:selected").attr("id");
+		$('#structId').val(relationId);
+		var t = $("#tree");
+		var url  = "../../../dynamic/ObjStructure/fetchDicTreeByComboboxSub?structId="+relationId;
+		$.getJSON(url,function(result){
+			console.log(result.dataset.treenode);
+	        t = $.fn.zTree.init(t, setting,result.dataset.treenode);
+	        demoIframe=$("#rightIframe");
+		});
+	});
+	/* function refreshTree(){
+		var relationId = $("#mySelect  option:selected").attr("id");
+		var t = $("#tree");
+		var url  = "../../../dynamic/ObjStructure/fetchDicTreeByComboboxSub?structId="+relationId;
+		$.getJSON(url,function(result){
+			console.log(result.dataset.treenode);
+	        t = $.fn.zTree.init(t, setting,result.dataset.treenode);
+	        t.expandAll(true);
+	        demoIframe=$("#rightIframe");
+		})
+	} */
+</script>
+
+</html>

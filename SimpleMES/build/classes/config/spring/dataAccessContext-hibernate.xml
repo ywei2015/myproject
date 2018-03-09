@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd 
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-4.0.xsd"
+	default-autowire="byName" default-lazy-init="true">
+
+
+	<!-- 数据源定义,使用Apache DBCP 连接池 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="initialSize" value="${dataSource.initialSize}" />
+		<property name="maxIdle" value="${dataSource.maxIdle}" />
+		<property name="minIdle" value="${dataSource.minIdle}" />
+		<property name="maxActive" value="${dataSource.maxActive}" />
+		<property name="maxWait" value="${dataSource.maxWait}" />
+		<property name="defaultAutoCommit" value="${dataSource.defaultAutoCommit}" />
+	</bean>
+
+	<!-- <context:annotation-config /> -->
+	<context:component-scan base-package="tw">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!--Hibernate SessionFatory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- 扫描hibernate注解配置的entity -->
+		<property name="packagesToScan" value="tw.business.entity" />
+		<property name="mappingDirectoryLocations">
+			<list>
+				<value>classpath:tw/business/entity/</value>
+				<value>classpath:tw/sysbase/entity/</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.current_session_context_class">
+					org.springframework.orm.hibernate4.SpringSessionContext
+				</prop>
+
+				<!-- 配置二级缓存 -->
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+				<prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory
+				</prop>
+				<!-- <prop key="current_session_context_class">thread</prop> -->
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.cache.provider_class">net.sf.ehcache.hibernate.EhCacheProvider</prop>
+				<prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory
+				</prop>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<!-- 开启查询缓存 -->
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				<prop key="hibernate.autoReconnect">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!--Hibernate TransactionManager -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- 支持 @Transactional 标记 -->
+	<tx:annotation-driven />
+
+	<!-- 支持 @AspectJ 标记 -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+	<!-- 事务传播性 -->
+	<!-- <tx:advice id="ntxAdvice" transaction-manager="transactionManager"> 
+		<tx:attributes> <tx:method name="add*" propagation="REQUIRED" read-only="false" 
+		/> <tx:method name="update*" propagation="REQUIRED" read-only="false" /> 
+		<tx:method name="save*" propagation="REQUIRED" read-only="false" /> <tx:method 
+		name="del*" propagation="REQUIRED" read-only="false" /> <tx:method name="get*" 
+		propagation="REQUIRED" read-only="true" /> <tx:method name="*" propagation="REQUIRED" 
+		read-only="true" /> </tx:attributes> </tx:advice> 传播对象 <aop:config> <aop:advisor 
+		pointcut="execution(* tw.business.service.*.*Service.*(..))" advice-ref="ntxAdvice"/> 
+		<aop:advisor pointcut="execution(* tw.business.service.*Service.*(..))" advice-ref="ntxAdvice"/> 
+		<aop:advisor pointcut="execution(* tw.sysbase.service.*.*Service.*(..))" 
+		advice-ref="ntxAdvice"/> <aop:advisor pointcut="execution(* tw.sysbase.service.*Service.*(..))" 
+		advice-ref="ntxAdvice"/> </aop:config> -->
+
+
+</beans>

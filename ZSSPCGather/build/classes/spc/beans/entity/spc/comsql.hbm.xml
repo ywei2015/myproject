@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping>
+
+	<sql-query name="DBSERVER.CURDATETIME">
+			select to_char(sysdate,'yyyy-MM-dd hh24:mi:ss') from dual  
+	</sql-query>
+	
+	<query name="SPC.T_SPC_PROCESS.LISTBYQRY">
+			select T from spc.beans.entity.spc.TSpcProcess T where T.FSysFlag = 1 and T.FEnableFlag = 1 
+	</query>
+	
+	<query name="SPC.T_SPC_PARAMETER.LISTBYQRY">
+		<![CDATA[
+        	SELECT T FROM spc.beans.entity.spc.TSpcParameter T where T.FSysFlag = 1 and T.FEnableFlag = 1  
+    	]]>
+	</query> 
+	
+	<query name="SPC.T_SPC_BRAND.LISTBYQRY">
+		<![CDATA[
+        	SELECT T FROM spc.beans.entity.spc.TSpcBrand T where T.FSysFlag = 1 and T.FEnableFlag = 1  
+    	]]>
+	</query> 
+	
+	<query name="SPC.T_SPC_STANDARD.LISTBYQRY">
+		<![CDATA[
+        	SELECT T FROM spc.beans.entity.spc.TSpcStandard T where T.FSysFlag = 1 and T.FEnableFlag = 1  
+        	and T.FKBrandid = ? 
+    	]]>
+	</query> 
+	
+	<query name="SPC.TSPCPROCESSBATCH.LISTBYQRY">
+		<![CDATA[
+        	SELECT T FROM spc.beans.entity.spc.TSpcProcessBatch T where T.FSysFlag = 1 
+        	and T.FBatch = ? and  T.FProcess = ? 
+    	]]>
+	</query> 
+	
+	<query name="SPC.T_SPC_STATISTIC_RESULT.PROGRESS.LISTBYQRY">
+		<![CDATA[
+        	SELECT T FROM spc.beans.entity.spc.TSpcStatisticResult T where T.FSysFlag = 1 and T.FState < '20'   
+    	]]>
+	</query>  
+	  
+</hibernate-mapping>

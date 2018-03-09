@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="tw.sysbase.entity.pub.ObjAttribute" table="t_pub_obj_attribute">
+		<id name="id" column="F_PID" length="32" type="string">
+			<generator class="uuid.hex" />
+		</id>
+		<property name="code" column="F_ATTRIBUTE_CODE" length="500"
+			type="string" />
+		<property name="name" column="F_ATTRIBUTE_NAME" length="200"
+			type="string" />
+		<property name="sysFlag" column="F_SYS_FLAG" precision="1"
+			scale="0" type="integer" />
+		<property name="column" column="F_ATTRIBUTE_COLUMN" length="200"
+			type="string" />
+		<property name="pkFlag" column="F_ATTRIBUTE_PK" precision="1"
+			scale="0" type="integer" />
+		<property name="order" column="F_ORDER" precision="8" scale="0"
+			type="integer" />
+		<property name="allowBlank" column="F_ALLOW_BLANK" precision="1"
+			scale="0" type="integer" />
+		<property name="verifyRule" column="F_VERIFY_RULE" length="200"
+			type="string" />
+		<many-to-one name="obj" class="tw.sysbase.entity.pub.ObjBase"
+			access="property" column="F_OBJ_ID" />
+		<many-to-one name="objType" class="tw.sysbase.entity.pub.ObjType"
+			access="property" column="F_CLASS_TYPE" />
+	</class>
+</hibernate-mapping>

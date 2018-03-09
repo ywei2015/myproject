@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2008-12-16 10:45:42 by mars -->
+<hibernate-mapping>
+	<class name="tw.sysbase.entity.pub.ObjStructure" table="t_pub_obj_structure">
+		<id name="id" column="F_PID" length="32" type="string">
+			<generator class="uuid.hex" />
+		</id>
+		<property name="code" column="F_STRUCT_CODE" length="500"
+			type="string" />
+		<property name="name" column="F_STRUCT_NAME" length="200"
+			type="string" />
+		<property name="sysFlag" column="F_SYS_FLAG" precision="1"
+			scale="0" type="integer" />
+		<property name="remark" column="F_REMARK" length="500" type="string" />
+		<property name="accessControlId" column="F_ACCESS_CONTROL"
+			length="32" type="string" />
+	</class>
+</hibernate-mapping>

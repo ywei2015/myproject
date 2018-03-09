@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="tw.sysbase.entity.pub.ObjBase" table="t_pub_obj_base">
+		<id name="id" column="F_PID" length="32" type="string">
+			<generator class="uuid.hex" />
+		</id>
+		<property name="code" column="F_OBJ_CODE" length="500" type="string" />
+		<property name="name" column="F_OBJ_NAME" length="200" type="string" />
+		<property name="sysFlag" column="F_SYS_FLAG" precision="1"
+			scale="0" type="integer" />
+		<property name="type" column="F_OBJ_TYPE" precision="1"
+			scale="0" type="integer" />
+		<property name="version" column="F_OBJ_VERSION" length="200"
+			type="string" />
+		<property name="remark" column="F_OBJ_REMARK" length="200"
+			type="string" />
+		<property name="source" column="F_OBJ_SOURCE" length="200"
+			type="string" />
+		<property name="table" column="F_OBJ_TABLE" length="200"
+			type="string" />
+		<property name="className" column="F_OBJ_CLASSNAME" length="200"
+			type="string" />
+		<property name="classFullName" column="F_OBJ_FULLNAME"
+			length="200" type="string" />
+		<property name="createTime" column="F_CREATE_TIME" length="14"
+			type="string" />
+		<many-to-one name="superClass" class="tw.sysbase.entity.pub.ObjBase"
+			access="property" column="F_SUPERCLASS_PID" cascade="none" update="false" />
+		<set name="subClasses" table="T_PUB_OBJ_BASE" order-by="F_OBJ_NAME"
+			lazy="true" inverse="true" cascade="none">
+			<key column="F_SUPERCLASS_PID" />
+			<one-to-many class="tw.sysbase.entity.pub.ObjBase" />
+		</set>
+		<set name="properties" table="T_PUB_OBJ_ATTRIBUTE" order-by="F_ORDER desc"
+			lazy="true" inverse="true" cascade="none">
+			<key column="F_OBJ_ID" />
+			<one-to-many class="tw.sysbase.entity.pub.ObjAttribute" />
+		</set>
+	</class>
+</hibernate-mapping>

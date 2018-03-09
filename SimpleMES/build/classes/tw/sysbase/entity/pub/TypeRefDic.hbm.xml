@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2008-12-16 10:45:42 by mars -->
+<hibernate-mapping>
+	<class name="tw.sysbase.entity.pub.TypeRefDic" table="t_pub_typerefdic">
+		<id name="id" column="F_PID" length="32" type="string">
+			<generator class="uuid.hex" />
+		</id>
+		<property name="objEntityRefId" column="F_OBJ_REF_PID"
+			length="32" type="string" />
+		<property name="parentId" column="F_PARENT_PID" length="32"
+			type="string" />
+		<property name="childId" column="F_CHILD_PID" length="32"
+			type="string" />
+		<property name="sysFlag" column="F_SYS_FLAG" precision="1"
+			scale="0" type="integer" />
+		<property name="order" column="F_ORDER" precision="8" scale="0"
+			type="integer" />
+		<property name="createTime" column="f_create_time" length="14"
+			type="string" />
+	</class>
+</hibernate-mapping>

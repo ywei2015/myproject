@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+	<!-- USER部分HQL -->
+	<sql-query name="SECURITY.USER.FIND_USER_BY_LISTQRY">
+		<![CDATA[
+			SELECT P.* FROM T_SEC_USER P WHERE 1=1 AND P.F_NAME LIKE ? AND (P.F_JOB_NO = ? OR P.F_CODE = ?) AND P.F_SYS_FLAG IN ('0','1')
+    	]]>
+	</sql-query>
+	<sql-query name="SECURITY.USER.FIND_USER_NAME">
+		<![CDATA[
+			FROM tw.sysbase.entity.sec.UserImpl P WHERE P.code = ? OR P.jobno= ? AND  P.sysFlag = '1'
+    	]]>
+	</sql-query>
+	<query name="SECURITY.PERMISSION.FIND_ROLEPERM_BY_PARTYID">
+		<![CDATA[
+		SELECT P FROM tw.sysbase.entity.sec.RolePermissionImpl P WHERE P.party.id = ? 
+    	]]>
+	</query>
+	<query name="SECURITY.PERMISSION.FIND_USERPERMISSION_BY_PARTYID">
+		<![CDATA[
+		SELECT P FROM tw.sysbase.entity.sec.UserPermissionImpl P WHERE P.party.id = ?
+	]]>
+	</query>
+
+	<query name="SECURITY.ROLE.FIND_ROLE_BY_NAME">
+		<![CDATA[
+		FROM tw.sysbase.entity.sec.RoleImpl P WHERE P.name = ? AND ( P.sysFlag = ? or P.sysFlag = ? ) 
+    	]]>
+	</query>
+	<query name="SECURITY.ROLE.FIND_ROLE_NAME">
+		<![CDATA[
+		FROM tw.sysbase.entity.sec.RoleImpl P WHERE P.name = ? AND  P.sysFlag = '1' 
+    	]]>
+	</query>
+	
+	<query name="SECURITY.ROLE.FIND_ROLE_BY_NAME_SYSFLAG">
+		<![CDATA[
+		FROM tw.sysbase.entity.sec.RoleImpl P WHERE P.name like ? AND P.sysFlag = ? AND P.sysFlag <> '2' order by P.name
+    	]]>
+	</query>
+	<query name="SECURITY.ROLE.FIND_ROLE_BY_NAME_SYSFLAGNO">
+		<![CDATA[
+		FROM tw.sysbase.entity.sec.RoleImpl P WHERE P.name like ? or P.sysFlag = ? AND P.sysFlag = '2' order by P.name
+    	]]>
+	</query>
+	<query name="SECURITY.RESOURCE.FIND_BY_TARGERID_AND_TYPE">
+		<![CDATA[
+        FROM tw.sysbase.entity.sec.ResourceImpl R WHERE R.targetId = ? AND R.type = ? 
+    	]]>
+	</query>
+	<query name="SECURITY.PERMISSION.FIND_ROLEPERM_BY_PARTYID_AND_TYPE">
+		<![CDATA[
+		SELECT P FROM tw.sysbase.entity.sec.RolePermissionImpl P WHERE P.party.id = ? AND P.resource.type = ? 
+    	]]>
+	</query>
+	<query name="SECURITY.PERMISSION.FIND_ROLEPERM_BY_PARTYID_AND_RESID">
+		<![CDATA[
+		SELECT P FROM tw.sysbase.entity.sec.RolePermissionImpl P WHERE P.party.id = ? AND P.resource.id = ? 
+    	]]>
+	</query>
+	<query name="SECURITY.PERMISSION.FIND_USERPERM_BY_PARTYID_AND_RESID">
+		<![CDATA[
+		SELECT P FROM tw.sysbase.entity.sec.UserPermissionImpl P WHERE P.party.id = ? AND P.resource.id = ? 
+    	]]>
+	</query>
+	<sql-query name="SECURITY.PROCESS.FIND_BRACH_PROCESSCOUNT">
+		<![CDATA[
+		select t.f_process,count(0) from T_SPC_ABNORMAL t where t.f_batch=? and t.f_sys_flag='1' group by t.f_process
+    	]]>
+	</sql-query>
+	<sql-query name="SECURITY.PROCESS.FIND_BRACH_PROCESSCOUNTBYRAINBOW">
+		<![CDATA[
+        select count(0) from T_SPC_ABNORMAL t where t.f_batch=? and t.f_param_id=? and t.f_sys_flag='1' 
+    	]]>
+	</sql-query>
+	<query name="SECURITY.LOG.LIST">
+    <![CDATA[
+		 from tw.sysbase.entity.Log T 
+	       where T.userCode like ?
+	         and T.userName like ? 
+	         and T.loginTime >= ? 
+	         and T.loginTime <= ? 
+	         order by T.loginTime desc
+    ]]>
+	</query>
+	<sql-query name="SECURITY.PARAMETER.FIND_PID_BYCODEANDREMARK">
+		<![CDATA[
+        select F_PID from t_spc_parameter where f_code=? AND f_remark1=? AND F_SYS_FLAG='1'
+    	]]>
+	</sql-query>
+</hibernate-mapping>

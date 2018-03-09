@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx" 
+   	   xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	   xmlns:task="http://www.springframework.org/schema/task" 
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   	   http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd  
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd 
+           http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		   http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+		   "  
+	   default-autowire="byName" default-lazy-init="true">
+     
+    <!--开启这个配置，spring才能识别@Scheduled注解-->    
+	<!-- <task:annotation-driven/>    -->  
+    <task:executor id="executor" pool-size="5" />  
+    <task:scheduler id="scheduler" pool-size="10" /> 
+    <task:annotation-driven executor="executor" scheduler="scheduler" />  
+	<!-- 自动扫描注解的bean -->    
+    <context:component-scan base-package="spc.beans.job"> 
+	</context:component-scan> 
+
+
+   
+    <!-- 以下定义定时任务的执行对象 -->
+    <bean id="gatherJob" class="spc.beans.job.GatherJob"></bean> 
+    <bean id="gatherJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+        <property name="targetObject" ref="gatherJob">  
+        </property>
+        <property name="targetMethod">  
+            <value>doWork</value>  
+        </property>
+        <property name="concurrent">
+			<value>false</value>
+		</property>    
+    </bean>
+    <!-- 以下定义定时任务的触发频率 -->
+    <bean id="gatherJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+        <property name="jobDetail" ref="gatherJobDetail"></property>  
+        <property name="cronExpression">  
+            <value>0/6 * * * * ?</value>  
+        </property> 
+    </bean> 
+   <!--  以下定义要启动哪些定时任务 -->
+    <bean id="schedulerFactoryBean" autowire="no"  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+        <property name="triggers">  
+            <list>  
+                 <ref bean="gatherJobTrigger"/> 
+            </list>  
+        </property> 
+        <property name="autoStartup" value="true"></property>  
+    </bean>   
+       
+      
+</beans>
+    

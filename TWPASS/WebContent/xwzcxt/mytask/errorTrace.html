@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>异常跟踪</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="errorTrace.js"></script>
+
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container"> 
+		 	<form id="checkform" itype="Form" requestType="post" saveInstance="true">
+				<table class="ui-form-table">
+					<tr valign="middle">
+						<td class="ui-form-table-dt" style="width:100px;">异常类型：</td>
+						<td class="ui-form-table-dd">
+							<select itype="Select"  id="taskMouldPojo.c_task_errtasksearchtype" width="100%"> 
+            					<option text="本人执行的异常任务" value="1" selected></option>
+            					<option text="需本人处理的异常任务" value="2"></option>
+            					<option text="本人抄送的异常任务" value="3"></option>
+							</select>
+						</td>
+						<td class="ui-form-table-dd">
+							<div itype="Button" id="searchBtn" text="查询" iconCls="icon-search" onClick="doSearch()"></div>
+							<div itype="Button" id="resetBtn" text="重置" iconCls="icon-reset" onClick="doReset()"></div>
+						</td>
+						
+					</tr>
+				</table>
+			</form>
+		<div itype="DataGrid" id="grid1" onBeforeReady="onBeforeReady()" showSeqColumn=true onAfterInitRender="onAfterInitRender()"
+			pageSize="20" saveInstance=true keyword="c_task_id" showCheckColumn=true onRowClick="onRowClick()" >		
+			<div name="top-toolbar">
+				<div plain=true text="新增" iconCls="icon-add"  display="false"  id="add"   onclick="doAddBasic()"></div>
+				<div itype="separator"></div>
+				<div plain=true text="批量删除" iconCls="icon-delete"  display="false"  id="delete"   onclick="doBatchDeleteCheckModel()"></div>
+			</div>	
+			<div hidden="true" name="c_task_id"></div>	 	
+			<!-- 列属性定义-->
+			<div width="15%" name="c_task_name" text="任务名称"></div>
+			<div width="8%" name="c_task_type_name" text="任务类别"></div>
+			<div width="10%" name="c_trigger_cause" text="触发原因"></div>
+			<div width="7%" name="c_manage_section_name" text="管理板块"></div>
+			<div width="5%" name="c_pdca" text="PDCA"></div>
+			<div width="7%" name="areaname" text="执行区域"></div>
+			<div width="7%" name="c_exec_username" text="执行人"></div>
+			<div width="12%" name="c_start_time"  itype="date"  format="MM-dd HH:mm" text="开始时间"></div>
+			<div width="12%" name="c_end_time"   itype="date"  format="MM-dd HH:mm" text="完成时间"></div>
+			<div width="5%" name="c_status_name" text="状态"></div>
+			<!-- <div width="20%" text="操作" itype="template" tpl="#{operTpl}"></div> -->
+		</div>
+		 
+	 
+</body>
+</html>

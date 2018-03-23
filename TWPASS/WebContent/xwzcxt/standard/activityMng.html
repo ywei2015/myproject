@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>活动管理</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <script src="../../fastdev/fastDev-import.js"></script>
+		<script src="activityMng.js"></script>  
+		<style type="text/css">   
+    html, body {
+        height:100%;
+    }
+		</style>  
+    </head>
+	<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+		<div class="ui-layout" id="mainDiv" style="height:100%;">
+			<div id="leftPanel" class="ui-layout-left" style="width: 200px; height:100%;">
+				<div class="ui-layout-title" style="padding-left:5px;">活动类别树</div>
+				<div class="ui-toolbar ui-toolbar-bg">
+		            <div itype="Button" plain=true text="新增" id="add" iconCls="icon-add" onclick="addActiveType()"></div>
+		            <div itype="Button" plain=true text="修改" id="modify" iconCls="icon-edit" onclick="modifyActiveType()"></div>
+					<div itype="Button" plain=true text="删除" id="delete" iconCls="icon-delete" onclick="deleteActiveType()"></div>					
+				</div>
+				<div id="activityTree" itype="Tree" saveInstance="true" showIco="true"
+					width="100%" rootValue="所有类别"				
+					initSource="initActivityTree_initActionPostTree.action"	
+					topParentid="-1"
+					openFloor=3 
+					customFields="type,appid"
+					onNodeClick="reloadActivity()"></div>
+			</div>
+			<div id="centerPanel" class="ui-layout-center" style="left: 202px;height:100%;">
+				<form id="checkform" itype="Form" requestType="post" saveInstance="true">
+					<table class="ui-form-table">
+						<tr valign="middle">
+							<td class="ui-form-table-dt" style="width:100px;">末节点编码：</td>
+							<td class="ui-form-table-dd"><div itype="TextBox" id="tpostactnode.c_ACTNODE_CODE" width="100%"></div></td>
+							<td class="ui-form-table-dt" style="width:100px;">末节点名称：</td>
+							<td class="ui-form-table-dd"><div itype="TextBox" id="tpostactnode.c_ACTNODE_NAME" width="100%"></div></td>
+							<td class="ui-form-table-dd">
+								<div itype="Button" id="searchBtn" text="查询" iconCls="icon-search" onClick="doSearch()"></div>
+								<div itype="Button" id="resetBtn" text="重置" iconCls="icon-reset" onClick="doReset()"></div>
+							</td>
+						</tr>
+					</table>
+				</form>
+				<div class="datagrid" allowAutoFillRow="false" itype="DataGrid" width="100%" id="activityDatagrid" 
+				saveInstance="true" showCheckColumn="true"  onBeforeInitPageBar="onBeforeInitPageBar()"
+				initSource="actNode_queryTPostActnodeList.action" showSeqColumn="true" pageSize="15" onRowClick="onRowClick()" >
+					<div name="top-toolbar">
+						<div plain=true text="新增" iconCls="icon-add" id="add"  onclick="doAddEndNode()"></div>
+						<div itype="separator"></div>
+						<div plain=true text="批量删除" iconCls="icon-delete" id="delete"  onclick="doBatchDelete()"></div>
+					</div>
+					<div  name="c_actnode_id" hidden="true"></div>
+			 		<div width="16%" name="c_ACTNODE_CODE" text="末节点编码"></div>
+					<div width="16%" name="c_ACTNODE_NAME" text="末节点名称"></div>
+					<div width="7%" name="c_ISKEYCTRL" text="关键管控"  renderer="actRenderer()"></div>
+				    <div width="7%" name="c_ISSEQUENCE" text="顺序执行"  renderer="actRenderer()"></div>
+					 <div width="10%" name="c_ISGETNOTIFY" text="下班后接受通知"  renderer="actRenderer()"></div>
+					<div width="10%" name="c_ISRELAY" text="超时转发同岗"  renderer="actRenderer()"></div>
+					<div width="6%" name="c_PDCA" text="PDCA" renderer="pdcaRenderer()"></div>
+					<div width="10%" name="c_MANAGE_SECTION_NAME" text="所属管理模块" ></div> 
+					<div width="8%" name="oper" text="操作" renderer="operRenderer()"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

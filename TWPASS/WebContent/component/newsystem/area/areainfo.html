@@ -1,0 +1,242 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>地区管理</title>
+		<script src="../../fastdev/fastDev-import.js"></script>
+		<script type="text/javascript" src="printqrcode.js"></script>
+		<script src="areaInfo.js"></script>
+		<style>
+			html, body {
+				height:100%;
+			}
+		</style>
+	</head>
+	<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+		<div class="ui-layout" style="height:100%;">
+		<div class="ui-layout-left" style="width: 200px; height: 100%;">
+			<div itype="Toolbar" style="line-height: 22px">
+					<div  plain=true text="新增"  id="add" iconCls="icon-add" onClick="doAddArea()"></div>
+					<div itype="separator"></div>
+                 	<div  plain=true text="修改"  id="modify" iconCls="icon-edit" onClick="doModifyArea()"></div>
+                 	<div itype="separator"></div>
+					<div  plain=true text="删除"  id="delete" iconCls="icon-delete" onClick="doDeleteArea()"></div>
+			</div>
+	
+				<div id="areatree" itype="Tree" saveInstance="true" showIco="true"
+					width="100%" rootValue="所有地区"
+					initSource="area_initTree.action"
+					onAfterInitRender="onAfterInitRender()"
+					topParentid="-1"
+					openFloor=3 onNodeClick="onNodeClick()" >
+				</div>
+			</div>
+			
+   		<div class="ui-layout-center" id="centerPanel" style="left: 205px;height:100%;"> 
+				<form itype="Form" id="areaform" saveQueue="true" action="" saveInstance="true" requestType="post"  
+				submitJson="false" onSubmitSuccess="onSubmitSuccess()" onAfterDataRender="onAfterDataRender()">
+						<!-- <input itype="TextBox" type="hidden" id="area.area"  saveInstance="true"/> -->
+				 <table class="ui-form-table" style="width:100%;left:0;">		
+					<table class="ui-form-table" style="width:100%;left:0;margin-bottom:0px;padding-bottom:0px;">
+					   <tr>
+					       <td class="ui-form-table-dt" style="width:100px;">区域编号：</td>
+					       <td class="ui-form-table-dd">
+					          <div itype="TextBox"  id="area.c_basedata_id"  saveInstance="true" width="205px" readonly="true" disable="true">
+					       </td>
+					       <td class="ui-form-table-dt">
+							  <span class="ui-red">*</span>上级区域：
+							</td>
+							<td class="ui-form-table-dd">
+								<div itype="TextBox" type="hidden" id="area.c_area_upid" ></div>
+								<div itype="SelectTree" queue="areaform" id="area.uparea" initSource="area_initTree.action"  dataSource="area_initTree.action"  
+								rootValue="-请选择-" topParentid="-1" openFloor="3" onchange="onChangeUpArea()"  onAfterDataRender="onAfterDataRenderUparea()" saveInstance="true" width="205px" rule="required;"  >
+								</div>
+							</td>
+					   </tr>
+					   <tr>
+							<td class="ui-form-table-dt" >
+								<span class="ui-red">*</span>区域名称：
+							</td>
+							<td class="ui-form-table-dd">
+								<div itype="TextBox" id="area.c_area_name" width="205px" readonly="true" rule="required;" onchange="onChangeAreaName()"></div>
+							</td>
+							<td class="ui-form-table-dt" >
+								<span class="ui-red">*</span>区域类别：
+							</td>
+							<td class="ui-form-table-dd">
+								<select itype="Select"  id="area.c_area_type"
+								queue="areaform"
+							    initSource="areaInfo_areaType.action"
+							    dataSource="areaInfo_areaType.action"
+								saveInstance="true" width="205px" readonly="true" rule="required">
+								<option>-请选择-</option>
+								</select>
+							</td>
+						</tr>
+						<!-- <tr>
+							<td class="ui-form-table-dt" >
+								节点层级：
+							</td>
+							<td class="ui-form-table-dd">
+								<div itype="TextBox" id="" width="205px" readonly="true" rule="MaxLength:32"></div>
+							</td>
+						     <td class="ui-form-table-dt" >
+								地区排序：
+							</td>
+							<td class="ui-form-table-dd">
+								<div style="float:left;width:205px;">
+									<div itype="TextBox" id="area.orderby" width="100%" readonly="true" rule="isNumber;MaxLength:10"></div>
+								</div>
+								<div class="ui-red" style="float:left;">　输入数字，数值越小，排位越靠前 </div>
+							</td>
+						</tr> -->
+						<tr>
+							<td class="ui-form-table-dt" >
+								<span class="ui-red">*</span>区域全称：
+							</td>
+							<td class="ui-form-table-dd" colspan="3">
+								<div itype="TextBox"  id="area.c_area_fullname" width="83%" readonly="true" rule="required" ></div>
+							</td>
+						</tr>
+				</table>
+				</br>
+                 <table class="ui-form-table" style="width:100%;left:0;margin-bottom:0px;padding-bottom:0px;" >
+					<tr>
+						<td class="ui-form-table-dt"  style="width:50%;"><span class="ui-red">*</span>是否为安全责任区节点：
+						</td>
+						<td class="ui-form-table-dd" >
+							<select itype="Select" queue="areaform"  readonly="true" onchange="onChange()"
+								id="area.c_isaor" name="c_isaor" width="90px" rule="required">
+								<option >---请选择---</option>
+								<option value="1">是</option> 
+								<option value="0">否</option>
+						</select>
+						</td>
+					</tr>
+				</table>
+					<table   class="ui-form-table" id="ResPart" style="width:100%;left:0;margin-bottom:0px;padding-bottom:0px;"  >
+					     <tr>
+							<td class="ui-form-table-dt" style="width:100px;" >
+								责任部门：
+							</td>
+							<td class="ui-form-table-dd" >
+								<div itype="TextBox" id="area.c_org_name" width="205px"  readonly="true" ></div>
+							</td>
+							<td class="ui-form-table-dt" style="width:100px;">
+								第一责任人：
+							</td>
+							<td class="ui-form-table-dd" >
+								<div itype="TextBox" id="area.c_firstpic_username" width="205px"  readonly="true" ></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt" style="width:100px;">
+								主管责任人：
+							</td>
+							<td class="ui-form-table-dd" >
+								<div itype="TextBox" id="area.c_mainpic_username" width="205px"  readonly="true" ></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt" style="width:100px;">
+								直接责任人：
+							</td>
+							<td class="ui-form-table-dd" >
+								<div itype="TextBox" id="area.c_directpic_username" width="205px"  readonly="true"></div>
+							</td>
+							<td class="ui-form-table-dt" style="width:100px;">
+								直接责任人电话：
+							</td>
+							<td class="ui-form-table-dd" >
+								<div itype="TextBox" id="area.c_directpic_tel" width="205px"  readonly="true"></div>
+							</td>
+						</tr>
+						<tr style="display:none;">
+							<td class="ui-form-table-dt" style="width:100px;">
+								备注：
+							</td>
+							<td class="ui-form-table-dd"  >
+								<div  itype="TextBox" id="area.c_remark"   width="100%" type="textarea"   readonly="true" ></div>
+							</td>
+						</tr>
+                    </table>
+                    </br>
+                    
+                    <table class="ui-form-table" style="width:100%;left:0;margin-bottom:0px;padding-bottom:0px;" >
+						<tr>
+							<td class="ui-form-table-dt" style="width: 100px;">最后更新人：</td>
+							<td class="ui-form-table-dd">
+								<div itype="TextBox" id="area.c_update_user" width="205px"
+									readonly="true" rule="MaxLength:32"  ></div>
+							</td>
+
+							<td class="ui-form-table-dt" style="width:100px;">最后更新时间：</td>
+							<td class="ui-form-table-dd">
+								<div itype="DatePicker" id="area.c_update_time" width="205px"
+									format="yyyy/MM/dd HH:mm:ss" readonly="true" rule="MaxLength:32"></div>
+							</td>
+						</tr>				
+					</table>
+					</br>
+					<table class="ui-form-table" style="width:100%;left:0;margin-bottom:0px;padding-bottom:0px;">
+						<tr>
+							<td class="ui-form-table-dt" style="width:100px;">
+								扫描码：
+							</td>
+							<td class="ui-form-table-dd" >
+								<div itype="TextBox" id="area.c_scan_code" width="205px"  readonly="true" ></div>
+							</td>
+							<td class="ui-form-table-dt" style="width:100px;">
+								已打印次数：
+							</td>
+							<td class="ui-form-table-dd" >
+								<div itype="TextBox" id="area.c_print_count" width="205px"  readonly="true" ></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt" >
+								扫描码详情：
+							</td>
+							<td class="ui-form-table-dd" colspan="3">
+								<div  itype="TextBox" id="area.c_scan_detail"  type="textarea"  width="83%" readonly="true" ></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt" style="width:100px;">
+								最后打印人：
+							</td>
+							<td class="ui-form-table-dd" >
+								<div itype="TextBox" id="area.c_print_user" width="205px"  readonly="true" ></div>
+							</td>
+							<td class="ui-form-table-dt" style="width:100px;">
+								最后打印时间：
+							</td>
+							<td class="ui-form-table-dd" >
+								<div itype="DatePicker" format="yyyy/MM/dd HH:mm:ss" id="area.c_print_time" width="205px"  readonly="true" ></div>
+							</td>
+						</tr>
+					</table>
+				
+					 <table class="ui-form-table" style="width:100%;left:0;height:100px;margin-top:0px;padding-top:0px;">
+						<tr height="20px" valign="middle" style="margin-top:0px;padding-top:0px;">
+							<td  style="padding-left:400px;width:150px;" colspan="2">							    
+								<div style="display:none" id="buttonBar">
+									<div itype="Button" iconCls="icon-save" text="保存" onClick="doSave()"></div>					
+									<!-- <div itype="Button" id="reset" iconCls="icon-reset" text="重置" onClick="doReset()"></div> -->
+								
+								</div>
+							</td>
+							<td style="margin-left:500px; width:500px;height:10px;">
+								<div id="printCode" itype="Button" iconCls="icon-print" text="打印二维码"
+									onClick="printCode()"></div>
+							</td>
+						</tr>
+					</table>
+						
+					</table>
+				</form>
+			</div>  
+
+		</div>
+	</body>
+</html>

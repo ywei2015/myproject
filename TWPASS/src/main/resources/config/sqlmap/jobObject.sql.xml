@@ -1,0 +1,1360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jobObjects">
+
+	<resultMap id="objectInfo" type="com.talkweb.xwzcxt.pojo.TbIntegrateInfo">
+
+		<result column="C_DYCOL_ID" property="cDycolId" jdbcType="DECIMAL" />
+		<result column="C_TABLETYPE_ID" property="cTabletypeId"
+			jdbcType="DECIMAL" />
+		<result column="c_column_name" property="c_column_name"
+			jdbcType="VARCHAR" />
+		<result column="C_INDEX" property="cIndex" jdbcType="DECIMAL" />
+		<result column="c_infocol_name" property="c_infocol_name"
+			jdbcType="VARCHAR" />
+		<result column="C_DATA_TYPE" property="cDataType" jdbcType="VARCHAR" />
+		<result column="C_ISSCANDATA" property="cIsscandata" jdbcType="CHAR" />
+		<result column="C_ISSHOWSCAN" property="cIsShowScan" jdbcType="CHAR" />
+		<result column="C_REMARK" property="cRemark" jdbcType="VARCHAR" />
+		<result column="C_ISDELETE" property="cIsdelete" jdbcType="CHAR" />
+		<result column="C_ISPROPERTY" property="cIsproperty" jdbcType="CHAR" />
+		<result column="C_UPDATE_TIME" property="cUpdateTime" jdbcType="TIMESTAMP" />
+
+
+		<result column="C_TABLETYPE_NAME" property="cTabletypeName"
+			jdbcType="VARCHAR" />
+		<result column="C_TABLETYPE_UPID" property="cTabletypeUpid"
+			jdbcType="DECIMAL" />
+		<result column="C_COL_COUNT" property="cColCount" jdbcType="DECIMAL" />
+		<result column="C_TABLETYPE_DES" property="cTabletypeDes"
+			jdbcType="VARCHAR" />
+		<result column="C_CREATOR" property="cCreator" jdbcType="VARCHAR" />
+		<result column="C_CREATE_TIME" property="cCreateTime" jdbcType="TIMESTAMP" />
+		<result column="C_LAST_MODIFIER" property="cLastModifier"
+			jdbcType="VARCHAR" />
+		<result column="C_LAST_MODIFIED_TIME" property="cLastModifiedTime"
+			jdbcType="TIMESTAMP" />
+
+		<result column="C_BASEDATA_ID" property="cBasedataId" jdbcType="DECIMAL" />
+		<result column="C_ORGID" property="cOrgid" jdbcType="DECIMAL" />
+		<result column="C_SCAN_CODE" property="cScanCode" jdbcType="VARCHAR" />
+		<result column="C_SCAN_DETAIL" property="cScanDetail" jdbcType="VARCHAR" />
+		<result column="C_PRINT_COUNT" property="cPrintCount" jdbcType="DECIMAL" />
+		<result column="C_PRINT_USER" property="cPrintUser" jdbcType="VARCHAR" />
+		<result column="C_PRINT_TIME" property="cPrintTime" jdbcType="TIMESTAMP" />
+		<result column="C_SCAN_COUNT" property="cScanCount" jdbcType="DECIMAL" />
+		<result column="C_UPDATE_USER" property="cUpdateUser" jdbcType="VARCHAR" />
+		<result column="C_BASEDATA_NAME" property="c_basedata_name"
+			jdbcType="VARCHAR" />
+		<result column="C_BASEDATA_CODE" property="c_basedata_code"
+			jdbcType="VARCHAR" />
+		<result column="C_BASEDATA_USERCODE" property="c_basedata_usercode"
+			jdbcType="VARCHAR" />
+		<result column="COL1" property="col1" jdbcType="VARCHAR" />
+		<result column="COL2" property="col2" jdbcType="VARCHAR" />
+		<result column="COL3" property="col3" jdbcType="VARCHAR" />
+		<result column="COL4" property="col4" jdbcType="VARCHAR" />
+		<result column="COL5" property="col5" jdbcType="VARCHAR" />
+		<result column="COL6" property="col6" jdbcType="VARCHAR" />
+		<result column="COL7" property="col7" jdbcType="VARCHAR" />
+		<result column="COL8" property="col8" jdbcType="VARCHAR" />
+		<result column="COL9" property="col9" jdbcType="VARCHAR" />
+		<result column="COL10" property="col10" jdbcType="VARCHAR" />
+		<result column="COL11" property="col11" jdbcType="VARCHAR" />
+		<result column="COL12" property="col12" jdbcType="VARCHAR" />
+		<result column="COL13" property="col13" jdbcType="VARCHAR" />
+		<result column="COL14" property="col14" jdbcType="VARCHAR" />
+		<result column="COL15" property="col15" jdbcType="VARCHAR" />
+		<result column="COL16" property="col16" jdbcType="VARCHAR" />
+		<result column="COL17" property="col17" jdbcType="VARCHAR" />
+		<result column="COL18" property="col18" jdbcType="VARCHAR" />
+		<result column="COL19" property="col19" jdbcType="VARCHAR" />
+		<result column="COL20" property="col20" jdbcType="VARCHAR" />
+		<result column="COL21" property="col21" jdbcType="VARCHAR" />
+		<result column="COL22" property="col22" jdbcType="VARCHAR" />
+		<result column="COL23" property="col23" jdbcType="VARCHAR" />
+		<result column="COL24" property="col24" jdbcType="VARCHAR" />
+		<result column="COL25" property="col25" jdbcType="VARCHAR" />
+		<result column="COL26" property="col26" jdbcType="VARCHAR" />
+		<result column="COL27" property="col27" jdbcType="VARCHAR" />
+		<result column="COL28" property="col28" jdbcType="VARCHAR" />
+		<result column="COL29" property="col29" jdbcType="VARCHAR" />
+		<result column="COL30" property="col30" jdbcType="VARCHAR" />
+		<result column="cOrgName" property="cOrgName" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- <select id="getObjectInfo" parameterType="map" resultMap="objectInfo">
+		SELECT c_basedata_id, c_tabletype_id, c_orgid,
+		(SELECT orgname FROM dp_organization WHERE c_orgid=orgid )as cOrgName, 
+		c_scan_detail, c_print_count,
+		c_print_user, c_print_time, c_scan_count,
+		c_update_user,c_scan_code,
+		c_update_time,c_isdelete,
+		c_basedata_name,c_basedata_code,c_basedata_usercode, col1, col2, col3,col4,
+		col5, col6,
+		col7, col8,
+		col9, col10, col11, col12, col13, col14,
+		col15, col16,
+		col17, col18, col19,col20,
+		col21, col22, col23, col24, col25, col26,
+		col27, col28, col29, col30
+
+		FROM tb_integrate_info
+		WHERE c_isdelete=0
+		<if test="cTabletypeId !=null and ''!=cTabletypeId">
+			AND c_tabletype_id=#{cTabletypeId}
+		</if>
+		<if test="cTabletypeId ==null or ''==cTabletypeId">
+			<if test="cBasedataId ==null or ''==cBasedataId">
+				AND 1>1
+			</if>
+		</if>
+		<if test="cBasedataId !=null and ''!=cBasedataId">
+			AND c_basedata_id=#{cBasedataId}
+		</if>
+		
+		<if test="cScanCode!=null and cScanCode!=''">
+		    AND  c_scan_code LIKE #{cScanCode}
+		</if>
+		
+		<if test="cOrgid!=null and ''!=cOrgid">
+		    AND	 c_orgid=#{cOrgid}
+		</if>
+		
+		<if test="cPrintUser!=null and ''!=cPrintUser">
+		    AND	 c_print_user=#{cPrintUser}
+		</if>
+		
+		<if test="cPrintTime!=null and ''!=cPrintTime">
+		    AND    c_print_time>#{cPrintTime}
+		    AND	   c_print_time &lt; = #{cPrintTime}+1
+		</if>
+		<if test="c_basedata_usercode !=null and ''!=c_basedata_usercode">
+			AND c_basedata_usercode LIKE #{c_basedata_usercode}
+		</if>
+		<if test="c_basedata_code !=null and ''!=c_basedata_code">
+			AND c_basedata_code LIKE #{c_basedata_code}
+		</if>
+		<if test="c_basedata_name !=null and ''!=c_basedata_name">
+			AND c_basedata_name LIKE #{c_basedata_name}
+		</if>
+		<if test="cBasedataName !=null and ''!=cBasedataName">
+			AND c_basedata_name like '%${cBasedataName}%'
+		</if>
+		<if test="cOrgid!=null and cOrgid!=''">
+		    AND  c_orgid=#{cOrgid}
+		</if>
+		<if test="col1 != null and ''!=col1">
+		  AND  	COL1 LIKE #{col1,jdbcType=VARCHAR}
+		</if>
+		<if test="col2 != null and ''!=col2">
+		  AND  	COL2 LIKE #{col2,jdbcType=VARCHAR}
+		</if>
+		<if test="col3 != null and  ''!=col3">
+		  AND  	COL3 LIKE #{col3,jdbcType=VARCHAR}
+		</if>
+		<if test="col4 != null and ''!=col4">
+		  AND  	COL4 LIKE #{col4,jdbcType=VARCHAR}
+		</if>
+		<if test="col5 != null and ''!=col5">
+		  AND  	COL5 LIKE #{col5,jdbcType=VARCHAR}
+		</if>
+		<if test="col6 != null and ''!=col6">
+		  AND  	COL6 LIKE #{col6,jdbcType=VARCHAR}
+		</if>
+		<if test="col7 != null and ''!=col7">
+		  AND  	COL7 LIKE #{col7,jdbcType=VARCHAR}
+		</if>
+		<if test="col8 != null and  ''!=col8">
+		  AND  	COL8 LIKE #{col8,jdbcType=VARCHAR}
+		</if>
+		<if test="col9 != null and ''!=col9">
+		  AND  	COL9 LIKE #{col9,jdbcType=VARCHAR}
+		</if>
+		<if test="col10 != null and  ''!=col10">
+		  AND  	COL10 LIKE #{col10,jdbcType=VARCHAR}
+		</if>
+		<if test="col11 != null and ''!=col11">
+		  AND  	COL11 LIKE #{col11,jdbcType=VARCHAR}
+		</if>
+		<if test="col12 != null and ''!=col12">
+		  AND  	COL12 LIKE #{col12,jdbcType=VARCHAR}
+		</if>
+		<if test="col13 != null and ''!=col13">
+		  AND  	COL13 LIKE #{col13,jdbcType=VARCHAR}
+		</if>
+		<if test="col14 != null and  ''!=col14">
+		  AND  	COL14 LIKE #{col14,jdbcType=VARCHAR}
+		</if>
+		<if test="col15 != null  and ''!=col15">
+		  AND  	COL15 LIKE #{col15,jdbcType=VARCHAR}
+		</if>
+		<if test="col16 != null and ''!=col16">
+		  AND  	COL16 LIKE #{col16,jdbcType=VARCHAR}
+		</if>
+		<if test="col17 != null and ''!=col17">
+		  AND  	COL17 LIKE #{col17,jdbcType=VARCHAR}
+		</if>
+		<if test="col18 != null and ''!=col18">
+		  AND  	COL18 LIKE #{col18,jdbcType=VARCHAR}
+		</if>
+		<if test="col19 != null and  ''!=col19">
+		  AND  	COL19 LIKE #{col19,jdbcType=VARCHAR}
+		</if>
+		<if test="col20 != null and ''!=col20">
+		  AND  	COL20 LIKE #{col20,jdbcType=VARCHAR}
+		</if>
+		<if test="col21 != null and ''!=col21">
+		  AND  	COL21 LIKE #{col21,jdbcType=VARCHAR}
+		</if>
+		<if test="col22 != null and ''!=col22">
+		  AND  	COL22 LIKE #{col22,jdbcType=VARCHAR}
+		</if>
+		<if test="col23 != null and ''!=col23">
+		  AND  	COL23 LIKE #{col23,jdbcType=VARCHAR}
+		</if>
+		<if test="col24 != null and ''!=col24">
+		  AND  	COL24 LIKE #{col24,jdbcType=VARCHAR}
+		</if>
+		<if test="col25 != null and ''!=col25">
+		  AND  	COL25 LIKE #{col25,jdbcType=VARCHAR}
+		</if>
+		<if test="col26 != null and ''!=col26">
+		 AND  COL26 LIKE #{col26,jdbcType=VARCHAR}
+		</if>
+		<if test="col27 != null and ''!=col27">
+		  AND	COL27 LIKE #{col27,jdbcType=VARCHAR}
+		</if>
+		<if test="col28 != null and  ''!=col28">
+		  AND	COL28 LIKE #{col28,jdbcType=VARCHAR}
+		</if>
+		<if test="col29 != null and ''!=col29">
+		  AND	COL29 LIKE #{col29,jdbcType=VARCHAR}
+		</if>
+		<if test="col30 != null and ''!=col30">
+		  AND	COL30 LIKE #{col30,jdbcType=VARCHAR}
+		</if>
+		ORDER BY c_basedata_id DESC
+
+	</select> -->
+
+	<select id="getObjectInfo" parameterType="map" resultMap="objectInfo">
+		SELECT t1.c_basedata_id, t1.c_tabletype_id, t1.c_orgid,
+		(SELECT orgname FROM dp_organization WHERE c_orgid=orgid )as cOrgName, 
+	    t1.c_scan_detail, t1.c_print_count,
+	    t1.c_print_user, t1.c_print_time, t1.c_scan_count,
+	    t1.c_update_user,t1.c_scan_code,
+	    t1.c_update_time,t1.c_isdelete,
+	    t1.c_basedata_name,t1.c_basedata_code,t1.c_basedata_usercode, t1.col1, t1.col2, t1.col3,t1.col4,
+	    t1.col5, t1.col6,
+	    t1.col7, t1.col8,
+	    t1.col9, t1.col10, t1.col11, t1.col12, t1.col13, t1.col14,
+	    t1.col15, t1.col16,
+	    t1.col17, t1.col18, t1.col19,t1.col20,
+	    t1.col21, t1.col22, t1.col23, t1.col24, t1.col25, t1.col26,
+	    t1.col27, t1.col28, t1.col29, t1.col30,
+	    t3.c_object_location as objLocation,
+	    decode(t3.c_object_location,null,0,'0,0,0,0',0,1) as locStatus 
+	    FROM tb_integrate_info t1,t_task_pointcheck t3
+	    WHERE t1.c_isdelete=0
+	    AND t1.c_basedata_id = t3.c_basedata_id(+)
+	    <if test="cTabletypeId !=null and ''!=cTabletypeId">
+			AND t1.c_tabletype_id=#{cTabletypeId}
+		</if>
+		<if test="cTabletypeId ==null or ''==cTabletypeId">
+			<if test="cBasedataId ==null or ''==cBasedataId">
+				AND 1>1
+			</if>
+		</if>
+		<if test="cTabletypeId !=null and ''!=cTabletypeId">
+			AND t1.c_tabletype_id=#{cTabletypeId}
+		</if>
+		<if test="cBasedataId !=null and ''!=cBasedataId">
+			AND t1.c_basedata_id=#{cBasedataId}
+		</if>
+		
+		<if test="cScanCode!=null and cScanCode!=''">
+		    AND  t1.c_scan_code LIKE #{cScanCode}
+		</if>
+		
+		<if test="cOrgid!=null and ''!=cOrgid">
+		    AND	 t1.c_orgid in  ( select ORGID 
+			from DP_ORGANIZATION 
+			start with ORGID = #{cOrgid} 
+			connect by prior ORGID = PARENTORGID )
+		     
+		</if>
+		
+		<if test="cPrintUser!=null and ''!=cPrintUser">
+		    AND	 t1.c_print_user=#{cPrintUser}
+		</if>
+		<if test="c_print_count!=null and ''!=c_print_count">
+			AND  t1.c_print_count=#{c_print_count}
+		</if>
+		<if test="cPrintTime!=null and ''!=cPrintTime">
+		    AND    t1.c_print_time>#{cPrintTime}
+		    AND	   t1.c_print_time &lt; = #{cPrintTime}+1
+		</if>
+		<if test="c_basedata_usercode !=null and ''!=c_basedata_usercode">
+			AND t1.c_basedata_usercode LIKE #{c_basedata_usercode}
+		</if>
+		<if test="c_basedata_code !=null and ''!=c_basedata_code">
+			AND t1.c_basedata_code LIKE #{c_basedata_code}
+		</if>
+		<if test="c_basedata_name !=null and ''!=c_basedata_name">
+			AND t1.c_basedata_name LIKE #{c_basedata_name}
+		</if>
+		<if test="cBasedataName !=null and ''!=cBasedataName">
+			AND t1.c_basedata_name like '%${cBasedataName}%'
+		</if>
+		<!--  <if test="cOrgid!=null and cOrgid!=''">
+		    AND  t1.c_orgid=#{cOrgid}
+		</if>-->
+		<if test="col1 != null and ''!=col1">
+		  AND  	t1.COL1 LIKE #{col1,jdbcType=VARCHAR}
+		</if>
+		<if test="col2 != null and ''!=col2">
+		  AND  	t1.COL2 LIKE #{col2,jdbcType=VARCHAR}
+		</if>
+		<if test="col3 != null and  ''!=col3">
+		  AND  	t1.COL3 LIKE #{col3,jdbcType=VARCHAR}
+		</if>
+		<if test="col4 != null and ''!=col4">
+		  AND  	t1.COL4 LIKE #{col4,jdbcType=VARCHAR}
+		</if>
+		<if test="col5 != null and ''!=col5">
+		  AND  	t1.COL5 LIKE #{col5,jdbcType=VARCHAR}
+		</if>
+		<if test="col6 != null and ''!=col6">
+		  AND  	t1.COL6 LIKE #{col6,jdbcType=VARCHAR}
+		</if>
+		<if test="col7 != null and ''!=col7">
+		  AND  	t1.COL7 LIKE #{col7,jdbcType=VARCHAR}
+		</if>
+		<if test="col8 != null and  ''!=col8">
+		  AND  	t1.COL8 LIKE #{col8,jdbcType=VARCHAR}
+		</if>
+		<if test="col9 != null and ''!=col9">
+		  AND  	t1.COL9 LIKE #{col9,jdbcType=VARCHAR}
+		</if>
+		<if test="col10 != null and  ''!=col10">
+		  AND  	t1.COL10 LIKE #{col10,jdbcType=VARCHAR}
+		</if>
+		<if test="col11 != null and ''!=col11">
+		  AND  	t1.COL11 LIKE #{col11,jdbcType=VARCHAR}
+		</if>
+		<if test="col12 != null and ''!=col12">
+		  AND  	t1.COL12 LIKE #{col12,jdbcType=VARCHAR}
+		</if>
+		<if test="col13 != null and ''!=col13">
+		  AND  	t1.COL13 LIKE #{col13,jdbcType=VARCHAR}
+		</if>
+		<if test="col14 != null and  ''!=col14">
+		  AND  	t1.COL14 LIKE #{col14,jdbcType=VARCHAR}
+		</if>
+		<if test="col15 != null  and ''!=col15">
+		  AND  	t1.COL15 LIKE #{col15,jdbcType=VARCHAR}
+		</if>
+		<if test="col16 != null and ''!=col16">
+		  AND  	t1.COL16 LIKE #{col16,jdbcType=VARCHAR}
+		</if>
+		<if test="col17 != null and ''!=col17">
+		  AND  	t1.COL17 LIKE #{col17,jdbcType=VARCHAR}
+		</if>
+		<if test="col18 != null and ''!=col18">
+		  AND  	t1.COL18 LIKE #{col18,jdbcType=VARCHAR}
+		</if>
+		<if test="col19 != null and  ''!=col19">
+		  AND  	t1.COL19 LIKE #{col19,jdbcType=VARCHAR}
+		</if>
+		<if test="col20 != null and ''!=col20">
+		  AND  	t1.COL20 LIKE #{col20,jdbcType=VARCHAR}
+		</if>
+		<if test="col21 != null and ''!=col21">
+		  AND  	t1.COL21 LIKE #{col21,jdbcType=VARCHAR}
+		</if>
+		<if test="col22 != null and ''!=col22">
+		  AND  	t1.COL22 LIKE #{col22,jdbcType=VARCHAR}
+		</if>
+		<if test="col23 != null and ''!=col23">
+		  AND  	t1.COL23 LIKE #{col23,jdbcType=VARCHAR}
+		</if>
+		<if test="col24 != null and ''!=col24">
+		  AND  	t1.COL24 LIKE #{col24,jdbcType=VARCHAR}
+		</if>
+		<if test="col25 != null and ''!=col25">
+		  AND  	t1.COL25 LIKE #{col25,jdbcType=VARCHAR}
+		</if>
+		<if test="col26 != null and ''!=col26">
+		 AND  t1.COL26 LIKE #{col26,jdbcType=VARCHAR}
+		</if>
+		<if test="col27 != null and ''!=col27">
+		  AND	t1.COL27 LIKE #{col27,jdbcType=VARCHAR}
+		</if>
+		<if test="col28 != null and  ''!=col28">
+		  AND	t1.COL28 LIKE #{col28,jdbcType=VARCHAR}
+		</if>
+		<if test="col29 != null and ''!=col29">
+		  AND	t1.COL29 LIKE #{col29,jdbcType=VARCHAR}
+		</if>
+		<if test="col30 != null and ''!=col30">
+		  AND	t1.COL30 LIKE #{col30,jdbcType=VARCHAR}
+		</if>
+		<if test="positionId != null and ''!=positionId">
+		  AND instr(t1.c_basedata_usercode,(select t2.usercode from DP_USER T2 where T2.ISDELETE = 0 AND T2.POSITIONID = #{positionId})) >0
+	 	  AND   exists
+	 	        (select (t3.c_basedata_id||'') as c_basedata_id from tb_integrate_info t3 where t3.c_isdelete='0' and t3.c_basedata_id=t1.c_basedata_id)
+	 	</if>
+	 	<if test="ptStatus == 0 and ptStatus != null and ''!=ptStatus">
+	 	  AND (t3.c_object_location is null or t3.c_object_location='0,0,0,0')
+	 	</if>
+	 	<if test="ptStatus == 1 and ptStatus != null and ''!=ptStatus">
+	 	  AND (t3.c_object_location is not null and t3.c_object_location!='0,0,0,0')
+	 	</if>
+		ORDER BY t1.c_basedata_id DESC
+	</select>
+	
+	<select id="queryPtObject" parameterType="map" resultMap="objectInfo">
+		SELECT t1.c_basedata_id, t1.c_tabletype_id, t1.c_orgid,
+	    t1.c_scan_detail, t1.c_print_count,
+	    t1.c_print_user, t1.c_print_time, t1.c_scan_count,
+	    t1.c_update_user,t1.c_scan_code,
+	    t1.c_update_time,t1.c_isdelete,
+	    t1.c_basedata_name,t1.c_basedata_code,t1.c_basedata_usercode, t1.col1, t1.col2, t1.col3,t1.col4,
+	    t1.col5, t1.col6,
+	    t1.col7, t1.col8,
+	    t1.col9, t1.col10, t1.col11, t1.col12, t1.col13, t1.col14,
+	    t1.col15, t1.col16,
+	    t1.col17, t1.col18, t1.col19,t1.col20,
+	    t1.col21, t1.col22, t1.col23, t1.col24, t1.col25, t1.col26,
+	    t1.col27, t1.col28, t1.col29, t1.col30,t3.c_object_location as objLocation,decode(t3.c_object_location,null,0,'0,0,0,0',0,1) as locStatus 
+	    FROM tb_integrate_info t1,t_task_pointcheck t3
+	    WHERE t1.c_isdelete=0 
+	    AND t1.c_basedata_id = t3.c_basedata_id(+)
+	    <if test="positionId != null and ''!=positionId">
+	    	AND instr(t1.c_basedata_usercode,(select t2.usercode from DP_USER T2 where T2.ISDELETE = 0 AND T2.POSITIONID = #{positionId})) >0 
+	    </if>
+	    <if test="cTabletypeId !=null and ''!=cTabletypeId">
+			AND t1.c_tabletype_id=#{cTabletypeId} 
+		</if>
+	    <if test="ptStatus == 0 and ptStatus != null and ''!=ptStatus">
+	 	  	AND (t3.c_object_location is null or t3.c_object_location='0,0,0,0') 
+	 	</if>
+	 	<if test="ptStatus == 1 and ptStatus != null and ''!=ptStatus">
+	 	  	AND (t3.c_object_location is not null and t3.c_object_location!='0,0,0,0') 
+	 	</if>
+	 	ORDER BY t1.c_basedata_id DESC
+	</select>
+	
+	<select id="getTableTypeTree" resultMap="objectInfo">
+		SELECT
+		c_tabletype_id,c_tabletype_name,c_tabletype_upid,c_isproperty
+		FROM tb_tabletype
+		WHERE c_isdelete=0
+		ORDER BY c_tabletype_upid ASC, c_tabletype_id ASC, c_isproperty DESC, c_create_time ASC
+	</select>
+
+	<select id="getColumnsConfig" resultMap="objectInfo"
+		parameterType="map">
+		SELECT c_dycol_id,c_column_name,c_index,c_infocol_name,c_isshowscan  
+		FROM
+		tb_dynamic_column
+		where 1>1   <!-- 若没有条件，则没有查询结果 -->
+		<if test="cTabletypeId!=null and '' !=cTabletypeId">
+			OR (c_tabletype_id=#{cTabletypeId} AND c_isDelete=0
+			<if test="cIsscandata ==1 ">
+				AND c_isscandata=1
+			</if>
+			)
+		</if>
+		ORDER BY c_index ASC
+	</select>
+
+	<update id="deleteObjects" parameterType="map">
+		UPDATE tb_integrate_info
+		SET c_isdelete=1
+		WHERE 1>1
+		<if test="cBasedataId!=null and cBasedataId!=''">
+			OR c_basedata_id IN
+			<foreach collection="cBasedataId" open="(" separator=","
+				close=")" item="id">
+				#{id}
+			</foreach>
+		</if>
+	</update>
+
+
+	<update id="updateObject" parameterType="com.talkweb.xwzcxt.pojo.TbIntegrateInfo">
+		update TWXWZC.TB_INTEGRATE_INFO
+		<set>
+			<if test="cTabletypeId != null  and ''!=cTabletypeId">
+				C_TABLETYPE_ID = #{cTabletypeId,jdbcType=DECIMAL},
+			</if>
+			<if test="cOrgid != null  and ''!=cOrgid">
+				C_ORGID = #{cOrgid,jdbcType=DECIMAL},
+			</if>
+			<if test="cScanCode != null  and ''!=cScanCode">
+				C_SCAN_CODE = #{cScanCode,jdbcType=VARCHAR},
+			</if>
+			<if test="cScanDetail != null and ''!=cScanDetail">
+				C_SCAN_DETAIL = #{cScanDetail,jdbcType=VARCHAR},
+			</if>
+			<if test="cPrintCount != null and ''!=cPrintCount">
+				C_PRINT_COUNT = #{cPrintCount,jdbcType=DECIMAL},
+			</if>
+			<if test="cPrintUser != null and ''!=cPrintUser">
+				C_PRINT_USER = #{cPrintUser,jdbcType=VARCHAR},
+			</if>
+			<if test="cPrintTime != null and ''!=cPrintTime">
+				C_PRINT_TIME = #{cPrintTime,jdbcType=DATE},
+			</if>
+			<if test="cScanCount != null and ''!=cScanCount">
+				C_SCAN_COUNT = #{cScanCount,jdbcType=DECIMAL},
+			</if>
+			<if test="cUpdateUser != null and ''!=cUpdateUser">
+				C_UPDATE_USER = #{cUpdateUser,jdbcType=VARCHAR},
+			</if>
+			<if test="cUpdateTime != null and ''!=cUpdateTime">
+				C_UPDATE_TIME = #{cUpdateTime,jdbcType=DATE},
+			</if>
+			<if test="cIsdelete != null and ''!=cIsdelete">
+				C_ISDELETE = #{cIsdelete,jdbcType=CHAR},
+			</if>
+			<if test="cBasedataName != null and ''!=cBasedataName">
+				C_BASEDATA_NAME = #{cBasedataName,jdbcType=VARCHAR},
+			</if>
+			<if test="cBasedataCode != null and ''!=cBasedataCode">
+				C_BASEDATA_CODE = #{cBasedataCode,jdbcType=VARCHAR},
+			</if>
+			<if test="col1 != null and ''!=col1">
+				COL1 = #{col1,jdbcType=VARCHAR},
+			</if>
+			<if test="col2 != null and ''!=col2">
+				COL2 = #{col2,jdbcType=VARCHAR},
+			</if>
+			<if test="col3 != null and  ''!=col3">
+				COL3 = #{col3,jdbcType=VARCHAR},
+			</if>
+			<if test="col4 != null and ''!=col4">
+				COL4 = #{col4,jdbcType=VARCHAR},
+			</if>
+			<if test="col5 != null and ''!=col5">
+				COL5 = #{col5,jdbcType=VARCHAR},
+			</if>
+			<if test="col6 != null and ''!=col6">
+				COL6 = #{col6,jdbcType=VARCHAR},
+			</if>
+			<if test="col7 != null and ''!=col7">
+				COL7 = #{col7,jdbcType=VARCHAR},
+			</if>
+			<if test="col8 != null and  ''!=col8">
+				COL8 = #{col8,jdbcType=VARCHAR},
+			</if>
+			<if test="col9 != null and ''!=col9">
+				COL9 = #{col9,jdbcType=VARCHAR},
+			</if>
+			<if test="col10 != null and  ''!=col10">
+				COL10 = #{col10,jdbcType=VARCHAR},
+			</if>
+			<if test="col11 != null and ''!=col11">
+				COL11 = #{col11,jdbcType=VARCHAR},
+			</if>
+			<if test="col12 != null and ''!=col12">
+				COL12 = #{col12,jdbcType=VARCHAR},
+			</if>
+			<if test="col13 != null and ''!=col13">
+				COL13 = #{col13,jdbcType=VARCHAR},
+			</if>
+			<if test="col14 != null and  ''!=col14">
+				COL14 = #{col14,jdbcType=VARCHAR},
+			</if>
+			<if test="col15 != null  and ''!=col15">
+				COL15 = #{col15,jdbcType=VARCHAR},
+			</if>
+			<if test="col16 != null and ''!=col16">
+				COL16 = #{col16,jdbcType=VARCHAR},
+			</if>
+			<if test="col17 != null and ''!=col17">
+				COL17 = #{col17,jdbcType=VARCHAR},
+			</if>
+			<if test="col18 != null and ''!=col18">
+				COL18 = #{col18,jdbcType=VARCHAR},
+			</if>
+			<if test="col19 != null and  ''!=col19">
+				COL19 = #{col19,jdbcType=VARCHAR},
+			</if>
+			<if test="col20 != null and ''!=col20">
+				COL20 = #{col20,jdbcType=VARCHAR},
+			</if>
+			<if test="col21 != null and ''!=col21">
+				COL21 = #{col21,jdbcType=VARCHAR},
+			</if>
+			<if test="col22 != null and ''!=col22">
+				COL22 = #{col22,jdbcType=VARCHAR},
+			</if>
+			<if test="col23 != null and ''!=col23">
+				COL23 = #{col23,jdbcType=VARCHAR},
+			</if>
+			<if test="col24 != null and ''!=col24">
+				COL24 = #{col24,jdbcType=VARCHAR},
+			</if>
+			<if test="col25 != null and ''!=col25">
+				COL25 = #{col25,jdbcType=VARCHAR},
+			</if>
+			<if test="col26 != null and ''!=col26">
+				COL26 = #{col26,jdbcType=VARCHAR},
+			</if>
+			<if test="col27 != null and ''!=col27">
+				COL27 = #{col27,jdbcType=VARCHAR},
+			</if>
+			<if test="col28 != null and  ''!=col28">
+				COL28 = #{col28,jdbcType=VARCHAR},
+			</if>
+			<if test="col29 != null and ''!=col29">
+				COL29 = #{col29,jdbcType=VARCHAR},
+			</if>
+			<if test="col30 != null and ''!=col30">
+				COL30 = #{col30,jdbcType=VARCHAR},
+			</if>
+			<if test="cBasedataUserCode != null and ''!=cBasedataUserCode">
+				C_BASEDATA_USERCODE = #{cBasedataUserCode,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where 1>1
+		<if test="cBasedataId!=null and ''!=cBasedataId">
+			or C_BASEDATA_ID = #{cBasedataId,jdbcType=DECIMAL} and c_isdelete=0
+		</if>
+	</update>
+
+
+	<insert id="addObject" parameterType="com.talkweb.xwzcxt.pojo.TbIntegrateInfo">
+		insert into TWXWZC.TB_INTEGRATE_INFO
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="cBasedataId!=null and ''!=cBasedataId">
+				C_BASEDATA_ID,
+			</if>
+			<if test="null!=cTabletypeId and cTabletypeId!=''">
+				C_TABLETYPE_ID,
+			</if>
+			<if test="cOrgid != null and cOrgid!=''">
+				C_ORGID,
+			</if>
+			<if test="cScanCode !=null and ''!=cScanCode">
+				C_SCAN_CODE,
+			</if>
+			<if test="cScanDetail !=null and ''!=cScanDetail">
+				C_SCAN_DETAIL,
+			</if>
+			<if test="cPrintCount !=null and ''!=cPrintCount">
+				C_PRINT_COUNT,
+			</if>
+			<if test="cPrintUser !=null and ''!=cPrintUser">
+				C_PRINT_USER,
+			</if>
+			<if test="cPrintTime !=null and ''!=cPrintTime">
+				C_PRINT_TIME,
+			</if>
+			<if test="cScanCount !=null and ''!=cScanCount">
+				C_SCAN_COUNT,
+			</if>
+			<if test="cUpdateUser !=null and ''!=cUpdateUser">
+				C_UPDATE_USER,
+			</if>
+			C_UPDATE_TIME,
+			<if test="cIsdelete !=null and ''!=cIsdelete">
+				C_ISDELETE,
+			</if>
+			<if test="cBasedataName !=null and ''!=cBasedataName">
+				C_BASEDATA_NAME,
+			</if>
+			<if test="cBasedataCode !=null and ''!=cBasedataCode">
+				C_BASEDATA_CODE,
+			</if>
+			<if test="col1 !=null and ''!=col1">
+				COL1,
+			</if>
+			<if test="col2 !=null and ''!=col2">
+				COL2,
+			</if>
+			<if test="col3 !=null and ''!=col3">
+				COL3,
+			</if>
+			<if test="col4 !=null and ''!=col4">
+				COL4,
+			</if>
+			<if test="col5 !=null and ''!=col5">
+				COL5,
+			</if>
+			<if test="col6 !=null and ''!=col6">
+				COL6,
+			</if>
+			<if test="col7 !=null and ''!=col7">
+				COL7,
+			</if>
+			<if test="col8 !=null and ''!=col8">
+				COL8,
+			</if>
+			<if test="col9 !=null and ''!=col9">
+				COL9,
+			</if>
+			<if test="col10 !=null and ''!=col10">
+				COL10,
+			</if>
+			<if test="col11 !=null and ''!=col11">
+				COL11,
+			</if>
+			<if test="col12 !=null and ''!=col12">
+				COL12,
+			</if>
+			<if test="col13 !=null and ''!=col13">
+				COL13,
+			</if>
+			<if test="col14 !=null and ''!=col14">
+				COL14,
+			</if>
+			<if test="col15 !=null and ''!=col15">
+				COL15,
+			</if>
+			<if test="col16 !=null and ''!=col16">
+				COL16,
+			</if>
+			<if test="col17 !=null and ''!=col17">
+				COL17,
+			</if>
+			<if test="col18 !=null and ''!=col18">
+				COL18,
+			</if>
+			<if test="col19 !=null and ''!=col19">
+				COL19,
+			</if>
+			<if test="col20 !=null and ''!=col20">
+				COL20,
+			</if>
+			<if test="col21 !=null and ''!=col21">
+				COL21,
+			</if>
+			<if test="col22 !=null and ''!=col22">
+				COL22,
+			</if>
+			<if test="col23 !=null and ''!=col23">
+				COL23,
+			</if>
+			<if test="col24 !=null and ''!=col24">
+				COL24,
+			</if>
+			<if test="col25 !=null and ''!=col25">
+				COL25,
+			</if>
+			<if test="col26 !=null and ''!=col26">
+				COL26,
+			</if>
+			<if test="col27 !=null and ''!=col27">
+				COL27,
+			</if>
+			<if test="col28 !=null and ''!=col28">
+				COL28,
+			</if>
+			<if test="col29 !=null and ''!=col29">
+				COL29,
+			</if>
+			<if test="col30 !=null and ''!=col30">
+				COL30
+			</if>
+			<if test="cBasedataUserCode !=null and ''!=cBasedataUserCode">
+				C_BASEDATA_USERCODE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="cBasedataId!=null and ''!=cBasedataId">
+				#{cBasedataId,jdbcType=DECIMAL},
+			</if>
+			<if test="cTabletypeId !=null and cTabletypeId!=''">
+				#{cTabletypeId,jdbcType=DECIMAL},
+			</if>
+			<if test="cOrgid !=null and ''!=cOrgid">
+				#{cOrgid,jdbcType=DECIMAL},
+			</if>
+			<if test="null!=cScanCode and ''!=cScanCode">
+				#{cScanCode,jdbcType=VARCHAR},
+			</if>
+			<if test="cScanDetail !=null and ''!=cScanDetail">
+				#{cScanDetail,jdbcType=VARCHAR},
+			</if>
+			<if test="cPrintCount !=null and ''!=cPrintCount">
+				#{cPrintCount,jdbcType=DECIMAL},
+			</if>
+			<if test="cPrintUser !=null and ''!=cPrintUser">
+				#{cPrintUser,jdbcType=VARCHAR},
+			</if>
+			<if test="cPrintTime !=null and ''!=cPrintTime">
+				#{cPrintTime,jdbcType=DATE},
+			</if>
+			<if test="cScanCount !=null and ''!=cScanCount">
+				#{cScanCount,jdbcType=DECIMAL},
+			</if>
+			<if test="cUpdateUser !=null and ''!=cUpdateUser">
+				#{cUpdateUser,jdbcType=VARCHAR},
+			</if>
+			sysdate,
+			<if test="cIsdelete !=null and ''!=cIsdelete">
+				#{cIsdelete,jdbcType=CHAR},
+			</if>
+			<if test="cBasedataName !=null and ''!=cBasedataName">
+				#{cBasedataName,jdbcType=VARCHAR},
+			</if>
+			<if test="cBasedataCode !=null and ''!=cBasedataCode">
+				#{cBasedataCode,jdbcType=VARCHAR},
+			</if>
+			<if test="col1 !=null and ''!=col1">
+				#{col1,jdbcType=VARCHAR},
+			</if>
+			<if test="col2 !=null and ''!=col2">
+				#{col2,jdbcType=VARCHAR},
+			</if>
+			<if test="col3 !=null and ''!=col3">
+				#{col3,jdbcType=VARCHAR},
+			</if>
+			<if test="col4 !=null and ''!=col4">
+				#{col4,jdbcType=VARCHAR},
+			</if>
+			<if test="col5 !=null and ''!=col5">
+				#{col5,jdbcType=VARCHAR},
+			</if>
+			<if test="col6 !=null and ''!=col6">
+				#{col6,jdbcType=VARCHAR},
+			</if>
+			<if test="col7 !=null and ''!=col7">
+				#{col7,jdbcType=VARCHAR},
+			</if>
+			<if test="col8 !=null and ''!=col8">
+				#{col8,jdbcType=VARCHAR},
+			</if>
+			<if test="col9 !=null and ''!=col9">
+				#{col9,jdbcType=VARCHAR},
+			</if>
+			<if test="col10 !=null and ''!=col10">
+				#{col10,jdbcType=VARCHAR},
+			</if>
+			<if test="col11 !=null and ''!=col11">
+				#{col11,jdbcType=VARCHAR},
+			</if>
+			<if test="col12 !=null and ''!=col12">
+				#{col12,jdbcType=VARCHAR},
+			</if>
+			<if test="col13 !=null and ''!=col13">
+				#{col13,jdbcType=VARCHAR},
+			</if>
+			<if test="col14 !=null and ''!=col14">
+				#{col14,jdbcType=VARCHAR},
+			</if>
+			<if test="col15 !=null and ''!=col15">
+				#{col15,jdbcType=VARCHAR},
+			</if>
+			<if test="col16 !=null and ''!=col16">
+				#{col16,jdbcType=VARCHAR},
+			</if>
+			<if test="col17 !=null and ''!=col17">
+				#{col17,jdbcType=VARCHAR},
+			</if>
+			<if test="col18 !=null and ''!=col18">
+				#{col18,jdbcType=VARCHAR},
+			</if>
+			<if test="col19 !=null and ''!=col19">
+				#{col19,jdbcType=VARCHAR},
+			</if>
+			<if test="col20 !=null and ''!=col20">
+				#{col20,jdbcType=VARCHAR},
+			</if>
+			<if test="col21 !=null and ''!=col21">
+				#{col21,jdbcType=VARCHAR},
+			</if>
+			<if test="col22 !=null and ''!=col22">
+				#{col22,jdbcType=VARCHAR},
+			</if>
+			<if test="col23 !=null and ''!=col23">
+				#{col23,jdbcType=VARCHAR},
+			</if>
+			<if test="col24 !=null and ''!=col24">
+				#{col24,jdbcType=VARCHAR},
+			</if>
+			<if test="col25 !=null and ''!=col25">
+				#{col25,jdbcType=VARCHAR},
+			</if>
+			<if test="col26 !=null and ''!=col26">
+				#{col26,jdbcType=VARCHAR},
+			</if>
+			<if test="col27 !=null and ''!=col27">
+				#{col27,jdbcType=VARCHAR},
+			</if>
+			<if test="col28 !=null and ''!=col28">
+				#{col28,jdbcType=VARCHAR},
+			</if>
+			<if test="col29 !=null and ''!=col29">
+				#{col29,jdbcType=VARCHAR},
+			</if>
+			<if test="col30 !=null and ''!=col30">
+				#{col30,jdbcType=VARCHAR},
+			</if>
+			<if test="cBasedataUserCode !=null and ''!=cBasedataUserCode">
+				#{cBasedataUserCode,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 利用数据库里面的实时数据进行更新扫描码 <update id="printCode" parameterType="map"> UPDATE 
+		TWXWZC.tb_integrate_info SET c_print_count=( SELECT (c_print_count+1) FROM 
+		TWXWZC.tb_integrate_info WHERE c_basedata_id=#{cBasedataId} ),c_print_time=sysdate,c_print_user=#{cPrintUser}, 
+		c_scan_code= (SELECT NVL(c_scan_code,c_basedata_id*10000+c_print_count)+1 
+		FROM tb_integrate_info WHERE c_basedata_id=#{cBasedataId}) WHERE 1>1 <if 
+		test="cBasedataId!=null and ''!=cBasedataId"> OR c_basedata_id=#{cBasedataId} 
+		</if> </update> -->
+	<update id="printCode" parameterType="map">
+		UPDATE TWXWZC.tb_integrate_info
+		SET c_print_count=#{cPrintCount},
+		c_print_time=sysdate,c_print_user=#{cPrintUser},
+		c_scan_code=#{cScanCode},
+		c_update_time=sysdate
+		WHERE 1>1
+		<if test="cBasedataId!=null and ''!=cBasedataId">
+			OR c_basedata_id=#{cBasedataId}
+		</if>
+	</update>
+
+
+	<select id="getMaxBasedataId" parameterType="map" resultType="java.lang.String">
+		SELECT NVL(MAX(c_basedata_id),to_number(#{cTabletypeId}) *
+		POWER(10,8)
+		)+1
+		FROM tb_integrate_info
+		WHERE 1>1
+		<if test="cTabletypeId!=null and ''!=cTabletypeId">
+			OR c_tabletype_id=#{cTabletypeId}
+		</if>
+
+	</select>
+
+	<select id="getOrgname" parameterType="Map" resultType="java.lang.String">
+		SELECT orgname
+		FROM dp_organization
+		WHERE 1>1
+		<if test="cOrgid!=null and ''!=cOrgid">
+			OR orgid=#{cOrgid} and isdelete=0
+		</if>
+	</select>
+
+	<select id="getCurrentPrintCount" parameterType="map"
+		resultMap="objectInfo">
+		SELECT c_print_count,c_scan_code 
+		FROM tb_integrate_info
+		WHERE 1>1
+		<if test="cBasedataId!=null and ''!=cBasedataId">
+			OR c_basedata_id=#{cBasedataId}
+		</if>
+
+	</select>
+
+	<!-- <select id="getScanDetails" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.TbIntegrateInfo"> 
+		select <if test="col1 != null"> COL1, </if> <if test="col2 != null"> COL2, 
+		</if> <if test="col3 != null"> COL3, </if> <if test="col4 != null"> COL4, 
+		</if> <if test="col5 != null"> COL5, </if> <if test="col6 != null"> COL6, 
+		</if> <if test="col7 != null"> COL7, </if> <if test="col8 != null"> COL8, 
+		</if> <if test="col9 != null"> COL9, </if> <if test="col10 != null"> COL10, 
+		</if> <if test="col11 != null"> COL11, </if> <if test="col12 != null"> COL12, 
+		</if> <if test="col13 != null"> COL13, </if> <if test="col14 != null"> COL14, 
+		</if> <if test="col15 != null"> COL15, </if> <if test="col16 != null"> COL16, 
+		</if> <if test="col17 != null"> COL17, </if> <if test="col18 != null"> COL18, 
+		</if> <if test="col19 != null"> COL19, </if> <if test="col20 != null"> COL20, 
+		</if> <if test="col21 != null"> COL21, </if> <if test="col22 != null"> COL22, 
+		</if> <if test="col23 != null"> COL23, </if> <if test="col24 != null"> COL24, 
+		</if> <if test="col25 != null"> COL25, </if> <if test="col26 != null"> COL26, 
+		</if> <if test="col27 != null"> COL27, </if> <if test="col28 != null"> COL28, 
+		</if> <if test="col29 != null"> COL29, </if> <if test="col30 != null"> COL30 
+		</if> FROM tb_integrate_info WHERE c_basedata_id=#{cBasedataId} </select> 
+		<update id="updateScanDetails" parameterType="java.lang.String" > UPDATE 
+		tb_integrate_info set c_scan_detail=#{cScanDetail} WHERE 1>1 <if test="cBasedataId!=null 
+		and ''!=cBasedataId"> OR c_basedata_id=#{cBasedataId} </if> </update> -->
+
+
+	<select id="getTabletypeById" parameterType="map" resultMap="objectInfo">
+		SELECT * 
+		FROM tb_tabletype
+		WHERE 1>1
+		<if test="cTabletypeId!=null and ''!=cTabletypeId">
+			OR c_tabletype_id=#{cTabletypeId} AND c_isdelete=0
+		</if>
+
+	</select>
+
+	<select id="getDynamicsByType" parameterType="map" resultMap="objectInfo">
+		SELECT * 
+		FROM tb_dynamic_column 
+		WHERE 1>1
+		<if test="cTabletypeId!=null and ''!=cTabletypeId">
+			OR c_tabletype_id=#{cTabletypeId}
+			AND c_isdelete=0
+			ORDER BY c_index ASC
+		</if>
+
+
+	</select>
+
+	<update id="updateTabletype" parameterType="com.talkweb.xwzcxt.pojo.TbIntegrateInfo">
+		UPDATE tb_tabletype
+		<set>
+			<if test="cTabletypeUpid !=null and ''!=cTabletypeUpid">
+				c_tabletype_upid=#{cTabletypeUpid},
+			</if>
+			c_last_modifier=#{cUpdateUser},
+			c_last_modified_time=sysdate,
+
+			<if test="cTabletypeDes!=null and ''!=cTabletypeDes">
+				c_tabletype_des=#{cTabletypeDes},
+			</if>
+			<if test="cTabletypeName !=null and ''!=cTabletypeName">
+				c_tabletype_name=#{cTabletypeName},
+			</if>
+			<if test="cRemark!=null and ''!=cRemark">
+				c_remark=#{cRemark}
+			</if>
+			<if test="cIsproperty!=null and ''!=cIsproperty">
+				c_isproperty=#{cIsproperty}
+			</if>
+		</set>
+		WHERE 1>1
+		<if test="cTabletypeId!=null and ''!=cTabletypeId">
+			OR c_tabletype_id=#{cTabletypeId} AND c_isdelete=0
+		</if>
+
+	</update>
+
+	<update id="updateDynamicCol" parameterType="map">
+		UPDATE tb_dynamic_column
+		SET c_update_time=sysdate,
+		<if test="cIsscandata!=null and ''!=cIsscandata">
+			c_isscandata=(#{cIsscandata}-1),
+		</if>
+		<if test="cIsShowScan!=null and ''!=cIsShowScan">
+			c_isshowscan=(#{cIsShowScan}-1),
+		</if>
+		<if test="cRemark!=null and ''!=cRemark">
+			c_remark=#{cRemark},
+		</if>
+		<if test="cColumnName!=null and ''!=cColumnName">
+			c_column_name=#{cColumnName},
+		</if>
+		<if test="cInfocolName!=null and ''!=cInfocolName">
+			c_infocol_name=#{cInfocolName}
+		</if>
+		WHERE 1>1
+		<if test="cDycolId!=null and ''!=cDycolId">
+			OR c_dycol_id=#{cDycolId} and c_isdelete=0
+		</if>
+	</update>
+
+	<insert id="addTabletype" parameterType="com.talkweb.xwzcxt.pojo.TbIntegrateInfo"
+		statementType="CALLABLE">
+	   <![CDATA[  
+	    {CALL P_TB_TABLETYPE_ADD (
+	    	#{cTabletypeUpid,mode=IN,jdbcType=DECIMAL},
+	    	#{cTabletypeDes,mode=IN,jdbcType=VARCHAR},
+	    	#{cCreator,mode=IN,jdbcType=VARCHAR},
+	    	#{cRemark,mode=IN,jdbcType=VARCHAR},
+	    	#{cTabletypeName,mode=IN,jdbcType=VARCHAR},
+	    	#{cTabletypeId,mode=OUT,jdbcType=DECIMAL}
+	    )}	    
+	]]>
+
+	</insert>
+
+	<insert id="addDynamicCol" parameterType="com.talkweb.xwzcxt.pojo.TbIntegrateInfo">
+		insert into TWXWZC.TB_DYNAMIC_COLUMN
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			C_DYCOL_ID,
+			C_TABLETYPE_ID,
+			C_COLUMN_NAME,
+			C_INDEX,
+			C_INFOCOL_NAME,
+			<if test="cIsscandata != null">
+				C_ISSCANDATA,
+			</if>
+			<if test="cIsShowScan != null">
+				C_ISSHOWSCAN,
+			</if>
+			<if test="cRemark != null">
+				C_REMARK,
+			</if>
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			(SELECT NVL(MAX(C_DYCOL_ID)+1,1)FROM tb_dynamic_column ),
+			#{cTabletypeId,jdbcType=DECIMAL},
+			#{cColumnName,jdbcType=VARCHAR},
+			#{cIndex,jdbcType=DECIMAL},
+			#{cInfocolName,jdbcType=VARCHAR},
+			<if test="cIsscandata != null">
+				(#{cIsscandata,jdbcType=CHAR}-1),
+			</if>
+			<if test="cIsShowScan != null">
+				(#{cIsShowScan,jdbcType=CHAR}-1),
+			</if>
+			<if test="cRemark != null">
+				#{cRemark,jdbcType=VARCHAR},
+			</if>
+
+		</trim>
+	</insert>
+
+	<update id="deleteTabletype" parameterType="map">
+		update tb_tabletype
+		SET c_isdelete=1
+		WHERE 1>1
+		<if test="cTabletypeId!=null and ''!=cTabletypeId">
+			OR c_tabletype_id
+			IN (SELECT c_tabletype_id
+			FROM tb_tabletype
+			WHERE c_isdelete=0
+			START WITH c_tabletype_id=#{cTabletypeId}
+			CONNECT BY PRIOR c_tabletype_id=c_tabletype_upid)
+		</if>
+	</update>
+
+	<select id="getCountColum" parameterType="map" resultType="int">
+		select count(*) from tb_dynamic_column d where 1=1 and
+		<if test="cTabletypeId!=null and ''!=cTabletypeId">
+			 d.c_tabletype_id =#{cTabletypeId} or d.c_tabletype_id in 
+      (select f.c_tabletype_id from tb_tabletype f where f.c_tabletype_upid = #{cTabletypeId})
+		</if>
+	</select>
+
+	<update id="deleteTabletypeCol" parameterType="map">
+		update tb_dynamic_column
+		SET c_isdelete=1
+		WHERE 1>1
+		<if test="cTabletypeId!=null and ''!=cTabletypeId">
+			OR c_tabletype_id
+			IN (SELECT c_tabletype_id
+			FROM tb_tabletype
+			WHERE c_isdelete=0
+			START WITH c_tabletype_id=#{cTabletypeId}
+			CONNECT BY PRIOR c_tabletype_id=c_tabletype_upid)
+		</if>
+	</update>
+
+	<update id="deleteDynamicById" parameterType="map">
+		update tb_dynamic_column
+		SET c_isdelete=1
+		WHERE 1>1
+		<if test="cDycolId!=null and ''!=cDycolId">
+			OR c_dycol_id=#{cDycolId}
+		</if>
+	</update>
+
+	<select id="getDynamicCount" parameterType="map" resultType="int">
+		SELECT count(*)
+		FROM tb_dynamic_column
+		WHERE 1>1
+		<if test="cTabletypeId!=null and ''!=cTabletypeId">
+			OR (c_tabletype_id=#{cTabletypeId} AND c_isdelete=0)
+		</if>
+	</select>
+
+	<update id="updateColCount" parameterType="map">
+		UPDATE tb_tabletype
+		SET
+		<if test="cColCount!=null and ''!=cColCount">
+			c_col_count=#{cColCount}
+		</if>
+		WHERE 1>1
+		<if test="cTabletypeId!=null and ''!=cTabletypeId">
+			OR c_tabletype_id=#{cTabletypeId}
+		</if>
+
+	</update>
+
+	<select id="checkHasIntegrateData" parameterType="map"
+		resultType="int">
+		SELECT count(c_basedata_id)
+		FROM tb_integrate_info
+		WHERE 1>1
+		<if test="cTabletypeId!=null and ''!=cTabletypeId">
+			OR c_tabletype_id
+			IN (SELECT c_tabletype_id
+			FROM tb_tabletype
+			where c_isdelete=0
+			START WITH c_tabletype_id=#{cTabletypeId}
+			CONNECT BY PRIOR c_tabletype_id=c_tabletype_upid
+			)
+			AND rownum &lt;2
+			AND c_isdelete=0
+		</if>
+	</select>
+	
+	<select id="verifyRepeatObject" parameterType="map" resultType="int">
+	     SELECT		count(1)
+	     
+	     FROM		tb_integrate_info
+	     
+	     WHERE	    c_isdelete=0
+	     AND		c_tabletype_id=#{cTabletypeId}	
+	     AND		c_orgid=#{cOrgid}
+	       <if test="cBasedataName != null and ''!=cBasedataName">
+				AND	C_BASEDATA_NAME = #{cBasedataName,jdbcType=VARCHAR}
+			</if>
+			<if test="cBasedataCode != null and ''!=cBasedataCode">
+				AND	C_BASEDATA_CODE = #{cBasedataCode,jdbcType=VARCHAR}
+			</if>
+			<if test="col1 != null and ''!=col1">
+				AND	COL1 = #{col1,jdbcType=VARCHAR}
+			</if>
+			<if test="col2 != null and ''!=col2">
+				AND	COL2 = #{col2,jdbcType=VARCHAR}
+			</if>
+			<if test="col3 != null and  ''!=col3">
+				AND	COL3 = #{col3,jdbcType=VARCHAR}
+			</if>
+			<if test="col4 != null and ''!=col4">
+				AND	COL4 = #{col4,jdbcType=VARCHAR}
+			</if>
+			<if test="col5 != null and ''!=col5">
+				AND	COL5 = #{col5,jdbcType=VARCHAR}
+			</if>
+			<if test="col6 != null and ''!=col6">
+				AND	COL6 = #{col6,jdbcType=VARCHAR}
+			</if>
+			<if test="col7 != null and ''!=col7">
+				AND	COL7 = #{col7,jdbcType=VARCHAR}
+			</if>
+			<if test="col8 != null and  ''!=col8">
+				AND	COL8 = #{col8,jdbcType=VARCHAR}
+			</if>
+			<if test="col9 != null and ''!=col9">
+				AND	COL9 = #{col9,jdbcType=VARCHAR}
+			</if>
+			<if test="col10 != null and  ''!=col10">
+				COL10 = #{col10,jdbcType=VARCHAR}
+			</if>
+			<if test="col11 != null and ''!=col11">
+				COL11 = #{col11,jdbcType=VARCHAR}
+			</if>
+			<if test="col12 != null and ''!=col12">
+				COL12 = #{col12,jdbcType=VARCHAR}
+			</if>
+			<if test="col13 != null and ''!=col13">
+				AND	COL13 = #{col13,jdbcType=VARCHAR}
+			</if>
+			<if test="col14 != null and  ''!=col14">
+				AND	COL14 = #{col14,jdbcType=VARCHAR}
+			</if>
+			<if test="col15 != null  and ''!=col15">
+				AND	COL15 = #{col15,jdbcType=VARCHAR}
+			</if>
+			<if test="col16 != null and ''!=col16">
+				AND	COL16 = #{col16,jdbcType=VARCHAR}
+			</if>
+			<if test="col17 != null and ''!=col17">
+				AND	COL17 = #{col17,jdbcType=VARCHAR}
+			</if>
+			<if test="col18 != null and ''!=col18">
+				AND	COL18 = #{col18,jdbcType=VARCHAR}
+			</if>
+			<if test="col19 != null and  ''!=col19">
+				AND	COL19 = #{col19,jdbcType=VARCHAR}
+			</if>
+			<if test="col20 != null and ''!=col20">
+				AND	COL20 = #{col20,jdbcType=VARCHAR}
+			</if>
+			<if test="col21 != null and ''!=col21">
+				AND	COL21 = #{col21,jdbcType=VARCHAR}
+			</if>
+			<if test="col22 != null and ''!=col22">
+				AND	COL22 = #{col22,jdbcType=VARCHAR}
+			</if>
+			<if test="col23 != null and ''!=col23">
+				AND	COL23 = #{col23,jdbcType=VARCHAR}
+			</if>
+			<if test="col24 != null and ''!=col24">
+				AND	COL24 = #{col24,jdbcType=VARCHAR}
+			</if>
+			<if test="col25 != null and ''!=col25">
+				AND	COL25 = #{col25,jdbcType=VARCHAR}
+			</if>
+			<if test="col26 != null and ''!=col26">
+				AND	COL26 = #{col26,jdbcType=VARCHAR}
+			</if>
+			<if test="col27 != null and ''!=col27">
+				AND	COL27 = #{col27,jdbcType=VARCHAR}
+			</if>
+			<if test="col28 != null and  ''!=col28">
+				AND	COL28 = #{col28,jdbcType=VARCHAR}
+			</if>
+			<if test="col29 != null and ''!=col29">
+				AND	COL29 = #{col29,jdbcType=VARCHAR}
+			</if>
+			<if test="col30 != null and ''!=col30">
+				AND	COL30 = #{col30,jdbcType=VARCHAR}
+			</if>
+		</select>
+		
+	<select id="selectJobObjectTree" parameterType="map" resultMap="objectInfo">
+		SELECT c_basedata_id,c_tabletype_id,c_basedata_name,c_basedata_code,
+       c_basedata_usercode 
+	  FROM tb_integrate_info t1
+	 WHERE c_isdelete = 0
+	 	<if test="positionId != null and ''!=positionId">
+	 		AND	t1.c_basedata_usercode like ('%'||(select t2.usercode from TWXWZC.DP_USER T2 where T2.ISDELETE = 0 AND T2.POSITIONID = #{positionId})||'%')
+	 	</if>
+	 ORDER BY t1.C_UPDATE_TIME ASC
+	</select>
+	
+	<select id="getTableTypeInfo" parameterType="map" resultMap="objectInfo">
+		SELECT c_tabletype_id,c_tabletype_name,c_tabletype_upid,c_isproperty FROM tb_tabletype
+	 	 WHERE c_isdelete=0 
+		<if test="cTabletypeId!=null and ''!=cTabletypeId">
+			AND C_TABLETYPE_ID IN
+			<foreach item="item" index="index" collection="cTabletypeId" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		ORDER BY C_CREATE_TIME ASC
+	</select>
+	
+	   
+	
+	<select id="getOrgIds" parameterType="map" resultType="java.lang.Long">
+		select t.orgid from DP_ORGANIZATION t 
+		where t.isdelete=0 
+		<if test="orgId!=null and ''!=orgId">
+			and  t.parentorgid in
+			<foreach item="item" index="index" collection="orgId" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+	</select>
+	 
+	
+	<select id="getAllObjectsById" parameterType="map" resultMap="objectInfo">
+		select t1.* from tb_integrate_info t1 
+		where t1.C_ISDELETE='0' 
+		<if test="cTabletypeId!=null and cTabletypeId!=''">
+			and t1.C_TABLETYPE_ID = #{cTabletypeId}
+		</if>
+		order by t1.C_BASEDATA_ID asc
+	</select>
+		
+	<select id="getIntegrateById" parameterType="java.util.List" resultMap="objectInfo">
+		select t1.* from tb_integrate_info t1 
+		where c_basedata_id IN
+		<foreach item="item" index="index" collection="list" 
+            open="(" separator="," close=")">
+            #{item}
+        </foreach>
+	</select>
+	
+	<select id="getOrgList"  resultType="map">
+	    select orgid , orgname 
+		from dp_organization 
+		where orgtype='2' and orgid &lt;&gt; '1'
+	</select>
+	
+</mapper>

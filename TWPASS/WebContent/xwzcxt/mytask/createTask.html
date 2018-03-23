@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>发起任务</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../fastdev/common.js"></script>
+<script src="createTask.js"></script>
+<style type="text/css">
+	.alignClass{
+		text-align:center;
+	}
+</style>
+</head>
+<body>
+    <form id="hiddenform" itype="Form" requestType="post" saveInstance="true">
+		<input itype="TextBox" id="taskId" name="taskId" type="hidden" />
+	</form>
+	<form id="checkform" itype="Form" requestType="post"
+		saveInstance="true">
+		<table class="ui-form-table">
+			<tr valign="middle">
+				<!-- 
+				<td class="ui-form-table-dt" style="width:100px;">任务名称：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" id="taskMouldPojo.c_task_name" width="100%"></div></td>
+			--><!-- 
+				<td class="ui-form-table-dt" style="width: 100px;">执行区域：</td>
+				<td class="ui-form-table-dd"><input itype="TextBox"
+					width="80%" id="taskMouldPojo.areaname" saveInstance=true>
+				</div></td>
+				<td class="ui-form-table-dt" style="width: 100px;">关键管控：</td>
+				<td class="ui-form-table-dd">
+					<div width="100%" itype="Select" id="taskMouldPojo.c_iskeyctrl"
+						saveInstance=true>
+						<option value="">--请选择--</option>
+						<option value="1">是</option>
+						<option value="0">否</option>
+					</div>
+				</td>
+				 -->
+				<td class="ui-form-table-dt" style="width: 100px;">板块：</td>
+				<td class="ui-form-table-dd"><select itype="Select" id="taskMouldPojo.c_manage_section" 
+				initSource="task_getManageSectionList.action"  width="100%">
+				      <option >--请选择--</option>
+				</select></td>
+				<td class="ui-form-table-dt" style="width: 100px;">状态：</td>
+				<td class="ui-form-table-dd"><select itype="Select"
+					width="100%" id="taskMouldPojo.c_status">
+						<option>-请选择-</option>
+						<option value="22">已接收</option>
+						<option value="11">未接收</option>
+				</select></td>
+			</tr>
+			<tr valign="middle">
+				<td class="ui-form-table-dd" colspan="4" align="right">
+					<div width="100px" itype="Button" id="searchBtn" text="查询"
+						iconCls="icon-search" onClick="searchForm()"></div>
+					<div width="100px" itype="Button" id="resetBtn" text="重置"
+						iconCls="icon-reset" onClick="resetForm()"></div>
+					<div width="100px" display="false" itype="Button" id="create" text="发起任务"
+						iconCls="icon-reset" onClick="taskStart()"></div>
+				</td>
+			</tr>
+
+
+		</table>
+	</form>
+	<div  itype="DataGrid" id="grid1" onBeforeReady="onBeforeReady()" showSeqColumn=true onAfterInitRender="onAfterInitRender()"
+		pageSize="15" saveInstance=true keyword="c_task_id" onRowClick="onRowClick()"  AllowResizeColumn=true >	
+		<!-- 列属性定义-->
+		<div width="10%" name="orgdepartname" text="部门" titleCls="alignClass" ></div>
+		<div width="10%" name="posiname" text="岗位" titleCls="alignClass" ></div>
+		<div width="10%" name="c_create_username" text="发起人" titleCls="alignClass" ></div>
+		<div width="30%" name="execUserInfo" text="接收人" titleCls="alignClass"></div>
+		<div width="20%" name="c_task_name" text="任务名称"  titleCls="alignClass"></div>
+		<div width="5%" name="c_manage_section_name" text="板块" titleCls="alignClass" renderer="renderer()"></div>
+		<div width="8%" name="c_task_kind" text="任务类别" titleCls="alignClass" renderer="toTaskKindName()"></div>
+		<div width="12%" name="c_start_time"  itype="date"  format="yyyy-MM-dd HH:mm" text="开始时间" titleCls="alignClass" renderer="renderer()"></div>
+		<div width="12%" name="c_end_time"   itype="date"  format="yyyy-MM-dd HH:mm" text="完成时间" titleCls="alignClass" renderer="renderer()"></div>
+		<div width="5%" name="c_status_name" text="状态" titleCls="alignClass" renderer="renderer()"></div>
+		<div hidden="true" name="c_task_id"></div>	 	
+		<div name="pageSizeList">
+		   <div value="5" text="5条"></div>
+		   <div value="10" text="10条"></div>
+		   <div value="15" text="15条"></div>
+		   <div value="20" text="20条"></div>
+		   <div value="50" text="50条"></div>
+		</div>
+	</div> 
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>应用管理</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="default.js"></script>
+<style>
+	html, body {
+		height:100%;
+	}
+</style>
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	<div class="ui-layout" id="mainDiv" style="height:100%;">
+		<div class="ui-layout-center" style="width: 99.3%;height:100%;">
+			<form id="appSearchForm" itype="Form" initSource="app_initFromControl.action" action="app_queryApps.action" requestType="post" saveInstance="true" onSubmitSuccess="submitSuccess()" submitJson="false">
+				<table class="ui-form-table">
+					<tr valign="middle">
+						<td class="ui-form-table-dt" style="width:100px">应用名称：</td>
+						<td class="ui-form-table-dd"><div itype="TextBox" id="app.appName" width="100%"></div></td>
+						<td class="ui-form-table-dt" style="width:100px">应用类型：</td>
+						<td class="ui-form-table-dd"><select itype="Select" id="app.appType" width="100%"><option value="">请选择</option></select></td>
+						<td class="ui-form-table-dd">
+							<div itype="Button" text="查询" iconCls="icon-search" onclick="submit()"></div>&nbsp;
+							<div itype="Button" text="重置" iconCls="icon-reset" onclick="reset()"></div>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div class="datagrid" itype="DataGrid" allowAutoFillRow="false" id="datagrid" saveInstance="true" showCheckColumn="true" initSource="app_queryApps.action" showSeqColumn="true" pageSize="20" onRowClick="onRowClick()" onRowDblClick="onRowDblClick()" onAfterInitRender="onAfterInitRender()">
+				<div name="top-toolbar">
+					<div plain=true text="新增" id="add" display="false" iconCls="icon-add" onClick="addApp()"></div>
+					<div itype="separator"></div>
+					<div plain=true text="批量删除" id="add" display="false" iconCls="icon-delete" onClick="batchDeleteApp()"></div>
+				</div>
+				<div width="0" name="appId" hidden="true"></div>
+				<div width="0" name="appCode" hidden="true"></div>
+				<div width="30%" name="appName" text="应用名称" renderer="appNameRenderer()"></div>
+				<div width="10%" name="appTypeName" text="应用类型"></div>
+				<div width="10%" name="isOpenName" text="是否开通"></div>
+				<div width="30%" name="loginPage" text="登录首页"></div>
+				<div width="20%" text="操作" renderer="operRenderer()"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>模板详情</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script  type="text/javascript" src="addTaskMould.js"></script>
+
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+<form itype="Form" id="formInfo"  requestType="post" saveQueue="true"
+	onBeforeReady="onFormBeforeReady()" saveInstance="true" submitJson="false"
+	onSubmitSuccess="onSubmitSuccess()" onAfterDataRender="FormAfter()">
+	<div itype="TextBox" type="hidden" id="taskMouldPojo.c_tasktemplet_id"></div>
+	<table  class="ui-form-table">			 
+		<tr>
+			<td class="ui-form-table-dt"><span class="ui-red">*</span>模板名称：</td>
+			<td class="ui-form-table-dd"><input itype="TextBox" id="taskMouldPojo.c_tasktemplet_name" rule="required"></td>			
+			<td class="ui-form-table-dt"><span class="ui-red">*</span>所属岗位：</td>
+			<td class="ui-form-table-dd">
+				<!-- <div itype="TextBox" type="hidden" id="taskMouldPojo.c_positionid"></div> --> 
+				<select itype="Select" queue="formInfo" id="taskMouldPojo.c_positionid" initSource="basecomm_getPositionListByParams.action"> <!-- ?positionid=1000065 -->
+					<option value="-1">-请选择-</option>
+				</select>
+				<!-- <div itype="SelectTree" queue="formInfo" inside="false" id="taskMouldPojo.c_positionid" rule="required" dataSource="position_queryPositionTree.action"  initSource = "position_queryPositionTree.action"  rootValue="-请选择-" topParentid="-1" openFloor="3">
+               	</div> -->
+			</td>	
+			<td class="ui-form-table-dt"><span class="ui-red">*</span>所属区域：</td>
+			<td class="ui-form-table-dd">
+				<div itype="SelectTree" queue="formInfo" inside="false" id="taskMouldPojo.c_arer" rule="required" dataSource="area_initTree.action"  initSource = "area_initTree.action"  rootValue="-请选择-" topParentid="-1" openFloor="3">
+               	</div>						
+			</td>			
+		</tr>	
+		<tr>
+			<td class="ui-form-table-dt"><span class="ui-red">*</span>触发方式：</td>
+			<td class="ui-form-table-dd">
+				<select itype="Select"  id="taskMouldPojo.c_trigger_type" rule="required" onchange="handleTrigger()">	
+					<option  text="-请选择-"></option>
+					<option value="1" text="时间规则触发"></option>
+					<option value="2" text="异常处理"></option>
+					<option value="3" text="其它系统触发"></option>
+				</select>			
+			</td>			
+			<td class="ui-form-table-dt">时间规则：</td>
+			<td class="ui-form-table-dd">
+				<select itype="Select" queue="formInfo" id="taskMouldPojo.c_timerule_id" initSource="select_querySelect.action?action=4">
+				<option value="-1">-请选择-</option>
+				</select>
+			</td>
+			<td class="ui-form-table-dt">超时反馈方式：</td>
+			<td class="ui-form-table-dd">
+				<select itype="Select"  id="taskMouldPojo.c_overtime_triggertype">	
+					<option  text="-请选择-"></option>
+					<option value="0" text="不处理"></option>
+					<option value="1" text="仅通知班长"></option>
+					<option value="2" text="通知班长与部长"></option>
+				</select>			
+			</td>			
+		</tr>
+		<tr>
+			<td class="ui-form-table-dt">超时反馈岗位：</td>
+			<td class="ui-form-table-dd">
+				<select itype="Select" queue="formInfo" id="taskMouldPojo.c_overtime_postid" initSource="select_querySelect.action?action=2">
+					<option>-请选择-</option>
+				</select>			
+			</td>			
+			<td class="ui-form-table-dt">正常完成反馈方式：</td>
+			<td class="ui-form-table-dd">
+				<select itype="Select"  id="taskMouldPojo.c_ok_triggertype">	
+					<option  text="-请选择-"></option>
+					<option value="0" text="不处理"></option>
+					<option value="1" text="仅通知班长"></option>
+					<option value="2" text="通知班长与部长"></option>
+				</select>			
+			</td>	
+			<td class="ui-form-table-dt">正常完成反馈岗位：</td>
+			<td class="ui-form-table-dd">
+				<select itype="Select" queue="formInfo" id="taskMouldPojo.c_ok_postid" initSource="select_querySelect.action?action=2">
+					<option>-请选择-</option>
+				</select>			
+			</td>			
+		</tr>
+		<tr>
+			<td class="ui-form-table-dt"><span class="ui-red">*</span>完成是否触发任务：</td>
+			<td class="ui-form-table-dd">
+				<select itype="Select"  id="taskMouldPojo.c_isokfeedback" rule="required" saveInstance=true onchange="handleOk()">	
+					<option  text="-请选择-"></option>
+					<option value="0" text="不触发"></option>
+					<option value="1" text="触发"></option>
+				</select>			
+			</td>		
+			<td class="ui-form-table-dt">触发任务：</td>
+			<td class="ui-form-table-dd">
+				<select itype="Select" queue="formInfo" id="taskMouldPojo.c_ok_templetid" initSource="select_querySelect.action?action=5">
+					<option value="">-请选择-</option>
+				</select>			
+			</td>			
+			<td class="ui-form-table-dt">异常完成反馈方式：</td>
+			<td class="ui-form-table-dd">
+				<select itype="Select"  id="taskMouldPojo.c_err_triggertype">	
+					<option  text="-请选择-"></option>
+					<option value="0" text="不处理"></option>
+					<option value="1" text="仅通知班长"></option>
+					<option value="2" text="通知班长与部长"></option>
+				</select>			
+			</td>	
+					
+		</tr>
+		<tr>
+			<td class="ui-form-table-dt">异常完成反馈岗位：</td>
+			<td class="ui-form-table-dd">
+				<select itype="Select" queue="formInfo" id="taskMouldPojo.c_err_postid" initSource="select_querySelect.action?action=2">
+					<option>-请选择-</option>
+				</select>			
+			</td>	
+			<td class="ui-form-table-dt"><span class="ui-red">*</span>异常是否触发任务：</td>
+			<td class="ui-form-table-dd">
+				<select itype="Select"  id="taskMouldPojo.c_iserrfeedback" rule="required" saveInstance=true onchange="handleErr()">	
+					<option  text="-请选择-"></option>
+					<option value="0" text="不触发"></option>
+					<option value="1" text="触发"></option>
+				</select>			
+			</td>	
+			<td class="ui-form-table-dt">异常触发任务：</td>
+			<td class="ui-form-table-dd">
+				<select itype="Select"  queue="formInfo" id="taskMouldPojo.c_err_tasktemplet_id" initSource="select_querySelect.action?action=5">
+					<option value="">-请选择-</option>
+				</select>			
+			</td>	
+		</tr>
+		<tr>
+		<td class="ui-form-table-dt"><span class="ui-red">*</span>活动末节点：</td>
+			<td class="ui-form-table-dd">
+			<!-- 
+				<select itype="Select" queue="formInfo" onchange="handleActionNode()" id="taskMouldPojo.c_actnode_id" initSource="select_querySelect.action?action=1" rule="required">
+					<option value="">-请选择-</option>
+				</select>	
+			 -->
+				<select itype="Select" queue="formInfo" id="taskMouldPojo.c_actnode_id" initSource="select_querySelect.action?action=1" rule="required">
+					<option value="">-请选择-</option>
+				</select>		
+		</td>	
+		<td class="ui-form-table-dt"><span class="ui-red">*</span>节点标准项：</td>
+			<td class="ui-form-table-dd" colspan=3>
+			<!-- 
+			<div width=95% itype="SelectTree"  queue="formInfo" onBeforeReady="SelectTreeReady()"  inside=false id="taskMouldPojo.c_actitem_id" rule="required" dataSource="" initSource="" 
+			treeType="multitree" topParentid="0" openFloor=1>	</div>
+			 -->
+			<div width=95% itype="SelectTree"  queue="formInfo" inside=false id="taskMouldPojo.c_actitem_id" rule="required" dataSource="" initSource="select_querySelect.action?action=6" 
+			treeType="multitree" topParentid="0" openFloor=1>	</div>
+			</td>
+			</tr>
+			<tr>
+			<td class="ui-form-table-dt">备注：</td>
+			<td class="ui-form-table-dd" colspan=5>
+			<div itype="TextBox" id="taskMouldPojo.c_remark" type="textarea" height="50px" width="98%" rule="MaxLength:500"></div>			
+			</td>	
+		</tr>		 
+		</table>
+</form>
+<div style="margin: 10px;"></div>
+<div itype="DataGrid" onBeforeReady="onGridBeforeReady()"  onRowClick="onRowClick()" id=grid1  saveInstance=true pagePosition="none">	
+			
+		<div hidden="true" name="c_tasktemplet_id"></div>
+		<div width="20%" name="c_actitem_code" text="标准项编码"></div>
+		<div width="20%" name="c_actitem_name" text="标准项名称"></div>
+		<div width="12%" name="c_std_flagname" text="行为标准"></div>
+		<div width="12%" name="c_check_flagname" text="验证标准"></div>
+		<div width="12%" name="c_errstd_flagname" text="异常处置标准"></div>
+		<div width="20%" name="c_actitem_what" text="作业说明"></div>	
+		<div hidden="true" name="c_id"></div>	 		 
+<!-- 		<div width="10%" text="操作信息" renderer="operRenderer()"></div> -->
+</div>	 
+	 
+</body>
+</html>

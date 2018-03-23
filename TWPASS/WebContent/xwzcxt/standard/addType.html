@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>新增活动类别</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="addType.js"></script>
+</head>
+<body>
+	<form itype="Form" id="typeform" submitJson="false" saveInstance="true"
+		onBeforeReady="fromReady()" action="activityType_addActionPost.action"
+		onSubmitSuccess="onSubmitSuccess()">
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt" style="width: 80px;"><span
+					class="ui-red">*</span>名称：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" width="100%"
+						id="tpostaction.c_ACTION_NAME" name="tpostaction.c_ACTION_NAME"
+						rule="required;MaxLength:32"></div></td>
+				<!-- 
+				<td class="ui-form-table-dt" style="width: 80px;"><span
+					class="ui-red">*</span>编码：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" width="100%"
+						id="tpostaction.c_ACTION_CODE"
+						name="tpostaction.c_ACTION_CODE"></div></td>
+				 -->
+				 
+				 <td class="ui-form-table-dt" style="width: 80px;"><span
+					class="ui-red">*</span>上级编码：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" width="100%"
+						id="tpostaction.c_UP_ACTION_ID" name="tpostaction.c_UP_ACTION_ID"
+						disabled="true"></div></td>
+				 
+				 <!-- 
+				 <td class="ui-form-table-dt" style="width: 80px;"><span
+					class="ui-red">*</span>上级名称：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" width="100%"
+						id="c_UP_ACTION_NAME" name="c_UP_ACTION_NAME"
+						disabled="true"></div></td>
+						-->
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 80px;">备注：</td>
+				<td class="ui-form-table-dd" colspan="3"><textarea
+						itype="TextBox" type="textarea" id="tpostaction.c_REMARK"
+						id="tpostaction.c_REMARK" iwidth="100%" height="100px"></textarea></td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>考勤查询</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../fastdev/common.js"></script>
+<script src="attendanceCheck.js"></script>
+</head>
+<body>
+	<form id="checkform" itype="Form" requestType="post" saveInstance="true">
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt">部门组织：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cExecUserName" width="100%" readonly="true" onclick="onSelectPosition()"></div>
+					<div itype="TextBox" type="hidden" id="cExecUserid"></div>
+				</td>
+				<td class="ui-form-table-dt">考勤开始时间：</td>
+				<td class="ui-form-table-dd"><input itype="DatePicker"
+					id="c_start_time" format="yyyy-MM-dd" width="100%" /></td>
+				<td class="ui-form-table-dt">考勤结束时间：</td>
+				<td class="ui-form-table-dd"><input itype="DatePicker"
+					id="c_end_time" format="yyyy-MM-dd" width="100%" /></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dd" align="right" colspan="6">
+				<div itype="Button" text="考勤" iconCls="icon-reset"
+					onclick="doKaoqin()" width="100px"></div>&nbsp;
+				<div itype="Button" text="查询" iconCls="icon-search"
+					onclick="doSearch()" width="100px"></div>&nbsp;
+				<div itype="Button" text="重置" iconCls="icon-reset"
+					onclick="doReset()" width="100px"></div>
+			    </td>
+			</tr>
+		</table>
+	</form>
+	<div itype="DataGrid" id="grid"  saveInstance=true pageSize="20"
+	allowResizeColumn="true" showCheckColumn="true" showSeqColumn="true"
+	keyword="c_attend_time" onBeforeReady="onBeforeReady()"
+	onAfterInitRender="onAfterInitRender()" onRowClick="onRowClick()">
+	<div name="top-toolbar">
+		<div plain=true text="导出" id="delete"  display="false"
+			iconCls="icon-export" onclick="exportXLS()"></div>
+		<div itype="separator"></div>
+	</div>
+	<!-- 列属性定义-->
+	<div width="0%" name="c_userid" text="userid" type="hidden"></div>
+	<div width="12%" name="c_dep_name" text="部门"></div>
+	<div width="10%" name="c_username" text="姓名" ></div>
+	<div width="16%" name="c_attend_date" text="考勤日期" ></div>
+	<div width="16%" name="c_tag_ip" text="IP地址" ></div>
+    <div hidden="true" name="c_attend_time" ></div> 
+	<div width="9%" name="c_attend_times" text="打卡流水" renderer="operLinkRenderer()"></div>
+	<div width="9%" name="c_attend_good" text="考勤异常" renderer="operLinkKao()"></div>
+   </div>
+   <iframe src="about:blank" style="display: none;" id="dc"></iframe>
+</body>
+
+</html>

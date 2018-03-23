@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="attendance">
+    <select id="getAttendanceData" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.AttendancePojo">
+      select aa.* from T_ATTENDANCE aa,dp_user bb  where aa.c_attend_time in
+          (select max(tt.c_attend_time) from T_ATTENDANCE tt
+           group by tt.c_username,tt.c_userid,tt.c_tag_ip,tt.c_attend_date)
+              and aa.c_userid = bb.userid 
+        	 <if test="c_start_time!=null and ''!=c_start_time">
+              AND  aa.c_attend_time>=to_date(#{c_start_time,jdbcType=VARCHAR},'yyyy-MM-dd') 
+              </if>
+              <if test="c_end_time!=null and ''!=c_end_time"> 
+              AND aa.c_attend_time &lt;= to_date(#{c_end_time,jdbcType=VARCHAR},'yyyy-MM-dd')+1  
+              </if>
+                 <if test="c_userid !=null and '' != c_userid"> 
+                  and aa.c_userid =  #{c_userid}
+              </if>
+                 <if test="userName!=null and '' != userName"> 
+                  and aa.c_username = #{userName}
+              </if>
+              <if test="null!=cExecUserid and ''!=cExecUserid">
+			    and aa.c_userid in (${cExecUserid})
+	     	</if>
+              order by aa.c_attend_time desc
+    </select>
+  
+    <select id="getAttendanceTimes" parameterType="map" resultType="java.lang.Integer">
+       select count(*) from T_ATTENDANCE tt 
+       where tt.c_userid = #{userid} 
+       <if test=" ''==c_tag_ip">
+       	 and tt.c_tag_ip is null
+       </if>
+       <if test=" ''!=c_tag_ip">
+       	 and tt.c_tag_ip = #{c_tag_ip} 
+       </if>
+       and tt.c_attend_date = #{c_attend_date} 
+       group by tt.c_username,tt.c_userid,tt.c_usercode,tt.c_username,tt.c_tag_ip
+       
+    </select>
+
+   <select id="getdepName" parameterType="map" resultType="String">
+    	select bb.backup3 from dp_user bb where bb.userid=#{userid}
+    </select>
+   
+   <select id="getAttendanceDetails" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.AttendancePojo">
+     select aa.* from T_ATTENDANCE aa  where aa.c_userid=#{userid}
+     and aa.c_attend_date=#{c_attend_date} 
+      <if test=" ''==c_tag_ip">
+       	 and aa.c_tag_ip is null
+       </if>
+       <if test=" ''!=c_tag_ip">
+       	 and aa.c_tag_ip = #{c_tag_ip} 
+       </if>
+       order by aa.c_attend_time 
+    </select> 
+   <select id="exportAttendance" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.AttendancePojo" > 
+      select aa.* from T_ATTENDANCE aa,dp_user bb  where 1=1 
+     
+               and aa.c_userid = bb.userid
+        	 <if test="c_start_time!=null and ''!=c_start_time">
+              AND  aa.c_attend_time>=to_date(#{c_start_time,jdbcType=VARCHAR},'yyyy-MM-dd') 
+              </if>
+              <if test="c_end_time!=null and ''!=c_end_time"> 
+              AND aa.c_attend_time &lt;= to_date(#{c_end_time,jdbcType=VARCHAR},'yyyy-MM-dd')+1  
+              </if>
+                 <if test="c_userid !=null and '' != c_userid"> 
+                  and aa.c_userid =  #{c_userid}
+              </if>
+                 <if test="userName!=null and '' != userName"> 
+                  and aa.c_username = #{userName}
+              </if>
+                 <if test="orgid !=null and '' != orgid"> 
+                 AND bb.orgid =  #{orgid}
+              </if>
+               <if test="positionId !=null and '' != positionId"> 
+                 and bb.positionid =  #{positionId}
+              </if>
+              order by aa.c_attend_time 
+   </select> 
+   <select id="getAttenForMobile" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.AttendancePojo"  >
+   		 select aa.* from T_ATTENDANCE aa,dp_user bb  where 1=1
+     
+               and aa.c_userid = bb.userid and aa.c_attend_type='1'
+                 <if test="c_userid !=null and '' != c_userid"> 
+                  and aa.c_userid =  #{userId}
+               </if>
+             <if test="c_date !=null and '' != c_date"> 
+                  and aa.c_attend_date =  #{c_date}
+            </if>
+            <if test="userId !=null and '' != userId"> 
+                  and aa.c_userid =  #{userId}
+            </if>
+              order by aa.c_attend_time 
+   
+   </select>
+   
+   <insert id="doKaoqin" parameterType="map">
+		insert into T_ATTENDANCE(C_ID,C_USERID,C_USERCODE,C_USERNAME,C_TAG_IP,C_ATTEND_TIME,C_ATTEND_DATE,C_ATTEND_TYPE)
+		values (#{c_id jdbcType=VARCHAR},#{id jdbcType=DECIMAL},#{code jdbcType=VARCHAR},#{name jdbcType=VARCHAR},#{c_ip jdbcType=VARCHAR},
+		to_date(#{kao_time,jdbcType=DATE},'yyyy-MM-dd HH24:MI:SS')
+		,#{kao_date jdbcType=VARCHAR},'2') 
+   </insert>
+   <select id="getKaoPB" parameterType="map" resultType="java.util.Map" >
+   		select C_SHIFT_NAME,C_START_TIME,C_END_TIME from v_scheduling v where v.C_USERID=#{c_userid}
+   		and v.C_DATE=to_date(#{c_attend_date,jdbcType=DATE},'yyyy-MM-dd') and rownum=1
+   </select>
+   
+   <select id="getAddr" resultType="String">
+     select COL1 from tb_integrate_info t where t.c_tabletype_id=11041 and t.col1 !='4'
+  </select>
+   <select id="getKaoMac" resultType="String">
+   	 select COL1 from tb_integrate_info t where t.c_tabletype_id='11059'
+   </select>
+   <select id="getAttendanceForMap" resultType="map">
+   	select  b.*,a.col7 
+   	from tb_integrate_info a left join 
+   		(select * from  t_attendance t where  t.c_attend_date = #{date})  b on
+		  a.c_basedata_usercode=b.c_usercode
+		 where  a.c_tabletype_id='11059'
+	
+   </select>
+     <select id="getAttendanceForMapGroup" resultType="com.talkweb.xwzcxt.pojo.AttendancePojo">
+   	select   a.userid as c_userid,a.displayname as c_username,b.c_tag_ip,b.c_attend_date,a.col7
+   	from (select t.*,u.userid,u.displayname from tb_integrate_info t,dp_user u where t.c_basedata_usercode=u.usercode) a  left join 
+   	(select * from  t_attendance t where  t.c_attend_date = #{date}) b
+		 on  a.c_basedata_usercode=b.c_usercode
+		  where  a.c_tabletype_id='11059'
+		 group by    a.userid,a.displayname,b.c_tag_ip,b.c_attend_date,a.col7
+   </select>
+   
+</mapper>

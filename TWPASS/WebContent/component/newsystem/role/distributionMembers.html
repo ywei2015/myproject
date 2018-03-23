@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>分配成员</title>
+	<script src="../../fastdev/fastDev-import.js"></script>
+	<script src="distributionMembers.js"></script>
+</head>
+<body>
+<form id="roleform" itype="Form" requestType="post" saveInstance="true">
+	<table class="ui-form-table">
+		<tbody>
+		<tr>
+			<td class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>当前角色：</td>
+			<td class="ui-form-table-dd" id="roleNameTextBox"></td>
+			<td class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>成员类别：</td>
+			<td class="ui-form-table-dd" colspan="2"> 
+				<div itype="RadioGroup" name="memberType" id="memberType" onchange="valueChange()" saveInstance="true">
+			    	<div value="user" text="用户" checked=true></div>			
+					<div value="org" text="组织"></div>
+			        <div value="position" text="岗位"></div>
+		    	</div>
+	    	</td>
+		</tr>
+		</tbody>
+		<tbody>
+			<tr>
+				<td class="ui-form-table-dt user-form" style="width:100px;">用户名称：</td>
+				<td class="ui-form-table-dd user-form"><div itype="TextBox" id="user.displayName" width="100%"></div></td>
+				<td class="ui-form-table-dt user-form" style="width:100px;">用户账号：</td>
+				<td class="ui-form-table-dd user-form"><div itype="TextBox" id="user.userCode" width="100%"></div></td>
+				
+				<td class="ui-form-table-dt org-form" style="display:none;width:100px;">组织名称：</td>
+				<td class="ui-form-table-dd org-form" style="display:none;"><div itype="TextBox" id="org.orgName" width="100%"></div></td>
+				<td class="ui-form-table-dt org-form" style="display:none;width:100px;">组织编码：</td>
+				<td class="ui-form-table-dd org-form" style="display:none;"><div itype="TextBox" id="org.orgCode" width="100%"></div></td>
+				
+				<td class="ui-form-table-dt position-form" style="display:none;width:100px;">岗位名称：</td>
+				<td class="ui-form-table-dd position-form" style="display:none;"><div itype="TextBox" id="position.posiName" width="100%"></div></td>
+				<td class="ui-form-table-dt position-form" style="display:none;width:100px;">岗位代码：</td>
+				<td class="ui-form-table-dd position-form" style="display:none;"><div itype="TextBox" id="position.posiCode" width="100%"></div></td>
+				
+				<td class="ui-form-table-dd">
+					<div itype="Button" text="查询" iconCls="icon-search" onclick="submit()"></div>&nbsp;
+					<div itype="Button" text="重置" iconCls="icon-reset" onclick="reset()"></div>					
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+<div class="datagrid" allowAutoFillRow="false" itype="DataGrid" height="304px" id="datagrid" initSource="user_searchRoleUserInfos.action" saveInstance="true" showCheckColumn="true" onAfterConstruct="afterConstruct()" showSeqColumn="true"  onAfterInitRender="onAfterInitRender()">
+	<div name="top-toolbar">
+		<div plain=true text="添加" iconCls="icon-add" onclick="addObject()"></div>
+		<div itype="separator"></div>
+		<div plain=true text="移除" iconCls="icon-delete" onclick="deleteRel()"></div>
+		<div itype="separator"></div>
+		<div plain=true text="关闭" iconCls="icon-close" onclick="close()"></div>
+	</div>
+	<div width="0" name="userId" hidden="true"></div>
+	<div width="0" name="positionId" hidden="true"></div>
+	<div width="0" name="orgId" hidden="true"></div>
+	<div width="30%" name="displayName" text="用户名称"></div>
+	<div width="35%" name="userCode" text="用户账号"></div>
+	<div width="30%" name="orgCode" text="组织编码" hidden="true"></div>
+	<div width="35%" name="orgTypeName" text="组织类型" hidden="true"></div>
+	<div width="30%" name="posiName" text="岗位名称" hidden="true"></div>
+	<div width="35%" name="posiCode" text="岗位代码" hidden="true"></div>
+	<div width="35%" name="orgName" text="组织名称"></div>
+</div>
+</body>
+</html>

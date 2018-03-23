@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="startTask">
+	<update id="updateTaskStatusByProc" statementType="CALLABLE"
+	     parameterType="com.talkweb.xwzcxt.pojo.TaskStatusPojo">
+         {call p_twxwzc_update_task_status(
+         	#{v_task_id},#{v_status},#{v_cancel_cause},#{v_handle_des},#{v_iserror}
+         )}
+    </update>
+	
+	<!-- 任务完成时，更新完成时间 -->
+	<update id="updateFactEndtime"  parameterType="com.talkweb.xwzcxt.pojo.TaskStatusPojo">
+	    UPDATE t_task 
+	    SET    c_fact_endtime=sysdate
+	    WHERE  c_task_id=#{v_task_id}
+	</update>
+	
+	<!-- 调用存储过程,发起新任务 -->
+	<insert id="startTask" statementType="CALLABLE" parameterType="map">
+		<![CDATA[
+		  {CALL P_II_SPON_Task (
+		    #{v_TASK_TYPE,mode=IN,jdbcType=VARCHAR},
+		    #{v_TASK_NAME,mode=IN,jdbcType=VARCHAR},
+		    #{v_MANAGE_SECTION,mode=IN,jdbcType=VARCHAR},
+		    #{v_START_TIME,mode=IN,jdbcType=VARCHAR},
+		    #{v_END_TIME,mode=IN,jdbcType=VARCHAR} ,
+		    #{v_EXEC_USERID,mode=IN,jdbcType=VARCHAR} ,
+		    #{v_SENDER_USERID,mode=IN,jdbcType=VARCHAR} ,
+		    #{v_REMARK,mode=IN,jdbcType=VARCHAR},
+		    #{v_CC_USERID_LIST,mode=IN,jdbcType=VARCHAR},
+		    #{v_FILEIDS,mode=IN,jdbcType=VARCHAR},
+		    #{v_new_taskid,mode=OUT,jdbcType=VARCHAR}
+		    )
+		   }
+		]]>
+	</insert>
+	
+	<update id="setChkAndEvaInfo" parameterType="map">
+	    UPDATE	t_task
+	    <set>	
+	    		<if test="c_chk_userid!=null and ''!=c_chk_userid and c_chk_plantime!=null">
+	    		    c_chk_userid=#{c_chk_userid},
+	    		    c_chk_plantime=#{c_chk_plantime,jdbcType=TIMESTAMP},
+	    		    c_chk_username=(SELECT  displayname
+	    						FROM	dp_user
+	    						WHERE   userid=#{c_chk_userid}
+	    						AND		isdelete='0'),
+	    		</if>
+	    	
+	    		
+	    		<if test="c_evaluate_userid!=null and ''!=c_evaluate_userid and c_evaluate_plantime!=null">
+	    		    c_evaluate_plantime=#{c_evaluate_plantime},
+	    		    c_evaluate_userid=#{c_evaluate_userid},
+	    		    c_evaluate_username=(SELECT  displayname
+	    							     FROM	 dp_user
+	    							     WHERE    userid=#{c_evaluate_userid}
+	    							     AND		 isdelete='0')
+	    		</if>
+	   </set>	 		
+	    WHERE	c_task_id=#{c_task_id}
+	</update>
+	<!-- NUMERIC -->
+</mapper>

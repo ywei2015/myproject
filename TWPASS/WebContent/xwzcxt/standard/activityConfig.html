@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>岗位活动配置</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <script src="../../fastdev/fastDev-import.js"></script>
+		<script src="activityConfig.js"></script>  
+		<link rel="stylesheet" type="text/css" href="../../css/style.css">
+		<style type="text/css">   
+    html, body {
+        height:100%;
+    }
+		</style>  
+    </head>
+	<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+		<div class="ui-layout" id="mainDiv" style="height:100%;">
+			<div id="leftPanel" class="ui-layout-left" style="width: 200px; height:100%;">
+				<div class="ui-layout-title" style="padding-left:5px;">岗位树</div>
+				<div id="positiontree" itype="Tree" saveInstance="true"
+						showIco="true" width="100%" rootValue="长沙卷烟厂"
+						initSource="position_queryPositionTree.action" topParentid="-1" 
+						openFloor=3 onNodeClick="onNodeClick()" onAfterDataRender="onAfterDataRender()"></div>
+			</div>
+			<div id="centerPanel" class="ui-layout-center" style="left: 202px;height:100%;">
+				<form id="checkform" itype="Form" requestType="post" saveInstance="true">
+					<table class="ui-form-table">
+						<tr valign="middle">
+							<td class="ui-form-table-dt" style="width:100px;">活动类别：</td>
+							<td class="ui-form-table-dd">
+							<div itype="SelectTree" inside="false" id="tpostactnode.c_ACTION_ID" onchange="valueChange()" dataSource=""  initSource = "initActivityTree_initActionPostTree.action"  rootValue="-请选择-" topParentid="-1" openFloor="3" width="100%">
+               				</div>
+							</td>
+							<td class="ui-form-table-dd">
+								<div itype="Button" id="searchBtn" text="查询" iconCls="icon-search" onClick="doSearch()"></div>
+								<div itype="Button" id="resetBtn" text="重置" iconCls="icon-reset" onClick="doReset()"></div>
+							</td>
+						</tr>
+					</table>
+				</form>
+				<div>
+			   		 <table>
+					  <tr>
+						<td width="45%">	
+	                      <div  class="plus-header">（未绑定）活动末节点</div>
+		                 <div class="datagrid" allowAutoFillRow="false" itype="DataGrid" width="100%" id="activityDatagrid1" 
+							saveInstance="true" showCheckColumn="true"  onBeforeInitPageBar="onBeforeInitPageBar()"
+							initSource="actNode_queryNoBindTPostActnodeList.action" showSeqColumn="false" pageSize="15">
+								<div  name="c_actnode_id" hidden="true"></div>
+						 		<div width="30%" name="c_ACTNODE_CODE" text="末节点编码"></div>
+								<div width="50%" name="c_ACTNODE_NAME" text="末节点名称"></div>
+								<div width="20%" name="c_ISKEYCTRL" text="关键管控"  renderer="actRenderer()"></div>
+							</div>	
+						</td>
+						<td style="width:80px;" align="center">
+					  	  <div id="operationDiv" class="ooo text-align" style="margin-left:10px;">
+					  	  	<div itype="Button" iconCls="icon-pageprev" cls="btn_right" onClick="doBinding()"></div>
+					  	  	<div itype="Button" iconCls="icon-pageprev" cls="btn_left" onClick="doUnbind()"></div>
+					  	  </div>
+					   </td>
+						<td width="45%">
+	                     	<div  class="plus-header">（已绑定）活动末节点</div>
+		                 <div class="datagrid" allowAutoFillRow="false" itype="DataGrid" width="100%" id="activityDatagrid2" 
+							saveInstance="true" showCheckColumn="true"  onBeforeInitPageBar="onBeforeInitPageBar()"
+							initSource="actNode_queryBindingTPostActnodeList.action" showSeqColumn="false" pageSize="15">
+								<div  name="c_actnode_id" hidden="true"></div>
+						 		<div width="30%" name="c_ACTNODE_CODE" text="末节点编码"></div>
+								<div width="50%" name="c_ACTNODE_NAME" text="末节点名称"></div>
+								<div width="20%" name="c_ISKEYCTRL" text="关键管控"  renderer="actRenderer()"></div>
+							</div>	
+						</td>
+					</tr>
+				    </table>
+	          </div>
+			</div>
+		</div>
+	</body>
+</html>

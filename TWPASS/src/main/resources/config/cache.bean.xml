@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="config.cache" class="com.talkweb.twdpe.core.cache.CacheManager">
+		<property name="sources">
+			<map>
+                			 
+			    <entry key="config.cache.ehcache" value-ref="config.cache.ehcache" />
+			    <!--
+				<entry key="config.cache.jedis" value-ref="config.cache.jedis" />			
+				<entry key="config.cache.memcached" value-ref="config.cache.memcached" />
+                --> 				
+			</map>
+		</property>
+	</bean>
+   	
+    <bean id="config.cache.ehcache" class="com.talkweb.twdpe.core.cache.source.EhCacheSource" init-method="init">
+		<property name="name" value="config.cache.ehcache" />
+		<property name="url" value="java.io.tmpdir" />
+		<property name="maxActiveTime" value="20" />
+		<property name="maxIdleTime" value="10" />
+		<property name="maxWaitTime" value="1000" />
+		<property name="maxElementsInMemory" value="10000" />
+		<property name="eternal" value="true" />
+		<property name="timeToIdleSeconds" value="120" />
+		<property name="timeToLiveSeconds" value="120" />
+		<property name="overflowToDisk" value="true" />
+		<property name="diskPersistent" value="false" />
+		<property name="diskExpiryThreadIntervalSeconds" value="120" />
+		<property name="memoryStoreEvictionPolicy" value="LRU" />
+		<property name="statistics" value="false"/>
+	</bean>
+	 <!--
+	<bean id="config.cache.jedis" class="com.talkweb.twdpe.core.cache.source.JedisSource" init-method="init">
+		<property name="name" value="config.cache.jedis" />
+		<property name="url" value="192.168.0.1:1860" />
+		<property name="maxActiveTime" value="20" />
+		<property name="maxIdleTime" value="10" />
+		<property name="maxWaitTime" value="1000" />
+		<property name="timeout" value="200" />
+		<property name="password" value="" />
+	</bean>
+	<bean id="config.cache.memcached" class="com.talkweb.twdpe.core.cache.source.MemcachedSource" init-method="init">
+		<property name="name" value="config.cache.memcached" />
+		<property name="url" value="127.0.0.1:11211" />
+		<property name="weights" value="5" />
+		<property name="maxActiveTime" value="20" />
+		<property name="maxIdleTime" value="10" />
+		<property name="maxWaitTime" value="1000" />
+		<property name="initialConnectionCount" value="10" />
+		<property name="minConnectionCount" value="10" />
+		<property name="maxConnectionCount" value="100" />
+		<property name="maintSleep" value="30" />
+		<property name="nagle" value="false" />
+		<property name="socketTO" value="3000" />
+		<property name="socketConnectTO" value="0" />
+	</bean>
+    --> 	
+</beans>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>作业对象导入</title>
+<script src="../../../fastdev/fastDev-import.js"></script>
+<script src="../../../fastdev/common.js"></script>
+<script type="text/javascript" src="objectImport.js"></script>
+</head>
+<body id="page">
+	<form id="checkform" itype="Form">
+		<table class="ui-form-table">
+			<tr valign="middle">
+				<td class="ui-form-table-dt"><font color="red">*</font>部门</td>
+				<td class="ui-form-table-dd">
+				
+					<select id="cOrgid" saveInstance=true width="100%" itype="SelectTree" inside="false" 
+						 queue="positionForm" initSource="org_queryOrgTree.action" width="100%"
+						topParentid="-1" openFloor="2">
+						<option>---请选择---</option>
+					</select>
+				</td>
+				
+			</tr>
+			<tr>
+			    <td class="ui-form-table-dt">导入Excel</td>
+				<td class="ui-form-table-dd" align="left"  > 
+					<div itype="FileUpload" typeLimit="xls,xlsx" autoUpload="true" id="upfileExcel"
+						    width="100%" onChooseError="chooseError()" onUploadStart="onUploadStart()"
+							onUploadSuccess="onUploadSuccess()" onUploadFail="onUploadFail()" 
+							onUploadComplete="onUploadComplete()" action="uploadaction_fileUpload.action" 
+							name="upfileExcel" ></div>
+					<div itype="TextBox" type="hidden" id="filePath"></div>
+				</td>
+			</tr>
+			
+			<tr valign="middle">
+				<td class="ui-form-table-dt">模版</td>
+				<td class="ui-form-table-dd"><input itype="Button" width="100px" text="下载模版" onclick="exportTemplet()"/></td>
+				
+			</tr>
+			<tr valign="middle">
+				<td class="ui-form-table-dt">警告</td>
+				<td class="ui-form-table-dd">
+					<font color="red">由于模版可能会变化，请先查看标准模版与您导入的Excel表格格式是否相同</font>
+				</td>
+				
+			</tr>
+		</table>
+		<input  itype="TextBox"  type="hidden" id="cTabletypeId" saveInstance='true'/>
+	</form>
+	<div id="text" style="width: 580px; height: 200px;overflow:scroll;" ></div>
+	
+<iframe src="about:blank" style="display: none;" id="dc"></iframe>
+</body>
+</html>

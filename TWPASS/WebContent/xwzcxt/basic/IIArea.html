@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>显示区域信息</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="IIArea.js"></script>
+</head>
+<body style="padding:5px;overflow:hidden;" scroll="no">
+
+<!-- <div style="margin:10px;">
+	<div class="ui-layout-text">异步6 --iiarea_getAllAreaForTree.action areatree.josn</div>
+<div id="areatree" itype="Tree" saveInstance="true" showIco="true"
+					width="100%" rootValue="所有地区"
+					initSource="iiarea_getAllAreaForTree.action"
+					asyncDataSource="iiarea_getAllAreaForTree.action"
+					topParentid="0"
+					openFloor=3 
+					onNodeClick="onNodeClick()"></div>
+	</div>
+<div>  -->
+			
+			
+			
+  	<div class="ui-layout" id="mainDiv" style="height:98%; width:98%">
+
+		<div class="ui-layout-left" style="width: 200px; height: 100%;">
+	  		<div class="ui-layout-text ui-toolbar-bg">区域划分</div>
+	  		<div id="areatree" itype="Tree" saveInstance="true" showIco="true" 
+				width="100%" 
+				height="100%" 
+				initSource="iiarea_getAllAreaForTree.action" 
+				asyncDataSource="iiarea_getAllAreaForTree.action" 
+				rootValue="所有地区"
+				topParentid="0" 
+				showLine="true" 
+				openFloor=2 
+				onAfterReady="treeAfterReady()" 
+				onNodeClick="onNodeClick()">
+			</div>
+		</div>
+		
+		<div id="centerPanel" class="ui-layout-center"
+			style="left: 202px; height: 100%;">
+			<form id="orgform" itype="Form" requestType="post"
+				saveInstance="true">
+				<table class="ui-form-table">
+					<tr valign="middle">
+						<td class="ui-form-table-dt" style="width: 100px;">类别编号：</td>
+						<td class="ui-form-table-dd"><div itype="TextBox"
+								id="tworkobjtype.c_objtype_code" width="100%"></div></td>
+						<td class="ui-form-table-dt" style="width: 100px;">类别名称：</td>
+						<td class="ui-form-table-dd"><div itype="TextBox"
+								id="tworkobjtype.c_objtype_name" width="100%"></div></td>
+						<td class="ui-form-table-dd">
+							<div itype="Button" id="searchBtn" text="查询"
+								iconCls="icon-search" onClick="doSearchOrg()"></div>
+							<div itype="Button" id="resetBtn" text="重置" iconCls="icon-reset"
+								onClick="doResetOrg()"></div>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<!-- <div class="datagrid"  itype="DataGrid"
+				width="100%" id="areadatagrid" saveInstance="true"
+				showCheckColumn="true" 
+				initSource="iiarea_getPageAreaById.action" showSeqColumn="true"
+				pageSize="15" onRowClick="onRowClick()">
+				<div name="top-toolbar">
+					<div plain=true text="新增" iconCls="icon-add" id="add" onclick="doAddType()"></div>
+					<div itype="separator"></div>
+					<div plain=true text="批量删除" iconCls="icon-delete" id="delete" onclick="doBatchDelete()"></div>
+				</div>
+				<div width="13%" name="c_area_id" hidden="true"></div>
+				<div width="13%" name="c_area_name" text="区域名称"></div>
+				<div width="13%" name="c_scan_code" text="扫描码"></div>
+				<div width="23%" name="c_area_typename" text="区域类别"></div>
+				<div width="10%" name="c_remark" text="备注"></div>
+				<div width="20%" name="oper" text="操作" renderer="operRender()"></div>
+			</div> -->
+		</div>
+		
+
+  	</div> 
+  </body>
+</html>

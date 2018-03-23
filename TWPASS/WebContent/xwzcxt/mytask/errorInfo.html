@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>异常信息</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="errInfo.js"></script>
+<style type="text/css">
+</style>
+</head>
+<body>
+	<form id="checkForm" itype="Form" requestType="post"
+		saveInstance="true">
+		<table class="ui-form-table">
+
+			<tr valign="middle">
+
+				<td class="ui-form-table-dt" style="width: 80px;">异常名称</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cErrName" width="100%"></div>
+				</td>
+				<td class="ui-form-table-dt" style="width: 80px;">部门组织</td>
+				<td class="ui-form-table-dd">
+					<select itype="SelectTree" inside="false" id="orgid" width="100%"
+						queue="positionForm" onchange="showUsers()"
+						initSource="org_queryOrgTree.action" rootValue="-请选择-"
+						topParentid="-1" openFloor="2" onlySelectedLeaf=true></select>
+				</td>
+				<td class="ui-form-table-dt" style="width: 80px;">岗位</td>
+				<td class="ui-form-table-dd">
+					<select itype="SelectTree" inside="false" id="positionid" width="100%"
+						queue="positionForm"
+						initSource="pbo/getPositionInOrgAction.action?orgtype=6" rootValue="-请选择-"
+						topParentid="1--1" openFloor="2" onlySelectedLeaf=true></select>
+				</td>
+			</tr>
+			<tr valign="center">
+				<td class="ui-form-table-dt" style="width: 100px;">反馈人姓名：</td>
+				<td class="ui-form-table-dd"><select width="100%" itype="Select"
+						id="cFeedBackerName" initSource="taskSchedular_getUserList.action"
+						>
+						<option>--请选择--</option>
+					</select></td>
+				<td class="ui-form-table-dt" style="width: 100px;">反馈人工号</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cFeedBacker" width="100%"></div>
+				</td>
+				<td class="ui-form-table-dt" style="width: 100px;">板块：</td>
+				<td class="ui-form-table-dd">
+					<select width="100%" itype="Select"
+						id="cManageSection" saveInstance=true
+						initSource="task_getManageSectionList.action">
+						<option value="">--请选择--</option>
+
+					</select>
+					
+				</td>
+				<!--  
+				<td class="ui-form-table-dt" style="width: 80px;">异常种类</td>
+				<td class="ui-form-table-dd"><select width="100%"
+					itype="Select" id="errType">
+						<option text="-全部-"></option>
+						<option value="0" text="我反馈的"></option>
+						<option value="1" text="我处理的"></option>
+						<option value="2" text="抄送我的"></option>
+				</select></td>-->
+
+			</tr>
+			<tr valign="middle">
+			 <td class="ui-form-table-dt" >异常发生时间</td>
+			 <td class="ui-form-table-dd" colspan="3">
+             <table width="100%">
+                <tr valign="middle">
+				<td class="ui-form-table-dt" width="50px">起</td>
+				<td class="ui-form-table-dd">
+					<div itype="DatePicker" width="100%" timeBefore="end"
+						format="yyyy-mm-dd HH:MM" id="start"></div>
+				</td>
+				<td class="ui-form-table-dt" width="50px">止</td>
+				<td class="ui-form-table-dd">
+					<div itype="DatePicker" width="100%" timeAfter="start"
+						format="yyyy-mm-dd HH:MM" id="end"></div>
+				</td>
+				
+      			</tr>
+             </table>
+             </td>
+			  <td class="ui-form-table-dt" style="width: 100px;">异常处理状态：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" width="100%" id="cStatus" saveInstance=true>
+						<option>--全部--</option>
+						<option value="0">未处理</option>
+						<option value="1">已处理</option>
+					</select>
+				</td>
+			</tr>
+		    <tr valign="middle">
+				<td class="ui-form-table-dd" colspan="6" align="right">
+					<div itype="Button" id="searchBtn" text="查询" width="100px"
+						iconCls="icon-search" onClick="doSearch()"></div>
+					<div itype="Button" id="resetBtn" text="重置" width="100px"
+						iconCls="icon-reset" onClick="doReset()"></div>
+				</td>
+			</tr>
+
+		</table>
+	</form>
+
+	<div itype="DataGrid" id="errGrid" saveInstance=true
+		allowResizeColumn=true showSeqColumn=true
+		onAfterInitRender="onAfterInitRender()"
+		onBeforeReady="onBeforeReady()" pageSize="20">
+		<div name="cErrName" width="18%" text="异常主题"></div>
+		<div name="CErrType" width="8%" text="异常类型"></div>
+		<div name="cStatus" width="8%" text="异常状态"></div>
+		<div name="cArea" width="8%" text="发生区域"></div>
+		<div name="start" width="20%" itype="date" format="yyyy-MM-dd HH24:mm"
+			text="发生时间"></div>
+	    <div name="cManageSectionname" text="所属板块"></div>
+	    <!--  
+		<div name="cFeedBackerName" width="10%" text="反馈人"></div>
+		-->
+		<div name="end" width="20%" itype="date" format="yyyy-MM-dd HH24:mm"
+			text="提交时间"></div>
+		<div name="cErrId" width="8%" text="处理" renderer="showOperation()"></div>
+
+	</div>
+</body>
+</html>

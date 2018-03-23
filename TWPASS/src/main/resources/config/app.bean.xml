@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="config.app" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="session">
+					<map>
+						<entry key="type" value="normal" /><!-- 'normal'表示使用本地会话；'cache'表示使用远程memcached会话 -->
+						<entry key="cacheName" value="config.cache.memcached" />
+						<!-- 过期时间，单位（秒），-1表示不过期 -->
+						<entry key="timeOut" value="3600" />
+					</map>
+				</entry>
+				<entry key="cookie">
+					<map>
+						<entry key="maxAge" value="-99999" />
+					</map>
+				</entry>
+				<entry key="esb">
+				    <map>
+				    	<entry key="type" value="local" />
+				    </map>
+				</entry>
+				<entry key="sys_sendmail">
+					<map>
+						<entry key="emailAddr" value="twdpe@talkweb.com.cn" />
+						<entry key="login" value="twdpe" />
+						<entry key="password" value="twdpe" />
+						<entry key="smtpAddr" value="mail.talkweb.com.cn" />
+						<entry key="smtpPort" value="25" />
+						<entry key="pop3Addr" value="mail.talkweb.com.cn" />
+						<entry key="pop3Port" value="110" />
+						<entry key="imap4Addr" value="mail.talkweb.com.cn" />
+						<entry key="imap4Port" value="143" />
+					</map>
+				</entry>
+                <entry key="biz_sendmail">
+					<map>
+						<entry key="emailAddr" value="chenyupeng@talkweb.com.cn" />
+						<entry key="login" value="chenyupeng" />
+						<entry key="password" value="yourselfpwd" />
+						<entry key="smtpAddr" value="mail.talkweb.com.cn" />
+						<entry key="smtpPort" value="25" />
+						<entry key="pop3Addr" value="mail.talkweb.com.cn" />
+						<entry key="pop3Port" value="110" />
+						<entry key="imap4Addr" value="mail.talkweb.com.cn" />
+						<entry key="imap4Port" value="143" />
+					</map>
+				</entry>
+				<entry key="upload.system">
+					<map>
+						<!-- <entry key="url" value="http://localhost:8888/twdpe-eweb/" /> -->
+						 <entry key="url" value="http://ppd.talkweb.com.cn:8441/XWGL/" /> 
+						<entry key="path" value="/uploads/system/path/" />
+						<entry key="attach" value="/uploads/system/attach/" />
+						<entry key="image" value="/uploads/system/image/" />
+						<entry key="export" value="/uploads/system/export/" />
+						<entry key="import" value="/uploads/system/import/" />
+						<entry key="temp" value="/uploads/system/temp/" />
+					</map>
+				</entry>
+				<entry key="ftp">
+					<map>
+						<entry key="server" value="ftp1.server.com.cn" />
+						<entry key="port" value="21" />
+						<entry key="username" value="ftp1" />
+						<entry key="password" value="ftp1" />
+						<entry key="homePath" value="/home/user/upload1" />
+						<entry key="homeUrl" value="/home" />
+					</map>
+				</entry>
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="TSdMediastd" >
+  <resultMap id="BaseResultMap" type="com.talkweb.xwzcxt.pojo.TSdMediastdPojo" >
+    <id column="C_ID" property="cId" jdbcType="VARCHAR" />
+    <result column="C_ACTNODE_ID" property="cActnodeId" jdbcType="VARCHAR" />
+    <result column="C_TEMPLET_ID" property="cTempletId" jdbcType="VARCHAR" />
+    <result column="C_STEP_ID" property="cStepId" jdbcType="VARCHAR" />
+    <result column="C_SDFILE_ID" property="cSdfileId" jdbcType="VARCHAR" />
+    <result column="C_SDFILE_TYPE" property="cSdfileType" jdbcType="VARCHAR" />
+    <result column="C_SDFILE_PATH" property="cSdfilePath" jdbcType="VARCHAR" />
+    <result column="C_MEDIASTD_TYPE" property="cMediastdType" jdbcType="DECIMAL" />
+    <result column="C_CREATOR" property="cCreator" jdbcType="VARCHAR" />
+    <result column="C_CREATETIME" property="cCreatetime" jdbcType="DATE" />
+    <result column="C_MODIFIER" property="cModifier" jdbcType="VARCHAR" />
+    <result column="C_MODIFYTIME" property="cModifytime" jdbcType="DATE" />
+  </resultMap>
+  
+  <resultMap id="searchDeleteMediaStdByIdResultMap" type="com.talkweb.xwzcxt.pojo.TSdMediastdPojo" >
+    <id column="C_ID" property="cId" jdbcType="VARCHAR" />
+    <result column="C_ACTNODE_ID" property="cActnodeId" jdbcType="VARCHAR" />
+    <result column="C_TEMPLET_ID" property="cTempletId" jdbcType="VARCHAR" />
+    <result column="C_STEP_ID" property="cStepId" jdbcType="VARCHAR" />
+    <result column="C_SDFILE_ID" property="cSdfileId" jdbcType="VARCHAR" />
+    <result column="C_MEDIASTD_TYPE" property="cMediastdType" jdbcType="DECIMAL" />
+    <result column="C_CREATOR" property="cCreator" jdbcType="VARCHAR" />
+    <result column="C_CREATETIME" property="cCreatetime" jdbcType="DATE" />
+    <result column="C_MODIFIER" property="cModifier" jdbcType="VARCHAR" />
+    <result column="C_MODIFYTIME" property="cModifytime" jdbcType="DATE" />
+  </resultMap>
+
+  <select id="getAllMediaStdById" resultMap="BaseResultMap" parameterType="map" >
+    select aa.*,
+      bb.C_FILE_TYPE as C_SDFILE_TYPE,
+      bb.C_FILE_PATH as C_SDFILE_PATH
+    from TWXWZC.T_SD_MEDIASTD aa,
+      TWXWZC.T_FILE_INFO bb
+    where aa.C_SDFILE_ID = bb.C_FILE_ID(+)
+    <if test="type == 1">
+      and aa.C_ACTNODE_ID = #{cid}
+    </if>
+    <if test="type == 2">
+      and aa.C_TEMPLET_ID = #{cid}
+    </if>
+    <if test="type == 3">
+      and aa.C_STEP_ID = #{cid}
+    </if>
+    order by aa.C_CREATETIME,bb.C_UPLOAD_TIME asc
+  </select>
+
+  <insert id="addMediaStd" parameterType="com.talkweb.xwzcxt.pojo.TSdMediastdPojo" >
+    insert into TWXWZC.T_SD_MEDIASTD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cId != null" >
+        C_ID,
+      </if>
+      <if test="cActnodeId != null" >
+        C_ACTNODE_ID,
+      </if>
+      <if test="cTempletId != null" >
+        C_TEMPLET_ID,
+      </if>
+      <if test="cStepId != null" >
+        C_STEP_ID,
+      </if>
+      <if test="cSdfileId != null" >
+        C_SDFILE_ID,
+      </if>
+      <if test="cMediastdType != null" >
+        C_MEDIASTD_TYPE,
+      </if>
+      <if test="cCreator != null" >
+        C_CREATOR,
+      </if>
+      <if test="cCreatetime != null" >
+        C_CREATETIME,
+      </if>
+      <if test="cModifier != null" >
+        C_MODIFIER,
+      </if>
+      <if test="cModifytime != null" >
+        C_MODIFYTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cId != null" >
+        #{cId,jdbcType=VARCHAR},
+      </if>
+      <if test="cActnodeId != null" >
+        #{cActnodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="cTempletId != null" >
+        #{cTempletId,jdbcType=VARCHAR},
+      </if>
+      <if test="cStepId != null" >
+        #{cStepId,jdbcType=VARCHAR},
+      </if>
+      <if test="cSdfileId != null" >
+        #{cSdfileId,jdbcType=VARCHAR},
+      </if>
+      <if test="cMediastdType != null" >
+        #{cMediastdType,jdbcType=DECIMAL},
+      </if>
+      <if test="cCreator != null" >
+        #{cCreator,jdbcType=VARCHAR},
+      </if>
+      <if test="cCreatetime != null" >
+        #{cCreatetime,jdbcType=DATE},
+      </if>
+      <if test="cModifier != null" >
+        #{cModifier,jdbcType=VARCHAR},
+      </if>
+      <if test="cModifytime != null" >
+        #{cModifytime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateMediaStdById" parameterType="com.talkweb.xwzcxt.pojo.TSdMediastdPojo" >
+    update TWXWZC.T_SD_MEDIASTD
+    <set >
+      <if test="cActnodeId != null" >
+        C_ACTNODE_ID = #{cActnodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="cTempletId != null" >
+        C_TEMPLET_ID = #{cTempletId,jdbcType=VARCHAR},
+      </if>
+      <if test="cStepId != null" >
+        C_STEP_ID = #{cStepId,jdbcType=VARCHAR},
+      </if>
+      <if test="cSdfileId != null" >
+        C_SDFILE_ID = #{cSdfileId,jdbcType=VARCHAR},
+      </if>
+      <if test="cMediastdType != null" >
+        C_MEDIASTD_TYPE = #{cMediastdType,jdbcType=DECIMAL},
+      </if>
+      <if test="cCreator != null" >
+        C_CREATOR = #{cCreator,jdbcType=VARCHAR},
+      </if>
+      <if test="cCreatetime != null" >
+        C_CREATETIME = #{cCreatetime,jdbcType=DATE},
+      </if>
+      <if test="cModifier != null" >
+        C_MODIFIER = #{cModifier,jdbcType=VARCHAR},
+      </if>
+      <if test="cModifytime != null" >
+        C_MODIFYTIME = #{cModifytime,jdbcType=DATE},
+      </if>
+    </set>
+    where C_ID = #{cId,jdbcType=VARCHAR}
+  </update>
+
+  <delete id="deleteMediaStdById" parameterType="map" >
+    delete from TWXWZC.T_SD_MEDIASTD
+    where
+    <if test="type == 1">
+      C_ACTNODE_ID in
+      <foreach item="id" collection="cid" open="(" separator="," close=")">
+        #{id}
+      </foreach>
+    </if>
+    <if test="type == 2">
+      C_TEMPLET_ID in
+      <foreach item="id" collection="cid" open="(" separator="," close=")">
+        #{id}
+      </foreach>
+    </if>
+    <if test="type == 3">
+      C_STEP_ID in
+      <foreach item="id" collection="cid" open="(" separator="," close=")">
+        #{id}
+      </foreach>
+    </if>
+  </delete>
+  
+  <select id="searchDeleteMediaStdById" parameterType="map" resultMap="searchDeleteMediaStdByIdResultMap">
+    select c_id, c_actnode_id, c_templet_id, c_step_id, c_sdfile_id, c_mediastd_type, c_creator, c_createtime, c_modifier from TWXWZC.T_SD_MEDIASTD
+    where
+    <if test="type == 1">
+      C_ACTNODE_ID in
+      <foreach item="id" collection="cid" open="(" separator="," close=")">
+        #{id}
+      </foreach>
+    </if>
+    <if test="type == 2">
+      C_TEMPLET_ID in
+      <foreach item="id" collection="cid" open="(" separator="," close=")">
+        #{id}
+      </foreach>
+    </if>
+    <if test="type == 3">
+      C_STEP_ID in
+      <foreach item="id" collection="cid" open="(" separator="," close=")">
+        #{id}
+      </foreach>
+    </if>
+  </select>
+
+  <select id="getFileInfoById" resultType="java.util.Map" parameterType="java.lang.String" >
+    select t.*
+    from TWXWZC.T_FILE_INFO t
+    where t.C_FILE_ID = #{cFileId,jdbcType=VARCHAR}
+  </select>
+</mapper>

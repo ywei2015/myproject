@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../fastdev/common2.js"></script>
+<script src="task.js"></script>
+</head>
+<body>
+	<form id="checkform" itype="Form" requestType="post" saveInstance="true">
+		<input itype="TextBox" type="hidden" id="departmentId"/>
+		<input itype="TextBox" type="hidden" id="taskIssueStartTimeInput"/>
+		<input itype="TextBox" type="hidden" id="taskIssueEndTimeInput"/>
+		<input itype="TextBox" type="hidden" id="taskCompleteStartTimeInput"/>
+		<input itype="TextBox" type="hidden" id="taskCompleteEndTimeInput"/>
+		<input itype="TextBox" type="hidden" id="classGroupInput"/>
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt">部门组织：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cExecUserName" width="100%" readonly="true" onclick="onSelectPosition()"></div>
+					<div itype="TextBox" type="hidden" id="cExecUserid"></div>
+				</td>
+				<td class="ui-form-table-dt">任务类型：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="cTaskKind" width="100%" saveInstance="true" onchange="onchange()">
+						<option selected>-请选择-</option>
+						<option value="1" text="工作任务"></option>
+						<option value="3" text="工作安排"></option>
+					</select>
+				</td>
+				<td class="ui-form-table-dt">任务类别：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="cTaskType" width="100%" saveInstance="true" disabled="true">
+						<option>-请选择-</option>
+					</select>
+				</td>
+				<td class="ui-form-table-dt">任务状态：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="cStatus" width="100%" saveInstance="true" onchange="onchange1()">
+						<option>-请选择-</option>
+						<option value="22" text="已接收未执行"></option>
+						<option value="33" text="已执行未验证"></option>
+						<option value="34" text="已验证未评价"></option>
+						<option value="35" text="已评价"></option>
+						<option value="44" text="已删除"></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">执行区域：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cAreaName" width="100%" readonly="true" onclick="onSelectArea()"></div>
+					<div itype="TextBox" type="hidden" id="cAreaId"></div>
+				</td>
+				<td class="ui-form-table-dt">板块：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="cManageSection" width="100%"
+						initSource="task_getManageSectionList.action"
+						dataSource="task_getManageSectionList.action">
+						<option>-请选择-</option>
+					</select>
+				</td>
+				<td class="ui-form-table-dt">任务开始时间：</td>
+				<td class="ui-form-table-dd">
+					<input itype="DatePicker" id="cStartTime" format="yyyy-MM-dd" width="100%"/>
+				</td>
+				<td class="ui-form-table-dt">任务结束时间：</td>
+				<td class="ui-form-table-dd">
+					<input itype="DatePicker" id="cEndTime" format="yyyy-MM-dd" width="100%"/>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">完工及时性：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="cTimeStatus" width="100%" saveInstance="true" onchange="onchange2()">
+						<option>-请选择-</option>
+						<option value="1" text="执行逾期"></option>
+						<option value="2" text="验证逾期"></option>
+						<option value="3" text="评价逾期"></option>
+					</select>
+				</td>
+				<td class="ui-form-table-dd" style="display: none">
+					<select itype="Select" id="extype" width="100%" saveInstance="true" >
+						<option>-请选择-</option>
+						<option value="1" text="单点"></option>
+					</select>
+				</td>
+				<td class="ui-form-table-dt"  style="display: none">usercode：</td>
+				<td class="ui-form-table-dd"  style="display: none">
+					<div itype="TextBox" id="userCode" name="userCode" width="100%"></div>
+				</td>
+				
+					<td class="ui-form-table-dt"  style="display: none">任务异常：</td>
+				<td class="ui-form-table-dd"  style="display: none">
+					<div itype="TextBox" id="errortask" name="errortask" width="100%"></div>
+				</td>
+				
+				<td class="ui-form-table-dt"  style="display: none">评价异常：</td>
+				<td class="ui-form-table-dd"  style="display: none">
+					<div itype="TextBox" id="commenterror" name="commenterror" width="100%"></div>
+				</td>
+				
+				<td class="ui-form-table-dt"  style="display: none">验证异常：</td>
+				<td class="ui-form-table-dd"  style="display: none">
+					<div itype="TextBox" id="checkerror" name="checkerror" width="100%"></div>
+				</td>
+				<td class="ui-form-table-dt"  style="display: none">extype：</td>
+				<td class="ui-form-table-dd"  style="display: none">
+					<div itype="TextBox" id="extype" name="extype" width="100%"></div>
+				</td>
+				<td class="ui-form-table-dt">任务名称：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cTaskName" width="100%"></div>
+				</td>
+				<td class="ui-form-table-dd" align="right" colspan="4">
+					<div itype="Button" text="查询" iconCls="icon-search" onclick="doSearch()"></div>
+					<div itype="Button" text="重置" iconCls="icon-reset" onclick="doReset()"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" colspan="8">
+					<!-- 任务模版GRID -->
+					<div itype="DataGrid" id="grid_task" saveInstance=true pageSize="20"
+						allowResizeColumn="true" showCheckColumn="true" showSeqColumn="true" keyword="C_TASK_ID"
+						onBeforeReady="onBeforeReady()" onAfterInitRender="onAfterInitRender()" onRowClick="onRowClick()">
+						<div name="top-toolbar">
+							<div plain=true text="导出任务" id="export" display="false" iconCls="icon-export" onclick="exportXLS()"></div>
+							<div itype="separator"></div>
+							<div plain=true text="批量删除" id="delete" display="false" iconCls="icon-delete" onClick="batchDeleteObject()"></div>
+							<div itype="separator"></div>
+						</div>
+						<!-- 列属性定义-->
+						<div width="15%" name="C_TASK_NAME" text="任务名称" renderer="operLinkRenderer()"></div>
+						<div width="5%" name="C_TASK_KIND_NAME" text="任务类型"></div>
+						<div width="5%" name="C_TASK_TYPENAME" text="任务类别"></div>
+						<div width="9%" name="C_STATUS_NAME" text="任务状态" renderer="operLinkStatusRenderer()"></div>
+						<div width="10%" name="C_AREANAME" text="执行区域"></div>
+						<div width="5%" name="C_MANAGE_SECTION_NAME" text="板块"></div>
+						<div width="10%" name="ORGDEPARTNAME" text="部门"></div>
+						<div width="5%" name="C_EXEC_USERNAME" text="执行人"></div>
+						<div width="10%" name="EXECPOSITIONNAME" text="岗位"></div>
+						<div width="13%" name="C_START_TIME" text="任务开始时间" itype="datetime" format="yyyy-MM-dd hh:mm:ss"></div>
+						<div width="13%" name="C_END_TIME" text="任务结束时间" itype="datetime" format="yyyy-MM-dd hh:mm:ss"></div>
+						<div type="hidden" name="C_ISKEYCTRL"></div>
+						<div type="hidden" name="C_TASK_ID"></div>
+						<div type="hidden" name="C_PDCA"></div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+	<iframe src="about:blank" style="display: none;" id="dc"></iframe>
+</body>
+</html>

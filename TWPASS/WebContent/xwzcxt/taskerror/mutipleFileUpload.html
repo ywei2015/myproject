@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="../../fastdev/fastDev-import.js"></script>
+<script type="text/javascript" src="mutipleFileUpload.js"></script>
+<title>多文件上传</title>
+</head>
+<body>
+	<table class="ui-form-table">
+		<tr valign="middle">
+			<td class="ui-form-table-dt">取证</td>
+			<td class="ui-form-table-dd" colspan="3">
+				<!-- multiple属性可开启文件队列，并允许一次性上传多个文件 （即用户可选取多个文件后一并上传，但文件上传过程，仍是一个一个上传的） -->
+				<div width="100%" itype="FileUpload" name="upfileAccessory"
+					id="upfileAccessory" saveInstance="true" multiple="true"
+					showTextInput="true" sizeLimit="20480" showLoading="false"
+					typeLimit="bmp,jpeg,gif,jpg,png,mp3,mp4"
+					action="errTrace_uploadAffixFile.action"
+					onFileChoose="onFileChoose()" onUploadStart="onUploadStart()"
+					onUploadSuccess="onUploadSuccess()" onUploadFail="onUploadFail()"
+					onUploadCancel="onUploadCancel()">
+
+					<div name="chooseBtn" text="选择文件" iconCls="icon-add"></div>
+					<div name="uploadBtn" text="上传所有" iconCls="icon-upload"></div>
+				</div>
+
+				<div type='hidden' id="c_file_id" saveInstance=true></div>
+			</td>
+		</tr>
+
+		<tr valign="middle">
+			<td class="ui-form-table-dd" colspan="4" align="center">
+				<ul id="fileList"></ul>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

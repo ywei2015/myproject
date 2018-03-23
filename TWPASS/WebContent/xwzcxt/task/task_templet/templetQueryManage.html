@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="../../../fastdev/fastDev-import.js"></script>
+<script src="../../../fastdev/common.js"></script>
+<script src="templetQueryManage.js"></script>
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	<div class="ui-layout-left" style="width: 200px; height: 98.7%;">
+		<div class="ui-layout-title" style="padding-left: 5px;">岗位树</div>
+		<div id="orgtree" itype="Tree" saveInstance="true" showIco="true"
+			width="100%" rootValue="所有组织" topParentid="1--1" height="95%"
+			initSource="pbo/getPositionInOrgAction.action?orgtype=6" openFloor=2
+			onNodeClick="onNodeClick()" onlySelectedLeaf=true textMaxLength="40"
+			onAfterInitRender="afterInitRender()"></div>
+	</div>
+	<div class="ui-layout-center" style="left: 202px;">
+		<form id="checkform" itype="Form" requestType="post" saveInstance="true">
+			<table class="ui-form-table">
+				<tr>
+					<td class="ui-form-table-dt" style="width: 100px;">模板名称：</td>
+					<td class="ui-form-table-dd">
+						<div itype="TextBox" id="cTasktempletName" width="100%"></div>
+					</td>
+					<td class="ui-form-table-dd" align="right">
+						<div itype="Button" id="searchBtn" text="查询" iconCls="icon-search" onClick="doSearch()"></div>
+						<div itype="Button" id="resetBtn" text="重置" iconCls="icon-reset" onClick="doReset()"></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="ui-form-table-dt" colspan="3">
+						<!-- 任务模版GRID -->
+						<div itype="DataGrid" id="grid_task_plan"
+							onBeforeReady="onBeforeReady()" onAfterInitRender="onAfterInitRender()"
+							pageSize="20" allowResizeColumn="true" showCheckColumn="true" showSeqColumn="true"
+							saveInstance="true" keyword="C_TS_ID" onRowClick="onRowClick()">
+							<div itype="Toolbar" id="toolbar" name="top-toolbar" saveInstance=true>
+								<div plain=true text="批量删除" id="delete" display="false" iconCls="icon-delete" onClick="batchDeleteObject()"></div>
+								<div itype="separator"></div>
+							</div>
+							<!-- 列属性定义-->
+							<div width="20%" name="C_TASKTEMPLET_NAME" text="模板名称" renderer="operLinkRenderer()"></div>
+							<div width="10%" name="C_EXEC_USERNAME" text="作业人"></div>
+							<div width="10%" name="C_TASK_TYPENAME" text="管控类型"></div>
+							<div width="10%" name="C_START_TIME" text="开始时间"></div>
+							<div width="10%" name="C_END_TIME" text="结束时间"></div>
+							<div width="10%" name="C_PLANDOWN_TIME" text="下发时间"></div>
+							<div width="10%" name="C_DECODE_TIME" text="解析时间"></div>
+							<div width="10%" name="C_STATE" text="当前状态"></div>
+							<div width="10%" text="操作" renderer="operRenderer()"></div>
+							<div type="hidden" name="C_TS_ID"></div>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>

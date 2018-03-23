@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>待办任务</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../fastdev/common2.js"></script>
+<script src="readyMytask.js"></script>
+<style type="text/css">
+	.alignClass{
+		text-align:center;
+	}
+</style>
+</head>
+<body style="overflow-y: auto;" class="ui-layout-body ui-layout-body-bg ui-layout-container"> 
+	<form id="hiddenform" itype="Form" requestType="post" saveInstance="true">
+		<input itype="TextBox" id="taskId" name="taskId" type="hidden" />
+	</form>
+	<div class="ui-layout-center" style="height: 100%;">
+	 	<form id="checkform" itype="Form" requestType="post" saveInstance="true">
+			<table class="ui-form-table">
+				<tr valign="middle">
+				<!-- 
+					<td class="ui-form-table-dt" style="width:100px;">任务名称：</td>
+					<td class="ui-form-table-dd"><div itype="TextBox" id="taskMouldPojo.c_task_name" width="100%"></div></td>
+				-->	
+					<td class="ui-form-table-dt" style="width:100px;">板块：</td>
+					<td class="ui-form-table-dd"  >
+					   <select width="100%" itype="Select" id="taskMouldPojo.c_manage_section"
+							saveInstance=true  initSource="task_getManageSectionList.action">
+							<option value="">--请选择--</option>
+	
+						</select>
+					</td>
+					<td class="ui-form-table-dt" style="width:100px;">关键管控：</td>
+					<td class="ui-form-table-dd"  >
+					   <select  width="100%" itype="Select" id="taskMouldPojo.c_iskeyctrl" saveInstance=true>
+					           <option>--请选择--</option>
+					           <option value="1">是</option>
+					           <option value="0">否</option>
+					    </select>
+					
+					  <!--  <select width="100%" itype="Select" id="taskMouldPojo.c_task_kind"
+							saveInstance=true  display="false">
+							<option>--请选择--</option>
+							<option value="1">工作任务</option>
+							<option value="2">异常信息</option>
+							<option value="3">工作安排</option>
+						</select> -->
+					</td>
+					<!--  
+					<td class="ui-form-table-dt" style="width:100px;">执行区域：</td>
+					<td class="ui-form-table-dd"  >
+					    <input  width="100%" itype="TextBox" width="80%" id="taskMouldPojo.areaname"   saveInstance=true
+					  >
+					</td>
+					-->
+					<td class="ui-form-table-dt" style="display:none">单点页面标识</td>
+					<td class="ui-form-table-dd"  style="display: none">
+					    <input  width="100%" itype="TextBox" width="80%" id="taskMouldPojo.extype"   saveInstance=true
+					  >
+					</td>
+					<td class="ui-form-table-dt" style="display:none">单点页面用户工号</td>
+					<td class="ui-form-table-dd"  style="display: none">
+					    <input  width="100%" itype="TextBox" width="80%" id="taskMouldPojo.userCode"   saveInstance=true
+					  >
+					</td>
+					<td class="ui-form-table-dt" style="width:100px;">状态：</td>
+					<td class="ui-form-table-dd">
+						<select itype="Select" width="100%" id="taskMouldPojo.c_status">
+							<option>-请选择-</option>
+							<option value="11">未执行</option>
+							<option value="22">进行中</option>
+						</select>
+					</td>
+				</tr>
+				<tr valign="middle">
+					<td class="ui-form-table-dd" colspan="6" align="right">
+						<div  width ="100px" itype="Button" id="searchBtn" text="查询" iconCls="icon-search" onClick="searchForm()"></div>
+						<div  width ="100px" itype="Button" id="resetBtn" text="重置" iconCls="icon-reset" onClick="resetForm()"></div>
+					</td>
+				</tr>
+			</table>
+		</form>
+		<div itype="DataGrid" id="grid1" onBeforeReady="onBeforeReady()" showSeqColumn=true onAfterInitRender="onAfterInitRender()"
+			pageSize="15" saveInstance=true keyword="c_task_id" onRowClick="onRowClick()"  allowResizeColumn=true style="top: -10px;">	
+				 	
+			<!-- 列属性定义-->
+			<div width="9%" name="orgdepartname" text="部门" titleCls="alignClass"></div>
+			<div width="15%" name="posiname" text="岗位" titleCls="alignClass"></div>
+			<div width="5%" name="c_exec_username" text="姓名" titleCls="alignClass"></div>
+			<div width="20%" name="c_task_name" text="任务名称" renderer="toDetailsLink()" titleCls="alignClass"></div>
+			<div width="5%" name="c_manage_section_name" text="板块" titleCls="alignClass" renderer="renderer()"></div>
+			<div width="8%" name="c_task_kind" text="任务类别" titleCls="alignClass" renderer="kindRenderer()"></div>
+			<div width="5%" name="c_iskeyctrl_name" text="关键管控" titleCls="alignClass" renderer="renderer()"></div>
+			<div width="5%" name="c_issequence_name" text="顺序执行" titleCls="alignClass" renderer="renderer()"></div>
+			<div width="12%" name="areaname" text="执行区域" titleCls="alignClass" renderer="renderer()"></div>
+			<div width="160px" name="c_start_time"  itype="date"  format="yyyy-MM-dd HH:mm" text="开始时间" titleCls="alignClass" renderer="renderer()"></div>
+			<div width="160px" name="c_end_time"   itype="date"  format="yyyy-MM-dd HH:mm" text="结束时间" titleCls="alignClass" renderer="renderer()"></div>
+			<!--<div width="11%" name="watchStdAction" text="查看标准动作" titleCls="alignClass" renderer="renderer()"></div>-->
+			<div width="5%" name="c_status_name" text="状态" titleCls="alignClass" renderer="renderer()"></div>
+			<div width="5%" name="c_task_id" text="操作" titleCls="alignClass" renderer="toOperation()"></div>
+			<div width="5%" name="submit" text="提交" titleCls="alignClass" renderer="renderer()"></div>
+			<div hidden="true" name="c_task_id"></div>
+			<div name="pageSizeList">
+			   <div value="5" text="5条"></div>
+			   <div value="10" text="10条"></div>
+			   <div value="15" text="15条"></div>
+			   <div value="20" text="20条"></div>
+			   <div value="50" text="50条"></div>
+			</div>
+		</div> 
+		<br/>
+	</div>
+   <!--  
+	<div itype="DataGrid" 
+		 id="grid2" 
+		 pageSize="5"  
+		 saveInstance="true" 
+		 onBeforeReady="initHiddenInput()"
+		 onAfterInitRender=""
+		 keyword="c_step_index"
+		 onRowClick="onRowClick()"
+		 allowResizeColumn=true
+		 >
+		 <div width="15%" text="步骤" titleCls="alignClass" name="c_step_index" renderer="renderer()"></div>
+		 <div width="20%" text="动作名称" titleCls="alignClass" name="c_step_name" renderer="renderer()"></div>
+		 <div width="25%" text="动作执行" titleCls="alignClass" name="c_tracefun_name" renderer="renderer()"></div>
+		 <div width="40%" text="执行结果" titleCls="alignClass" name="c_result" renderer="renderer()"></div>
+	</div>-->
+	
+</body>
+</html>

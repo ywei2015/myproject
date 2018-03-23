@@ -1,0 +1,9 @@
+﻿{
+	defaultInfo:{
+		requires:"不能为空",
+		special:"不能含特殊字符",
+		isNumber:"必须为数字",
+		maxLength:"只能输入#{maxLength}个字符",
+		areareg:"地区编码只能包含0-9、a-z、A-Z、-、_这些字符"
+	}
+}

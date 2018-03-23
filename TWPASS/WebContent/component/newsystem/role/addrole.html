@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html  xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>新增角色</title>
+	<script src="../../fastdev/fastDev-import.js"></script>
+	<script src="addrole.js"></script>
+</head>
+<body>
+<form id="roleForm" itype="Form" saveInstance="true" action="role_addRole.action" initSource='role_initRoleData.action' onSubmitSuccess="submitSuccess()"  submitJson="false">
+   <div itype="TextBox" id="role.roleType" type="hidden" value="GENERAL"></div>
+   <table class="ui-form-table">
+       <tr>
+           <td class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>角色编码：</td>
+           <td class="ui-form-table-dd"><div itype="TextBox" id="role.roleCode" width="100%" validateMode="blur" rule="required;MaxLength:255" tips="唯一标识此角色，由数字和大小写字母、下划线组成。如:deptMngr,ProjectMngr,RJTX_CPJL,RJTX_XMJL。"></div></td>
+           <td class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>角色名称：</td>
+           <td class="ui-form-table-dd"><div itype="TextBox" id="role.roleName" width="100%" validateMode="blur" rule="required;MaxLength:64"></div></td>
+       </tr>
+       <tr>
+           <td class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>角色类型：</td>
+           <td class="ui-form-table-dd">普通角色</td>
+           <td class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>所属应用：</td>
+           <td class="ui-form-table-dd"><select id="role.appId" itype="Select" inside="false" width="100%" validateMode="blur" rule="required" onchange="change()"><option text="-请选择-"></option></select></td>                              
+       </tr>
+       <tr>
+           <td class="ui-form-table-dt" style="width:100px">上级角色：</td>
+           <td class="ui-form-table-dd">
+				<div itype="SelectTree" inside="false" id="role.parentRoleId" sTreeClickAfterShow="true" rootValue="-请选择-" topParentid="-1" openFloor=2 width="100%"></div>           
+           </td>
+           <td class="ui-form-table-dt" style="width:100px">所属组织：</td>
+           <td class="ui-form-table-dd">
+				<div itype="SelectTree" inside="false" id="role.orgId" width="100%" onBeforeReady="onOrgBeforeReady()" asyncDataSource="org_initGradeOrgTree.action?modeId=add&moduleId=M44" rootValue="-请选择-" topParentid="-1" openFloor="2"></div>            
+           </td>
+       </tr>                
+       <tr>
+           <td class="ui-form-table-dt" style="width:100px">角色描述：</td>
+           <td class="ui-form-table-dd" colspan="3"><div itype="TextBox" id="role.roleDesc" type="textarea" height="50px" width="100%" rule="MaxLength:512"></div></td>
+       </tr>
+   </table>
+</form>	
+</body>
+</html>

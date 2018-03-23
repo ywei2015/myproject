@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>字典详细</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+	<script src="../../fastdev/fastDev-import.js"></script>    
+	<script type="text/javascript" src="dictInfo.js"></script>
+</head>
+<body style="overflow-x: hidden">
+	<script id="tpl" type="text/tmpl">	
+		<table class="ui-form-table" cellpadding="0" cellspacing="0" border="0" width="100%">
+			<tr>
+				<td class="ui-form-table-dt">编码：</td>
+				<td class="ui-form-table-dd">#{dictEntryInfo.dictid}</td>
+				<td class="ui-form-table-dt">名称：</td>
+				<td class="ui-form-table-dd">#{dictEntryInfo.name}</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">隶属于：</td>
+				<td class="ui-form-table-dd">#{dictEntryInfo.dicttypename}</td>
+				<td class="ui-form-table-dt">父字典项：</td>
+				<td class="ui-form-table-dd">#{dictEntryInfo.parentname}</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">全称：</td>
+				<td class="ui-form-table-dd">#{dictEntryInfo.fullname}</td>
+				<td class="ui-form-table-dt">类型：</td>
+				<td class="ui-form-table-dd">#{dictEntryInfo.typeName}</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">值：</td>
+				<td class="ui-form-table-dd">#{dictEntryInfo.dictname}</td>
+				<td class="ui-form-table-dt">排序：</td>
+				<td class="ui-form-table-dd">#{dictEntryInfo.sortno}</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">选项：</td>
+				<td class="ui-form-table-dd" colspan="3">#{dictEntryInfo.isshowName}&nbsp;&nbsp;
+				#{dictEntryInfo.allownullName}&nbsp;&nbsp;
+				#{dictEntryInfo.allowmodifyName}&nbsp;&nbsp;
+				#{dictEntryInfo.allowdeleteName}</label>
+				</td>
+			</tr>
+		</table>	
+	</script>
+</body>
+</html>

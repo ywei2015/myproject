@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="iitaskinfo">
+<!-- 任务查询 -->
+<select id="getTaskinfoList" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.IITaskInfoPojo">
+	select 
+		c_task_id,
+		c_task_name,
+		c_task_type,
+		c_task_typename,
+		c_urgent_level,
+		c_trigger_type,
+		c_iskeyctrl,
+		c_err_sn,
+		c_actnode_id,
+		c_actnode_name,
+		c_manage_section,
+		c_manage_section_name,
+		c_pdca,
+		c_issequence,
+		c_area_id,
+		c_areaname,
+		c_exec_userid,
+		c_exec_username,
+		c_start_time,
+		c_end_time,
+		c_isstd,
+		c_tasktemplet_id,
+		c_remark,
+		c_create_userid,
+		c_create_username,
+		c_create_time,
+		c_plandown_time,
+		c_down_time,
+		c_fact_starttime,
+		c_fact_endtime,
+		c_up_time,
+		c_confirm_userid,
+		c_confirm_username,
+		c_confirm_time,
+		c_cancel_cause,
+		c_status,
+		c_handle_des,
+		c_iserror,
+		c_ok_fbuserid,
+		c_ok_fbuserlist,
+		c_ng_fbuserid,
+		c_ng_fbuserlist,
+		c_chk_plantime,
+		c_chk_userid,
+		c_chk_username,
+		c_chk_starttime,
+		c_chk_endtime,
+		c_chk_result,
+		c_evaluate_plantime,
+		c_evaluate_userid,
+		c_evaluate_username,
+		c_evaluate_time,
+		c_evaluate_result 	
+	from t_taskinfo t
+	<where>
+		1=1 
+		<if test="null!=c_task_id and ''!=c_task_id">
+			and t.c_task_id  = #{c_task_id}
+		</if>
+		<if test="null!=c_task_name and ''!=c_task_name">
+			and t.c_task_name like '%${c_task_name}%'
+		</if>
+		<if test="null!=c_task_type and ''!=c_task_type">
+			and t.c_task_type  = #{c_task_type}
+		</if>
+		<if test="null!=c_actnode_id and ''!=c_actnode_id">
+			and t.c_actnode_id  = #{c_actnode_id}
+		</if>
+		<if test="null!=c_exec_userid and ''!=c_exec_userid">
+			and t.c_exec_userid = ${c_exec_userid}
+		</if>
+		<if test="null!=c_exec_username and ''!=c_exec_username">
+			and t.c_exec_userid in (select t.userid from dp_user t where t.displayname = #{c_exec_username})
+		</if>
+		<if test="null!=c_status and ''!=c_status">
+			and t.c_status = #{c_status}
+		</if>
+		<if test="null!=c_orgid and ''!=c_orgid">
+			and t.c_exec_userid in (select t.userid from dp_user t where t.orgid in  (select o.orgid from dp_organization o start with o.orgid in #{c_orgid} connect by prior o.orgid = o.parentorgid))
+		</if>
+		<if test="null!=c_positionid and ''!=c_positionid">
+			and t.c_exec_userid in ((select t.userid from dp_user t where t.positionid in (select r.positionid from dp_position r start with r.positionid=#{c_positionid} connect by prior r.positionid = r.manaposi)))
+		</if> 
+		<if test="null!=c_start_time1 and ''!=c_start_time1 and null!=c_start_time2 and ''!=c_start_time2">
+			and t.c_start_time between #{c_start_time1} and #{c_start_time2}  
+		</if>
+		<if test="null!=c_fact_endtime1 and ''!=c_fact_endtime1 and null!=c_fact_endtime2 and ''!=c_fact_endtime2">
+			and t.c_fact_endtime between #{c_fact_endtime1} and #{c_fact_endtime2}  
+		</if>
+		<if test="null!=c_confirm_time1 and ''!=c_confirm_time1 and null!=c_confirm_time2 and ''!=c_confirm_time2">
+			and t.c_confirm_time between #{c_confirm_time1} and #{c_confirm_time2}  
+		</if>
+	</where>
+	 order by t.c_confirm_time DESC, t.c_task_id DESC
+</select>
+
+<!-- 任务流程查询 -->
+<select id="getTaskinfoItemList" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.IITaskinfoItemPojo">
+	select 
+		c_stepitem_id,
+		c_task_id,
+		c_actitem_index,
+		c_actitem_name,
+		c_actitem_id,
+		c_exec_getdatatype,
+		c_check_getdatatype 	
+	from T_TASKINFO_ITEM t
+	<where> 1=1 
+		<if test="null!=c_stepitem_id and ''!=c_stepitem_id">
+			and t.c_stepitem_id=#{c_stepitem_id} 
+		</if>
+		<if test="null!=c_task_id and ''!=c_task_id">
+			and t.c_task_id=#{c_task_id} 
+		</if>
+		<if test="null!=c_actitem_index and ''!=c_actitem_index">
+			and t.c_actitem_index=#{c_actitem_index} 
+		</if>
+		<if test="null!=c_actitem_id and ''!=c_actitem_id">
+			and t.c_actitem_id=#{c_actitem_id} 
+		</if>
+	</where>
+	 order by t.c_stepitem_id
+</select>
+
+<!-- 任务执行结果查询 -->
+<select id="getTaskStepResultList" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.IITaskStepResultPojo">
+	select 
+		c_result_id,
+		c_task_id,
+		c_actitem_id,
+		c_actitem_index,
+		c_step_index,
+		c_tracefun_id,
+		c_tracefun_name,
+		c_fun_params,
+		c_isfile,
+		c_result,
+		c_exec_time,
+		c_get_time,
+		c_remark,
+		(select f.c_file_path from t_file_info f where f.c_file_id=t.c_result) as c_file_path,
+  		(select f.c_file_title from t_file_info f where f.c_file_id=t.c_result) as c_file_title
+	from T_TASKSTEP_RESULT t 
+	<where>
+		1=1
+		<if test="null!=c_result_id and ''!=c_result_id">
+			and t.c_result_id=#{c_result_id} 
+		</if>
+		<if test="null!=c_task_id and ''!=c_task_id">
+			and t.c_task_id=#{c_task_id} 
+		</if>
+		<if test="null!=c_actitem_index and ''!=c_actitem_index">
+			and t.c_actitem_index=#{c_actitem_index} 
+		</if>
+		<if test="null!=c_actitem_id and ''!=c_actitem_id">
+			and t.c_actitem_id=#{c_actitem_id} 
+		</if>
+		<if test="null!=c_step_index and ''!=c_step_index">
+			and t.c_step_index=#{c_step_index} 
+		</if>
+	</where>
+	 order by t.c_result_id
+</select>
+
+<!-- 任务复核确认下发的proc -->
+<select id="P_TWXWZC_II_CONFIRM_TASKINFO" parameterType="map" statementType="CALLABLE" resultType="integer">  
+<![CDATA[ 
+    {CALL P_TWXWZC_II_CONFIRM_TASKINFO (
+    	#{v_TASK_ID,mode=IN,jdbcType=NUMERIC},
+    	#{v_START_TIME,mode=IN,jdbcType=VARCHAR},
+    	#{v_END_TIME,mode=IN,jdbcType=VARCHAR},
+    	#{v_PLANDOWN_TIME,mode=IN,jdbcType=VARCHAR},
+    	#{v_EXEC_USERID,mode=IN,jdbcType=NUMERIC},
+    	#{v_AREA_ID,mode=IN,jdbcType=VARCHAR},
+    	#{v_CONFIRM_USERID,mode=IN,jdbcType=NUMERIC}
+    )} 
+]]>  
+</select>
+
+	
+</mapper>

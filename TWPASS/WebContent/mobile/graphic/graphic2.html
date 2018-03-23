@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta charset="UTF-8">
+<!-- 自适应界面，如果出现，在某些设备出现界面偏小的话，检查一下有没有加入这句 -->
+<meta http-equiv="Content-type" name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width">
+<link rel="stylesheet" href="../css/jquery.mobile-1.4.5.min.css">
+<link rel="stylesheet" href="../css/graphic.css">
+<script src="../js/jquery-2.1.3.min.js"></script>
+<script src="../js/jquery.mobile-1.4.5.min.js"></script>
+<script src="graphic.js"></script>
+
+</head>
+<body>
+	<div data-role="page" data-dom-cache="false" >
+		<div data-role="header" data-position="fixed">
+			<div id="hideDiv" >
+					<p align="center" style="margin:0;padding:0;background-color:white;">
+					    <a id="showHide"  onclick="oper()">
+					        <img id="imgs" src="../images/g1.png"/>
+					     </a>
+					</p>
+	        </div>
+		</div>
+
+		<div data-role="content" style="margin: 0; padding: 0;">
+			<div id="navbar" data-role="navbar" style="position:absolute;top:20px;left:0px;width:100%;display:none;filter:alpha(Opacity=80);-moz-opacity:0.9;opacity: 0.9;z-index:99;" >
+					<ul >
+						<li><a onclick="switchPage(1);" class="ui-btn-active ui-state-persist" data-icon="arrow-r">任务数</a></li>
+						<li><a onclick="switchPage(2);" data-icon="arrow-r" data-transition="none">异常数</a></li>
+						<li><a onclick="switchPage(3);" data-icon="arrow-r" data-transition="none">执行力</a></li>
+					</ul>
+				</div>
+			<div id="page1" style="position:absolute;top:0px;left:0px;width:100%;">
+				<div id="chart1">
+					<h2 class="title">本人任务数</h2>
+					<div id="selfFlip11" class="flip"><img src="../../fastdev/themes/default/images/ico/up.gif"/>统计（未完成）</div>
+					<div id="selfDiv11" style="display: none;">
+						<fieldset data-role="controlgroup" data-type="horizontal" style="float: right;">
+							<input type="radio" name="timeRadio111" id="currentDay111" value="1" onclick="setChart1(0, 0, 1);"/>
+							<label for="currentDay111">本日</label>
+							<input type="radio" name="timeRadio111" id="currentWeek111" value="2" onclick="setChart1(0, 0, 2);" checked="checked"/>
+							<label for="currentWeek111">本周</label>
+							<input type="radio" name="timeRadio111" id="currentMonth111" value="3" onclick="setChart1(0, 0, 3);"/>
+							<label for="currentMonth111">本月</label>
+						</fieldset>
+						<table id="selfUnfinishCount" class="table12345" ></table>
+						<div id="self11"></div>
+					</div>
+					<div style="height: 50px;"></div>
+					<div id="selfFlip12" class="flip"><img src="../../fastdev/themes/default/images/ico/up.gif"/>统计（已完成）</div>
+					<div id="selfDiv12" style="display: none;">
+						<fieldset data-role="controlgroup" data-type="horizontal" style="float: right;">
+							<input type="radio" name="timeRadio112" id="currentDay112" value="1" onclick="setChart1(0, 1, 1);"/>
+							<label for="currentDay112">本日</label>
+							<input type="radio" name="timeRadio112" id="currentWeek112" value="2" onclick="setChart1(0, 1, 2);" checked="checked"/>
+							<label for="currentWeek112">本周</label>
+							<input type="radio" name="timeRadio112" id="currentMonth112" value="3" onclick="setChart1(0, 1, 3);"/>
+							<label for="currentMonth112">本月</label>
+						</fieldset>
+						<table id="selfFinishCount" class="table12345" ></table>
+						<div id="self12"></div>
+					</div>
+					<div style="height: 50px;"></div>
+		
+					<h2 class="title">班组任务数</h2>
+					<div id="teamFlip11" class="flip"><img src="../../fastdev/themes/default/images/ico/up.gif"/>统计（未完成）</div>
+					<div id="teamDiv11" style="display: none;">
+						<fieldset data-role="controlgroup" data-type="horizontal" style="float: right;">
+							<input type="radio" name="timeRadio121" id="currentDay121" value="1" onclick="setChart1(1, 0, 1);"/>
+							<label for="currentDay121">本日</label>
+							<input type="radio" name="timeRadio121" id="currentWeek121" value="2" onclick="setChart1(1, 0, 2);" checked="checked"/>
+							<label for="currentWeek121">本周</label>
+							<input type="radio" name="timeRadio121" id="currentMonth121" value="3" onclick="setChart1(1, 0, 3);"/>
+							<label for="currentMonth121">本月</label>
+						</fieldset>
+						<table id="teamUnfinishCount" class="table12345" ></table>
+						<div id="team11"></div>
+					</div>
+					<div style="height: 50px;"></div>
+					<div id="teamFlip12" class="flip"><img src="../../fastdev/themes/default/images/ico/up.gif"/>统计（已完成）</div>
+					<div id="teamDiv12" style="display: none;">
+						<fieldset data-role="controlgroup" data-type="horizontal" style="float: right;">
+							<input type="radio" name="timeRadio122" id="currentDay122" value="1" onclick="setChart1(1, 1, 1);"/>
+							<label for="currentDay122">本日</label>
+							<input type="radio" name="timeRadio122" id="currentWeek122" value="2" onclick="setChart1(1, 1, 2);" checked="checked"/>
+							<label for="currentWeek122">本周</label>
+							<input type="radio" name="timeRadio122" id="currentMonth122" value="3" onclick="setChart1(1, 1, 3);"/>
+							<label for="currentMonth122">本月</label>
+						</fieldset>
+						<table id="teamFinishCount" class="table12345" ></table>
+						<div id="team12"></div>
+					</div>
+					<div style="height: 50px;"></div>
+		
+					<h2 class="title">部门任务数</h2>
+					<div id="departmentFlip11" class="flip"><img src="../../fastdev/themes/default/images/ico/up.gif"/>统计（未完成）</div>
+					<div id="" style="display: none;"></div>
+					<div id="departmentDiv11" style="display: none;">
+						<fieldset data-role="controlgroup" data-type="horizontal" style="float: right;">
+							<input type="radio" name="timeRadio131" id="currentDay131" value="1" onclick="setChart1(2, 0, 1);"/>
+							<label for="currentDay131">本日</label>
+							<input type="radio" name="timeRadio131" id="currentWeek131" value="2" onclick="setChart1(2, 0, 2);" checked="checked"/>
+							<label for="currentWeek131">本周</label>
+							<input type="radio" name="timeRadio131" id="currentMonth131" value="3" onclick="setChart1(2, 0, 3);"/>
+							<label for="currentMonth131">本月</label>
+						</fieldset>
+						<table id="departUnfinishCount" class="table12345" ></table>
+						<div id="department11"></div>
+					</div>
+					<div style="height: 50px;"></div>
+					<div id="departmentFlip12" class="flip"><img src="../../fastdev/themes/default/images/ico/up.gif"/>统计（已完成）</div>
+					<div id="departmentDiv12" style="display: none;">
+						<fieldset data-role="controlgroup" data-type="horizontal" style="float: right;">
+							<input type="radio" name="timeRadio132" id="currentDay132" value="1" onclick="setChart1(2, 1, 1);"/>
+							<label for="currentDay132">本日</label>
+							<input type="radio" name="timeRadio132" id="currentWeek132" value="2" onclick="setChart1(2, 1, 2);" checked="checked"/>
+							<label for="currentWeek132">本周</label>
+							<input type="radio" name="timeRadio132" id="currentMonth132" value="3" onclick="setChart1(2, 1, 3);"/>
+							<label for="currentMonth132">本月</label>
+						</fieldset>
+						<table id="departFinishCount" class="table12345" ></table>
+						<div id="department12"></div>
+					</div>
+					<div style="height: 50px;"></div>
+				</div>
+	
+				<div id="detail1" style="display: none;"></div>
+			</div>
+
+			<div id="page2" style="display: none;">
+				<div id="chart2">
+					<h2 class="title">本人异常数</h2>
+					<div id="selfFlip2" class="flip"><img src="../../fastdev/themes/default/images/ico/up.gif"/>统计</div>
+					<div id="selfDiv2" style="display: none;">
+						<fieldset data-role="controlgroup" data-type="horizontal" style="float: right;">
+							<input type="radio" name="timeRadio21" id="currentDay21" value="1" onclick="setChart2(0, 1);"/>
+							<label for="currentDay21">本日</label>
+							<input type="radio" name="timeRadio21" id="currentWeek21" value="2" onclick="setChart2(0, 2);" checked="checked"/>
+							<label for="currentWeek21">本周</label>
+							<input type="radio" name="timeRadio21" id="currentMonth21" value="3" onclick="setChart2(0, 3);"/>
+							<label for="currentMonth21">本月</label>
+						</fieldset>
+						<table id="selfErrCount" class="table12345" ></table>
+						<div id="self2"></div>
+					</div>
+					<div style="height: 50px;"></div>
+		
+					<h2 class="title">班组异常数</h2>
+					<div id="teamFlip2" class="flip"><img src="../../fastdev/themes/default/images/ico/up.gif"/>统计</div>
+					<div id="teamDiv2" style="display: none;">
+						<fieldset data-role="controlgroup" data-type="horizontal" style="float: right;">
+							<input type="radio" name="timeRadio22" id="currentDay22" value="1" onclick="setChart2(1, 1);"/>
+							<label for="currentDay22">本日</label>
+							<input type="radio" name="timeRadio22" id="currentWeek22" value="2" onclick="setChart2(1, 2);" checked="checked"/>
+							<label for="currentWeek22">本周</label>
+							<input type="radio" name="timeRadio22" id="currentMonth22" value="3" onclick="setChart2(1, 3);"/>
+							<label for="currentMonth22">本月</label>
+						</fieldset>
+						<table id="teamErrCount" class="table12345" ></table>
+						<div id="team2"></div>
+					</div>
+					<div style="height: 50px;"></div>
+		
+					<h2 class="title">部门异常数</h2>
+					<div id="departmentFlip2" class="flip"><img src="../../fastdev/themes/default/images/ico/up.gif"/>统计</div>
+					<div id="departmentDiv2" style="display: none;">
+						<fieldset data-role="controlgroup" data-type="horizontal" style="float: right;">
+							<input type="radio" name="timeRadio23" id="currentDay23" value="1" onclick="setChart2(2, 1);"/>
+							<label for="currentDay23">本日</label>
+							<input type="radio" name="timeRadio23" id="currentWeek23" value="2" onclick="setChart2(2, 2);" checked="checked"/>
+							<label for="currentWeek23">本周</label>
+							<input type="radio" name="timeRadio23" id="currentMonth23" value="3" onclick="setChart2(2, 3);"/>
+							<label for="currentMonth23">本月</label>
+						</fieldset>
+						<table id="departErrCount" class="table12345" ></table>
+						<div id="department2"></div>
+					</div>
+					<div style="height: 50px;"></div>
+				</div>
+	
+				<div id="detail2" style="display: none;"></div>
+			</div>
+
+			<div id="page3" style="display: none;">
+				<div id="chart3">
+					<h2 class="title">本人执行力</h2>
+					<div id="selfFlip31" class="flip"><img src="../../fastdev/themes/default/images/ico/up.gif"/>统计（执行）</div>
+					<div id="selfDiv31" style="display: none;">
+						<fieldset data-role="controlgroup" data-type="horizontal" style="float: right;">
+							<input type="radio" name="timeRadio311" id="currentDay311" value="1" onclick="setChart3(0, 0, 1)"/>
+							<label for="currentDay311">本日</label>
+							<input type="radio" name="timeRadio311" id="currentWeek311" value="2" onclick="setChart3(0, 0, 2)" checked="checked"/>
+							<label for="currentWeek311">本周</label>
+							<input type="radio" name="timeRadio311" id="currentMonth311" value="3" onclick="setChart3(0, 0, 3)"/>
+							<label for="currentMonth311">本月</label>
+						</fieldset>
+						<table id="sumSelfExecuteInfo" class="table123456" cellspacing="5px" ></table>
+						<div id="self31" ></div>
+						
+					</div>
+					
+					<div style="height: 50px;"></div>
+					<div id="selfFlip32" class="flip"><img src="../../fastdev/themes/default/images/ico/up.gif"/>统计（验证）</div>
+					<div id="selfDiv32" style="display: none;">
+						<fieldset data-role="controlgroup" data-type="horizontal" style="float: right;">
+							<input type="radio" name="timeRadio312" id="currentDay312" value="1" onclick="setChart3(0, 1, 1);"/>
+							<label for="currentDay312">本日</label>
+							<input type="radio" name="timeRadio312" id="currentWeek312" value="2" onclick="setChart3(0, 1, 2);" checked="checked"/>
+							<label for="currentWeek312">本周</label>
+							<input type="radio" name="timeRadio312" id="currentMonth312" value="3" onclick="setChart3(0, 1, 3);"/>
+							<label for="currentMonth312">本月</label>
+						</fieldset>
+							<table id="sumSelfChkInfo" class="table123456" cellspacing="5px" ></table>
+						<div id="self32"></div>
+					</div>
+					<div style="height: 50px;"></div>
+					<div id="selfFlip33" class="flip"><img src="../../fastdev/themes/default/images/ico/up.gif"/>统计（评价）</div>
+					<div id="selfDiv33" style="display: none;">
+						<fieldset data-role="controlgroup" data-type="horizontal" style="float: right;">
+							<input type="radio" name="timeRadio313" id="currentDay313" value="1" onclick="setChart3(0, 2, 1);"/>
+							<label for="currentDay313">本日</label>
+							<input type="radio" name="timeRadio313" id="currentWeek313" value="2" onclick="setChart3(0, 2, 2);" checked="checked"/>
+							<label for="currentWeek313">本周</label>
+							<input type="radio" name="timeRadio313" id="currentMonth313" value="3" onclick="setChart3(0, 2, 3);"/>
+							<label for="currentMonth313">本月</label>
+						</fieldset>
+							<table id="sumSelfEvaluateInfo" class="table123456" cellspacing="5px" ></table>
+						<div id="self33"></div>
+					</div>
+					<div style="height: 50px;"></div>
+		
+					<h2 class="title">班组执行力</h2>
+					<div id="teamFlip31" class="flip"><img src="../../fastdev/themes/default/images/ico/up.gif"/>统计（执行）</div>
+					<div id="teamDiv31" style="display: none;">
+						<fieldset data-role="controlgroup" data-type="horizontal" style="float: right;">
+							<input type="radio" name="timeRadio321" id="currentDay321" value="1" onclick="setChart3(1, 0, 1);"/>
+							<label for="currentDay321">本日</label>
+							<input type="radio" name="timeRadio321" id="currentWeek321" value="2" onclick="setChart3(1, 0, 2);" checked="checked"/>
+							<label for="currentWeek321">本周</label>
+							<input type="radio" name="timeRadio321" id="currentMonth321" value="3" onclick="setChart3(1, 0, 3);"/>
+							<label for="currentMonth321">本月</label>
+						</fieldset>
+						<table id="sumGroupExecuteInfo" class="table123456" cellspacing="5px" ></table>
+						<div id="team31"></div>
+					</div>
+					<div style="height: 50px;"></div>
+					<div id="teamFlip32" class="flip"><img src="../../fastdev/themes/default/images/ico/up.gif"/>统计（验证）</div>
+					<div id="teamDiv32" style="display: none;">
+						<fieldset data-role="controlgroup" data-type="horizontal" style="float: right;">
+							<input type="radio" name="timeRadio322" id="currentDay322" value="1" onclick="setChart3(1, 1, 1);"/>
+							<label for="currentDay322">本日</label>
+							<input type="radio" name="timeRadio322" id="currentWeek322" value="2" onclick="setChart3(1, 1, 2);" checked="checked"/>
+							<label for="currentWeek322">本周</label>
+							<input type="radio" name="timeRadio322" id="currentMonth322" value="3" onclick="setChart3(1, 1, 3);"/>
+							<label for="currentMonth322">本月</label>
+						</fieldset>
+						<table id="sumGroupChkInfo" class="table123456" cellspacing="5px"></table>
+						<div id="team32"></div>
+					</div>
+					<div style="height: 50px;"></div>
+					<div id="teamFlip33" class="flip"><img src="../../fastdev/themes/default/images/ico/up.gif"/>统计（评价）</div>
+					<div id="teamDiv33" style="display: none;">
+						<fieldset data-role="controlgroup" data-type="horizontal" style="float: right;">
+							<input type="radio" name="timeRadio323" id="currentDay323" value="1" onclick="setChart3(1, 2, 1);"/>
+							<label for="currentDay323">本日</label>
+							<input type="radio" name="timeRadio323" id="currentWeek323" value="2" onclick="setChart3(1, 2, 2);" checked="checked"/>
+							<label for="currentWeek323">本周</label>
+							<input type="radio" name="timeRadio323" id="currentMonth323" value="3" onclick="setChart3(1, 2, 3);"/>
+							<label for="currentMonth323">本月</label>
+						</fieldset>
+						<table id="sumGroupEvaluateInfo" class="table123456" cellspacing="5px" ></table>
+						<div id="team33"></div>
+					</div>
+					<div style="height: 50px;"></div>
+		
+					<h2 class="title">部门执行力</h2>
+					<div id="departmentFlip31" class="flip"><img src="../../fastdev/themes/default/images/ico/up.gif"/>统计（执行）</div>
+					<div id="departmentDiv31" style="display: none;">
+						<fieldset data-role="controlgroup" data-type="horizontal" style="float: right;">
+							<input type="radio" name="timeRadio331" id="currentDay331" value="1" onclick="setChart3(2, 0, 1);"/>
+							<label for="currentDay331">本日</label>
+							<input type="radio" name="timeRadio331" id="currentWeek331" value="2" onclick="setChart3(2, 0, 2);" checked="checked"/>
+							<label for="currentWeek331">本周</label>
+							<input type="radio" name="timeRadio331" id="currentMonth331" value="3" onclick="setChart3(2, 0, 3);"/>
+							<label for="currentMonth331">本月</label>
+						</fieldset>
+						<table id="sumDepartExecuteInfo" class="table123456" cellspacing="5px"></table>
+						<div id="department31"></div>
+					</div>
+					<div style="height: 50px;"></div>
+					<div id="departmentFlip32" class="flip"><img src="../../fastdev/themes/default/images/ico/up.gif"/>统计（验证）</div>
+					<div id="departmentDiv32" style="display: none;">
+						<fieldset data-role="controlgroup" data-type="horizontal" style="float: right;">
+							<input type="radio" name="timeRadio332" id="currentDay332" value="1" onclick="setChart3(2, 1, 1);"/>
+							<label for="currentDay332">本日</label>
+							<input type="radio" name="timeRadio332" id="currentWeek332" value="2" onclick="setChart3(2, 1, 2);" checked="checked"/>
+							<label for="currentWeek332">本周</label>
+							<input type="radio" name="timeRadio332" id="currentMonth332" value="3" onclick="setChart3(2, 1, 3);"/>
+							<label for="currentMonth332">本月</label>
+						</fieldset>
+						<table id="sumDepartChkInfo" class="table123456" cellspacing="5px" ></table>
+						<div id="department32"></div>
+					</div>
+					<div style="height: 50px;"></div>
+					<div id="departmentFlip33" class="flip"><img src="../../fastdev/themes/default/images/ico/up.gif"/>统计（评价）</div>
+					<div id="departmentDiv33" style="display: none;">
+						<fieldset data-role="controlgroup" data-type="horizontal" style="float: right;">
+							<input type="radio" name="timeRadio333" id="currentDay333" value="1" onclick="setChart3(2, 2, 1);"/>
+							<label for="currentDay333">本日</label>
+							<input type="radio" name="timeRadio333" id="currentWeek333" value="2" onclick="setChart3(2, 2, 2);" checked="checked"/>
+							<label for="currentWeek333">本周</label>
+							<input type="radio" name="timeRadio333" id="currentMonth333" value="3" onclick="setChart3(2, 2, 3);"/>
+							<label for="currentMonth333">本月</label>
+						</fieldset>
+						<table id="sumDepartEvaluateInfo" class="table123456" cellspacing="5px" ></table>
+						<div id="department33"></div>
+					</div>
+					<div style="height: 50px;"></div>
+				</div>
+	
+				<div id="detail3" style="display: none;overflow: auto;"></div>
+			</div>
+
+			<div id="page4" style="display: none;">
+				<div id="chart4"></div>
+				<div id="detail4" style="display: none;"></div>
+				<div id="property4" style="display: none;">
+					<fieldset data-role="controlgroup" data-type="horizontal" style="float: right;">
+						<input type="radio" name="timeRadio4" id="currentDay4" value="1" onclick="setProperty4(1);"/>
+						<label for="currentDay4">本日</label>
+						<input type="radio" name="timeRadio4" id="currentWeek4" value="2" onclick="setProperty4(2);" checked="checked"/>
+						<label for="currentWeek4">本周</label>
+						<input type="radio" name="timeRadio4" id="currentMonth4" value="3" onclick="setProperty4(3);"/>
+						<label for="currentMonth4">本月</label>
+					</fieldset>
+					<div id="propertyChart4"></div>
+				</div>
+			</div>
+
+			<div id="page5" style="display: none;">
+				<!-- <div id="chart5"></div>
+				<div id="detail5" style="display: none;"></div>
+				<div id="property5" style="display: none;"></div> -->
+				<iframe id="map5" scrolling="no" frameborder="0"></iframe>
+			</div>
+
+			<div id="page6" style="display: none;">
+				<div id="chart6"></div>
+				<div id="detail6" style="display: none;"></div>
+				<div id="property6" style="display: none;"></div>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="../echarts/dist/echarts.js"></script>
+<script type="text/javascript">
+require.config({
+	paths: {
+		echarts: '../echarts/dist'
+	}
+});
+var echarts;
+$(document).ready(function() {
+	require([
+			'echarts',
+			'echarts/chart/pie',
+			'echarts/chart/line',
+			'echarts/chart/bar'
+		],
+		function (ec) {
+			echarts = ec;
+			initChart1();
+		}
+	);
+});
+</script>
+</html>

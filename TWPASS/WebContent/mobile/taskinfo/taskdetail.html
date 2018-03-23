@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>任务详情</title>
+<link rel="stylesheet" type="text/css" href="../css/jquery.mobile-1.3.1.css">
+<link rel="stylesheet" type="text/css" href="../css/jquery.mobile-1.3.1.min.css">
+<link rel="stylesheet" type="text/css" href="../css/jquery.mobile.theme-1.3.1.min.css">
+<link rel="stylesheet" type="text/css" href="../css/jquery.mobile.structure-1.3.1.min.css">
+<script src="../js/jquery-1.10.2.min.js"></script>
+<script src="../js/jquery.mobile-1.3.1.min.js"></script>
+<script src="../js/common.js"></script>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="taskdetail.js"></script>
+<style>
+.table_header {
+	font-style: normal;
+	color: #0000FF;
+}
+</style>
+</head>
+<body>
+	<!-- ************************ taskdetailinfo ************************ -->
+	<div id="taskdetailinfoPage" data-role="page" data-fullscreen="fasle">
+		<div data-role="header" data-theme="d">
+			<div data-role="navbar">
+				<ul>
+					<li><a onclick="fastLocation(2);" data-transition="none">处理结果</a></li>
+					<li><a onclick="fastLocation(3);" data-transition="none">验证结果</a></li>
+					<li><a onclick="fastLocation(4);" data-transition="none">评价结果</a></li>
+				</ul>
+			</div>
+		</div>
+
+		<div data-role="content">
+			<h2 id="task_name">任务名称-加载中...</h2>
+			<div id="collapsible1" data-role="collapsible" data-collapsed="false" data-content-theme="d">
+				<h3>基本信息</h3>
+				<table style="width: 100%;">
+					<tr>
+						<td width="30%" class="table_header">任务编号</td>
+						<td id="task_id">加载中...</td>
+					</tr>
+					<tr>
+						<td width="30%" class="table_header">任务类型</td>
+						<td id="task_kind">加载中...</td>
+					</tr>
+					<tr id="task_type_title">
+						<td width="30%" class="table_header">任务类别</td>
+						<td id="task_type">加载中...</td>
+					</tr>
+					<tr>
+						<td width="30%" class="table_header">所属板块</td>
+						<td id="task_section">加载中...</td>
+					</tr>
+					<tr id="task_pdca_title">
+						<td width="30%" class="table_header">PDCA</td>
+						<td id="task_pdca">加载中...</td>
+					</tr>
+					<tr>
+						<td width="30%" class="table_header">执行区域</td>
+						<td id="task_area">加载中...</td>
+					</tr>
+					<tr>
+						<td width="30%" class="table_header">触发方式</td>
+						<td id="task_tiggertype">加载中...</td>
+					</tr>
+					<tr id="task_iskeyctrl_title">
+						<td width="30%" class="table_header">是否关键管控</td>
+						<td id="task_iskeyctrl">加载中...</td>
+					</tr>
+					<tr id="task_issequence_title">
+						<td width="30%" class="table_header">是否顺序执行</td>
+						<td id="task_issequence">加载中...</td>
+					</tr>
+					<tr>
+						<td width="30%" class="table_header">任务创建人</td>
+						<td id="task_creater">加载中...</td>
+					</tr>
+					<tr>
+						<td width="30%" class="table_header">任务下达人</td>
+						<td id="task_confirmer">加载中...</td>
+					</tr>
+					<tr>
+						<td width="30%" class="table_header">任务状态</td>
+						<td id="task_status">加载中...</td>
+					</tr>
+					<tr>
+						<td width="30%" class="table_header">执行人</td>
+						<td id="task_exec_username">加载中...</td>
+					</tr>
+					<tr>
+						<td width="30%" class="table_header">任务实际接收时间</td>
+						<td id="task_down_time">加载中...</td>
+					</tr>
+					<tr>
+						<td width="30%" class="table_header">任务实际完成时间</td>
+						<td id="task_fact_endtime">加载中...</td>
+					</tr>
+					<tr>
+						<td id="task_destitle" class="table_header" colspan="2">发起说明</td>
+					</tr>
+					<tr>
+						<td id="task_desval" style="text-indent: 2em;" colspan="2">发起说明正在加载....</td>
+					</tr>
+					<tr>
+						<td id="task_atttitle" class="table_header" colspan="2">取证</td>
+					</tr>
+				</table>
+				<div id="DivTaskAttachment"></div>
+			</div>
+
+			<div id="collapsible2" data-role="collapsible" data-collapsed="true" data-content-theme="d">
+				<h3>处理结果</h3>
+				<div data-role="collapsible" data-collapsed="false" data-content-theme="d">
+					<h3>任务结果</h3>
+					<table style="width: 100%;">
+						<tr>
+							<td width="30%" class="table_header">任务执行结果</td>
+							<td id="task_result_type">加载中...</td>
+						</tr>
+						<tr>
+							<td width="30%" class="table_header">任务执行备注</td>
+							<td id="result_handledes">加载中...</td>
+						</tr>
+					</table>
+				</div>
+				<div data-role="collapsible" data-collapsed="false" data-content-theme="d">
+					<h3>步骤结果</h3>
+					<div id="DivTaskResultStep"></div>
+				</div>
+			</div>
+
+			<div id="collapsible3" data-role="collapsible" data-collapsed="true" data-content-theme="d">
+				<h3>验证结果</h3>
+				<div id="DivTaskCheckInfo"></div>
+			</div>
+
+			<div id="collapsible4" data-role="collapsible" data-collapsed="true" data-content-theme="d">
+				<h3>评价结果</h3>
+				<div id="DivTaskEvaluateInfo"></div>
+			</div>
+
+			<div id="collapsible5" data-role="collapsible" data-collapsed="true" data-content-theme="d">
+				<h3>标准信息</h3>
+				<div id="DivTaskStdInfo">
+					<table style="width: 100%;">
+						<tr>
+							<td id="title1" class="table_header">做什么：</td>
+						</tr>
+						<tr>
+							<td style="padding-left: 2em;">
+								<div id="std.what"></div>
+							</td>
+						</tr>
+						<tr>
+							<td id="title2" class="table_header">执行标准：</td>
+						</tr>
+						<tr>
+							<td style="padding-left: 2em;">
+								<div id="std.dorequire"></div>
+							</td>
+						</tr>
+						<tr id="managestd" style="display:none;">
+							<td class="table_header">管理/技术标准参考：</td>
+						</tr>
+						<tr>
+							<td style="padding-left: 2em;">
+								<div id="std.managestd"></div>
+							</td>
+						</tr>
+						<tr id="examstd" style="display:none;">
+							<td class="table_header">考核标准参考：</td>
+						</tr>
+						<tr>
+							<td style="padding-left: 2em;">
+								<div id="std.examstd"></div>
+							</td>
+						</tr>
+						<tr>
+							<td id="title3" class="table_header">异常怎么处置：（执行环节）</td>
+						</tr>
+						<tr>
+							<td style="padding-left: 2em;">
+								<div id="std.errdeal"></div>
+							</td>
+						</tr>
+						<tr>
+							<td id="title4" class="table_header">验证标准：（如何核查）</td>
+						</tr>
+						<tr>
+							<td style="padding-left: 2em;">
+								<div id="std.check"></div>
+							</td>
+						</tr>
+						<tr id="errdeal2">
+							<td class="table_header">异常怎么处置：（验证环节）</td>
+						</tr>
+						<tr>
+							<td style="padding-left: 2em;">
+								<div id="std.errdeal2"></div>
+							</td>
+						</tr>
+						<tr id="review">
+							<td class="table_header">评价标准：</td>
+						</tr>
+						<tr>
+							<td style="padding-left: 2em;">
+								<div id="std.review"></div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

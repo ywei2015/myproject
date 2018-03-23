@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="taskManage">
+	<resultMap id="BaseResultMap" type="com.talkweb.xwzcxt.pojo.TTaskPojo">
+		<id column="C_TASK_ID" property="cTaskId" jdbcType="DECIMAL" />
+		<result column="C_TASK_NAME" property="cTaskName" jdbcType="VARCHAR" />
+		<result column="C_TASK_TYPE" property="cTaskType" jdbcType="DECIMAL" />
+		<result column="C_TRIGGER_TYPE" property="cTriggerType" jdbcType="DECIMAL" />
+		<result column="C_TRIGGER_CAUSE" property="cTriggerCause" jdbcType="VARCHAR" />
+		<result column="C_ISKEYCTRL" property="cIskeyctrl" jdbcType="CHAR" />
+		<result column="C_ERR_SN" property="cErrSn" jdbcType="DECIMAL" />
+		<result column="C_MANAGE_SECTION" property="cManageSection" jdbcType="DECIMAL" />
+		<result column="C_PDCA" property="cPdca" jdbcType="CHAR" />
+		<result column="C_ISGETNOTIFY" property="cIsgetnotify" jdbcType="CHAR" />
+		<result column="C_ISRELAY" property="cIsrelay" jdbcType="CHAR" />
+		<result column="C_ISSEQUENCE" property="cIssequence" jdbcType="CHAR" />
+		<result column="C_AREA_ID" property="cAreaId" jdbcType="VARCHAR" />
+		<result column="C_EXEC_USERID" property="cExecUserid" jdbcType="DECIMAL" />
+		<result column="C_START_TIME" property="cStartTime" jdbcType="TIMESTAMP" />
+		<result column="C_URGE_TIME" property="cUrgeTime" jdbcType="TIMESTAMP" />
+		<result column="C_END_TIME" property="cEndTime" jdbcType="TIMESTAMP" />
+		<result column="C_EXCEED_TIME" property="cExceedTime" jdbcType="TIMESTAMP" />
+		<result column="C_ISSTD" property="cIsstd" jdbcType="CHAR" />
+		<result column="C_TASKTEMPLET_ID1" property="cTasktempletId1" jdbcType="DECIMAL" />
+		<result column="C_PLANDOWN_TIME" property="cPlandownTime" jdbcType="TIMESTAMP" />
+		<result column="C_DOWN_TIME" property="cDownTime" jdbcType="TIMESTAMP" />
+		<result column="C_FACT_STARTTIME" property="cFactStarttime" jdbcType="TIMESTAMP" />
+		<result column="C_FACT_ENDTIME" property="cFactEndtime" jdbcType="TIMESTAMP" />
+		<result column="C_UP_TIME" property="cUpTime" jdbcType="TIMESTAMP" />
+		<result column="C_CREATE_USERID" property="cCreateUserid" jdbcType="DECIMAL" />
+		<result column="C_CREATE_TIME" property="cCreateTime" jdbcType="TIMESTAMP" />
+		<result column="C_CONFIRM_USERID" property="cConfirmUserid" jdbcType="DECIMAL" />
+		<result column="C_CONFIRM_TIME" property="cConfirmTime" jdbcType="TIMESTAMP" />
+		<result column="C_CANCEL_CAUSE" property="cCancelCause" jdbcType="VARCHAR" />
+		<result column="C_STATUS" property="cStatus" jdbcType="DECIMAL" />
+		<result column="C_REMARK" property="cRemark" jdbcType="VARCHAR" />
+		<result column="C_HANDLE_DES" property="cHandleDes" jdbcType="VARCHAR" />
+		<result column="C_ISERROR" property="cIserror" jdbcType="CHAR" />
+		<result column="C_ERR_STATUS" property="cErrStatus" jdbcType="DECIMAL" />
+		<result column="C_URGENT_LEVEL" property="cUrgentLevel" jdbcType="DECIMAL" />
+		<result column="C_TASK_TYPENAME" property="cTaskTypename" jdbcType="VARCHAR" />
+		<result column="C_MANAGE_SECTION_NAME" property="cManageSectionName" jdbcType="VARCHAR" />
+		<result column="C_AREANAME" property="cAreaname" jdbcType="VARCHAR" />
+		<result column="C_EXEC_USERNAME" property="cExecUsername" jdbcType="VARCHAR" />
+		<result column="C_CREATE_USERNAME" property="cCreateUsername" jdbcType="VARCHAR" />
+		<result column="C_CONFIRM_USERNAME" property="cConfirmUsername" jdbcType="VARCHAR" />
+		<result column="C_ACTNODE_ID0" property="cActnodeId0" jdbcType="DECIMAL" />
+		<result column="C_ACTNODE_NAME" property="cActnodeName" jdbcType="VARCHAR" />
+		<result column="C_STD_VERFLAG" property="cStdVerflag" jdbcType="CHAR" />
+		<result column="C_OK_FBUSERID" property="cOkFbuserid" jdbcType="VARCHAR" />
+		<result column="C_OK_FBUSERLIST" property="cOkFbuserlist" jdbcType="VARCHAR" />
+		<result column="C_NG_FBUSERID" property="cNgFbuserid" jdbcType="VARCHAR" />
+		<result column="C_NG_FBUSERLIST" property="cNgFbuserlist" jdbcType="VARCHAR" />
+		<result column="C_CHK_PLANTIME" property="cChkPlantime" jdbcType="TIMESTAMP" />
+		<result column="C_CHK_USERID" property="cChkUserid" jdbcType="VARCHAR" />
+		<result column="C_CHK_USERNAME" property="cChkUsername" jdbcType="VARCHAR" />
+		<result column="C_CHK_STARTTIME" property="cChkStarttime" jdbcType="TIMESTAMP" />
+		<result column="C_CHK_ENDTIME" property="cChkEndtime" jdbcType="TIMESTAMP" />
+		<result column="C_CHK_RESULT" property="cChkResult" jdbcType="VARCHAR" />
+		<result column="C_EVALUATE_PLANTIME" property="cEvaluatePlantime" jdbcType="TIMESTAMP" />
+		<result column="C_EVALUATE_USERID" property="cEvaluateUserid" jdbcType="VARCHAR" />
+		<result column="C_EVALUATE_USERNAME" property="cEvaluateUsername" jdbcType="VARCHAR" />
+		<result column="C_EVALUATE_TIME" property="cEvaluateTime" jdbcType="TIMESTAMP" />
+		<result column="C_EVALUATE_RESULT" property="cEvaluateResult" jdbcType="VARCHAR" />
+		<result column="C_ACTNODE_ID" property="cActnodeId" jdbcType="VARCHAR" />
+		<result column="C_TASK_KIND" property="cTaskKind" jdbcType="DECIMAL" />
+		<result column="C_TASKTEMPLET_ID" property="cTasktempletId" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		C_TASK_ID, C_TASK_NAME, C_TASK_TYPE, C_TRIGGER_TYPE, C_TRIGGER_CAUSE, C_ISKEYCTRL, 
+		C_ERR_SN, C_MANAGE_SECTION, C_PDCA, C_ISGETNOTIFY, C_ISRELAY, C_ISSEQUENCE, C_AREA_ID, 
+		C_EXEC_USERID, C_START_TIME, C_URGE_TIME, C_END_TIME, C_EXCEED_TIME, C_ISSTD, C_TASKTEMPLET_ID1, 
+		C_PLANDOWN_TIME, C_DOWN_TIME, C_FACT_STARTTIME, C_FACT_ENDTIME, C_UP_TIME, C_CREATE_USERID, 
+		C_CREATE_TIME, C_CONFIRM_USERID, C_CONFIRM_TIME, C_CANCEL_CAUSE, C_STATUS, C_REMARK, 
+		C_HANDLE_DES, C_ISERROR, C_ERR_STATUS, C_URGENT_LEVEL, C_TASK_TYPENAME, C_MANAGE_SECTION_NAME, 
+		C_AREANAME, C_EXEC_USERNAME, C_CREATE_USERNAME, C_CONFIRM_USERNAME, C_ACTNODE_ID0, 
+		C_ACTNODE_NAME, C_STD_VERFLAG, C_OK_FBUSERID, C_OK_FBUSERLIST, C_NG_FBUSERID, C_NG_FBUSERLIST, 
+		C_CHK_PLANTIME, C_CHK_USERID, C_CHK_USERNAME, C_CHK_STARTTIME, C_CHK_ENDTIME, C_CHK_RESULT, 
+		C_EVALUATE_PLANTIME, C_EVALUATE_USERID, C_EVALUATE_USERNAME, C_EVALUATE_TIME, C_EVALUATE_RESULT, 
+		C_ACTNODE_ID, C_TASK_KIND, C_TASKTEMPLET_ID
+	</sql>
+
+	<select id="getTaskByID" resultMap="BaseResultMap"
+		parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		from TWXWZC.T_TASK
+		where C_TASK_ID = #{cTaskId}
+	</select>
+
+	<select id="getAllTask" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from TWXWZC.T_TASK order by C_CREATE_TIME desc
+	</select>
+
+	<select id="getPositionNameByUserid" resultType="java.lang.String"
+		parameterType="java.math.BigDecimal">
+		select
+		t2.posiname from DP_USER t1,Dp_Position t2
+		where
+		t1.positionid = t2.positionid and t1.userid = #{cUserid}
+	</select>
+
+	<select id="getDepartmentNameByUserid" resultType="java.util.Map"
+		parameterType="java.math.BigDecimal">
+		select
+		t1.orgid,t1.orgname,t1.orgtype,t1.parentorgid,t1.path
+		from
+		dp_organization t1,dp_user t2
+		where t1.orgid = t2.orgid and
+		t2.userid =
+		#{cUserid}
+	</select>
+
+	<select id="getDepartmentNameByID" resultType="java.util.Map"
+		parameterType="java.math.BigDecimal">
+		select t1.orgname from dp_organization t1 where t1.orgid
+		= #{orgid}
+	</select>
+
+	<select id="getAllTaskByConditions" parameterType="map"
+		resultType="java.util.Map">
+		select to_char(aa.C_TASK_ID) as C_TASK_ID,
+			aa.C_TASK_NAME,
+			aa.C_TASK_TYPE,
+			aa.C_TRIGGER_TYPE,
+			aa.C_TRIGGER_CAUSE,
+			aa.C_ISKEYCTRL,
+			aa.C_ERR_SN,
+			aa.C_MANAGE_SECTION,
+			aa.C_PDCA,
+			aa.C_ISGETNOTIFY,
+			aa.C_ISRELAY,
+			aa.C_ISSEQUENCE,
+			aa.C_AREA_ID,
+			aa.C_EXEC_USERID,
+			aa.C_START_TIME,
+			aa.C_URGE_TIME,
+			aa.C_END_TIME,
+			aa.C_EXCEED_TIME,
+			aa.C_ISSTD,
+			aa.C_TASKTEMPLET_ID1,
+			aa.C_PLANDOWN_TIME,
+			aa.C_DOWN_TIME,
+			aa.C_FACT_STARTTIME,
+			aa.C_FACT_ENDTIME,
+			aa.C_UP_TIME,
+			aa.C_CREATE_USERID,
+			aa.C_CREATE_TIME,
+			aa.C_CONFIRM_USERID,
+			aa.C_CONFIRM_TIME,
+			aa.C_CANCEL_CAUSE,
+			aa.C_STATUS,
+			aa.C_REMARK,
+			aa.C_HANDLE_DES,
+			aa.C_ISERROR,
+			aa.C_ERR_STATUS,
+			aa.C_URGENT_LEVEL,
+			aa.C_TASK_TYPENAME,
+			aa.C_MANAGE_SECTION_NAME,
+			aa.C_AREANAME,
+			aa.C_EXEC_USERNAME,
+			aa.C_CREATE_USERNAME,
+			aa.C_CONFIRM_USERNAME,
+			aa.C_ACTNODE_ID0,
+			aa.C_ACTNODE_NAME,
+			aa.C_STD_VERFLAG,
+			aa.C_OK_FBUSERID,
+			aa.C_OK_FBUSERLIST,
+			aa.C_NG_FBUSERID,
+			aa.C_NG_FBUSERLIST,
+			aa.C_CHK_PLANTIME,
+			aa.C_CHK_USERID,
+			aa.C_CHK_USERNAME,
+			aa.C_CHK_STARTTIME,
+			aa.C_CHK_ENDTIME,
+			aa.C_CHK_RESULT,
+			aa.C_EVALUATE_PLANTIME,
+			aa.C_EVALUATE_USERID,
+			aa.C_EVALUATE_USERNAME,
+			aa.C_EVALUATE_TIME,
+			aa.C_EVALUATE_RESULT,
+			aa.C_ACTNODE_ID,
+			aa.C_TASK_KIND,
+			aa.C_TASKTEMPLET_ID,
+			ee.STATUS_NAME as C_STATUS_NAME,
+			gg.POSINAME as EXECPOSITIONNAME,
+			cc.ORGID as ORGID,
+			cc.PATH as ORGPATH,
+			hh.ORGNAME as ORGDEPARTNAME,
+			ii.C_ACTNODE_CODE,
+			ii.C_ACTION_ID,
+			ii.C_POSITION_ID,
+			ii.C_POSITION_NAME,
+			ii.C_STD_EXEC,
+			ii.C_STARTTIME_EXEC,
+			ii.C_ENDTIME_EXEC,
+			ii.C_STD_CHECK,
+			ii.C_POSITION_ID_CHECK,
+			ii.C_POSITION_NAME_CHECK,
+			ii.C_TIMELIMIT_CHECK,
+			ii.C_STD_REVIEW,
+			ii.C_POSITION_ID_REVIEW,
+			ii.C_POSITION_NAME_REVIEW,
+			ii.C_TIMELIMIT_REVIEW,
+			ii.C_POSITION_ID_FEEDBACK1,
+			ii.C_POSITION_NAME_FEEDBACK1,
+			ii.C_POSITION_ID_FEEDBACK2,
+			ii.C_POSITION_NAME_FEEDBACK2,
+			ii.C_POSITION_ID_ERR1,
+			ii.C_POSITION_NAME_ERR1,
+			ii.C_POSITION_ID_ERR2,
+			ii.C_POSITION_NAME_ERR2,
+			ii.C_CREATOR,
+			ii.C_CREATETIME,
+			ii.C_MODIFIER,
+			ii.C_MODIFYTIME,
+			ii.C_VERSION,
+			ii.C_ISTIMERULE,
+			ii.C_ACTION_NAME,
+			ii.C_ERR_EXEC,
+			ii.C_RECORDS_EXEC,
+			ii.C_ERR_CHECK,
+			ii.C_RECORDS_CHECK,
+			ii.C_ACTNODETYPE,
+			ii.C_MANAGEATTR,
+			ii.C_MANAGESTD,
+			ii.C_EXAMSTD,
+			ii.C_FILE_ID,
+			ii.C_SECTION_ID,
+			ii.C_DEPARTMENT
+		from TWXWZC.T_TASK aa,
+			TWXWZC.DP_USER bb,
+			TWXWZC.DP_ORGANIZATION cc,
+			TWXWZC.DP_POSITION dd,
+			TWXWZC.V_TASK_STATUS ee,
+			TWXWZC.DP_USER ff,
+			TWXWZC.DP_POSITION gg,
+			TWXWZC.DP_ORGANIZATION hh,
+			TWXWZC.T_SD_ACTNODE ii
+		where aa.C_EXEC_USERID = bb.USERID
+			and bb.ORGID = cc.ORGID
+			and cc.ORGID = ff.ORGID
+			and bb.POSITIONID = dd.POSITIONID(+)
+			and aa.C_STATUS = ee.STATUS_ID(+)
+			and ff.POSITIONID = gg.POSITIONID(+)
+			and aa.C_EXEC_USERID = ff.USERID(+)
+			and cc.PARENTORGID = hh.ORGID(+)
+			and aa.C_ACTNODE_ID = ii.C_ACTNODE_ID(+)
+		<if test="'Crew'== ruleCode">
+			and bb.usercode = #{userCode}
+		</if>
+		<if test="'Leader'== ruleCode">
+			and bb.orgid =  #{orgid}
+		</if>
+		<if test="'ITMinister'== ruleCode">
+			and bb.orgid in (select d.orgid from dp_organization d where d.parentorgid =  #{orgid})
+		</if>
+		<if test="null!=cTaskName and ''!=cTaskName">
+			and aa.C_TASK_NAME like '%${cTaskName}%'
+		</if>
+		<if test="null!=cExecUserid and ''!=cExecUserid">
+			and aa.C_EXEC_USERID in (${cExecUserid})
+		</if>
+		<if test="null!=cTaskKind and ''!=cTaskKind">
+			and aa.C_TASK_KIND = #{cTaskKind}
+		</if>
+		<if test="null!=cTaskType and ''!=cTaskType">
+			and aa.C_TASK_TYPE = #{cTaskType}
+		</if>
+		<if test="null!=cStatus and ''!=cStatus">
+			and aa.C_STATUS = #{cStatus} 
+		</if>
+		<if test="null==cStatus">
+			and aa.C_STATUS!=44
+		</if>
+		<if test="null!=cAreaId and ''!=cAreaId">
+			and aa.C_AREA_ID = #{cAreaId}
+		</if>
+		<if test="null!=userCode and ''!=userCode">
+			and bb.usercode = #{userCode}
+		</if>
+		<if test="null!=errortask and 'yes'==errortask">
+			and aa.c_task_id in (select c_task_id from t_error_info )
+		</if>
+		
+		<if test="null!=commenterror and 'yes'==commenterror">
+			 and aa.c_evaluate_result = 'NG' and aa.c_status>34 and aa.c_status &gt; 36
+		</if>
+		
+		<if test="null!=checkerror and 'yes'==checkerror">
+			and aa.c_chk_result = 'NG' and aa.c_status >33
+		</if>
+		
+		<if test="null!=cManageSection and ''!=cManageSection">
+			and aa.C_MANAGE_SECTION = #{cManageSection}
+		</if>
+		<if test="null!=cStartTime and ''!=cStartTime">
+			and aa.C_START_TIME &gt;= #{cStartTime}
+		</if>
+		<if test="null!=cEndTime and '' !=cEndTime">
+			and aa.C_END_TIME &lt;= #{cEndTime}
+		</if>
+		<if test="null!=cTimeStatus and ''!=cTimeStatus">
+			<if test="1==cTimeStatus">
+				and nvl(aa.C_FACT_ENDTIME,sysdate) > aa.C_END_TIME
+			</if>
+			<if test="2==cTimeStatus">
+				and nvl(aa.C_CHK_ENDTIME,sysdate) > aa.C_CHK_PLANTIME
+			</if>
+			<if test="3==cTimeStatus">
+				and nvl(aa.C_EVALUATE_TIME,sysdate) > aa.C_EVALUATE_PLANTIME
+			</if>
+		</if>
+		<if test="null!=cUserId and '' !=cUserId">
+			and (aa.C_EXEC_USERID = #{cUserId}
+				or aa.C_CREATE_USERID = #{cUserId}
+				or aa.C_CONFIRM_USERID = #{cUserId}
+				or aa.C_OK_FBUSERID = #{cUserId}
+				or aa.C_OK_FBUSERLIST = #{cUserId}
+				or aa.C_NG_FBUSERID = #{cUserId}
+				or aa.C_NG_FBUSERLIST = #{cUserId}
+				or aa.C_CHK_USERID = #{cUserId}
+				or aa.C_EVALUATE_USERID = #{cUserId}
+			)
+		</if>
+		order by aa.C_CREATE_TIME desc
+	</select>
+
+	<delete id="deleteTaskById" parameterType="java.util.List">
+		delete from
+		TWXWZC.T_TASK
+		where C_TASK_ID in
+		<foreach item="item" index="index" collection="list" 
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="updatePanelMatterdetail" parameterType="map">
+    update t_panel_matterdetail t
+    <set>
+      t.c_isread = 1 , t.c_readtime = sysdate
+    </set>
+	where t.c_ex_id = #{taskId} and t.c_user_id = #{userId} and t.c_mattertype_id = #{type}
+ </update>
+</mapper>

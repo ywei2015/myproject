@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="standardFileDetailAdd.js"></script>
+</head>
+<body>
+	<form itype="Form" id="checkForm" saveInstance="true" saveQueue="true" submitJson="false"
+		onBeforeReady="beforeReady()" onAfterDataRender="afterDataRender()" onSubmitSuccess="submitSuccess()">
+		<div itype="TextBox" type="hidden" id="cFiledetailId"></div>
+		<div itype="TextBox" type="hidden" id="cModifyType"></div>
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt"><font color="red" >*</font>门类：</td>
+				<td class="ui-form-table-dd">
+					<div id="cSortId" itype="SelectTree" saveInstance="true" showIco="true" inside="false"
+						width="100%" topParentid="0" rootValue="所有文件类别" openFloor="2" textMaxLength="40"
+						initSource="upload_getAllFileSort.action"
+						onlySelectedLeaf="true"></div>
+				</td>
+				<td class="ui-form-table-dt"><font color="red" >*</font>编号：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cSfileVersion" width="100%"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt"><font color="red" >*</font>标准名称：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cSfileName" width="100%"></div>
+				</td>
+				<td class="ui-form-table-dt"><font color="red" >*</font>起草部门：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cFwQcbmName" width="100%" readonly="true" onclick="onSelectDepartment()"></div>
+					<div itype="TextBox" type="hidden" id="cFwQcbm"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt"><font color="red" >*</font>所属体系：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="cSystag" width="100%" saveInstance="true">
+						<option text="-请选择-"></option>
+						<option value="1" text="质量管理体系用"></option>
+						<option value="2" text="职业健康安全管理体系用"></option>
+						<option value="3" text="两体系共用"></option>
+						<option value="4" text="其他"></option>
+					</select>
+				</td>
+				<td class="ui-form-table-dt"><font color="red" >*</font>状态：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="cStatus" width="100%" saveInstance="true">
+						<option text="-请选择-"></option>
+						<option value="1" text="待制订"></option>
+						<option value="2" text="制订中"></option>
+						<option value="3" text="修订中"></option>
+						<option value="4" text="已发布"></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt"><font color="red" >*</font>时间：</td>
+				<td class="ui-form-table-dd">
+					<input itype="DatePicker" id="cStatusTime" format="yyyy-MM-dd" width="100%"/>
+				</td>
+				<td class="ui-form-table-dt"><font color="red" >*</font>文件地址：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cFileUrl" width="100%"></div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

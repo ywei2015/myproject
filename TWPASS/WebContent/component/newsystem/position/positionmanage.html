@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>岗位管理</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="positionmanage.js"></script>
+<style>
+html,body {
+	height: 100%;
+}
+</style>
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	<div class="ui-layout" style="height: 100%;">
+		<div class="ui-layout-left" style="width: 200px; height: 100%;">
+			<div class="ui-toolbar ui-toolbar-bg" style="height: 22px;">
+				<div itype="Button" plain=true text="新增" display="true" id="add"
+					iconCls="icon-add" onClick="doAddPosition()"></div>
+				<div itype="Button" plain=true text="修改" display="true" id="modify"
+					iconCls="icon-edit" onClick="doModifyPosition()"></div>
+				<div itype="Button" plain=true text="删除" display="true" id="delete"
+					iconCls="icon-delete" onClick="doDeletePosition()"></div>
+			</div>
+			<div class="ui-toolbar ui-toolbar-bg" style="height: 22px;">
+				<div itype="Button" plain=true text="关联角色" display="true" id="add"
+					iconCls="icon-node" onClick="doAssRole()"></div>
+				<div itype="Button" plain=true text="权限视图" display="true"
+					id="modify" iconCls="icon-node" onClick="doAuthView()"></div>
+			</div>
+			<div id="positiontree" itype="Tree" saveInstance="true"
+				showIco="true" width="100%" rootValue="长沙卷烟厂"
+				initSource="position_queryPositionTree.action" topParentid="-1" onBeforeReady="treeReady()"
+				openFloor=3 onNodeClick="onNodeClick()" onAfterDataRender="onAfterDataRender()"></div>
+		</div>
+		<div class="ui-layout-center" id="centerPanel"
+			style="left: 205px; height: 100%;">
+			<form itype="Form" id="positionForm" saveInstance="true"
+				action="#" method="post" onBeforeReady="fromReady()"
+				saveQueue=true
+				initSource="position_initPositionSelect.action" submitJson="false"
+				onSubmitSuccess="onFormSubmitSuccess()">
+				<div itype="TextBox" type="hidden" id="position.positionId"></div>
+				<table class="ui-form-table">
+					<tr>
+						<th class="ui-form-table-dt" style="width: 100px"><span
+							class="ui-red">*</span>岗位代码：</th>
+						<td class="ui-form-table-dd">
+							<div itype="TextBox" id="position.posiCode" width="100%"
+								rule="required" emptyText="唯一标识此岗位信息，不能重复"></div>
+						</td>
+						<th class="ui-form-table-dt" style="width: 100px"><span
+							class="ui-red">*</span>岗位名称：</th>
+						<td class="ui-form-table-dd">
+							<div itype="TextBox" id="position.posiName" width="100%"
+								rule="required"></div>
+						</td>
+					</tr>
+					<tr>
+						<th class="ui-form-table-dt" style="width: 100px"><span
+							class="ui-red">*</span>岗位类别：</th>
+						<td class="ui-form-table-dd"><select itype="Select"
+							inside="false" id="position.posiType" width="100%"
+							rule="required"><option>-请选择-</option></select></td>
+						<th class="ui-form-table-dt" style="width: 100px">岗位层次：</th>
+						<td class="ui-form-table-dd">
+							<div itype="TextBox" id="position.posiLevel" emptyText="请输入一位数字" width="100%"></div>
+						</td>
+					</tr>
+					<tr>
+						<th class="ui-form-table-dt" style="width: 100px"><span
+							class="ui-red">*</span>所属组织：</th>
+						<td class="ui-form-table-dd">
+							<div itype="SelectTree" inside="false" id="position.orgId"
+								width="100%" rule="required" onchange="showManaPosition()" queue="positionForm"
+								initSource="org_queryOrgTree.action"
+								rootValue="-请选择-" topParentid="-1" openFloor="2"></div>
+						</td>
+						<th class="ui-form-table-dt" style="width: 100px">上级岗位：</th>
+						<td class="ui-form-table-dd"><select id="position.manaPosi"    queue="positionForm"
+							inside="false" itype="Select" width="100%"><option>-请选择-</option></select>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<table>
+				<tr height="30px" valign="middle">
+					<td colspan="2" style="padding-left: 20px;">
+						<div style="display: none" id="buttonBar">
+							<div itype="Button" iconCls="icon-save" text="保存"
+								onClick="doSave()"></div>
+							<div itype="Button" iconCls="icon-reset" text="重置"
+								onClick="doReset()"></div>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

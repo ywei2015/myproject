@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="../../../fastdev/fastDev-import.js"></script>
+<script src="templetSelectPosition.js"></script>
+</head>
+<body id="body">
+	<form itype="Form" saveInstance="true">
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt">部门名称：</td>
+				<td class="ui-form-table-dd">
+					<div itype="SelectTree" id="cDepartment" width="100%"
+						inside="false" rootValue="-请选择-" topParentid="1000509" onchange="onchangeForCD()"
+						initSource="dpPoistion/getAllDepartAction.action" openFloor="2"></div>
+				</td>
+			</tr>
+			<!-- <tr>
+				<td class="ui-form-table-dt">模糊查询：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="fuzzyQuery" width="100%" onchange="onchangeForFQ()"></div>
+				</td>
+			</tr> -->
+			<tr>
+				<td class="ui-form-table-dt">所有部门：</td>
+				<td class="ui-form-table-dd">
+					<div itype="CheckBoxGroup" id="isAll" onchange="onchangeForIA()">
+						<div value="1"></div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+	<div itype="Tree" id="cPosition" width="100%" height=360px openFloor=2
+		topParentid="1--1" saveInstance="true" showIco="true" textMaxLength="40"
+		onBeforeReady="onBeforeReady()" onAfterInitRender="onAfterInitRender()"
+		initSource="pbo/getPositionInOrgAction.action?orgtype=7"
+		onlySelectedLeaf=true></div>
+</body>
+</html>

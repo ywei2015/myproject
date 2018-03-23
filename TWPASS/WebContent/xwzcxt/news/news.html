@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>新闻管理</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="../../fastdev/fastDev-import.js"></script>
+<script type="text/javascript" src="news.js"></script>
+ 
+<style>
+	html, body {
+		height:100%
+	}
+</style>
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	<div class="ui-layout" style="height: 100%;">
+		<div class="ui-layout-center" style="width: 99.2%; height: 100%;">
+			<form id="newsform" itype="Form" saveInstance="true"  >
+				<table class="ui-form-table">
+					<tr>
+						<th class="ui-form-table-dt" style="width:80px;">新闻标题：</th>
+						<td class="ui-form-table-dd"><div itype="TextBox" id="newsTitle" width="100%" ></div></td>
+						
+						<th class="ui-form-table-dt" style="width:80px;">新闻作者：</th>
+						<td class="ui-form-table-dd"><div itype="TextBox" id="newsAuthor" width="100%" ></div></td>
+						
+						
+						<th class="ui-form-table-dt" style="width:80px;">板块：</th>
+						<td class="ui-form-table-dd"><select itype="Select" id="manageSection" 
+							 initSource="task_getManageSectionList.action"  width="100%">
+					     	 <option >--请选择--</option>
+						</select></td>
+						
+						<th class="ui-form-table-dt" style="width:80px;">部门：</th>
+						<td class="ui-form-table-dd"><div itype="SelectTree" id="orgId" width="96%" rootValue="-请选择-" topParentid="-1" openFloor=3 initSource="org_searchAllOrg.action"></div></td>
+						
+					</tr>
+ 
+ 					<tr>
+ 						<td class="ui-form-table-dd" colspan="8" align="right">
+ 
+							<div itype="Button" id="searchBtn" width="100px" text="查询"
+								iconCls="icon-search" onClick="doSearch()"></div>
+							<div itype="Button" id="resetBtn" width="100px" text="重置"
+								iconCls="icon-reset" onClick="doReset()"></div>
+						</td>
+ 					</tr>
+				</table>
+				<div class="datagrid" itype="DataGrid" pageSize="15"  id="newsdatagrid" width="100%" saveInstance="true" 
+				onBeforeReady="onBeforeReady()" showSeqColumn=true onAfterInitRender="onAfterInitRender()" showCheckColumn=true
+				pageSize="15" onRowClick="changeColor()">
+				
+				<div name="top-toolbar">
+					<div plain=true text="新增" iconCls="icon-add" id="addNews" onclick="modify()"></div>
+					<div itype="separator"></div>
+					<div plain=true text="批量删除" iconCls="icon-delete" id="deleteNews" onclick="multiDelete()"></div>
+			   		<div itype="separator"></div>
+			    </div>	
+ 
+					<div hidden="true" name="newsId"></div>
+					<div width="20%" name="newsTitle" text="新闻标题"></div>
+					<div width="10%" name="newsAuthor" text="新闻作者"></div>
+					<div width="14%" name="manageSectionName" text="板块"></div>
+					<div width="14%" name="orgName" text="部门"></div>
+					<!--  <div width="19%" name="cover" text="封面" type="hidden"></div>-->
+					<div width="24%" name="summary" text="摘要"></div>
+					<div width="10%" name="creator" text="创建人"></div>
+					<div name="operation" text="操作" width="8%" renderer="toOperationLink()"></div>
+					
+				   <div name="pageSizeList">
+				   <div value="5" text="5条"></div>
+				   <div value="10" text="10条"></div>
+				   <div value="15" text="15条"></div>
+				   <div value="20" text="20条"></div>
+				   <div value="50" text="50条"></div>
+				 </div>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

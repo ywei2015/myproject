@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<title>录入文本</title>
+<meta charset="UTF-8" />
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../js/jquery.min.js"  charset="utf-8"></script>
+<script type="text/javascript">
+var request =fastDev.Browser.getRequest();
+var result;
+var resultId;
+if ( request != null ){
+	//result = request['result'];
+	//resultId = request['resultId'];
+	var data=fastDev.Ui.Dialog.getData("data");
+	result=data.result;
+	resultId=data.resultId;
+	if(result==null||result=='null'){
+		result="";
+	}
+}
+
+	function submit(dialogObj,grid2){
+		var c_result_textarea=document.getElementById("taskStepResultPojo.c_result");
+		var c_result=c_result_textarea.innerHTML||c_result_textarea.value;
+		var c_id=document.getElementById("taskStepResultPojo.c_id").value;
+		//  alert(c_result+"   **********   "+c_id);
+		fastDev.post("waithandTask_updateTaskStepAndResult.action",{
+		  
+			success:function(){
+			    grid2.refreshData(false);
+				dialogObj.close();
+			},
+			data:{
+				"taskStepResultPojo.c_id":c_id,
+				"taskStepResultPojo.c_result":removeAllSpace(c_result)
+			}
+		});
+	}
+	window.onload=function(){
+		//获得焦点
+		var beiz_result=document.getElementById("taskStepResultPojo.c_result");
+	    beiz_result.value=result;
+		beiz_result.focus();
+		//获取任务步骤ID 
+		//var url=window.location.search;
+		//var equalsPos=url.indexOf("=");
+		//var taskStepId=url.slice(equalsPos+1);
+		/* if(beizhu==""){
+			beiz_result.style.width = "248px";
+			beiz_result.style.height = "146px";
+		}else{
+			beiz_result.style.width = "400px";
+			beiz_result.style.height = "247px";
+		} */
+		document.getElementById("taskStepResultPojo.c_id").value=resultId;
+	}
+	//去除空格
+	function removeAllSpace(str) 
+	{  
+		//return str.replace(/\s+/g, "");
+		return $.trim(str);
+		//return str.trim();
+	}
+</script>
+</head>
+<body>
+		<input itype="TextBox" type="hidden" id="taskStepResultPojo.c_id" />
+		<textarea itype="TextBox" id="taskStepResultPojo.c_result" type="textarea" style="height:180px;width:380px"  style="overflow-y:scroll"></textarea>
+</body>
+</html>

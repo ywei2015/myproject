@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="struts-jsonTaskBasic" extends="json-default">
+		<action name="basicXwgl_*" class="com.talkweb.xwzcxt.action.XwzcxtBasicAction"
+			method="{1}">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' :
+				'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="noCache">true</param>
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result name="error">/error/error.jsp</result>
+		</action>
+		<action name="taskEntryXwgl_*" class="com.talkweb.xwzcxt.action.XwzcxtBasicAction"
+			method="{1}">
+			<result name="success" type="json">
+				<param name="noCache">true</param>
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result name="error">/error/error.jsp</result>
+		</action>
+		<action name="taskEditXwgl_*" class="com.talkweb.xwzcxt.action.XwzcxtBasicAction"
+			method="{1}">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result name="error">/error/error.jsp</result>
+		</action>
+		<action name="select_*" class="com.talkweb.xwzcxt.action.XwzcxtBasicAction"
+			method="{1}">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result name="error">/error/error.jsp</result>
+		</action>
+
+		<!-- Add By Rita.Zhou for addBasic.html -->
+		<action name="basicAdd_*" class="com.talkweb.xwzcxt.action.XwzcxtBasicAction"
+			method="{1}">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result name="error">/error/error.jsp</result>
+		</action>
+		<!--<action name="basicActNode_*" class="com.talkweb.xwzcxt.action.XwzcxtBasicAction" 
+			method="{1}" > <result name="success" type="json"> <param name="root">data</param> 
+			<param name="excludeNullProperties">true</param> </result> <result name="error" 
+			>/error/error.jsp</result> </action> -->
+	</package>
+
+	<package name="dpPosition" extends="twdpe-common-default">
+		<action name="getPositionTreeByOrgIdAction" class="com.talkweb.xwzcxt.action.DpPositionAction"
+			method="getPositionByOrgID">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="getPositionByPIdAction" class="com.talkweb.xwzcxt.action.DpPositionAction"
+			method="getPositionByPID">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="getAllPositionAction" class="com.talkweb.xwzcxt.action.DpPositionAction"
+			method="getAllPosition">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="getDepartByPositionIDAction" class="com.talkweb.xwzcxt.action.DpPositionAction"
+			method="getDepartByPositionID">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="getAllDepartAction" class="com.talkweb.xwzcxt.action.DpPositionAction"
+			method="getAllDepart">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="getUserNameByIDAction" class="com.talkweb.xwzcxt.action.DpPositionAction"
+			method="getUserNameByID">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+	</package>
+</struts>

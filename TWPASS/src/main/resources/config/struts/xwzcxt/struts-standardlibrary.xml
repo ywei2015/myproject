@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="struts-jsonstandardlibrary" extends="json-default">
+		
+		<action name="standardlibrary_*" class="com.talkweb.xwzcxt.action.StandardLibraryAction"
+			method="{1}">
+				<param name="aliases">#{'page' : 'pagination.currPage','rows' :
+				'pagination.size','pageSize' : 'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+		
+		<action name="sdaction_*" class="com.talkweb.xwzcxt.action.StandardActionAction"
+			method="{1}">
+				<param name="aliases">#{'page' : 'pagination.currPage','rows' :
+				'pagination.size','pageSize' : 'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+		<!-- 流程节点管理 -->
+		<action name="sdactionnode_*" class="com.talkweb.xwzcxt.action.StandardActionNodeAction"
+			method="{1}">
+				<param name="aliases">#{'page' : 'pagination.currPage','rows' :
+				'pagination.size','pageSize' : 'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>消息模板管理</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link href="../../../library/themes/base/css/main.css" rel="stylesheet" type="text/css" />
+		<script src="../../../library/jquery-1.5.min.js"></script>
+		<script src="../../../library/history/control-1.2.js"></script>
+		<script src="../../../js/pagecommon.js"></script>
+		<script type="text/javascript">
+        	$(function(){
+        		//180:菜单栏宽度，7：收缩条的宽度，201：组织树宽度，2*10：显示的DIV容器PADDING宽度,22：为框架的边线宽度加下拉滚动条的宽度总和
+        		var serarchFromWidth = screen.width-180-7-2*10-22;
+        		//判断是否为IE6浏览器，因为IE6下拉滚动的宽度为20,所以要多减4
+        		if ($.browser.msie && ($.browser.version == "6.0") && !$.support.style){
+        			serarchFromWidth = serarchFromWidth-4;
+        		}
+        		$("#MsgForm").css("width",serarchFromWidth);
+        		$("#msggrid").css("width",serarchFromWidth);
+        	});
+        </script>
+        <script type="text/javascript" src="msgtemplates.js"></script>
+        <style type="text/css">
+body { behavior: url(../../../library/history/themes/base/css/csshover.htc); }
+</style>
+	</head>
+
+	<body>
+		<div class="rightbody">
+			<!-- 标题 -->
+			<div class="content_title">
+				<img src="../../../twdpe-ui/themes/page/images/ico_management.gif" />
+				消息模板管理
+			</div>
+			<!--form表单 -->
+			<div id="MsgForm"></div>
+			<!-- 按钮 -->
+			<div id="buttons"></div>
+			<hr />
+			<!-- 数据显示区域datagrid -->
+			<div id="msggrid"></div>
+		</div>
+	</body>
+
+</html>

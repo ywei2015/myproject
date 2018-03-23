@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>未关联的角色成员</title>
+	<script src="../../fastdev/fastDev-import.js"></script>
+	<script src="addUserRole.js"></script>
+	<style>
+		html, body {
+			height:100%;
+		}
+	</style>	
+</head>
+<body>
+	<div class="ui-layout" id="mainDiv" style="height:98%;padding-left:5px;padding-top:5px;">
+		<div class="ui-layout-left" style="width: 18%; height:98%;">
+			<div id="orgtree" itype="Tree" saveInstance="true" showIco="true"
+				width="100%"
+				initSource="org_initFirstGradeOrgTree.action?moduleId=M44&modeId=view"
+				asyncDataSource="org_initGradeOrgTree.action?moduleId=M44&modeId=view"
+				topParentid="-1"
+				rootValue="所有组织"
+				openFloor=2 onNodeClick="onNodeClick()"></div>
+		</div>
+		<div class="ui-layout-center" style="width: 79%; left: 19.2%;height:96.6%;padding:5px 5px 0;">
+			<form id="searchform" itype="Form" requestType="post" saveInstance="true">
+				<table class="ui-form-table">
+					<tr valign="middle">
+						<td class="ui-form-table-dt" style="width:100px">用户姓名：</td>
+						<td class="ui-form-table-dd"><div itype="TextBox" id="user.displayName" width="100%"></div></td>
+						<td class="ui-form-table-dt" style="width:100px">用户账号：</td>
+						<td class="ui-form-table-dd"><div itype="TextBox" id="user.userCode" width="100%"></div></td>
+						<td class="ui-form-table-dd" colspan="2">
+							<div itype="Button" text="查询" iconCls="icon-search" onclick="submit()"></div>&nbsp;
+							<div itype="Button" text="重置" iconCls="icon-reset" onclick="reset()"></div>
+						</td>						
+					</tr>
+				</table>
+			</form>
+			<div class="datagrid" itype="DataGrid" allowAutoFillRow="false" height="302px" width="100%" id="userdatagrid" saveInstance="true" showCheckColumn="true" initSource="user_queryNoUserMembers.action?moduleId=M5&modeId=maintenancemen" showSeqColumn="true"  onAfterConstruct="afterConstruct()">
+				<div width="0" name="userId" hidden="true"></div>				
+				<div width="30%" name="displayName" text="用户名称"></div>
+				<div width="35%" name="userCode" text="用户账号"></div>
+				<div width="35%" name="orgName" text="所属组织"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

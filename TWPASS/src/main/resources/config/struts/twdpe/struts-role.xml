@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="struts-jsonrole" extends="twdpe-common-default">
+		<action name="role_getRoleScopes" class="com.talkweb.twdpe.webcomponent.component.RoleMngAction" method="getRoleScopes">
+			<result name="success" type="json">
+				<param name="root">pageData</param>
+			</result>
+		</action>	
+	
+		<action name="role_*" class="com.talkweb.twdpe.webcomponent.component.RoleMngAction" method="{1}">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' : 'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+	</package>	
+</struts>

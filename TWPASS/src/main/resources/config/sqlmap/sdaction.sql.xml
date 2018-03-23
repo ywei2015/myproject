@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="stdaction">
+
+	<insert id="addSdAction" parameterType="com.talkweb.xwzcxt.pojo.SdActionPojo">
+		insert into t_sd_action(
+			c_action_id,c_action_pid,c_action_fname,c_action_sname,c_flag,
+			<trim suffix="" suffixOverrides=",">
+				<if test="null!=c_action_code and ''!=c_action_code">
+					c_action_code,
+				</if>
+				<if test="null!=c_section_id and ''!=c_section_id">
+					c_section_id,
+				</if>
+				<if test="null!=c_remark and ''!=c_remark">
+					c_remark,
+				</if>
+			</trim>
+		)values(
+			#{c_action_id},#{c_action_pid},#{c_action_fname},#{c_action_fname},1,
+			<trim suffix="" suffixOverrides=",">
+				<if test="null!=c_action_code and ''!=c_action_code">
+					#{c_action_code},
+				</if>
+				<if test="null!=c_section_id and ''!=c_section_id">
+					#{c_section_id},
+				</if>
+				<if test="null!=c_remark and ''!=c_remark">
+					#{c_remark},
+				</if>
+			</trim>
+		)
+	</insert>
+	
+	<insert id="addSdActionPosition" parameterType="com.talkweb.xwzcxt.pojo.SdActionPositionPojo">
+		insert into t_sd_actionposition(c_id,c_action_id,
+			<trim suffix="" suffixOverrides=",">
+				<if test="null!=c_respons_orgid and ''!=c_respons_orgid">
+					c_respons_orgid,
+				</if>
+				<if test="null!=c_respons_type and ''!=c_respons_type">
+					c_respons_type,
+				</if>
+				<if test="null!=c_respons_positionid and ''!=c_respons_positionid">
+					c_respons_positionid,
+				</if>
+			</trim>
+		)values(#{c_id},#{c_action_id},
+			<trim suffix="" suffixOverrides=",">
+				<if test="null!=c_respons_orgid and ''!=c_respons_orgid">
+					#{c_respons_orgid},
+				</if>
+				<if test="null!=c_respons_type and ''!=c_respons_type">
+					#{c_respons_type},
+				</if>
+				<if test="null!=c_respons_positionid and ''!=c_respons_positionid">
+					#{c_respons_positionid},
+				</if>
+			</trim>
+		)
+	</insert>
+	
+	<select id="getAllAction" resultType="com.talkweb.xwzcxt.pojo.SdActionPojo">
+		select c_action_id,c_action_pid,c_action_code,c_action_type,c_section_id,c_action_sname,c_action_fname
+			c_remark,c_flag
+		from t_sd_action
+	</select>
+	
+	<select id="getActionById" parameterType="String" resultType="com.talkweb.xwzcxt.pojo.SdActionPojo">
+		select c_action_id,c_action_pid,c_action_code,c_action_type,c_section_id,c_action_sname,c_action_fname,
+			c_remark,c_flag
+		from t_sd_action
+		where c_action_id=#{id}
+	</select>
+	<!-- 
+	<select id="getActionPositionById" parameterType="String" resultType="com.talkweb.xwzcxt.pojo.SdActionPositionPojo">
+		select t1.c_id,t1.c_action_id,t1.c_respons_orgid,t1.c_respons_type,t1.c_respons_positionid,
+			   t2.orgname as c_respons_orgname,
+			   t3.displayname as c_respons_positionname
+		from t_sd_actionposition t1,
+			 dp_organization t2,
+			 dp_user t3
+		where t1.c_respons_orgid=t2.orgid and t3.orgid=t2.orgid(+)
+			  and t1.c_action_id=#{id}
+	</select>
+	 -->
+	<select id="getActionPositionById" parameterType="String" resultType="com.talkweb.xwzcxt.pojo.SdActionPositionPojo">
+		select t1.c_id,t1.c_action_id,t1.c_respons_orgid,t1.c_respons_type,t1.c_respons_positionid
+		from t_sd_actionposition t1
+		where t1.c_action_id=#{id}
+	</select>
+	<update id="modifyActionDataById" parameterType="com.talkweb.xwzcxt.pojo.SdActionPojo">
+		update t_sd_action
+		<set>
+			<if test="c_action_pid != null">
+					c_action_pid =#{c_action_pid},
+			</if>
+			<if test="c_action_code != null">
+					c_action_code =#{c_action_code},
+			</if>
+			<if test="c_action_type != null">
+					c_action_type =#{c_action_type},
+			</if>
+			<if test="c_section_id != null">
+					c_section_id =#{c_section_id},
+			</if>
+			<if test="c_action_fname != null">
+					c_action_fname =#{c_action_fname},c_action_sname =#{c_action_fname},
+			</if>
+			<if test="c_remark != null">
+					c_remark =#{c_remark},
+			</if>
+		</set>
+		where c_action_id=#{c_action_id}
+	</update>
+	
+	<update id="deleteActionById" parameterType="String">
+		delete from t_sd_action
+		where c_action_id=#{id}
+	</update>
+	
+	<delete id="deleteActionPosotionById" parameterType="String">
+		delete from t_sd_actionposition
+		where c_action_id=#{id}
+	</delete>
+	
+	<select id="getOrgIdByName" resultType="String" parameterType="String">
+		select orgid from dp_organization where orgname=#{name}
+	</select>
+</mapper>

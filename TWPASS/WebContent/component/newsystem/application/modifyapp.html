@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>修改应用</title>
+		<script src="../../fastdev/fastDev-import.js"></script>
+		<script src="modifyapp.js"></script>
+  		
+    </head>
+    <body>
+    <form id="modifyAppForm" itype="Form" saveInstance="true" action="app_modifyApp.action" initSource="app_initFromControl.action" dataSource="app_getAppById.action" onSubmitSuccess="submitSuccess()"  submitJson="false" onAfterConstruct="afterConstruct()">
+    <div itype="TextBox" type="hidden" id="app.appId"></div>
+    <div itype="TextBox" type="hidden" id="app.isDelete"></div>
+       <table class="ui-form-table">
+           <tr>
+               <td class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>应用编码：</td>
+               <td class="ui-form-table-dd"><div itype="TextBox" id="app.appCode" width="100%" validateMode="blur" rule="required;MaxLength:20" readonly="true"></div></td>
+               <td class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>应用名称：</td>
+               <td class="ui-form-table-dd"><div itype="TextBox" id="app.appName" width="100%" validateMode="blur" rule="required;MaxLength:30"></div></td>
+           </tr>
+           <tr>
+               <td class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>应用类型</td>
+               <td class="ui-form-table-dd"><select id="app.appType" itype="Select" width="100%" validateMode="blur" rule="required"><option text="-请选择-"></option></select></td>
+               <td class="ui-form-table-dt" style="width:100px">应用状态：</td>
+               <td class="ui-form-table-dd"><div itype="RadioGroup"  name="app.isOpen" id="app.isOpen"  validateMode="blur" rule="required">
+					<div value=1 text="已开通" checked=true></div>			
+					<div value=0 text="未开通"></div></div>
+			   </td>                   
+           </tr>
+           <tr>
+               <td class="ui-form-table-dt" style="width:100px">服务接入ID：</td>
+               <td class="ui-form-table-dd"><div itype="TextBox" id="app.accessId" width="100%" rule="MaxLength:30"></div></td>
+               <td class="ui-form-table-dt" style="width:100px">服务接入密码：</td>
+               <td class="ui-form-table-dd"><div itype="TextBox" id="app.accessPassword" width="100%"  rule="MaxLength:30"></div></td>
+           </tr>           
+           <tr>
+               <td class="ui-form-table-dt" style="width:100px">开发厂商：</td>
+               <td class="ui-form-table-dd"><div itype="TextBox" id="app.manufacturer" width="100%" rule="MaxLength:256"></div></td>           
+               <td class="ui-form-table-dt" style="width:100px">应用访问地址：</td>
+               <td class="ui-form-table-dd"><div itype="TextBox" id="app.url" width="100%" rule="MaxLength:256"></div></td>
+           </tr>
+           <tr>
+               <td class="ui-form-table-dt" style="width:100px">应用负责人：</td>
+               <td class="ui-form-table-dd"><div itype="TextBox" id="app.manager" width="100%" rule="MaxLength:30"></div></td>           
+               <td class="ui-form-table-dt" style="width:100px">联系电话：</td>
+               <td class="ui-form-table-dd"><div itype="TextBox" id="app.telephone" width="100%"></div></td>
+           </tr>  
+           <tr>
+				<td class="ui-form-table-dt" style="width: 100px">登录首页：</td>
+				<td class="ui-form-table-dd" colspan="3"><div itype="TextBox" id="app.loginPage" height="50px" width="100%" rule="MaxLength:500"></div></td>
+			</tr>             
+           <tr>
+               <td class="ui-form-table-dt" style="width:100px" height="57px">描述：</td>
+               <td class="ui-form-table-dd" colspan="3"><div itype="TextBox" id="app.appDesc" type="textarea" height="50px" width="520px" rule="MaxLength:500"></div></td>
+           </tr>
+       </table>
+    </form>	
+    </body>
+</html>

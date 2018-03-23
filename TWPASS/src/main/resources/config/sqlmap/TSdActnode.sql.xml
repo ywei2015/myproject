@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="TSdActnode">
+  <resultMap id="BaseResultMap" type="com.talkweb.xwzcxt.pojo.TSdActnodePojo">
+    <id column="C_ACTNODE_ID" property="cActnodeId" jdbcType="VARCHAR" />
+    <result column="C_ACTNODE_CODE" property="cActnodeCode" jdbcType="VARCHAR" />
+    <result column="C_ACTNODE_NAME" property="cActnodeName" jdbcType="VARCHAR" />
+    <result column="C_ACTION_ID" property="cActionId" jdbcType="VARCHAR" />
+    <result column="C_PDCA" property="cPdca" jdbcType="CHAR" />
+    <result column="C_ISKEYCTRL" property="cIskeyctrl" jdbcType="DECIMAL" />
+    <result column="C_ISSEQUENCE" property="cIssequence" jdbcType="DECIMAL" />
+    <result column="C_FREQUENCY" property="cFrequency" jdbcType="VARCHAR" />
+    <result column="C_AREA_ID" property="cAreaId" jdbcType="VARCHAR" />
+    <result column="C_AREA_NAME" property="cAreaName" jdbcType="VARCHAR" />
+    <result column="C_POSITION_ID" property="cPositionId" jdbcType="VARCHAR" />
+    <result column="C_POSITION_NAME" property="cPositionName" jdbcType="VARCHAR" />
+    <result column="C_STD_EXEC" property="cStdExec" jdbcType="VARCHAR" />
+    <result column="C_STARTTIME_EXEC" property="cStarttimeExec" jdbcType="VARCHAR" />
+    <result column="C_STARTTIME_EXEC_NAME" property="cStarttimeExecName" jdbcType="VARCHAR" />
+    <result column="C_ENDTIME_EXEC" property="cEndtimeExec" jdbcType="VARCHAR" />
+    <result column="C_ENDTIME_EXEC_NAME" property="cEndtimeExecName" jdbcType="VARCHAR" />
+    <result column="C_STD_CHECK" property="cStdCheck" jdbcType="VARCHAR" />
+    <result column="C_POSITION_ID_CHECK" property="cPositionIdCheck" jdbcType="VARCHAR" />
+    <result column="C_POSITION_NAME_CHECK" property="cPositionNameCheck" jdbcType="VARCHAR" />
+    <result column="C_TIMELIMIT_CHECK" property="cTimelimitCheck" jdbcType="VARCHAR" />
+    <result column="C_TIMELIMIT_CHECK_NAME" property="cTimelimitCheckName" jdbcType="VARCHAR" />
+    <result column="C_STD_REVIEW" property="cStdReview" jdbcType="VARCHAR" />
+    <result column="C_POSITION_ID_REVIEW" property="cPositionIdReview" jdbcType="VARCHAR" />
+    <result column="C_POSITION_NAME_REVIEW" property="cPositionNameReview" jdbcType="VARCHAR" />
+    <result column="C_TIMELIMIT_REVIEW" property="cTimelimitReview" jdbcType="VARCHAR" />
+    <result column="C_TIMELIMIT_REVIEW_NAME" property="cTimelimitReviewName" jdbcType="VARCHAR" />
+    <result column="C_POSITION_ID_FEEDBACK1" property="cPositionIdFeedback1" jdbcType="VARCHAR" />
+    <result column="C_POSITION_NAME_FEEDBACK1" property="cPositionNameFeedback1" jdbcType="VARCHAR" />
+    <result column="C_POSITION_ID_FEEDBACK2" property="cPositionIdFeedback2" jdbcType="VARCHAR" />
+    <result column="C_POSITION_NAME_FEEDBACK2" property="cPositionNameFeedback2" jdbcType="VARCHAR" />
+    <result column="C_POSITION_ID_ERR1" property="cPositionIdErr1" jdbcType="VARCHAR" />
+    <result column="C_POSITION_NAME_ERR1" property="cPositionNameErr1" jdbcType="VARCHAR" />
+    <result column="C_POSITION_ID_ERR2" property="cPositionIdErr2" jdbcType="VARCHAR" />
+    <result column="C_POSITION_NAME_ERR2" property="cPositionNameErr2" jdbcType="VARCHAR" />
+    <result column="C_CREATOR" property="cCreator" jdbcType="VARCHAR" />
+    <result column="C_CREATETIME" property="cCreatetime" jdbcType="TIMESTAMP" />
+    <result column="C_MODIFIER" property="cModifier" jdbcType="VARCHAR" />
+    <result column="C_MODIFYTIME" property="cModifytime" jdbcType="TIMESTAMP" />
+    <result column="C_VERSION" property="cVersion" jdbcType="DECIMAL" />
+    <result column="C_ISTIMERULE" property="cIstimerule" jdbcType="DECIMAL" />
+    <result column="C_ACTION_NAME" property="cActionName" jdbcType="VARCHAR" />
+    <result column="C_ERR_EXEC" property="cErrExec" jdbcType="VARCHAR" />
+    <result column="C_RECORDS_EXEC" property="cRecordsExec" jdbcType="VARCHAR" />
+    <result column="C_ERR_CHECK" property="cErrCheck" jdbcType="VARCHAR" />
+    <result column="C_RECORDS_CHECK" property="cRecordsCheck" jdbcType="VARCHAR" />
+    <result column="C_ACTNODETYPE" property="cActnodetype" jdbcType="DECIMAL" />
+    <result column="C_MANAGEATTR" property="cManageattr" jdbcType="VARCHAR" />
+    <result column="C_MANAGESTD" property="cManagestd" jdbcType="VARCHAR" />
+    <result column="C_EXAMSTD" property="cExamstd" jdbcType="VARCHAR" />
+    <result column="C_FILE_ID" property="cFileId" jdbcType="VARCHAR" />
+    <result column="C_SECTION_ID" property="cSectionId" jdbcType="DECIMAL" />
+    <result column="C_DEPARTMENT" property="cDepartment" jdbcType="VARCHAR" />
+    <result column="C_ISPUBLIC" property="cIspublic" jdbcType="DECIMAL" />
+    <result column="C_PUBLIC_ID" property="cPublicId" jdbcType="VARCHAR" />
+    <result column="C_PUBLIC_NAME" property="cPublicName" jdbcType="VARCHAR" />
+    <result column="C_ISSCAN" property="cIsscan" jdbcType="DECIMAL" />
+    <result column="C_ISRANDOM" property="cIsrandom" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <select id="getAllActNodesByConditions" resultMap="BaseResultMap" parameterType="map">
+    select aa.*,
+      bb.C_TIMERULE_NAME as C_STARTTIME_EXEC_NAME,
+      cc.C_TIMERULE_NAME as C_ENDTIME_EXEC_NAME,
+      dd.C_TIMERULE_NAME as C_TIMELIMIT_CHECK_NAME,
+      ee.C_TIMERULE_NAME as C_TIMELIMIT_REVIEW_NAME,
+      ff.C_PUBLIC_SNAME as C_PUBLIC_NAME
+    from TWXWZC.T_SD_ACTNODE aa,
+      TWXWZC.T_RULE_TIME bb,
+      TWXWZC.T_RULE_TIME cc,
+      TWXWZC.T_RULE_TIME dd,
+      TWXWZC.T_RULE_TIME ee,
+      TWXWZC.T_SD_PUBLIC ff
+    where aa.C_STARTTIME_EXEC = bb.C_TIMERULE_ID(+)
+      and aa.C_ENDTIME_EXEC = cc.C_TIMERULE_ID(+)
+      and aa.C_TIMELIMIT_CHECK = dd.C_TIMERULE_ID(+)
+      and aa.C_TIMELIMIT_REVIEW = ee.C_TIMERULE_ID(+)
+      and aa.C_PUBLIC_ID = ff.C_PUBLIC_ID(+)
+    <if test="null!=c_actnode_name and ''!=c_actnode_name">
+      and aa.c_actnode_name like '%${c_actnode_name}%'
+    </if>
+    <if test="null!=c_pdca and ''!=c_pdca">
+      and aa.c_pdca = #{c_pdca}
+    </if>
+    <if test="null!=c_iskeyctrl and ''!=c_iskeyctrl">
+      and aa.c_iskeyctrl = #{c_iskeyctrl}
+    </if>
+    <if test="null!=c_frequency and ''!=c_frequency">
+      and aa.c_frequency = #{c_frequency}
+    </if>
+    <if test="null!=c_area_name and ''!=c_area_name">
+      and aa.c_area_name like '%${c_area_name}%'
+    </if>
+    <if test="null!=c_issequence and ''!=c_issequence">
+      and aa.c_issequence = #{c_issequence}
+    </if>
+    <if test="null!=c_israndom and ''!=c_israndom">
+      and aa.c_israndom = #{c_israndom}
+    </if>
+    <if test="null!=c_isscan and ''!=c_isscan">
+      and aa.c_isscan = #{c_isscan}
+    </if>
+    <if test="null!=c_position_name_check and ''!=c_position_name_check">
+      and aa.c_position_name_check like '%${c_position_name_check}%'
+    </if>
+    <if test="null!=c_position_name_review and ''!=c_position_name_review">
+      and aa.c_position_name_review like '%${c_position_name_review}%'
+    </if>
+    <if test="null!=c_position_id and ''!=c_position_id">
+      and aa.c_position_id in (${c_position_id})
+    </if>
+    <if test="null!=c_actnodetype and ''!=c_actnodetype">
+      and aa.c_actnodetype = #{c_actnodetype}
+    </if>
+    <if test="null==c_actnodetype or ''==c_actnodetype">
+      and aa.c_actnodetype = 1
+    </if>
+    <if test="null!=c_public_id and ''!=c_public_id">
+      and aa.c_public_id = #{c_public_id}
+    </if>
+    <if test="null!=c_ispublic and ''!=c_ispublic">
+      and aa.c_ispublic = #{c_ispublic}
+    </if>
+    <if test="null!=c_manageattr and ''!=c_manageattr">
+      and aa.c_manageattr = #{c_manageattr}
+    </if>
+    order by aa.c_createtime desc, aa.c_actnode_id desc
+  </select>
+
+  <select id="selectActNodesByID" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select aa.*,
+      bb.C_TIMERULE_NAME as C_STARTTIME_EXEC_NAME,
+      cc.C_TIMERULE_NAME as C_ENDTIME_EXEC_NAME,
+      dd.C_TIMERULE_NAME as C_TIMELIMIT_CHECK_NAME,
+      ee.C_TIMERULE_NAME as C_TIMELIMIT_REVIEW_NAME,
+      ff.C_PUBLIC_SNAME as C_PUBLIC_NAME
+    from TWXWZC.T_SD_ACTNODE aa,
+      TWXWZC.T_RULE_TIME bb,
+      TWXWZC.T_RULE_TIME cc,
+      TWXWZC.T_RULE_TIME dd,
+      TWXWZC.T_RULE_TIME ee,
+      TWXWZC.T_SD_PUBLIC ff
+    where aa.C_STARTTIME_EXEC = bb.C_TIMERULE_ID(+)
+      and aa.C_ENDTIME_EXEC = cc.C_TIMERULE_ID(+)
+      and aa.C_TIMELIMIT_CHECK = dd.C_TIMERULE_ID(+)
+      and aa.C_TIMELIMIT_REVIEW = ee.C_TIMERULE_ID(+)
+      and aa.C_PUBLIC_ID = ff.C_PUBLIC_ID(+)
+      and aa.C_ACTNODE_ID = #{cActnodeId}
+  </select>
+
+  <insert id="addActnode" parameterType="com.talkweb.xwzcxt.pojo.TSdActnodePojo" >
+    insert into TWXWZC.T_SD_ACTNODE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cActnodeId != null" >
+        C_ACTNODE_ID,
+      </if>
+      <if test="cActnodeCode != null" >
+        C_ACTNODE_CODE,
+      </if>
+      <if test="cActnodeName != null" >
+        C_ACTNODE_NAME,
+      </if>
+      <if test="cActionId != null" >
+        C_ACTION_ID,
+      </if>
+      <if test="cPdca != null" >
+        C_PDCA,
+      </if>
+      <if test="cIskeyctrl != null" >
+        C_ISKEYCTRL,
+      </if>
+      <if test="cIssequence != null" >
+        C_ISSEQUENCE,
+      </if>
+      <if test="cFrequency != null" >
+        C_FREQUENCY,
+      </if>
+      <if test="cAreaId != null" >
+        C_AREA_ID,
+      </if>
+      <if test="cAreaName != null" >
+        C_AREA_NAME,
+      </if>
+      <if test="cPositionId != null" >
+        C_POSITION_ID,
+      </if>
+      <if test="cPositionName != null" >
+        C_POSITION_NAME,
+      </if>
+      <if test="cStdExec != null" >
+        C_STD_EXEC,
+      </if>
+      <if test="cStarttimeExec != null" >
+        C_STARTTIME_EXEC,
+      </if>
+      <if test="cEndtimeExec != null" >
+        C_ENDTIME_EXEC,
+      </if>
+      <if test="cStdCheck != null" >
+        C_STD_CHECK,
+      </if>
+      <if test="cPositionIdCheck != null" >
+        C_POSITION_ID_CHECK,
+      </if>
+      <if test="cPositionNameCheck != null" >
+        C_POSITION_NAME_CHECK,
+      </if>
+      <if test="cTimelimitCheck != null" >
+        C_TIMELIMIT_CHECK,
+      </if>
+      <if test="cStdReview != null" >
+        C_STD_REVIEW,
+      </if>
+      <if test="cPositionIdReview != null" >
+        C_POSITION_ID_REVIEW,
+      </if>
+      <if test="cPositionNameReview != null" >
+        C_POSITION_NAME_REVIEW,
+      </if>
+      <if test="cTimelimitReview != null" >
+        C_TIMELIMIT_REVIEW,
+      </if>
+      <if test="cPositionIdFeedback1 != null" >
+        C_POSITION_ID_FEEDBACK1,
+      </if>
+      <if test="cPositionNameFeedback1 != null" >
+        C_POSITION_NAME_FEEDBACK1,
+      </if>
+      <if test="cPositionIdFeedback2 != null" >
+        C_POSITION_ID_FEEDBACK2,
+      </if>
+      <if test="cPositionNameFeedback2 != null" >
+        C_POSITION_NAME_FEEDBACK2,
+      </if>
+      <if test="cPositionIdErr1 != null" >
+        C_POSITION_ID_ERR1,
+      </if>
+      <if test="cPositionNameErr1 != null" >
+        C_POSITION_NAME_ERR1,
+      </if>
+      <if test="cPositionIdErr2 != null" >
+        C_POSITION_ID_ERR2,
+      </if>
+      <if test="cPositionNameErr2 != null" >
+        C_POSITION_NAME_ERR2,
+      </if>
+      <if test="cCreator != null" >
+        C_CREATOR,
+      </if>
+      C_CREATETIME,
+      C_MODIFIER,
+      C_MODIFYTIME,
+      <if test="cVersion != null" >
+        C_VERSION,
+      </if>
+      <if test="cIstimerule != null" >
+        C_ISTIMERULE,
+      </if>
+      <if test="cActionName != null" >
+        C_ACTION_NAME,
+      </if>
+      <if test="cErrExec != null" >
+        C_ERR_EXEC,
+      </if>
+      <if test="cRecordsExec != null" >
+        C_RECORDS_EXEC,
+      </if>
+      <if test="cErrCheck != null" >
+        C_ERR_CHECK,
+      </if>
+      <if test="cRecordsCheck != null" >
+        C_RECORDS_CHECK,
+      </if>
+      <if test="cActnodetype != null" >
+        C_ACTNODETYPE,
+      </if>
+      <if test="cManageattr != null" >
+        C_MANAGEATTR,
+      </if>
+      <if test="cManagestd != null" >
+        C_MANAGESTD,
+      </if>
+      <if test="cExamstd != null" >
+        C_EXAMSTD,
+      </if>
+      <if test="cFileId != null" >
+        C_FILE_ID,
+      </if>
+      <if test="cSectionId != null" >
+        C_SECTION_ID,
+      </if>
+      <if test="cDepartment != null" >
+        C_DEPARTMENT,
+      </if>
+      <if test="cIspublic != null" >
+        C_ISPUBLIC,
+      </if>
+      <if test="cPublicId != null" >
+        C_PUBLIC_ID,
+      </if>
+      <if test="cIsscan != null" >
+        C_ISSCAN,
+      </if>
+      <if test="cIsrandom != null" >
+        C_ISRANDOM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cActnodeId != null" >
+        #{cActnodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="cActnodeCode != null" >
+        #{cActnodeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cActnodeName != null" >
+        #{cActnodeName,jdbcType=VARCHAR},
+      </if>
+      <if test="cActionId != null" >
+        #{cActionId,jdbcType=VARCHAR},
+      </if>
+      <if test="cPdca != null" >
+        #{cPdca,jdbcType=CHAR},
+      </if>
+      <if test="cIskeyctrl != null" >
+        #{cIskeyctrl,jdbcType=DECIMAL},
+      </if>
+      <if test="cIssequence != null" >
+        #{cIssequence,jdbcType=DECIMAL},
+      </if>
+      <if test="cFrequency != null" >
+        #{cFrequency,jdbcType=VARCHAR},
+      </if>
+      <if test="cAreaId != null" >
+        #{cAreaId,jdbcType=VARCHAR},
+      </if>
+      <if test="cAreaName != null" >
+        #{cAreaName,jdbcType=VARCHAR},
+      </if>
+      <if test="cPositionId != null" >
+        #{cPositionId,jdbcType=VARCHAR},
+      </if>
+      <if test="cPositionName != null" >
+        #{cPositionName,jdbcType=VARCHAR},
+      </if>
+      <if test="cStdExec != null" >
+        #{cStdExec,jdbcType=VARCHAR},
+      </if>
+      <if test="cStarttimeExec != null" >
+        #{cStarttimeExec,jdbcType=VARCHAR},
+      </if>
+      <if test="cEndtimeExec != null" >
+        #{cEndtimeExec,jdbcType=VARCHAR},
+      </if>
+      <if test="cStdCheck != null" >
+        #{cStdCheck,jdbcType=VARCHAR},
+      </if>
+      <if test="cPositionIdCheck != null" >
+        #{cPositionIdCheck,jdbcType=VARCHAR},
+      </if>
+      <if test="cPositionNameCheck != null" >
+        #{cPositionNameCheck,jdbcType=VARCHAR},
+      </if>
+      <if test="cTimelimitCheck != null" >
+        #{cTimelimitCheck,jdbcType=VARCHAR},
+      </if>
+      <if test="cStdReview != null" >
+        #{cStdReview,jdbcType=VARCHAR},
+      </if>
+      <if test="cPositionIdReview != null" >
+        #{cPositionIdReview,jdbcType=VARCHAR},
+      </if>
+      <if test="cPositionNameReview != null" >
+        #{cPositionNameReview,jdbcType=VARCHAR},
+      </if>
+      <if test="cTimelimitReview != null" >
+        #{cTimelimitReview,jdbcType=VARCHAR},
+      </if>
+      <if test="cPositionIdFeedback1 != null" >
+        #{cPositionIdFeedback1,jdbcType=VARCHAR},
+      </if>
+      <if test="cPositionNameFeedback1 != null" >
+        #{cPositionNameFeedback1,jdbcType=VARCHAR},
+      </if>
+      <if test="cPositionIdFeedback2 != null" >
+        #{cPositionIdFeedback2,jdbcType=VARCHAR},
+      </if>
+      <if test="cPositionNameFeedback2 != null" >
+        #{cPositionNameFeedback2,jdbcType=VARCHAR},
+      </if>
+      <if test="cPositionIdErr1 != null" >
+        #{cPositionIdErr1,jdbcType=VARCHAR},
+      </if>
+      <if test="cPositionNameErr1 != null" >
+        #{cPositionNameErr1,jdbcType=VARCHAR},
+      </if>
+      <if test="cPositionIdErr2 != null" >
+        #{cPositionIdErr2,jdbcType=VARCHAR},
+      </if>
+      <if test="cPositionNameErr2 != null" >
+        #{cPositionNameErr2,jdbcType=VARCHAR},
+      </if>
+      <if test="cCreator != null" >
+        #{cCreator,jdbcType=VARCHAR},
+      </if>
+      sysdate,
+      null,
+      null,
+      <if test="cVersion != null" >
+        #{cVersion,jdbcType=DECIMAL},
+      </if>
+      <if test="cIstimerule != null" >
+        #{cIstimerule,jdbcType=DECIMAL},
+      </if>
+      <if test="cActionName != null" >
+        #{cActionName,jdbcType=VARCHAR},
+      </if>
+      <if test="cErrExec != null" >
+        #{cErrExec,jdbcType=VARCHAR},
+      </if>
+      <if test="cRecordsExec != null" >
+        #{cRecordsExec,jdbcType=VARCHAR},
+      </if>
+      <if test="cErrCheck != null" >
+        #{cErrCheck,jdbcType=VARCHAR},
+      </if>
+      <if test="cRecordsCheck != null" >
+        #{cRecordsCheck,jdbcType=VARCHAR},
+      </if>
+      <if test="cActnodetype != null" >
+        #{cActnodetype,jdbcType=DECIMAL},
+      </if>
+      <if test="cManageattr != null" >
+        #{cManageattr,jdbcType=VARCHAR},
+      </if>
+      <if test="cManagestd != null" >
+        #{cManagestd,jdbcType=VARCHAR},
+      </if>
+      <if test="cExamstd != null" >
+        #{cExamstd,jdbcType=VARCHAR},
+      </if>
+      <if test="cFileId != null" >
+        #{cFileId,jdbcType=VARCHAR},
+      </if>
+      <if test="cSectionId != null" >
+        #{cSectionId,jdbcType=DECIMAL},
+      </if>
+      <if test="cDepartment != null" >
+        #{cDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="cIspublic != null" >
+        #{cIspublic,jdbcType=DECIMAL},
+      </if>
+      <if test="cPublicId != null" >
+        #{cPublicId,jdbcType=VARCHAR},
+      </if>
+      <if test="cIsscan != null" >
+        #{cIsscan,jdbcType=DECIMAL},
+      </if>
+      <if test="cIsrandom != null" >
+        #{cIsrandom,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+
+  <!-- 查询部门跟班组一起的id -->
+  <select id="selectPathById" resultType="java.lang.String" parameterType="java.lang.String">
+    select path from dp_organization where orgid = (select orgid from dp_position t where positionId = #{positionId})
+  </select>
+
+  <!-- 查询部门或班组的名称 -->
+  <select id="selectDepartNameById" resultType="java.lang.String" parameterType="java.lang.String">
+    select orgname from dp_organization where orgid = #{departId}
+  </select>
+
+  <select id="selectPathNameByID" resultType="java.lang.String" parameterType="java.lang.String">
+    select wm_concat(orgname) from dp_organization
+    connect by orgid = prior parentorgid
+    start with orgid = #{departId}
+  </select>
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="standardfile" extends="twdpe-common-default">
+		<action name="getAllTSdStandardfileByConditionsAction" class="com.talkweb.xwzcxt.action.TSdStandardfileDetailAction"
+			method="getAllTSdStandardfileByConditions">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' :
+				'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="getTSdStandardfileDetailByIdAction" class="com.talkweb.xwzcxt.action.TSdStandardfileDetailAction"
+			method="getTSdStandardfileDetailById">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="addTSdStandardfileAction" class="com.talkweb.xwzcxt.action.TSdStandardfileDetailAction"
+			method="addTSdStandardfile">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="deleteTSdStandardfileByIdAction" class="com.talkweb.xwzcxt.action.TSdStandardfileDetailAction"
+			method="deleteTSdStandardfileById">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yanchong">
+    <select id="getAreaNameById" parameterType="Map" resultType="String">
+    	select t.fullname from dp_area t where  t.area=#{c_area_id}
+    </select>
+    
+    <insert id="insertYcImportDate" parameterType="com.talkweb.xwzcxt.pojo.YanChongPojo">
+         insert into T_VERMIN (C_ID,C_INFO_TIME,C_AREA_NAME,C_AREA_ID,C_SMOKEY_LOCA_ID,C_SMOKEY,C_MONTH_LOCA_ID,C_MONTH,C_TIMES
+         ,C_CREATTIME,C_USERID) 
+         values(#{c_id},sysdate,#{c_area_name},#{c_area_id},#{c_smokey_loca_id},#{c_smokey},#{c_month_loca_id},#{c_month},
+         #{c_times},sysdate,#{c_userid}
+         )
+    </insert>
+    
+    <select id="getYImportData" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.YanChongPojo">
+    		select aa.* from T_VERMIN aa where 1=1 
+    		<if test="userid !=null and '' != userid"> 
+               AND   aa.c_userid =  #{userid}
+            </if>
+    		<if test="c_start_time!=null and ''!=c_start_time">
+              AND  aa.c_start_time>=to_date(#{starttime,jdbcType=VARCHAR},'yyyy-MM-dd') 
+              </if>
+              <if test="c_end_time!=null and ''!=c_end_time"> 
+              AND aa.c_end_time &lt;= to_date(#{endTime,jdbcType=VARCHAR},'yyyy-MM-dd')+1  
+              </if>
+              <if test="c_areaid!=null and '' != c_areaid"> 
+                  and aa.c_area_id = #{c_areaid}
+              </if>
+              order by aa.c_creattime desc
+    </select>
+    
+    <delete id="deleteImportData">
+        delete from T_VERMIN t where t.c_id in
+        <foreach collection="array" item="s" index="index"
+            open="(" close=")" separator=",">
+            #{s}
+        </foreach>
+    </delete>
+</mapper>

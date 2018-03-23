@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="timeRuleAdd.js"></script>
+</head>
+<body>
+	<form id="addTimeRuleForm" itype="Form" saveInstance="true" submitJson="false" saveQueue="true"
+		onBeforeReady="onBeforeReady()" onAfterReady="onAfterReady()"
+		onBeforeInit="onBeforeInit()" onAfterDataRender="onAfterDataRender()"
+		onSubmitSuccess="onSubmitSuccess()">
+		<div itype="TextBox" type="hidden" id="cTimeruleId"></div>
+		<div itype="TextBox" type="hidden" id="cModifyType"></div>
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px"><span class="ui-red">*</span>时间类别：</td>
+				<td class="ui-form-table-dd" colspan="5">
+					<select itype="Select" id="cTimeruleType" width="100%" onchange="onTypeChange()">
+						<option text="-请选择-"></option>
+						<!-- <option text="单次执行" value="1" display="false"></option> -->
+						<option text="每班" value="2"></option>
+						<option text="每天" value="3"></option>
+						<option text="每周" value="4"></option>
+						<option text="每月一次" value="5"></option>
+						<option text="每月两次" value="51"></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px"><span class="ui-red">*</span>所属组织（部门）：</td>
+				<td class="ui-form-table-dd" colspan="5">
+					<div id="cDepartment" itype="SelectTree" treeType="multitree" saveInstance="true" queue="addTimeRuleForm"
+						sTreeClickAfterShow="false" inside="false" width="100%" topParentid="1--1" openFloor="2"
+						initSource="pbo/getPositionInOrgAction.action?orgtype=5"
+						onAfterInitRender="onAfterInitRender()"></div>
+					<div itype="TextBox" type="hidden" id="cDepartments"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">规则名称：</td>
+				<td class="ui-form-table-dd" colspan="5">
+					<div itype="TextBox" id="cTimeruleName" width="100%" emptyText="时间规则的名称系统自动生成"></div>
+				</td>
+			</tr>
+			<tr style="display: none;">
+				<td class="ui-form-table-dt" style="width: 100px">执行一次：</td>
+				<td class="ui-form-table-dd" colspan="5">
+					<input itype="DatePicker" id="execOnceTime" format="yyyy-MM-dd HH:mm:ss" width="100%" onChange="onOnecChange()"/>
+				</td>
+			</tr>
+		</table>
+		<div id="day">
+			<table class="ui-form-table">
+				<tr>
+					<td class="ui-form-table-dt" style="width: 100px">日期：</td>
+					<td class="ui-form-table-dd" colspan="5">
+						<div itype="TextBox" id="cOffsetDay" width="100%" validateMode="blur" rule="IsNumber" emptyText="输入间隔天数" onChange="onOffsetDayChange()"></div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="day1">
+			<table class="ui-form-table">
+				<tr>
+					<td class="ui-form-table-dt" style="width: 100px">日期：</td>
+					<td class="ui-form-table-dd" colspan="2">
+						<div itype="TextBox" id="cOffsetDay1" width="100%" validateMode="blur" rule="IsNumber" emptyText="输入间隔天数" onChange="onOffsetDayChange1()"></div>
+					</td>
+					<td class="ui-form-table-dt">作业时间（小时）：</td>
+					<td class="ui-form-table-dd" colspan="2">
+						<ul>
+							<li style="float:left;width:30px;">
+								<div itype="TextBox" id="cFirsttimeExecHour1" validateMode="blur" rule="IsNumber" width=100% onChange="onTimeChange1()"></div>
+							</li>
+							<li style="float:left;">:</li>
+							<li style="float:left;width:30px;">
+								<div itype="TextBox" id="cFirsttimeExecMinute1" validateMode="blur" rule="IsNumber" width=100% onChange="onTimeChange1()"></div>
+							</li>
+							<li style="float:left;">:</li>
+							<li style="float:left;width:30px;">
+								<div itype="TextBox" id="cFirsttimeExecSecond1" validateMode="blur" rule="IsNumber" width=100% onChange="onTimeChange1()"></div>
+							</li>
+						</ul>
+						<div itype="TextBox" type="hidden" id="cFirsttimeExec1"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="ui-form-table-dt" style="width: 100px">日期：</td>
+					<td class="ui-form-table-dd" colspan="2">
+						<div itype="TextBox" id="cOffsetDay2" width="100%" validateMode="blur" rule="IsNumber" emptyText="输入间隔天数" onChange="onOffsetDayChange2()"></div>
+					</td>
+					<td class="ui-form-table-dt">作业时间（小时）：</td>
+					<td class="ui-form-table-dd" colspan="2">
+						<ul>
+							<li style="float:left;width:30px;">
+								<div itype="TextBox" id="cFirsttimeExecHour2" validateMode="blur" rule="IsNumber" width=100% onChange="onTimeChange2()"></div>
+							</li>
+							<li style="float:left;">:</li>
+							<li style="float:left;width:30px;">
+								<div itype="TextBox" id="cFirsttimeExecMinute2" validateMode="blur" rule="IsNumber" width=100% onChange="onTimeChange2()"></div>
+							</li>
+							<li style="float:left;">:</li>
+							<li style="float:left;width:30px;">
+								<div itype="TextBox" id="cFirsttimeExecSecond2" validateMode="blur" rule="IsNumber" width=100% onChange="onTimeChange2()"></div>
+							</li>
+						</ul>
+						<div itype="TextBox" type="hidden" id="cFirsttimeExec2"/>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="week">
+			<table class="ui-form-table">
+				<tr>
+					<td class="ui-form-table-dt" style="width: 100px">星期：</td>
+					<div itype="TextBox" display="false" id="cOffsetW" width="100%"
+						validateMode="blur" rule="IsNumber" emptyText="输入间隔周数"
+						onChange="onOffsetWeek1Change()"></div>
+					<td class="ui-form-table-dd" colspan="5">
+						<div itype="CheckBoxGroup" id="cOffsetWeek" onChange="onOffsetWeek2Change()">
+							<div value="星期一" text="星期一"></div>
+							<div value="星期二" text="星期二"></div>
+							<div value="星期三" text="星期三"></div>
+							<div value="星期四" text="星期四"></div>
+							<div value="星期五" text="星期五"></div>
+							<div value="星期六" text="星期六"></div>
+							<div value="星期日" text="星期日"></div>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="month">
+			<table class="ui-form-table">
+				<tr>
+					<td class="ui-form-table-dt">频率间隔（月）：</td>
+					<td class="ui-form-table-dd" colspan="5">
+						<div itype="TextBox" id="cOffsetMonth" validateMode="blur" rule="IsNumber" width=100% emptyText="输入间隔月数" onChange="onOffsetMonthChange()">
+					</td>
+				</tr>
+			</table>
+		</div>
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt">作业时间（小时）：</td>
+				<!-- <td class="ui-form-table-dd"></td> -->
+				<div itype="RadioGroup" id="checkHourModel" onchange="HourModelChange()" display="false">
+					<div value="1" text="一次执行"></div>
+					<!-- <div value="2" text="间隔执行"></div> -->	
+				</div>
+				<td class="ui-form-table-dd" colspan="2">
+					<ul>
+						<li style="float:left;width:30px;">
+							<div itype="TextBox" id="cFirsttimeExecHour" validateMode="blur" rule="IsNumber" width=100% onChange="onTimeChange()"></div>
+						</li>
+						<li style="float:left;">:</li>
+						<li style="float:left;width:30px;">
+							<div itype="TextBox" id="cFirsttimeExecMinute" validateMode="blur" rule="IsNumber" width=100% onChange="onTimeChange()"></div>
+						</li>
+						<li style="float:left;">:</li>
+						<li style="float:left;width:30px;">
+							<div itype="TextBox" id="cFirsttimeExecSecond" validateMode="blur" rule="IsNumber" width=100% onChange="onTimeChange()"></div>
+						</li>
+					</ul>
+					<div itype="TextBox" type="hidden" id="cFirsttimeExec"/>
+				</td>
+				<td class="ui-form-table-dd" colspan="2">
+					<div id="workgroup">
+						<select itype="Select" id="cOffsetWorkgroup" width="100%">
+							<option text="接班前(分钟)" value="1"></option>
+							<option text="班中(分钟)" value="2"></option>
+							<option text="结班后(分钟)" value="3"></option>
+						</select>
+					</div>
+				</td>
+				<td class="ui-form-table-dd" colspan="1">
+					<div id="workgroup1">
+						<div itype="TextBox" id="cOffsetMinute" validateMode="blur" rule="IsNumber" width=100% emptyText="输入偏移分钟数" onChange="oncOffsetMinChange()"></div>
+					</div>
+				</td>
+				<!-- <td class="ui-form-table-dd" colspan="2"></td> --> 
+				<select itype="Select" id="cOffsetHourUnit" width="100%" display=false>
+					<option text="小时" value="1"></option>
+				</select>
+				<div itype="TextBox" id="cOffsetHour" validateMode="blur" display=false rule="IsNumber" width=100% emptyText="输入小时数" onChange="onOffsetHourChange()"></div>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" rowspan="2">规则启用时间：</td>
+				<td class="ui-form-table-dd" colspan="2" rowspan="2">
+					<input itype="DatePicker" format="yyyy-MM-dd HH:mm:ss" width=100% rule="Required" onblur="onBeginChange()" id="cTimeruleBegin" timeBefore="cTimeruleEnd"/>
+				</td>
+				<td class="ui-form-table-dt" rowspan="2">规则停用时间：</td>
+				<td class="ui-form-table-dd" colspan="2">
+					<div itype="RadioGroup" name="checkEndModel" id="checkEndModel" onChange="onEndModelChange()" width=100% value="1">
+						<div value="1" text="结束日期"></div>
+						<div value="2" text="无结束日期"></div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dd" colspan="2">
+					<input itype="DatePicker" format="yyyy-MM-dd HH:mm:ss" width=100% rule="Required" onblur="onEndChange()" id="cTimeruleEnd" timeAfter="cTimeruleBegin"/>
+				</td>
+			</tr>
+			<tr style="height: 150px">
+				<td class="ui-form-table-dt" style="width: 100px">说明：</td>
+				<td class="ui-form-table-dd" colspan="5" width=100%>
+					<div itype="TextBox" type="textarea" height=100% id="cRemark" width="100%" rule="required;" readOnly="true"></div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

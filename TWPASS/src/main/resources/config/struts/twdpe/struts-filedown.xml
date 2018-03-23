@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+		"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+		"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="struts-filedown" extends="struts-default">
+		<!-- 下载文件-->
+		<action name="file_getFileDown" class="com.talkweb.twdpe.webcomponent.component.FileDownAction">
+			<param name="inputPath">/uploads/</param>
+			<result type="stream">
+				<param name="inputName">targetFile</param>
+				<param name="contentType">application/octet-stream</param>
+				<param name="contentDisposition">attachment;filename="${filename}"</param>
+			</result>
+		</action>
+
+	</package>
+
+</struts>

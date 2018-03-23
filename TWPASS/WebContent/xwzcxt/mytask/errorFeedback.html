@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>异常反馈</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="errorFeedback.js"></script>
+<meta name="Author" content="J.B.Chen" />
+<meta charset="UTF-8" />
+<script>
+	var url = window.location.href;
+	var path = url.substring(0, url.lastIndexOf("/")+1);
+
+	var traceFun=0;
+	var resultId="";
+	function onFileChoose(file) {
+		
+	
+	}
+	function onUploadStart(file) {	
+		var uploader = fastDev.getInstance("upfileAccessory");
+		uploader.addParams({
+			c_sfile_id : resultId,
+			c_Affix_type : 1,
+			c_chaptercode : "",
+			c_filetypes : traceFun,
+			c_filename : encodeURI(file.name),
+			c_extens : file.type,
+			c_filesize : file.size,
+			c_filekind : "2"
+		});
+	}
+	function onUploadSuccess(file, response){
+		
+		fastDev.tips("文件 " + file.name + " 上传成功");
+		fastDev.Ui.Window.parent.refreashData2();
+		fastDev.Ui.Window.parent.closeDialog();
+		
+	}
+
+	function onUploadFail(file, response){
+		fastDev.tips("文件 " + file.name + " 上传失败");
+	}
+	
+
+	//初始化协调人
+	function initCoordinatePerson(id){
+		var input=document.getElementById(id);
+		fastDev.post("taskSearch_getCurrentUserLeader.action",{
+			success:function(dat){
+				if(dat.hasOwnProperty("userId")){
+					input.value=dat["userName"];
+					fastDev.getInstance("coordinatePersonId").setValue(dat["userId"]);
+				}
+			}
+		});
+	}
+	
+	function doAddPerson(){
+		var selectorType=""
+		var titleName="";
+		var mouseEvent=arguments[0];
+		var inputElement=mouseEvent.target||mouseEvent.srcElement;
+		var dealType=inputElement.name;
+		if(dealType=="coordinate"){
+			titleName="选择协调人";
+			selectorType="radio";
+		}
+		else if(dealType=="send"){
+			titleName="选择抄送人";
+			selectorType="multi";
+		}
+		top.fastDev.create("Dialog", {
+			height:155,
+			width:350,
+			showMaxBtn:false,
+		    title:titleName,
+		    src : path+"selectPerson.html?selectorType="+selectorType,
+		 	onAfterInit : function(){
+		 		var iframes=top.window.document.getElementsByTagName("iframe");
+		 		var that=this;
+		 		for(var i in iframes){
+	 				if(iframes[i].src==""||iframes[i].src.length<1){
+	 					var iframe=iframes[i];
+	 					iframe.onload=function(){
+		 					if(iframe.contentWindow){
+		 						iframe.contentWindow.parentDialog=that;
+		 						iframe.contentWindow.parentWindow=window;
+		 					}
+		 					else{
+		 						iframe.parentDialog=that;
+		 						iframe.parentWindow=window;
+		 					}
+		 				}
+		 				break;
+		 			}
+		 		}
+		 	}
+		});
+	}
+	window.onload=function(){
+		var table=new FormTable("form_table","dt","dd");
+		table.setMargin("10px 0px 0px 10px");
+		table.setDt_textAlign("left");
+		table.setDt_width("80px");
+		table.setWidth("320px");
+		table.initTable();
+		initCoordinatePerson("coordinatePerson");
+	}
+</script>
+<style type="text/css">
+	.buttons{
+		text-align:center;
+		padding:8px 0px 6px 0px;
+	}
+</style>
+</head>
+<body>
+	<form id="checkform"  itype="Form" saveInstance="true" action="taskSearch_errorFeedback.action" submitJson="false" onSubmitSuccess="onSubmitSuccess()" onBeforeSubmit="onBeforeSubmit()">
+		<!-- 协调人ID -->
+		<div itype="TextBox" type="hidden" id="taskErrorFeedback.c_coordinator" ></div>
+		<!-- 抄送人ID -->
+		<div itype="TextBox" type="hidden" id="taskErrorFeedback.c_copyfor" ></div>
+		<table id="form_table">
+			<tr>	
+				<td name="dt">协调人：</td>
+				<td name="dd">
+					<div itype="TextBox" id="coordinatePerson" readonly="true" onClick="doAddPerson()" name="coordinate" validateMode="blur" rule="required"></div>
+				</td>			
+			</tr>
+			<tr>	
+				<td name="dt">抄送人：</td>
+				<td name="dd"><div itype="TextBox" id="sendPerson" readonly="true" onClick="doAddPerson()" name="send" ></div></td>			
+			</tr>
+			<tr>	
+				<td name="dt">主题：</td>
+				<td name="dd"><div itype="TextBox" id="taskErrorFeedback.c_err_name" validateMode="blur" rule="required"></div></td>			
+			</tr>
+			<tr>	
+				<td name="dt">板块：</td>
+				<td name="dd">			
+					<select itype="Select" id="taskErrorFeedback.c_manage_section" 
+					  initSource="task_getManageSectionList.action" validateMode="blur" rule="required">
+						<option>-请选择-</option>
+					</select>
+				</td>			
+			</tr>
+			<tr>	
+				<td name="dt">截止日期：</td>
+				<td name="dd">
+					<input itype="DatePicker"
+						id="taskErrorFeedback.c_end_time" 
+						format="yyyy-MM-dd" width="150" inside="false" validateMode="blur" rule="required"/>
+				</td>			
+			</tr>
+			<tr>	
+				<td name="dt">取证：</td>
+				<td name="dd">
+					<div itype="FileUpload"  name="upfileAccessory" showUploadBtn="true" id="upfileAccessory"  multiple="true" 
+						typeLimit="bmp,jpeg,gif,jpg,bmp,png,wav,mp3,mp4,avi,rmvb,rm,mov,swf,3gp" saveInstance="true" 
+						showTextInput="true" sizeLimit="" autoUpload="false" 
+						action="waithandTask_uploadAffixFile.action" 
+						onUploadComplete="onUploadComplete()" onUploadStart="onUploadStart()" onUploadSuccess="onUploadSuccess()">
+						<div name="chooseBtn" text="选择文件" iconCls="icon-add"></div>
+						<div hidden="true" name="affix.c_file_id" text=""></div>
+						<div name="uploadBtn" text="上传附件" iconCls="icon-upload"></div> 
+					</div>
+				
+				</td>			
+			</tr>
+			<tr style="display:none">	
+				<td colspan="2" align="center">
+					<div id="resultDisplay">
+						
+					</div>
+				</td>			
+			</tr>
+			<tr>	
+				<td colspan="2" align="left" style="padding:4px 0px 4px 4px">
+					填写异常描述：
+					<textarea itype="TextBox" id="taskErrorFeedback.c_err_des" type="textarea" height="50px" width="305px"></textarea>
+				</td>			
+			</tr>
+			
+		</table>
+	</form>
+</body>
+</html>

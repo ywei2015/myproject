@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="checkDetails">
+    
+<!-- 检验详情的链接-->
+    <select id="getCheckDetailsBillon" parameterType="String" resultType="com.talkweb.xwzcxt.pojo.CheckDetailsPojo">
+        select  t.c_ex_dataid,t.c_ex_type, 
+            case (t.c_ex_type) 
+               when 2 then (select t1.billon from t_ex_check t1,t_task t where t.c_ex_dataid=t1.c_id and t.c_task_id=#{c_task_id})
+               when 3 then (select t2.billon from t_ex_recheck t2,t_task t where t.c_ex_dataid=t2.c_id and t.c_task_id=#{c_task_id})
+               else null  end  as billon,
+            case (t.c_ex_type) 
+               when 2 then (select t1.billtype from t_ex_check t1,t_task t where t.c_ex_dataid=t1.c_id and t.c_task_id=#{c_task_id}) 
+               else null  end  as billtype
+        from t_task t where t.c_task_id=#{c_task_id}
+     </select>
+     
+   
+     
+</mapper>

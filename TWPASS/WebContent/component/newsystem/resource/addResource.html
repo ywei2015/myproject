@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>用户管理</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script src="../../fastdev/fastDev-import.js"></script>
+		<script type="text/javascript" src="addResource.js"></script>
+		<style>
+			html, body {
+				height:100%;
+			}
+		</style>
+	</head>
+	<body>
+		<form id="resourceForm" itype="Form" saveInstance="true" action="resource_addResource.action" initSource='resource_initForm.action' onSubmitSuccess="onSubmitSuccess()"  submitJson="false">
+		    <div itype="TextBox" type="hidden" id="oldCode"></div>
+	       <table class="ui-form-table">
+	           <tr>
+	               <td class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>资源名称：</td>
+	               <td class="ui-form-table-dd"><div itype="TextBox" id="resource.resourceName" width="100%" rule="required;MaxLength:16"></div></td>
+	               <td class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>资源编码：</td>
+	               <td class="ui-form-table-dd"><div itype="TextBox" id="resource.resourceCode" width="100%" rule="required;MaxLength:32"></div></td>
+	           </tr>
+	           <tr>
+	               <td class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>资源类型：</td>
+	               <td class="ui-form-table-dd"><select id="resource.resourceType" itype="Select" width="100%" rule="required" height="100px"><option text="-请选择-"></option></select></td>
+	               <td class="ui-form-table-dt" style="width:100px">链接地址：</td>
+	               <td class="ui-form-table-dd"><div itype="TextBox" id="resource.url" width="100%" rule="MaxLength:512"></div></td>                              
+	           </tr>
+	           <tr>
+	               <td class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>所属应用：</td>
+	               <td class="ui-form-table-dd"><select id="resource.appId" inside="false" itype="Select" width="100%" rule="required" onchange="onChange()" onBeforeReady="onAppIdBeforeReady()"><option text="-请选择-"></option></select></td>
+	               <td class="ui-form-table-dt" style="width:100px">父资源：</td>
+	               <td class="ui-form-table-dd">
+						<div itype="SelectTree" inside="false" id="resource.parentCode" sTreeClickAfterShow="true" width="100%" onBeforeReady="onParentCodeBeforeReady()" rootValue="-请选择-" topParentid="-1" openFloor=2>
+						</div>				                  				               
+	               </td>
+	           </tr>     
+	           <tr>
+	           	   <td class="ui-form-table-dt" style="width:100px">图标样式：</td>
+	               <td class="ui-form-table-dd"><div itype="TextBox" id="resource.icon" width="100%" rule="MaxLength:512"></div></td>
+	               <td class="ui-form-table-dt" style="width:100px">排序：</td>
+	               <td class="ui-form-table-dd"><div itype="TextBox" id="resource.orderby" width="100%"></div></td>
+	           </tr> 				                      
+	           <tr>
+	               <td class="ui-form-table-dt" style="width:100px" height="57px">资源描述：</td>
+	               <td class="ui-form-table-dd" colspan="3"><div itype="TextBox" id="resource.remark" type="textarea" height="50px" width="100%" rule="MaxLength:512"></div></td>
+	           </tr>				           
+	       </table>
+	    </form>		
+	</body>
+</html>

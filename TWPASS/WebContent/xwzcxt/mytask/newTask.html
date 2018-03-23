@@ -1,0 +1,257 @@
+ <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>发起任务</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+
+<script src="newTask.js"></script>
+<meta name="Author" content="CC" />
+<meta charset="UTF-8" />
+<script>
+	var url = window.location.href;
+	var path = url.substring(0, url.lastIndexOf("/")+1);
+
+	
+	//初始化发送人
+	function initCoordinatePerson(id){
+		var input=document.getElementById(id);
+		fastDev.post("taskSearch_getCurrentUserLeader.action",{
+			success:function(dat){
+				if(dat.hasOwnProperty("userId")){
+					fastDev.getInstance("startTaskPojo.c_sender_userid").setValue(dat["userId"]);
+				}
+			}
+		});
+	}
+	
+	function doAddPerson(){
+		var selectorType=""
+		var titleName="";
+		var mouseEvent=arguments[0];
+		var inputElement=mouseEvent.target||mouseEvent.srcElement;
+		var dealType=inputElement.name;
+		
+		titleName="选择接收人";
+		selectorType="radio";
+		
+		top.fastDev.create("Dialog", {
+			height:300,
+			width:350,
+			showMaxBtn:false,
+		    title:titleName,
+		    src : path+"personSelect.html",
+		 	buttons:[{
+				text : "确定",
+				width : "100px",
+				align : "center",
+				iconCls : 'icon-save',
+				onclick : function(event, win, cwin, fast) {
+					var userInfo=cwin.getUserInfo();
+					fastDev.getInstance('startTaskPojo.c_exec_userid').setValue(userInfo.userid);
+					fastDev.getInstance('execUser').setValue(userInfo.username);
+					win.close();
+				}
+		}]
+		});
+
+
+	}
+	/* window.onload=function(){
+		var table=new FormTable("form_table","ui-form-table-dt","ui-form-table-dd");
+		table.setMargin("10px 0px 0px 10px");
+		table.setDt_textAlign("left");
+		table.setDt_width("80px");
+		table.setWidth("320px");
+		table.initTable();
+		//initCoordinatePerson("startTaskPojo.c_sender_userid");
+	} */
+
+function  setChk(){
+	setChkAndEval(0);
+}
+
+function setEval(){
+	setChkAndEval(1);
+}
+
+function setChkAndEval(type){
+	   var titleName=['选择验证人','选择评价人'];
+	   var target=[ {'id':'startTaskPojo.c_chk_userid','name':'execUser2'},
+	   		    	{'id':'startTaskPojo.c_evaluate_userid','name':'execUser3'}];
+	   		    	
+	   fastDev.create("Dialog", {
+			height:300,
+			width:350,
+			showMaxBtn:false,
+		    title:titleName[type],
+		    src : path+"personSelect.html",
+		 	buttons:[{
+				text : "确定",
+				width : "100px",
+				align : "center",
+				iconCls : 'icon-save',
+				onclick : function(event, win, cwin, fast) {
+					var userInfo=cwin.getUserInfo();
+					fastDev.getInstance(target[type].id).setValue(userInfo.userid);
+					fastDev.getInstance(target[type].name).setValue(userInfo.username);
+					win.close();
+				}
+		}]
+		});
+}
+</script>
+<style type="text/css">
+	.buttons{
+		text-align:center;
+		padding:8px 0px 6px 0px;
+	}
+</style>
+</head>
+<body>
+	<form id="checkform"  itype="Form" saveInstance="true" action="StartTask_startTask.action" submitJson="false" onSubmitSuccess="onSubmitSuccess()" onBeforeSubmit="onBeforeSubmit()">
+	
+		<div itype="TextBox" type="hidden" id="startTaskPojo.c_exec_userid" ></div>
+		<div itype="TextBox" type="hidden" id="filestr"></div>
+		<table class="ui-form-table">
+		    <tr>	
+				<td class="ui-form-table-dt"><font color=red>*</font>任务名称：</td>
+				<td class="ui-form-table-dd" colspan="2"><div itype="TextBox" id="startTaskPojo.c_task_name" width="100%" validateMode="blur" rule="required"></div></td>			
+			</tr>
+			<tr>	
+				<td class="ui-form-table-dt"><font color=red>*</font>任务类别：</td>
+				<td class="ui-form-table-dd" colspan="2">
+					<select itype="Select"  id="startTaskPojo.c_task_type" validateMode="blur" rule="required" width="100%">	
+						<option>-请选择-</option>
+						<option value="20" selected>工作安排</option>
+					</select>
+			
+				</td>			
+			</tr>
+			
+			<tr>	
+				<td class="ui-form-table-dt"><font color=red>*</font>管理板块：</td>
+				<td class="ui-form-table-dd" colspan="2">			
+					<select itype="Select" id="startTaskPojo.c_manage_section" validateMode="blur" rule="required" width="100%">
+						<option>-请选择-</option>
+						<option value="1">安全</option>
+						<option value="2">质量</option>
+						<option value="3">成本</option>
+						<option value="4">效率</option>
+						<option value="5">团队</option>
+						<option value="6">环境</option>
+					</select>
+				</td>			
+			</tr>
+			<tr>	
+				<td class="ui-form-table-dt"><font color=red>*</font>&nbsp;接&nbsp;收   &nbsp;人：</td>
+				<td class="ui-form-table-dd" colspan="2">
+					<div itype="TextBox" id="execUser" readonly="true" onClick="doAddPerson()"   rule="required" width="100%"></div>
+				</td>
+				
+			</tr>
+			
+			<tr>
+			    <td class="ui-form-table-dt" >抄 &nbsp;送   &nbsp;人：</td>	
+			   	<td class="ui-form-table-dd" colspan="2">
+					<div id="copyUserTree" itype="SelectTree" treeType="multitree" saveInstance="true"
+						sTreeClickAfterShow="false" inside="false" width="100%" topParentid="1--1" openFloor="2"
+						initSource="pbo/getPositionInOrgAction.action?orgtype=7"
+						onAfterInitRender="afterInitRender()" onlyLeafValue="true" width="100%"></div>
+				</td>	
+			</tr>
+			<tr>	
+				<td class="ui-form-table-dt"><font color="red">*</font>开始时间：</td>
+				<td class="ui-form-table-dd" colspan="2">
+					<input itype="DatePicker"
+						id="startTaskPojo.c_start_time" timeBefore="startTaskPojo.c_end_time" value="now"
+						format="yyyy-MM-dd hh:mm:ss"  inside="false" validateMode="blur" rule="required" width="100%"/>
+				</td>			
+			</tr>
+			<tr>	
+				<td class="ui-form-table-dt"><font color=red>*</font>&nbsp;结束时间：</td>
+				<td class="ui-form-table-dd" colspan="2">
+					<input itype="DatePicker"
+						id="startTaskPojo.c_end_time" timeAfter="startTaskPojo.c_start_time"
+						format="yyyy-MM-dd hh:mm:ss"  inside="false" validateMode="blur" rule="required" width="100%"/>
+				</td>			
+			</tr>
+			<tr>	
+				<td class="ui-form-table-dt">&nbsp;验&nbsp;证   &nbsp;人：</td>
+				<td class="ui-form-table-dd" colspan="2">
+					<div itype="TextBox" id="execUser2" readonly="true" onClick="setChk()"    width="100%"></div>
+					<div itype="TextBox" id="startTaskPojo.c_chk_userid" type="hidden"  saveInstance="true"></div>				
+				</td>
+				
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">&nbsp;验证期限：</td>
+				<td class="ui-form-table-dd" colspan="2">
+					<input itype="DatePicker"
+						id="startTaskPojo.c_chk_plantime" 
+						format="yyyy-MM-dd hh:mm:ss"  inside="false"  saveInstance="true" width="100%"/>
+				</td>		
+			</tr>
+			<tr>	
+				<td class="ui-form-table-dt">&nbsp;评&nbsp;价   &nbsp;人：</td>
+				<td class="ui-form-table-dd" colspan="2">
+					<div itype="TextBox" id="execUser3" readonly="true" onClick="setEval()"   width="100%"></div>
+					<div itype="TextBox" id="startTaskPojo.c_evaluate_userid" type="hidden"  saveInstance="true"></div>				
+				</td>
+				
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">&nbsp;评价期限：</td>
+				<td class="ui-form-table-dd" colspan="2">
+					<input itype="DatePicker"
+						id="startTaskPojo.c_evaluate_plantime" 
+						format="yyyy-MM-dd hh:mm:ss"  inside="false" saveInstance="true" width="100%"/>
+				</td>		
+			</tr>
+			<tr>	
+				<td colspan="3" align="left" style="padding:4px 0px 4px 4px">
+					输入任务要求描述，说明任务具体做什么......
+					<textarea itype="TextBox" id="startTaskPojo.c_remark" type="textarea" height="80px" width="100%"
+					onfocus="if(this.value=='') {this.value=''}" 
+					onblur="if(this.value=='') {this.value='输入任务要求描述，说明任务具体做什么......'}" 
+					value=""> </textarea>
+				</td>			
+			</tr>
+			<tr>
+				<td colspan="3" class="ui-form-table-dd" width="100%">取证：</td>
+			</tr>
+			<tr>
+				<td colspan="3" class="ui-form-table-dd" width="100%">支持格式：bmp,jpeg,gif,jpg,png,mp3,mp4</td>
+			</tr>
+			<tr>
+				<td colspan="3" class="ui-form-table-dd">
+				   <ul id="fileList" width="100%" ></ul>
+				
+				</td>
+			</tr>
+             <tr>
+				<td   class="ui-form-table-dd" colspan="3">
+					<!-- multiple属性可开启文件队列，并允许一次性上传多个文件 （即用户可选取多个文件后一并上传，但文件上传过程，仍是一个一个上传的） -->
+					<div itype="FileUpload" name="upfileAccessory"  id="upfileAccessory" saveInstance="true" 
+						multiple="true" showTextInput="false" sizeLimit="102400"
+						showLoading="false" action="StartTask_uploadAffixFile.action"
+						typeLimit="bmp,jpeg,gif,jpg,png,mp3,mp4,avi"
+						onFileChoose="onFileChoose()" onUploadStart="onUploadStart()"
+						onUploadSuccess="onUploadSuccess()" onUploadFail="onUploadFail()"
+						onUploadCancel="onUploadCancel()">
+						<div name="chooseBtn" text="选择文件" iconCls="icon-add"></div>
+						<div name="uploadBtn" display="false" text="上传所有" iconCls="icon-upload"></div> 
+						
+					</div>
+			<!-- 		<input itype="Button" text="获取文件队列" onclick="getFileQueue()"/>
+					<input itype="Button" text="清空文件队列" onclick="cleanFileQueue()"/> -->
+				</td>
+	
+			   <!--    <td ">
+			 	    <input itype="Button" text="移除所有" iconCls="icon-delete"
+					onclick="removeAllFile()" />  <input itype="Button" text="统计信息"
+					iconCls="icon-edit" onclick="getStats()" /></td>  -->  
+		</table>
+	</form>
+</body>
+</html>

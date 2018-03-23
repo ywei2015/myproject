@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="../../../fastdev/fastDev-import.js"></script>
+<script type="text/javascript" src="jobObjects.js"></script>
+<script type="text/javascript" src="printqrcode.js"></script>
+<title>作业对象</title>
+
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container" >
+		<div  class="ui-layout-left" style="width: 200px; height: 96.8%;top: 10px;">
+			<div class="ui-toolbar ui-toolbar-bg" style="height: 22px;">
+				<div itype="Button" plain=true text="新增" display="false" id="addTableTypeBtn"
+					iconCls="icon-add" onClick="addTabletype()"></div>
+				<div itype="Button" plain=true text="修改" display="false" id="modify"
+					iconCls="icon-edit" onClick="modifyTabletye()"></div>
+				<div itype="Button" plain=true text="删除" display="false" id="delete"
+					iconCls="icon-delete" onClick="deleteTabletype()"></div>
+				<div itype="Button" plain=true text="导入" display="false" id="import2"
+					iconCls="icon-add" onClick="openImportPage()"></div>
+			</div>
+			<div id="tableTypeTree" itype="Tree" saveInstance="true" showIco="true" height="94.7%"
+				width="100%" customFields="allowmodify,type" topParentid="-1" openFloor=3 rootValue="作业对象类型"	
+				initSource="jobObjects_getTableTypeTree.action"
+				onlyLeafValue=true 
+				onNodeClick="getTypeValue()" onAfterInitRender="onTableTypeAfterInitRender()">
+			</div>
+		</div>
+
+		<div id="centerPanel" class="ui-layout-center" style="overflow-y:scroll;left:200px;height:95%; top:0;">
+						<form id="jobObjects" itype="Form" requestType="post" saveInstance="true">
+							<table class="ui-form-table" id="tbgrid">
+								<tr valign="middle">
+									<td class="ui-form-table-dt" style="width: 100px;">部门</td>
+									<td class="ui-form-table-dd"  >
+										<select itype="SelectTree" inside="false" id="cOrgid"width="100%"
+										 queue="positionForm"  onchange="showUsers()"
+										 initSource="org_queryOrgTree.action" rootValue="-请选择-"
+										 topParentid="-1" openFloor="2"></select>
+									</td>
+									<td class="ui-form-table-dt" style="width: 100px;">名称</td>
+									<td class="ui-form-table-dd"  >
+										<input itype="TextBox" id="cBasedataName" width="100%"/>
+									</td>
+								</tr>
+								<tr valign="middle">
+									<td class="ui-form-table-dt" width="100px">责任人工号</td>
+									<td class="ui-form-table-dd">
+										<div itype="TextBox" id="cBasedataUserCode" saveInstance="true" width="100%"></div>
+									</td>
+									<td class="ui-form-table-dt" style="width: 100px;">最后打印人</td>
+									<td class="ui-form-table-dd"  >
+										<input itype="TextBox" width="100%" saveInstance=true id="username" onclick="setPrinter()"/>
+										<input itype="TextBox" type="hidden" saveInstance=true  id="cPrintUser" />
+									</td>
+								</tr>
+								<tr>
+									<td class="ui-form-table-dt" width="100px">最后打印时间</td>
+									<td class="ui-form-table-dd">
+										<div itype="DatePicker" id="cPrintTime" saveInstance="true" format="yyyy-MM-dd" width="100%"></div>
+									</td>
+									<td class="ui-form-table-dt" width="100px">扫描码</td>
+									<td class="ui-form-table-dd">
+										<div itype="TextBox" id="cScanCode" saveInstance="true" width="100%"></div>
+									</td>
+								</tr>
+								<tr>
+									<td class="ui-form-table-dt" >是否已设置坐标</td>
+									<td>
+										<select itype="Select" id="ptStatus" saveInstance="true" width="100%">
+											<option  >--请选择--</option>
+											<option value="1" >是</option>
+											<option value="0" >否</option>
+										</select>
+									</td>
+									<td class="ui-form-table-dt" >打印次数</td>
+									<td><div itype="TextBox" id="c_print_count" saveInstance="true" width="100%"></div></td>
+								</tr>
+							</table>
+							<table align="right">
+								<tr valign="middle">
+									<td align="right" class="ui-form-table-dd">
+									    <a href="#" id="condBtn"  width="100px" style="display:none"
+									       onclick="searchObject()">更多查询条件</a>
+									       
+										<div itype="Button" id="searchBtn" width="100px" text="查询"
+											iconCls="icon-search" onClick="doSearch()"></div>
+			
+										<div itype="Button" id="resetBtn" width="100px" text="重置"
+											iconCls="icon-reset" onClick="doResetOrg()"></div>
+										<div style="display:none;"><div itype="TextBox" hidden=true id="cTabletypeId"></div></div>
+									</td>
+								</tr>
+							</table>
+						</form>
+				   <div style="width:98.5%;">
+						<div itype="DataGrid" id="jobObjectsInfo" saveInstance="true" 
+							allowResizeColumn=true pageSize=20 OnBeforeReady="onBeforeReady()"
+							OnAfterInitRender="onAfterInitRender()" showSeqColumn=true 
+							showCheckColumn=true onRowClick="changeColor()">
+							<div name="top-toolbar">
+								<div plain=true text="新增" iconCls="icon-add" id="addObjectBtn" display="false"  onclick="modify()"></div>
+								<div itype="separator"></div>
+								<div plain=true text="导入" iconCls="icon-add" id="import"  display="false"   onclick="importObject()"></div>
+						    	<div itype="separator"></div>
+						    	<div plain=true text="导出" id="export" display="false" iconCls="icon-export" onclick="exportXLS()"></div>
+								<div itype="separator"></div>
+								<div plain=true text="批量删除" iconCls="icon-delete" id="delete" display="false"    onclick="multiDelete()"></div>
+								<div itype="separator"></div>
+						    </div>	
+						    <div name="pageSizeList">
+						       <div value="5" text="5条"></div>
+					  		   <div value="10" text="10条"></div>
+					   		   <div value="15" text="15条"></div>
+					  		   <div value="20" text="20条"></div>
+							   <div value="50" text="50条"></div>
+			
+						    </div>
+						    <div name="locStatus" hidden="true"></div>
+							<div name="cBasedataId" text="系统编号" width="150px"></div>
+							<div name="cScanCode" text="扫描码" width="200px"></div>
+							<div name="locStatusName" text="是否已设置坐标" width="100px"></div>
+							<div name="cScanDetail" text="扫码对应详情" width="200px" renderer="toScanDetails()"></div>
+							<div name="cPrintCount" text="打印次数" width="70px"></div>
+							<div name="cPrintUser" text="最后打印人" width="100px"></div>
+							<div name="cPrintTime" text="最后打印时间"  renderer="dateformat()" width="150px"></div>
+							<div name="cOrgName" text="部门" width="100px"></div>
+							<div name="operation" text="操作"   width="150px" renderer="toOperationLink()"></div>
+						</div> 
+				</div>
+		</div>
+		<iframe src="about:blank" style="display: none;" id="dc"></iframe>
+</body>
+</html>

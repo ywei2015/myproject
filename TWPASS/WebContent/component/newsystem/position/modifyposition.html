@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>添加岗位信息</title>
+       <script src="../../fastdev/fastDev-import.js"></script>
+        <script src="modifyposition.js"> </script>
+    </head>
+    <body>
+        <form itype="Form" id="positionForm" saveInstance="true" action="position_modifyPosition.action" method="post" initSource="position_initPositionSelect.action" submitJson="false" onSubmitSuccess="onFormSubmitSuccess()" onBeforeReady="onFormBeforeReady()" onAfterDataRender="formDataRender()">
+        	<div itype="TextBox" type="hidden" id="position.positionId"></div>
+			<table class="ui-form-table">
+				<tr>
+					<th class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>岗位代码：</th>
+					<td class="ui-form-table-dd">
+						<div itype="TextBox" id="position.posiCode" width="100%" rule="required" tips="唯一标识此岗位信息，不能重复"></div>
+					</td>
+					<th class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>岗位名称：</th>
+					<td class="ui-form-table-dd">
+						<div itype="TextBox" id="position.posiName" width="100%" rule="required"></div>
+					</td>
+				</tr>
+				<tr>
+					<th class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>岗位类别：</th>
+					<td class="ui-form-table-dd">
+						<select itype="Select" inside="false" id="position.posiType" width="100%" rule="required"><option>-请选择-</option></select>
+					</td>
+					<th class="ui-form-table-dt" style="width:100px">岗位层次：</th>
+					<td class="ui-form-table-dd">
+						<div itype="TextBox" id="position.posiLevel" width="100%" ></div>
+					</td>
+				</tr>
+				<tr>
+					<th class="ui-form-table-dt" style="width:100px">
+						<span class="ui-red">*</span>所属组织：
+					</th>
+					<td class="ui-form-table-dd">
+						<div itype="SelectTree" inside="false" id="position.orgId"  width="100%" rule="required" onBeforeReady="onParentOrgBeforeReady()" onchange="showManaPosition()" asyncDataSource="org_initGradeOrgTree.action?moduleId=M34&modeId=modify" rootValue="-请选择-" topParentid="-1" openFloor="2"></div>
+					</td>
+					<th class="ui-form-table-dt" style="width:100px">
+						上级岗位：
+					</th>
+					<td class="ui-form-table-dd">
+						<select id="position.manaPosi" inside="false" itype="Select" width="100%"><option>-请选择-</option></select>
+					</td>
+				</tr>
+			</table>
+		</form>
+    </body>
+</html>

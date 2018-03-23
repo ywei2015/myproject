@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>任务下发批量确认</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="TaskMultiConfirm.js"></script>
+
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container"> 
+		 	<form id="checkform" itype="Form" requestType="post" saveInstance="true">
+				<table class="ui-form-table">
+					<tr valign="middle">
+						<td class="ui-form-table-dt" style="width:100px;">模板名称：</td>
+						<td class="ui-form-table-dd"><div itype="TextBox" id="taskMouldPojo.c_task_name" width="100%"></div></td>
+						<td class="ui-form-table-dd">
+							<div itype="Button" id="searchBtn" text="查询" iconCls="icon-search" onClick="doSearch()"></div>
+							<div itype="Button" id="resetBtn" text="重置" iconCls="icon-reset" onClick="doReset()"></div>
+						</td>
+					</tr>
+				</table>
+			</form>
+		<div itype="DataGrid" id="grid1" onBeforeReady="onBeforeReady()" showSeqColumn=true onAfterInitRender="onAfterInitRender()"
+			pageSize="20" saveInstance=true keyword="c_task_id" showCheckColumn=true onRowClick="onRowClick()" >		
+			<div name="top-toolbar">
+				<div plain=true text="新增" iconCls="icon-add"  display="false"  id="add"   onclick="doAddBasic()"></div>
+				<div itype="separator"></div>
+				<div plain=true text="批量审核" iconCls="icon-save"  display="true"  id="btnTaskConfirm" onclick="doBatchConfirmTask()"></div>
+			</div>	
+			<!-- 列属性定义-->
+				<div hidden="true" name="c_task_id"></div>
+			<div width="13%" name="c_task_name" text="任务名称" renderer="operLinkRenderer()"></div>
+			<div width="8%" name="c_task_type_name" text="任务类别"></div>
+			<div width="7%" name="c_manage_section_name" text="管理板块"></div>
+			<div width="7%" name="c_pdca" text="PDCA"></div>
+			<div width="12%" name="areaname" text="执行区域"></div>
+			<div width="7%" name="c_exec_username" text="执行人"></div>
+			<div width="12%" name="c_start_time" itype="date"  format="yyyy-MM-dd HH:mm" text="开始时间"></div>
+			<div width="12%" name="c_end_time"  itype="date"  format="yyyy-MM-dd HH:mm" text="完成时间"></div>
+			<div width="15%" text="操作信息" renderer="operRenderer()"></div>
+		</div>
+		 
+	 
+</body>
+</html>

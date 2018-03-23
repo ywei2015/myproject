@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="action-log.xsd">
+	<namespace id="component.org" extends="component.default" />
+	<module id="M31" name="组织管理" />
+	<action-define>
+		<action class="OrgMngAction">
+			<method name="addOrg">
+				<type>add</type>
+				<description>新增组织信息。</description>
+				<result>
+					<success>新增组织成功。组织编号：${org.orgCode}、组织名称：${org.orgName}。</success>
+					<throws param="ex">新增组织失败。异常信息：${ex}</throws>
+				</result>
+			</method>
+			<method name="addOrgRole">
+				<type>add</type>
+				<description>添加组织角色。</description>
+				<result>
+					<success>添加组织角色成功。组织编号：${orgID}、角色编号：${roles}。</success>
+					<throws param="ex">添加组织角色失败。组织编号：${orgID}、角色编号：${roles}。异常信息：${ex}
+					</throws>
+				</result>
+			</method>
+			<method name="moveOrgRole">
+				<type>delete</type>
+				<description>批量删除组织角色。</description>
+				<result>
+					<success>批量删除组织角色成功。组织编号：${orgID}、被删除组织角色编号：${roles}。</success>
+					<throws param="ex">批量删除组织角色失败。组织编号：${orgID}、被删除组织角色编号：${roles}。异常信息：${ex}
+					</throws>
+				</result>
+			</method>
+			<method name="modifyOrg">
+				<type>modify</type>
+				<description>修改组织信息。</description>
+				<result>
+					<success>修改组织信息成功。组织ID：${org.orgId}。</success>
+					<throws param="ex">修改组织信息失败。组织ID：${org.orgId}。异常信息：${ex}</throws>
+				</result>
+			</method>
+			<method name="changeOrgOrder">
+				<type>modify</type>
+				<description>组织排序。</description>
+				<result>
+					<success>组织排序成功。</success>
+					<throws>组织排序失败。</throws>
+				</result>
+			</method>
+			<method name="moveOrg">
+				<type>delete</type>
+				<description>批量删除组织信息。</description>
+				<result>
+					<success>批量删除组织信息成功。被删除组织ID：${orgid}。</success>
+					<throws default="批量删除组织信息失败。异常信息：${ex}" param="ex"
+						package="com.talkweb.twdpe.base.common.exception">
+						<throw class="DataExistException">被删除组织存在关联项，删除失败。组织ID：${orgid}。</throw>
+					</throws>
+				</result>
+			</method>
+		</action>
+	</action-define>
+	<action-map>
+		<action class="**.OrgMngAction">
+			<method pattern="regex">
+				<nouns default="组织信息。" />
+				<verbs default="visit" value="查询">
+					<verb>
+						<pattern>(get|query|search).*</pattern>
+						<result>
+							<success>查询组织信息成功。</success>
+							<throws>查询失败。</throws>
+						</result>
+					</verb>
+				</verbs>
+			</method>
+		</action>
+	</action-map>
+</actions>

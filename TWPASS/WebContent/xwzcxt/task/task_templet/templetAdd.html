@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="../../../fastdev/fastDev-import.js"></script>
+<script src="../../../fastdev/common.js"></script>
+<script src="templetAdd.js"></script>
+<style>
+#fileTable tr td {
+	background: white;
+	border: 1px solid #D8E2EB;
+	font: 12px Arial,Helvetica,sans-serif,"瀹嬩綋";
+	text-align: center;
+	vertical-align: middle;
+	width: 30px;
+	height: 30px;
+}
+</style>
+</head>
+<body>
+	<div id="detail">
+		<div itype="Tabs" id="templetTab" container="detail" saveInstance="true" style="height:439px" onTabClick="onTabClick()">
+			<div title="模板详情" type="div">
+				<form itype="Form" id="checkForm" saveInstance="true" saveQueue="true" submitJson="false"
+					onBeforeReady="beforeReady()" onAfterDataRender="afterDataRender()" onSubmitSuccess="submitSuccess()">
+					<div itype="TextBox" type="hidden" id="cTempletId"></div>
+					<div itype="TextBox" type="hidden" id="cActnodeId"></div>
+					<div itype="TextBox" type="hidden" id="cActnodeName"></div>
+					<div itype="TextBox" type="hidden" id="cActnodetype"></div>
+					<div itype="TextBox" type="hidden" id="cIskeyctrl"></div>
+					<div itype="TextBox" type="hidden" id="cModifyType"></div>
+					<div itype="TextBox" type="hidden" id="cTempletMediaFileId"></div>
+					<div itype="TextBox" type="hidden" id="cTempletMediaFileType"></div>
+					<div itype="TextBox" type="hidden" id="cTempletMediaFilePath"></div>
+					<table class="ui-form-table">
+						<tr>
+							<td class="ui-form-table-dt"><font color="red" >*</font>模版名称：</td>
+							<td class="ui-form-table-dd" colspan="4">
+								<div itype="TextBox" id="cTempletName" width="100%"></div>
+							</td>
+							<td class="ui-form-table-dt">模版编码：</td>
+							<td class="ui-form-table-dd" colspan="4">
+								<div itype="TextBox" id="cTempletCode" width="100%"></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt"><font color="red" >*</font>岗位活动：</td>
+							<td class="ui-form-table-dd" colspan="4">
+								<div itype="Button" id="addTemplet" text="5W2H标准" iconCls="icon-add" onclick="doAddTemplet()"></div>
+								<div itype="Button" id="addPublicTemplet" text="通用5W2H标准" iconCls="icon-add" onclick="doAddTemplet()"></div>
+							</td>
+							<td class="ui-form-table-dd" colspan="5">
+								<a id="cActnodeNameLink" onclick="onAClick()" style="color: #ff7f24;"></a>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt"><font color="red" >*</font>是否扫码：</td>
+							<td class="ui-form-table-dd" colspan="4">
+								<div itype="RadioGroup" id="cIsscan" onchange="onchange()">
+									<div value=1 text="是"></div>
+									<div value=0 text="否"></div>
+								</div>
+							</td>
+							<td id="cJobObjectsTitle" class="ui-form-table-dt" style="display: none;"><font color="red" >*</font>扫码对象：</td>
+							<td id="cJobObjectsTd" class="ui-form-table-dd" style="display: none;" colspan="3">
+								<div itype="TextBox" id="cJobObjectsName" width="100%" readonly="true" onclick="onSelectJobObjects()"></div>
+								<div itype="TextBox" type="hidden" id="cJobObjects"></div>
+							</td>
+							<td id="cJobObjectsButtonTd" class="ui-form-table-dd" style="display: none;" align="center">
+								<div itype="Button" id="cJobObjectsButton" text="编辑" onclick="doSelectJobObjects()" width="50px"></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt">岗位规则：</td>
+							<td class="ui-form-table-dd" colspan="9"><font color="red">请根据岗位活动内容设置岗位</font></td>
+						</tr>
+						<tr>
+							<td id="cPNameExecTitle" class="ui-form-table-dt"><font color="red" >*</font>执行岗位：</td>
+							<td class="ui-form-table-dd" colspan="4">
+								<div itype="TextBox" id="cPNameExec" width="100%" readonly="true"></div>
+								<div itype="TextBox" type="hidden" id="cPidExec"></div>
+							</td>
+							<td class="ui-form-table-dt"><font color="red" >*</font>所属部门：</td>
+							<td class="ui-form-table-dd" colspan="4">
+								<div itype="TextBox" id="cDepartmentName" width="100%" readonly="true"></div>
+								<div itype="TextBox" type="hidden" id="cDepartment"></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt"><font color="red" >*</font>时态：</td>
+							<td class="ui-form-table-dd" colspan="4">
+								<div itype="TextBox" id="cFrequency" width="100%" readonly="true"></div>
+							</td>
+							<td id="cExecAreaidTitle" class="ui-form-table-dt"><font color="red" >*</font>作业区域：</td>
+							<td class="ui-form-table-dd" colspan="3">
+								<div itype="TextBox" id="cExecAreaName" width="100%" readonly="true" onclick="onSelectArea()"></div>
+								<div itype="TextBox" type="hidden" id="cExecAreaid"></div>
+							</td>
+							<td class="ui-form-table-dd" align="center">
+								<div itype="Button" id="cExecAreaButton" text="编辑" onclick="doSelectArea()" width="50px"></div>
+							</td>
+						</tr>
+						<tr>
+							<td id="cPidCheckTitle" class="ui-form-table-dt">验证岗位：</td>
+							<td id="cPidCheckTd" class="ui-form-table-dd" colspan="3">
+								<div itype="TextBox" id="cPNameCheck" width="100%" readonly="true" onclick="onSelectPosition()"></div>
+								<div itype="TextBox" type="hidden" id="cPidCheck"></div>
+							</td>
+							<td id="cPButtonCheckTd" class="ui-form-table-dd" align="center">
+								<div itype="Button" id="cPButtonCheck" text="编辑" onclick="doButton1()" width="50px"></div>
+							</td>
+							<td id="cPidReviewTitle" class="ui-form-table-dt">评价岗位：</td>
+							<td class="ui-form-table-dd" colspan="3">
+								<div itype="TextBox" id="cPNameReview" width="100%" readonly="true" onclick="onSelectPosition()"></div>
+								<div itype="TextBox" type="hidden" id="cPidReview"></div>
+							</td>
+							<td class="ui-form-table-dd" align="center">
+								<div itype="Button" id="cPButtonReview" text="编辑" onclick="doButton2()" width="50px"></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt">默认反馈岗位：</td>
+							<td class="ui-form-table-dd" colspan="3">
+								<div itype="TextBox" id="cPNameFeedback1" width="100%" readonly="true" onclick="onSelectPosition()"></div>
+								<div itype="TextBox" type="hidden" id="cPidFeedback1"></div>
+							</td>
+							<td class="ui-form-table-dd" align="center">
+								<div itype="Button" id="cPButtonFeedback1" text="编辑" onclick="doButton3()" width="50px"></div>
+							</td>
+							<td class="ui-form-table-dt">其他默认反馈岗位：</td>
+							<td class="ui-form-table-dd" colspan="3">
+								<div itype="TextBox" id="cPNameFeedback2" width="100%" readonly="true" onclick="onSelectPosition()"></div>
+								<div itype="TextBox" type="hidden" id="cPidFeedback2"></div>
+							</td>
+							<td class="ui-form-table-dd" align="center">
+								<div itype="Button" id="cPButtonFeedback2" text="编辑" onclick="doButton4()" width="50px"></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt">异常反馈岗位：</td>
+							<td class="ui-form-table-dd" colspan="3">
+								<div itype="TextBox" id="cPNameErrFeedback1" width="100%" readonly="true" onclick="onSelectPosition()"></div>
+								<div itype="TextBox" type="hidden" id="cPidErrFeedback1"></div>
+							</td>
+							<td class="ui-form-table-dd" align="center">
+								<div itype="Button" id="cPButtonErrFeedback1" text="编辑" onclick="doButton5()" width="50px"></div>
+							</td>
+							<td class="ui-form-table-dt">其他异常反馈岗位：</td>
+							<td class="ui-form-table-dd" colspan="3">
+								<div itype="TextBox" id="cPNameErrFeedback2" width="100%" readonly="true" onclick="onSelectPosition()"></div>
+								<div itype="TextBox" type="hidden" id="cPidErrFeedback2"></div>
+							</td>
+							<td class="ui-form-table-dd" align="center">
+								<div itype="Button" id="cPButtonErrFeedback2" text="编辑" onclick="doButton6()" width="50px"></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt">时间规则：</td>
+							<td class="ui-form-table-dd" colspan="9"><font color="red">请根据岗位活动内容设置时间,如选择列表中无对应的时间规则，请添加相应时间规则。</font></td>
+						</tr>
+						<tr>
+							<td id="cTaskbeginTridTitle" class="ui-form-table-dt"><font color="red" >*</font>执行开始时间：</td>
+							<td class="ui-form-table-dd" colspan="3">
+								<div itype="TextBox" id="cExecTime" width="100%" readonly="true" onclick="onSelectTime()"></div>
+								<div itype="TextBox" type="hidden" id="cTaskbeginTrid"></div>
+							</td>
+							<td class="ui-form-table-dd" align="center">
+								<div itype="Button" id="cTaskbeginTridButton" text="编辑" onclick="doButton7()" width="50px"></div>
+							</td>
+							<td id="cTaskfinishTridTitle" class="ui-form-table-dt"><font color="red" >*</font>执行完成时间：</td>
+							<td class="ui-form-table-dd" colspan="3">
+								<div itype="TextBox" id="cExecEndTime" width="100%" readonly="true" onclick="onSelectTime()"></div>
+								<div itype="TextBox" type="hidden" id="cTaskfinishTrid"></div>
+							</td>
+							<td class="ui-form-table-dd" align="center">
+								<div itype="Button" id="cTaskfinishTridButton" text="编辑" onclick="doButton8()" width="50px"></div>
+							</td>
+						</tr>
+						<tr>
+							<td id="cTaskcheckTimeTitle" class="ui-form-table-dt">验证完成时间：</td>
+							<td id="cTaskcheckTimeTd" class="ui-form-table-dd" colspan="4">
+								<div itype="TextBox" id="cCheckTime" width="100%" readonly="true"></div>
+								<div itype="TextBox" type="hidden" id="cTaskcheckTime"></div>
+							</td>
+							<td id="cTaskreviewTimeTitle" class="ui-form-table-dt">评价完成时间：</td>
+							<td class="ui-form-table-dd" colspan="4">
+								<div itype="TextBox" id="cReviewTime" width="100%" readonly="true"></div>
+								<div itype="TextBox" type="hidden" id="cTaskreviewTime"></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt">添加多媒体文件：</td>
+							<td class="ui-form-table-dd" colspan="9">
+								<div itype="FileUpload" typeLimit="bmp,gif,jpg,jpeg,mp3,mp4,png" autoUpload="true" sizeLimit="-1"
+									width="100%" onChooseError="chooseError()" onUploadStart="onUploadStart()"
+									onUploadSuccess="onUploadSuccess()" onUploadFail="onUploadFail()"
+									onUploadComplete="onUploadComplete()" action="uploadaction_uploadFileToFileServer.action"
+									id="upfileAccessory" name="upfileAccessory" validateMode="blur" saveInstance="true"></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt">多媒体文件：</td>
+							<td class="ui-form-table-dd" colspan="9"><table id="fileTable"></table></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div title="标准详情" type="div">
+				<div id="tActnodeDetail" style="overflow:hidden;"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

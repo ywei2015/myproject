@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="renderer" content="ie-comp" />
+<title>异常信息查询</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="ErrInfoQuery.js"></script>
+<style>
+.floatElement {
+	float: left;
+}
+</style>
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	<form id="checkform" itype="Form" requestType="post"
+		saveInstance="true">
+		<input itype="TextBox" type="hidden" id="departmentId"
+			name="departmentId" /> <input itype="TextBox" type="hidden"
+			id="taskIssueStartTimeInput" /> <input itype="TextBox" type="hidden"
+			id="taskIssueEndTimeInput" /> <input itype="TextBox" type="hidden"
+			id="taskCompleteStartTimeInput" /> <input itype="TextBox"
+			type="hidden" id="taskCompleteEndTimeInput" /> <input
+			itype="TextBox" type="hidden" id="classGroupInput"
+			name="classGroupInput" />
+		<table class="ui-form-table">
+			<tr valign="middle">
+				<td class="ui-form-table-dt" style="width: 100px;">异常主题：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cTaskName" width="100%"></div>
+				</td>
+
+				<td class="ui-form-table-dt" style="width: 100px;">部门组织：</td> 
+				<td class="ui-form-table-dd" colspan="2">
+					<div itype="SelectTree" inside="false" id="department" width="100%"
+						onchange="showManaPosition()" queue="positionForm"
+						initSource="org_queryOrgTree.action" rootValue="-请选择-"
+						topParentid="-1" openFloor="2"></div>
+				</td>
+
+				<td class="ui-form-table-dt" style="width: 100px;">岗位：</td>
+				<td class="ui-form-table-dd" colspan="2">
+					<div itype="SelectTree" inside="true" id="position" width="100%"
+						textMaxLength=50 onchange="getPosition()"
+						asyncDataSource="posbindorg_getAllPosition.action"
+						initSource="posbindorg_getAllPosition.action" rootValue="-请选择-"
+						topParentid="1--1" openFloor="2"></div>
+				</td>
+			</tr>
+			
+			<tr valign="middle">
+				<td class="ui-form-table-dt" style="width: 100px;">反馈人姓名：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" 
+						id="cexecusername" width="100%"></div></td>
+				<td class="ui-form-table-dt" style="width: 100px;">反馈人工号：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cexecusercode" width="100%"
+						validateMode="blur" rule="IsNumber;MinLength:4;MaxLength:6"></div>
+				</td>
+				<td class="ui-form-table-dt" style="width: 100px;">板块：</td>
+				<td class="ui-form-table-dd"><select itype="Select"
+					id="csection" width="100%" saveInstance="true">
+						<option selected>-请选择-</option>
+						<option value="1">安全</option>
+						<option value="2">质量</option>
+						<option value="3">成本</option>
+						<option value="4">效率</option>
+						<option value="5">团队</option>
+						<option value="6">环境</option>
+				</select></td>
+				
+				<td class="ui-form-table-dd" colspan="2"  rowspan="2" align="right">
+					<div itype="Button" text="查询" iconCls="icon-search"
+						onclick="doSearch()" width="100px"></div>&nbsp;
+					<div itype="Button" text="重置" iconCls="icon-reset"
+						onclick="doReset()" width="100px"></div>&nbsp;
+				</td>				
+			</tr>
+			
+			<tr valign="middle">
+				<td class="ui-form-table-dt" style="width: 100px;">异常记录时间：</td>
+				<td class="ui-form-table-dd"  colspan=3>
+					<div><table width="100%" ><tr>
+					<td width="10%" style="text-align:right;">起：</td><td width="40%" >
+					<input itype="DatePicker" id="taskCompleteStartTime" timeBefore="end" format="yyyy-MM-dd"
+					width="100%" /></td>
+					<td width="10%" style="text-align:right;">止：</td><td width="40%" >
+					<input itype="DatePicker" 
+					id="taskCompleteEndTime" timeAfter="start" format="yyyy-MM-dd"
+					width="100%" /></td>
+					</tr></table></div>
+				</td>
+				<!-- <td class="ui-form-table-dt" style="width: 100px;">异常完成时间：</td>
+				<td class="ui-form-table-dd"><input itype="DatePicker" 
+					id="taskCompleteEndTime" timeAfter="start" format="yyyy-MM-dd"
+					width="100%" /></td> -->
+
+				<!-- <td class="ui-form-table-dt" style="width: 100px;">任务类别：</td>
+				<td class="ui-form-table-dd"><select itype="Select"
+					id="cTaskType" width="100%"
+					initSource="task_getTaskTypeList.action"
+					dataSource="task_getTaskTypeList.action">
+						<option>-请选择-</option>
+				</select>
+				</td> -->
+				
+				<td class="ui-form-table-dt" style="width: 100px;">异常状态：</td>
+				<td class="ui-form-table-dd"><select itype="Select"
+					id="c_status" width="100%"
+					initSource="task_getTaskStatusList.action"
+					dataSource="task_getTaskStatusList.action">
+						<option>-请选择-</option>
+				</select></td>
+			</tr>
+			
+			<tr>
+				<td class="ui-form-table-dt" colspan="8">
+					<!-- onBeforeReady="onBeforeReady()" --> <!-- 任务模版GRID -->
+					<div itype="DataGrid" id="grid_task"
+						onBeforeReady="onBeforeReady()" showSeqColumn=true
+						onAfterInitRender="onAfterInitRender()" allowResizeColumn=true
+						pageSize="20" saveInstance=true keyword="cTaskId"
+						onRowClick="onRowClick()">
+						<div name="top-toolbar">
+							<div plain=true text="导出excel" iconCls="icon-export"
+								onclick="exportXLS()"></div>
+						</div>
+
+						<!-- 列属性定义-->
+						<div width="18%" name="cTaskName" text="异常主题"
+							renderer="operLinkRenderer()"></div>
+						<div width="5%" name="cTaskTypename" text="异常类型"></div>
+						<div width="5%" name="cStatusName" text="异常状态"
+							renderer="operLinkStatusRenderer()"></div>
+						<div width="10%" name="cAreaname" text="发生区域"></div>
+						<div width="14%" name="cStartTimeString" text="发生时间"
+							itype="datetime" format="yyyy-MM-dd hh:mm:ss"></div>
+						<div width="9%" name="orgdepartname" text="所属版块"></div>
+						<div width="5%" name="cExecUsername" text="反馈人"></div>
+						<div width="14%" name="cEndTimeString" text="反鐀时间"
+							itype="datetime" format="yyyy-MM-dd hh:mm:ss"></div>
+						<!-- <div width="5%" name="cExecUsername" text="接收人"></div> -->
+						<div hidden="true" name="cTaskId"></div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+
+	<iframe src="about:blank" style="display:none;" id="dc"></iframe>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>新增字典值-自定义表单布局</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="modifyDict.js"></script>
+</head>
+<body>
+	<form itype="Form" id="dictform" submitJson="false" saveInstance="true" action="dict_modifyDictEntry.action" onBeforeReady="onBeforeReady()" onSubmitSuccess="onSubmitSuccess()">
+		<div itype="TextBox" type="hidden" id="dictEntryInfo.dicttypeid"></div>
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt" style="width:50px"><span class="ui-red">*</span>编码：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" id="dictEntryInfo.dictid" width="100%" rule="required" disabled="true" tips="和字典类型编码一起，唯一标识字典项。"></div></td>
+				<td class="ui-form-table-dt" style="width:50px"><span class="ui-red">*</span>名称：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" id="dictEntryInfo.name" width="100%" rule="required;MaxLength:50"></div></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width:50px">隶属于：</td>
+				<td class="ui-form-table-dd"><label id="dicttypename"></label></td>
+				<td class="ui-form-table-dt" style="width:50px">类型：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="dictEntryInfo.type" inside="false" width="100%">
+						<option>-请选择-</option>
+						<option value="1">int</option>
+						<option value="2">string</option>
+						<option value="3">boolean</option>
+						<option value="4">bit</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width:50px">全称：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" id="dictEntryInfo.fullname" width="100%" rule="MaxLength:255"></div></td>
+				<td class="ui-form-table-dt" style="width:50px">值：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" id="dictEntryInfo.dictname" width="100%" rule="MaxLength:32"></div></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width:50px">排序：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" id="dictEntryInfo.sortno" width="100%" rule="IsNumber"></div></td>
+				<td class="ui-form-table-dt" style="width:50px">选项：</td>
+				<td class="ui-form-table-dd">
+					<div style="float:left">
+						<div itype="CheckBoxGroup" id="dictEntryInfo.isshow">
+							<div value="1" text="显示"></div>
+						</div>
+					</div>
+					<div style="float:left">
+						<div itype="CheckBoxGroup" id="dictEntryInfo.allownull">
+							<div value="1" text="可为空"></div>
+						</div>
+					</div>
+					<div style="float:left">
+						<div itype="CheckBoxGroup" id="dictEntryInfo.allowmodify">
+							<div value="1" text="可维护"></div>
+						</div>
+					</div>
+					<div style="float:left">
+						<div itype="CheckBoxGroup" id="dictEntryInfo.allowdelete" onBeforeReady="onCheckBeforeReady()">
+							<div value="1" text="可删除"></div>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

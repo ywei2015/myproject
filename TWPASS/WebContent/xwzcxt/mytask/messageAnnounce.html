@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>消息通知</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script type="text/javascript">
+	//为每个datagrid的单元格绑定样式 
+	function renderer(value) {
+		var data = fastDev.getInstance("grid1").getValue(this)[0];
+		fastDev(this).parents("tr").children("td").css("text-align", "center");
+	}
+	
+	function onBeforeReady(){
+		this.setOptions({
+			initSource : "taskSearch_getMessages.action"
+		});	
+	}
+	
+	function searchForm() {
+		var fm = fastDev.getInstance('checkform');
+		condition = fm.getItems();		
+		refreshDatagrid();
+	}
+	
+	function refreshDatagrid() {
+		fastDev.getInstance('grid1').refreshData(condition);
+	}
+	
+	//value:消息ID
+	function submitHiddenForm(value){
+		var taskId=fastDev.getInstance("message.c_msg_id").getValue();
+		if(taskId!=value){
+			fastDev.getInstance("message.c_msg_id").setValue(value);
+			var fm = fastDev.getInstance("hiddenform");
+			var items = fm.getItems();		
+			fastDev.getInstance("grid2").refreshData(items);
+		}
+	}
+	
+	//为隐藏表单设置initSource
+	function initHiddenInput(){
+		this.setOptions({
+			initSource : "taskSearch_getMessageDetail.action"
+		});	
+	}
+</script>
+<style type="text/css">
+	.alignClass{
+		text-align:center;
+	}
+</style>
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	<form id="hiddenform" itype="Form" requestType="post" saveInstance="true">
+		<input itype="TextBox" id="message.c_msg_id" type="hidden" />
+	</form> 
+ 	<form id="checkform" itype="Form" requestType="post" saveInstance="true">
+ 		<input type="hidden" itype="TextBox" id="message.c_remark" value="bycondition" >
+		<table class="ui-form-table">
+			<tr valign="middle">
+				<td class="ui-form-table-dt" style="width:60px;">消息名称：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" id="message.c_msg_title" width="100%"></div></td>
+				<td class="ui-form-table-dt" style="width:60px;">读取状态：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="message.c_status"
+						width="100%" saveInstance="true">
+						<option>全部</option>
+						<option value="11">未读</option>
+						<option value="22">已读</option>
+					</select>
+				</td>
+				<td class="ui-form-table-dt" style="width: 60px;">开始时间：</td>
+				<td class="ui-form-table-dd">
+					<!-- yyyy-MM-dd HH:mm:ss -->
+					<input itype="DatePicker"
+						id="message.c_plan_time" timeBefore="end"
+						format="yyyy-MM-dd" width="100%" />
+				</td>
+				<td class="ui-form-table-dt" style="width: 60px;">结束时间：</td>
+				<td class="ui-form-table-dd">
+					<input itype="DatePicker"
+						id="message.c_expiry_time" timeAfter="start"
+						format="yyyy-MM-dd" width="100%" />
+				</td>
+				<td class="ui-form-table-dd" valign="middle">
+					<table>
+						<tr>
+							<td>
+								<div itype="Button" id="searchBtn" text="查询" iconCls="icon-search" onClick="searchForm()"></div>
+							</td>
+							<td>
+								<div itype="Button" id="resetBtn" text="重置" iconCls="icon-reset" onClick="resetForm()"></div>
+							</td>
+					</table>
+				</td>			
+			</tr>
+		</table>
+	</form>
+	<div itype="DataGrid" id="grid1" onBeforeReady="onBeforeReady()" showSeqColumn=true
+		pageSize="10" saveInstance=true keyword="c_task_id" onRowClick="onRowClick()" >		 	
+		<!-- 列属性定义-->
+		<div width="20%" name="c_msg_title" titleCls="alignClass" text="消息名称" renderer="renderer()"></div>
+		<div width="17%" name="c_task_status_string" titleCls="alignClass" text="任务执行状态" renderer="renderer()"></div>
+		<div width="16%" name="c_plan_time" titleCls="alignClass" text="开始时间" renderer="renderer()"></div>
+		<div width="16%" name="c_expiry_time" titleCls="alignClass" text="结束时间" renderer="renderer()"></div>
+		<div width="16%" name="" titleCls="alignClass" text="通知读取时间" renderer="renderer()"></div>
+		<div width="15%" name="watchMessageDetail" titleCls="alignClass" text="查看消息明细" renderer="renderer()"></div>
+	</div>	
+	<br/>
+	<div itype="DataGrid" id="grid2" pagePosition="none" onBeforeReady="initHiddenInput()" onAfterInitRender="onAfterInitRender()"
+		saveInstance=true keyword="c_task_id" onRowClick="onRowClick()" >		 	
+		<!-- 列属性定义-->
+		<div width="8%" name="c_msg_id" titleCls="alignClass" text="消息号" renderer="renderer()"></div>
+		<div width="8%" name="c_msg_level_string" titleCls="alignClass" text="级别" renderer="renderer()"></div>
+		<div width="8%" name="c_from" titleCls="alignClass" text="消息来源" renderer="renderer()"></div>
+		<div width="15%" name="c_plan_time" titleCls="alignClass" text="预发时间" renderer="renderer()"></div>
+		<div width="15%" name="c_expiry_time" titleCls="alignClass" text="过期时间" renderer="renderer()"></div>
+		<div width="8%" name="c_sender_name" titleCls="alignClass" text="发送人" renderer="renderer()"></div>
+		<div width="15%" name="c_fact_gettime" titleCls="alignClass" text="接收时间" renderer="renderer()"></div>
+		<div name="c_msg_content" titleCls="alignClass" text="消息内容" renderer="renderer()"></div>
+	</div> 
+</body>
+</html>

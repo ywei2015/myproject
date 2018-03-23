@@ -1,0 +1,32 @@
+.title {
+	background-color: rgb(0, 162, 232);
+	border: 1px solid rgb(0, 128, 192);
+	color: black;
+	text-align: center;
+}
+.flip {
+	background-color: rgb(153, 217, 234);
+	border: 1px solid rgb(0, 162, 232);
+	color: black;
+	text-align: left;
+}
+.td123456 {
+	border: 1px solid black;
+	text-align: center;
+	border-left: 0px;
+	border-top: 0px;
+}
+.th123456 {
+	border: 1px solid black;
+	border-left: none;
+}
+.table12345 {
+	padding-top: 55px;
+	font-weight: normal;
+	font-size: 14px;
+}
+.table123456 {
+	padding-top: 30px;
+	font-weight: normal;
+	font-size: 14px;
+}

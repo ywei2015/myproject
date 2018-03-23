@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="TSdStandardfileDetail" >
+  <resultMap id="BaseResultMap" type="com.talkweb.xwzcxt.pojo.TSdStandardfileDetailPojo" >
+    <id column="C_FILEDETAIL_ID" property="cFiledetailId" jdbcType="VARCHAR" />
+    <result column="C_SFILE_NAME" property="cSfileName" jdbcType="VARCHAR" />
+    <result column="C_SORT_ID" property="cSortId" jdbcType="DECIMAL" />
+    <result column="C_SORT_NAME" property="cSortName" jdbcType="VARCHAR" />
+    <result column="C_SFILE_VERSION" property="cSfileVersion" jdbcType="VARCHAR" />
+    <result column="C_FW_QCBM" property="cFwQcbm" jdbcType="VARCHAR" />
+    <result column="C_FW_QCBM_NAME" property="cFwQcbmName" jdbcType="VARCHAR" />
+    <result column="C_STATUS" property="cStatus" jdbcType="DECIMAL" />
+    <result column="C_STATUS_TIME" property="cStatusTime" jdbcType="DATE" />
+    <result column="C_SYSTAG" property="cSystag" jdbcType="DECIMAL" />
+    <result column="C_FILE_URL" property="cFileUrl" jdbcType="VARCHAR" />
+    <result column="C_CREATOR" property="cCreator" jdbcType="VARCHAR" />
+    <result column="C_CREATETIME" property="cCreatetime" jdbcType="DATE" />
+    <result column="C_MODIFIER" property="cModifier" jdbcType="VARCHAR" />
+    <result column="C_MODIFYTIME" property="cModifytime" jdbcType="DATE" />
+    <result column="C_ISDELETE" property="cIsdelete" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    C_FILEDETAIL_ID, C_SFILE_NAME, C_SORT_ID, C_SFILE_VERSION, C_FW_QCBM, C_STATUS, C_STATUS_TIME, 
+    C_SYSTAG, C_FILE_URL, C_CREATOR, C_CREATETIME, C_MODIFIER, C_MODIFYTIME, C_ISDELETE
+  </sql>
+  <select id="getAllTSdStandardfileByConditions" resultMap="BaseResultMap" parameterType="map" >
+    select aa.*,
+      bb.C_SORT_NAME as C_SORT_NAME,
+      cc.ORGNAME as C_FW_QCBM_NAME
+    from TWXWZC.T_SD_STANDARDFILE_DETAIL aa,
+      TWXWZC.T_SD_SORT bb,
+      TWXWZC.DP_ORGANIZATION cc
+    where aa.C_ISDELETE = 0
+      and aa.C_SORT_ID = bb.C_SORT_ID(+)
+      and aa.C_FW_QCBM = cc.ORGID(+)
+    <if test="null!=cSortId and ''!=cSortId">
+      and aa.C_SORT_ID in (${cSortId})
+    </if>
+    <if test="null!=cSfileVersion and ''!=cSfileVersion">
+      and aa.C_SFILE_VERSION like '%${cSfileVersion}%'
+    </if>
+    <if test="null!=cSfileName and ''!=cSfileName">
+      and aa.C_SFILE_NAME like '%${cSfileName}%'
+    </if>
+    <if test="null!=cFwQcbm and ''!=cFwQcbm">
+      and aa.C_FW_QCBM in (${cFwQcbm})
+    </if>
+    <if test="null!=cSystag and ''!=cSystag">
+      and aa.C_SYSTAG = #{cSystag}
+    </if>
+    <if test="null!=cStartTime and ''!=cStartTime">
+      and aa.C_STATUS_TIME &gt;= #{cStartTime}
+    </if>
+    <if test="null!=cEndTime and '' !=cEndTime">
+      and aa.C_STATUS_TIME &lt;= #{cEndTime}
+    </if>
+    <if test="null!=cStatus and ''!=cStatus">
+      and aa.C_STATUS = #{cStatus}
+    </if>
+    order by aa.C_SORT_ID asc, aa.C_SYSTAG asc
+  </select>
+  <select id="getTSdStandardfileDetailById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select aa.*,
+      bb.C_SORT_NAME as C_SORT_NAME,
+      cc.ORGNAME as C_FW_QCBM_NAME
+    from TWXWZC.T_SD_STANDARDFILE_DETAIL aa,
+      TWXWZC.T_SD_SORT bb,
+      TWXWZC.DP_ORGANIZATION cc
+    where aa.C_FILEDETAIL_ID = #{id}
+      and aa.C_SORT_ID = bb.C_SORT_ID(+)
+      and aa.C_FW_QCBM = cc.ORGID(+)
+  </select>
+  <insert id="addTSdStandardfile" parameterType="com.talkweb.xwzcxt.pojo.TSdStandardfileDetailPojo" >
+    insert into TWXWZC.T_SD_STANDARDFILE_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cFiledetailId != null" >
+        C_FILEDETAIL_ID,
+      </if>
+      <if test="cSfileName != null" >
+        C_SFILE_NAME,
+      </if>
+      <if test="cSortId != null" >
+        C_SORT_ID,
+      </if>
+      <if test="cSfileVersion != null" >
+        C_SFILE_VERSION,
+      </if>
+      <if test="cFwQcbm != null" >
+        C_FW_QCBM,
+      </if>
+      <if test="cStatus != null" >
+        C_STATUS,
+      </if>
+      <if test="cStatusTime != null" >
+        C_STATUS_TIME,
+      </if>
+      <if test="cSystag != null" >
+        C_SYSTAG,
+      </if>
+      <if test="cFileUrl != null" >
+        C_FILE_URL,
+      </if>
+      <if test="cCreator != null" >
+        C_CREATOR,
+      </if>
+      <if test="cCreatetime != null" >
+        C_CREATETIME,
+      </if>
+      <if test="cModifier != null" >
+        C_MODIFIER,
+      </if>
+      <if test="cModifytime != null" >
+        C_MODIFYTIME,
+      </if>
+      <if test="cIsdelete != null" >
+        C_ISDELETE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cFiledetailId != null" >
+        #{cFiledetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="cSfileName != null" >
+        #{cSfileName,jdbcType=VARCHAR},
+      </if>
+      <if test="cSortId != null" >
+        #{cSortId,jdbcType=DECIMAL},
+      </if>
+      <if test="cSfileVersion != null" >
+        #{cSfileVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="cFwQcbm != null" >
+        #{cFwQcbm,jdbcType=VARCHAR},
+      </if>
+      <if test="cStatus != null" >
+        #{cStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="cStatusTime != null" >
+        #{cStatusTime,jdbcType=DATE},
+      </if>
+      <if test="cSystag != null" >
+        #{cSystag,jdbcType=DECIMAL},
+      </if>
+      <if test="cFileUrl != null" >
+        #{cFileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="cCreator != null" >
+        #{cCreator,jdbcType=VARCHAR},
+      </if>
+      <if test="cCreatetime != null" >
+        #{cCreatetime,jdbcType=DATE},
+      </if>
+      <if test="cModifier != null" >
+        #{cModifier,jdbcType=VARCHAR},
+      </if>
+      <if test="cModifytime != null" >
+        #{cModifytime,jdbcType=DATE},
+      </if>
+      <if test="cIsdelete != null" >
+        #{cIsdelete,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateTSdStandardfileById" parameterType="com.talkweb.xwzcxt.pojo.TSdStandardfileDetailPojo" >
+    update TWXWZC.T_SD_STANDARDFILE_DETAIL
+    <set >
+      <if test="cSfileName != null" >
+        C_SFILE_NAME = #{cSfileName,jdbcType=VARCHAR},
+      </if>
+      <if test="cSortId != null" >
+        C_SORT_ID = #{cSortId,jdbcType=DECIMAL},
+      </if>
+      <if test="cSfileVersion != null" >
+        C_SFILE_VERSION = #{cSfileVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="cFwQcbm != null" >
+        C_FW_QCBM = #{cFwQcbm,jdbcType=VARCHAR},
+      </if>
+      <if test="cStatus != null" >
+        C_STATUS = #{cStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="cStatusTime != null" >
+        C_STATUS_TIME = #{cStatusTime,jdbcType=DATE},
+      </if>
+      <if test="cSystag != null" >
+        C_SYSTAG = #{cSystag,jdbcType=DECIMAL},
+      </if>
+      <if test="cFileUrl != null" >
+        C_FILE_URL = #{cFileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="cCreator != null" >
+        C_CREATOR = #{cCreator,jdbcType=VARCHAR},
+      </if>
+      <if test="cCreatetime != null" >
+        C_CREATETIME = #{cCreatetime,jdbcType=DATE},
+      </if>
+      <if test="cModifier != null" >
+        C_MODIFIER = #{cModifier,jdbcType=VARCHAR},
+      </if>
+      <if test="cModifytime != null" >
+        C_MODIFYTIME = #{cModifytime,jdbcType=DATE},
+      </if>
+      <if test="cIsdelete != null" >
+        C_ISDELETE = #{cIsdelete,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where C_FILEDETAIL_ID = #{cFiledetailId,jdbcType=VARCHAR}
+  </update>
+  <update id="deleteTSdStandardfileById" parameterType="java.util.List">
+    update TWXWZC.T_SD_STANDARDFILE_DETAIL t
+    <set>
+      t.C_ISDELETE = 1
+    </set>
+    where t.C_FILEDETAIL_ID in
+    <foreach item="item" index="index" collection="list" 
+      open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
+  
+  <select id="searchDeleteTSdStandardfileById" parameterType="java.util.List" resultMap="BaseResultMap">
+    select  
+    <include refid="Base_Column_List" />
+    TWXWZC.T_SD_STANDARDFILE_DETAIL t 
+    where t.C_FILEDETAIL_ID in
+    <foreach item="item" index="index" collection="list" 
+      open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    and t.C_ISDELETE = 1
+  </select>
+</mapper>

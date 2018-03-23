@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>标准项信息</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="addActiveStandard.js"></script>
+</head>
+<body>
+<!-- initSource='basicObj_initFormControl.action' -->
+	<form id="addActiveStandardForm" itype="Form" saveInstance="true" action="" onSubmitSuccess="submitSuccess()" submitJson="false" onBeforeReady="FormReady()"
+	onAfterDataRender="FormAfter()" saveQueue="true">
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">标准项编码：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" id="basicMouldPojo.c_actitem_code" width="100%"></div></td>
+				<td class="ui-form-table-dt" style="width: 100px">标准项名称：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" id="basicMouldPojo.c_actitem_name" width="100%"></div></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">活动末节点：</td>
+				<td class="ui-form-table-dd" colspan="3">
+					<select itype="Select"  id="basicMouldPojo.c_actnode_id" initSource="basicAdd_getAllActNode.action" dataSource="" width="100%" queue="addActiveStandardForm"> 
+            			<option text="-请选择-"></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">作业说明：</td>
+				<td class="ui-form-table-dd" colspan="3"><div itype="TextBox" type="textarea" height="50px" id="basicMouldPojo.c_actitem_what" width="100%" rule="MaxLength:3998;"></div></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px"><span class="ui-red">*</span>行为标准：
+					<div itype="RadioGroup"  name="radio1" id="basicMouldPojo.c_std_flag" rule="required;">
+						<div value=0 text="手动" checked=true></div>			
+						<div value=1 text="自动"></div>
+					</div>
+				</td>
+				<td class="ui-form-table-dd" colspan="3"><div itype="TextBox" type="textarea" height="50px" id="basicMouldPojo.c_std" width="100%" rule="required;MaxLength:3998;" ></div></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">验证标准：
+					<div itype="RadioGroup"  name="radio1" id="basicMouldPojo.c_check_flag" rule="required;">
+						<div value=0 text="手动" checked=true></div>			
+						<div value=1 text="自动"></div>
+					</div>
+				</td>
+				<td class="ui-form-table-dd" colspan="3"><div itype="TextBox" type="textarea" height="50px" id="basicMouldPojo.c_check_std" width="100%" rule="MaxLength:3998;" ></div></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">异常处置标准：
+					<div itype="RadioGroup"  name="radio1" id="basicMouldPojo.c_errstd_flag"  rule="required;">
+						<div value=0 text="手动" checked=true></div>			
+						<div value=1 text="自动"></div>
+					</div>
+				</td>
+				<td class="ui-form-table-dd" colspan="3"><div itype="TextBox" type="textarea" height="50px" id="basicMouldPojo.c_err_std" width="100%" rule="MaxLength:3998;" ></div></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">评价标准：
+				</td>
+				<td class="ui-form-table-dd" colspan="3"><div itype="TextBox" type="textarea" height="50px" id="basicMouldPojo.c_review_std" width="100%" rule="MaxLength:3998;" ></div></td>
+			</tr>
+			<tr style="display:none;">
+				<td class="ui-form-table-dt" style="width: 100px">ID：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" id="basicMouldPojo.c_actitem_id" width="100%"></div></td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

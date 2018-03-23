@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="TSdPublic" >
+  <resultMap id="BaseResultMap" type="com.talkweb.xwzcxt.pojo.TSdPublicPojo" >
+    <id column="C_PUBLIC_ID" property="cPublicId" jdbcType="VARCHAR" />
+    <result column="C_PUBLIC_PID" property="cPublicPid" jdbcType="VARCHAR" />
+    <result column="C_PUBLIC_PNAME" property="cPublicPname" jdbcType="VARCHAR" />
+    <result column="C_PUBLIC_CODE" property="cPublicCode" jdbcType="VARCHAR" />
+    <result column="C_PUBLIC_TYPE" property="cPublicType" jdbcType="DECIMAL" />
+    <result column="C_SECTION_ID" property="cSectionId" jdbcType="DECIMAL" />
+    <result column="C_PUBLIC_SNAME" property="cPublicSname" jdbcType="VARCHAR" />
+    <result column="C_PUBLIC_FNAME" property="cPublicFname" jdbcType="VARCHAR" />
+    <result column="C_REMARK" property="cRemark" jdbcType="VARCHAR" />
+    <result column="C_FLAG" property="cFlag" jdbcType="DECIMAL" />
+    <result column="C_CREATOR" property="cCreator" jdbcType="VARCHAR" />
+    <result column="C_CREATETIME" property="cCreatetime" jdbcType="TIMESTAMP" />
+    <result column="C_MODIFIER" property="cModifier" jdbcType="VARCHAR" />
+    <result column="C_MODIFYTIME" property="cModifytime" jdbcType="TIMESTAMP" />
+    <result column="C_ISVAILD" property="cIsvaild" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <select id="getPublicNodesTree" resultMap="BaseResultMap" parameterType="map" >
+    select *
+    from TWXWZC.T_SD_PUBLIC
+    where C_FLAG = 1
+      and C_ISVAILD = 1
+    order by C_CREATETIME desc, C_PUBLIC_ID asc
+  </select>
+
+  <select id="getPublicNodeById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select aa.*,
+      bb.C_PUBLIC_SNAME as C_PUBLIC_PNAME
+    from TWXWZC.T_SD_PUBLIC aa,
+      TWXWZC.T_SD_PUBLIC bb
+    where aa.C_PUBLIC_PID = bb.C_PUBLIC_ID(+)
+      and aa.C_PUBLIC_ID = #{cPublicId,jdbcType=VARCHAR}
+  </select>
+
+  <insert id="addPublicNode" parameterType="com.talkweb.xwzcxt.pojo.TSdPublicPojo" >
+    insert into TWXWZC.T_SD_PUBLIC
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cPublicId != null" >
+        C_PUBLIC_ID,
+      </if>
+      <if test="cPublicPid != null" >
+        C_PUBLIC_PID,
+      </if>
+      <if test="cPublicCode != null" >
+        C_PUBLIC_CODE,
+      </if>
+      <if test="cPublicType != null" >
+        C_PUBLIC_TYPE,
+      </if>
+      <if test="cSectionId != null" >
+        C_SECTION_ID,
+      </if>
+      <if test="cPublicSname != null" >
+        C_PUBLIC_SNAME,
+      </if>
+      <if test="cPublicFname != null" >
+        C_PUBLIC_FNAME,
+      </if>
+      <if test="cRemark != null" >
+        C_REMARK,
+      </if>
+      <if test="cFlag != null" >
+        C_FLAG,
+      </if>
+      <if test="cCreator != null" >
+        C_CREATOR,
+      </if>
+      <if test="cCreatetime != null" >
+        C_CREATETIME,
+      </if>
+      <if test="cModifier != null" >
+        C_MODIFIER,
+      </if>
+      <if test="cModifytime != null" >
+        C_MODIFYTIME,
+      </if>
+      <if test="cIsvaild != null" >
+        C_ISVAILD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cPublicId != null" >
+        #{cPublicId,jdbcType=VARCHAR},
+      </if>
+      <if test="cPublicPid != null" >
+        #{cPublicPid,jdbcType=VARCHAR},
+      </if>
+      <if test="cPublicCode != null" >
+        #{cPublicCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cPublicType != null" >
+        #{cPublicType,jdbcType=DECIMAL},
+      </if>
+      <if test="cSectionId != null" >
+        #{cSectionId,jdbcType=DECIMAL},
+      </if>
+      <if test="cPublicSname != null" >
+        #{cPublicSname,jdbcType=VARCHAR},
+      </if>
+      <if test="cPublicFname != null" >
+        #{cPublicFname,jdbcType=VARCHAR},
+      </if>
+      <if test="cRemark != null" >
+        #{cRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="cFlag != null" >
+        #{cFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="cCreator != null" >
+        #{cCreator,jdbcType=VARCHAR},
+      </if>
+      <if test="cCreatetime != null" >
+        #{cCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cModifier != null" >
+        #{cModifier,jdbcType=VARCHAR},
+      </if>
+      <if test="cModifytime != null" >
+        #{cModifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cIsvaild != null" >
+        #{cIsvaild,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updatePublicNodeById" parameterType="com.talkweb.xwzcxt.pojo.TSdPublicPojo" >
+    update TWXWZC.T_SD_PUBLIC
+    <set >
+      <if test="cPublicPid != null" >
+        C_PUBLIC_PID = #{cPublicPid,jdbcType=VARCHAR},
+      </if>
+      <if test="cPublicCode != null" >
+        C_PUBLIC_CODE = #{cPublicCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cPublicType != null" >
+        C_PUBLIC_TYPE = #{cPublicType,jdbcType=DECIMAL},
+      </if>
+      <if test="cSectionId != null" >
+        C_SECTION_ID = #{cSectionId,jdbcType=DECIMAL},
+      </if>
+      <if test="cPublicSname != null" >
+        C_PUBLIC_SNAME = #{cPublicSname,jdbcType=VARCHAR},
+      </if>
+      <if test="cPublicFname != null" >
+        C_PUBLIC_FNAME = #{cPublicFname,jdbcType=VARCHAR},
+      </if>
+      <if test="cRemark != null" >
+        C_REMARK = #{cRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="cFlag != null" >
+        C_FLAG = #{cFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="cCreator != null" >
+        C_CREATOR = #{cCreator,jdbcType=VARCHAR},
+      </if>
+      <if test="cCreatetime != null" >
+        C_CREATETIME = #{cCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cModifier != null" >
+        C_MODIFIER = #{cModifier,jdbcType=VARCHAR},
+      </if>
+      <if test="cModifytime != null" >
+        C_MODIFYTIME = #{cModifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cIsvaild != null" >
+        C_ISVAILD = #{cIsvaild,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where C_PUBLIC_ID = #{cPublicId,jdbcType=VARCHAR}
+  </update>
+
+  <delete id="deletePublicNodesById" parameterType="com.talkweb.xwzcxt.pojo.TSdPublicPojo" >
+    update T_SD_PUBLIC T1
+    set 
+      T1.C_FLAG = #{cFlag,jdbcType=DECIMAL},
+      T1.C_MODIFIER = #{cModifier,jdbcType=VARCHAR},
+      T1.C_MODIFYTIME = #{cModifytime,jdbcType=TIMESTAMP},
+      T1.C_ISVAILD = #{cIsvaild,jdbcType=DECIMAL}
+    where T1.C_PUBLIC_ID in
+    (
+      select T2.C_PUBLIC_ID
+      from T_SD_PUBLIC T2
+      connect by prior T2.C_PUBLIC_ID = T2.C_PUBLIC_PID
+      start with T2.C_PUBLIC_ID = #{cPublicId,jdbcType=VARCHAR}
+    )
+  </delete>
+</mapper>

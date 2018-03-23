@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>上传图片，视频，音频</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script type="text/javascript">
+	//执行方式 
+	var traceFun=0;
+	var resultId="";
+	function onFileChoose(file) {
+		
+	
+	}
+	function onUploadStart(file) {	
+		var uploader = fastDev.getInstance("upfileAccessory");
+		uploader.addParams({
+			c_sfile_id : resultId,
+			c_Affix_type : 1,
+			c_chaptercode : "",
+			c_filetypes : traceFun,
+			c_filename : encodeURI(file.name),
+			c_extens : file.type,
+			c_filesize : file.size,
+			c_filekind : "2"
+		});
+	}
+	function onUploadSuccess(file, response){
+		
+		fastDev.tips("文件 " + file.name + " 上传成功");
+		fastDev.Ui.Window.parent.refreashData2();
+		fastDev.Ui.Window.parent.closeDialog();
+		
+	}
+
+	function onUploadFail(file, response){
+		fastDev.tips("文件 " + file.name + " 上传失败");
+	}
+
+	
+	function onUploadComplete(){
+		
+		
+	}
+	
+	window.onload=function(){
+	    var data=fastDev.Ui.Dialog.getData("data");
+	    resultId=data.resultId;
+		traceFun=data.traceFun;
+		
+	}
+</script>
+</head>
+<body>
+	<div style="margin-top:20px;margin-left:2px;">
+		<div itype="FileUpload"  name="upfileAccessory" showUploadBtn="true" id="upfileAccessory"  multiple="false" 
+			typeLimit="bmp,jpeg,gif,jpg,bmp,png,wav,mp3,mp4,avi,rmvb,rm,mov,swf,3gp" saveInstance="true" 
+			showTextInput="true" sizeLimit="" autoUpload="false" 
+			action="waithandTask_uploadAffixFile.action" 
+			onUploadComplete="onUploadComplete()" onUploadStart="onUploadStart()" onUploadSuccess="onUploadSuccess()">
+			<div name="chooseBtn" text="选择文件" iconCls="icon-add"></div>
+			<div hidden="true" name="affix.c_file_id" text=""></div>
+			<div name="uploadBtn" text="上传附件" iconCls="icon-upload"></div> 
+		</div>
+		
+	</div>
+</body>
+</html>

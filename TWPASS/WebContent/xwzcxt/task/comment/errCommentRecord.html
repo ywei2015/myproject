@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="../../../js/jquery.min.js" charset="utf-8"></script>
+<script src="../../../fastdev/fastDev-import.js"></script>
+
+<title>异常评价环节的不合格的备注</title>
+
+<script>
+/*
+fastDev(function(){    //将数据库中的验证结果填入异常输入框中
+   var url="../../taskVerifyAndComment_getVerifyResult.action" ;
+   
+   fastDev.post(url,{
+       success: function(data){
+             fastDev.tips(data);
+             fastDev.getInstance("cChkResult").setValue(data);
+       },
+       data:{
+           "cTaskId":getTaskId()
+       }
+   })
+   
+});
+*/
+
+var submit=function(grid,obj){
+				//var rs=confirm("您所提交的数据将会被写入数据库，是否确定提交?");
+				var url="errVerifyAndComment_updateEvaluateResult.action" ;
+				
+				var cCommentResult=fastDev.getInstance('cCommentResult').getValue();
+				if(cCommentResult==null || $.trim(cCommentResult)==''){
+				  fastDev.tips("请填写信息！");
+				  return;
+				}
+				fastDev.confirm("是否提交数据？","提交数据确认",function(result){
+					if(result){
+						var c_err_id=fastDev.Browser.getRequest()['c_err_id'];
+						fastDev.post(url,{
+				  			  success:function(data){
+				        	  fastDev.tips(data);
+				        	  grid.refreshData(false);
+				        	  obj.close();
+				        	  
+				    	},
+				   		 data:{
+				       		    "c_err_id":c_err_id,
+				        		"c_evaluate_result":"NG:"+cCommentResult
+				    	}
+				});
+					}
+				});
+				
+			}
+
+var reset=function(){
+   				
+				var form=fastDev.getInstance("form1");
+				form.cleanData();
+			}
+
+</script>
+</head>
+<body>
+	<form itype="Form" id="form1" requestType="post" saveInstance="true">
+
+		<table width="800px" class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt">请输入评价不<br/>合格的备注</td>
+				<td class="ui-form-table-dd">
+				<textarea itype="TextBox" name="cChkResult" id="cCommentResult"
+						type="textarea" height="400px" width="100%"></textarea>
+				</td>
+			</tr>
+		</table>
+		<!--   <div style="width:400px; text-align:center">
+			<input itype="Button" id="btn2" text="提交" onclick="submit()" />&nbsp;&nbsp;&nbsp;
+			<input itype="Button" id="btn1" text="重置" onclick="reset()" />
+		</div>-->
+	</form>
+</body>
+</html>

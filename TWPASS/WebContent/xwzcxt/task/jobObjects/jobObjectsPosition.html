@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>地理坐标关联</title>
+<script src="../../../fastdev/fastDev-import.js"></script>
+<script src="../../../fastdev/common.js"></script>
+<script src="jobObjectsPosition.js"></script>
+<style>
+html, body {
+	height: 100%;
+}
+</style>
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	<div class="ui-layout" id="mainDiv" style="height:100%;">
+		<div class="ui-layout-left" style="width: 200px; height: 98.7%;">
+			<div class="ui-layout-title" style="padding-left: 5px;">作业对象类型</div>
+			<div id="tableTypeTree" itype="Tree" saveInstance="true" showIco="true"
+				width="100%" rootValue="作业对象类型" topParentid="-1" height="95%"
+				initSource="jobObjects_positionJobObjectTree.action" openFloor=2
+				onlySelectedLeaf=true textMaxLength="40" onNodeClick="onNodeClick()"
+				onAfterInitRender="afterInitRender()"></div>
+		</div>
+		<div class="ui-layout-center" id="centerPanel" style="left: 202px; height: 100%;">
+			<form id="searchForm" itype="Form" allowAutoFillRow="false" requestType="post" saveInstance="true" submitJson="false">
+				<table class="ui-form-table">
+					<tr valign="middle">
+						<td class="ui-form-table-dt" style="width:100px">状态：</td>
+						<td class="ui-form-table-dd" >
+							<select itype="Select" id="ptStatus" onchange="onChange()" height="100px" width="150px" onValueChange="handle1()">
+								<option value="">请选择</option>
+								<option value="1">已设置</option>
+								<option value="0">未设置</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div class="datagrid" itype="DataGrid" allowAutoFillRow="false"
+				id="datagrid" saveInstance="true" showCheckColumn="false"
+				OnBeforeReady="onBeforeReady()" showSeqColumn="true"
+				pageSize="20" onRowClick="onRowClick()" onAfterInitRender="onAfterInitRender()">
+				<div width="0" name="cBasedataId" hidden="true"></div>
+				<div name="cBasedataId" text="系统编号" width="120px"></div>
+				<div name="cScanCode" text="扫描码" width="150px"></div>
+				<div name="cOrgName" text="部门" width="100px"></div>
+				<div hidden="true" name="cTabletypeId"></div>
+				<div width="10%" name="locStatus" text="地理坐标状态" renderer="ptionRenderer()"></div>
+				<div width="10%" text="操作" renderer="operRenderer()"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

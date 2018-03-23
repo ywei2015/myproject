@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="actionPost">
+	<resultMap id="actionPostMap" type="com.talkweb.xwzcxt.pojo.TPostAction">
+		<id column="C_ACTION_ID" property="c_action_id" />
+		<result column="C_ACTION_CODE" property="c_ACTION_CODE" />
+		<result column="C_ACTION_NAME" property="c_ACTION_NAME" />
+		<result column="C_UP_ACTION_CODE" property="c_UP_ACTION_CODE" />
+		<result column="C_UP_ACTION_ID" property="c_UP_ACTION_ID" />
+		<result column="C_CREATOR" property="c_CREATOR" />
+		<result column="C_CREATE_TIME" property="c_CREATE_TIME" />
+		<result column="C_LAST_MODIFIER" property="c_LAST_MODIFIER" />
+		<result column="C_LAST_MODIFIED_TIME" property="c_LAST_MODIFIED_TIME" />
+		<result column="C_REMARK" property="c_REMARK" />
+		<result column="C_ISDELETE" property="c_ISDELETE" />
+		<result column="C_NODE_DEEP" property="c_NODE_DEEP" />
+	</resultMap>
+	<resultMap id="TPostActnodeMap" type="com.talkweb.xwzcxt.pojo.TPostActnode">
+		<id column="C_ACTNODE_ID" property="c_actnode_id" />
+		<result column="C_ACTNODE_CODE" property="c_ACTNODE_CODE" />
+		<result column="C_ACTNODE_NAME" property="c_ACTNODE_NAME" />
+		<result column="C_ACTION_ID" property="c_ACTION_ID" />
+		<result column="C_ISKEYCTRL" property="c_ISKEYCTRL" />
+		<result column="C_ISSEQUENCE" property="c_ISSEQUENCE" />
+		<result column="C_ISGETNOTIFY" property="c_ISGETNOTIFY" />
+		<result column="C_ISRELAY" property="c_ISRELAY" />
+		<result column="C_PDCA" property="c_PDCA" />
+		<result column="C_MANAGE_SECTION" property="c_MANAGE_SECTION" />
+		<result column="C_CREATOR" property="c_CREATOR" />
+		<result column="C_CREATE_TIME" property="c_CREATE_TIME" />
+		<result column="C_LAST_MODIFIER" property="c_LAST_MODIFIER" />
+		<result column="C_LAST_MODIFIED_TIME" property="c_LAST_MODIFIED_TIME" />
+		<result column="C_REMARK" property="c_REMARK" />
+		<result column="C_ISDELETE" property="c_ISDELETE" />
+	</resultMap>
+	<sql id="actionPost_List">
+		C_ACTION_ID, C_ACTION_CODE, C_ACTION_NAME,
+		C_UP_ACTION_CODE, C_UP_ACTION_ID, C_CREATOR,
+		C_CREATE_TIME,
+		C_LAST_MODIFIER, C_LAST_MODIFIED_TIME, C_REMARK, C_ISDELETE,
+		C_NODE_DEEP
+	</sql>
+	<select id="queryActionPostTree" resultMap="actionPostMap">
+		select
+		<include refid="actionPost_List" />
+		from T_POST_ACTION where C_ISDELETE = '0'
+	</select>
+	<select id="queryActionPostNodes" parameterType="com.talkweb.xwzcxt.pojo.TPostAction"
+		resultMap="actionPostMap">
+		select
+		<include refid="actionPost_List" />
+		from T_POST_ACTION
+		<where>
+			C_ISDELETE = '0'
+			<if test="c_ACTION_CODE != null and ''!=c_ACTION_CODE">
+				AND C_ACTION_CODE = #{c_ACTION_CODE}
+			</if>
+			<if test="c_ACTION_NAME != null and ''!=c_ACTION_NAME">
+				AND C_ACTION_NAME LIKE '%${c_ACTION_NAME}%'
+			</if>
+			<if test="c_UP_ACTION_CODE != null and ''!=c_UP_ACTION_CODE">
+				AND C_UP_ACTION_CODE = #{c_UP_ACTION_CODE}
+			</if>
+			<if test="c_UP_ACTION_ID != null and ''!=c_UP_ACTION_ID">
+				AND C_UP_ACTION_ID = ${c_UP_ACTION_ID}
+			</if>
+
+
+		</where>
+		ORDER BY C_ACTION_CODE ASC
+	</select>
+
+
+	<select id="getActionPostById" parameterType="String" resultMap="actionPostMap">
+		select
+		<include refid="actionPost_List" />
+		from T_POST_ACTION
+		where C_ACTION_ID = #{c_action_id} and C_ISDELETE ='0'
+	</select>
+
+	<insert id="insertActionPost" parameterType="com.talkweb.xwzcxt.pojo.TPostAction">
+		<selectKey resultType="long" keyProperty="c_action_id"
+			order="BEFORE">
+			SELECT
+			SEQ_ACTION_ID.NEXTVAL FROM DUAL
+		</selectKey>
+		insert into T_POST_ACTION(
+		<trim suffix="" suffixOverrides=",">
+			c_action_id,
+			<if test="c_ACTION_CODE != null">
+				C_ACTION_CODE,
+			</if>
+			<if test="c_ACTION_NAME != null">
+				C_ACTION_NAME,
+			</if>
+			<if test="c_UP_ACTION_CODE != null">
+				C_UP_ACTION_CODE,
+			</if>
+			<if test="c_UP_ACTION_ID != null">
+				C_UP_ACTION_ID,
+			</if>
+			<if test="c_CREATOR != null">
+				C_CREATOR,
+			</if>
+			<if test="c_CREATOR != null">
+				C_CREATE_TIME,
+			</if>
+			<if test="c_LAST_MODIFIER != null">
+				C_LAST_MODIFIER,
+			</if>
+			<if test="c_LAST_MODIFIER != null">
+				C_LAST_MODIFIED_TIME,
+			</if>
+			<if test="c_REMARK != null">
+				C_REMARK,
+			</if>
+			<if test="c_ISDELETE != null">
+				C_ISDELETE,
+			</if>
+			<if test="c_NODE_DEEP != null">
+				C_NODE_DEEP,
+			</if>
+		</trim>
+		)values(
+		<trim suffix="" suffixOverrides=",">
+			#{c_action_id},
+			<if test="c_ACTION_CODE != null">
+				#{c_ACTION_CODE},
+			</if>
+			<if test="c_ACTION_NAME != null">
+				#{c_ACTION_NAME},
+			</if>
+			<if test="c_UP_ACTION_CODE != null">
+				#{c_UP_ACTION_CODE},
+			</if>
+			<if test="c_UP_ACTION_ID != null">
+				#{c_UP_ACTION_ID},
+			</if>
+			<if test="c_CREATOR != null">
+				#{c_CREATOR},
+			</if>
+			<if test="c_CREATOR != null">
+				sysdate,
+			</if>
+			<if test="c_LAST_MODIFIER != null">
+				#{c_LAST_MODIFIER},
+			</if>
+			<if test="c_LAST_MODIFIER != null">
+				sysdate,
+			</if>
+			<if test="c_REMARK != null">
+				#{c_REMARK},
+			</if>
+			<if test="c_ISDELETE != null">
+				'0',
+			</if>
+			<if test="c_NODE_DEEP != null">
+				#{c_NODE_DEEP},
+			</if>
+		</trim>
+		)
+	</insert>
+	<update id="updateActionPostById" parameterType="map">
+		update T_POST_ACTION
+		<set>
+			<if test="c_ACTION_CODE != null">
+				C_ACTION_CODE = #{c_ACTION_CODE},
+			</if>
+			<if test="c_ACTION_NAME != null">
+				C_ACTION_NAME = #{c_ACTION_NAME},
+			</if>
+			<if test="c_UP_ACTION_CODE != null">
+				C_UP_ACTION_CODE = #{c_UP_ACTION_CODE},
+			</if>
+			<if test="c_UP_ACTION_ID != null">
+				C_UP_ACTION_ID = #{c_UP_ACTION_ID},
+			</if>
+			<if test="c_LAST_MODIFIER != null">
+				C_LAST_MODIFIER = #{c_LAST_MODIFIER},
+			</if>
+			<if test="c_LAST_MODIFIED_TIME != null">
+				C_LAST_MODIFIED_TIME =
+				sysdate,
+			</if>
+			<if test="c_REMARK != null">
+				C_REMARK = #{c_REMARK},
+			</if>
+			<if test="c_ISDELETE != null">
+				C_ISDELETE = #{c_ISDELETE},
+			</if>
+			<if test="c_NODE_DEEP != null">
+				C_NODE_DEEP = #{c_NODE_DEEP},
+			</if>
+		</set>
+		where C_ACTION_ID = ${c_action_id}
+	</update>
+	<select id="isExistCode" parameterType="Map" resultType="Integer">
+		select count(1) from T_POST_ACTION where C_ACTION_CODE = #{code} 
+		<if test="null!=id and ''!=id and 0!=id">
+			and C_ACTION_ID != ${id}
+		</if>
+	</select>
+	<select id="hasChild" parameterType="String" resultType="Integer">
+		select 
+		(select count(1) from T_POST_ACTION where C_UP_ACTION_ID = #{id} and C_ISDELETE = '0')
+		+
+		(select count(1) from T_POST_ACTNODE where C_ACTION_ID = #{id} and C_ISDELETE = '0')
+		from dual
+	</select>
+	<update id="batchDeleteByIds" parameterType="java.lang.String">
+		update
+		T_POST_ACTION set C_ISDELETE = '1' 
+		where C_ACTION_ID in
+		<foreach item="ids" collection="array" open="(" separator=","
+			close=")">
+			#{ids}
+		</foreach>
+	</update>
+
+	<update id="deleteById" parameterType="java.lang.String">
+		update
+		T_POST_ACTION set C_ISDELETE = '1' 
+		where C_ACTION_ID = #{id}
+	</update>
+
+	<sql id="TPostActnode_List">
+		C_ACTNODE_ID, C_ACTNODE_CODE, C_ACTNODE_NAME, C_ACTION_ID,
+		C_ISKEYCTRL,
+		C_ISSEQUENCE,
+		C_ISGETNOTIFY, C_ISRELAY, C_PDCA,
+		C_MANAGE_SECTION, C_CREATOR, C_CREATE_TIME,
+		C_LAST_MODIFIER,
+		C_LAST_MODIFIED_TIME, C_REMARK, C_ISDELETE
+	</sql>
+	
+	<select id="queryPostActnode" resultMap="TPostActnodeMap">
+		select
+		<include refid="TPostActnode_List" />
+		from T_POST_ACTNODE
+		<where>
+			C_ISDELETE = '0'
+			<if test="c_ACTNODE_CODE != null and '' != c_ACTNODE_CODE">
+				AND C_ACTNODE_CODE like '%'||#{c_ACTNODE_CODE}||'%'
+			</if>
+			<if test="c_ACTNODE_NAME != null and '' != c_ACTNODE_NAME">
+				AND C_ACTNODE_NAME like  '%'||#{c_ACTNODE_NAME}||'%'
+			</if>
+			<if test="c_actnode_id != null and c_actnode_id != 0">
+				AND C_ACTNODE_ID = #{c_actnode_id}
+			</if>
+			<if test="c_ACTION_ID != null and c_ACTION_ID != 0">
+				AND C_ACTION_ID = #{c_ACTION_ID}
+			</if>
+		</where>
+		order by C_ACTNODE_ID
+	</select>
+	
+	<!-- （已绑定）活动末节点 -->
+	<select id="queryBindingPostActnode" resultMap="TPostActnodeMap">
+		select 
+		<include refid="TPostActnode_List" />
+		from T_POST_ACTNODE t1, T_ACTNODE_POSITION t2
+		<where>
+			t1.C_ISDELETE = '0'
+			AND t1.C_ACTNODE_ID = t2.C_ACTNODE_ID
+			AND t2.POSITIONID = #{positionid}
+			<if test="c_ACTION_ID != null and c_ACTION_ID != 0">
+				AND C_ACTION_ID = #{c_ACTION_ID}
+			</if>
+		</where>
+		order by t1.C_ACTNODE_ID,t2.POSITIONID
+	</select>
+	
+	<!-- （未绑定）活动末节点 -->
+	<select id="queryNoBindPostActnode" resultMap="TPostActnodeMap">
+		select 
+		<include refid="TPostActnode_List" />
+		from T_POST_ACTNODE
+		<where>
+			C_ISDELETE = '0'
+			<if test="c_ACTION_ID != null and c_ACTION_ID != 0">
+				AND C_ACTION_ID = #{c_ACTION_ID}
+			</if>
+		</where>
+		MINUS
+		select 
+		<include refid="TPostActnode_List" />
+		from T_POST_ACTNODE t1, T_ACTNODE_POSITION t2
+		<where>
+			t1.C_ISDELETE = '0'
+			AND t1.C_ACTNODE_ID = t2.C_ACTNODE_ID
+			AND t2.POSITIONID = #{positionid}
+			<if test="c_ACTION_ID != null and c_ACTION_ID != 0">
+				AND C_ACTION_ID = #{c_ACTION_ID}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="insertActNode" parameterType="com.talkweb.xwzcxt.pojo.TPostActnode">
+		<selectKey resultType="long" keyProperty="c_actnode_id"
+			order="BEFORE">
+			SELECT
+			SEQ_ACTNODE_ID.NEXTVAL FROM DUAL
+		</selectKey>
+		insert into T_POST_ACTNODE(
+		<trim suffix="" suffixOverrides=",">
+		c_actnode_id,
+			<if test="c_ACTNODE_CODE != null">
+				C_ACTNODE_CODE,
+			</if>
+			<if test="c_ACTNODE_NAME != null">
+				C_ACTNODE_NAME,
+			</if>
+			<if test="c_ACTION_ID != null">
+				C_ACTION_ID,
+			</if>
+			<if test="c_ISKEYCTRL != null">
+				C_ISKEYCTRL,
+			</if>
+			<if test="c_ISSEQUENCE != null">
+				C_ISSEQUENCE,
+			</if>
+			<if test="c_ISGETNOTIFY != null">
+				C_ISGETNOTIFY,
+			</if>
+			<if test="c_ISRELAY != null">
+				C_ISRELAY,
+			</if>
+			<if test="c_PDCA != null">
+				C_PDCA,
+			</if>
+			<if test="c_MANAGE_SECTION != null">
+				C_MANAGE_SECTION,
+			</if>
+			<if test="c_CREATOR != null">
+				C_CREATOR,
+			</if>
+			<if test="c_CREATOR != null">
+				C_CREATE_TIME,
+			</if>
+			<if test="c_LAST_MODIFIER != null">
+				C_LAST_MODIFIER,
+			</if>
+			<if test="c_LAST_MODIFIER != null">
+				C_LAST_MODIFIED_TIME,
+			</if>
+			<if test="c_REMARK != null">
+				C_REMARK,
+			</if>
+			<if test="c_ISDELETE != null">
+				C_ISDELETE,
+			</if>
+		</trim>
+		)values(
+		#{c_actnode_id},
+		<trim suffix="" suffixOverrides=",">
+			<if test="c_ACTNODE_CODE != null">
+				#{c_ACTNODE_CODE},
+			</if>
+			<if test="c_ACTNODE_NAME != null">
+				#{c_ACTNODE_NAME},
+			</if>
+			<if test="c_ACTION_ID != null">
+				#{c_ACTION_ID},
+			</if>
+			<if test="c_ISKEYCTRL != null">
+				#{c_ISKEYCTRL},
+			</if>
+			<if test="c_ISSEQUENCE != null">
+				#{c_ISSEQUENCE},
+			</if>
+			<if test="c_ISGETNOTIFY != null">
+				#{c_ISGETNOTIFY},
+			</if>
+			<if test="c_ISRELAY != null">
+				#{c_ISRELAY},
+			</if>
+			<if test="c_PDCA != null">
+				#{c_PDCA},
+			</if>
+			<if test="c_MANAGE_SECTION != null">
+				#{c_MANAGE_SECTION},
+			</if>
+			<if test="c_CREATOR != null">
+				#{c_CREATOR},
+			</if>
+			<if test="c_CREATOR != null">
+				sysdate,
+			</if>
+			<if test="c_LAST_MODIFIER != null">
+				#{c_LAST_MODIFIER},
+			</if>
+			<if test="c_LAST_MODIFIER != null">
+				sysdate,
+			</if>
+			<if test="c_REMARK != null">
+				#{c_REMARK},
+			</if>
+			<if test="c_ISDELETE != null">
+				#{c_ISDELETE},
+			</if>
+		</trim>
+		)
+	</insert>
+
+	<update id="updateActNodeById" parameterType="map">
+		update T_POST_ACTNODE
+		<set>
+			<if test="c_ACTNODE_CODE != null">
+				C_ACTNODE_CODE = #{c_ACTNODE_CODE},
+			</if>
+			<if test="c_ACTNODE_NAME != null">
+				C_ACTNODE_NAME = #{c_ACTNODE_NAME},
+			</if>
+			<if test="c_ACTION_ID != null">
+				C_ACTION_ID = #{c_ACTION_ID},
+			</if>
+			<if test="c_ISKEYCTRL != null">
+				C_ISKEYCTRL = #{c_ISKEYCTRL},
+			</if>
+			<if test="c_ISSEQUENCE != null">
+				C_ISSEQUENCE = #{c_ISSEQUENCE},
+			</if>
+			<if test="c_ISGETNOTIFY != null">
+				C_ISGETNOTIFY = #{c_ISGETNOTIFY},
+			</if>
+			<if test="c_ISRELAY != null">
+				C_ISRELAY = #{c_ISRELAY},
+			</if>
+			<if test="c_PDCA != null">
+				C_PDCA = #{c_PDCA},
+			</if>
+			<if test="c_MANAGE_SECTION != null">
+				C_MANAGE_SECTION = #{c_MANAGE_SECTION},
+			</if>
+			<if test="c_LAST_MODIFIER != null">
+				C_LAST_MODIFIER = #{c_LAST_MODIFIER},
+			</if>
+			<if test="c_LAST_MODIFIER != null">
+				C_LAST_MODIFIED_TIME = sysdate,
+			</if>
+			<if test="c_REMARK != null">
+				C_REMARK = #{c_REMARK},
+			</if>
+			<if test="c_ISDELETE != null">
+				C_ISDELETE = #{c_ISDELETE},
+			</if>
+		</set>
+		where C_ACTNODE_ID = ${c_actnode_id}
+	</update>
+	<select id="getActNodeById" parameterType="java.lang.Long"
+		resultMap="TPostActnodeMap">
+		select
+		<include refid="TPostActnode_List" />
+		from  T_POST_ACTNODE
+		where C_ACTNODE_ID = #{id}
+	</select>
+	<select id="isExistNodeCode" parameterType="Map" resultType="Integer">
+		select count(1) from T_POST_ACTNODE where C_ACTNODE_CODE = #{code} 
+		<if test="null!=id and ''!=id and 0!=id">
+			and C_ACTNODE_ID != ${id}
+		</if>
+	</select>
+	<update id="batchDeleteNodeByIds" parameterType="java.lang.String">
+		update
+		T_POST_ACTNODE set C_ISDELETE = '1' 
+		where C_ACTNODE_ID in
+		<foreach item="ids" collection="array" open="(" separator=","
+			close=")">
+			#{ids}
+		</foreach>
+	</update>
+	<select id="queryActNodeTree" resultType="Map">
+		select to_char(t1.c_action_id) id, t1.c_action_name val, t1.c_up_action_id pid
+		    from T_POST_ACTION t1 where t1.C_ISDELETE = '0'
+		union
+		select t2.c_actnode_id||'_'||t2.c_actnode_code id, t2.c_actnode_name val, t2.c_action_id pid
+		from T_POST_ACTNODE t2 where t2.C_ISDELETE = '0'
+	</select>
+	
+	<insert id="doBinding" parameterType="Map">
+		insert into T_ACTNODE_POSITION(POSITIONID, C_ACTNODE_ID) values(#{position}, #{id})
+	</insert>
+	
+	<delete id="doUnbind" parameterType="Map">
+		delete from T_ACTNODE_POSITION
+		where POSITIONID = #{position}
+		and C_ACTNODE_ID in (${ids})
+	</delete>
+	
+	<select id="getStdInfoByIdVer0"  parameterType="map" resultType="com.talkweb.xwzcxt.pojo.CommStdInfo">
+				select 
+				 t.c_actitem_id as c_stditem_id,
+				 t.c_actitem_name as c_stditem_name,
+				 0 as c_stdversion,
+				 t.c_actitem_what as c_dowhat,
+				 t.c_std as c_exec_std,
+				 t.c_err_std as c_err_std,
+				 t.c_check_std as c_check_std,
+				 t.c_review_std as c_review_std,
+				 t.c_creator as c_creator,
+				 t.c_create_time as c_createtime,
+				 t.c_last_modifier as c_lastupdator,
+				 t.c_last_modified_time as c_lastupadetime                
+				from t_actnode_item t 
+				where t.c_isdelete=0 
+				<if test="null != stditemid and '' != stditemid">
+					and t.c_actnode_id = #{stditemid} 
+				</if>
+					and rownum=1
+	</select>
+	
+	<select id="getStdInfoByIdVer1" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.CommStdInfo">
+				select 
+				 t.c_actnode_id as c_stditem_id,
+				 t.c_actnode_name as c_stditem_name,
+				 1 as c_stdversion,
+				 (select to_char(wmsys.wm_concat(m.c_actitem_name)) from t_sd_actnode_item m where m.c_actnode_id=t.c_actnode_id)
+				  as c_dowhat,
+				 t.c_std_exec as c_exec_std,
+				 t.c_err_exec as c_err_std,
+				 t.c_std_check as c_check_std,
+				 t.c_err_check as c_err_std2,
+				 t.c_std_review as c_review_std,
+				 t.c_managestd,
+				 t.c_examstd,
+				 t.c_actnodetype,
+				 t.c_creator as c_creator,
+				 t.c_createtime as c_createtime,
+				 t.c_modifier as c_lastupdator,
+				 t.c_modifytime as c_lastupadetime     
+				from t_sd_actnode t 
+				where 1=1  
+				<if test="null != stditemid and '' != stditemid">
+					and t.c_actnode_id = #{stditemid}
+				</if>
+					and rownum=1
+	</select>		
+	
+	<select id="getTaskAttachment" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.TTaskAttachmentPojo">
+		select
+			t.c_attachment_id,
+			t.c_task_id,
+			t.c_file_id,
+			f.c_file_kind,
+			f.c_file_title,
+			f.c_file_type,
+			f.c_file_name,
+			f.c_file_extension,
+			f.c_file_path,
+			f.c_file_size,
+			f.c_upload_time 
+		from T_TASK_ATTACHMENT t, T_FILE_INFO f
+		where t.c_file_id=f.c_file_id and t.c_isdelete=0 
+		<if test="null != c_task_id and '' != c_task_id">
+			and t.c_task_id= #{c_task_id}
+		</if> 
+   </select>	
+	
+</mapper>

@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>excel导入测试</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../js/jquery.min.js"></script>
+<script src="testExcel.js"></script>
+</head>
+<body>
+	<div style="width: 99.9%">
+		<table class="ui-form-table" saveInstance="true">
+			<tr>
+				<td class="ui-form-table-dd" colspan=6>文件基础描述信息</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dd" colspan=6>
+					<!--  action="excel_uploadExcelFile.action"  -->
+					<form id="uploadbasicform" itype="Form" saveInstance="true" submitJson="false" onSubmitSuccess="onBasicSubmitSuccess()" onBeforeReady="onBasicFormBeforeReady()" onAfterReady="onBasicFormAfterReady()" onAfterInit="onBasicFormAfterInit()">
+						<table class="ui-form-table">
+							<tr>
+								<td class="ui-form-table-dt">文件名称：</td>
+								<td class="ui-form-table-dd">
+									<div itype="TextBox" id="standardLibraryPojo.c_sfile_name" width="100%"></div>
+								</td>
+
+								<td class="ui-form-table-dt">文件分类：</td>
+								<td class="ui-form-table-dd">
+									<div itype="SelectTree" id="standardLibraryPojo.c_sort_id" 
+										width="90%" initSource="upload_getAllFileSort.action" 
+										onlySelectedLeaf="true" rootValue="-请选择-" topParentid="0" 
+										openFloor=2 onchange="onSelectChange()">
+									</div>
+								<td class="ui-form-table-dt">文件编号：</td>
+								<td class="ui-form-table-dd">
+									<div itype="TextBox" id="standardLibraryPojo.c_sfile_version" width="100%"></div>
+								</td>
+							</tr>
+							<tr>
+								<td class="ui-form-table-dt">发布单位：</td>
+								<td class="ui-form-table-dd">
+									<div itype="TextBox" id="standardLibraryPojo.c_releaseunit" width="100%"></div>
+								</td>
+
+								<td class="ui-form-table-dt">发布时间：</td>
+								<td class="ui-form-table-dd">
+									<div itype="DatePicker" id="standardLibraryPojo.c_releasetime" width="100%"></div>
+								</td>
+
+								<td class="ui-form-table-dt">实施时间：</td>
+								<td class="ui-form-table-dd">
+									<div itype="DatePicker" id="standardLibraryPojo.c_impletime" width="100%"></div>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dd" style="text-align: center;" colspan=6><input itype="Button" text="保存基础信息" id="savebasicbtn" iconCls="icon-save" saveInstance="true" onclick="saveBasicInfo()" /></td>
+			</tr>
+			</table>
+			<div id="forworddiv">
+				<table class="ui-form-table" saveInstance="true">
+					<tr>
+						<td class="ui-form-table-dd" colspan=6>前言</td>
+					</tr>
+					<tr>
+						<td class="ui-form-table-dd" colspan=6>
+							<form id="uploadprefaceform" itype="Form" saveInstance="true" submitJson="false" onSubmitSuccess="onPrefaceSubmitSuccess()" onBeforeReady="onPrefaceFormBeforeReady()" onAfterReady="onPrefaceFormAfterReady()" onAfterInit="onPrefaceFormAfterInit()">
+								<div id="company" width="100%">
+									<div itype="TextBox" type="textarea" id="standardLibraryPojo.c_fw_xdnr_company" width="100%"></div>
+								</div>
+		
+								<div id="factory" width="100%">
+									<table class="ui-form-table">
+										<tr>
+											<td class="ui-form-table-dt">制定依据：</td>
+											<td class="ui-form-table-dd">
+												<div itype="TextBox" id="standardLibraryPojo.c_fw_zdyj" width="100%"></div>
+											</td>
+		
+											<td class="ui-form-table-dt">修订内容：</td>
+											<td class="ui-form-table-dd">
+												<div itype="TextBox" id="standardLibraryPojo.c_fw_xdnr_factory" width="100%"></div>
+											</td>
+		
+											<td class="ui-form-table-dt">提出单位：</td>
+											<td class="ui-form-table-dd">
+												<div itype="TextBox" id="standardLibraryPojo.c_fw_tcdw" width="100%"></div>
+											</td>
+										</tr>
+										<tr>
+											<td class="ui-form-table-dt">起草部门：</td>
+											<td class="ui-form-table-dd">
+												<div itype="SelectTree" id="standardLibraryPojo.c_fw_qcbm" width="100%" onlySelectedLeaf="true" rootValue="-请选择-" topParentid="-1" openFloor=3 initSource="org_searchAllOrg.action"></div>
+		
+		
+											</td>
+		
+											<td class="ui-form-table-dt">归口部门：</td>
+											<td class="ui-form-table-dd">
+												<div itype="SelectTree" id="standardLibraryPojo.c_fw_gkbm" width="100%" rootValue="-请选择-" topParentid="-1" openFloor=3 initSource="org_searchAllOrg.action"></div>
+											</td>
+		
+											<td class="ui-form-table-dt">批准人：</td>
+											<td class="ui-form-table-dd">
+												<!-- <div itype="SelectTree" id="standardLibraryPojo.c_fw_pzr" width="100%" rootValue="-请选择-" topParentid="0" openFloor=2 
+												initSource="basicAdd_getAllUsersForSel.action"></div> -->
+												<div itype="Select" id="standardLibraryPojo.c_fw_pzr" width="100%" inside="false" saveInstance=true
+													initSource="basicAdd_getAllUsersForSel.action"></div>
+											</td>
+										</tr>
+										<tr>
+											<td class="ui-form-table-dt">起草人：</td>
+											<td class="ui-form-table-dd">
+												<!-- <div itype="SelectTree" id="standardLibraryPojo.c_fw_qcr" width="100%" onlySelectedLeaf="true" rootValue="-请选择-" 
+												topParentid="1" openFloor=2 initSource="user_queryUsersByOrgForSel.action?orgid=-1"></div>
+												basicAdd_getAllUsersForSel.action -->
+												<div itype="Select" id="standardLibraryPojo.c_fw_qcr" width="100%" inside="false" saveInstance=true
+													initSource="basicAdd_getAllUsersForSel.action"></div>
+											</td>
+		
+											<td class="ui-form-table-dt">发布时间：</td>
+											<td class="ui-form-table-dd">
+												<div itype="DatePicker" id="standardLibraryPojo.c_fw_fbsj" width="100%"></div>
+											</td>
+		
+											<td class="ui-form-table-dt">修订次数：</td>
+											<td class="ui-form-table-dd">
+												<div itype="TextBox" id="standardLibraryPojo.c_fw_xdcs" width="100%"></div>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</form>
+						</td>
+					</tr>
+					<tr>
+						<td class="ui-form-table-dd" style="text-align: center;" colspan=6><input itype="Button" text="保存前言" id="saveforwordbtn" iconCls="icon-save" saveInstance=true onclick="savePreface()" /></td>
+					</tr>
+					<tr>
+						<td class="ui-form-table-dd" colspan=6><div>
+								上传的文件需符合格式要求，格式规范见<a href="">示例</a>
+							</div></td>
+					</tr>
+					<tr>
+						<td class="ui-form-table-dd" colspan=6>
+							<div itype="FileUpload" name="upfileExcel" typeLimit="xls,xlsx" width="40%" onBeforeReady="onBeforeExcelFileUploadReady()" onChooseError="chooseExcelError()" onFileChoose="onExcelFileChooseChange()" onUploadSuccess="onUploadExcelSuccess()" onUploadFail="onUploadExcelFail()" action="upload_uploadStandardExcelFile.action"></div>
+						</td>
+					</tr>
+					<tr>
+						<td class="ui-form-table-dd" colspan=6>
+							<div id="displayerrmsg">
+								<textarea itype="TextBox" type="textarea" id="errmsgarea" width="100%" height="50px" saveInstance="true"></textarea>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="ui-form-table-dd" colspan=6><div>
+								文件表格、报告、记录及附录附件上传，格式规范见<a href="">示例</a>
+							</div></td>
+					</tr>
+					<tr>
+						<td class="ui-form-table-dd">
+							<div id="accessoryselect">
+								<select itype="Select" id="accessorychapter" width="100%" saveInstance="true">
+									<option>--------请选择--------</option>
+								</select>
+							</div>
+						</td>
+						<td class="ui-form-table-dd">
+							<select itype="Select" id="accessorytypeselect" width="100%" saveInstance="true" onchange="onAccessorySelectChange()">
+								<option value=1 text="附录"></option>
+								<option value=2 text="正文附件" selected></option>
+							</select>
+						</td>
+						<td class="ui-form-table-dd" colspan=4>
+							<!-- typeLimit="doc,docx,jpg,png,bmp,pdf" -->
+							<div itype="FileUpload" name="upfileAccessory" typeLimit="xls,xlsx,doc,docx,jpg,bmp,png" autoUpload="true" width="50%" onFileChoose="onFileChooseChange()" onChooseError="chooseAccessorError()" onUploadSuccess="onUploadAccessorySuccess()" onUploadFail="onUploadAccessoryFail()" action="upload_uploadAccessoryFile.action"></div>
+						</td>
+					</tr>
+					<tr>
+						<td class="ui-form-table-dt">文件列表：</td>
+						<td class="ui-form-table-dd" colspan=5>
+							<div itype="DataGrid" id="filesgrid" width="80%" pagePosition="none" keyword="fileid" showSeqColumn=true saveInstance=true height="100px" onRowClick="onGridRowClick()">
+								<div hidden="true" name="fileid" text="ID"></div>
+								<div hidden="true" name="filetype" text="文件类型"></div>
+								<div width="20%" name="filechapter" text="所属章节"></div>
+								<div width="60%" name="filenamegrid" text="文件名称"></div>
+								<div width="20%" text="操作信息" itype="template" tpl="#{operTpl}"></div>
+		
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="ui-form-table-dd" style="text-align: center;" colspan=6>
+							<input itype="Button" text="上传文件" id="uploadaccessorybtn" disabled="true" iconCls="icon-add" saveInstance="true" onclick="saveAccessory()" onAfterDataRender="onBtnAfterDataRender()" />
+						</td>
+					</tr>
+					<tr hidden=true>
+						<td class="ui-form-table-dd" colspan=6><div>原始标准文件上传</div></td>
+					</tr>
+					<tr hidden=true>
+						<td class="ui-form-table-dd" colspan=6>
+							<div itype="FileUpload" name="upfileOriginal" typeLimit="xls,xlsx,doc,docx" width="40%" onChooseError="chooseOriginalError()" onUploadSuccess="onUploadOriginalSuccess()" onUploadFail="onUploadOriginalFail()" action="upload_uploadOriginalFile.action"></div>
+						</td>
+					</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

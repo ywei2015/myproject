@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="tSdPublic" extends="json-default">
+		<action name="getPublicNodesTreeAction" class="com.talkweb.xwzcxt.action.TSdPublicAction" method="getPublicNodesTree">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="getPublicNodeByIdAction" class="com.talkweb.xwzcxt.action.TSdPublicAction" method="getPublicNodeById">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="addPublicNodeAction" class="com.talkweb.xwzcxt.action.TSdPublicAction" method="addPublicNode">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="deletePublicNodesByIdAction" class="com.talkweb.xwzcxt.action.TSdPublicAction" method="deletePublicNodesById">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+	</package>
+</struts>

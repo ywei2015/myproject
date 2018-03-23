@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>成功</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script type="text/javascript">
+	  fastDev(function(){
+		  var request = fastDev.Browser.getRequest();
+		  var res=(request['back'] == 'true');
+			if (res) {
+				alert(request['back']);
+				fastDev.alert("失败!","处理结果提示",null,function(){
+				      window.location.href="duLiangEvent.html?failed=true";
+				});
+			} else {
+				alert("成功!");
+				window.returnValue="success";
+				 window.close();
+				 
+// 				fastDev.alert("成功!","处理结果提示",null,function(){
+// 					//win = fastDev.Ui.Window.parent.dlWin;
+// 					win=window.parent;
+// 					if (win != null) {
+// 						win.returnValue="success";
+// 						win.close();
+// 					}
+// 				});
+				
+			}
+	  });
+		
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

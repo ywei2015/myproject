@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="mainPropertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:config/database/jdbc.properties" />
+	</bean>
+	
+	<bean id="com.talkweb.twdpe.dal.jdbc.dialect.OracleDialect" class="com.talkweb.twdpe.dal.jdbc.dialect.OracleDialect">
+	</bean>
+	
+	<!-- 
+	<bean id="com.talkweb.twdpe.dal.jdbc.dialect.MySqlDialect" class="com.talkweb.twdpe.dal.jdbc.dialect.MySqlDialect">
+	</bean>
+	
+	<bean id="com.talkweb.twdpe.dal.jdbc.dialect.Db2Dialect" class="com.talkweb.twdpe.dal.jdbc.dialect.Db2Dialect">
+	</bean>
+	
+	<bean id="com.talkweb.twdpe.dal.jdbc.dialect.DmDialect" class="com.talkweb.twdpe.dal.jdbc.dialect.DmDialect">
+	</bean>
+	 -->
+	 
+	<bean id="paginationInterceptor" class="com.talkweb.twdpe.dal.batis.intercept.PaginationInterceptor">
+	   <property name="dialect" ref="com.talkweb.twdpe.dal.jdbc.dialect.OracleDialect"/>
+	</bean>
+	
+	<!-- Proxool数据库连接池配置,可在Web.xml中开启管理监控功能 -->
+	<bean id="config.datasource.main" class="com.talkweb.twdpe.dal.connect.DriverSource" init-method="open" >
+			<property name="description" value="${jdbc.main.description}" />
+			<property name="driverClass" value="${jdbc.main.pooledClass}" />
+			<property name="dialect" ref="${jdbc.main.dialect}" />
+			<property name="name" value="main" ></property>
+			<property name="poolProperties">
+				<map>
+					<entry key="alias" value="main" />
+					<entry key="driver" value="${jdbc.main.driver}" />
+					<entry key="driverUrl" value="${jdbc.main.driverUrl}" />
+					<entry key="user" value="${jdbc.main.user}" />
+					<entry key="password" value="${jdbc.main.password}" />
+					<entry key="minimumConnectionCount" value="${jdbc.main.minimumConnectionCount}" />
+					<entry key="maximumConnectionCount" value="${jdbc.main.maximumConnectionCount}" />
+					<entry key="maximumActiveTime" value="${jdbc.main.maximumActiveTime}" />
+					<entry key="houseKeepingSleepTime" value="${jdbc.main.houseKeepingSleepTime}" />
+					<entry key="houseKeepingTestSql" value="${jdbc.main.houseKeepingTestSql}" />
+					<entry key="simultaneousBuildThrottle" value="${jdbc.main.simultaneousBuildThrottle}" />
+					<entry key="maximumConnectionLifetime" value="${jdbc.main.maximumConnectionLifetime}" />
+					
+				</map>
+			</property>
+	</bean>
+	
+	<!-- c3p0数据库连接池配置 -->
+	<!-- 
+	<bean id="config.datasource.main" class="com.talkweb.twdpe.dal.connect.DriverSource" init-method="open" >
+		<property name="description" value="${jdbc.main.description}" />
+		<property name="driverClass" value="${jdbc.main.pooledClass}" />
+		<property name="dialect" ref="${jdbc.main.dialect}" />
+		<property name="name" value="main" ></property>
+		<property name="poolProperties">
+		<map>
+			<entry key="driverClass" value="${jdbc.main.driver}" />
+			<entry key="jdbcUrl" value="${jdbc.main.driverUrl}" />
+			<entry key="user" value="${jdbc.main.user}" />
+			<entry key="password" value="${jdbc.main.password}" />
+			<entry key="initialPoolSize" value="${jdbc.main.minimumConnectionCount}" />
+			<entry key="minPoolSize" value="${jdbc.main.minimumConnectionCount}" />
+			<entry key="maxPoolSize" value="${jdbc.main.maximumConnectionCount}" />
+			<entry key="maxIdleTime" value="${jdbc.main.maxIdleTime}" />
+			<entry key="acquireIncrement" value="${jdbc.main.acquireIncrement}" />
+		</map>
+		</property>
+	</bean>
+	-->
+	 
+	<bean id="config.datasource" class="com.talkweb.twdpe.dal.datasource.DataSourceGather" scope="singleton">
+		<property name="pools">
+			<map>
+				<entry key="main" value-ref="config.datasource.main" />
+				<!-- 
+				<entry key="test" value-ref="config.datasource.test" />
+				-->
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="datasource" class="com.talkweb.twdpe.dal.datasource.DataSourceFactoryBean">
+		<property name="sourceBean" ref="config.datasource.main" />
+	</bean>
+	
+	 <bean id="cacheConfiguration" class="com.talkweb.twdpe.dal.batis.CacheConfiguration">
+		<property name="cacheSource" value="config.cache.ehcache" />
+		<property name="keyPrefix" value="__Dal_" />
+	</bean>
+	
+	<!-- 
+	<bean id="datasource.test" class="com.talkweb.twdpe.dal.datasource.DataSourceFactoryBean">
+		<property name="sourceBean" ref="config.datasource.test" />
+	</bean>	
+ 	-->
+</beans>

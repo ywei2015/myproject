@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>新增作业对象</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="editCalendar.js"></script>
+</head>
+<body>
+<!-- initSource='basicObj_initFormControl.action' -->
+	<form id="editCalendarForm" itype="Form" onBeforeReady="FormReady()" saveInstance="true" action=""  onSubmitSuccess="submitSuccess()" submitJson="false">
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">日期：</td>
+				<td class="ui-form-table-dd"><div itype="DatePicker" id="calendarPojo.c_date" width="100%"  disabled="true"></div></td>
+				<!-- <td class="ui-form-table-dt" style="width: 100px">日历类别：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" id="calendarPojo.c_calendar_name" width="100%" rule="MaxLength:198;"  readonly="true"></div></td> -->
+				<td class="ui-form-table-dt" style="width: 100px">星期几：</td>
+				<td class="ui-form-table-dd"><div id="calendarPojo.c_day_of_week" itype="TextBox" width="100%" readonly="true"></div></td>
+			</tr>
+			<tr>
+	
+				<td class="ui-form-table-dt" style="width: 100px"><span class="ui-red">*</span>产能日期：</td>
+				<td class="ui-form-table-dd"><div itype="DatePicker" inside=false id="calendarPojo.c_work_date" width="100%"></div></td>
+				<td class="ui-form-table-dt" style="width: 100px"><span class="ui-red">*</span>理论是否工作：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select"  id="calendarPojo.c_theory_isworkday" width="100%"> 
+            			<option text="工作日" value="1" selected></option>
+            			<option text="非工作日" value="0"></option>
+					</select>
+				</td>
+			</tr>
+			<tr>			
+				<td class="ui-form-table-dt" style="width: 100px"><span class="ui-red">*</span>实际是否工作：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select"  id="calendarPojo.c_fact_isworkday" width="100%"> 
+            			<option text="工作日" value="1" selected></option>
+            			<option text="非工作日" value="0"></option>
+					</select>
+				</td>
+				<td class="ui-form-table-dt" style="width: 100px">备注：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox"  type="textarea" id="calendarPojo.c_remark" width="100%"> 
+  
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

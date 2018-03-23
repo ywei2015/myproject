@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>新增对象类型</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="addType.js"></script>
+</head>
+<body>
+	<form itype="Form" id="typeform" submitJson="false" saveInstance="true" onBeforeReady="fromReady()"
+		action="ObjType_addObjType.action" onSubmitSuccess="onSubmitSuccess()">
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt" style="width: 80px;">编码：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" width="100%"
+						id="tworkobjtype.c_objtype_code"
+						name="tworkobjtype.c_objtype_code" rule="MaxLength:32;"
+						tips="唯一标识类别项。"></div></td>
+						
+				<td class="ui-form-table-dt" style="width: 80px;">上级编码：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" width="100%"
+						id="tworkobjtype.c_up_objtype_code"
+						name="tworkobjtype.c_up_objtype_code" disabled="true"></div></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 80px;"><span
+					class="ui-red">*</span>名称：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" width="100%"
+						id="tworkobjtype.c_objtype_name"
+						name="tworkobjtype.c_objtype_name" rule="required;MaxLength:32"></div></td>
+						
+				<td class="ui-form-table-dt" style="width: 80px;">全名：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" width="100%"
+						id="tworkobjtype.c_objtype_fullname"
+						name="tworkobjtype.c_objtype_fullname"
+						rule="MaxLength:50"></div></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 80px;">备注：</td>
+				<td class="ui-form-table-dd" colspan="3"><textarea
+						itype="TextBox" type="textarea" id="tworkobjtype.c_remark"
+						iwidth="80%" height="100px"></textarea></td>
+			</tr>
+			<tr>
+				<td style="border-width: 0; width: 100%" colspan="4">
+					<div
+						style="margin-left: auto; margin-right: auto; width: 98%; margin-top: 8px">
+						<div style="float: right;">
+							<input itype="Button" text="保存" iconCls="icon-save"
+								onclick="save()" />
+						</div>
+						<div style="float: right;">
+							<input itype="Button" text="重置" iconCls="icon-return"
+								onclick="doReset()" />
+						</div>
+						<div style="float: right;">
+							<input itype="Button" text="关闭" iconCls="icon-close"
+								onclick="close()" />
+						</div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

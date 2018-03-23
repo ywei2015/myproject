@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tRulePosition">
+	<resultMap id="BaseResultMap" type="com.talkweb.xwzcxt.pojo.TRulePosition">
+		<id column="C_PRID" property="cPrid" jdbcType="VARCHAR" />
+		<result column="C_PRID_CODE" property="cPridCode" jdbcType="VARCHAR" />
+		<result column="C_PRID_NAME" property="cPridName" jdbcType="VARCHAR" />
+		<result column="C_PID_EXEC" property="cPidExec" jdbcType="VARCHAR" />
+		<result column="C_PID_CHECK" property="cPidCheck" jdbcType="VARCHAR" />
+		<result column="C_PID_REVIEW" property="cPidReview" jdbcType="VARCHAR" />
+		<result column="C_PID_FEEDBACK1" property="cPidFeedback1"
+			jdbcType="VARCHAR" />
+		<result column="C_PID_FEEDBACK2" property="cPidFeedback2"
+			jdbcType="VARCHAR" />
+		<result column="C_PID_ERR_FEEDBACK1" property="cPidErrFeedback1"
+			jdbcType="VARCHAR" />
+		<result column="C_PID_ERR_FEEDBACK2" property="cPidErrFeedback2"
+			jdbcType="VARCHAR" />
+		<result column="C_CREATOR" property="cCreator" jdbcType="VARCHAR" />
+		<result column="C_CREATETIME" property="cCreatetime" jdbcType="TIMESTAMP" />
+		<result column="C_MODIFIER" property="cModifier" jdbcType="VARCHAR" />
+		<result column="C_MODIFYTIME" property="cModifytime" jdbcType="TIMESTAMP" />
+		<result column="C_REMARK" property="cRemark" jdbcType="VARCHAR" />
+		<result column="C_FLAG" property="cFlag" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		C_PRID, C_PRID_CODE, C_PRID_NAME, C_PID_EXEC, C_PID_CHECK,
+		C_PID_REVIEW,
+		C_PID_FEEDBACK1,
+		C_PID_FEEDBACK2, C_PID_ERR_FEEDBACK1,
+		C_PID_ERR_FEEDBACK2, C_CREATOR, C_CREATETIME,
+		C_MODIFIER, C_MODIFYTIME,
+		C_REMARK,C_FLAG
+	</sql>
+
+	<select id="selectPositionRuleByID" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select distinct
+		<include refid="Base_Column_List" />
+		from TWXWZC.T_RULE_POSITION
+		where C_PRID =#{cPrid} and C_FLAG=1
+	</select>
+
+
+	<select id="getAllRulePositionsByConditions" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select distinct
+		<include refid="Base_Column_List" />
+		from TWXWZC.T_RULE_POSITION
+		where C_FLAG=1
+		<if test="null!=rulepositionname and ''!=rulepositionname">
+			and C_PRID_NAME like '%${rulepositionname}%'
+		</if>
+		<if test="null!= positionexe and ''!=positionexe">
+			and C_PID_EXEC = #{positionexe}
+		</if>
+		<if test="null!= positioncheck and ''!=positioncheck">
+			and C_PID_CHECK = #{positioncheck}
+		</if>
+		<if test="null!= positionreview and ''!=positionreview">
+			and C_PID_REVIEW = #{positionreview}
+		</if>
+		<if test="null!= positionfeed1 and ''!=positionfeed1">
+			and C_PID_FEEDBACK1 = #{positionfeed1}
+		</if>
+		<if test="null!= positionfeed2 and ''!=positionfeed2">
+			and C_PID_FEEDBACK2 = #{positionfeed2}
+		</if>
+		<if test="null!= positionerr1 and ''!=positionerr1">
+			and C_PID_ERR_FEEDBACK1 = #{positionerr1}
+		</if>
+		<if test="null!= positionerr2 and ''!=positionerr2">
+			and C_PID_ERR_FEEDBACK2 = #{positionerr2}
+		</if>
+	</select>
+
+	<insert id="addRulePosition" parameterType="map">
+		insert into TWXWZC.T_RULE_POSITION
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="cPrid != null">
+				C_PRID,
+			</if>
+			<if test="cPridCode != null">
+				C_PRID_CODE,
+			</if>
+			<if test="cPridName != null">
+				C_PRID_NAME,
+			</if>
+			<if test="cPidExec != null">
+				C_PID_EXEC,
+			</if>
+			<if test="cPidCheck != null">
+				C_PID_CHECK,
+			</if>
+			<if test="cPidReview != null">
+				C_PID_REVIEW,
+			</if>
+			<if test="cPidFeedback1 != null">
+				C_PID_FEEDBACK1,
+			</if>
+			<if test="cPidFeedback2 != null">
+				C_PID_FEEDBACK2,
+			</if>
+			<if test="cPidErrFeedback1 != null">
+				C_PID_ERR_FEEDBACK1,
+			</if>
+			<if test="cPidErrFeedback2 != null">
+				C_PID_ERR_FEEDBACK2,
+			</if>
+			<if test="cCreator != null">
+				C_CREATOR,
+			</if>
+			<if test="cCreatetime != null">
+				C_CREATETIME,
+			</if>
+			<if test="cModifier != null">
+				C_MODIFIER,
+			</if>
+			<if test="cModifytime != null">
+				C_MODIFYTIME,
+			</if>
+			<if test="cRemark != null">
+				C_REMARK,
+			</if>
+			<if test="cFlag != null">
+				C_FLAG,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="cPrid != null">
+				#{cPrid},
+			</if>
+			<if test="cPridCode != null">
+				#{cPridCode},
+			</if>
+			<if test="cPridName != null">
+				#{cPridName},
+			</if>
+			<if test="cPidExec != null">
+				#{cPidExec},
+			</if>
+			<if test="cPidCheck != null">
+				#{cPidCheck},
+			</if>
+			<if test="cPidReview != null">
+				#{cPidReview},
+			</if>
+			<if test="cPidFeedback1 != null">
+				#{cPidFeedback1},
+			</if>
+			<if test="cPidFeedback2 != null">
+				#{cPidFeedback2},
+			</if>
+			<if test="cPidErrFeedback1 != null">
+				#{cPidErrFeedback1},
+			</if>
+			<if test="cPidErrFeedback2 != null">
+				#{cPidErrFeedback2},
+			</if>
+			<if test="cCreator != null">
+				#{cCreator},
+			</if>
+			<if test="cCreatetime != null">
+				#{cCreatetime},
+			</if>
+			<if test="cModifier != null">
+				#{cModifier},
+			</if>
+			<if test="cModifytime != null">
+				#{cModifytime},
+			</if>
+			<if test="cRemark != null">
+				#{cRemark},
+			</if>
+			<if test="cFlag != null">
+				#{cFlag},
+			</if>
+		</trim>
+	</insert>
+
+</mapper>

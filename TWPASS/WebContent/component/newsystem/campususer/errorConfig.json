@@ -1,0 +1,16 @@
+﻿{
+	defaultInfo:{
+		requires:"不能为空",
+		special:"不能含特殊字符",
+		isEmail:"邮件地址不合法",
+		isCode:"邮编不合法",
+		isIdcard:"不是有效的身份证",
+		maxLength:"只能输入#{maxLength}个字符",
+		isNumber:"必须为数字",
+		isMobile:"手机号码输入不正确",
+		isTel:"电话号码输入不正确"
+	},
+	newPassword:{
+		contrast:"两次密码输入不一致"
+	}
+}

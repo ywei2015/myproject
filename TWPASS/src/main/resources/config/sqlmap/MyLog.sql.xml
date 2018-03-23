@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="myLog">
+ 
+	<resultMap id="logInfo" type="com.talkweb.xwzcxt.pojo.MyLogPojo">
+
+		<result column="logid" property="logid" jdbcType="VARCHAR" />
+		<result column="sourceip" property="sourceip" jdbcType="VARCHAR" />
+		<result column="targetip" property="targetip" jdbcType="VARCHAR" />
+		<result column="auditdate" property="auditdate" jdbcType="TIMESTAMP" />
+		<result column="account" property="account" jdbcType="VARCHAR" />
+		<result column="accountname" property="accountname" jdbcType="VARCHAR" />
+		<result column="accounttype" property="accounttype" jdbcType="VARCHAR" />
+		<result column="appid" property="appid" jdbcType="VARCHAR" />
+		<result column="appname" property="appname" jdbcType="VARCHAR" />
+		<result column="funcgroupid" property="funcgroupid" jdbcType="VARCHAR" />
+		<result column="funcgroupname" property="funcgroupname" jdbcType="VARCHAR" />
+		<result column="resourceurl" property="resourceurl" jdbcType="VARCHAR" />
+ 
+ 		<result column="resourcename" property="resourcename" jdbcType="VARCHAR" />
+		<result column="actiontype" property="actiontype" jdbcType="VARCHAR" />
+		<result column="actiondescription" property="actiondescription" jdbcType="VARCHAR" />
+		<result column="actionresult" property="actionresult" jdbcType="VARCHAR" />
+		<result column="statuscode" property="statuscode" jdbcType="VARCHAR" />
+		<result column="datafield" property="datafield" jdbcType="VARCHAR" />
+		<result column="oldvalues" property="oldvalues" jdbcType="CLOB" />
+		<result column="newvalues" property="newvalues" jdbcType="CLOB" />
+	</resultMap>
+ 
+ 
+ 	<insert id="addLog" parameterType="com.talkweb.xwzcxt.pojo.MyLogPojo">
+		 insert into dp_log_sys(
+			<trim suffix="" suffixOverrides=",">
+				<if test="null!=logid and ''!=logid">
+					logid,
+				</if>
+				<if test="null!=sourceip and ''!=sourceip">
+					sourceip,
+				</if>
+				<if test="null!=targetip and ''!=targetip">
+					targetip,
+				</if>
+				<if test="auditdate != null  and ''!=auditdate">
+					auditdate,
+				</if>
+				<if test="null!=account and ''!=account">
+					account,
+				</if>
+				<if test="null!=accountname and ''!=accountname">
+					accountname,
+				</if>				
+				<if test="null!=accounttype and ''!=accounttype">
+					accounttype,
+				</if>
+				<if test="null!=appid and ''!=appid">
+					appid,
+				</if>
+				<if test="appname != null">
+					appname,
+				</if>
+				<if test="funcgroupid != null  and ''!=funcgroupid">
+					funcgroupid,
+				</if>
+				<if test="funcgroupname != null and ''!=funcgroupname">
+					funcgroupname,
+				</if>
+				<if test="resourceurl != null  and ''!=resourceurl">
+					resourceurl,
+				</if>	
+				<if test="resourcename != null  and ''!=resourcename">
+					resourcename,
+				</if>	
+				<if test="actiontype != null  and ''!=actiontype">
+					actiontype,
+				</if>	
+				<if test="actiondescription != null  and ''!=actiondescription">
+					actiondescription,
+				</if>	
+				<if test="actionresult != null  and ''!=actionresult">
+					actionresult,
+				</if>	
+				<if test="statuscode != null  and ''!=statuscode">
+					statuscode,
+				</if>	
+				<if test="datafield != null  and ''!=datafield">
+					datafield,
+				</if>	
+				<if test="oldvalues != null  and ''!=oldvalues">
+					oldvalues,
+				</if>	
+				<if test="newvalues != null  and ''!=newvalues">
+					newvalues,
+				</if>	
+			
+			</trim>
+		)values(
+			<trim suffix="" suffixOverrides=",">
+				<if test="null!=logid and ''!=logid">
+					#{logid},
+				</if>
+				<if test="null!=sourceip and ''!=sourceip">
+					#{sourceip},
+				</if>
+				<if test="null!=targetip and ''!=targetip">
+					#{targetip},
+				</if>
+				<if test="auditdate != null  and ''!=auditdate">
+					#{auditdate},
+				</if>
+				<if test="null!=account and ''!=account">
+					#{account},
+				</if>
+				<if test="null!=accountname and ''!=accountname">
+					#{accountname},
+				</if>				
+				<if test="null!=accounttype and ''!=accounttype">
+					#{accounttype},
+				</if>
+				<if test="null!=appid and ''!=appid">
+					#{appid},
+				</if>
+				<if test="appname != null and ''!=appname">
+					#{appname},
+				</if>
+				<if test="funcgroupid != null  and ''!=funcgroupid">
+					#{funcgroupid},
+				</if>
+				<if test="funcgroupname != null and ''!=funcgroupname">
+					#{funcgroupname},
+				</if>
+				<if test="resourceurl != null  and ''!=resourceurl">
+					#{resourceurl},
+				</if>	
+				<if test="resourcename != null  and ''!=resourcename">
+					#{resourcename},
+				</if>	
+				<if test="actiontype != null  and ''!=actiontype">
+					#{actiontype},
+				</if>	
+				<if test="actiondescription != null  and ''!=actiondescription">
+					#{actiondescription},
+				</if>	
+				<if test="actionresult != null  and ''!=actionresult">
+					#{actionresult},
+				</if>	
+				<if test="statuscode != null  and ''!=statuscode">
+					#{statuscode},
+				</if>	
+				<if test="datafield != null  and ''!=datafield">
+					#{datafield},
+				</if>	
+				<if test="oldvalues != null  and ''!=oldvalues">
+					#{oldvalues},
+				</if>	
+				<if test="newvalues != null  and ''!=newvalues">
+					#{newvalues},
+				</if>	
+			
+			</trim>
+		)
+	</insert>
+
+
+ 	<update id="updateLog" parameterType="com.talkweb.xwzcxt.pojo.MyLogPojo">
+		update dp_log_sys
+		<set>
+			<if test="logid != null  and ''!=logid">
+				logid = #{logid,jdbcType=VARCHAR},
+			</if>
+			<if test="sourceip != null  and ''!=sourceip">
+				sourceip = #{sourceip,jdbcType=VARCHAR},
+			</if>
+			<if test="targetip != null  and ''!=targetip">
+				targetip = #{targetip,jdbcType=VARCHAR},
+			</if>
+			<if test="auditdate != null  and ''!=auditdate">
+				auditdate = #{auditdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="account != null  and ''!=account">
+				account = #{account,jdbcType=VARCHAR},
+			</if>
+			<if test="accountname != null  and ''!=accountname">
+				accountname = #{accountname,jdbcType=VARCHAR},
+			</if>
+			<if test="accounttype != null  and ''!=accounttype">
+				accounttype = #{accounttype,jdbcType=VARCHAR},
+			</if>
+			<if test="appid != null  and ''!=appid">
+				appid = #{appid,jdbcType=VARCHAR},
+			</if>
+			<if test="appname != null  and ''!=appname">
+				appname = #{appname,jdbcType=VARCHAR},
+			</if>
+			
+			<if test="funcgroupid != null">
+				funcgroupid = #{funcgroupid,jdbcType=VARCHAR},
+			</if>
+			<if test="funcgroupname != null  and ''!=funcgroupname">
+				funcgroupname = #{funcgroupname,jdbcType=VARCHAR},
+			</if>
+			
+			<if test="resourceurl != null">
+				resourceurl = #{resourceurl,jdbcType=VARCHAR},
+			</if>
+			<if test="resourcename != null  and ''!=resourcename">
+				resourcename = #{resourcename,jdbcType=VARCHAR},
+			</if>
+			<if test="actiontype != null  and ''!=actiontype">
+				actiontype = #{actiontype,jdbcType=VARCHAR},
+			</if>
+			<if test="actiondescription != null  and ''!=orgName">
+				actiondescription = #{actiondescription,jdbcType=VARCHAR},
+			</if>
+			<if test="actionresult != null  and ''!=actionresult">
+				actionresult = #{actionresult,jdbcType=VARCHAR},
+			</if>
+			<if test="statuscode != null  and ''!=statuscode">
+				statuscode = #{statuscode,jdbcType=VARCHAR},
+			</if>
+			<if test="datafield != null  and ''!=datafield">
+				datafield = #{datafield,jdbcType=VARCHAR},
+			</if>
+			<if test="oldvalues != null  and ''!=oldvalues">
+				oldvalues = #{oldvalues,jdbcType=CLOB},
+			</if>
+			<if test="newvalues != null  and ''!=newvalues">
+				newvalues = #{newvalues,jdbcType=CLOB},
+			</if>
+			
+		</set>
+		where 1>1
+		<if test="logid!=null and ''!=logid">
+			or logid = #{logid,jdbcType=VARCHAR}
+		</if>
+	</update>
+
+ 	<select id="getAllLogs" parameterType="map" resultMap="logInfo">
+ 		select t1.* 
+ 		from dp_log_sys t1 
+ 		where 1=1 
+		
+		<if test="searchAccountID !=null and ''!=searchAccountID">
+			AND t1.account=#{searchAccountID}
+		</if>
+		<if test="searchAccountName !=null and ''!=searchAccountName">
+			AND t1.accountname like '%${searchAccountName}%'
+		</if>
+
+		<if test="searchFuncGroupId !=null and ''!=searchFuncGroupId">
+			AND t1.funcgroupname=#{searchFuncGroupId}
+		</if>
+
+		<if test="searchActionType !=null and ''!=searchActionType">
+			AND t1.actiontype=#{searchActionType}
+		</if>
+
+		<if test="searchStatusCode !=null and ''!=searchStatusCode">
+			AND t1.statuscode=#{searchStatusCode}
+		</if>
+		
+		<if test="searchStartDate !=null and ''!=searchStartDate">
+			AND t1.auditdate > #{searchStartDate}
+		</if>
+		<if test="searchEndDate !=null and ''!=searchEndDate">
+			AND t1.auditdate &lt; #{searchEndDate}
+		</if>
+		
+		order by t1.auditdate DESC
+ 	</select>
+
+ 	
+  	<select id="getLogInfo" parameterType="com.talkweb.xwzcxt.pojo.MyLogPojo" resultMap="logInfo">
+ 		select t1.* 
+ 		from dp_log_sys t1 	
+ 		 where 1=1 
+ 		<if test="logid !=null and ''!=logid">
+			AND t1.logid like #{logid}
+		</if>
+ 	</select>
+</mapper>

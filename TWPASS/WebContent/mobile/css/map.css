@@ -1,0 +1,54 @@
+#page {
+	overflow: hidden;
+}
+
+#tool {
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	text-align: center;
+}
+
+#back {
+	position: absolute;
+	top: -30px;
+	left: 0;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+	background: white;
+}
+
+#text {
+	position: absolute;
+	top: -30px;
+	left: 30px;
+	height: 30px;
+	line-height: 30px;
+	background: white;
+}
+
+#page3 {
+	margin-top: 30px;
+}
+
+#detail {
+	width: 300px;
+	background: white;
+	border-collapse: collapse;
+}
+
+#detail tr {
+	border: 1px solid;
+}
+
+#detail tr td {
+	width: 300px;
+}
+
+#errorDetail {
+	border: none;
+}

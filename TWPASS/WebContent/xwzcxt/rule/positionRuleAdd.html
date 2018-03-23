@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>新增时间规则</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="positionRuleAdd.js"></script>
+
+
+</head>
+<body>
+	<form id="addPositionRuleForm" itype="Form" saveInstance="true"
+		onSubmitSuccess="submitSuccess()" submitJson="false"
+		onBeforeReady="FormReady()">
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt"><span class="ui-red">*</span>规则名称：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="rulepositionname" width="100%" rule="Required"
+						emptyText="岗位规则的名称"></div></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">规则编码：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="cPridCode" width="100%" emptyText="岗位规则的编码"></div></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">执行岗位：</td>
+				<td class="ui-form-table-dd"><div itype="SelectTree"
+						inside="true" id="positionexe" width="100%" textMaxLength=50
+						asyncDataSource="posbindorg_getAllPosition.action"
+						initSource="posbindorg_getAllPosition.action" rootValue="-请选择-"
+						topParentid="1--1" openFloor="2"></div></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px;">验证岗位：</td>
+				<td class="ui-form-table-dd">
+					<div itype="SelectTree" inside="true" id="positioncheck"
+						width="100%" textMaxLength=50
+						asyncDataSource="posbindorg_getAllPosition.action"
+						initSource="posbindorg_getAllPosition.action" rootValue="-请选择-"
+						topParentid="1--1" openFloor="2"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px;">评价岗位：</td>
+				<td class="ui-form-table-dd">
+					<div itype="SelectTree" inside="true" id="positionreview"
+						width="100%" textMaxLength=50
+						asyncDataSource="posbindorg_getAllPosition.action"
+						initSource="posbindorg_getAllPosition.action" rootValue="-请选择-"
+						topParentid="1--1" openFloor="2"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px;">反馈岗位1：</td>
+				<td class="ui-form-table-dd">
+					<div itype="SelectTree" inside="true" id="positionfeed1"
+						width="100%" textMaxLength=50
+						asyncDataSource="posbindorg_getAllPosition.action"
+						initSource="posbindorg_getAllPosition.action" rootValue="-请选择-"
+						topParentid="1--1" openFloor="2"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px;">反馈岗位2：</td>
+				<td class="ui-form-table-dd">
+					<div itype="SelectTree" inside="true" id="positionfeed2"
+						width="100%" textMaxLength=50 height=200px
+						asyncDataSource="posbindorg_getAllPosition.action"
+						initSource="posbindorg_getAllPosition.action" rootValue="-请选择-"
+						topParentid="1--1" openFloor="2"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px;">异常反馈岗位1：</td>
+				<td class="ui-form-table-dd">
+					<div itype="SelectTree" inside="true" id="positionerr1"
+						width="100%" textMaxLength=50 height=200px
+						asyncDataSource="posbindorg_getAllPosition.action"
+						initSource="posbindorg_getAllPosition.action" rootValue="-请选择-"
+						topParentid="1--1" openFloor="2"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px;">异常反馈岗位2：</td>
+				<td class="ui-form-table-dd">
+					<div itype="SelectTree" inside="true" id="positionerr2"
+						width="100%" textMaxLength=50 height=200px
+						asyncDataSource="posbindorg_getAllPosition.action"
+						initSource="posbindorg_getAllPosition.action" rootValue="-请选择-"
+						topParentid="1--1" openFloor="2"></div>
+				</td>
+			</tr>
+			<tr>
+			<tr style="height: 150px">
+				<td class="ui-form-table-dt" style="width: 100px">说明：</td>
+				<td class="ui-form-table-dd" width=100%><div itype="TextBox"
+						type="textarea" height=100% id="cRemark" width="100%"></div></td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

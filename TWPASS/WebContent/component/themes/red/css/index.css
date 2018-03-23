@@ -1,0 +1,10 @@
+@import url(../../../fastdev/themes/base/css/fastui-default.css);
+/*页面　初始定义*/
+@import url(reset.css);
+
+/*页面　自定义*/
+@import url(style.css);
+
+/*页面　menu菜单定义*/
+@import url(menu.css);
+

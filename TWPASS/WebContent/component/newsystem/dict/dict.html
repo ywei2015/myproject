@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>dict.html</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <script type="text/javascript" src="../../fastdev/fastDev-import.js"></script>
+        <script type="text/javascript" src="dict.js"></script>      
+        <style>
+			html, body {
+				height:100%;
+			}
+		</style>
+    </head>
+    <body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	    <div class="ui-layout" id="mainDiv" style="height:100%;">
+			<div class="ui-layout-left" style="width: 200px; height:100%;">
+				<div class="ui-toolbar ui-toolbar-bg">
+					<input itype="Button" plain=true text="新增" display="false" id="addDictTypeBtn" iconCls="icon-add" onClick="doAddDictType()"></input>
+					<input itype="Button" plain=true text="修改" display="false" id="modifyDictTypeBtn" iconCls="icon-edit" onClick="doModifyDictType()"></input>
+					<input itype="Button" plain=true text="删除" display="false" id="deleteDictTypeBtn" iconCls="icon-delete" onClick="doDelDictType()"></input>
+				</div>
+				<div id="dicttypetree" itype="Tree" saveInstance="true" showIco="true"
+					width="100%" customFields="allowmodify,type"
+					initSource="dict_initDictTypeTree.action"
+					 topParentid="ROOT"
+					openFloor=2 onNodeClick="onNodeClick()" onAfterInitRender="onDicAfterInitRender()"></div>
+			</div>
+			<div class="ui-layout-center" id="centerPanel" style="left: 202px;height:100%;">
+				<form id="dictform" itype="Form" requestType="post" saveInstance="true">
+					<table class="ui-form-table">
+						<tr>
+							<th class="ui-form-table-dt" style="width:60px;">编号：</th>
+							<td class="ui-form-table-dd">
+								<input itype="TextBox" id="dictEntryInfo.dictid" style="width:100%;"></div>
+							</td>
+							<th class="ui-form-table-dt" style="width:60px;">名称：</th>
+							<td class="ui-form-table-dd">
+								<input itype="TextBox" id="dictEntryInfo.name" style="width:100%;"></div>
+							</td>
+							<td class="ui-form-table-dd">
+								<input itype="Button" iconCls="icon-search" text="查询" onClick="doSearch()"></input>
+								<input itype="Button" iconCls="icon-reset" text="重置" onClick="doReset()"></input>
+							</td>
+						</tr>
+					</table>
+				</form>
+				<div id="toolbar" class="ui-toolbar ui-toolbar-bg ui-noborder ui-border-top ui-border-left ui-border-right">
+					<div itype="Button" plain=true text="新增" saveInstance="true" id="addDictBtn" iconCls="icon-add" onclick="doAddDict()" display="false"></div>
+					<div itype="Button" plain=true text="修改" saveInstance="true" id="modifyDictBtn" iconCls="icon-edit" onclick="doModifyDict()" display="false"></div>
+					<div itype="Button" plain=true text="删除" saveInstance="true" id="deleteDictBtn" iconCls="icon-delete" onclick="doDeleteDict()" display="false"></div>
+					<div itype="Button" plain=true text="批量删除" saveInstance="true" id="batchDeleteDictBtn" iconCls="icon-delete" onclick="doBatchDeleteDict()" display="false"></div>
+				</div>
+				<div id="datagridPanel">
+					<div class="datagrid" itype="DataGrid" width="100%" id="dictdatagrid" saveInstance="true" showCheckColumn="true" onRowDblClick="onRowDblClick()" initSource="dict_queryDictEntry.action" showSeqColumn="true" pageSize="20" allowAutoFillRow="false" onRowClick="onRowClick()" onAfterInitRender="onDicItemAfterInitRender()">
+						<div name="allowmodify" hidden="true"></div>
+						<div name="allowdelete" hidden="true"></div>
+						<div name="dictid" hidden="true"></div>
+						<div width="25%" name="dictid" text="编号"></div>
+						<div width="10%" name="name" text="名称" renderer="dictNameRenderer()"></div>
+						<div width="10%" name="dictname" text="值"></div>
+						<div width="25%" name="dicttypeid" text="类型"></div>
+						<div width="15%" name="dicttypename" text="类型名称"></div>
+						<div width="15%" text="操作" renderer="operRenderer()"></div>
+					</div>
+				</div>
+				<div id="treePanel" style="display:none">
+					<div id="dicttree" itype="Tree" saveInstance="true" showIco="true"
+						width="100%" customFields="allowmodify,allowdelete"
+						topParentid="ROOT" 
+						openFloor="2"></div>
+				</div>
+			</div>
+	    </div>
+    </body>
+</html>

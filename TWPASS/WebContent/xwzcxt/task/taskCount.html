@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>任务统计</title>
+
+<script src="../../fastdev/fastDev-import.js"></script>
+
+
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+<script src="taskCount.js"></script>
+
+
+<script src="../../js/highcharts.js"></script>
+<script src="../../js/modules/exporting.js"></script>
+
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	<form id="checkform" itype="Form" requestType="post"
+		saveInstance="true">
+		<table class="ui-form-table">
+			<tr valign="middle">
+				<td class="ui-form-table-dt" style="width: 100px;"><span
+					class="ui-red">*</span>统计范围：</td>
+				<td class="ui-form-table-dd">
+					<div itype="Select" id="taskcondition.scope" width="100%">
+						<div>-请选择-</div>
+						<div value="1">本人</div>
+						<div value="2">本班组</div>
+						<!-- <div value="3">本部门</div> -->
+					</div>
+				</td>
+				<td class="ui-form-table-dt" style="width: 100px;"><span
+					class="ui-red">*</span>分 组：</td>
+				<td class="ui-form-table-dd">
+					<div itype="Select" id="taskcondition.group" width="100%">
+<!-- 						<div>-请选择-</div> -->
+						<div value="1">按任务状态</div>
+						<div value="2">按任务类型</div>
+					</div>
+				</td>
+			</tr>
+			<tr valign="middle">
+				<td class="ui-form-table-dt" style="width: 100px;">起始时间：</td>
+				<td class="ui-form-table-dd"><input itype="DatePicker"
+					id="taskcondition.start" timeBefore="taskcondition.end"
+					format="yyyy-MM-dd HH:mm:ss" /></td>
+				<td class="ui-form-table-dt" style="width: 100px;">结束时间：</td>
+				<td class="ui-form-table-dd"><input itype="DatePicker"
+					id="taskcondition.end" timeAfter="taskcondition.start"
+					format="yyyy-MM-dd HH:mm:ss" /></td>
+			</tr>
+			
+			<tr>
+				<td colspan="2" class="ui-form-table-dd" align="right">
+					<div itype="RadioGroup" name="chartType" id="chartType" saveInstance="true" onchange="valueChange()">
+						<div value="1" text="柱状图" checked=true></div>
+						<div value="2" text="饼图"></div>
+					</div>
+				</td>
+				<td colspan="2" class="ui-form-table-dd" align="right">
+					<div itype="Button" id="searchBtn" text="查询" iconCls="icon-search" width=100px
+						onClick="doSearch()"></div>
+					<div itype="Button" id="resetBtn" text="重置" iconCls="icon-reset" width=100px
+						onClick="doReset()"></div>
+				</td>
+			</tr>
+		</table>
+	</form>
+
+	<div id="container"
+		style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+
+	</div>
+</body>
+</html>

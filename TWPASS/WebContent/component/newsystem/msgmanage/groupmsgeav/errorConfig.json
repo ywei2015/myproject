@@ -1,0 +1,13 @@
+﻿{
+	defaultInfo:{
+		requires:"不能为空",
+		special:"不能含特殊字符",
+		email:"邮件地址不合法",
+		code:"邮编不合法",
+		idcard:"不是有效的身份证",
+        mlength:"只能输入#{mlength}个字符(一个中文占2个字符)"
+	},
+	passwordfirst:{
+		contrast:"两次密码输入不一致"
+	}
+}

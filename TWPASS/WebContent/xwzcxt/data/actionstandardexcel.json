@@ -1,0 +1,9 @@
+{"data":[{"c_flow_name":"安全设施检查",
+"c_postactivity":"灭火器检查",
+"c_pdca_property":"D（执行）",
+"c_key_flag":"是",
+"c_tense":"每日","c_work_area":"高层仓库（2楼）","c_exe_post":"保管工（铝箔和收缩膜)"},{"c_flow_name":"安全设施检查",
+"c_postactivity":"护卫队员巡查",
+"c_pdca_property":"D（执行）",
+"c_key_flag":"是",
+"c_tense":"每日","c_work_area":"辅料老厂房仓库","c_exe_post":"保管工（铝箔和收缩膜)"}],"info":{"total":1,"page":1,"pageSize":15,"records":2}}

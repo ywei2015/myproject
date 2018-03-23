@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>新增标准项步骤</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="filepointadd.js"></script>
+<script type="text/javascript">
+	//附加节点到树
+	function appendNodes(data){
+		var tree=fastDev.getInstance("sd_file_tree");
+		for(var i in data){
+			try{
+				tree.addNode(data[i]);
+			}
+			catch(e){
+				continue;
+			}
+		}
+	}
+	function doChangeEvent(e,id,val){
+		var tree=fastDev.getInstance("sd_type_name_tree");
+		var targetTree=fastDev.getInstance("sd_file_tree");
+		var selectedValue=tree.getValue();
+		targetTree.initRefresh({"url":"sdactionnode_getSdFileBySortId.action?sortPojo.c_sort_id="+selectedValue});
+	}
+	window.onload=function(){
+		var src=window.location.href;
+		var pos=src.indexOf("=");
+		if(pos>=0){
+			var actionId=src.slice(pos+1);
+			//alert(actionId);
+		}
+	}
+</script>
+</head>
+<body>
+	<form id="addStepForm" itype="Form" saveInstance="true" action="" onSubmitSuccess="submitSuccess()" submitJson="false" onBeforeReady="FormReady()" onBeforeInit="BeforeInit()">
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px"><span class="ui-red">*</span>标准类别名称：</td>
+				<td class="ui-form-table-dd">
+					<div rootValue="-请选择-" 
+						 topParentid="0"
+						 width="100%" 
+						 openFloor=3 
+						 id="sd_type_name_tree"
+						 itype="SelectTree" 
+						 initSource="upload_getAllFileSort.action" 
+						 dataSource="upload_getAllFileSort.action"
+						 onchange="doChangeEvent()">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px"><span class="ui-red">*</span>标准文件名称：</td>
+				<td class="ui-form-table-dd">				
+					<div itype="SelectTree" 
+						 id="sd_file_tree" 
+						 width="100%"  
+						 height="200px"
+					 	 treeType="radiotree" 
+					 	 topParentid="0" 
+					 	 openFloor=2>
+					</div>					 				
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">标准文件编号：</td>
+				<td class="ui-form-table-dd">
+				 	<select itype="Select"  id="basicMouldPojo.c_file_code" inside="false" width="100%"> 
+            			<option text="-请选择-"></option>
+            			<option text="HNZY/GL-AQ-02-04-b.1" value="1"></option>
+            			<option text="HNZY/GL-AQ-10-b.0" value="2"></option>
+					</select> 
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">文件章节号：</td>
+				<td class="ui-form-table-dd">			
+					<script>
+			        	var datazjd=[{pid:"0",id:"1",val:"1"},{pid:"0",id:"2",val:"2"},{pid:"1",id:"3",val:"1.1"},{pid:"1",id:"4",val:"1.2"},{pid:"2",id:"5",val:"2.1"}];
+			        </script>
+					<div itype="SelectTree" id="tree11" width="100%"  items="#{datazjd}" inside="false" height="200px"
+				 		treeType="multitree" topParentid="0" openFloor="2">
+				 	</div>	
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">标准内容：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" type="textarea" id="sdActionPojo.c_std_content" width="100%"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">附录：</td>
+				<td class="ui-form-table-dd">  				
+					<script>
+			        	var data=[{pid:"0",id:"1",val:"附录A"},{pid:"0",id:"2",val:"附录B"},{pid:"0",id:"3",val:"附录C"}];
+			        </script>			        
+					<div itype="SelectTree" id="tree1" width="100%" items="#{data}" inside="false" height="60%" treeType="multitree" topParentid="0" openFloor=1>	
+					</div>
+				</td>
+			</tr>
+		</table>
+		<!-- 
+			<input itype="TextBox" id="basicMouldPojo.c_actitem_id" display="false" />
+			<input itype="TextBox" id="basicMouldPojo.c_id" display="false" />
+		 -->
+	</form>
+</body>
+</html>

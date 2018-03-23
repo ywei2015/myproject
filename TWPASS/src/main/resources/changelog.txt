@@ -1,0 +1,30 @@
+2013-04-25
+1.从twdpe-webcomponent工程更新最新的代码，并整理工程结构，把js目录下的common.js移到fastdev目录。
+
+2013-04-15
+1.修改js代码中的fastui控件库引用的前缀“$”为“fastDev”
+
+2013-03-28
+1.web.xml中增加proxool连接池配置监控功能的示例
+2.数据库中配置增加c3po示例，同时proxool连接属性默认新增alias配置属性用于自带监控。
+
+2013-03-25
+1.更新fastui及皮肤为V1.5.1.1,
+2.修改代码中的数据代理Proxy对象不再使用addJob方法，改为使用回调事件来实现
+
+2013-03-22
+1.添加proxool连接池的simultaneousBuildThrottle参数
+
+2013-03-19
+1.移除component/js/commont.js文件到component/fastdev目录。
+
+2013-03-18
+1.菜单资源的url 读取，修改为如果 url以"http://", 或"/"开头，则不自动添加工程上下文；
+2.修改fastDev-import-login.js, 和fastDev-import.js， js/common.js，去除对工程上下文的依赖。
+3.去除uploads 目录及下面对应文件，去掉 js目录下fastdevAll.js,nav.js,commpage.js 原V1.3相关文件。
+4.屏蔽掉web.xml 中的关于文件上传的配置，新增 config.struts.twdpe包，并把原config.strtus 包下关于框架组件的 xml配置文件移到config.struts.twdpe包中。
+5.调整component/fastdev 目录下面的主题等相关资源，去掉 css,images目录，把对应的资源放置到 themes\default的css 和imanges目录中。
+6.去除没有用到的newwebsiteinfo目录，去除原来 V1.3版的主界面相关的页面
+7.更新了twdpe-web-1.5.1.jar ，增加兼容 V1.3表单初始化数据的重载方法： public void initformAttribute(Map m,String attributeName,Object data)
+8.更新了memcache 的客户端 jar包
+9.其他更新

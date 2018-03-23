@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="struts-stdfile" extends="json-default">
+		<action name="stdfile_*" class="com.talkweb.xwzcxt.action.StdFileAction"
+			method="{1}">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' : 'pagination.size'}</param>  
+			<result name="success" type="json">
+				<param name="noCache">true</param>
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result name="error">/error/error.jsp</result>
+		</action>
+		
+		
+	</package>
+</struts>

@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>功能详细</title>
+		<script src="../../fastdev/fastDev-import.js"></script>
+		<script src="appInfo.js"></script>
+	</head>
+	<body>
+<script id="tpl" type="text/tmpl">	
+	<table class="ui-form-table" >
+		<tr>
+			<td class="ui-form-table-dt">应用编码：</td>
+			<td class="ui-form-table-dd" >#{app.appCode}</td>
+			<td class="ui-form-table-dt">应用名称：</td>
+			<td class="ui-form-table-dd" >#{app.appName}</td>
+		</tr>
+		<tr>
+			 <td class="ui-form-table-dt">应用类型</td>
+             <td class="ui-form-table-dd">#{app.appTypeName}</td>
+             <td class="ui-form-table-dt">应用状态：</td>
+             <td class="ui-form-table-dd" >#{app.isOpenName}</td>               
+		</tr>
+		<tr>
+			 <td class="ui-form-table-dt">服务接入ID：</td>
+             <td class="ui-form-table-dd">#{app.accessId}</td>
+             <td class="ui-form-table-dt">服务接入密码：</td>
+             <td class="ui-form-table-dd">#{app.accessPassword}</td>               
+		</tr>
+		<tr>
+			 <td class="ui-form-table-dt">开发厂商：</td>
+             <td class="ui-form-table-dd">#{app.manufacturer}</td>
+             <td class="ui-form-table-dt">应用访问地址：</td>
+             <td class="ui-form-table-dd">#{app.url}</td>               
+		</tr>
+		<tr>
+             <td class="ui-form-table-dt">应用负责人：</td>
+             <td class="ui-form-table-dd">#{app.manager}</td>
+             <td class="ui-form-table-dt">联系电话：</td>
+             <td class="ui-form-table-dd" >#{app.telephone}</td>
+        </tr>
+		<tr>
+             <th class="ui-form-table-dt">描述：</th>
+             <td class="ui-form-table-dd" colspan="3" style="height:57px">#{app.appDesc}</td>
+        </tr>
+	</table>
+	</script>
+	</body>
+</html>

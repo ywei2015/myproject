@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="midiaStandardFileInfo" >
+	<select id="getStdMediaInfo" parameterType="map" resultType="com.talkweb.xwzcxt.vo.MediaStdVo">
+		select   f.c_file_path,f.c_file_type,m.c_mediastd_type
+				 <!-- ,m.c_step_id,m.c_templet_id,m.c_actnode_id,m.c_step_id,f.c_file_id -->
+		from     t_file_info f
+		
+		inner join  t_sd_mediastd m
+		on    m.c_sdfile_id=f.c_file_id
+		
+		where exists (select  1
+		              from    t_task t
+		              where  (m.c_actnode_id=t.c_actnode_id 
+		              		  or 	 t.c_tasktemplet_id=m.c_templet_id )
+		              		  and    t.c_task_id=#{c_task_id})
+		
+		or exists ( select 1 
+               		from   t_sd_actnode_item a
+               		inner join  t_task t 
+               		on     t.c_actnode_id=a.c_actnode_id
+               		where  a.c_actitem_id=m.c_step_id
+               		and    t.c_task_id=#{c_task_id})	
+		order by m.c_mediastd_type asc ,m.c_createtime desc
+	</select>
+</mapper>
+

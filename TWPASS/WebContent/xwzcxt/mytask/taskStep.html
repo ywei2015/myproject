@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>任务步骤</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="readyMytask.js"></script>
+<style type="text/css">
+#beizhu{
+ position:absolute;
+ top:170px;
+}
+
+</style>
+<script type="text/javascript">
+var request = fastDev.Browser.getRequest();
+var taskId = request['c_task_id'];
+	fastDev(function() {
+		//var taskId = request['c_task_id'];
+		//var items={};
+		//items["taskId"] = taskId ;
+		//alert(items["taskId"]);
+		//alert(fastDev.Util.JsonUtil.parseString(items));
+// 		fastDev.getInstance('grid2').refreshData(items);
+
+	});
+	function refreshTaskResult(){
+	    fastDev.getInstance('grid2').refreshData();
+	}
+	
+	
+	function toTextLink(value){
+	     var c_id=fastDev.getInstance('grid2').getValue()[0].c_id;
+	     if(value='文本录入'){
+	         var link='<a href="javaScript:void(0);" onclick=showSrcDialog(this,"'
+	         +c_result+'","'+c_id
+	         +'")>文本录入</a>';
+	         return link;
+	     }
+	}
+	
+	
+	function createNewErr() {
+	var path = window.location.href;
+	var url = path.substring(0, path.lastIndexOf("/"));
+	var taskId = request['c_task_id'];
+	var taskName=request['c_task_name']+"(异常)";
+	url = url + "/../taskerror/newErr.html?c_err_kind=1&c_task_name="+taskName+"&c_task_id="+taskId;
+	//alert(url);
+	fastDev.create("Window", {
+		title : "发起异常",
+		src : url,
+		width : 800,
+		height : 400,
+		buttons : [{
+			text : "保存",
+			align : "center",
+			iconCls : "icon-save",
+			onclick : function(event, that, win, fast) {
+				win.doSave(that);
+			}
+		},{
+			text : "关闭",
+			align : "center",
+			iconCls : "icon-close",
+			onclick : function(event, that, win, fast) {
+				that.close();
+			}
+		}]
+	});
+}
+	
+	function toStdDetails(){
+		return '<a href="javaScript:void(0);" onclick=openStd(this)>查看</a>';
+	}
+	
+	function openStd(obj){
+		var text=fastDev.getInstance("grid2").getValue(obj)[0].c_step_std;
+		fastDev.create("Window", {
+			title : "步骤标准",
+			content:text,
+			buttons:[{
+				text : "关闭",
+				align : "center",
+				iconCls : "icon-close",
+				onclick : function(event,that, win, fast) {
+					that.close();
+				}
+			}]
+		});
+	}
+	
+	var beiZhu="";
+	function save(){
+		var beizhuj=document.getElementById("my_beizhuid").value;
+		if(beizhuj!=""){
+		if(beiZhu!=beizhuj){
+		fastDev.post("waithandTask_saveBz.action",{
+			data:{
+				"taskId":taskId,
+				"beizhu":beizhuj
+			},
+		  success:function(dat){
+				if(dat="success"){
+					window.fastDev.tips("保存成功！");
+					beiZhu=beizhuj;
+					}
+			}
+		});
+		}
+		}
+	}
+	
+	function onAfterInitRender() {
+		var body = fastDev(window).height();
+		this.setHeight(body-35);
+		fastDev.post("waithandTask_getBz.action",{
+				data:{
+					"taskId":taskId
+				},success:function(dat){
+				    if(dat!="[object Object]"){
+					document.getElementById("my_beizhuid").value=dat;
+				    }
+			}
+			});
+	}
+
+
+</script>
+</head>
+<body>
+
+   <!--  
+	<form itype="Form" saveInstance=true id="taskStep">
+		<table class="ui-form-table">
+			<tr valign="middle">
+				<td class="ui-form-table-dt">步骤</td>
+				<td class="ui-form-table-dd">
+					<div width="100%" itype="TextBox" id="c_step_index"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">动作名称</td>
+				<td class="ui-form-table-dd">
+
+					<div width="100%" itype="TextBox" id="c_step_name"></div>
+				</td>
+			</tr>
+			<tr valign="middle">
+				<td class="ui-form-table-dt">动作执行</td>
+				<td class="ui-form-table-dd">
+					<div width="100%" itype="TextBox" id="c_tracefun_name"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">执行结果</td>
+				<td class="ui-form-table-dd">
+					<div width="100%" itype="TextBox" id="c_result"></div>
+				</td>
+			</tr>
+		</table>
+	</form>
+    -->
+    	<div itype="DataGrid" 
+		 id="grid2" 
+		 pageSize="5"  
+		 saveInstance="true" 
+		 onBeforeReady="initHiddenInput()"
+		 onAfterInitRender="onAfterInitRender()"
+		 keyword="c_step_index"
+		 onRowClick="onRowClick()"
+		 allowResizeColumn=true
+		 >
+		 <div name="top-toolbar"   >
+				<div plain=true text="发起异常" display="true" iconCls="icon-add"   onClick="createNewErr()"></div>
+			</div>
+
+		 <div width="15%" text="步骤" titleCls="alignClass" name="c_step_index" ></div>
+		 <div width="20%" text="动作名称" titleCls="alignClass" name="c_step_name" ></div>
+		 <div width="50px" text="标准" titleCls="alignClass" name="c_step_std" renderer="toStdDetails()" ></div>
+		 <div width="25%" text="动作执行" titleCls="alignClass" name="c_tracefun_name" ></div>
+		 <div width="40%" text="执行结果" titleCls="alignClass" name="c_result" ></div>
+		 <div width="20%" name="c_id" hidden=true></div>
+	</div>
+	<div id="beizhu">
+		<div>
+		  <div itype="Button" class="my_baocun" text="备注:" 
+					 width="70px"></div> 
+		</div>
+		<div style="position:absolute;top:28px">
+	      <textarea itype="TextBox" id="my_beizhuid" type="textarea"  style="height:150px;width:380px;overflow-y:scroll" ></textarea>
+	   </div>
+	</div>
+</body>
+</html>

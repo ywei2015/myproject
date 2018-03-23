@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<script src="fastdev/fastDev-import.js"></script>
+
+<title>任务验证环节的异常备注</title>
+
+<script >
+/*
+fastDev(function(){    //将数据库中的验证结果填入异常输入框中
+   var url="../../taskVerifyAndComment_getVerifyResult.action" ;
+   
+   fastDev.post(url,{
+       success: function(data){
+             fastDev.tips(data);
+             fastDev.getInstance("cChkResult").setValue(data);
+       },
+       data:{
+           "cTaskId":getTaskId()
+       }
+   })
+   
+});
+*/
+function getTaskId(){
+    var url=window.location .href;
+  　    var aa=url.indexOf('=');
+    if (aa == -1){
+       return "";
+    }
+　    url=url.substring(aa+1);
+   return url;
+}
+
+var submit=function(){
+				//var rs=confirm("您所提交的数据将会被写入数据库，是否确定提交?");
+				var url="../../taskVerifyAndComment_verifyResultUpdate.action" ;
+				
+				var cChkResult=fastDev.getInstance('cChkResult').getValue();
+				if(cChkResult==null || cChkResult.trim()==''){
+				  fastDev.tips("请填写信息！");
+				  return;
+				}
+				var cTaskId=getTaskId();
+				fastDev.post(url,{
+				    success:function(data){
+				         fastDev.tips(data);
+				    },
+				    data:{
+				        "cTaskId":cTaskId,
+				        "cChkResult":"NG:"+cChkResult
+				    }
+				});
+			}
+
+var reset=function(){
+   				
+				var form=fastDev.getInstance("form1");
+				form.cleanData();
+			}
+
+</script>
+</head>
+<body>
+	<form itype="Form" id="form1" requestType="post" 
+	   saveInstance="true" >
+	   
+		<table width="800px" border="0" style="margin:10px;" class="ui-form-list">
+        <tr>
+        <td><div class="ui-layout-text">请输入异常备注</div></td> <td></td>
+        </tr>        
+		  <tr>
+		    <td><textarea itype="TextBox" name="cChkResult" id="cChkResult" 
+		        resize="both" type="textarea" height="400px" width="400px"></textarea>
+		    </td>
+	      </tr>		
+         </table>
+         <div style="width:400px; text-align:center">
+			<input itype="Button" id="btn2" text="提交" onclick="submit()" />&nbsp;&nbsp;&nbsp;
+			<input itype="Button" id="btn1" text="重置" onclick="reset()" />
+		</div>
+	</form>   
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>新增调度任务</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script type="text/javascript" src="jobConfigAdd.js"></script>	
+<style>
+	* {
+		padding:0;
+		margin:0;
+	}
+</style>
+</head>
+<body>
+<form id="jobform" itype="Form" saveInstance="true" submitJson="false" action="jobMng_addJobConfig.action" initSource="jobMng_searchSelectData.action" onSubmitSuccess="onFormSubmitSuccess()">
+	<div itype="TextBox" id="triggers" type="hidden" saveInstance="true"></div>
+	<table class="ui-form-table">
+		<tr>
+			<th class="ui-form-table-dt" style="width:100px;">
+				<span class="ui-red">*</span>任务名称：
+			</th>
+			<td class="ui-form-table-dd">
+				<div itype="TextBox" id="job.jobName" width="100%" rule="required"></div>
+			</td>
+			<th class="ui-form-table-dt" style="width:100px;">
+				<span class="ui-red">*</span>分组：
+			</th>
+			<td class="ui-form-table-dd">
+				<select itype="Select" id="job.jobGroup" width="100%" rule="required">
+					<option>-请选择-</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th class="ui-form-table-dt" style="width:100px;">
+				<span class="ui-red">*</span>执行源：
+			</th>
+			<td class="ui-form-table-dd">
+				<div itype="TextBox" id="job.jobSender" width="100%" rule="required"></div>
+			</td>
+			<th class="ui-form-table-dt" style="width:100px;">
+				执行源格式：
+			</th>
+			<td class="ui-form-table-dd">
+				<div itype="RadioGroup" id="job.hasArgs">
+					<div value="true" text="有参数" checked="true"></div>
+					<div value="false" text="无参数"></div>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<th class="ui-form-table-dt" style="width:100px;">
+				描述：
+			</th>
+			<td class="ui-form-table-dd" colspan="3" width="">
+				<div itype="TextBox" type="textarea" id="job.jobDescription" height="50px" width="100%"></div>
+			</td>
+		</tr>
+		<tr>
+			<th class="ui-form-table-dt" style="width:100px;">
+				简单触发器：
+			</th>
+			<td colspan="3" class="ui-form-table-dd">
+				<div itype="DataGrid" width="100%" keyword="triggerName" height="150px" id="striggerdatagrid" saveInstance="true" pagePosition="none" showSeqColumn="true" onRowClick="onRowClick()">
+					<div name="top-toolbar">
+						<div plain=true text="新增简单触发器" iconCls="icon-add" onClick="doAddSTrigger()"></div>
+					</div>
+					<div name="triggerName" hidden="true"></div>
+					<div width="25%" name="startTime" text="开始时间" itype="date" format="yyyy-MM-dd HH:mm:ss" editby="DatePicker">
+						<div name="controlCfg" format="yyyy-MM-dd HH:mm:ss" validateMode="blur" rule="Required"></div>
+					</div>
+					<div width="25%" name="endTime" text="结束时间" itype="date" format="yyyy-MM-dd HH:mm:ss" editby="DatePicker">
+						<div name="controlCfg" format="yyyy-MM-dd HH:mm:ss" validateMode="blur" rule="Required"></div>
+					</div>
+					<div width="25%" name="repeatInterval" text="重复间隔(毫秒)/响应时间" editby="TextBox" renderer="numberRenderer()">
+						
+					</div>
+					<div width="19%" name="repeatCount" text="重复次数(-1为不限)" editby="TextBox" renderer="numberRenderer()">
+						
+					</div>
+					<div width="6%" text="操作" renderer="operSTriggerRenderer()"></div>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<th class="ui-form-table-dt" style="width:100px;">
+				表达式触发器：
+			</th>
+			<td colspan="3" class="ui-form-table-dd">
+				<div itype="DataGrid" width="100%" keyword="triggerName" height="150px" id="ctriggerdatagrid" saveInstance="true" pagePosition="none" showSeqColumn="true" onRowClick="onRowClick()">
+					<div name="top-toolbar">
+						<div plain=true text="新增表达式触发器" iconCls="icon-add" onClick="doAddCTrigger()"></div>
+					</div>
+					<div name="triggerName" hidden="true"></div>
+					<div width="35%" name="startTime" text="开始时间" itype="date" format="yyyy-MM-dd HH:mm:ss" editby="DatePicker">
+						<div name="controlCfg" format="yyyy-MM-dd HH:mm:ss"></div>
+					</div>
+					<div width="35%" name="endTime" text="结束时间" itype="date" format="yyyy-MM-dd HH:mm:ss" editby="DatePicker">
+						<div name="controlCfg" format="yyyy-MM-dd HH:mm:ss"></div>
+					</div>
+					<div width="24%" name="cronExpression" text="表达式" editby="TextBox"></div>
+					<div width="6%" text="操作" renderer="operCTriggerRenderer()"></div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</form>
+</body>
+</html>

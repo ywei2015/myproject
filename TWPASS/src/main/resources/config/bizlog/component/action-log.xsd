@@ -1,0 +1,643 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:attribute name="priority" default="0">
+		<xs:annotation>
+			<xs:documentation>指定该项声明的优先级。同一类型有多个模式匹配时，优先级高的将会被应用。默认优先级均为0。注意!此项属性值会被标签子元素继承或覆盖。
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:int">
+				<xs:minInclusive value="0" />
+				<xs:maxInclusive value="9999" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:attribute>
+	<xs:attribute name="pattern" default="ant">
+		<xs:annotation>
+			<xs:documentation>指定模式的类型。默认为ant目录路径模式匹配类型。</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="ant">
+					<xs:annotation>
+						<xs:documentation>ant目录路径匹配模式。</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value="regex">
+					<xs:annotation>
+						<xs:documentation>正则表达式匹配模式。</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:attribute>
+	<xs:attribute name="skip" type="xs:boolean" default="false">
+		<xs:annotation>
+			<xs:documentation>是否跳过日志记录。该项属性值为true时，匹配到的目标类或方法将跳过日志记录。可用来排除那些不需要应用日志记录的类或方法。
+				注意!此项属性值会被标签子元素继承或覆盖。
+			</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+	<xs:attribute name="class" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>声明被拦截Action的类名。</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+	<xs:element name="type" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>操作类型声明。</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="resource" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>被访问资源名声明。</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="description" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>操作描述。</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="result">
+		<xs:annotation>
+			<xs:documentation>操作结果描述。</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="success" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>操作成功时的描述信息。</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="throws" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>有异常抛出时的描述信息。</xs:documentation>
+					</xs:annotation>
+					<xs:complexType mixed="true">
+						<xs:sequence>
+							<xs:element name="throw" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>
+										异常类型声明。操作异常结果信息会取对应类型下的异常描述信息。
+									</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute name="class" type="xs:string" use="required">
+												<xs:annotation>
+													<xs:documentation>
+														异常的类名（父标签的package属性未指定时，此处为全限定类名）。
+													</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="default" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>
+									未匹配到任何异常类型时的默认出错描述信息。
+								</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="package" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>
+									异常类的包路径名。当需匹配多个同包下的异常类型时，可以在此处只声明一次异常包路径。该包声明默认会与异常类名进行连接。
+								</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="param" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>
+									异常参数声明。声明异常参数后，可通过属性占位符来绑定异常消息。
+								</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>					</xs:complexType>
+				</xs:element>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="application">
+		<xs:annotation>
+			<xs:documentation>应用声明。注意!该项声明可以被下层的元素继承或覆盖。</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="id" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>应用编号。</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>应用名称。</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="module">
+		<xs:annotation>
+			<xs:documentation>模块声明。注意!该项声明可以被下层的元素继承或覆盖。</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="id" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>模块编号。</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>模块名称。</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="semantic" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>语义。</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="pattern">
+		<xs:annotation>
+			<xs:documentation>声明待匹配的模式串。</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute ref="skip" />
+					<xs:attribute ref="priority" />
+					<xs:attribute ref="pattern" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="actions">
+		<xs:annotation>
+			<xs:documentation>根元素。</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="namespace" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>声明一个配置命名空间。不同的命名空间将以独立的模块来管理。
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="id" use="required" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>
+									命名空间的ID值。
+								</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="package" use="optional" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>该命名空间下定义的Action所在的包路径。定义包路径将确保配置的模块独立性。
+								</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="extends" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>该命名空间所继承的命名空间ID值。被继承命名空间内的某些声明项可被本命名空间继承或覆盖。
+								</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="global-package" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>全局包路径。全局包路径可以被其他配置模块的namespace的package属性继承，以及action-define的package属性继承。
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="value" type="xs:string" use="required">
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="aop-support" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>是否开启AOP支持。</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="value" type="xs:boolean" use="optional"
+							default="true">
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="skip-undeclared" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							在记录日志时，是否忽略未声明的类和方法。
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="value" type="xs:boolean" use="optional"
+							default="true">
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="stub-method" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							Action类中声明的日志回调方法名，此方法必须为一个无入参且返回值为Map对象的方法。
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="name" type="xs:string" use="optional"
+							default="log">
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="session-key" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							HttpServletRequest或HttpSession(Map)中参数的键名映射。
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:all>
+							<xs:element name="user-id" type="xs:string" default="userid"
+								minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>
+										用户编号。
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="user-name" type="xs:string" default="username"
+								minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>
+										用户名。
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="user-type" type="xs:string" default="usertype"
+								minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>
+										用户类型。
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="app-id" type="xs:string" default="appid"
+								minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>
+										应用编号。
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="app-name" type="xs:string" default="appname"
+								minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>
+										应用名称。
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="module-id" type="xs:string" default="moduleid"
+								minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>
+										模块编号。
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="module-name" type="xs:string"
+								default="modulename" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>
+										模块名称。
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="description" type="xs:string"
+								default="description" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>
+										Action请求操作描述。
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="type" type="xs:string" default="type"
+								minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>
+										Action请求操作类型。
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="request" type="xs:string" default="request"
+								minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>
+										HttpServletRequest对象。
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="session" type="xs:string" default="session"
+								minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>
+										HttSession对象，或Map&lt;String,Object&gt;对象。
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="result" type="xs:string" default="result"
+								minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>
+										Action请求执行结果描述。
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="success" type="xs:string" default="success"
+								minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>
+										Action请求，执行成功结果描述。
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="throw" type="xs:string" default="throw"
+								minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>
+										Action请求，执行失败结果描述。
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="resource" type="xs:string" default="resource"
+								minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>
+										访问资源名。
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="field" type="xs:string" default="field"
+								minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>
+										数据字段标记。
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="old" type="xs:string" default="old"
+								minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>
+										数据原值。
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="new" type="xs:string" default="new"
+								minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>
+										数据新值。
+									</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:all>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="application" minOccurs="0" />
+				<xs:element ref="module" minOccurs="0" />
+				<xs:element name="action-define" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							Action定义声明，被声明的Action类名与Action中方法名必须完全匹配被拦截的方法时，才会应用日志记录。
+							比模式匹配声明优先级要高。
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="application" minOccurs="0" />
+							<xs:element ref="module" minOccurs="0" />
+							<xs:element name="action" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>
+										声明一个被拦截的Action类。
+									</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="application" minOccurs="0"
+											maxOccurs="1" />
+										<xs:element ref="module" maxOccurs="1" minOccurs="0" />
+										<xs:element name="method" maxOccurs="unbounded"
+											minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>
+													声明一个被拦截的方法。
+												</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:all>
+													<xs:element ref="application" maxOccurs="1"
+														minOccurs="0" />
+													<xs:element ref="module" maxOccurs="1"
+														minOccurs="0" />
+													<xs:element ref="type" maxOccurs="1" minOccurs="0" />
+													<xs:element ref="resource" maxOccurs="1"
+														minOccurs="0" />
+													<xs:element ref="description" maxOccurs="1"
+														minOccurs="0" />
+													<xs:element ref="result" maxOccurs="1"
+														minOccurs="0" />
+												</xs:all>
+												<xs:attribute name="name" type="xs:string" use="required">
+													<xs:annotation>
+														<xs:documentation>
+															方法名。
+														</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute ref="skip" default="false" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute ref="class" use="required" />
+									<xs:attribute ref="skip" default="false" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="package" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>
+									Action包路径声明。如果所有的Action定义在同一个包中，可以在此处只声明一次。在处理时，会默认将此属性值与Action类名连接。
+								</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute ref="skip" default="false" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="action-map" maxOccurs="1" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>模式匹配声明。</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="application" maxOccurs="1" minOccurs="0" />
+							<xs:element ref="module" maxOccurs="1" minOccurs="0" />
+							<xs:element name="action" maxOccurs="unbounded"
+								minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>
+										声明一个模式匹配形式的Action类。
+									</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:all>
+										<xs:element ref="application" maxOccurs="1"
+											minOccurs="0" />
+										<xs:element ref="module" maxOccurs="1" minOccurs="0" />
+										<xs:element name="method" maxOccurs="1" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>
+													声明一个模式匹配形式的方法。
+												</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:all>
+													<xs:element name="verbs" maxOccurs="1"
+														minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>
+																声明多个待匹配的动词类型。
+															</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="verb" maxOccurs="unbounded"
+																	minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>
+																			声明一个动词匹配模式。
+																		</xs:documentation>
+																	</xs:annotation>
+																	<xs:complexType>
+																		<xs:all>
+																			<xs:element ref="pattern" maxOccurs="1"
+																				minOccurs="0" />
+																			<xs:element ref="semantic" maxOccurs="1"
+																				minOccurs="0" />
+																			<xs:element ref="result" maxOccurs="1"
+																				minOccurs="0" />
+																		</xs:all>
+																		<xs:attribute ref="skip" default="false" />
+																		<xs:attribute ref="priority" />
+																		<xs:attribute ref="pattern" />
+																		<xs:attribute name="type" type="xs:string">
+																			<xs:annotation>
+																				<xs:documentation>
+																					声明该动词模式的操作类型。当未指定该项值时，会默认取在父标签上声明的属性default的值。
+																				</xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute ref="skip" default="false" />
+															<xs:attribute ref="priority" />
+															<xs:attribute ref="pattern" />
+															<xs:attribute name="default" type="xs:string">
+																<xs:annotation>
+																	<xs:documentation>
+																		指定该类动词匹配下的默认操作类型。当动词标签未声明操作类型属性type时，会默认应用该项值。
+																	</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+															<xs:attribute name="value" type="xs:string">
+																<xs:annotation>
+																	<xs:documentation>
+																		与属性default所指示的操作类型相对应的操作类型描述。
+																	</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="nouns" maxOccurs="1"
+														minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>
+																声明多个待匹配的名词类型。
+															</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="noun" maxOccurs="unbounded"
+																	minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>
+																			声明一个名词匹配模式。
+																		</xs:documentation>
+																	</xs:annotation>
+																	<xs:complexType>
+																		<xs:all>
+																			<xs:element ref="pattern" maxOccurs="1"
+																				minOccurs="0" />
+																			<xs:element ref="semantic" maxOccurs="1"
+																				minOccurs="0" />
+																		</xs:all>
+																		<xs:attribute ref="skip" default="false" />
+																		<xs:attribute ref="priority" />
+																		<xs:attribute ref="pattern" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute ref="skip" default="false" />
+															<xs:attribute ref="priority" />
+															<xs:attribute ref="pattern" />
+															<xs:attribute name="default" type="xs:string">
+																<xs:annotation>
+																	<xs:documentation>
+																		指定该类名词匹配下的默认资源名。当名词标签未声明语义时，会默认应用该项默认值。
+																	</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+												</xs:all>
+												<xs:attribute ref="skip" default="false" />
+												<xs:attribute ref="priority" />
+												<xs:attribute ref="pattern" />
+											</xs:complexType>
+										</xs:element>
+									</xs:all>
+									<xs:attribute ref="class" use="required" />
+									<xs:attribute ref="skip" default="false" />
+									<xs:attribute ref="priority" />
+									<xs:attribute ref="pattern" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute ref="skip" default="false" />
+						<xs:attribute ref="pattern" />
+						<xs:attribute name="ignoreCase" type="xs:boolean"
+							default="true">
+							<xs:annotation>
+								<xs:documentation>
+									是否忽略模式大小写。仅当模式匹配类型为ant时生效。
+								</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="autoConnect" type="xs:boolean"
+							default="true">
+							<xs:annotation>
+								<xs:documentation>
+									是否开启动词描述与名词描述的自动连接。开启自动连接后，匹配到的动词语义标签值将自动与匹配到的名词语义标签值连接。
+								</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

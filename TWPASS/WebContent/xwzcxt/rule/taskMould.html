@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>任务模板管理</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="taskMould.js"></script>
+
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container"> 
+	<div id="leftPanel" class="ui-layout-left" style="width: 200px; height:100%;">
+		<!-- 
+		<div class="ui-layout-title" style="padding-left:5px;">活动树</div>
+		<div id="activityTree" itype="Tree" saveInstance="true" showIco="true"
+			width="100%" rootValue="所有活动"				
+			initSource="initActivityTree_initActNodeTree.action"	
+			topParentid="-1"
+			openFloor=3 
+			customFields="type,appid"
+			onNodeClick="reloadActivity()"></div>
+		 -->
+		 
+		<!-- <div class="ui-layout-title" style="padding-left:5px;">岗位树</div>
+		<div id="positiontree" itype="Tree" saveInstance="true"
+				showIco="true" width="100%" rootValue="长沙卷烟厂"
+				initSource="position_queryPositionTree.action" topParentid="-1" 
+				openFloor=3 onNodeClick="onNodeClick()" onAfterDataRender="onAfterDataRender()"></div> -->
+		
+		<div class="ui-layout-title" style="padding-left:5px;">组织岗位树</div>		
+		<div id="orgpositiontree" itype="Tree" saveInstance="true" showIco="true"
+				width="100%" rootValue="所有组织"
+			 	topParentid="1--1"
+			 	initSource="posbindorg_getAllPosition.action"
+				asyncDataSource="posbindorg_getAllPosition.action"
+				openFloor=2 onNodeClick="onTreeNodeClick()" onAfterDataRender="onAfterDataRender()">
+		</div>		
+				
+	</div>
+	<div id="centerPanel" class="ui-layout-center" style="left: 202px;height:100%;">
+		 	<form id="checkform" itype="Form" requestType="post" saveInstance="true">
+				<table class="ui-form-table">
+					<tr valign="middle">
+						<td class="ui-form-table-dt" style="width:100px;">模板名称：</td>
+						<td class="ui-form-table-dd"><div itype="TextBox" id="taskMouldPojo.c_tasktemplet_name" width="100%"></div></td>
+						<td class="ui-form-table-dd">
+							<div itype="Button" id="searchBtn" text="查询" iconCls="icon-search" onClick="doSearch()"></div>
+							<div itype="Button" id="resetBtn" text="重置" iconCls="icon-reset" onClick="doReset()"></div>
+						</td>
+					</tr>
+				</table>
+			</form>
+			
+		<div itype="DataGrid" id="grid1"  showCheckColumn=true  initSource = "task_queryTaskByPage.action?action=5"
+			pageSize="20" saveInstance=true onAfterInitRender="onAfterInitRender()" keyword="c_tasktemplet_id" onRowClick="onRowClick()" >
+			 
+			<div name="top-toolbar">
+					<div plain=true text="增加" iconCls="icon-add" onclick="doAdd()"></div>
+					<div itype="separator"></div>
+					<div plain=true text="批量删除" iconCls="icon-delete" onclick="doBatchDelete()"></div>
+			</div>	
+				<div name="rowDetail">
+					<div itype="DataGrid" compile="false" initSource="task_queryTaskByPage.action?action=6&taskMouldPojo.c_tasktemplet_id={c_tasktemplet_id}" pagePosition="none">
+						<div width="15%" name="c_actitem_code" text="标准项编号"></div>
+						<div width="15%" name="c_actitem_name" text="标准项名称"></div>
+						<div width="40%" name="c_actitem_what" text="作业说明"></div>
+					</div>					
+				</div>
+				<!-- 列属性定义-->
+				<div hidden="true" name="c_tasktemplet_id"></div>
+				<div width="12%" name="c_tasktemplet_name" text="模板名称"></div>
+				<div width="12%" name="c_tasktemplet_name" text="活动末节点"></div>
+				<div width="8%" name="posiname" text="所属岗位"></div>
+				<div width="8%" name="areaname" text="作业区域"></div>
+				<div width="10%" name="c_trigger_type_name" text="任务类别"></div>
+				<div width="10%" name="c_timerule_name" text="是否关联时间"></div>
+				<div width="10%" name="c_overtime_triggertypename" text="超时反馈方式"></div>
+				<div width="10%" name="c_ok_triggertypename" text="正常反馈方式"></div>
+				<div width="10%" name="c_overtime_triggertypename" text="异常反馈方式"></div> 
+				<div width="8%" text="操作" renderer="operRenderer()"></div>
+			
+				
+			</div>
+		</div>
+	</div>
+</body>
+</html>

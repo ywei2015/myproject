@@ -1,0 +1,66 @@
+.plus-header{
+	background-color: #f3f7fa;
+	border-top: 1px solid #d8e2eb;
+    border-right: 1px solid #d8e2eb;
+    border-left: 1px solid #d8e2eb;
+	font-weight: bolder;
+	color: #075587;
+	height: 28px;
+	font-size: 12px;
+	text-align: center;
+	line-height: 28px;
+	 }
+.plus-value{
+	border-top: 1px solid #d8e2eb;
+    border-right: 1px solid #d8e2eb;
+    border-left: 1px solid #d8e2eb;
+	height: 28px;
+	font-size: 12px;
+	color: #333333;	
+	line-height: 28px;
+	}
+.plus-value-left{
+	float:left;
+	margin-left:5px;
+	}
+.plus-value-right{
+	margin-right:5px;
+	text-align: right;
+	}
+
+.btn_left {
+	background-attachment: scroll;
+	background-color: #F2F9FC;
+	background-image: url(../images/btn/bin_left.gif);
+	background-repeat: no-repeat;
+	background-position: 0 0;
+}
+.btn_right {
+	background-attachment: scroll;
+	background-color: #F2F9FC;
+	background-image: url(../images/btn/bin_right.gif);
+	background-repeat: no-repeat;
+	background-position: 0 0;
+}
+.btn_left,.btn_right{
+	border: 1px solid #D0E1E6;
+	color: #333;
+	cursor: pointer;
+	height: 24px;
+	margin: 0 10px 0 0;
+	padding: 1px 5px 0 24px;
+	text-decoration: none;
+	text-transform: uppercase;
+	width: auto;
+	font-family: "宋体";
+	font-size: 12px;
+	line-height: 24px;
+}
+.btn_left,.btn_right{
+        width: auto !important;
+        height: 24px !important;
+		}
+.ooo .btn_left,.btn_right{
+	text-align:center!important;
+	margin-top:5px;
+	}

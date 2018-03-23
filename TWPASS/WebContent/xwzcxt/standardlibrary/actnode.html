@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>标准项管理</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="actnode.js"></script>
+
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container"> 
+	<div id="leftPanel" class="ui-layout-left" style="width: 200px; height:100%;">
+		<div class="ui-layout-title" style="padding-left:5px;">流程节点树</div>
+		<div id="activityTree" itype="Tree" saveInstance="true" showIco="true"
+			width="100%" rootValue="流程节点"				
+			initSource="standardlibrary_getProcessNodeTree.action"	
+			topParentid="0"
+			openFloor=3 
+			customFields="type,appid"
+			onNodeClick="reloadActivity()"></div>
+	</div>
+	<div id="centerPanel" class="ui-layout-center" style="left: 202px;height:100%;">
+		 	<form id="checkform" itype="Form" requestType="post" saveInstance="true">
+				<table class="ui-form-table">
+					<tr valign="middle">
+						<td class="ui-form-table-dt" style="width:100px;">标准项编码：</td>
+						<td class="ui-form-table-dd"><div itype="TextBox" id="basicMouldPojo.c_actitem_code" width="100%"></div></td>
+						<td class="ui-form-table-dt" style="width:100px;">标准项名称：</td>
+						<td class="ui-form-table-dd"><div itype="TextBox" id="basicMouldPojo.c_actitem_name" width="100%"></div></td>
+						<td class="ui-form-table-dd">
+							<div itype="Button" id="searchBtn" text="查询" iconCls="icon-search" onClick="doSearch()"></div>
+							<div itype="Button" id="resetBtn" text="重置" iconCls="icon-reset" onClick="doReset()"></div>
+						</td>
+					</tr>
+				</table>
+			</form>
+		<div itype="DataGrid" id="grid1"  onBeforeReady="onBeforeReady()" onAfterInitRender="onAfterInitRender()"
+			pageSize="20" saveInstance=true keyword="c_task_id" showCheckColumn=true onRowClick="onRowClick()" >		
+			<div name="top-toolbar">
+				<div plain=true text="新增" iconCls="icon-add"  id="add"   onclick="addStandard()"></div>
+				<div itype="separator"></div>
+				<div plain=true text="修改" iconCls="icon-edit"  id="edit"   onclick="editStandard()"></div>
+				<div itype="separator"></div>
+				<div plain=true text="删除" iconCls="icon-delete" id="delete"  onclick="doBatchDelete()"></div>
+			</div>	
+			
+			<div name="rowDetail">
+				<div itype="DataGrid" id="detailGrid" onBeforeReady="onBeforeDetailGridReady()" pagePosition="none"
+				     onRowClick="detailRowClick()">
+				    <div name="c_actitem_id" hidden="true"></div>
+					<div width="10%" name="c_actitem_index" text="活动序号"></div>
+					<div width="20%" name="c_actitem_name" text="做什么"></div>
+					<div width="20%" name="c_getdatatype" text="执行结果上传要求"></div>
+					<div width="20%" text="操作" itype="template" tpl="#{operTpl}"></div>
+				</div>					
+			</div>
+			
+			<!-- 列属性定义-->
+			<div name="c_actnode_id" hidden="true"></div>
+			<div width="15%" name="c_actnode_name" text="岗位活动名称"></div>
+			<div width="15%" name="c_pdca" text="PDCA属性"></div>
+			<div width="15%" name="c_iskeyctrl" text="是否为关键活动"></div>
+			<div width="15%" name="c_frequency" text="时态(when)"></div>
+			<div width="15%" name="areaname" text="作业区域（where)"></div>
+			<div width="15%" name="posiname" text="执行岗位(who)"></div>
+			<div width="10%" name="oper" text="操作" renderer="operRenderer()"></div>
+		</div>	
+	</div> 
+</body>
+</html>

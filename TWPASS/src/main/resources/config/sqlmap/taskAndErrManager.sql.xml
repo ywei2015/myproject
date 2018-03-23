@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="taskAndErrManager">
+	
+	<resultMap id="BaseResultMap" type="com.talkweb.xwzcxt.pojo.TTask">
+		<id column="c_TASK_ID" property="c_TASK_ID" jdbcType="DECIMAL" />
+		<result column="c_TASK_NAME" property="c_TASK_NAME" jdbcType="VARCHAR" />
+		<result column="c_TASK_TYPE" property="c_TASK_TYPE" jdbcType="DECIMAL" />
+		<result column="c_TRIGGER_TYPE" property="c_TRIGGER_TYPE" jdbcType="DECIMAL" />
+		<result column="c_TRIGGER_CAUSE" property="c_TRIGGER_CAUSE" jdbcType="VARCHAR" />
+		<result column="c_ISKEYCTRL" property="c_ISKEYCTRL" jdbcType="VARCHAR" />
+		<result column="c_ERR_SN" property="c_ERR_SN" jdbcType="VARCHAR" />
+		<result column="c_MANAGE_SECTION" property="c_MANAGE_SECTION" jdbcType="VARCHAR" />
+		<result column="c_PDCA" property="c_PDCA" jdbcType="VARCHAR" />
+		<result column="c_ISGETNOTIFY" property="c_ISGETNOTIFY" jdbcType="VARCHAR" />
+		<result column="c_ISRELAY" property="c_ISRELAY" jdbcType="VARCHAR" />
+		<result column="c_ISSEQUENCE" property="c_ISSEQUENCE" jdbcType="VARCHAR" />
+		<result column="c_AREA_ID" property="c_AREA_ID" jdbcType="VARCHAR" />
+		<result column="c_EXEC_USERID" property="c_EXEC_USERID" jdbcType="VARCHAR" />
+		<result column="c_START_TIME" property="c_START_TIME" jdbcType="TIMESTAMP" />
+		<result column="c_URGE_TIME" property="c_URGE_TIME" jdbcType="TIMESTAMP" />
+		<result column="c_END_TIME" property="c_END_TIME" jdbcType="TIMESTAMP" />
+		<result column="c_EXCEED_TIME" property="c_EXCEED_TIME" jdbcType="TIMESTAMP" />
+		<result column="c_ISSTD" property="c_ISSTD" jdbcType="VARCHAR" />
+		<result column="c_TASKTEMPLET_ID" property="c_TASKTEMPLET_ID" jdbcType="VARCHAR" />
+		<result column="c_PLANDOWN_TIME" property="c_PLANDOWN_TIME" jdbcType="TIMESTAMP" />
+		<result column="c_DOWN_TIME" property="c_DOWN_TIME" jdbcType="TIMESTAMP" />
+		<result column="c_FACT_STARTTIME" property="c_FACT_STARTTIME" jdbcType="TIMESTAMP" />
+		<result column="c_FACT_ENDTIME" property="c_FACT_ENDTIME" jdbcType="TIMESTAMP" />
+		<result column="c_UP_TIME" property="c_UP_TIME" jdbcType="TIMESTAMP" />
+		<result column="c_CREATE_USERID" property="c_CREATE_USERID" jdbcType="VARCHAR" />
+		<result column="c_CREATE_TIME" property="c_CREATE_TIME" jdbcType="TIMESTAMP" />
+		<result column="c_CONFIRM_USERID" property="c_CONFIRM_USERID" jdbcType="VARCHAR" />
+		<result column="c_CONFIRM_TIME" property="c_CONFIRM_TIME" jdbcType="TIMESTAMP" />
+		<result column="c_ISCANCEL" property="c_ISCANCEL" jdbcType="VARCHAR" />
+		<result column="c_CANCEL_CAUSE" property="c_CANCEL_CAUSE" jdbcType="VARCHAR" />
+		<result column="c_STATUS" property="c_STATUS" jdbcType="DECIMAL" />
+		<result column="c_REMARK" property="c_REMARK" jdbcType="VARCHAR" />
+	</resultMap>
+	
+    <select id="getUnexecuteableTask" parameterType="map" resultType="com.talkweb.xwzcxt.vo.TaskAndErrManagerVo">
+        SELECT       t1.c_task_id,t1.c_task_name,t1.c_exec_userid,t1.c_start_time,t1.c_end_time,
+               		 t1.c_status,decode(t1.c_iskeyctrl,'1','是','0','否') as c_iskeyctrl_name,
+               		 '工作任务' as c_task_kind_name ,tp.typename,
+               		 decode(t1.c_status,0,'已生成',11,'已下发',22,'已接收未执行',44,'已删除') as status_name,  
+               		 decode(t1.c_issequence,'1','是','0','否') as c_issequence_name
+               
+               		 ,da.fullname as areaname,m.c_manage_section_name,p.posiname,org.orgname,u.displayname
+        
+        FROM         t_task t1
+        
+        INNER JOIN   t_sd_task_templet  t2  
+        ON        (       t1.c_tasktemplet_id=t2.c_templet_id  
+        			<if test="userid!=1">        			
+                    	 AND  (t2.c_confirmor=to_char(#{userid}) OR t2.c_creator=to_char(#{userid}) )
+        			</if>
+        			
+                  )
+        
+        LEFT JOIN    v_task_type tp
+        ON			 (t1.c_task_type=tp.typeid AND tp.typeid!=20)
+        
+        LEFT JOIN    v_task_status  s    
+        ON 			 t1.c_status=s.status_id
+        
+        LEFT JOIN    t_manage_section  m    
+        ON 			 t1.c_manage_section=m.c_manage_section
+        
+        LEFT JOIN    dp_area da   
+        ON  		 da.area=to_char(t1.c_area_id)
+        
+        LEFT JOIN    dp_user u   
+        ON   		 t1.c_exec_userid=u.userid
+        
+        LEFT JOIN    dp_position p   
+        ON   		 p.positionid=u.positionid
+        
+        LEFT JOIN    dp_organization  org   
+        ON  		 org.orgid=u.orgid
+        
+        <where>
+            <if test="isFirstTime!=null">            
+                   c_status  IN(0,11,22,44)
+            </if>
+            <if test="isFirstTime==null">            
+                   c_status  IN(0,11,22)
+            </if>
+            <if test="c_statusStr!=null">
+             AND   t1.c_status=#{c_statusStr}
+            </if>
+            <if test="c_iskeyctrlStr!=null and c_iskeyctrlStr!=''">
+              AND  t1.c_iskeyctrl=#{c_iskeyctrlStr}
+            </if>
+            <if test="c_manage_section!=null">
+              AND  t1.c_manage_section=#{c_manage_section}
+            </if>
+            <if test="c_start_time!=null">
+              AND  t1.c_start_time >=#{c_start_time} AND t1.c_start_time &lt;  (#{c_start_time}+1)
+            </if>
+            <if test="c_end_time!=null">
+              AND  t1.c_end_time >=#{c_end_time}  AND t1.c_end_time &lt;  (#{c_end_time}+1)
+            </if>
+            <if test="positionid!=null">
+              AND  p.positionid=#{positionid}
+            </if>
+            <if test="c_exec_userid!=null">
+              AND  t1.c_exec_userid=#{c_exec_userid}
+            </if>
+            <if test="typeid!=null"> 
+             AND   t1.c_task_type=to_char(#{typeid})
+            </if>
+            <if test="c_task_name!=null and c_task_name!=''">
+              AND  t1.c_task_name LIKE  to_char('%'||#{c_task_name}||'%')
+            </if>
+            <if test="c_area_id!=null">
+               AND EXISTS( SELECT  1 
+                    	   FROM    dp_area
+                    	   WHERE   to_char(t1.c_area_id)=area
+                    	   CONNECT BY PRIOR  area=uparea
+                    	   START WITH  	     area=to_char(#{c_area_id}))
+            </if>
+            <if test="orgid!=null">
+              AND EXISTS( SELECT   1
+                  		  FROM     dp_organization
+                  		  WHERE    org.orgid=orgid
+                  		  CONNECT BY PRIOR  orgid=parentorgid
+                   		  START WITH  	    orgid=#{orgid})
+            </if>
+        </where>  
+        ORDER BY     t1.c_create_time DESC
+    </select>
+    
+    <update id="deleteTask" parameterType="map">
+    	UPDATE   t_task t1
+    	SET		 c_status=44,C_CANCEL_MTIME=SYSDATE
+    	WHERE    c_task_id   IN
+    	<foreach collection="ids" open="(" separator="," close=")" item="c_task_id">
+    		 	 #{c_task_id}
+    	</foreach>
+    	AND      c_status  IN(0,11,22,44)
+    	AND EXISTS (
+    	          SELECT  count(1)
+    	    	  FROM    t_sd_task_templet t2
+    	    	  WHERE   t1.c_tasktemplet_id=t2.c_templet_id  
+    	    	  AND	  ( t2.c_confirmor=to_char(#{userid}) OR t2.c_creator=to_char(#{userid}))
+    	    	  AND     ROWNUM &lt; 2
+    	)
+    </update>
+    
+    <select id="searchDeleteTask" parameterType="map" resultMap="BaseResultMap">
+    	select  t1.*  from t_task t1
+    	WHERE    c_task_id   IN
+    	<foreach collection="ids" open="(" separator="," close=")" item="c_task_id">
+    		 	 #{c_task_id}
+    	</foreach>
+    	AND      c_status  IN(0,11,22,44)
+    	AND EXISTS (
+    	          SELECT  count(1)
+    	    	  FROM    t_sd_task_templet t2
+    	    	  WHERE   t1.c_tasktemplet_id=t2.c_templet_id  
+    	    	  AND	  ( t2.c_confirmor=to_char(#{userid}) OR t2.c_creator=to_char(#{userid}))
+    	    	  AND     ROWNUM &lt; 2
+    	)
+    </select>
+    
+    
+</mapper>

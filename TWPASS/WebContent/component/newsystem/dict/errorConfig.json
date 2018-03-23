@@ -1,0 +1,9 @@
+﻿{
+	defaultInfo:{
+		requires:"不能为空",
+		special:"不能含特殊字符",
+		number:"请填写合法的数字",
+		mlength:"只能输入#{mlength}个字符",
+		dicttypeidreg:"字典类型编码只能包含0-9、a-z、A-Z、-、_这些字符"
+	}
+}

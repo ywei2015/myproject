@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script type="text/javascript" src="../js"></script>
+<script src="actionYanCImport.js"></script>
+<style>
+.divScroll{
+	OVERFLOW:auto;
+	scrollbar-face-color: #FFFFFF;
+	scrollbar-shadow-color: #D2E5F4;
+	scrollbar-highlight-color: #D2E5F4;
+	scrollbar-3dlight-color: #FFFFFF;
+	scrollbar-darkshadow-color: #FFFFFF;
+	scrollbar-track-color: #FFFFFF; 
+	scrollbar-arrow-color: #D2E5F4";
+}
+</style>
+</head>
+<body>
+	<form id="checkForm" itype="Form" saveInstance="true" action="acyanc_importYanCNode.action"
+		onSubmitSuccess="onSubmitSuccess()" submitJson="false"
+		onBeforeReady="FormReady()" onBeforeInit="BeforeInit()">
+		<div style="width: 99%; height: 95%;">
+			<div itype="TextBox" type="hidden" id="filePath" value=""></div>
+			<div itype="TextBox" type="hidden" id="cAreaId"></div>
+		</div>
+		<!-- <div id="zuoye">
+			<table class="ui-form-table">
+				<tr id="zuoyedownload0">
+					<td class="ui-form-table-dd" colspan="2">
+						<div itype="Button" text="烟虫导入模版下载" display="true" id="exportbutton" iconCls="icon-export" onClick="exportZuoyeTemplet()"></div>
+					</td>
+				</tr>
+			</table>
+		</div> onUploadComplete="onUploadComplete()"  -->
+		<div>
+			<table class="ui-form-table">
+				<tr>
+					<td class="ui-form-table-dt">请选择Excel文件:</td>
+					<td class="ui-form-table-dd">
+						<div itype="FileUpload" typeLimit="xls,xlsx" autoUpload="true"
+							width="100%" onChooseError="chooseError()" onUploadStart="onUploadStart()"
+							onUploadSuccess="onUploadSuccess()" onUploadFail="onUploadFail()"
+							action="uploadaction_fileUpload.action"
+							name="upfileExcel" validateMode="blur" rule="required"></div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="text" style="width: 382px" class="divScroll"></div>
+	</form>
+	<iframe src="about:blank" style="display: none;" id="test"></iframe>
+</body>
+</html>

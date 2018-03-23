@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tErrorAffix" >
+  <resultMap id="BaseResultMap" type="com.talkweb.xwzcxt.pojo.TErrorAffixPojo" >
+    <result column="C_ERRDATA_ID" property="cErrdataId" jdbcType="DECIMAL" />
+    <result column="C_ERR_ID" property="cErrId" jdbcType="DECIMAL" />
+    <result column="C_RECORD_TYPE" property="cRecordType" jdbcType="DECIMAL" />
+    <result column="C_RECORD_TIME" property="cRecordTime" jdbcType="TIMESTAMP" />
+    <result column="C_RECORD_LOTNO" property="cRecordLotno" jdbcType="VARCHAR" />
+    <result column="C_SUBMIT_USERID" property="cSubmitUserid" jdbcType="DECIMAL" />
+    <result column="C_SUBMIT_USERNAME" property="cSubmitUsername" jdbcType="VARCHAR" />
+    <result column="C_TRACEFUNID" property="cTracefunid" jdbcType="DECIMAL" />
+    <result column="C_ISFILE" property="cIsfile" jdbcType="CHAR" />
+    <result column="C_VALUE" property="cValue" jdbcType="VARCHAR" />
+    <result column="C_ISDELETE" property="cIsdelete" jdbcType="CHAR" />
+    <result column="C_FILE_TYPE" property="cFileType" jdbcType="CHAR" />
+    <result column="C_FILE_PATH" property="cFilePath" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    C_ERRDATA_ID, C_ERR_ID, C_RECORD_TYPE, C_RECORD_TIME, C_RECORD_LOTNO, C_SUBMIT_USERID, 
+    C_SUBMIT_USERNAME, C_TRACEFUNID, C_ISFILE, C_VALUE, C_ISDELETE
+  </sql>
+  <select id="getTaskErrorAffixLotnoByID" parameterType="java.lang.String" resultType="java.util.Map">
+    select t.C_RECORD_LOTNO
+    from TWXWZC.T_ERROR_AFFIX t
+    where t.C_ERR_ID = #{cErrId}
+    group by t.C_RECORD_LOTNO
+    order by t.C_RECORD_LOTNO asc
+  </select>
+  <select id="getTaskErrorAffixDescription" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from TWXWZC.T_ERROR_AFFIX t
+    where t.C_ISFILE != 1
+      and t.C_ISDELETE = 0
+    <if test="cErrId != null and cErrId !=''">
+      and t.C_ERR_ID = #{cErrId}
+    </if>
+    <if test="cFeedbackLotno != null and cFeedbackLotno !=''">
+      and t.C_RECORD_LOTNO = #{cFeedbackLotno}
+    </if>
+    order by t.C_ERRDATA_ID asc
+  </select>
+  <select id="getTaskErrorAffixFile" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select aa.*,
+      bb.C_FILE_TYPE,
+      bb.C_FILE_PATH
+    from TWXWZC.T_ERROR_AFFIX aa,
+      TWXWZC.T_FILE_INFO bb
+    where aa.C_ISFILE = 1
+      and aa.C_ISDELETE = 0
+      and aa.C_VALUE = bb.C_FILE_ID(+)
+    <if test="cErrId != null and cErrId !=''">
+      and aa.C_ERR_ID = #{cErrId}
+    </if>
+    <if test="cFeedbackLotno != null and cFeedbackLotno !=''">
+      and aa.C_RECORD_LOTNO = #{cFeedbackLotno}
+    </if>
+    order by aa.C_ERRDATA_ID asc
+  </select>
+   <select id="getErreanameById" parameterType="map" resultType="java.lang.String">
+    select aa.C_AREANAME from T_Task aa where aa.C_TASK_ID=( select bb.C_TASK_ID from T_ERROR_INFO bb where bb.C_ERR_ID=#{errId})
+   </select>
+</mapper>

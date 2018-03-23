@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="action-log.xsd">
+	<namespace id="component.position" extends="component.default" />
+	<module id="M34" name="岗位管理" />
+	<action-define>
+		<action class="PositionMngAction">
+			<method name="addPosition">
+				<type>add</type>
+				<description>新增岗位信息。</description>
+				<result>
+					<success>新增成功。岗位代码：${position.posiCode}、岗位名称：${position.posiName}、岗位类型：${position.posiType}、所属组织编号：${position.orgId}。</success>
+					<throws>新增失败。</throws>
+				</result>
+			</method>
+			<method name="addRoleWithposition">
+				<type>add</type>
+				<description>岗位关联角色。</description>
+				<result>
+					<success>关联角色成功。岗位编号：${positionid}、关联角色编号：${roleids}。</success>
+					<throws>关联角色失败。</throws>
+				</result>
+			</method>
+			<method name="delHasRelRoles">
+				<type>delete</type>
+				<description>删除岗位角色关联。</description>
+				<result>
+					<success>删除成功。岗位编号：${positionid}、被删除的关联角色编号：${roleids}。</success>
+					<throws>删除失败。</throws>
+				</result>
+			</method>
+			<method name="delPositions">
+				<type>delete</type>
+				<description>删除岗位信息。</description>
+				<result>
+					<success>删除成功。被删除岗位ID：${id}。</success>
+					<throws>删除失败。</throws>
+				</result>
+			</method>
+			<method name="modifyPosition">
+				<type>modify</type>
+				<description>修改岗位信息。</description>
+				<result>
+					<success>修改成功。岗位编号：${position.posiCode}。</success>
+					<throws>修改失败。</throws>
+				</result>
+			</method>
+			<method name="queryPositions">
+				<type>visit</type>
+				<description>查询岗位信息列表。</description>
+				<result>
+					<success>查询成功。</success>
+					<throws>查询失败。</throws>
+				</result>
+			</method>
+		</action>
+	</action-define>
+</actions>

@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../fastdev/common.js"></script>
+<script src="standardFileDetailManage.js"></script>
+</head>
+<body>
+	<form id="standardFileSearchForm" itype="Form" saveInstance="true">
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt">门类：</td>
+				<td class="ui-form-table-dd">
+					<div id="cSortId" itype="SelectTree" treeType="multitree" saveInstance="true" showIco="true" inside="false"
+						width="100%" topParentid="0" rootValue="所有文件类别" openFloor="2" textMaxLength="40"
+						initSource="upload_getAllFileSort.action"></div>
+				</td>
+				<td class="ui-form-table-dt">编号：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cSfileVersion" width="100%"></div>
+				</td>
+				<td class="ui-form-table-dt">标准名称：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cSfileName" width="100%"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">起草部门：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cFwQcbmName" width="100%" readonly="true" onclick="onSelectDepartment()"></div>
+					<div itype="TextBox" type="hidden" id="cFwQcbm"></div>
+				</td>
+				<td class="ui-form-table-dt">所属体系：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="cSystag" width="100%" saveInstance="true">
+						<option text="-请选择-"></option>
+						<option value="1" text="质量管理体系用"></option>
+						<option value="2" text="职业健康安全管理体系用"></option>
+						<option value="3" text="两体系共用"></option>
+						<option value="4" text="其他"></option>
+					</select>
+				</td>
+				<td class="ui-form-table-dt">状态：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="cStatus" width="100%" saveInstance="true">
+						<option text="-请选择-"></option>
+						<option value="1" text="待制订"></option>
+						<option value="2" text="制订中"></option>
+						<option value="3" text="修订中"></option>
+						<option value="4" text="已发布"></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td id="c_area_name_title" class="ui-form-table-dt">时间：</td>
+				<td class="ui-form-table-dd" style="border-right: none;">
+					<input itype="DatePicker" id="cStartTime" format="yyyy-MM-dd" width="100%" timeBefore="cEndTime"/>
+				<td class="ui-form-table-dt" style="background: none;border: none;text-align: center;">至</td>
+				<td class="ui-form-table-dd" style="border-left: none;">
+					<input itype="DatePicker" id="cEndTime" format="yyyy-MM-dd" width="100%" timeAfter="cStartTime"/>
+				</td>
+				<td class="ui-form-table-dd" colspan="2" align="right">
+					<div itype="Button" text="查询" iconCls="icon-search" onclick="doSearch()"></div>
+					<div itype="Button" text="重置" iconCls="icon-reset" onclick="doReset()"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dd" colspan="6">
+					<div itype="DataGrid" id="dataGrid" title="标准文件明细表"
+						allowResizeColumn="true" showCheckColumn="true" showSeqColumn="true"
+						saveInstance="true" pageSize="20" keyword="cFiledetailId"
+						onBeforeReady="onBeforeReady()" onAfterInitRender="onAfterInitRender()" onRowClick="onRowClick()">
+						<div name="top-toolbar">
+							<div plain=true text="新增" id="add" display="false" iconCls="icon-add" onClick="doAdd()"></div>
+							<div itype="separator"></div>
+							<div plain=true text="批量删除" id="delete" display="false" iconCls="icon-delete" onClick="batchDeleteObject()"></div>
+							<div itype="separator"></div>
+						</div>
+						<div width="20%" name="cSortName" text="门类"></div>
+						<div width="15%" name="cSfileVersion" text="编号"></div>
+						<div width="12%" name="cSfileName" text="标准名称" renderer="operLinkRenderer()"></div>
+						<div width="12%" name="cFwQcbmName" text="起草部门"></div>
+						<div width="15%" name="cSystagName" text="所属体系"></div>
+						<div width="8%" name="cStatusTimeString" text="时间"></div>
+						<div width="5%" name="cStatusName" text="状态"></div>
+						<div width="5%" name="cFileUrl" text="制度文件" renderer="operHrefRenderer()"></div>
+						<div width="8%" text="操作" renderer="operRenderer()"></div>
+						<div type="hidden" name="cFiledetailId"></div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

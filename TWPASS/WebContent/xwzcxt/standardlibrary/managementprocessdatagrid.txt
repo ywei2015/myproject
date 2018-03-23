@@ -1,0 +1,15 @@
+{ 
+"data": [
+{"c_sfile_id":"1","c_action_sname":"消防设施检查","c_sort_name":"法律法规及行标","c_sfile_name":"YCT384","c_sfile_version":"",
+"c_content":"消防设施和灭火器的日常检查应符合下列要求：——每月至少对室内外消火栓、灭火器的配置和完好等基本情况进行一次检查，并保存记录；记录应有检查人员签字，宜实行一处一卡的记录方式；人员密集的公共场所、堆场及油罐区、加油站、锅炉房、地下室等场所每半个月检查一次；现场悬挂保存月度检查记录，现场人员不应挪动和破坏记录；",
+"c_att_id":"1","c_creator":"龙学文"},
+{"c_sfile_id":"2","c_action_sname":"消防设施检查","c_sort_name":"公司文件","c_sfile_name":"仓储安全管理制度","c_sfile_version":"HNZY/GL-AQ-02-04-b.1",
+"c_content":"消防管理按《消防安全管理程序》执行，建立消防器材配置台帐（附录A）。",
+"c_att_id":"1","c_creator":"龙学文"},
+{"c_sfile_id":"3","c_action_sname":"消防设施检查","c_sort_name":"","c_sfile_name":"","c_sfile_version":"",
+"c_content":"",
+"c_att_id":"1","c_creator":""}
+
+ ], 
+ "info": { "pageSize": 10, "records": 10, "page": 1, "total": 1 }
+ }

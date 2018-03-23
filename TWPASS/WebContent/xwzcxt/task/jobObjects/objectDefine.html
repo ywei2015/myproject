@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="../../../fastdev/fastDev-import.js"></script>
+<script type="text/javascript" src="objectDefine.js"></script>
+<title>作业对象定义</title>
+</head>
+<body>
+   <form itype="Form" requestType="post" saveInstance="true" id="tbTypeInfo">
+   <p ><font color="blue" size="5px">1.基本配置</font></p>
+    <div style="display:none;"> <div itype="TextBox" id="cTabletypeId" saveInstance=true></div></div>
+    <table id="table1" class="ui-form-table">
+        <tr valign="middle">
+         <td class="ui-form-table-dt">
+               	 <font color="red" >*</font>上级节点
+         </td>
+         <td class="ui-form-table-dd" colspan="3">
+            <div   id="cTabletypeUpid" width="100%" saveInstance="true" 
+            	   itype="SelectTree" inside="false"  width="100%"
+				   queue="positionForm"   showIco="true" onAfterInitRender="onAfterInitRender()"
+				   initSource="jobObjects_getTableTypeTree.action" rootValue="作业对象类型"
+				   topParentid="-1" openFloor="2"
+            ></div>
+         </td>
+       </tr>
+       <tr valign="middle">
+         <td class="ui-form-table-dt">
+             	节点类型
+         </td>
+         <td class="ui-form-table-dd" colSpan="3">
+         	<div itype="RadioGroup" value="2" id="cIsproperty" saveInstance=true onchange="onchange()">
+                <div value="2" text="目录"></div>
+                <div value="1" text="属性"></div>
+             </div>
+         </td>
+         </tr>
+       <tr valign="middle">
+         <td class="ui-form-table-dt">
+               	 <font color="red" >*</font>作业对象类型名称
+         </td>
+         <td class="ui-form-table-dd" colspan="3">
+            <div  itype="TextBox" id="cTabletypeName" width="100%" saveInstance="true"></div>
+         </td>
+        
+
+       </tr>
+       <tr valign="middle">
+          <td class="ui-form-table-dt" >
+         	作业对象类型描述
+         </td>
+         <td class="ui-form-table-dd" colspan="3">
+         	<div itype="TextBox" id="cTabletypeDes" width="100%" saveInstance="true"></div>
+         </td>
+       </tr>
+        <!--  <tr valign="middle">   
+         <td class="ui-form-table-dt">
+           		备注
+         </td>
+         <td class="ui-form-table-dd" colspan="3">
+            <div itype="TextBox" id="c_remark" saveInstance="true" width="100%"></div>
+         </td>
+       </tr>
+       <tr valign="middle"><td class="ui-form-table-dd" colSpan="4" align="center">
+            <div itype="Button" width="100px" text="清空数据" onclick="clearTable1()" ></div>
+       </td></tr>-->
+    </table>
+    <table id="table2" class="ui-form-table" style="display: none;">
+         <tr valign="middle" >
+         <td class="ui-form-table-dt">
+           <font color="red" >*</font>基础数据名称
+         </td>
+         <td class="ui-form-table-dd" colSpan="3">
+            <div itype="TextBox" id="tbIntegrateInfo.c_basedata_name" width="100%" saveInstance=true></div>
+            <div style="display:none;" ><div itype="TextBox" id="colid1" saveInstance=true ></div></div>
+         </td></tr>
+         <tr valign="middle">
+         <td class="ui-form-table-dt">
+             	是否为扫描码属性
+         </td>
+         <td class="ui-form-table-dd" colSpan="3">
+         	<div itype="RadioGroup" value="2" id="c_isscandata1" saveInstance=true>
+                <div value="2" text="是"></div>
+                <div value="1" text="否"></div>
+             </div>
+         </td>
+         
+<!--          <td class="ui-form-table-dt">
+             	是否为查询条件
+         </td>
+         <td class="ui-form-table-dd" colSpan="3">
+         	<div itype="CheckBoxGroup" value="3" id="c_isshowscan1" saveInstance=true disabled=true>
+                <div value="3" text="是"></div>
+             </div>
+         </td>  -->
+         
+         </tr>
+
+        
+
+          <!-- <tr valign="middle">
+              <td class="ui-form-table-dt" >备注</td>
+              <td class="ui-form-table-dd" colspan="3">
+                  <div itype="TextBox" width="100%" id="c_remark1" saveInstance="true"></div>
+              </td>
+         </tr>
+         <tr valign="middle"><td class="ui-form-table-dd" colSpan="4" align="center">
+            <div itype="Button" width="100px" text="清空数据" onclick="clearTable2()" ></div>
+       </td></tr>-->
+    </table>
+    <table id="table3" class="ui-form-table" style="display: none;">
+   		<tr>
+        <td class="ui-form-table-dt">
+         	 <font color="red" >*</font>基础数据编号
+         </td>
+         <td class="ui-form-table-dd" colSpan="3">
+         	<div itype="TextBox" id="tbIntegrateInfo.c_basedata_code" width="100%" saveInstance=true></div>
+         	<div style="display:none;" ><div itype="TextBox" id="colid2" saveInstance=true ></div></div>
+         </td></tr>
+         <tr valign="middle">
+         <td class="ui-form-table-dt">
+             	是否为扫描码属性
+         </td>
+         
+         <td class="ui-form-table-dd" colSpan="3">
+         	<div itype="RadioGroup" value="2" id="c_isscandata2" saveInstance=true>
+                <div value="2" text="是"></div>
+                <div value="1" text="否"></div>
+             </div>
+         </td>
+         
+<!--          <td class="ui-form-table-dt">
+             	是否为查询条件
+         </td>
+         <td class="ui-form-table-dd" colSpan="3">
+         	<div itype="CheckBoxGroup" value="3" id="c_isshowscan2" saveInstance=true disabled=true>
+                <div value="3" text="是"></div>
+             </div>
+         </td> -->
+         
+         </tr>
+         <tr valign="middle">
+        <!--   <tr valign="middle">
+              <td class="ui-form-table-dt">备注</td>
+              <td class="ui-table-dd" colspan="3">
+                  <div itype="TextBox" width="100%" id="c_remark2"></div>
+              </td>
+          </tr>
+          <tr valign="middle"><td class="ui-form-table-dd" colSpan="4" align="center">
+            <div itype="Button" width="100px" text="清空数据" onclick="clearTable3()" ></div>
+       </td></tr>-->
+    </table>
+    <table id="table4" class="ui-form-table" style="display: none;">
+         <tr valign="middle" >
+         <td class="ui-form-table-dt">
+           <font color="red" >*</font>责任人工号
+         </td>
+         <td class="ui-form-table-dd" colSpan="3">
+            <div itype="TextBox" id="tbIntegrateInfo.c_basedata_usercode" width="100%" saveInstance=true></div>
+            <div style="display:none;" ><div itype="TextBox" id="colid3" saveInstance=true ></div></div>
+         </td></tr>
+         <tr valign="middle">
+         <td class="ui-form-table-dt">
+             	是否为扫描码属性
+         </td>
+         <td class="ui-form-table-dd" colSpan="3">
+         	<div itype="RadioGroup" value="2" id="c_isscandata3" saveInstance=true>
+                <div value="2" text="是"></div>
+                <div value="1" text="否"></div>
+             </div>
+         </td>
+         </tr>
+    </table>
+    <p id="title5" style="display: none;"><font color="blue" size="5px">2.可选项，可以自由配置基础数据表的列名称，最多可配置30项</font><br/></p>
+   <table id="table5" class="ui-form-table" style="display: none;">
+     <tr>
+ 	  <td class="ui-form-table-dt">动态列的数量：</td>
+ 	  <td class="ui-form-table-dd">	<select itype="Select" saveInstance=true width="80px" id="colCount" onChange="showTables()">
+        	<div value="0" text="--请选择--"></div>
+       			 <script type="text/javascript">
+        	 			 writeColCount();
+        		 </script>
+    	</select> 
+       </td>
+    </tr>
+    </table>
+         <script>
+             writeTable();
+         </script>
+    </form>
+</body>
+</html>

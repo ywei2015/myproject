@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>调度定义</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script type="text/javascript" src="jobConfigManage.js"></script>
+<style>
+html, body {
+	height:100%;
+}
+</style>
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+   	<div class="ui-layout" style="height:100%;">
+   		<div class="ui-layout-center" style="width: 99.3%; height:100%;">
+			<form id="jobform" itype="Form" saveInstance="true" initSource="jobMng_searchSelectData.action">
+				<table class="ui-form-table">
+					<tr>
+						<th class="ui-form-table-dt" style="width:100px">任务名称：</th>
+						<td class="ui-form-table-dd">
+							<div itype="TextBox" id="job.jobName" width="100%" ></div>
+						</td>
+						<th class="ui-form-table-dt" style="width:100px">描述：</th>
+						<td class="ui-form-table-dd">
+							<div itype="TextBox" id="job.jobDescription" width="100%"></div>
+						</td>
+						<th class="ui-form-table-dt" style="width:100px">分组：</th>
+						<td class="ui-form-table-dd">
+							<select itype="Select" id="job.jobGroup" width="100%">
+								<option>-请选择-</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="ui-form-table-dd" colspan="6">
+							<div itype="Button" text="查询" iconCls="icon-search" onClick="doSearchJobConfig()"></div>
+							<div itype="Button" text="重置" iconCls="icon-reset" onClick="doResetJobConfig()"></div>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div class="datagrid" itype="DataGrid" allowAutoFillRow="false" id="jobdatagrid" width="100%" saveInstance="true" showCheckColumn="true" initSource="jobMng_queryJobConfigsByPage.action" showSeqColumn="true"  onRowClick="onRowClick()">
+				<div name="top-toolbar">
+					<div plain=true text="增加" iconCls="icon-add" onClick="doAddJobConfig()"></div>
+				</div>
+				<div name="jobGroup" hidden="true"></div>
+				<div width="30%" name="jobName" text="名称"></div>
+				<div width="10%" name="jobGroupLabel" text="分组"></div>
+				<div width="50%" name="jobDescription" text="描述"></div>
+				<div width="10%" text="操作" renderer="operRenderer()"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

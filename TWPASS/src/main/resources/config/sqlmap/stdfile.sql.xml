@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="stdfile">
+   <!--  com.talkweb.xwzcxt.pojo.StandardFile -->
+	<select id="selectstdfilesbysortid" parameterType="String" resultType="com.talkweb.xwzcxt.pojo.StdFile">
+		select
+		    c_sfile_id 
+		    ,c_sfile_name 
+		    ,c_sort_id 
+		    ,c_sfile_version 
+		    ,c_releaseunit 
+		    ,c_releasetime 
+		    ,c_impletime 
+		    ,c_foreword1 
+		    ,c_fw_zdyj 
+		    ,c_fw_tcdw 
+		    ,c_fw_qcbm 
+		    ,c_fw_gkbm 
+		    ,c_fw_pzr 
+		    ,c_fw_qcr 
+		    ,c_fw_fbsj 
+		    ,c_fw_xdcs 
+		    ,c_fw_xdnr1 
+		    ,c_fw_xdnr2 
+		    ,c_fw_xdnr3 
+		    ,c_fw_xdnr4 
+		    ,c_fw_xdnr5 
+		    ,c_fw_xdnrn 
+		    ,c_action_id 
+		    ,c_creator 
+		    ,c_createtime 
+		    ,c_modifier  
+		    ,c_modifytime  
+	    from T_SD_STANDARDFILE t
+	    where  <!-- c_sort_id=#{c_sort_id} -->
+	    c_sort_id in (select c_sort_id from T_SD_SORT start with c_sort_id= #{c_sort_id} connect by prior c_sort_id=c_sort_pid) 
+	    order by t.c_sfile_id
+	</select>
+	
+	<select id="queryStdfileByID" parameterType="String"
+		resultType="com.talkweb.xwzcxt.pojo.StdFile">
+		select 
+			t.c_sfile_id,
+			t.c_sfile_name,
+			t.c_sort_id,
+			t.c_sfile_version,
+			t.c_releaseunit,
+			t.c_releasetime,
+			t.c_impletime,
+			t.c_foreword1,
+			t.c_fw_zdyj,
+			t.c_fw_tcdw,
+			t.c_fw_qcbm,
+			t.c_fw_gkbm,
+			t.c_fw_pzr,
+			t.c_fw_qcr,
+			t.c_fw_fbsj,
+			t.c_fw_xdcs,
+			t.c_fw_xdnr1,
+			t.c_fw_xdnr2,
+			t.c_fw_xdnr3,
+			t.c_fw_xdnr4,
+			t.c_fw_xdnr5,
+			t.c_fw_xdnrn,
+			t.c_action_id,
+			t.c_creator,
+			t.c_createtime,  
+			t.c_modifier,
+			t.c_modifytime
+		from T_SD_STANDARDFILE t 
+		where t.c_sfile_id = #{c_sfile_id} 
+	</select>
+	
+	<select id="selectstdfilesbyparams"  parameterType="java.util.Map" resultType="com.talkweb.xwzcxt.pojo.StandardFile">
+		select
+		    c_sfile_id 
+		    ,c_sfile_name 
+		    ,c_sort_id 
+		    ,c_sfile_version 
+		    ,c_releaseunit 
+		    ,c_releasetime 
+		    ,c_impletime 
+		    ,c_foreword1 
+		    ,c_fw_zdyj 
+		    ,c_fw_tcdw 
+		    ,c_fw_qcbm 
+		    ,c_fw_gkbm 
+		    ,c_fw_pzr 
+		    ,c_fw_qcr 
+		    ,c_fw_fbsj 
+		    ,c_fw_xdcs 
+		    ,c_fw_xdnr1 
+		    ,c_fw_xdnr2 
+		    ,c_fw_xdnr3 
+		    ,c_fw_xdnr4 
+		    ,c_fw_xdnr5 
+		    ,c_fw_xdnrn 
+		    ,c_action_id 
+		    ,c_creator 
+		    ,c_createtime 
+		    ,c_modifier  
+		    ,c_modifytime  
+	    from T_SD_STANDARDFILE t
+	    where 1=1 
+		<!-- <if test="null!=c_sort_id and ''!=c_sort_id">
+			and t.c_sort_id  = #{c_sort_id} 
+		</if> -->
+		<if test="null!=c_sort_id and ''!=c_sort_id">
+			and t.c_sort_id in (select c_sort_id from T_SD_SORT start with c_sort_id= #{c_sort_id} connect by prior c_sort_id=c_sort_pid) 
+		</if>
+		<if test="null!=c_sfile_name and ''!=c_sfile_name">
+			and t.c_sfile_name  = #{c_sfile_name} 
+		</if>
+		<if test="null!=c_releaseunit and ''!=c_releaseunit">
+			 AND t.c_releaseunit  = #{c_releaseunit} 
+		</if>
+		<if test="null!=c_fw_qcbm and ''!=c_fw_qcbm">
+			 AND t.c_fw_qcbm  = #{c_fw_qcbm} 
+		</if>
+		<if test="null!=c_fw_gkbm and ''!=c_fw_gkbm">
+			 AND t.c_fw_gkbm  = #{c_fw_gkbm} 
+		</if>
+		<if test="null!=c_releasetime and ''!=c_releasetime">
+			 AND t.c_releasetime  = #{c_releasetime} 
+		</if>
+		<if test="null!=c_impletime and ''!=c_impletime">
+			 AND t.c_impletime  = #{c_impletime} 
+		</if> 
+	    order by t.c_sfile_id
+	</select>
+	
+	<select id="queryStdfileContentByfileid" parameterType="String"
+		resultType="com.talkweb.xwzcxt.pojo.StandardContentPojo">
+		select 
+		  t.c_contentid,
+		  t.c_sectionid,
+		  t.c_sectionpid,
+		  t.c_title,
+		  t.c_content,
+		  t.c_includeatt,
+		  t.c_sfile_id,
+		  t.c_creator,
+		  t.c_createtime,
+		  t.c_modifier,
+		  t.c_modifytime 
+		from T_SD_STANDARDCONTENT t  
+		where t.c_sfile_id =  #{c_sfile_id} 
+		Order by t.c_contentid
+	</select>
+	
+	<select id="queryStdfileAffixByParams" parameterType="java.util.Map"
+		resultType="com.talkweb.xwzcxt.pojo.StdFileAffixPojo">
+	select 
+		 t.c_att_id, t.c_file_id, t.c_atttype_id, t.c_contentid, t.c_sfile_id, 
+		  f.c_file_name, f.c_filetype_id, f.c_file_url  
+		from T_SD_STANDARDATT t , t_Sd_File f 
+		where t.c_file_id=f.c_file_id   
+		<if test="null!=c_sfile_id and ''!=c_sfile_id">
+			 AND t.c_sfile_id  = #{c_sfile_id} 
+		</if> 
+		<if test="null!=c_att_id and ''!=c_att_id">
+			 AND t.c_att_id  = #{c_att_id} 
+		</if>  
+		<if test="null!=c_atttype_id and ''!=c_atttype_id">
+			 AND t.c_atttype_id  = #{c_atttype_id} 
+		</if>  
+		<if test="null!=c_contentid and ''!=c_contentid">
+			 AND t.c_contentid  = #{c_contentid} 
+		</if>  
+		Order by t.c_att_id
+	</select>
+	
+	<select id="queryStdfileContentByParams" parameterType="java.util.Map"
+		resultType="com.talkweb.xwzcxt.pojo.StandardContentPojo">
+		select 
+		  t.c_contentid,
+		  t.c_sectionid,
+		  t.c_sectionpid,
+		  t.c_title,
+		  t.c_content,
+		  t.c_includeatt,
+		  t.c_sfile_id,
+		  t.c_creator,
+		  t.c_createtime,
+		  t.c_modifier,
+		  t.c_modifytime 
+		from T_SD_STANDARDCONTENT t  
+		where 1=1 
+		<if test="null!=c_sfile_id and ''!=c_sfile_id">
+			 AND t.c_sfile_id  = #{c_sfile_id} 
+		</if> 
+		<if test="null!=c_contentid and ''!=c_contentid">
+			 AND t.c_contentid  = #{c_contentid} 
+		</if>  
+		<if test="null!=c_title and ''!=c_title">
+			 AND t.c_title  = #{c_title} 
+		</if> 
+		<if test="null!=c_sectionid and ''!=c_sectionid">
+			 AND t.c_sectionid  = #{c_sectionid} 
+		</if>  
+		<if test="null!=c_sectionpid and ''!=c_sectionpid">
+			 AND t.c_sectionpid  = #{c_sectionpid} 
+		</if>  
+		<!-- <if test="null!=c_sectionid and ''!=c_sectionid">
+			and t.c_sectionid in (select c_sectionid from T_SD_STANDARDCONTENT start with c_sectionid= #{c_sectionid} connect by prior c_sectionid=c_sectionpid) 
+		</if> -->
+		Order by t.c_contentid
+	</select>
+
+	<select id="queryStdfileContentByContentId" parameterType="String"
+		resultType="com.talkweb.xwzcxt.pojo.StandardContentPojo">
+		select 
+		  t.c_contentid,
+		  t.c_sectionid,
+		  t.c_sectionpid,
+		  t.c_title,
+		  t.c_content,
+		  t.c_includeatt,
+		  t.c_sfile_id,
+		  t.c_creator,
+		  t.c_createtime,
+		  t.c_modifier,
+		  t.c_modifytime 
+		from T_SD_STANDARDCONTENT t  
+		where t.c_contentid = #{c_contentid} 
+	</select>
+	
+	<update id="updateStdfileContentInfo" parameterType="com.talkweb.xwzcxt.pojo.StandardContentPojo">
+		UPDATE T_SD_STANDARDCONTENT 
+		<set>
+			<if test="c_sectionid != null and c_sectionid!=''">
+				c_sectionid = #{c_sectionid},
+			</if>
+			<if test="c_title != null and c_title!=''">
+				c_title = #{c_title},
+			</if>
+			<if test="c_content != null and c_content!=''">
+				c_content = #{c_content},
+			</if>
+			<if test="c_sfile_id != null and c_sfile_id!=''">
+				c_sfile_id = #{c_sfile_id},
+			</if>
+			<if test="c_includeatt != null and c_includeatt!=''">
+				c_includeatt =  ${c_includett_name},
+			</if>
+			<if test="c_modifier != null and c_modifier!=''">
+				c_modifier = #{c_modifier},
+			</if>
+				c_modifytime = sysdate 
+		</set>
+		where c_contentid = #{c_contentid} 
+	</update> <!-- instr( #{c_includeatt} ,'t'), -->
+
+	<insert id="insertStdfileContentInfo" parameterType="com.talkweb.xwzcxt.pojo.StandardContentPojo">
+		INSERT INTO T_SD_STANDARDCONTENT (
+		  c_contentid,
+		  c_sectionid,
+		  c_sectionpid,
+		  c_title,
+		  c_content,
+		  c_includeatt,
+		  c_sfile_id,
+		  c_creator,
+		  c_createtime
+		)  
+		VALUES (
+		  #{c_contentid},
+		  #{c_sectionid},
+		  #{c_sectionpid},
+		  #{c_title},
+		  #{c_content},
+		  #{c_includeatt},
+		  #{c_sfile_id},
+		  #{c_creator},
+		  sysdate
+		)
+		<!-- 
+		INSERT INTO T_SD_STANDARDCONTENT (
+		  c_contentid,
+		  c_sectionid,
+		  c_sectionpid,
+		  c_title,
+		  c_content,
+		  c_includeatt,
+		  c_sfile_id,
+		  c_creator,
+		  c_createtime,
+		  c_modifier,
+		  c_modifytime
+		)  
+		VALUES (
+		  #{c_contentid},
+		  #{c_sectionid},
+		  #{c_sectionpid},
+		  #{c_title},
+		  #{c_content},
+		  #{c_includeatt},
+		  #{c_sfile_id},
+		  #{c_creator},
+		  #{c_createtime},
+		  #{c_modifier},
+		  #{c_modifytime}
+		) -->
+	</insert>
+		
+	<!--  parameterType="java.util.Map" com.talkweb.xwzcxt.pojo.StdFile -->
+	<update id="updateStdfileInfo" parameterType="com.talkweb.xwzcxt.pojo.StdFile">
+		UPDATE T_SD_STANDARDFILE  
+		<set>
+			<if test="c_sfile_name != null and c_sfile_name!=''">
+				c_sfile_name = #{c_sfile_name},
+			</if>
+			<if test="c_sort_id != null and c_sort_id!=''">
+				c_sort_id = #{c_sort_id},
+			</if>
+			<if test="c_sfile_version != null and c_sfile_version!=''">
+				c_sfile_version = #{c_sfile_version},
+			</if>
+			<if test="c_releaseunit != null and c_releaseunit!=''">
+				c_releaseunit = #{c_releaseunit},
+			</if>
+			<if test="c_releasetime != null and c_releasetime!=''">
+				c_releasetime = #{c_releasetime},
+			</if>
+			<if test="c_impletime != null  and c_impletime!=''">
+				c_impletime = #{c_impletime},
+			</if>
+			
+			<if test="c_fw_zdyj != null  and c_fw_zdyj!=''">
+				c_fw_zdyj = #{c_fw_zdyj},
+			</if>
+			<if test="c_fw_tcdw != null  and c_fw_tcdw!=''">
+				c_fw_tcdw = #{c_fw_tcdw},
+			</if>
+			<if test="c_fw_qcbm != null  and c_fw_qcbm!=''">
+				c_fw_qcbm = #{c_fw_qcbm},
+			</if>
+			<if test="c_fw_gkbm != null  and c_fw_gkbm!=''">
+				c_fw_gkbm = #{c_fw_gkbm},
+			</if>
+			<if test="c_fw_pzr != null  and c_fw_pzr!=''">
+				c_fw_pzr = #{c_fw_pzr},
+			</if>
+			<if test="c_fw_qcr != null  and c_fw_qcr!=''">
+				c_fw_qcr = #{c_fw_qcr},
+			</if>
+			<if test="c_fw_fbsj != null  and c_fw_fbsj!=''">
+				c_fw_fbsj = #{c_fw_fbsj},
+			</if>
+			<if test="c_fw_xdcs != null  and c_fw_xdcs!=''">
+				c_fw_xdcs = #{c_fw_xdcs},
+			</if>
+			
+			<if test="c_foreword1 != null  and c_foreword1!=''">
+				c_foreword1 = #{c_foreword1},
+			</if>
+			
+			<if test="c_modifier != null and c_modifier!=''">
+				c_modifier = #{c_modifier},
+			</if>
+				c_modifytime = sysdate 
+		</set>
+		where c_sfile_id = #{c_sfile_id} 
+	</update>
+		
+	<delete id="delStdFileContentbyId" parameterType="String">
+		delete from t_sd_standardcontent t where  t.c_contentid = #{c_contentid}
+	</delete>
+
+	<delete id="delStdFileAffixById" parameterType="String">
+		delete from t_sd_standardatt t where t.c_att_id = #{c_att_id}
+	</delete>
+		
+	<insert id="insertStdfileAffixInfo" parameterType="com.talkweb.xwzcxt.pojo.StdFileAffixPojo">    
+	    INSERT INTO T_SD_STANDARDATT (
+		  c_att_id,
+			c_file_id,
+			c_atttype_id,
+			c_contentid,
+			c_sfile_id
+		)
+		VALUES (
+		  v_att_id,
+			v_file_id,
+			v_atttype_id,
+			v_contentid,
+			v_sfile_id
+		);
+		<!--  call TWXWZC.P_TWXWZC_INSERT_STDFILE_AFFIX (
+			#{c_att_id}, 
+			#{c_file_id},
+			${c_atttype_id},
+			#{c_contentid},
+			#{c_sfile_id})  -->
+	</insert>
+		<insert id="updatesdfiletable"  parameterType="com.talkweb.xwzcxt.pojo.StdFileAffixPojo">
+			insert into t_sd_file(
+	          c_file_url,
+	          c_file_id,
+	          c_file_name,
+	          c_filetype_id,
+	          c_creator,
+	          c_createtime
+			) 
+			select
+	          t.c_file_path,
+	          t.c_file_id,
+	          t.c_file_name,
+	          t.c_file_type,
+	          t.c_upload_userid,
+	          t.c_upload_time
+	       from t_file_info t where c_file_id=#{c_file_id}
+		</insert>
+	
+<!-- 	
+	<parameterMap id="test" class="java.util.HashMap" >       
+	    <parameter property="result" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" resultMap="corp-map" />     
+	    <parameter property="param1" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/> 
+	    <parameter property="param2" jdbcType="Date" javaType="java.util.Date" mode="IN"/>     
+	</parameterMap> 
+	<procedure id="testCur" parameterMap="test"> 
+	    {? = call GetCurTest(?, ?)}    
+	</procedure>   
+	-->
+	
+</mapper>

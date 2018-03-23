@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="twpass_common">
+	<select id="getItemDetail" parameterType="java.util.HashMap"
+		resultType="java.util.HashMap">
+		SELECT * FROM
+		${tableName}
+		<where>
+			<if test="null!=equalsKey1 and ''!=equalsKey1">
+				AND ${equalsKey1}=${equalsValue1}
+			</if>
+			<if test="null!=equalsKey2 and ''!=equalsKey2">
+				AND ${equalsKey2}=${equalsValue2}
+			</if>
+			<if test="null!=equalsKey3 and ''!=equalsKey3">
+				AND ${equalsKey3}=${equalsValue3}
+			</if>
+			<if test="null!=equalsKey4 and ''!=equalsKey4">
+				AND ${equalsKey4}=${equalsValue4}
+			</if>
+			<if test="null!=equalsKey5 and ''!=equalsKey5">
+				AND ${equalsKey5}=${equalsValue5}
+			</if>
+			<if test="null!=likeKey1 and ''!=likeKey1">
+				AND ${likeKey1} LIKE '%${likeValue1}%'
+			</if>
+			<if test="null!=likeKey2 and ''!=likeKey2">
+				AND ${likeKey2} LIKE '%${likeValue2}%'
+			</if>
+			<if test="null!=likeKey3 and ''!=likeKey3">
+				AND ${likeKey3} LIKE '%${likeValue3}%'
+			</if>
+		</where>
+	</select>
+
+
+</mapper>

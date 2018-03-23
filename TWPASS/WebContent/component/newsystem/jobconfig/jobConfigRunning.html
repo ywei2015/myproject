@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script src="../../fastdev/fastDev-import.js"></script>
+<script type="text/javascript" src="jobConfigRunning.js"></script>	
+<style>
+html, body {
+	height:100%;
+}
+</style>
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	<div class="ui-layout" style="height:100%;">
+   		<div class="ui-layout-center" style="width: 99.2%; height:100%;">
+   			<div style="display:block;height:5px;width:100%;"></div>
+			<form itype="Form" id="jobruntime" initSource="jobMng_searchSelectData.action">
+			   <table class="ui-form-table">
+			       <tr>
+			           <td class="ui-form-table-dt" style="width:100px">任务名称：</td>
+			           <td class="ui-form-table-dd">
+			           		<div itype="TextBox" type="text" id="job.JobName" width="100%"></div>
+			           </td>
+			           <td class="ui-form-table-dt" style="width:100px">分组：</td>
+			           <td class="ui-form-table-dd">
+			           		<select itype="Select" id="job.jobGroup" width="100%"><option>-请选择-</option></select>
+			           	</td>
+			           <td class="ui-form-table-dd">
+			           		<div itype="Button" text="查询" iconCls="icon-search" onClick="doSearchJobRuntime()"></div>
+							<div itype="Button" text="重置" iconCls="icon-reset" onClick="doResetJobRuntime()"></div>
+			           </td>
+			       </tr>
+			   </table>
+			</form>		
+			<div class="datagrid" itype="DataGrid" allowAutoFillRow="false" id="jobrunetimedatagrid" width="100%" saveInstance="true" initSource="jobMng_queryJobInstances.action" showSeqColumn="true" >
+				<div width="15%" name="jobName" text="任务名称"></div>
+				<div width="10%" name="jobGroupLabel" text="任务分组"></div>
+				<div width="25%" name="instanceName" text="调度实例名"></div>
+				<div width="25%" name="entryId" text="运行实例名"></div>
+				<div width="20%" name="startTimeLabel" text="开始时间"></div>
+				<div width="5%" name="stateLabel" text="状态"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

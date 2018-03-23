@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="../../fastdev/fastDev-import.js"></script>
+<title>人员选择</title>
+<script type="text/javascript">
+function showUsers(value) {
+    //alert(value);
+	var userList = fastDev.getInstance("member");
+	//alert(userList);
+	userList.clean(true);
+	userList.initRefresh({
+		"urlParam" : {
+			"department" : value
+		}
+	});
+}
+
+var  userInfo={"userid":"","username":""};
+function setUserInfo(){
+     var user= fastDev.getInstance('member');
+     var value=user.getValue();
+     var text=user.getText();
+     //alert(value+","+text);
+     userInfo={"userid":value,"username":text};
+}
+
+function getUserInfo(){
+     return userInfo;
+}
+
+</script>
+</head>
+<body>
+      <table  class="ui-form-table">
+          <tr valign="middle">
+          	<td class="ui-form-table-dt" style="width: 100px;">部门组织：</td>
+				<td class="ui-form-table-dd"  >
+					<select  itype="SelectTree" inside="false" id="department" width="100%"
+						 queue="positionForm"  onchange="showUsers()"
+						initSource="org_queryOrgTree.action" rootValue="-请选择-"
+						topParentid="-1" openFloor="2"></select>
+				</td>
+          </tr>
+           <tr valign="middle">
+          	<td class="ui-form-table-dt" style="width: 100px;">人员：</td>
+				<td class="ui-form-table-dd"  ><select width="100%" itype="Select" id="member"
+				 initSource="taskSchedular_getUserList.action"   name="member" saveInstance=true
+				 onChange="setUserInfo()" >
+					<option>--请选择--</option>	
+				</select></td>
+          </tr>
+      </table>
+      
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>新增活动末节点</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="addEndNode.js"></script>
+</head>
+<body>
+	<form itype="Form" id="nodeform" submitJson="false" saveInstance="true"
+		onBeforeReady="fromReady()" action="actNode_addTPostActnode.action" saveQueue="true" 
+		onSubmitSuccess="onSubmitSuccess()">
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt" style="width: 80px;"><span
+					class="ui-red">*</span>活动末节点名称：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" width="100%"
+						id="tpostactnode.c_ACTNODE_NAME"
+						name="tpostactnode.c_ACTNODE_NAME" rule="required;MaxLength:32"></div></td>
+				<td class="ui-form-table-dt" style="width: 80px;"><span
+					class="ui-red">*</span>活动末节点编码：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" width="100%" rule="required;"
+						id="tpostactnode.c_ACTNODE_CODE"
+						name="tpostactnode.c_ACTNODE_CODE"></div></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 80px;"><span
+					class="ui-red">*</span>是否关键管控：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="tpostactnode.c_ISKEYCTRL" width="100%" rule="required;">
+						<option value="0">否</option>
+						<option value="1">是</option>
+					</select>
+				</td>
+				<td class="ui-form-table-dt" style="width: 80px;"><span
+					class="ui-red">*</span>是否顺序执行：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="tpostactnode.c_ISSEQUENCE" width="100%" rule="required;">
+						<option value="0">否</option>
+						<option value="1">是</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 80px;"><span
+					class="ui-red">*</span>下班后是否接收通知：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="tpostactnode.c_ISGETNOTIFY" width="100%" rule="required;">
+						<option value="0">否</option>
+						<option value="1">是</option>
+					</select>
+				</td>
+				<td class="ui-form-table-dt" style="width: 80px;"><span
+					class="ui-red">*</span>超时接收是否转发同岗：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="tpostactnode.c_ISRELAY" width="100%" rule="required;">
+						<option value="0">否</option>
+						<option value="1">是</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 80px;"><span
+					class="ui-red">*</span>PDCA：</td>
+				<td class="ui-form-table-dd"> 
+					<select itype="Select" id="tpostactnode.c_PDCA" width="100%" rule="required;">
+						<option>-请选择-</option>
+						<option value="0">P</option>
+						<option value="1">D</option>
+						<option value="2">C</option>
+						<option value="3">A</option>
+					</select>
+				</td>
+				<td class="ui-form-table-dt" style="width: 80px;"><span
+					class="ui-red">*</span>所属管理模块：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="tpostactnode.c_MANAGE_SECTION"  onBeforeReady="sectionSelReady()" width="100%" rule="required;">
+						<option>-请选择-</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 80px;">备注：</td>
+				<td class="ui-form-table-dd" colspan="3"><textarea
+						itype="TextBox" type="textarea" id="tpostactnode.c_REMARK"
+						id="tpostactnode.c_REMARK" iwidth="100%" height="100px"></textarea></td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

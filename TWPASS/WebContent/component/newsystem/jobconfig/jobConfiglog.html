@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script src="../../fastdev/fastDev-import.js"></script>
+<script type="text/javascript" src="jobConfiglog.js"></script>	
+<style>
+html, body {
+	height:100%;
+}
+</style>
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	<div class="ui-layout" style="height:100%;">
+   		<div class="ui-layout-center" style="width: 99.2%; height:100%;">
+			<div style="display:block;"></div>
+			<form itype="Form" id="joblogform" initSource="jobMng_searchSelectData.action">
+			   <table class="ui-form-table">
+			       <tr>
+			           <td class="ui-form-table-dt" style="width:100px">任务名称：</td>
+			           <td class="ui-form-table-dd"><div itype="TextBox" type="text" id="job.jobName" width="100%"></div></td>
+			           <td class="ui-form-table-dt" style="width:100px">执行时间从：</td>
+			           <td class="ui-form-table-dd"><div itype="DatePicker" id="startRuntime" type="datepicker" iwidth="100%" format="yyyy-MM-dd HH:mm:ss"></div></td>
+			           <td class="ui-form-table-dt" style="width:100px">到：</td>
+			           <td class="ui-form-table-dd"><div itype="DatePicker" id="endRuntime" type="datepicker" iwidth="100%" format="yyyy-MM-dd HH:mm:ss"></div></td>
+			       </tr>
+			       <tr>
+		               <td class="ui-form-table-dt" style="width:100px">分组：</td>
+		               <td class="ui-form-table-dd"><select itype="Select" id="job.jobGroup" width="100%"><option>-请选择-</option></select></td>
+		               <td class="ui-form-table-dd" colspan="4">
+		               		<div itype="Button" text="查询" iconCls="icon-search" onClick="doSearchJobLog()"></div>
+							<div itype="Button" text="重置" iconCls="icon-reset" onClick="doResetJobLog()"></div>
+		               </td>	           
+			       </tr>
+			   </table>
+			</form>	
+			<div class="datagrid" itype="DataGrid" allowAutoFillRow="false" id="joblogdatagrid" width="100%" saveInstance="true" initSource="jobMng_queryJobLogsByPage.action" showSeqColumn="true" >
+				<div width="15%" name="jobName" text="名称"></div>
+				<div width="28%" name="jobSender" text="执行源"></div>
+				<div width="7%" name="jobGroupLabel" text="分组"></div>
+				<div width="25%" name="jobDescription" text="任务描述"></div>
+				<div width="15%" name="startTimeLabel" text="执行时间"></div>
+				<div width="10%" name="runResultLabel" text="执行结果"></div>
+			</div>
+		</div>
+	</div>
+</body>	
+</html>

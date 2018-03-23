@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>新增标准项步骤</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="addStep.js"></script>
+</head>
+<body>
+<!-- initSource='basicObj_initFormControl.action' -->
+	<form id="addStepForm" itype="Form" saveInstance="true" action="" onSubmitSuccess="submitSuccess()" submitJson="false" onBeforeReady="FormReady()" onBeforeInit="BeforeInit()">
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px"><span class="ui-red">*</span>步骤序号：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" id="basicMouldPojo.c_actstep_index" width="100%" disabled=true value="自动生成"></div></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px"><span class="ui-red">*</span>结果收集方式：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select"  id="basicMouldPojo.c_tracefun_id" initSource="basicAdd_getAllTraceFunName.action" dataSource="basicAdd_getAllTraceFunName.action" inside="false" width="100%"> 
+            			<option text="-请选择-"></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">步骤提示名称：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" id="basicMouldPojo.c_step_prompt" width="100%" rule="MaxLength:50;"></div></td>
+			</tr>
+		</table>
+		<input itype="TextBox" id="basicMouldPojo.c_actitem_id" display="false" />
+		<input itype="TextBox" id="basicMouldPojo.c_id" display="false" />
+	</form>
+</body>
+</html>

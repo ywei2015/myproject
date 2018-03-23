@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="struts-jsonarea" extends="twdpe-common-default">          		        
+        <action name="area_init" class="com.talkweb.twdpe.webcomponent.component.AreaMngAction" method="initFromControl" >  
+            <result name="success" type="json">  
+				  <param name="root">data</param>
+            </result>  
+            <result name="error" >/error/error.jsp</result>
+        </action>
+        <action name="area_initTree" class="com.talkweb.twdpe.webcomponent.component.AreaMngAction" method="initTree" >  
+            <result name="success" type="json">  
+				  <param name="root">data</param>
+            </result>  
+            <result name="error" >/error/error.jsp</result>
+        </action>
+        <action name="area_initSubAreaTree" class="com.talkweb.twdpe.webcomponent.component.AreaMngAction" method="initSubAreaTree" >  
+            <result name="success" type="json">  
+				  <param name="root">data</param>
+            </result>  
+            <result name="error" >/error/error.jsp</result>
+        </action>
+        <action name="getAreaById" class="com.talkweb.twdpe.webcomponent.component.AreaMngAction" method="getAreaById" >  
+            <result name="success" type="json">  
+				  <param name="root">data</param>
+            </result>  
+            <result name="error" >/error/error.jsp</result>
+        </action>
+        <action name="area_initTreeInForm" class="com.talkweb.twdpe.webcomponent.component.AreaMngAction" method="initTreeInForm" >  
+            <result name="success" type="json">  
+				  <param name="root">data</param>
+            </result>  
+            <result name="error" >/error/error.jsp</result>
+        </action>
+        <action name="area_searchAreaToForm" class="com.talkweb.twdpe.webcomponent.component.AreaMngAction" method="searchAreaToForm" >  
+            <result name="success" type="json">  
+				  <param name="root">data</param>
+            </result>  
+            <result name="error" >/error/error.jsp</result>
+        </action>
+        <action name="area_addArea" class="com.talkweb.twdpe.webcomponent.component.AreaMngAction" method="addArea" >  
+            <result name="success" type="json">  
+				  <param name="root">data</param>
+            </result>  
+            <result name="error" >/error/error.jsp</result>
+        </action>
+        <action name="area_delArea" class="com.talkweb.twdpe.webcomponent.component.AreaMngAction" method="delArea" >  
+            <result name="success" type="json">  
+				  <param name="root">data</param>
+            </result>  
+            <result name="error" >/error/error.jsp</result>
+        </action>
+        <action name="update_addArea" class="com.talkweb.twdpe.webcomponent.component.AreaMngAction" method="updateArea" >  
+            <result name="success" type="json">  
+				  <param name="root">data</param>
+            </result>  
+            <result name="error" >/error/error.jsp</result>
+        </action>
+    </package>
+
+</struts>
+

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="TStdtaskplanSeries">
+	<resultMap id="BaseResultMap" type="com.talkweb.xwzcxt.pojo.TStdtaskplanSeries">
+		<id column="C_TS_ID" property="cTsId" jdbcType="DECIMAL" />
+		<result column="C_TASKTEMPLET_ID" property="cTasktempletId"
+			jdbcType="VARCHAR" />
+		<result column="C_TIMERULE_ID" property="cTimeruleId" jdbcType="VARCHAR" />
+		<result column="C_TASK_TYPE" property="cTaskType" jdbcType="DECIMAL" />
+		<result column="C_PLANDOWN_TIME" property="cPlandownTime"
+			jdbcType="TIMESTAMP" />
+		<result column="C_START_TIME" property="cStartTime" jdbcType="TIMESTAMP" />
+		<result column="C_END_TIME" property="cEndTime" jdbcType="TIMESTAMP" />
+		<result column="C_CHK_HOURS" property="cChkHours" jdbcType="FLOAT" />
+		<result column="C_EVALUATE_TIME" property="cEvaluateTime"
+			jdbcType="TIMESTAMP" />
+		<result column="C_EXEC_USERID" property="cExecUserid" jdbcType="DECIMAL" />
+		<result column="C_CHK_USERID" property="cChkUserid" jdbcType="DECIMAL" />
+		<result column="C_EVALUATE_USERID" property="cEvaluateUserid"
+			jdbcType="DECIMAL" />
+		<result column="C_OKFB_USERID" property="cOkfbUserid" jdbcType="DECIMAL" />
+		<result column="C_OKFB_ULIST" property="cOkfbUlist" jdbcType="VARCHAR" />
+		<result column="C_NGFB_USERID" property="cNgfbUserid" jdbcType="DECIMAL" />
+		<result column="C_NGFB_ULIST" property="cNgfbUlist" jdbcType="VARCHAR" />
+		<result column="C_DECODE_TIME" property="cDecodeTime" jdbcType="TIMESTAMP" />
+		<result column="C_DONE_TIME" property="cDoneTime" jdbcType="TIMESTAMP" />
+		<result column="C_TASK_ID" property="cTaskId" jdbcType="DECIMAL" />
+		<result column="C_STATE" property="cState" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		C_TS_ID, C_TASKTEMPLET_ID, C_TIMERULE_ID, C_TASK_TYPE, C_PLANDOWN_TIME,
+		C_START_TIME,
+		C_END_TIME, C_CHK_HOURS, C_EVALUATE_TIME, C_EXEC_USERID, C_CHK_USERID,
+		C_EVALUATE_USERID,
+		C_OKFB_USERID, C_OKFB_ULIST, C_NGFB_USERID, C_NGFB_ULIST, C_DECODE_TIME,
+		C_DONE_TIME,
+		C_TASK_ID, C_STATE
+	</sql>
+
+	<select id="selectByPositionID" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from TWXWZC.T_STDTASKPLAN_SERIES T,DP_USER U
+		where U.USERID = T.C_EXEC_USERID
+		<if test="null!=positionid and ''!=positionid">
+			AND U.POSITIONID=#{positionid}
+		</if>
+	</select>
+
+	<select id="getAllPlanSeries" parameterType="map" resultType="java.util.Map">
+		select aa.*,
+			bb.displayname    as C_EXEC_USERNAME,
+			cc.c_templet_name as C_TASKTEMPLET_NAME,
+			dd.typename       as C_TASK_TYPENAME
+		from t_stdtaskplan_series aa,
+			dp_user               bb,
+			t_sd_task_templet     cc,
+			v_task_type dd
+		where aa.c_exec_userid = bb.userid(+)
+			and aa.c_tasktemplet_id = cc.c_templet_id(+)
+			and aa.c_task_type = dd.typeid(+)
+		<if test="null != positionid and '' != positionid">
+			and bb.positionid = #{positionid}
+		</if>
+		<if test="null != templetname and '' != templetname">
+			and cc.c_templet_name like '%${templetname}%'
+		</if>
+		order by aa.c_start_time desc
+	</select>
+
+	<select id="getPlanSeriesDetailByID" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from TWXWZC.T_STDTASKPLAN_SERIES
+		where C_TS_ID = #{cTsId}
+	</select>
+
+	<delete id="deletePlanSeriesById" parameterType="java.lang.String">
+		delete from
+		TWXWZC.T_STDTASKPLAN_SERIES
+		where C_TS_ID = #{cTsId}
+	</delete>
+
+	<delete id="deletePlanSeriesByTaskTempletID" parameterType="java.util.List">
+		delete from
+		TWXWZC.T_STDTASKPLAN_SERIES
+		where C_TASKTEMPLET_ID in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<select id="searchDeletePlanSeriesByTaskTempletID" parameterType="java.util.List" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from TWXWZC.T_STDTASKPLAN_SERIES
+		where C_TASKTEMPLET_ID in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+</mapper>

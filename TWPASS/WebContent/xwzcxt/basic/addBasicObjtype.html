@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>显示作业类别信息</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="addBasicObjtype.js"></script>
+</head>
+<body style="padding:5px;overflow:hidden;" scroll="no">
+  	<div class="ui-layout" id="mainDiv" style="height:98%; width:98%">
+  		<form id="areaform" itype="Form" saveInstance="true">
+  			<table class="ui-form-table">
+  				<tr>
+  					<td class="ui-form-table-dt" style="width:100px;">用户姓名：</td>
+  					<td class="ui-form-table-dd"><div itype="TextBox" id="basic.searchBasicObjtype" width="100%"></div></td>
+  					<td class="ui-form-table-dd">
+  						<div itype="Button" id="searchBtn" text="查询" iconCls="icon-search" onClick="doSearchObjtype()"></div>
+  					</td>
+  				</tr>
+  			</table>
+  		</form>
+  			
+  		<div class="ui-layout-text ui-toolbar-bg">所在区域</div>
+  		<div id="objtypetree" itype="Tree" saveInstance="true" showIco="true"
+			width="100%"
+			height="288px"
+			rootValue="所有作业对象"
+			initSource="initObjTypeTree_queryObjTypeTree.action"
+			asyncDataSource="initObjTypeTree_queryObjTypeTree.action"
+			topParentid="-1"
+			showLine="true" 
+			openFloor=3 
+			onNodeClick="onNodeClick()">
+		</div>
+		<!-- ?moduleId=M32&modeId=view -->
+  	</div>
+  </body>
+</html>

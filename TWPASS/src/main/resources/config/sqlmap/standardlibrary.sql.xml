@@ -1,0 +1,1102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="standardLibrary">
+	<resultMap id="standardLibraryPojoMap" type="com.talkweb.xwzcxt.pojo.StandardLibraryPojo">
+		<id column="C_SORT_ID"  property="c_sort_id" />
+		<result column="C_SORT_CODE" property="c_sort_code" />
+		<result column="C_SORT_PID"  property="c_sort_pid" />
+		<result column="C_SORT_NAME"  property="c_sort_name" />
+	</resultMap>
+	
+	<resultMap id="searchDelActNodeMap" type="com.talkweb.xwzcxt.pojo.Actnode">
+		<id column="c_actnode_id"  property="c_actnode_id" />
+		<result column="c_actnode_code" property="c_actnode_code" />
+		<result column="c_actnode_name"  property="c_actnode_name" />
+		<result column="c_action_id"  property="c_action_id" />
+		<result column="c_pdca"  property="c_pdca" />
+		<result column="c_iskeyctrl"  property="c_iskeyctrl" />
+		<result column="c_issequence"  property="c_issequence" />
+		<result column="c_frequency"  property="c_frequency" />
+		<result column="c_area_id" property="c_area_id" />
+		<result column="c_area_name"  property="c_area_name" />
+		<result column="c_position_id"  property="c_position_id" />
+		<result column="c_position_name" property="c_position_name" />
+		<result column="c_std_exec"  property="c_std_exec" />
+		<result column="c_starttime_exec"  property="c_starttime_exec" />
+		<result column="c_endtime_exec" property="c_endtime_exec" />
+		<result column="c_std_check"  property="c_std_check" />
+		<result column="c_position_id_check" property="c_position_id_check" />
+		<result column="c_position_name_check"  property="c_position_name_check" />
+		<result column="c_timelimit_check"  property="c_timelimit_check" />
+		<result column="c_std_review" property="c_std_review" />
+		<result column="c_position_id_review"  property="c_position_id_review" />
+		<result column="c_position_name_review"  property="c_position_name_review" />
+		<result column="c_timelimit_review"  property="c_timelimit_review" />
+		<result column="c_position_id_feedback1" property="c_position_id_feedback1" />
+		<result column="c_position_name_feedback1"  property="c_position_name_feedback1" />
+		<result column="c_position_id_feedback2"  property="c_position_id_feedback2" />
+		<result column="c_position_name_feedback2"  property="c_position_name_feedback2" />
+		<result column="c_position_id_err1" property="c_position_id_err1" />
+		<result column="c_position_name_err1"  property="c_position_name_err1" />
+		<result column="c_position_id_err2"  property="c_position_id_err2" />
+		<result column="c_position_name_err2"  property="c_position_name_err2" />
+		<result column="c_creator" property="c_creator" />
+		<result column="c_createtime"  property="c_createtime" />
+		<result column="c_modifier"  property="c_modifier" />
+		<result column="c_modifytime"  property="c_modifytime" />
+		<result column="c_version" property="c_version" />
+		<result column="c_istimerule"  property="c_istimerule" />
+		<result column="c_action_name"  property="c_action_name" />
+		<result column="c_err_exec"  property="c_err_exec" />
+		<result column="c_records_exec" property="c_records_exec" />
+		<result column="c_err_check"  property="c_err_check" />
+		<result column="c_records_check"  property="c_records_check" />
+		<result column="c_actnodetype"  property="c_actnodetype" />
+		<result column="c_manageattr" property="c_manageattr" />
+		<result column="c_managestd"  property="c_managestd" />
+		<result column="c_examstd"  property="c_examstd" />
+		<result column="c_file_id"  property="c_file_id" />
+		<result column="c_section_id" property="c_section_id" />
+		<result column="c_department"  property="c_department" />
+		<result column="c_ispublic"  property="c_ispublic" />
+		<result column="c_public_id"  property="c_public_id" />
+		<result column="c_isscan" property="c_isscan" />
+		<result column="c_israndom"  property="c_israndom" />
+	</resultMap>
+	
+	<resultMap id="searchDelActItemMap" type="com.talkweb.xwzcxt.pojo.Actnode">
+		<id column="c_actitem_id"  property="c_actitem_id" />
+		<result column="c_actitem_index" property="c_actitem_index" />
+		<result column="c_actitem_code"  property="c_actitem_code" />
+		<result column="c_actitem_name"  property="c_actitem_name" />
+		<result column="c_actnode_id" property="c_actnode_id" />
+		<result column="c_actitem_std"  property="c_actitem_std" />
+		<result column="c_actitem_std_check"  property="c_actitem_std_check" />
+		<result column="c_explain" property="c_explain" />
+		<result column="c_getdatatype"  property="c_getdatatype" />
+		<result column="c_checkdatatype"  property="c_checkdatatype" />
+		<result column="c_remark" property="c_remark" />
+		<result column="c_flag"  property="c_flag" />
+		<result column="c_version"  property="c_version" />
+		<result column="c_getdata_pretext" property="c_getdata_pretext" />
+		<result column="c_getdata_text"  property="c_getdata_text" />
+		<result column="c_getdata_unit"  property="c_getdata_unit" />
+		<result column="c_checkdata_pretext" property="c_checkdata_pretext" />
+		<result column="c_checkdata_text"  property="c_checkdata_text" />
+		<result column="c_checkdata_unit"  property="c_checkdata_unit" />
+		<result column="c_groupindex"  property="c_groupindex" />
+	</resultMap>
+
+	<!-- 查询父节点ID为某ID的标准文件类别 -->
+	<select id="getSdFileSortByPid" 
+			parameterType="java.lang.String" 
+			resultType="com.talkweb.xwzcxt.pojo.StandardLibraryPojo">
+		select * from t_sd_sort where c_sort_pid = #{c_sort_pid}
+	</select>
+
+	<!--start 活动标准库管理 -->
+	<select id="queryManagementProcess" parameterType="com.talkweb.xwzcxt.pojo.StandardFile"
+		resultType="com.talkweb.xwzcxt.pojo.StandardFile">
+		select 
+		    t.c_sfile_id,
+		    a.c_action_sname,
+		    t.c_sort_id,
+		    b.c_sort_name,
+		    t.c_sfile_name,
+		    t.c_sfile_version,
+		    t.c_sfile_id as c_content,
+		    c.displayname as c_creator,
+		      t.c_releasetime,
+		      t.c_createtime
+	    from t_sd_standardfile t
+	         , t_sd_action a
+	         , t_sd_sort b
+	         , dp_user c
+	    where t.c_action_id=a.c_action_id(+) 
+	          and t.c_sort_id=b.c_sort_id(+) 
+	          and t.c_creator=c.userid 
+		<!-- select distinct
+		t.c_sfile_id,
+		a.c_action_sname,
+		e.c_sort_name,
+		t.c_sfile_name,
+		t.c_sfile_version,
+		t.c_sfile_id as c_content,
+		c.c_sfile_id,
+		c.c_att_id,
+    	f.displayname as c_creator,
+    	t.c_releasetime,
+    	t.c_createtime
+    from t_sd_standardfile t,
+    	 t_sd_action a,
+    	 t_sd_standardcontent b,
+    	 t_sd_standardatt c,
+    	 t_sd_sort e,
+    	 dp_user f
+    where t.c_action_id = a.c_action_id and a.c_flag=1Changed By RitaZhou from (+) to and a.c_flag=1
+    and t.c_sfile_id = b.c_sfile_id(+)
+    and t.c_sfile_id = c.c_sfile_id(+)
+    and t.c_sort_id = e.c_sort_id(+)
+    and t.c_creator = f.userid(+) -->
+
+		<if test="c_action_id != null and c_action_id != ''">
+			and t.c_action_id in 
+			(select ta.c_action_id from T_SD_ACTION ta start with c_action_id=#{c_action_id} connect by prior c_action_id=c_action_pid) 
+		</if>
+		<if test="c_sfile_name != null and c_sfile_name != ''">
+			and t.c_sfile_name like '%${c_sfile_name}%'
+		</if>
+		<if test="c_sort_id != null and c_sort_id != ''">
+			and t.c_sort_id in (select c_sort_id from t_sd_sort start with c_sort_id= #{c_sort_id} connect by prior c_sort_id=c_sort_pid)
+		</if>
+		<if test="c_releaseunit != null and c_releaseunit != ''">
+			and t.c_releaseunit like '%${c_releaseunit}%'
+		</if>
+		<if test="c_releasetime != null and c_releasetime != ''">
+			and t.c_releasetime = #{c_releasetime}
+		</if>
+		<if test="c_impletime != null and c_impletime != ''">
+			and t.c_impletime = #{c_impletime}
+		</if>
+		<if test="c_fw_qcbm != null and c_fw_qcbm != ''">
+			and t.c_fw_qcbm = #{c_fw_qcbm}
+		</if>
+		<if test="c_fw_gkbm != null and c_fw_gkbm != ''">
+			and t.c_fw_gkbm = #{c_fw_gkbm}
+		</if>		
+	     order by t.c_createtime desc, t.c_sfile_id
+	</select>
+
+	<select id="getProcessNodeTree" parameterType="com.talkweb.xwzcxt.pojo.StandardFile"
+		resultType="com.talkweb.xwzcxt.pojo.StandardFile">
+		select t.c_action_id,t.c_action_pid,t.c_action_sname from
+		t_sd_action t where t.c_flag=1 order by t.c_action_id
+	</select>
+
+	<select id="getStandardcontent" parameterType="com.talkweb.xwzcxt.pojo.StandardFile"
+		resultType="com.talkweb.xwzcxt.pojo.StandardFile">
+		<![CDATA[ select t.c_sectionid,
+       t.c_sectionpid,
+       t.c_includeatt,
+       b.c_file_url,
+       t.c_sectionid || ' ' || t.c_title || t.c_content c_content
+  		from t_sd_standardcontent t,t_sd_standardatt a,t_sd_file b
+  		where t.c_sfile_id = a.c_sfile_id(+)
+  		and a.c_file_id = b.c_file_id(+) and t.c_sfile_id = #{c_sfile_id} 
+  		order by t.c_sectionid
+  		]]>
+	</select>
+
+	<select id="getAppendix" parameterType="com.talkweb.xwzcxt.pojo.StandardFile"
+		resultType="com.talkweb.xwzcxt.pojo.StandardFile">
+		<![CDATA[ 
+		select rownum c_sectionid, '0' c_sectionpid, a.c_file_name, a.c_file_url
+  from t_sd_standardatt t, t_sd_file a 
+ where t.c_file_id = a.c_file_id and t.c_sfile_id = #{c_sfile_id} and t.c_atttype_id=1
+  		]]>
+	</select>
+
+	<!-- 查询父目录节点下所有子节点中ID最大是多少 -->
+	<select id="getMaxIdOfChildren" parameterType="com.talkweb.xwzcxt.pojo.StandardLibraryPojo" resultType="java.lang.String">
+		<![CDATA[ 
+		select max(c_sort_id) from t_sd_sort where c_sort_id > #{c_sort_code} and c_sort_id < to_number(#{c_sort_code})+1000
+		]]>
+	</select>
+
+	<delete id="delStandardfile" parameterType="com.talkweb.xwzcxt.pojo.StandardFile">
+		delete from
+		t_sd_standardfile t where t.c_sfile_id = #{c_sfile_id}
+	</delete>
+
+	<delete id="delStandardcontent" parameterType="com.talkweb.xwzcxt.pojo.StandardFile">
+		delete from
+		t_sd_standardcontent t where t.c_sfile_id = #{c_sfile_id}
+	</delete>
+
+	<delete id="delStandardatt" parameterType="com.talkweb.xwzcxt.pojo.StandardFile">
+		delete from
+		t_sd_standardatt t where t.c_sfile_id = #{c_sfile_id}
+	</delete>
+
+	<delete id="delFile" parameterType="com.talkweb.xwzcxt.pojo.StandardFile">
+		delete from t_sd_file
+		t where
+		t.c_file_id in (select a.c_file_id from t_sd_standardatt a
+		where
+		a.c_sfile_id = #{c_sfile_id})
+	</delete>
+
+	<delete id="delStandardFileTreeNode" parameterType="java.util.List">
+		delete from t_sd_sort
+		t where
+		t.c_sort_id in 
+		<foreach item="item" index="index" collection="list" 
+            open="(" separator="," close=")">
+            #{item}
+        </foreach>	
+	</delete>
+
+	<!--start 岗位活动管理 -->
+	<insert id="addActnode" parameterType="com.talkweb.xwzcxt.pojo.Actnode">
+		insert into t_sd_actnode
+		(c_actnode_id
+			<if test="c_actnode_code != null and c_actnode_code != ''">
+			,c_actnode_code
+			</if>
+			<if test="c_actnode_name != null and c_actnode_name != ''">
+			,c_actnode_name
+			</if>
+			<if test="c_action_id != null and c_action_id != ''">
+			,c_action_id
+			</if>
+			<if test="c_pdca != null and c_pdca != ''">
+			,c_pdca
+			</if>
+			<if test="c_iskeyctrl != null and c_iskeyctrl != ''">
+			,c_iskeyctrl
+			</if>
+			<if test="c_issequence != null and c_issequence != ''">
+			,c_issequence
+			</if>
+			<if test="c_frequency != null and c_frequency != ''">
+			,c_frequency
+			</if>
+			<if test="c_area_id != null and c_area_id != ''">
+			,c_area_id
+			</if>
+			<if test="c_area_name != null and c_area_name != ''">
+			,c_area_name
+			</if>
+			<if test="c_position_id != null and c_position_id != ''">
+			,c_position_id
+			</if>
+			<if test="c_position_name != null and c_position_name != ''">
+			,c_position_name
+			</if>
+			<if test="c_std_exec != null and c_std_exec != ''">
+			,c_std_exec
+			</if>
+			<if test="c_starttime_exec != null and c_starttime_exec != ''">
+			,c_starttime_exec
+			</if>
+			<if test="c_endtime_exec != null and c_endtime_exec != ''">
+			,c_endtime_exec
+			</if>
+			<if test="c_std_check != null and c_std_check != ''">
+			,c_std_check
+			</if>
+			<if test="c_position_id_check != null and c_position_id_check != ''">
+			,c_position_id_check
+			</if>
+			<if test="c_position_name_check != null and c_position_name_check != ''">
+			,c_position_name_check
+			</if>
+			<if test="c_timelimit_check != null and c_timelimit_check != ''">
+			,c_timelimit_check
+			</if>
+			<if test="c_std_review != null and c_std_review != ''">
+			,c_std_review
+			</if>
+			<if test="c_position_id_review != null and c_position_id_review != ''">
+			,c_position_id_review
+			</if>
+			<if test="c_position_name_review != null and c_position_name_review != ''">
+			,c_position_name_review
+			</if>
+			<if test="c_timelimit_review != null and c_timelimit_review != ''">
+			,c_timelimit_review
+			</if>
+			<if test="c_position_id_feedback1 != null and c_position_id_feedback1 != ''">
+			,c_position_id_feedback1
+			</if>
+			<if test="c_position_name_feedback1 != null and c_position_name_feedback1 != ''">
+			,c_position_name_feedback1
+			</if>
+			<if test="c_position_id_feedback2 != null and c_position_id_feedback2 != ''">
+			,c_position_id_feedback2
+			</if>
+			<if test="c_position_name_feedback2 != null and c_position_name_feedback2 != ''">
+			,c_position_name_feedback2
+			</if>
+			<if test="c_position_id_err1 != null and c_position_id_err1 != ''">
+			,c_position_id_err1
+			</if>
+			<if test="c_position_name_err1 != null and c_position_name_err1 != ''">
+			,c_position_name_err1
+			</if>
+			<if test="c_position_id_err2 != null and c_position_id_err2 != ''">
+			,c_position_id_err2
+			</if>
+			<if test="c_position_name_err2 != null and c_position_name_err2 != ''">
+			,c_position_name_err2
+			</if>
+			<if test="c_creator != null and c_creator != ''">
+			,c_creator
+			</if>
+			,c_createtime
+			<if test="c_modifier != null and c_modifier != ''">
+			,c_modifier
+			</if>
+			<if test="c_modifytime != null and c_modifytime != ''">
+			,c_modifytime
+			</if>
+			<if test="c_version != null and c_version != ''">
+			,c_version
+			</if>
+			<if test="c_istimerule != null and c_istimerule != ''">
+			,c_istimerule
+			</if>
+			<if test="c_action_name != null and c_action_name != ''">
+			,c_action_name
+			</if>
+			<if test="c_err_exec != null and c_err_exec != ''">
+			,c_err_exec
+			</if>
+			<if test="c_records_exec != null and c_records_exec != ''">
+			,c_records_exec
+			</if>
+			<if test="c_err_check != null and c_err_check != ''">
+			,c_err_check
+			</if>
+			<if test="c_records_check != null and c_records_check != ''">
+			,c_records_check
+			</if>
+			<if test="c_actnodetype != null and c_actnodetype != ''">
+			,c_actnodetype
+			</if>
+			<if test="c_manageattr != null and c_manageattr != ''">
+			,c_manageattr
+			</if>
+			<if test="c_managestd != null and c_managestd != ''">
+			,c_managestd
+			</if>
+			<if test="c_examstd != null and c_examstd != ''">
+			,c_examstd
+			</if>
+			<if test="c_file_id != null and c_file_id != ''">
+			,c_file_id
+			</if>
+			<if test="c_section_id != null and c_section_id != ''">
+			,c_section_id
+			</if>
+			<if test="c_department != null and c_department != ''">
+			,c_department
+			</if>
+			<if test="c_public_id != null and c_public_id != ''">
+			,c_public_id
+			</if>
+			<if test="c_ispublic != null and c_ispublic != ''">
+			,c_ispublic
+			</if>
+			<if test="c_isscan != null and c_isscan != ''">
+			,c_isscan
+			</if>
+			<if test="c_israndom != null and c_israndom != ''">
+			,c_israndom
+			</if>
+			)values (
+			#{c_actnode_id}
+			<if test="c_actnode_code != null and c_actnode_code != ''">
+			,#{c_actnode_code}
+			</if>
+			<if test="c_actnode_name != null and c_actnode_name != ''">
+			,#{c_actnode_name}
+			</if>
+			<if test="c_action_id != null and c_action_id != ''">
+			,#{c_action_id}
+			</if>
+			<if test="c_pdca != null and c_pdca != ''">
+			,#{c_pdca}
+			</if>
+			<if test="c_iskeyctrl != null and c_iskeyctrl != ''">
+			,#{c_iskeyctrl}
+			</if>
+			<if test="c_issequence != null and c_issequence != ''">
+			,#{c_issequence}
+			</if>
+			<if test="c_frequency != null and c_frequency != ''">
+			,#{c_frequency}
+			</if>
+			<if test="c_area_id != null and c_area_id != ''">
+			,#{c_area_id}
+			</if>
+			<if test="c_area_name != null and c_area_name != ''">
+			,#{c_area_name}
+			</if>
+			<if test="c_position_id != null and c_position_id != ''">
+			,#{c_position_id}
+			</if>
+			<if test="c_position_name != null and c_position_name != ''">
+			,#{c_position_name}
+			</if>
+			<if test="c_std_exec != null and c_std_exec != ''">
+			,#{c_std_exec}
+			</if>
+			<if test="c_starttime_exec != null and c_starttime_exec != ''">
+			,#{c_starttime_exec}
+			</if>
+			<if test="c_endtime_exec != null and c_endtime_exec != ''">
+			,#{c_endtime_exec}
+			</if>
+			<if test="c_std_check != null and c_std_check != ''">
+			,#{c_std_check}
+			</if>
+			<if test="c_position_id_check != null and c_position_id_check != ''">
+			,#{c_position_id_check}
+			</if>
+			<if test="c_position_name_check != null and c_position_name_check != ''">
+			,#{c_position_name_check}
+			</if>
+			<if test="c_timelimit_check != null and c_timelimit_check != ''">
+			,#{c_timelimit_check}
+			</if>
+			<if test="c_std_review != null and c_std_review != ''">
+			,#{c_std_review}
+			</if>
+			<if test="c_position_id_review != null and c_position_id_review != ''">
+			,#{c_position_id_review}
+			</if>
+			<if test="c_position_name_review != null and c_position_name_review != ''">
+			,#{c_position_name_review}
+			</if>
+			<if test="c_timelimit_review != null and c_timelimit_review != ''">
+			,#{c_timelimit_review}
+			</if>
+			<if test="c_position_id_feedback1 != null and c_position_id_feedback1 != ''">
+			,#{c_position_id_feedback1}
+			</if>
+			<if test="c_position_name_feedback1 != null and c_position_name_feedback1 != ''">
+			,#{c_position_name_feedback1}
+			</if>
+			<if test="c_position_id_feedback2 != null and c_position_id_feedback2 != ''">
+			,#{c_position_id_feedback2}
+			</if>
+			<if test="c_position_name_feedback2 != null and c_position_name_feedback2 != ''">
+			,#{c_position_name_feedback2}
+			</if>
+			<if test="c_position_id_err1 != null and c_position_id_err1 != ''">
+			,#{c_position_id_err1}
+			</if>
+			<if test="c_position_name_err1 != null and c_position_name_err1 != ''">
+			,#{c_position_name_err1}
+			</if>
+			<if test="c_position_id_err2 != null and c_position_id_err2 != ''">
+			,#{c_position_id_err2}
+			</if>
+			<if test="c_position_name_err2 != null and c_position_name_err2 != ''">
+			,#{c_position_name_err2}
+			</if>
+			<if test="c_creator != null and c_creator != ''">
+			,#{c_creator}
+			</if>
+			,sysdate
+			<if test="c_modifier != null and c_modifier != ''">
+			,#{c_modifier}
+			</if>
+			<if test="c_modifytime != null and c_modifytime != ''">
+			,#{c_modifytime}
+			</if>
+			<if test="c_version != null and c_version != ''">
+			,#{c_version}
+			</if>
+			<if test="c_istimerule != null and c_istimerule != ''">
+			,#{c_istimerule}
+			</if>
+			<if test="c_action_name != null and c_action_name != ''">
+			,#{c_action_name}
+			</if>
+			<if test="c_err_exec != null and c_err_exec != ''">
+			,#{c_err_exec}
+			</if>
+			<if test="c_records_exec != null and c_records_exec != ''">
+			,#{c_records_exec}
+			</if>
+			<if test="c_err_check != null and c_err_check != ''">
+			,#{c_err_check}
+			</if>
+			<if test="c_records_check != null and c_records_check != ''">
+			,#{c_records_check}
+			</if>
+			<if test="c_actnodetype != null and c_actnodetype != ''">
+			,#{c_actnodetype}
+			</if>
+			<if test="c_manageattr != null and c_manageattr != ''">
+			,#{c_manageattr}
+			</if>
+			<if test="c_managestd != null and c_managestd != ''">
+			,#{c_managestd}
+			</if>
+			<if test="c_examstd != null and c_examstd != ''">
+			,#{c_examstd}
+			</if>
+			<if test="c_file_id != null and c_file_id != ''">
+			,#{c_file_id}
+			</if>
+			<if test="c_section_id != null and c_section_id != ''">
+			,#{c_section_id}
+			</if>
+			<if test="c_department != null and c_department != ''">
+			,#{c_department}
+			</if>
+			<if test="c_public_id != null and c_public_id != ''">
+			,#{c_public_id}
+			</if>
+			<if test="c_ispublic != null and c_ispublic != ''">
+			,#{c_ispublic}
+			</if>
+			<if test="c_isscan != null and c_isscan != ''">
+			,#{c_isscan}
+			</if>
+			<if test="c_israndom != null and c_israndom != ''">
+			,#{c_israndom}
+			</if>
+			)
+	</insert>
+
+	<update id="updateActNodeByID" parameterType="com.talkweb.xwzcxt.pojo.Actnode">
+		update t_sd_actnode
+		<set>
+			<if test="c_actnode_code != null and c_actnode_code != ''">
+			c_actnode_code = #{c_actnode_code},
+			</if>
+			<if test="c_actnode_name != null and c_actnode_name != ''">
+			c_actnode_name = #{c_actnode_name},
+			</if>
+			<if test="c_action_id != null and c_action_id != ''">
+			c_action_id = #{c_action_id},
+			</if>
+			<if test="c_pdca != null and c_pdca != ''">
+			c_pdca = #{c_pdca},
+			</if>
+			<if test="c_iskeyctrl != null and c_iskeyctrl != ''">
+			c_iskeyctrl = #{c_iskeyctrl},
+			</if>
+			<if test="c_issequence != null and c_issequence != ''">
+			c_issequence = #{c_issequence},
+			</if>
+			<if test="c_frequency != null and c_frequency != ''">
+			c_frequency = #{c_frequency},
+			</if>
+			<if test="c_area_id != null and c_area_id != ''">
+			c_area_id = #{c_area_id},
+			</if>
+			<if test="c_area_name != null and c_area_name != ''">
+			c_area_name = #{c_area_name},
+			</if>
+			<if test="c_position_id != null and c_position_id != ''">
+			c_position_id = #{c_position_id},
+			</if>
+			<if test="c_position_name != null and c_position_name != ''">
+			c_position_name = #{c_position_name},
+			</if>
+			<if test="c_std_exec != null and c_std_exec != ''">
+			c_std_exec = #{c_std_exec},
+			</if>
+			<if test="c_starttime_exec != null and c_starttime_exec != ''">
+			c_starttime_exec = #{c_starttime_exec},
+			</if>
+			<if test="c_endtime_exec != null and c_endtime_exec != ''">
+			c_endtime_exec = #{c_endtime_exec},
+			</if>
+			<if test="c_std_check != null and c_std_check != ''">
+			c_std_check = #{c_std_check},
+			</if>
+			<if test="c_position_id_check != null and c_position_id_check != ''">
+			c_position_id_check = #{c_position_id_check},
+			</if>
+			<if test="c_position_name_check != null and c_position_name_check != ''">
+			c_position_name_check = #{c_position_name_check},
+			</if>
+			<if test="c_timelimit_check != null and c_timelimit_check != ''">
+			c_timelimit_check = #{c_timelimit_check},
+			</if>
+			<if test="c_std_review != null and c_std_review != ''">
+			c_std_review = #{c_std_review},
+			</if>
+			<if test="c_position_id_review != null and c_position_id_review != ''">
+			c_position_id_review = #{c_position_id_review},
+			</if>
+			<if test="c_position_name_review != null and c_position_name_review != ''">
+			c_position_name_review = #{c_position_name_review},
+			</if>
+			<if test="c_timelimit_review != null and c_timelimit_review != ''">
+			c_timelimit_review = #{c_timelimit_review},
+			</if>
+			<if test="c_position_id_feedback1 != null and c_position_id_feedback1 != ''">
+			c_position_id_feedback1 = #{c_position_id_feedback1},
+			</if>
+			<if test="c_position_name_feedback1 != null and c_position_name_feedback1 != ''">
+			c_position_name_feedback1 = #{c_position_name_feedback1},
+			</if>
+			<if test="c_position_id_feedback2 != null and c_position_id_feedback2 != ''">
+			c_position_id_feedback2 = #{c_position_id_feedback2},
+			</if>
+			<if test="c_position_name_feedback2 != null and c_position_name_feedback2 != ''">
+			c_position_name_feedback2 = #{c_position_name_feedback2},
+			</if>
+			<if test="c_position_id_err1 != null and c_position_id_err1 != ''">
+			c_position_id_err1 = #{c_position_id_err1},
+			</if>
+			<if test="c_position_name_err1 != null and c_position_name_err1 != ''">
+			c_position_name_err1 = #{c_position_name_err1},
+			</if>
+			<if test="c_position_id_err2 != null and c_position_id_err2 != ''">
+			c_position_id_err2 = #{c_position_id_err2},
+			</if>
+			<if test="c_position_name_err2 != null and c_position_name_err2 != ''">
+			c_position_name_err2 = #{c_position_name_err2},
+			</if>
+			<if test="c_modifier != null and c_modifier != ''">
+			c_modifier = #{c_modifier},
+			</if>
+			c_modifytime = sysdate,
+			<if test="c_version != null and c_version != ''">
+			c_version = #{c_version},
+			</if>
+			<if test="c_istimerule != null and c_istimerule != ''">
+			c_istimerule = #{c_istimerule},
+			</if>
+			<if test="c_action_name != null and c_action_name != ''">
+			c_action_name = #{c_action_name},
+			</if>
+			<if test="c_err_exec != null and c_err_exec != ''">
+			c_err_exec = #{c_err_exec},
+			</if>
+			<if test="c_records_exec != null and c_records_exec != ''">
+			c_records_exec = #{c_records_exec},
+			</if>
+			<if test="c_err_check != null and c_err_check != ''">
+			c_err_check = #{c_err_check},
+			</if>
+			<if test="c_records_check != null and c_records_check != ''">
+			c_records_check = #{c_records_check},
+			</if>
+			<if test="c_actnodetype != null and c_actnodetype != ''">
+			c_actnodetype = #{c_actnodetype},
+			</if>
+			<if test="c_manageattr != null and c_manageattr != ''">
+			c_manageattr = #{c_manageattr},
+			</if>
+			<if test="c_managestd != null and c_managestd != ''">
+			c_managestd = #{c_managestd},
+			</if>
+			<if test="c_examstd != null and c_examstd != ''">
+			c_examstd = #{c_examstd},
+			</if>
+			<if test="c_file_id != null and c_file_id != ''">
+			c_file_id = #{c_file_id},
+			</if>
+			<if test="c_section_id != null and c_section_id != ''">
+			c_section_id = #{c_section_id},
+			</if>
+			<if test="c_department != null and c_department != ''">
+			c_department = #{c_department},
+			</if>
+			<if test="c_public_id != null and c_public_id != ''">
+			c_public_id = #{c_public_id},
+			</if>
+			<if test="c_ispublic != null and c_ispublic != ''">
+			c_ispublic = #{c_ispublic},
+			</if>
+			<if test="c_isscan != null and c_isscan != ''">
+			c_isscan = #{c_isscan},
+			</if>
+			<if test="c_israndom != null and c_israndom != ''">
+			c_israndom = #{c_israndom},
+			</if>
+		</set>
+		where c_actnode_id = #{c_actnode_id}
+	</update>
+
+	<!-- 插入标准文件管理树的节点 -->
+	<insert id="addStandardFileTreeNode" parameterType="com.talkweb.xwzcxt.pojo.StandardLibraryPojo">
+		insert into 
+		t_sd_sort
+		values (#{c_sort_id,jdbcType=VARCHAR},#{c_sort_code,jdbcType=VARCHAR},#{c_sort_pid,jdbcType=VARCHAR},#{c_sort_name,jdbcType=VARCHAR})
+	</insert>
+
+	<insert id="addActnodeItem" parameterType="com.talkweb.xwzcxt.pojo.Actnode">
+		insert into t_sd_actnode_item
+		(c_actitem_id
+			<if test="c_actitem_index != null and c_actitem_index != ''">
+			,c_actitem_index
+			</if>
+			<if test="c_actitem_code != null and c_actitem_code != ''">
+			,c_actitem_code
+			</if>
+			<if test="c_actitem_name != null and c_actitem_name != ''">
+			,c_actitem_name
+			</if>
+			<if test="c_actnode_id != null and c_actnode_id != ''">
+			,c_actnode_id
+			</if>
+			<if test="c_actitem_std != null and c_actitem_std != ''">
+			,c_actitem_std
+			</if>
+			<if test="c_actitem_std_check != null and c_actitem_std_check != ''">
+			,c_actitem_std_check
+			</if>
+			<if test="c_explain != null and c_explain != ''">
+			,c_explain
+			</if>
+			<if test="c_getdata_pretext != null and c_getdata_pretext != ''">
+			,c_getdata_pretext
+			</if>
+			<if test="c_getdatatype != null and c_getdatatype != ''">
+			,c_getdatatype
+			</if>
+			<if test="c_getdata_unit != null and c_getdata_unit != ''">
+			,c_getdata_unit
+			</if>
+			<if test="c_getdata_text != null and c_getdata_text != ''">
+			,c_getdata_text
+			</if>
+			<if test="c_checkdata_pretext != null and c_checkdata_pretext != ''">
+			,c_checkdata_pretext
+			</if>
+			<if test="c_checkdatatype != null and c_checkdatatype != ''">
+			,c_checkdatatype
+			</if>
+			<if test="c_checkdata_unit != null and c_checkdata_unit != ''">
+			,c_checkdata_unit
+			</if>
+			<if test="c_checkdata_text != null and c_checkdata_text != ''">
+			,c_checkdata_text
+			</if>
+			<if test="c_groupindex != null and c_groupindex != ''">
+			,c_groupindex
+			</if>
+			<if test="c_remark != null and c_remark != ''">
+			,c_remark
+			</if>
+			<if test="c_flag != null and c_flag != ''">
+			,c_flag
+			</if>
+			<if test="c_version != null and c_version != ''">
+			,c_version
+			</if>
+			)values (
+			#{c_actitem_id}
+			<if test="c_actitem_index != null and c_actitem_index != ''">
+			,#{c_actitem_index}
+			</if>
+			<if test="c_actitem_code != null and c_actitem_code != ''">
+			,#{c_actitem_code}
+			</if>
+			<if test="c_actitem_name != null and c_actitem_name != ''">
+			,#{c_actitem_name}
+			</if>
+			<if test="c_actnode_id != null and c_actnode_id != ''">
+			,#{c_actnode_id}
+			</if>
+			<if test="c_actitem_std != null and c_actitem_std != ''">
+			,#{c_actitem_std}
+			</if>
+			<if test="c_actitem_std_check != null and c_actitem_std_check != ''">
+			,#{c_actitem_std_check}
+			</if>
+			<if test="c_explain != null and c_explain != ''">
+			,#{c_explain}
+			</if>
+			<if test="c_getdata_pretext != null and c_getdata_pretext != ''">
+			,#{c_getdata_pretext}
+			</if>
+			<if test="c_getdatatype != null and c_getdatatype != ''">
+			,#{c_getdatatype}
+			</if>
+			<if test="c_getdata_unit != null and c_getdata_unit != ''">
+			,#{c_getdata_unit}
+			</if>
+			<if test="c_getdata_text != null and c_getdata_text != ''">
+			,#{c_getdata_text}
+			</if>
+			<if test="c_checkdata_pretext != null and c_checkdata_pretext != ''">
+			,#{c_checkdata_pretext}
+			</if>
+			<if test="c_checkdatatype != null and c_checkdatatype != ''">
+			,#{c_checkdatatype}
+			</if>
+			<if test="c_checkdata_unit != null and c_checkdata_unit != ''">
+			,#{c_checkdata_unit}
+			</if>
+			<if test="c_checkdata_text != null and c_checkdata_text != ''">
+			,#{c_checkdata_text}
+			</if>
+			<if test="c_groupindex != null and c_groupindex != ''">
+			,#{c_groupindex}
+			</if>
+			<if test="c_remark != null and c_remark != ''">
+			,#{c_remark}
+			</if>
+			<if test="c_flag != null and c_flag != ''">
+			,#{c_flag}
+			</if>
+			<if test="c_version != null and c_version != ''">
+			,#{c_version}
+			</if>
+			)
+	</insert>
+
+	<update id="updateActnodeItemByID" parameterType="com.talkweb.xwzcxt.pojo.Actnode">
+		update t_sd_actnode_item
+		<set>
+			<if test="c_actitem_index != null and c_actitem_index != ''">
+			c_actitem_index = #{c_actitem_index},
+			</if>
+			<if test="c_actitem_code != null and c_actitem_code != ''">
+			c_actitem_code = #{c_actitem_code},
+			</if>
+			<if test="c_actitem_name != null and c_actitem_name != ''">
+			c_actitem_name = #{c_actitem_name},
+			</if>
+			<if test="c_actnode_id != null and c_actnode_id != ''">
+			c_actnode_id = #{c_actnode_id},
+			</if>
+			<if test="c_actitem_std != null and c_actitem_std != ''">
+			c_actitem_std = #{c_actitem_std},
+			</if>
+			<if test="c_actitem_std_check != null and c_actitem_std_check != ''">
+			c_actitem_std_check = #{c_actitem_std_check},
+			</if>
+			<if test="c_explain != null and c_explain != ''">
+			c_explain = #{c_explain},
+			</if>
+			<if test="c_getdata_pretext != null and c_getdata_pretext != ''">
+			c_getdata_pretext = #{c_getdata_pretext},
+			</if>
+			<if test="c_getdatatype != null and c_getdatatype != ''">
+			c_getdatatype = #{c_getdatatype},
+			</if>
+			<if test="c_getdata_unit != null and c_getdata_unit != ''">
+			c_getdata_unit = #{c_getdata_unit},
+			</if>
+			<if test="c_getdata_text != null and c_getdata_text != ''">
+			c_getdata_text = #{c_getdata_text},
+			</if>
+			<if test="c_checkdata_pretext != null and c_checkdata_pretext != ''">
+			c_checkdata_pretext = #{c_checkdata_pretext},
+			</if>
+			<if test="c_checkdatatype != null and c_checkdatatype != ''">
+			c_checkdatatype = #{c_checkdatatype},
+			</if>
+			<if test="c_checkdata_unit != null and c_checkdata_unit != ''">
+			c_checkdata_unit = #{c_checkdata_unit},
+			</if>
+			<if test="c_checkdata_text != null and c_checkdata_text != ''">
+			c_checkdata_text = #{c_checkdata_text},
+			</if>
+			<if test="c_groupindex != null and c_groupindex != ''">
+			c_groupindex = #{c_groupindex},
+			</if>
+			<if test="c_remark != null and c_remark != ''">
+			c_remark = #{c_remark},
+			</if>
+			<if test="c_flag != null and c_flag != ''">
+			c_flag = #{c_flag},
+			</if>
+			<if test="c_version != null and c_version != ''">
+			c_version = #{c_version},
+			</if>
+		</set>
+		where c_actitem_id = #{c_actitem_id}
+	</update>
+
+	<select id="queryActnode" parameterType="com.talkweb.xwzcxt.pojo.Actnode"
+		resultType="com.talkweb.xwzcxt.pojo.Actnode">
+		select 
+		a.c_actnode_id,
+		a.c_actnode_code,
+		a.c_actnode_name,
+		a.c_action_id,
+		b.c_action_sname,
+		CASE a.c_pdca
+		WHEN 'P' THEN
+		'P（计划）'
+		WHEN 'D' THEN
+		'D（执行）'
+		WHEN 'C' THEN
+		'C（检查）'
+		ELSE
+		'A（处理）'
+		END c_pdca,
+		CASE a.c_iskeyctrl
+		WHEN 1 THEN
+		'是'
+		ELSE
+		'否'
+		END c_iskeyctrl,
+		a.c_timeplan_id,
+		a.c_frequency,
+		a.c_issequence,
+		a.c_area_id,
+		a.c_area_name,
+		a.c_position_id,
+		a.c_position_name
+		from t_sd_actnode
+		a, t_sd_action b
+		where a.c_action_id =b.c_action_id(+) 
+		order by a.c_actnode_id 
+	</select>
+
+	<select id="queryActnodeByParams" parameterType="java.util.Map" resultType="com.talkweb.xwzcxt.pojo.Actnode">
+	 select 
+	    a.c_actnode_id,
+	    a.c_actnode_code,
+	    a.c_actnode_name,
+	    a.c_action_id,
+	    b.c_action_sname,
+	    CASE a.c_pdca
+	    WHEN 'P' THEN
+	    'P（计划）'
+	    WHEN 'D' THEN
+	    'D（执行）'
+	    WHEN 'C' THEN
+	    'C（检查）'
+	    ELSE
+	    'A（处理）'
+	    END c_pdca,
+	    CASE a.c_iskeyctrl
+	    WHEN 1 THEN
+	    '是'
+	    ELSE
+	    '否'
+	    END c_iskeyctrl,
+	    a.c_timeplan_id,
+	    a.c_frequency,
+	    a.c_issequence,
+	    a.c_area_id,
+	    a.c_area_name,
+	    a.c_position_id,
+	    a.c_position_name
+	    from t_sd_actnode a, t_sd_action b
+	    where  a.c_action_id=b.c_action_id(+) 
+    	<!-- 
+    	<if test="null!=c_action_id and ''!=c_action_id">
+			and a.c_action_id=#{c_action_id} 
+		</if> 
+		-->
+		<if test="null!=c_action_id and ''!=c_action_id">
+			and a.c_action_id in 
+			(select ta.c_action_id from T_SD_ACTION ta start with c_action_id=#{c_action_id} connect by prior c_action_id=c_action_pid)  
+		</if>
+		<if test="null!=c_pdca and ''!=c_pdca">
+			and a.c_pdca  = #{c_pdca} 
+		</if>
+		<if test="null!=c_actnode_name and ''!=c_actnode_name">
+			and a.c_actnode_name  like '%${c_actnode_name}%'  
+		</if>
+		<if test="null!=c_iskeyctrl and ''!=c_iskeyctrl">
+			and a.c_iskeyctrl  = #{c_iskeyctrl} 
+		</if>
+		<if test="null!=c_frequency and ''!=c_frequency">
+			and a.c_frequency  = #{c_frequency} 
+		</if>
+		<if test="null!=c_area_id and ''!=c_area_id">
+			and a.c_area_id  = #{c_area_id} 
+		</if>
+		<if test="null!=c_position_id and ''!=c_position_id">
+			and a.c_position_id  = #{c_position_id} 
+		</if> 
+	    order by a.c_actnode_id 
+	</select>
+
+	<select id="queryActnodeItem" parameterType="com.talkweb.xwzcxt.pojo.Actnode"
+		resultType="com.talkweb.xwzcxt.pojo.Actnode">
+		select t.c_actitem_id,t.c_actitem_index, t.c_actitem_name,a
+		CASE t.c_getdatatype
+		WHEN 0 THEN
+		'无要求'
+		WHEN 1 THEN
+		'拍照'
+		WHEN 2 THEN
+		'扫码'
+		ELSE
+		'人工录入'
+		END c_getdatatype
+		from t_sd_actnode_item t
+		where t.c_actnode_id = #{c_actnode_id}
+	</select>
+
+	<!-- 修改标准文件管理树的节点 -->
+	<update id="updateStandardFileTreeNode" parameterType="com.talkweb.xwzcxt.pojo.StandardLibraryPojo">
+		update t_sd_sort
+		set 
+		c_sort_name=#{c_sort_name}
+		<if test="null!=c_sort_pid and ''!=c_sort_pid">
+		,c_sort_pid=#{c_sort_pid}
+		</if>
+		where c_sort_id=#{c_sort_id}
+	</update>
+
+	<select id="getNextActnodeId" resultType="java.lang.String">
+		select SEQ_ACTNODE_ID.nextVal from dual
+	</select>
+
+	<delete id="delActNode" parameterType="java.util.List">
+		delete from T_SD_ACTNODE
+		t where
+		t.c_actnode_id in 
+		<foreach item="item" index="index" collection="list" 
+            open="(" separator="," close=")">
+            #{item}
+        </foreach>	
+	</delete>
+	
+	<select id="searchDelActNode" parameterType="java.util.List" resultMap="searchDelActNodeMap">
+		select * from T_SD_ACTNODE
+		t where
+		t.c_actnode_id in 
+		<foreach item="item" index="index" collection="list" 
+            open="(" separator="," close=")">
+            #{item}
+        </foreach>	
+	</select>
+
+	<delete id="delActItem" parameterType="java.util.List">
+		delete from T_SD_ACTNODE_ITEM
+		t where
+		t.c_actnode_id in 
+		<foreach item="item" index="index" collection="list" 
+            open="(" separator="," close=")">
+            #{item}
+        </foreach>	
+	</delete>
+	
+	<select id="searchDelActItem" parameterType="java.util.List" resultMap="searchDelActItemMap">
+		select * from T_SD_ACTNODE_ITEM
+		t where
+		t.c_actnode_id in 
+		<foreach item="item" index="index" collection="list" 
+            open="(" separator="," close=")">
+            #{item}
+        </foreach>	
+	</select>
+
+	<select id="queryDepartByPositionId" parameterType="map" resultType="com.talkweb.twdpe.base.org.pojo.Org">
+		select t1.orgname,t1.orgid,t1.path from DP_POSITION t2,DP_ORGANIZATION t1 
+		where t1.orgid = t2.orgid and t2.positionid =#{id}
+	</select>
+
+	<select id="queryActnodeListByParams" parameterType="com.talkweb.xwzcxt.pojo.Actnode"
+		resultType="com.talkweb.xwzcxt.pojo.Actnode">
+		select *
+		from t_sd_actnode t
+		where t.c_actnode_name = #{c_actnode_name}
+			and t.c_frequency = #{c_frequency}
+			and t.c_position_id = #{c_position_id}
+	</select>
+
+	<select id="queryActnodeListByParamsForPublic" parameterType="com.talkweb.xwzcxt.pojo.Actnode"
+		resultType="com.talkweb.xwzcxt.pojo.Actnode">
+		select *
+		from t_sd_actnode t
+		where t.c_actnode_name = #{c_actnode_name}
+			and t.c_frequency = #{c_frequency}
+			and t.c_public_id = #{c_public_id}
+	</select>
+
+	<delete id="delActnodeItemByActNodeId" parameterType="java.lang.String">
+		delete from T_SD_ACTNODE_ITEM t
+		where t.c_actnode_id = #{id}
+	</delete>
+</mapper>

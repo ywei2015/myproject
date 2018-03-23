@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>排班管理</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="scheduling.js"></script>
+
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container"> 
+		 	<form id="checkform" itype="Form" requestType="post" saveInstance="true">
+				<table class="ui-form-table">
+					<tr valign="middle">
+						<td class="ui-form-table-dt" style="width:100px;">排班名称：</td>
+						<td class="ui-form-table-dd"><div itype="TextBox" id="basicMouldPojo.c_shift_name" width="100%"></div></td>
+						<td class="ui-form-table-dt" style="width:100px;">开始时间：</td>
+						<td class="ui-form-table-dd">
+						<input itype="DatePicker" width=80% id="basicMouldPojo.c_start_time" />
+						</td>
+						<td class="ui-form-table-dt" style="width:100px;">结束时间：</td>
+						<td class="ui-form-table-dd">
+						<input itype="DatePicker" width=80%  id="basicMouldPojo.c_end_time"/>
+						</td>
+						<td class="ui-form-table-dd">
+							<div itype="Button" id="searchBtn" text="查询" iconCls="icon-search" onClick="doSearch()"></div>
+							<div itype="Button" id="resetBtn" text="重置" iconCls="icon-reset" onClick="doReset()"></div>
+						</td>
+					</tr>
+				</table>
+			</form>
+		<div itype="DataGrid" id="grid1" onBeforeReady="onBeforeReady()" showSeqColumn=true onAfterInitRender="onAfterInitRender()"
+			pageSize="20" saveInstance=true keyword="c_objtype_code" showCheckColumn=true onRowClick="onRowClick()" >		
+			<div name="top-toolbar">
+				<div plain=true text="新增" iconCls="icon-add"  display="false"  id="add"   onclick="doAddBasic()"></div>
+				<div itype="separator"></div>
+				<div plain=true text="批量删除" iconCls="icon-delete"  display="false"  id="delete"   onclick="doBatchDeleteCheckModel()"></div>
+			</div>	
+		
+			<!-- 列属性定义-->
+			<div hidden="true" name="c_shift_id"></div>	
+			<div width="10%" name="c_calendar_type" text="日历编号"></div>
+			<div width="10%" name="c_order" text="顺序号"></div>
+			<div width="10%" name="c_shift_name" text="班次名称"></div>
+			<div width="10%" name="c_start_time" text="开始时间"></div>
+			<div width="10%" name="c_end_time" text="结束时间"></div>
+			<div width="10%" name="c_exec_time" text="启用时间"></div>
+			<div width="10%" name="c_stop_time" text="停用时间"></div>
+			<div width="10%" name="c_remark" text="备注"></div>
+			 
+			<div width="5%" text="操作信息" renderer="operRenderer()"></div>
+		</div>	 
+</body>
+</html>

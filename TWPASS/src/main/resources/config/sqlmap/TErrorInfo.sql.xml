@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tErrorInfo" >
+  <resultMap id="BaseResultMap" type="com.talkweb.xwzcxt.pojo.TErrorInfoPojo" >
+    <id column="C_ERR_ID" property="cErrId" jdbcType="DECIMAL" />
+    <result column="C_ERR_NAME" property="cErrName" jdbcType="VARCHAR" />
+    <result column="C_ERR_KIND" property="cErrKind" jdbcType="DECIMAL" />
+    <result column="C_OCCUR_TIME" property="cOccurTime" jdbcType="TIMESTAMP" />
+    <result column="C_TASK_ID" property="cTaskId" jdbcType="DECIMAL" />
+    <result column="C_ACTNODE_ID" property="cActnodeId" jdbcType="VARCHAR" />
+    <result column="C_ERR_TYPE" property="cErrType" jdbcType="DECIMAL" />
+    <result column="C_ERR_LEVEL" property="cErrLevel" jdbcType="DECIMAL" />
+    <result column="C_AREA" property="cArea" jdbcType="VARCHAR" />
+    <result column="C_OBJ_ID" property="cObjId" jdbcType="DECIMAL" />
+    <result column="C_MANAGE_SECTION" property="cManageSection" jdbcType="DECIMAL" />
+    <result column="C_WRITE_TIME" property="cWriteTime" jdbcType="TIMESTAMP" />
+    <result column="C_WRITER" property="cWriter" jdbcType="DECIMAL" />
+    <result column="C_WRITER_NAME" property="cWriterName" jdbcType="VARCHAR" />
+    <result column="C_UPLOAD_TIME" property="cUploadTime" jdbcType="TIMESTAMP" />
+    <result column="C_ISBYSELF" property="cIsbyself" jdbcType="CHAR" />
+    <result column="C_HANDLE_USERID" property="cHandleUserid" jdbcType="DECIMAL" />
+    <result column="C_HANDLE_USERNAME" property="cHandleUsername" jdbcType="VARCHAR" />
+    <result column="C_ISCLOSE" property="cIsclose" jdbcType="CHAR" />
+    <result column="C_CLOSE_TIME" property="cCloseTime" jdbcType="TIMESTAMP" />
+    <result column="C_FEEDBACK_PATH" property="cFeedbackPath" jdbcType="VARCHAR" />
+    <result column="C_ISDELETE" property="cIsdelete" jdbcType="CHAR" />
+    <result column="C_SUGGESTEND_TIME" property="cSuggestendTime" jdbcType="TIMESTAMP" />
+    <result column="C_CHK_USERID" property="cChkUserid" jdbcType="DECIMAL" />
+    <result column="C_CHK_PLANTIME" property="cChkPlantime" jdbcType="TIMESTAMP" />
+    <result column="C_CHK_TIME" property="cChkTime" jdbcType="TIMESTAMP" />
+    <result column="C_CHK_RESULT" property="cChkResult" jdbcType="VARCHAR" />
+    <result column="C_EVALUATE_USERID" property="cEvaluateUserid" jdbcType="DECIMAL" />
+    <result column="C_EVALUATE_PLANTIME" property="cEvaluatePlantime" jdbcType="TIMESTAMP" />
+    <result column="C_EVALUATE_TIME" property="cEvaluateTime" jdbcType="TIMESTAMP" />
+    <result column="C_EVALUATE_RESULT" property="cEvaluateResult" jdbcType="VARCHAR" />
+    <result column="C_CHK_STARTTIME" property="cChkStarttime" jdbcType="TIMESTAMP" />
+    <result column="C_CHK_STATUS" property="cChkStatus" jdbcType="DECIMAL" />
+    <result column="C_EVALUATE_STARTTIME" property="cEvaluateStarttime" jdbcType="TIMESTAMP" />
+    <result column="C_EVALUATE_STATUS" property="cEvaluateStatus" jdbcType="DECIMAL" />
+    <result column="C_EX_IEMISEVENT" property="cExIemisevent" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    C_ERR_ID, C_ERR_NAME, C_ERR_KIND, C_OCCUR_TIME, C_TASK_ID, C_ACTNODE_ID, C_ERR_TYPE, 
+    C_ERR_LEVEL, C_AREA, C_OBJ_ID, C_MANAGE_SECTION, C_WRITE_TIME, C_WRITER, C_WRITER_NAME, 
+    C_UPLOAD_TIME, C_ISBYSELF, C_HANDLE_USERID, C_HANDLE_USERNAME, C_ISCLOSE, C_CLOSE_TIME, 
+    C_FEEDBACK_PATH, C_ISDELETE, C_SUGGESTEND_TIME, C_CHK_USERID, C_CHK_PLANTIME, C_CHK_TIME, 
+    C_CHK_RESULT, C_EVALUATE_USERID, C_EVALUATE_PLANTIME, C_EVALUATE_TIME, C_EVALUATE_RESULT, 
+    C_CHK_STARTTIME, C_CHK_STATUS, C_EVALUATE_STARTTIME, C_EVALUATE_STATUS, C_EX_IEMISEVENT
+  </sql>
+  <select id="getTaskErrorInfoDetailByID" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from TWXWZC.T_ERROR_INFO t
+    where t.C_ERR_ID = #{cErrId}
+    and t.C_ISDELETE = 0
+  </select>
+  <select id="getAllTaskErrorInfoByConditions" parameterType="map" resultType="java.util.Map">
+    select to_char(aa.C_ERR_ID) as C_ERR_ID,
+      aa.C_ERR_NAME,
+      aa.C_ERR_KIND,
+      aa.C_OCCUR_TIME,
+      aa.C_TASK_ID,
+      aa.C_ACTNODE_ID,
+      aa.C_ERR_TYPE,
+      aa.C_ERR_LEVEL,
+      aa.C_AREA,
+      aa.C_OBJ_ID,
+      aa.C_MANAGE_SECTION,
+      aa.C_WRITE_TIME,
+      aa.C_WRITER,
+      aa.C_WRITER_NAME,
+      aa.C_UPLOAD_TIME,
+      aa.C_ISBYSELF,
+      aa.C_HANDLE_USERID,
+      aa.C_HANDLE_USERNAME,
+      aa.C_ISCLOSE,
+      aa.C_CLOSE_TIME,
+      aa.C_FEEDBACK_PATH,
+      aa.C_ISDELETE,
+      aa.C_SUGGESTEND_TIME,
+      aa.C_CHK_USERID,
+      aa.C_CHK_PLANTIME,
+      aa.C_CHK_TIME,
+      aa.C_CHK_RESULT,
+      aa.C_EVALUATE_USERID,
+      aa.C_EVALUATE_PLANTIME,
+      aa.C_EVALUATE_TIME,
+      aa.C_EVALUATE_RESULT,
+      aa.C_CHK_STARTTIME,
+      aa.C_CHK_STATUS,
+      aa.C_EVALUATE_STARTTIME,
+      aa.C_EVALUATE_STATUS,
+      aa.C_EX_IEMISEVENT,
+      bb.FULLNAME as C_AREA_NAME,
+      cc.C_MANAGE_SECTION_NAME,
+      dd.C_TASK_NAME,
+      ee.DISPLAYNAME as C_CHK_USERNAME,
+      ff.DISPLAYNAME as C_EVALUATE_USERNAME
+    from TWXWZC.T_ERROR_INFO aa,
+      TWXWZC.DP_AREA bb,
+      TWXWZC.T_MANAGE_SECTION cc,
+      TWXWZC.T_TASK dd,
+      TWXWZC.DP_USER ee,
+      TWXWZC.DP_USER ff
+    where aa.C_ISDELETE = 0
+      and aa.C_AREA = bb.AREA(+)
+      and aa.C_MANAGE_SECTION = cc.C_MANAGE_SECTION(+)
+      and aa.C_TASK_ID = dd.C_TASK_ID(+)
+      and aa.C_CHK_USERID = ee.USERID(+)
+      and aa.C_EVALUATE_USERID = ff.USERID(+)
+      <if test="'Crew'== ruleCode">
+			and ee.usercode = #{userCode}
+		</if>
+		<if test="'Leader'== ruleCode">
+			and ee.orgid =  #{orgId}
+		</if>
+		<if test="'ITMinister'== ruleCode">
+			and ee.orgid in (select d.orgid from dp_organization d where d.parentorgid = #{orgId})
+		</if>
+    <if test="null!=cErrName and ''!=cErrName">
+      and aa.C_ERR_NAME like '%${cErrName}%'
+    </if>
+    <if test="null!=cWriter and ''!=cWriter">
+      and aa.C_WRITER in (${cWriter})
+    </if>
+    <if test="null!=cIsclose and ''!=cIsclose">
+      <if test="0==cIsclose or 1==cIsclose">
+        and aa.C_ISCLOSE = #{cIsclose}
+      </if>
+      <if test="2==cIsclose">
+        and aa.C_CLOSE_TIME > aa.C_SUGGESTEND_TIME
+      </if>
+    </if>
+    <if test="null!=cErrKind and ''!=cErrKind">
+      and aa.C_ERR_KIND = #{cErrKind}
+    </if>
+    <if test="null!=userCode and ''!=userCode">
+      and ee.usercode = #{userCode}
+    </if>
+    <if test="null!=cManageSection and ''!=cManageSection">
+      and aa.C_MANAGE_SECTION = #{cManageSection}
+    </if>
+    <if test="null!=cOccurTime and ''!=cOccurTime">
+      and aa.C_OCCUR_TIME &gt;= #{cOccurTime} 
+    </if>
+    <if test="null!=cSuggestendTime and '' !=cSuggestendTime">
+      and aa.C_SUGGESTEND_TIME &lt;= #{cSuggestendTime}
+    </if>
+    <if test="null!=cCloseTime and '' !=cCloseTime">
+      and aa.C_CLOSE_TIME &lt;= #{cCloseTime}
+    </if>
+    <if test="null!=cUserId and '' !=cUserId">
+      and (
+        exists (select 1 from TWXWZC.T_ERROR_FEEDBACK gg where aa.C_ERR_ID = gg.C_ERR_ID and gg.C_RECEIVER_USERID = #{cUserId})
+        or aa.C_WRITER = #{cUserId}
+        or aa.C_HANDLE_USERID = #{cUserId}
+        or aa.C_CHK_USERID = #{cUserId}
+        or aa.C_EVALUATE_USERID = #{cUserId}
+      )
+    </if>
+    order by aa.C_WRITE_TIME desc
+  </select>
+  
+  <update id="deleteTaskErrorById" parameterType="java.util.List">
+    update TWXWZC.T_ERROR_INFO t
+    <set>
+      t.C_ISDELETE = 1
+    </set>
+    where t.C_ERR_ID in
+    <foreach item="item" index="index" collection="list" 
+      open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
+  <select id="getDpUserByID" parameterType="java.lang.String" resultType="java.util.Map">
+    select t.*
+    from TWXWZC.DP_USER t
+    where t.USERID = #{id}
+  </select>
+</mapper>

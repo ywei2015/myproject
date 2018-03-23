@@ -1,0 +1,93 @@
+var request = talkweb.ControlBus.getRequest();
+var logid = request['logId'];
+talkweb.Bus.ready({
+	items : [
+	{
+		classPath:"Components.Form",
+		options:{
+			id:"msgLogInfoForm",
+			name:"msgLogInfoForm",
+			container:"msgLogInfoForm",
+			saveInstance:"",
+			haveSubmitBtn: false, //是否有提交按钮
+            haveResetBtn: false, //是否有重置按钮
+            dataSource : "msg_getMsgLogInfo.action?logId="+logid,
+            submitCallback: function(result){
+                alert(result.msg);
+            },
+            items : [
+            {
+           		classPath:"BaseControl.Label",
+           		width:"100%",
+           		options:{
+           			name:"title",
+           			notes:"消息主题：",
+           			id:"title",
+           			value:""
+           		}
+           	},
+           	{
+           		classPath:"BaseControl.Label",
+           		width:"100%",
+           		options:{
+           			name:"receivername",
+           			notes:"消息接收人：",
+           			id:"receivername",
+           			value:""
+           		}
+           	},
+           	{
+           		classPath:"BaseControl.Label",
+           		width:"100%",
+           		options:{
+           			name:"msgtypename",
+           			notes:"消息类型：",
+           			id:"msgtypename",
+           			value:""
+           		}
+           	},
+           	{
+           		classPath:"BaseControl.Label",
+           		width:"100%",
+           		options:{
+           			name:"notifytypename",
+           			notes:"通知方式：",
+           			id:"notifytypename",
+           			value:""
+           		}
+           	},
+           	{
+           		classPath:"BaseControl.Label",
+           		width:"100%",
+           		options:{
+           			name:"sendtime",
+           			notes:"发送时间：",
+           			id:"sendtime",
+           			value:""
+           		}
+           	},
+           	{
+           		classPath:"BaseControl.Label",
+           		width:"100%",
+           		options:{
+           			name:"content",
+           			notes:"消息内容：",
+           			id:"content",
+           			value:""
+           		}
+           	}
+            ]
+		}
+	},{
+		classPath:"BaseControl.Button",
+		options:{
+			container:"buttons",
+			value:"关闭",
+			className:"btn_close",
+			click:function(){
+				window.parent.dialog.remove();
+			}
+		}
+	}
+	]
+});

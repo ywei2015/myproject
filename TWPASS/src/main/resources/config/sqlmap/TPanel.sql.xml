@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="TPanel" >
+  <resultMap id="BaseResultMap" type="com.talkweb.xwzcxt.pojo.TPanelPojo" >
+    <id column="C_PANEL_ID" property="cPanelId" jdbcType="VARCHAR" />
+    <result column="C_PANEL_NAME" property="cPanelName" jdbcType="VARCHAR" />
+    <result column="C_PANEL_TYPE" property="cPanelType" jdbcType="DECIMAL" />
+    <result column="C_EX_ID" property="cExId" jdbcType="VARCHAR" />
+    <result column="C_USER_ID" property="cUserId" jdbcType="DECIMAL" />
+    <result column="C_USER_NAME" property="cUserName" jdbcType="VARCHAR" />
+    <result column="C_USERTYPE" property="cUsertype" jdbcType="DECIMAL" />
+    <result column="C_ISREAD" property="cIsread" jdbcType="CHAR" />
+    <result column="C_READTIME" property="cReadtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="getPanelInfoCount" parameterType="map" resultType="Integer">
+    select count(1)
+    from TWXWZC.T_PANEL aa,
+      TWXWZC.T_PANEL_USERREAD bb
+    where aa.C_PANEL_ID = bb.C_PANEL_ID(+)
+    <if test="null!=cPanelType and ''!=cPanelType">
+      and aa.C_PANEL_TYPE = #{cPanelType}
+    </if>
+    <if test="null!=cUserId and ''!=cUserId">
+      and bb.C_USER_ID = #{cUserId}
+    </if>
+    <if test="null!=cIsread and ''!=cIsread">
+      and bb.C_ISREAD = #{cIsread}
+    </if>
+  </select>
+  <select id="getPanelInfoList" parameterType="map" resultMap="BaseResultMap">
+    select aa.*,
+      bb.C_USER_ID,
+      bb.C_USERTYPE,
+      bb.C_ISREAD,
+      bb.C_READTIME,
+      cc.displayname as C_USER_NAME
+    from TWXWZC.T_PANEL aa,
+      TWXWZC.T_PANEL_USERREAD bb,
+      TWXWZC.DP_USER cc
+    where aa.C_PANEL_ID = bb.C_PANEL_ID(+)
+      and bb.C_USER_ID = cc.USERID(+)
+    <if test="null!=cPanelType and ''!=cPanelType">
+      and aa.C_PANEL_TYPE = #{cPanelType}
+    </if>
+    <if test="null!=cUserId and ''!=cUserId">
+      and bb.C_USER_ID = #{cUserId}
+    </if>
+    <if test="null!=cIsread and ''!=cIsread">
+      and bb.C_ISREAD = #{cIsread}
+    </if>
+    order by aa.C_EX_ID desc
+  </select>
+  <update id="readInformation" parameterType="map">
+    update TWXWZC.T_PANEL_USERREAD t
+    <set>
+      t.C_ISREAD = '1',
+      t.C_READTIME = sysdate
+    </set>
+    where t.C_PANEL_ID = #{cPanelId}
+      and t.C_USER_ID = #{cUserId}
+  </update>
+</mapper>

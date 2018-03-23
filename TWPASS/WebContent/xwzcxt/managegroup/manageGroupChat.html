@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>管理工作圈</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../fastdev/common.js"></script>
+<script src="manageGroupChat.js"></script>
+<style type="text/css">
+	.alignClass{
+		text-align:center;
+	}
+</style>
+</head>
+<body style="overflow-y: auto;" class="ui-layout-body ui-layout-body-bg ui-layout-container"> 
+	<!--
+	 <form id="hiddenform" itype="Form" requestType="post" saveInstance="true">
+		<input itype="TextBox" id="taskId" name="taskId" type="hidden" />
+	</form> 
+	-->
+	<div class="ui-layout-center" style="height: 100%;">
+	 	<form id="searchGroupChatForm" itype="Form" requestType="post" saveInstance="true"
+				>
+			<table class="ui-form-table">
+				<tr valign="middle">
+					<td class="ui-form-table-dt" style="width:100px;">关键字：</td>
+					<td class="ui-form-table-dd"  >
+					  	<div itype="TextBox" id="manageGroupPojo.c_chat_text" width="100%"></div>
+					</td>
+					<td class="ui-form-table-dt" style="width:100px;">群组名称：</td>
+					<td class="ui-form-table-dd"  >
+					   	<div itype="TextBox" id="manageGroupPojo.c_group_name" width="100%"></div>
+					</td>
+					<td class="ui-form-table-dt" style="width:100px;">创建人：</td>
+					<td class="ui-form-table-dd"  >
+					   	<div itype="TextBox" id="manageGroupPojo.groupcreator" width="100%"></div>
+					</td>
+				</tr>
+				<tr valign="middle">
+					<td class="ui-form-table-dd" colspan="6" align="right">
+						<div  width ="100px" itype="Button" id="searchBtn" text="查询" iconCls="icon-search" onClick="searchForm()"></div>
+						<div  width ="100px" itype="Button" id="resetBtn" text="重置" iconCls="icon-reset" onClick="resetForm()"></div>
+					</td>
+				</tr>
+			</table>
+		</form>
+		<div itype="DataGrid" id="chatgrid"  initSource="ManageGroup_searchGroupChat.action"  
+			onAfterInitRender="onAfterInitRender()" allowResizeColumn="true" showSeqColumn="true"
+			saveInstance="true"  showCheckColumn="true" keyword="c_id"
+			pageSize="15"     style="top: -10px"
+			onRowClick="onRowClick()">	
+			
+			<div name="top-toolbar">
+					<div plain=true text="批量删除" id="add" display="true"
+						iconCls="icon-delete" onClick="batchDeleteObject()"></div>
+			</div>
+					 	
+			<!-- 列属性定义-->
+			<div hidden="true" name="c_id"></div>
+			<div width="4%" name="c_user_name" text="发送人" titleCls="alignClass"></div>
+			<div width="60%" name="c_chat_text" text="聊天记录" titleCls="alignClass"></div>
+			<div width="10%" name="c_group_name" text="群组名称" titleCls="alignClass"></div>
+			<div width="6%" name="groupcreator" text="群组创建人" titleCls="alignClass"></div>
+			<div width="16%" name="c_chat_time"  text="消息发送时间" itype="datetime" 
+	      			 format="yyyy-MM-dd hh:mm:ss"  titleCls="alignClass" renderer="timeRenderer()"
+	      			 ></div>
+			<div width="4%"  text="操作" titleCls="alignClass" renderer="operRenderer()"></div>
+ 			<div name="pageSizeList">
+			   <div value="5" text="5条"></div>
+			   <div value="10" text="10条"></div>
+			   <div value="15" text="15条"></div>
+			   <div value="20" text="20条"></div>
+			   <div value="50" text="50条"></div>
+			</div>
+		</div> 
+		<br/>
+	</div>
+  
+	
+</body>
+</html>

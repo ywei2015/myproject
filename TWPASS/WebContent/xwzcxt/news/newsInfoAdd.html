@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>新增新闻</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../fastdev/common.js"></script>
+<script type="text/javascript" src="../../js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="../../xhEditor/xheditor-1.2.2.min.js"></script>
+<script type="text/javascript" src="../../xhEditor/xheditor_lang/zh-cn.js"></script>
+<script type="text/javascript" src="newsInfoAdd.js"></script>
+ 
+ 
+</head>
+<body>
+	<form id="addNewsForm" itype="Form" saveInstance="true" submitJson="false" saveQueue="true"
+	 onAfterDataRender="afterDataRender()" onBeforeReady="beforeReady()">
+	 
+		<div itype="TextBox" type="hidden" id="cNewsFileId"></div>
+		<div itype="TextBox" type="hidden" id="cNewsFileType"></div>
+		<div itype="TextBox" type="hidden" id="cNewsFilePath"></div>
+	  
+		<table class="ui-form-table">
+		 
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px"><font color="red" >*</font>标题：</td>
+				<td class="ui-form-table-dd" colspan="3">
+					<div itype="TextBox" id="newsTitle" width="100%" saveInstance="true"></div>
+				</td>
+			</tr>
+		 
+			<tr>
+		 
+				<td class="ui-form-table-dt" style="width: 100px"><font color="red" >*</font>板块：</td>
+				<td class="ui-form-table-dd">
+				 <!-- <select itype="Select" id="manageSection" initSource="task_getManageSectionList.action"  width="100%">
+				      <option >--请选择--</option>
+				 </select> -->
+				 
+				 <select itype="Select" id="manageSection" width="100%">
+				 		<option value="" selected></option>
+				 		<!-- <option value="0">N/A</option> -->
+						<option value="1">安全</option>
+						<option value="2">质量</option>
+						<option value="3">成本</option>
+						<option value="4">效率</option>
+						<option value="5">环境</option> 
+						<option value="6">团队</option>
+					</select>
+		   
+				</td>
+			  
+				<td class="ui-form-table-dt" style="width: 60px"><font color="red" >*</font>部门：</td>
+				<td class="ui-form-table-dd">
+					<!--  <div itype="SelectTree" id="orgId" width="100%" rootValue="-请选择-" topParentid="-1" openFloor=3 
+					saveInstance="true" showIco="true" inside="false" onlySelectedLeaf="true" initSource="org_searchAllOrg.action"></div>
+					-->
+					<div style="display:block;" id="orgnameDiv"><div itype="TextBox" width="100%" onClick="editOrgid()" id="orgName"  readOnly=true saveInstance="true"></div></div>
+               		<div hidden="true" ><div  itype="TextBox" id="orgId"   saveInstance="true" ></div></div>
+               		<div  style="display:none;" id="orgDiv"> 
+                  		<div  itype="SelectTree" inside="false" id="org" width="100%"
+						 queue="positionForm"   onChange="setOrgid()"
+						initSource="org_queryOrgTree.action" rootValue="-请选择-"
+						topParentid="-1" openFloor="2"></div>
+                  </div></div>
+				</td>
+				 
+				<td class="ui-form-table-dt" style="width: 60px"><font color="red" >*</font>作者：</td>
+				<td class="ui-form-table-dd">				
+					<div itype="TextBox" id="newsAuthor" width="100%" ></div>		 				
+				</td>
+				 
+			</tr>
+			
+			   
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px;"><font color="red" >*</font>添加封面：</td>
+				<td class="ui-form-table-dd" colspan="5">
+					<div itype="FileUpload" typeLimit="bmp,gif,jpg,jpeg,mp3,mp4,png" autoUpload="true" sizeLimit="-1"
+						width="100%" onChooseError="chooseError()" onUploadStart="onUploadStart()"
+						onUploadSuccess="onUploadSuccess()" onUploadFail="onUploadFail()"
+						onUploadComplete="onUploadComplete()" action="uploadaction_uploadFileToFileServerToNews.action"
+						id="cover" name="upfileAccessory" validateMode="blur" saveInstance="true">
+					</div>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">封面：</td>
+				<td class="ui-form-table-dd" colspan="5">				
+					<table id="fileTable"></table>	 				
+				</td>
+			</tr>
+ 
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px"><font color="red" >*</font>摘要：</td>
+				<td class="ui-form-table-dd" colspan="5">
+					<div itype="TextBox" type="textarea" id="summary" width="100%"></div>
+				</td>
+			</tr>
+ 
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px"><font color="red" >*</font>正文：</td>
+				<td class="ui-form-table-dd" colspan="5">
+					<div class="fields-box">
+					<textarea rows="15" name="clubDesc" id="body" style="border: 1px;width:100%;"></textarea>  
+					</div>
+				</td>
+			</tr> 
+			 
+			<tr style="display: none;">
+				<td class="ui-form-table-dt" style="width: 100px">：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" type="textarea" id="editorVal" width="100%"></div>
+				</td>
+			</tr>
+			 
+		</table>
+		<!-- 
+			<input itype="TextBox" id="basicMouldPojo.c_actitem_id" display="false" />
+			<input itype="TextBox" id="basicMouldPojo.c_id" display="false" />
+		 -->
+	</form>
+</body>
+</html>

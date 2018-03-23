@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>标准文件修改</title>
+<script src="../../fastdev/fastDev-import.js"  charset="utf-8"></script>
+<script src="../../js/jquery.min.js"  charset="utf-8"></script>
+<script src="standardFileUpdate.js" charset="utf-8"></script>
+
+<script type="text/javascript"> 
+var sfheadshow = true;
+$(document).ready(function(){
+  $("#baseflip").click(function(){
+	  $("#basepanel").slideToggle("slow");
+	  //$("#baseicon").attr("iconCls","icon-add");
+  });
+
+  $("#forwordflip").click(function(){
+	  $("#forwordpanel").slideToggle("slow");
+  });
+
+  $("#snodeflip").click(function(){
+	  $("#snodepanel").slideToggle("slow");
+  });
+
+  $("#Affixflip").click(function(){
+	  $("#Affixpanel").slideToggle("slow");
+  });
+  
+//调试时用
+ // $("#basepanel").hide();
+ // $("#forwordpanel").hide();
+ // $("#snodepanel").hide();
+ // $("#Affixpanel").hide();
+});
+</script>
+
+</head>
+<body>
+	<div style="width: 99.9%">
+	  <div class="ui-toolbar ui-toolbar-bg" id="baseflip">
+	  <div itype="Button" display="true" iconCls="icon-up" id="baseicon"></div>
+	  	文件基础描述信息</div>
+	  <div class="panel" id="basepanel">
+		<table class="ui-form-table" saveInstance="true">
+			<tr>
+				<td class="ui-form-table-dd" colspan=6>
+					<!--  action="excel_uploadExcelFile.action"  -->
+					<form id="uploadbasicform" itype="Form" saveInstance="true"
+						submitJson="false" onSubmitSuccess="onBasicSubmitSuccess()"
+						onBeforeReady="fromReady()"
+						onAfterReady="onBasicFormAfterReady()"
+						onAfterInit="onBasicFormAfterInit()">
+						<table class="ui-form-table">
+							<tr>
+								<td class="ui-form-table-dt">文件名称：</td>
+								<td class="ui-form-table-dd">
+									<div itype="TextBox" id="stdfile.c_sfile_name"
+										width="100%" readonly="false" value="内部审核控制程序"></div>
+								</td>
+								<td class="ui-form-table-dt">文件分类：</td>
+								<td class="ui-form-table-dd">
+									<div itype="SelectTree" id="stdfile.c_sort_id"
+										width="90%" initSource="upload_getAllFileSort.action"
+										onlySelectedLeaf="true" rootValue="-请选择-" topParentid="0"
+										openFloor=2 onchange="onSelectChange()" defaultvalue="stdfile.c_sort_id"></div>
+									<td class="ui-form-table-dt">文件编号：</td>
+									<td class="ui-form-table-dd">
+										<div itype="TextBox" id="stdfile.c_sfile_version"
+											width="100%" value="1.1"></div>
+								</td>
+							</tr>
+							<tr>
+								<td class="ui-form-table-dt">发布单位：</td>
+								<td class="ui-form-table-dd">
+									<div itype="TextBox" id="stdfile.c_releaseunit"
+										width="100%" value="企管部"></div>
+								</td>
+
+								<td class="ui-form-table-dt">发布时间：</td>
+								<td class="ui-form-table-dd">
+									<div itype="DatePicker" id="stdfile.c_releasetime"
+										width="100%" value="2014-04-22 08:00:00"></div>
+								</td>
+
+								<td class="ui-form-table-dt">实施时间：</td>
+								<td class="ui-form-table-dd">
+									<div itype="DatePicker" id="stdfile.c_impletime"
+										width="100%" value="2014-04-22 08:00:00"></div>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dd" style="text-align: center;" colspan=6>
+				<input itype="Button" text="保存基础信息" id="savebasicbtn" iconCls="icon-save"
+					saveInstance="true" onclick="OnUpdateBasicInfo()" /></td>
+			</tr>
+		</table>
+	  </div>	
+
+	  <div class="ui-toolbar ui-toolbar-bg" id="forwordflip"><div itype="Button" display="true" iconCls="icon-up" id="forwordicon"></div>前言</div>
+	  <div class="panel" id="forwordpanel">	
+		<div id="forworddiv">
+			<table class="ui-form-table" id="tableForword" saveInstance="true">
+				<tr>
+					<td class="ui-form-table-dd" colspan=6>
+						<form id="uploadprefaceform" itype="Form" saveInstance="true"
+							submitJson="false" onSubmitSuccess="onPrefaceSubmitSuccess()"
+							onBeforeReady="fromReady()"
+							onAfterReady="onPrefaceFormAfterReady()"
+							onAfterInit="onPrefaceFormAfterInit()"
+						    onAfterDataRender="onFWFormAfterDataRender()">
+
+							<div id="company" width="100%">
+								 <div itype="TextBox" type="textarea" id="stdfile.c_foreword1" width="100%" height="200px"></div>
+							</div>
+
+							<div id="factory" width="100%">
+								<table class="ui-form-table">
+									<tr>
+										<td class="ui-form-table-dt">制定依据：</td>
+										<td class="ui-form-table-dd">
+											<div itype="TextBox" id="stdfile.c_fw_zdyj"
+												width="100%"></div>
+										</td>
+
+										<td class="ui-form-table-dt">修订内容：</td>
+										<td class="ui-form-table-dd">
+											<div itype="TextBox"
+												id="stdfile.c_fw_xdnr1" width="100%"></div>
+										</td>
+
+										<td class="ui-form-table-dt">提出单位：</td>
+										<td class="ui-form-table-dd">
+											<div itype="TextBox" id="stdfile.c_fw_tcdw"
+												width="100%"></div>
+										</td>
+									</tr>
+									<tr>
+										<td class="ui-form-table-dt">起草部门：</td>
+										<td class="ui-form-table-dd">
+											<div itype="SelectTree" id="stdfile.c_fw_qcbm"
+												width="100%" onlySelectedLeaf="true" rootValue="-请选择-"
+												topParentid="-1" openFloor=3
+												initSource="org_searchAllOrg.action"></div>
+										</td>
+
+										<td class="ui-form-table-dt">归口部门：</td>
+										<td class="ui-form-table-dd">
+											<div itype="SelectTree" id="stdfile.c_fw_gkbm" onlySelectedLeaf="true"
+												width="100%" rootValue="-请选择-" topParentid="-1" openFloor=3
+												initSource="org_searchAllOrg.action"></div>
+										</td>
+
+										<td class="ui-form-table-dt">批准人：</td>
+										<td class="ui-form-table-dd">
+											<!-- <div itype="SelectTree" id="StdFile.c_fw_pzr" width="100%" rootValue="-请选择-" topParentid="0" openFloor=2 
+												initSource="basicAdd_getAllUsersForSel.action"></div> -->
+											<select itype="Select" id="stdfile.c_fw_pzr"
+												width="100%" inside="false" saveInstance=true
+												initSource="basicAdd_getAllUsersForSel.action"></select>
+										</td>
+									</tr>
+									<tr>
+										<td class="ui-form-table-dt">起草人：</td>
+										<td class="ui-form-table-dd">
+											<!-- <div itype="SelectTree" id="StdFile.c_fw_qcr" width="100%" onlySelectedLeaf="true" rootValue="-请选择-" 
+												topParentid="1" openFloor=2 initSource="user_queryUsersByOrgForSel.action?orgid=-1"></div>
+												basicAdd_getAllUsersForSel.action -->
+											<select itype="Select" id="stdfile.c_fw_qcr"
+												width="100%" inside="false" saveInstance=true
+												initSource="basicAdd_getAllUsersForSel.action"></select>
+										</td>
+
+										<td class="ui-form-table-dt">发布时间：</td>
+										<td class="ui-form-table-dd">
+											<div itype="DatePicker" id="stdfile.c_fw_fbsj"
+												width="100%"></div>
+										</td>
+
+										<td class="ui-form-table-dt">修订次数：</td>
+										<td class="ui-form-table-dd">
+											<div itype="TextBox" id="stdfile.c_fw_xdcs"
+												width="100%"></div>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</form>
+					</td>
+				</tr>
+				<tr>
+					<td class="ui-form-table-dd" style="text-align: center;" colspan=6>
+					<input itype="Button" text="保存前言" id="saveforwordbtn" iconCls="icon-save"
+						saveInstance=true onclick="OnUpdateForewordInfo()" /></td>
+				</tr>
+			</table>
+		</div>
+	  </div>
+		
+	  <div class="ui-toolbar ui-toolbar-bg" id="snodeflip"><div itype="Button" display="true" iconCls="icon-up" id="nodeicon"></div>章节内容</div>
+	  <div class="panel" id="snodepanel">			
+			<table class="ui-form-table" id="tableNode" saveInstance="true">
+				<tr>
+					<td class="ui-form-table-dd" colspan=6>					
+						<div itype="DataGrid" id="stdfilecontentgrid"
+							onBeforeReady="onContentBeforeReady()" onAfterReady="onAfterReady()" showSeqColumn=true
+							onAfterInitRender="onAfterInitRender()" pageSize="10"
+							saveInstance=true keyword="c_contentid"
+							initSource="stdfile_getStdFileContentPageByFileId.action"
+							pagePosition="info" 
+							onRowClick="onRowClick()">
+							<div name="top-toolbar">
+								<div plain=true text="新增" id="add" display="true"
+									iconCls="icon-add" onClick="addPoint()"></div>
+								<div itype="separator"></div>
+								<!-- <div plain=true text="批量删除" id="btnbatchDelete" display="true"
+									iconCls="icon-delete" onClick="batchDeleteObject()"></div>  showCheckColumn=fasle 	-->
+							</div> 
+							<!-- 列属性定义-->
+							<div hidden="true" name="c_contentid"></div>
+							<div width="5%" name="c_sectionid" text="章节编号"></div>
+							<div width="20%" name="c_title" text="章节标题"></div>
+							<div width="50%" name="c_content" text="正文"></div>
+							<div width="5%" name="c_includeatt" renderer="queryaffixrender()" text="附件" itype="boolean" trueText="有附件" falseText="无"></div>
+							<div width="10%" text="操作" renderer="operRenderer()"></div>
+						</div>
+					</td>
+				</tr>
+ 			</table>
+ 	  </div>
+				
+	  <div class="ui-toolbar ui-toolbar-bg" id="Affixflip"><div itype="Button" display="true" iconCls="icon-up" id="Affixicon"></div>附录</div>
+	  <div class="panel" id="Affixpanel"> 
+	  	<div style="height:40px;margin-top:10px;padding-top:10px;padding-bottom:0px;">
+	  	    <table>
+	  	    <tr><td width="20%" style="text-align:right;">添加附件：</td>
+	  	    <td  width="50%">
+				<div itype="FileUpload"  name="upfileAccessory"  id="upfileAccessory"  multiple="false" 
+				typeLimit="xls,xlsx,doc,docx,jpg,bmp,png" saveInstance="true" 
+				showTextInput="true" sizeLimit="102400" showLoading="true" autoUpload="false" 
+				action="stdfile_uploadAffixFile.action" 
+				onFileChoose="onAffixFileChoose()" onUploadStart="onAutoUploadStart()" 
+				onUploadSuccess="onUploadAffixFileSuccess()" onUploadFail="onUploadAccessoryFail()" 
+				onUploadCancel="javascript:(0);">
+							<div name="chooseBtn" text="选择文件" iconCls="icon-add"></div>
+							<div hidden="true" name="affix.c_file_id" text=""></div>
+							<div name="uploadBtn" text="上传附件" iconCls="icon-upload"></div> 
+				</div>
+			</td> 
+			<td  width="30%"> 
+				<!-- <div itype="Button" id="upfilebtn" text="上传提交" onclick="Call_uploadAffixAction()" ></div>	
+		            <div itype="Button" text="添加附录" id="add" display="true" iconCls="icon-add" onClick="OnAddAffixFile()"></div>  -->
+		    </td></tr>
+		    <tr><td><div id="fileList"></div></td></tr>
+		    </table>
+		</div>
+
+			<table class="ui-form-table" id="tableAffix" saveInstance="true">
+				<tr>
+					<td class="ui-form-table-dd" colspan=6>
+						<div itype="DataGrid" id="affixgrid" width="100%"
+							pagePosition="none" keyword="fileid" showSeqColumn=true 
+							onBeforeReady="onAffixBeforeReady()" 
+							initSource="stdfile_getStdFileAffixByParams.action" saveInstance=true
+							onRowClick="onAffixDatagridRowClick()">
+							<div name="top-toolbar">
+								<div itype="separator"></div>
+							</div>
+							<div hidden="true" name="c_att_id" text="ID"></div>
+							<div width="50%" name="c_file_name" text="文件名称" ></div>
+							<!-- <div hidden="true" name="c_file_url" text="附件"></div> -->
+							<div width="10%" name="c_file_url" text="查看附录" renderer="flfilerender()"></div>
+							<div width="20%" text="操作信息" renderer="affixoperRenderer()"></div>
+						</div>
+					</td>
+				</tr>
+			</table>
+	  </div>
+	</div>
+		
+</body>
+</html>

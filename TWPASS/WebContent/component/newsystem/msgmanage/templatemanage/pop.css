@@ -1,0 +1,18 @@
+.Atwho {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    padding: 2px;
+    position: absolute;
+    width: 160px;
+}
+.Atwho li {
+    color: #666666;
+    cursor: pointer;
+    height: 21px;
+    line-height: 21px;
+    overflow: hidden;
+    padding: 0 0 0 8px;
+}
+.Atwho li.cur {
+    background: none repeat scroll 0 0 #EEEFF6;
+}

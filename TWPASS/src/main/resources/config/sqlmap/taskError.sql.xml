@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="taskError">
+	<select id="queryTaskErrorList" resultType="com.talkweb.xwzcxt.pojo.TaskError">
+		select t1.c_err_id,t1.c_err_name,t1.c_err_kind,t1.c_task_id,t2.c_task_name,nvl(t1.c_actnode_id,0),t3.c_actnode_name,t1.c_err_des,t1.c_manage_section,
+		t1.c_end_time,t1.c_writer,t1.c_upload_time,t1.c_isclose,t1.c_close_time,t4.displayname,t5.c_manage_section_name
+		 from T_TASK_ERROR t1,T_TASK t2,t_post_actnode t3,dp_user t4,t_manage_section t5
+		 where t1.c_task_id=t2.c_task_id(+)
+		 and t1.c_actnode_id=t3.c_actnode_id(+)
+		 and t1.c_writer=t4.userid(+)
+		 and t1.c_manage_section=t5.c_manage_section(+)
+		 and t1.c_isdelete=0
+		 <if test="c_isclose != null and '' != c_isclose">
+		 	and t1.c_isclose=#{c_isclose}
+		 </if>
+		 <if test="c_end_time != null and '' != c_end_time">
+		 	<![CDATA[
+		 		and t1.c_end_time<to_date(#{c_end_time},'yyyy-mm-dd hh24:mi:ss')
+		 	]]>
+		 </if>
+		 <if test="c_upload_time != null and '' != c_upload_time">
+		 	<![CDATA[
+		 		and t1.c_upload_time>to_date(#{c_upload_time},'yyyy-mm-dd hh24:mi:ss')
+		 	]]>
+		 </if>
+		 order by t1.c_write_time desc
+	</select>
+	
+	<select id="getTaskErrDetailById" parameterType="String" resultType="com.talkweb.xwzcxt.pojo.TaskError">
+		select t1.c_err_id,t1.c_err_name,t1.c_pre_err_id,t1.c_err_kind,t1.c_task_id,t1.c_actnode_id,t1.c_err_des,t1.c_area,t1.c_obj_id,
+			   t1.c_manage_section,t1.c_end_time,t1.c_write_time,t1.c_upload_time,t1.c_writer,t1.c_isclose,
+			   t11.c_err_name as c_pre_err_name,
+			   t2.c_task_name,
+			   t3.c_actnode_name,
+			   t6.c_obj_name,
+			   t5.c_manage_section_name,
+			   t4.displayname,
+			   t7.c_err_name as c_pre_err_name,
+			   t8.areaname
+		from t_task_error t1,t_task_error t11,t_task t2,t_post_actnode t3,dp_user t4,t_manage_section t5,t_work_object t6,t_task_error t7,dp_area t8
+		where t1.c_task_id=t2.c_task_id(+)
+		 and t1.c_pre_err_id=t11.c_err_id(+)
+		 and t1.c_actnode_id=t3.c_actnode_id(+)
+		 and t1.c_writer=t4.userid(+)
+		 and t1.c_manage_section=t5.c_manage_section(+)
+		 and t1.c_obj_id=t6.c_obj_id(+)
+		 and t1.c_pre_err_id=t7.c_err_id(+)
+		 and t1.c_area=t8.area(+)
+		 and t1.c_isdelete=0
+		 and t1.c_err_id=#{param}
+	</select>
+	
+	
+	
+	<select id="getErrFilesByErrTaskId" parameterType="String" resultType="com.talkweb.xwzcxt.pojo.TaskError">
+		select t1.c_err_record_id,t2.c_file_path
+		from t_error_record_file t1,t_file_info t2
+		where t1.c_err_id=#{param} and t1.c_file_id=t2.c_file_id
+	</select>
+	
+	<select id="getErrFeedbacksByErrTaskId" parameterType="String" resultType="com.talkweb.xwzcxt.pojo.TaskError">
+		select t1.c_feedback_id,t1.c_feedback_title,t1.c_feedback_type,t1.c_receiver_userid,t1.c_feedback_time,
+		t3.c_status as c_isreceived,t1.c_receiver_time,t2.displayname
+		from t_error_feedback t1,dp_user t2,t_message t3
+		where t1.c_err_id=#{param} and t1.c_receiver_userid=t2.userid and t3.c_pid=#{param}
+		order by t1.c_feedback_id
+	</select>
+	
+	<select id="getErrTaskSNByTaskId" parameterType="String" resultType="com.talkweb.xwzcxt.pojo.TaskError">
+		select c_task_id as c_sn_task_id,
+			   c_task_name as c_sn_task_name,
+			   c_exec_username as c_sn_exec_username,
+			   c_status as c_sn_status
+		from t_task 
+		where c_err_sn=#{param}
+		order by c_task_id
+	</select>
+	
+	<!-- 调用存储过程,异常反馈 -->
+	<insert id="errorfeedback" statementType="CALLABLE" parameterType="map">
+		<![CDATA[
+		  {CALL P_TWXWZC_ERROR_FEEDBACK(
+		  	#{vC_TASK_ID,mode=IN,jdbcType=NUMBER},
+		    #{vC_ERR_NAME,mode=IN,jdbcType=VARCHAR},
+		    #{vC_ACTITEM_ID,mode=IN,jdbcType=NUMERIC} ,
+		    #{vC_STEP_INDEX,mode=IN,jdbcType=NUMERIC} ,
+		    #{vC_ERR_TYPE,mode=IN,jdbcType=NUMERIC} ,
+		    #{vC_ERR_LEVEL,mode=IN,jdbcType=NUMERIC} ,
+		    #{vC_MANAGE_SECTION,mode=IN,jdbcType=NUMERIC},
+		    #{vC_ERR_DES,mode=IN,jdbcType=VARCHAR},
+		    #{vC_ARER,mode=IN,jdbcType=VARCHAR} ,
+		    #{vC_OBJ_ID,mode=IN,jdbcType=NUMERIC} ,
+		    #{vC_END_TIME,mode=IN,jdbcType=VARCHAR},
+		    #{vC_WRITE_TIME,mode=IN,jdbcType=VARCHAR} ,
+		    #{vC_WRITER,mode=IN,jdbcType=NUMERIC} ,
+		    #{vC_RECEIVER_USERID,mode=IN,jdbcType=VARCHAR} ,
+		    #{vC_RECEIVER_USERID2,mode=IN,jdbcType=VARCHAR} ,
+		     #{vC_errtracefunids,mode=IN,jdbcType=VARCHAR} ,
+		     #{vC_fileids,mode=IN,jdbcType=VARCHAR} ,
+		     #{vC_PRE_ERR_ID,mode=IN,jdbcType=NUMERIC} ,
+		     #{vC_ERR_KIND,mode=IN,jdbcType=NUMERIC} ,
+		     #{vC_ACTNODE_ID,mode=IN,jdbcType=NUMERIC} ,
+		     #{vC_copyrecords,mode=IN,jdbcType=NUMERIC} ,
+		    #{vC_ERR_ID,mode=OUT,jdbcType=NUMERIC}
+		    )
+		   }
+		]]>
+	</insert>
+
+</mapper>

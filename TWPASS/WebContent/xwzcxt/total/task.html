@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>单任务查询</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="task.js"></script>
+
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container"> 
+		 	<form id="checkform" itype="Form" requestType="post" saveInstance="true">
+				<table class="ui-form-table">
+					<tr valign="middle">
+						<td class="ui-form-table-dt" style="width:100px;">模板名称：</td>
+						<td class="ui-form-table-dd"><div itype="TextBox" id="taskMouldPojo.c_task_name" width="100%"></div></td>
+						<td class="ui-form-table-dd">
+							<div itype="Button" id="searchBtn" text="查询" iconCls="icon-search" onClick="doSearch()"></div>
+							<div itype="Button" id="resetBtn" text="重置" iconCls="icon-reset" onClick="doReset()"></div>
+						</td>
+					</tr>
+				</table>
+			</form>
+		<div itype="DataGrid" id="grid1" onBeforeReady="onBeforeReady()" showSeqColumn=true onAfterInitRender="onAfterInitRender()"
+			pageSize="20" saveInstance=true keyword="c_task_id" showCheckColumn=true onRowClick="onRowClick()" >		
+			<div name="top-toolbar">
+				<div plain=true text="新增" iconCls="icon-add"  display="false"  id="add"   onclick="doAddBasic()"></div>
+				<div itype="separator"></div>
+				<div plain=true text="批量删除" iconCls="icon-delete"  display="false"  id="delete"   onclick="doBatchDeleteCheckModel()"></div>
+			</div>	
+		
+			<!-- 列属性定义-->
+			<div width="5%" name="c_task_id" text="编号" renderer="operLinkRenderer()"></div>
+			<div width="15%" name="c_task_name" text="任务名称"></div>
+			<div width="7%" name="c_trigger_typename" text="任务触发类别"></div>
+			<div width="5%" name="c_task_typename" text="任务类别"></div>
+			<div width="10%" name="c_trigger_cause" text="触发原因"></div>
+			<div width="5%" name="c_manage_section_name" text="管理板块"></div>
+			<div width="5%" name="c_pdca" text="PDCA"></div>
+			<div width="5%" name="areaname" text="执行区域"></div>
+			<div width="5%" name="c_exec_username" text="执行人"></div>
+			<div width="10%" name="c_start_time" text="开始时间"></div>
+			<div width="10%" name="c_end_time" text="完成时间"></div>
+			<div width="5%" name="c_status" text="状态"></div>
+			<div width="5%" text="操作信息" renderer="operRenderer()"></div>
+		</div>
+		 
+	 
+</body>
+</html>

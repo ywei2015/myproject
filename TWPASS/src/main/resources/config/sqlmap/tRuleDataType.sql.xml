@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tRuleDataType" >
+  <resultMap id="BaseResultMap" type="com.talkweb.xwzcxt.pojo.RuleDataTypePojo" >
+    <id column="C_TRACEFUN_ID" property="cTracefunId" jdbcType="DECIMAL" />
+    <result column="C_TRACEFUN_NAME" property="cTracefunName" jdbcType="VARCHAR" />
+    <result column="C_ISFILE" property="cIsfile" jdbcType="CHAR" />
+    <result column="C_FILE_FORMAT" property="cFileFormat" jdbcType="VARCHAR" />
+    <result column="C_CREATOR" property="cCreator" jdbcType="VARCHAR" />
+    <result column="C_CREATE_TIME" property="cCreateTime" jdbcType="VARCHAR" />
+    <result column="C_LAST_MODIFIER" property="cLastModifier" jdbcType="VARCHAR" />
+    <result column="C_LAST_MODIFIED_TIME" property="cLastModifiedTime" jdbcType="VARCHAR" />
+    <result column="C_REMARK" property="cRemark" jdbcType="VARCHAR" />
+    <result column="C_ISDELETE" property="cIsdelete" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    C_TRACEFUN_ID, C_TRACEFUN_NAME, C_ISFILE, C_FILE_FORMAT, C_CREATOR, C_CREATE_TIME, 
+    C_LAST_MODIFIER, C_LAST_MODIFIED_TIME, C_REMARK, C_ISDELETE
+  </sql>
+  <select id="getDataTypeNameByID" parameterType="java.lang.String" resultType="java.lang.String">
+    select C_TRACEFUN_NAME
+    <include refid="Base_Column_List" />
+    from TWXWZC.T_TRACE_FUCTION
+    where C_TRACEFUN_ID = #{cTracefunId} and
+    C_ISDELETE = 0
+  </select>
+  <select id="getRuleDataTypeSelect" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from TWXWZC.T_TRACE_FUCTION
+    where C_ISDELETE = 0
+    order by C_TRACEFUN_ID desc
+  </select>
+</mapper>

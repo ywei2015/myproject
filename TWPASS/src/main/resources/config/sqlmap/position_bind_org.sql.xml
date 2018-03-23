@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="positionBindOrg">
+	<select id="unionPositionAndOrg" resultType="com.talkweb.xwzcxt.pojo.OrgBindPositionPojo">
+		select dtype, cid, dataid, datacode, dataname, pid, orgtype from v_usertree
+		where 1=1
+		<if test="null!=orgid and ''!=orgid">
+			and DataID in (select ta.DataID from v_usertree
+			ta start with
+			dataid = #{orgid} connect by prior
+			DataID=PID)
+		</if>
+		<if test="null!=orgname and ''!=orgname">
+			and dataname like '%${orgname}%'
+		</if>
+		<if test="null!=orgtype and ''!=orgtype">
+			and orgtype &lt; #{orgtype}
+		</if>
+		union
+		select dtype, cid, dataid, datacode, dataname, pid, orgtype from v_usertree
+		where dataid='1-1000509'
+	</select>
+	<select id="getOrgtypeByDataId" parameterType="java.lang.String" resultType="java.lang.String">
+		select orgtype from v_usertree where dataid = #{dataid}
+	</select>
+</mapper>

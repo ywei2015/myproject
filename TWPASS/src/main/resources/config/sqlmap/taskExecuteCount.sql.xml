@@ -1,0 +1,795 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="taskExecuteCount" >
+      
+	 <select id="getSelfTaskExecuteCount" parameterType="map"  resultType="com.talkweb.xwzcxt.vo.ExecutabilityVo">
+      	   SELECT 		ROUND(t.c_end_time-t.c_start_time,2) as plain_time, 
+      	 				ROUND(t.c_end_time-t.c_fact_endtime,2) as advance_time,
+      	 				NVL2(t.c_task_id,1,0) AS exist,t.c_evaluate_result as result,t.c_status,
+          				days.day_of_month
+      	   				
+		  FROM 		   t_task t
+	    INNER JOIN     dp_user u
+			ON		   (t.c_exec_userid=u.userid 
+						AND u.usercode=#{userCode} 
+						AND( t.c_end_time IS NOT NULL AND t.c_start_time IS NOT NULL
+						     AND t.c_end_time IS NOT NULL AND t.c_fact_endtime IS NOT NULL
+						     AND c_status in(33,34,35) OR  c_status &lt;33)
+                       ) 	   				
+        RIGHT JOIN     (  SELECT TO_CHAR((TO_DATE(#{start_time},'yyyy-mm-dd')+rownum-1),'yyyy-mm-dd') as day_of_month 
+   		   			      FROM   dual CONNECT BY rownum &lt; =#{total_days}  )days
+           on		     TO_CHAR(t.c_end_time,'yyyy-mm-dd')=days. day_of_month  
+          ORDER BY 	  days. day_of_month 
+        
+     </select>
+
+	 <select id="getSelfChkData" parameterType="map"  resultType="com.talkweb.xwzcxt.vo.ExecutabilityVo">
+	    SELECT     ROUND(t.c_chk_plantime-t.c_chk_endtime,2) as advance_time, 
+           		   ROUND(t.c_chk_plantime-t.c_fact_endtime,2) as  plain_time,
+          		   NVL2(t.c_task_id,1,0) AS exist,t.c_chk_result  as result,t.c_status,
+          		   days.day_of_month
+                   
+		FROM       t_task t
+	  inner join   dp_user u
+         on         (t.c_chk_userid=u.userid 
+         			  AND t.c_iskeyctrl='1' 
+                      AND ( u.usercode=#{userCode}   and c_status in(34,35)
+                            AND t.c_chk_endtime is not null and t.c_chk_plantime is not null
+                            AND t.c_fact_endtime is not null
+                            OR  c_status &lt; 34)
+                    )             
+       right join   (  SELECT TO_CHAR((TO_DATE(#{start_time},'yyyy-mm-dd')+rownum-1),'yyyy-mm-dd') as day_of_month 
+             			FROM   dual CONNECT BY rownum &lt;= #{total_days}  )days
+		 on         to_char(t.c_chk_plantime,'yyyy-mm-dd')=days.day_of_month 
+		ORDER BY    days.day_of_month    
+	     
+	 </select>
+	 
+	 
+	 <select id="getSelfEvaluateData" parameterType="map"  resultType="com.talkweb.xwzcxt.vo.ExecutabilityVo">
+	  SELECT       case t.c_iskeyctrl 
+                   when '1' then ROUND(t.c_evaluate_plantime-t.c_chk_endtime,2) 
+                   when  '0' then ROUND(t.c_evaluate_plantime-t.c_fact_endtime,2)
+                   else  0 end as plain_time,
+                   ROUND(t.c_evaluate_plantime-t.c_evaluate_time,2) as advance_time,
+          		   NVL2(t.c_task_id,1,0) AS exist,t.c_evaluate_result  as result,t.c_status,
+          		   days.day_of_month
+          		   
+      FROM         t_task t
+	INNER JOIN     dp_user u
+		ON         (   t.c_evaluate_userid=u.userid 
+                       AND u.usercode=#{userCode}  
+                       AND (     c_status ='35' 
+                             AND c_evaluate_time is not null and c_evaluate_plantime is not null 
+                             AND (t.c_chk_endtime is not null and t.c_iskeyctrl='1' OR c_fact_endtime is not null )
+                              OR c_status &lt; 35) 
+               	   )             
+	  RIGHT JOIN   (  SELECT TO_CHAR((TO_DATE(#{start_time},'yyyy-mm-dd')+rownum-1),'yyyy-mm-dd') as day_of_month 
+               		   FROM   dual CONNECT BY rownum &lt; =#{total_days}  )days
+		ON         to_char(t.c_evaluate_plantime,'yyyy-mm-dd')=days.day_of_month 
+		ORDER BY   days.day_of_month  
+	 </select>
+	 
+	 
+	 <select id="getGroupExecuteData" parameterType="map"  resultType="com.talkweb.xwzcxt.vo.ExecutabilityVo">
+		SELECT     ROUND(t.c_end_time-t.c_start_time,2) as plain_time, 
+		           ROUND(t.c_end_time-t.c_fact_endtime,2) as advance_time,
+		           NVL2(t.c_task_id,1,0) AS exist,t.c_evaluate_result  as result,t.c_status,
+		           days.day_of_month
+		                   
+		FROM       t_task t
+		INNER JOIN     dp_user u
+		ON            (     t.c_exec_userid=u.userid
+		                    and exists   (select userid  
+		                                  from dp_user u2 
+		                                <if test="orgid==null or orgid==''">
+		                                   where orgid=(select orgid 
+		                                               from dp_user 
+		                                               where usercode=#{userCode}
+		                                               and   isdelete='0')
+		                                </if>
+		                                <if test="orgid!=null and orgid!=''">
+		                                   where orgid=#{orgid}
+		                                </if>
+		                                  and t.c_exec_userid =u2.userid)
+		                    and (t.c_status in(33,34,35)
+		                    and t.c_end_time is not null 
+		                    and t.c_start_time is not null
+		                    and t.c_fact_endtime is not null 
+		                    OR  t.c_status &lt; 33)
+		               )             
+		RIGHT JOIN   (  SELECT TO_CHAR((TO_DATE(#{start_time},'yyyy-mm-dd')+rownum-1),'yyyy-mm-dd') as day_of_month 
+		                FROM   dual CONNECT BY rownum &lt; =#{total_days}  )days
+		ON           to_char(t.c_end_time,'yyyy-mm-dd')=days.day_of_month 
+		ORDER BY     days.day_of_month 	     
+	     
+	 </select>
+	 
+	 <select id="getGroupChkData" parameterType="map"  resultType="com.talkweb.xwzcxt.vo.ExecutabilityVo">
+	     SELECT    ROUND(t.c_chk_plantime-t.c_chk_endtime,2) as advance_time, 
+           		   ROUND(t.c_chk_plantime-t.c_fact_endtime,2) as  plain_time,
+          		   NVL2(t.c_task_id,1,0) AS exist,t.c_chk_result  as result,t.c_status,
+		           days.day_of_month
+		                   
+		FROM       t_task t
+		INNER JOIN     dp_user u
+		ON            (     t.c_chk_userid=u.userid
+							AND t.c_iskeyctrl='1'
+		                    AND exists   (select userid  
+		                                  from dp_user u2 
+		                                <if test="orgid==null or orgid==''">
+		                                   where orgid=(select orgid 
+		                                               from dp_user 
+		                                               where usercode=#{userCode}
+		                                               and   isdelete='0')
+		                                </if>
+		                                <if test="orgid!=null and orgid!=''">
+		                                   where orgid=#{orgid}
+		                                </if>
+		                                  and t.c_exec_userid =u2.userid)
+		                    AND (     t.c_status in(34,35)
+		                         AND  t.c_chk_plantime is not null 
+		                         AND  t.c_chk_endtime is not null
+		                         AND  t.c_fact_endtime is not null 
+		                          OR  t.c_status &lt; 34
+		                         )
+		               )             
+		RIGHT JOIN   (  SELECT TO_CHAR((TO_DATE(#{start_time},'yyyy-mm-dd')+rownum-1),'yyyy-mm-dd') as day_of_month 
+		                FROM   dual CONNECT BY rownum &lt; =#{total_days}  )days
+		ON           to_char(t.c_chk_plantime,'yyyy-mm-dd')=days.day_of_month 
+		ORDER BY     days.day_of_month 	 
+	 </select>
+	 
+	 <select id="getGroupEvaluateData" parameterType="map"  resultType="com.talkweb.xwzcxt.vo.ExecutabilityVo">
+	    SELECT     case t.c_iskeyctrl 
+                   when '1' then ROUND(t.c_evaluate_plantime-t.c_chk_endtime,2) 
+                   when  '0' then ROUND(t.c_evaluate_plantime-t.c_fact_endtime,2)
+                   else  0 end as plain_time,
+                   ROUND(t.c_evaluate_plantime-t.c_evaluate_time,2) as advance_time,
+          		   NVL2(t.c_task_id,1,0) AS exist,t.c_evaluate_result  as result,t.c_status,
+		           days.day_of_month
+		                   
+		FROM       t_task t
+		INNER JOIN     dp_user u
+		ON            (     t.c_evaluate_userid=u.userid
+		                    AND exists   (select userid  
+		                                  from dp_user u2 
+		                                <if test="orgid==null or orgid==''">
+		                                   where orgid=(select orgid 
+		                                               from dp_user 
+		                                               where usercode=#{userCode}
+		                                               and   isdelete='0')
+		                                </if>
+		                                <if test="orgid!=null and orgid!=''">
+		                                   where orgid=#{orgid}
+		                                </if>
+		                                  and t.c_evaluate_userid =u2.userid)
+		                     AND (     c_status ='35'
+                                  AND  c_evaluate_time is not null 
+                                  AND  c_evaluate_plantime is not null 
+                                  AND  (c_fact_endtime is not null OR (t.c_chk_endtime is not null AND t.c_iskeyctrl='1'))
+                                   OR  c_status &lt; 35
+                                 )
+		               )             
+		RIGHT JOIN   (  SELECT TO_CHAR((TO_DATE(#{start_time},'yyyy-mm-dd')+rownum-1),'yyyy-mm-dd') as day_of_month 
+		                FROM   dual CONNECT BY rownum &lt; =#{total_days}  )days
+		ON           to_char(t.c_evaluate_plantime,'yyyy-mm-dd')=days.day_of_month 
+		ORDER BY     days.day_of_month 	 
+	 </select>
+	 
+	 <select id="getDepartExecuteData" parameterType="map"  resultType="com.talkweb.xwzcxt.vo.ExecutabilityVo">
+		SELECT     ROUND(t.c_end_time-t.c_start_time,2) as plain_time, 
+		           ROUND(t.c_end_time-t.c_fact_endtime,2) as advance_time,
+		           NVL2(t.c_task_id,1,0) AS exist,t.c_evaluate_result  as result,t.c_status,
+		           days.day_of_month
+		                   
+		FROM       t_task t
+		inner join     dp_user u
+		on            (     t.c_exec_userid=u.userid
+		                    and exists   (select orgid,orgname
+		                                  from   dp_organization o1
+		                                  where  isdelete=0
+		                                  and    o1.orgtype in (3,4)
+		                                  and    u.orgid=o1.orgid
+		                                  connect by prior o1.orgid= o1.parentorgid
+		                                 <if test="orgid==null or orgid==''">
+		                                  start with o1.orgid=(
+		                                        select  o2.orgid
+		                                        from dp_organization o2
+		                                        where  o2.isdelete=0
+		                                        and    o2.orgtype=2
+		                                        connect by prior parentorgid= orgid
+		                                        start with  o2.orgid= (select orgid 
+		                                                              from dp_user u2
+		                                                              where u2.usercode=#{userCode}
+		                                                              and   u2.isdelete=0))
+		                               </if>
+		                               <if test="orgid!=null and orgid!=''">
+		                                   start with o1.orgid=#{orgid}
+		                               </if>
+		                                 )
+		                    and (     t.c_status in(33,34,35)
+		                         and  t.c_end_time is not null 
+		                         and  t.c_start_time is not null
+		                         and  t.c_fact_endtime is not null 
+		                          or  t.c_status &lt; 33
+		                         )
+		               )             
+		right join   (  SELECT TO_CHAR((TO_DATE(#{start_time},'yyyy-mm-dd')+rownum-1),'yyyy-mm-dd') as day_of_month 
+		                FROM   dual CONNECT BY rownum &lt; =#{total_days}  )days
+		on         to_char(t.c_end_time,'yyyy-mm-dd')=days.day_of_month 
+		ORDER BY   days.day_of_month  	     
+	 </select>
+	 
+	  <select id="getDepartExecuteDataForDataId" parameterType="map"  resultType="com.talkweb.xwzcxt.vo.ExecutabilityVo">
+		SELECT     ROUND(t.c_end_time-t.c_start_time,2) as plain_time, 
+		           ROUND(t.c_end_time-t.c_fact_endtime,2) as advance_time,
+		           NVL2(t.c_task_id,1,0) AS exist,t.c_evaluate_result  as result,t.c_status,
+		           days.day_of_month
+		                   
+		FROM       t_task t
+		inner join     dp_user u
+		on            (     t.c_exec_userid=u.userid
+		                    and exists   (select dp.userid from dp_user dp where dp.orgid in (select orgid from dp_organization where parentorgid = #{orgid}))
+		                                 
+		                    and (     t.c_status in(33,34,35)
+		                         and  t.c_end_time is not null 
+		                         and  t.c_start_time is not null
+		                         and  t.c_fact_endtime is not null 
+		                          or  t.c_status &lt; 33
+		                         )
+		               )             
+		right join   (  SELECT TO_CHAR((TO_DATE(#{start_time},'yyyy-mm-dd')+rownum-1),'yyyy-mm-dd') as day_of_month 
+		                FROM   dual CONNECT BY rownum &lt; =#{total_days}  )days
+		on         to_char(t.c_end_time,'yyyy-mm-dd')=days.day_of_month 
+		ORDER BY   days.day_of_month  	     
+	 </select>
+		 	 
+	 <select id="getDepartChkData" parameterType="map"  resultType="com.talkweb.xwzcxt.vo.ExecutabilityVo">
+	     SELECT    ROUND(t.c_chk_plantime-t.c_chk_endtime,2) as advance_time, 
+           		   ROUND(t.c_chk_plantime-t.c_fact_endtime,2) as  plain_time,
+          		   NVL2(t.c_task_id,1,0) AS exist,t.c_chk_result  as result,t.c_status,
+		           days.day_of_month
+		                   
+		FROM       t_task t
+		INNER JOIN     dp_user u
+		ON            (     t.c_chk_userid=u.userid
+		                    and exists   (select orgid,orgname
+		                                  from   dp_organization o1
+		                                  where  isdelete=0
+		                                  and    o1.orgtype in (3,4)
+		                                  and    u.orgid=o1.orgid
+		                                  connect by prior o1.orgid= o1.parentorgid
+		                                 <if test="orgid==null or orgid==''">
+		                                  start with o1.orgid=(
+		                                        select  o2.orgid
+		                                        from dp_organization o2
+		                                        where  o2.isdelete=0
+		                                        and    o2.orgtype=2
+		                                        connect by prior parentorgid= orgid
+		                                        start with  o2.orgid= (select orgid 
+		                                                              from dp_user u2
+		                                                              where u2.usercode=#{userCode}
+		                                                              and   u2.isdelete=0))
+		                               </if>
+		                               <if test="orgid!=null and orgid!=''">
+		                                   start with o1.orgid=#{orgid}
+		                               </if>
+		                                 )
+		                    and t.c_iskeyctrl='1'
+		                    and(     t.c_status in(34,35)
+		                         and t.c_chk_plantime is not null 
+		                         and t.c_chk_endtime is not null
+		                         and t.c_fact_endtime is not null 
+		                         or  t.c_status &lt; 34)
+		               )             
+		RIGHT JOIN   (  SELECT TO_CHAR((TO_DATE(#{start_time},'yyyy-mm-dd')+rownum-1),'yyyy-mm-dd') as day_of_month 
+		                FROM   dual CONNECT BY rownum &lt; =#{total_days}  )days
+		ON         to_char(t.c_chk_plantime,'yyyy-mm-dd')=days.day_of_month 
+		ORDER BY   days.day_of_month
+	 </select>
+	 
+	 
+	  <select id="getDepartChkDataForDataId" parameterType="map"  resultType="com.talkweb.xwzcxt.vo.ExecutabilityVo">
+	     SELECT    ROUND(t.c_chk_plantime-t.c_chk_endtime,2) as advance_time, 
+           		   ROUND(t.c_chk_plantime-t.c_fact_endtime,2) as  plain_time,
+          		   NVL2(t.c_task_id,1,0) AS exist,t.c_chk_result  as result,t.c_status,
+		           days.day_of_month
+		                   
+		FROM       t_task t
+		INNER JOIN     dp_user u
+		ON            (     t.c_chk_userid=u.userid
+		                    and exists   (select dp.userid from dp_user dp where dp.orgid in (select orgid from dp_organization where parentorgid = #{orgid}))
+		                    and t.c_iskeyctrl='1'
+		                    and(     t.c_status in(34,35)
+		                         and t.c_chk_plantime is not null 
+		                         and t.c_chk_endtime is not null
+		                         and t.c_fact_endtime is not null 
+		                         or  t.c_status &lt; 34)
+		               )             
+		RIGHT JOIN   (  SELECT TO_CHAR((TO_DATE(#{start_time},'yyyy-mm-dd')+rownum-1),'yyyy-mm-dd') as day_of_month 
+		                FROM   dual CONNECT BY rownum &lt; =#{total_days}  )days
+		ON         to_char(t.c_chk_plantime,'yyyy-mm-dd')=days.day_of_month 
+		ORDER BY   days.day_of_month
+	 </select>
+	 
+	 
+	 
+	 <select id="getDepartEvaluateData" parameterType="map"  resultType="com.talkweb.xwzcxt.vo.ExecutabilityVo">
+        SELECT     case t.c_iskeyctrl 
+                   when '1' then ROUND(t.c_evaluate_plantime-t.c_chk_endtime,2) 
+                   when  '0' then ROUND(t.c_evaluate_plantime-t.c_fact_endtime,2)
+                   else  0 end as plain_time,
+                   ROUND(t.c_evaluate_plantime-t.c_evaluate_time,2) as advance_time,
+          		   NVL2(t.c_task_id,1,0) AS exist,t.c_evaluate_result  as result,t.c_status,
+		           days.day_of_month
+		                   
+		FROM       t_task t
+		INNER JOIN     dp_user u
+		ON            (     t.c_evaluate_userid=u.userid
+		                    and exists   (select orgid,orgname
+		                                  from   dp_organization o1
+		                                  where  isdelete=0
+		                                  and    o1.orgtype in (3,4)
+		                                  and    u.orgid=o1.orgid
+		                                  connect by prior o1.orgid= o1.parentorgid
+		                                  <if test="orgid==null or orgid==''">
+		                                  start with o1.orgid=(
+		                                        select  o2.orgid
+		                                        from dp_organization o2
+		                                        where  o2.isdelete=0
+		                                        and    o2.orgtype=2
+		                                        connect by prior parentorgid= orgid
+		                                        start with  o2.orgid= (select orgid 
+		                                                              from dp_user u2
+		                                                              where u2.usercode=#{userCode}
+		                                                              and   u2.isdelete=0))
+		                               </if>
+		                               <if test="orgid!=null and orgid!=''">
+		                                   start with o1.orgid=#{orgid}
+		                               </if>
+		                                 )
+		                     AND(     c_status ='35' 
+                                  AND c_evaluate_time is not null 
+                                  AND c_evaluate_plantime is not null 
+                                  AND (c_fact_endtime is not null OR (t.c_chk_endtime is not null AND t.c_iskeyctrl='1'))
+                                   OR c_status &lt; 35
+                                )
+		               )             
+		RIGHT JOIN   (  SELECT TO_CHAR((TO_DATE(#{start_time},'yyyy-mm-dd')+rownum-1),'yyyy-mm-dd') as day_of_month 
+		                FROM   dual CONNECT BY rownum &lt; =#{total_days}  )days
+		ON         to_char(t.c_evaluate_plantime,'yyyy-mm-dd')=days.day_of_month 
+		ORDER BY   days.day_of_month
+	 </select>
+	 
+	 
+	  <select id="getDepartEvaluateDataForDataId" parameterType="map"  resultType="com.talkweb.xwzcxt.vo.ExecutabilityVo">
+        SELECT     case t.c_iskeyctrl 
+                   when '1' then ROUND(t.c_evaluate_plantime-t.c_chk_endtime,2) 
+                   when  '0' then ROUND(t.c_evaluate_plantime-t.c_fact_endtime,2)
+                   else  0 end as plain_time,
+                   ROUND(t.c_evaluate_plantime-t.c_evaluate_time,2) as advance_time,
+          		   NVL2(t.c_task_id,1,0) AS exist,t.c_evaluate_result  as result,t.c_status,
+		           days.day_of_month
+		                   
+		FROM       t_task t
+		INNER JOIN     dp_user u
+		ON            (     t.c_evaluate_userid=u.userid
+		                    and exists  (select dp.userid from dp_user dp where dp.orgid in (select orgid from dp_organization where parentorgid = #{orgid}))
+		                     AND(     c_status ='35' 
+                                  AND c_evaluate_time is not null 
+                                  AND c_evaluate_plantime is not null 
+                                  AND (c_fact_endtime is not null OR (t.c_chk_endtime is not null AND t.c_iskeyctrl='1'))
+                                   OR c_status &lt; 35
+                                )
+		               )             
+		RIGHT JOIN   (  SELECT TO_CHAR((TO_DATE(#{start_time},'yyyy-mm-dd')+rownum-1),'yyyy-mm-dd') as day_of_month 
+		                FROM   dual CONNECT BY rownum &lt; =#{total_days}  )days
+		ON         to_char(t.c_evaluate_plantime,'yyyy-mm-dd')=days.day_of_month 
+		ORDER BY   days.day_of_month
+	 </select>
+	 
+      <select id="getSelfTaskExecuteDetails" parameterType="map"  resultType="com.talkweb.xwzcxt.vo.ExecutabilityVo">
+      	   SELECT 		t.c_end_time as end_time,
+      	   				t.c_start_time as start_time, 
+      	 				t.c_fact_endtime as fact_end_time,
+      	 				t.c_task_id,t.c_task_name,
+      	 				t.c_evaluate_result as result,
+      	 				t.c_status
+      	   				
+		  FROM 		   t_task t
+	    INNER JOIN     dp_user u
+			ON		   (t.c_exec_userid=u.userid 
+						AND  TO_CHAR(t.c_end_time,'yyyy-mm-dd')=#{start_time}
+						AND  u.usercode=#{userCode} 
+						AND  c_status in(33,34,35) 
+						AND  t.c_end_time IS NOT NULL AND t.c_start_time IS NOT NULL
+						AND  t.c_end_time IS NOT NULL AND t.c_fact_endtime IS NOT NULL
+						<if test="details_type==1">
+						AND  t.c_end_time>t.c_fact_endtime
+						</if>
+						<if test="details_type==2">
+						AND  t.c_fact_endtime>t.c_end_time
+						</if>
+						<if test="details_type==3">
+						AND  ( t.c_evaluate_result='OK' or t.c_evaluate_result is null)
+						AND  c_status =35
+						</if>
+						<if test="details_type==4">
+						AND   t.c_evaluate_result!='OK' AND t.c_evaluate_result is not null
+						AND  c_status =35
+						</if>
+                       ) 	   				
+        
+     </select>
+
+	 <select id="getSelfChkDetails" parameterType="map"  resultType="com.talkweb.xwzcxt.vo.ExecutabilityVo">
+	    SELECT     t.c_chk_plantime as end_time,
+	               t.c_chk_endtime  as fact_end_time,
+           		   t.c_fact_endtime as start_time,
+          		   t.c_task_id , t.c_task_name,
+          		   t.c_chk_result  as result,
+          		   t.c_status
+		FROM       t_task t
+	  inner join   dp_user u
+         on         (t.c_chk_userid=u.userid 
+         			  AND  TO_CHAR(t.c_chk_plantime,'yyyy-mm-dd')=#{start_time}
+         			  AND  t.c_iskeyctrl='1' 
+                      AND  u.usercode=#{userCode}   and c_status in(34,35)
+                      AND  t.c_chk_endtime is not null and t.c_chk_plantime is not null
+                      AND  t.c_fact_endtime is not null
+                      <if test="details_type==1">
+						AND  t.c_chk_plantime>t.c_chk_endtime
+					  </if>
+					  <if test="details_type==2">
+						AND  t.c_chk_endtime>t.c_chk_plantime
+					  </if>
+					      
+                    )              
+	 </select>
+	 
+	 
+	 <select id="getSelfEvaluateDetails" parameterType="map"  resultType="com.talkweb.xwzcxt.vo.ExecutabilityVo">
+	  SELECT       case t.c_iskeyctrl
+	  			   when '1' then  t.c_chk_endtime
+	  			   else  t.c_fact_endtime
+	  			   end  as start_time,
+                   t.c_evaluate_plantime as end_time,
+                   t.c_evaluate_time as fact_end_time,
+          		   t.c_task_id,t.c_task_name,
+          		   t.c_evaluate_result  as result,t.c_status
+          		   
+      FROM         t_task t
+	INNER JOIN     dp_user u
+		ON         (   t.c_evaluate_userid=u.userid 
+					   AND to_char(t.c_evaluate_plantime,'yyyy-mm-dd')=#{start_time}
+                       AND u.usercode=#{userCode}  
+                       AND c_status ='35' 
+                       AND c_evaluate_time is not null and c_evaluate_plantime is not null 
+                       AND (t.c_chk_endtime is not null and t.c_iskeyctrl='1' OR c_fact_endtime is not null )
+                       <if test="details_type==1">
+						AND  t.c_evaluate_plantime>t.c_evaluate_time
+					   </if>
+					   <if test="details_type==2">
+						AND  t.c_evaluate_time>t.c_evaluate_plantime
+					   </if>      
+               	   )             
+
+	 </select>
+	 
+	 
+	 <select id="getGroupExecuteDetails" parameterType="map"  resultType="com.talkweb.xwzcxt.vo.ExecutabilityVo">
+		SELECT     t.c_end_time as end_time,
+		           t.c_start_time as start_time,
+		           t.c_fact_endtime as fact_end_time,
+		           t.c_task_id,t.c_task_name,
+		           t.c_evaluate_result  as result,t.c_status
+		                   
+		FROM       t_task t
+		INNER JOIN     dp_user u
+		ON            (     t.c_exec_userid=u.userid
+		  					and to_char(t.c_end_time,'yyyy-mm-dd')=#{start_time}
+		                    and exists   (select userid  
+		                                  from dp_user u2 
+		                                  <if test="orgid==null or orgid==''">
+		                                   where orgid=(select orgid 
+		                                               from dp_user 
+		                                               where usercode=#{userCode})
+		                                </if>
+		                                <if test="orgid!=null and orgid!=''">
+		                                   where orgid=#{orgid}
+		                                </if>
+		                                  and u.userid =u2.userid)
+		                    and t.c_status in(33,34,35)
+		                    and t.c_end_time is not null 
+		                    and t.c_start_time is not null
+		                    and t.c_fact_endtime is not null 
+						<if test="details_type==1">
+						AND  t.c_end_time>t.c_fact_endtime
+						</if>
+						<if test="details_type==2">
+						AND  t.c_fact_endtime>t.c_end_time
+						</if>
+						<if test="details_type==3">
+						AND  ( t.c_evaluate_result='OK' or t.c_evaluate_result is null)
+						AND  c_status =35
+						</if>
+						<if test="details_type==4">
+						AND   t.c_evaluate_result!='OK' AND t.c_evaluate_result is not null
+						AND  c_status =35
+						</if>		                  
+		               )             
+	     
+	 </select>
+	 
+	 <select id="getGroupChkDetails" parameterType="map"  resultType="com.talkweb.xwzcxt.vo.ExecutabilityVo">
+	    SELECT     t.c_chk_plantime as end_time,
+	               t.c_chk_endtime  as fact_end_time,
+           		   t.c_fact_endtime as start_time,
+          		   t.c_task_id , t.c_task_name,
+          		   t.c_chk_result  as result,
+          		   t.c_status
+		                   
+		FROM       t_task t
+		INNER JOIN     dp_user u
+		ON            (     t.c_chk_userid=u.userid
+							AND to_char(t.c_chk_plantime,'yyyy-mm-dd')=#{start_time}
+							AND t.c_iskeyctrl='1'
+		                    AND exists   (select userid  
+		                                  from dp_user u2 
+		                                <if test="orgid==null or orgid==''">
+		                                   where orgid=(select orgid 
+		                                               from dp_user 
+		                                               where usercode=#{userCode})
+		                                </if>
+		                                <if test="orgid!=null and orgid!=''">
+		                                   where orgid=#{orgid}
+		                                </if>
+		                                  and u.userid =u2.userid)
+		                    AND  t.c_status in(34,35)
+		                    AND  t.c_chk_plantime is not null 
+		                    AND  t.c_chk_endtime is not null
+		                    AND  t.c_fact_endtime is not null 
+		                   <if test="details_type==1">
+						    AND  t.c_chk_plantime>t.c_chk_endtime
+					 	   </if>
+					  	   <if test="details_type==2">
+						    AND  t.c_chk_endtime>t.c_chk_plantime
+					       </if>     
+		               )             
+		
+
+	 </select>
+	 
+	 <select id="getGroupEvaluateDetails" parameterType="map"  resultType="com.talkweb.xwzcxt.vo.ExecutabilityVo">
+	   	  SELECT   case t.c_iskeyctrl
+	  			   when '1' then  t.c_chk_endtime
+	  			   else  t.c_fact_endtime
+	  			   end  as start_time,
+                   t.c_evaluate_plantime as end_time,
+                   t.c_evaluate_time as fact_end_time,
+          		   t.c_task_id,t.c_task_name,
+          		   t.c_evaluate_result  as result,t.c_status
+		                   
+		FROM       t_task t
+		INNER JOIN     dp_user u
+		ON            (     t.c_evaluate_userid=u.userid
+							AND to_char(t.c_evaluate_plantime,'yyyy-mm-dd')=#{start_time}
+		                    AND exists   (select userid  
+		                                  from dp_user u2 
+		                                <if test="orgid==null or orgid==''">
+		                                   where orgid=(select orgid 
+		                                               from dp_user 
+		                                               where usercode=#{userCode})
+		                                </if>
+		                                <if test="orgid!=null and orgid!=''">
+		                                   where orgid=#{orgid}
+		                                </if>
+		                                  and u.userid =u2.userid)
+		                     AND  c_status ='35'
+                             AND  c_evaluate_time is not null 
+                             AND  c_evaluate_plantime is not null 
+                             AND  (c_fact_endtime is not null OR (t.c_chk_endtime is not null AND t.c_iskeyctrl='1'))
+		                    <if test="details_type==1">
+						     AND  t.c_evaluate_plantime>t.c_evaluate_time
+					  		</if>
+					   		<if test="details_type==2">
+							 AND  t.c_evaluate_time>t.c_evaluate_plantime
+					   		</if>
+		               )             
+
+	 </select>
+	 
+	 <select id="getDepartExecuteDetails" parameterType="map"  resultType="com.talkweb.xwzcxt.vo.ExecutabilityVo">
+		SELECT     t.c_end_time as end_time,
+		           t.c_start_time as start_time,
+		           t.c_fact_endtime as fact_end_time,
+		           t.c_task_id,t.c_task_name,
+		           t.c_evaluate_result  as result,t.c_status
+		                   
+		FROM       t_task t
+		inner join     dp_user u
+		on            (     t.c_exec_userid=u.userid
+							AND to_char(t.c_end_time,'yyyy-mm-dd')=#{start_time}
+		                    AND exists   (select orgid,orgname
+		                                  from   dp_organization o1
+		                                  where  isdelete=0
+		                                  and    o1.orgtype in (3,4)
+		                                  and    u.orgid=o1.orgid
+		                                  connect by prior o1.orgid= o1.parentorgid
+		                                 <if test="orgid==null or orgid==''">
+		                                  start with o1.orgid=(
+		                                        select  o2.orgid
+		                                        from dp_organization o2
+		                                        where  o2.isdelete=0
+		                                        and    o2.orgtype=2
+		                                        connect by prior parentorgid= orgid
+		                                        start with  o2.orgid= (select orgid 
+		                                                              from dp_user u2
+		                                                              where u2.usercode=#{userCode}
+		                                                              and   u2.isdelete=0))
+		                               </if>
+		                               <if test="orgid!=null and orgid!=''">
+		                                   start with o1.orgid=#{orgid}
+		                               </if>
+		                                 )
+		                    and  t.c_status in(33,34,35)
+		                    and  t.c_end_time is not null 
+		                    and  t.c_start_time is not null
+		                    and  t.c_fact_endtime is not null 
+		                    <if test="details_type==1">
+							  AND  t.c_end_time>t.c_fact_endtime
+							</if>
+							<if test="details_type==2">
+							  AND  t.c_fact_endtime>t.c_end_time
+							</if>
+							<if test="details_type==3">
+							  AND  ( t.c_evaluate_result='OK' or t.c_evaluate_result is null)
+							  AND  c_status =35
+							</if>
+							<if test="details_type==4">
+							  AND   t.c_evaluate_result!='OK' AND t.c_evaluate_result is not null
+							  AND  c_status =35
+							</if>      
+		               )             
+ 	     
+	 </select>
+		 	 
+	 <select id="getDepartChkDetails" parameterType="map"  resultType="com.talkweb.xwzcxt.vo.ExecutabilityVo">
+	      SELECT   t.c_chk_plantime as end_time,
+	               t.c_chk_endtime  as fact_end_time,
+           		   t.c_fact_endtime as start_time,
+          		   t.c_task_id , t.c_task_name,
+          		   t.c_chk_result  as result,
+          		   t.c_status
+		                   
+		FROM       t_task t
+		INNER JOIN     dp_user u
+		ON            (     t.c_chk_userid=u.userid
+							AND to_char(t.c_chk_plantime,'yyyy-mm-dd')=#{start_time}
+		                    and exists   (select orgid,orgname
+		                                  from   dp_organization o1
+		                                  where  isdelete=0
+		                                  and    o1.orgtype in (3,4)
+		                                  and    u.orgid=o1.orgid
+		                                  connect by prior o1.orgid= o1.parentorgid
+		                                  <if test="orgid==null or orgid==''">
+		                                  start with o1.orgid=(
+		                                        select  o2.orgid
+		                                        from dp_organization o2
+		                                        where  o2.isdelete=0
+		                                        and    o2.orgtype=2
+		                                        connect by prior parentorgid= orgid
+		                                        start with  o2.orgid= (select orgid 
+		                                                              from dp_user u2
+		                                                              where u2.usercode=#{userCode}
+		                                                              and   u2.isdelete=0))
+		                               </if>
+		                               <if test="orgid!=null and orgid!=''">
+		                                   start with o1.orgid=#{orgid}
+		                               </if>
+		                                 )
+		                    and t.c_iskeyctrl='1'
+		                    and t.c_status in(34,35)
+		                    and t.c_chk_plantime is not null 
+		                    and t.c_chk_endtime is not null
+		                    and t.c_fact_endtime is not null 
+		                    <if test="details_type==1">
+						    AND  t.c_chk_plantime>t.c_chk_endtime
+					 	   </if>
+					  	   <if test="details_type==2">
+						    AND  t.c_chk_endtime>t.c_chk_plantime
+					       </if>
+		               )             
+		
+	 </select>
+	 
+	 <select id="getDepartEvaluateDetails" parameterType="map"  resultType="com.talkweb.xwzcxt.vo.ExecutabilityVo">
+       SELECT      case t.c_iskeyctrl
+	  			   when '1' then  t.c_chk_endtime
+	  			   else  t.c_fact_endtime
+	  			   end  as start_time,
+                   t.c_evaluate_plantime as end_time,
+                   t.c_evaluate_time as fact_end_time,
+          		   t.c_task_id,t.c_task_name,
+          		   t.c_evaluate_result  as result,t.c_status
+		                   
+		FROM       t_task t
+		INNER JOIN     dp_user u
+		ON            (     t.c_evaluate_userid=u.userid
+							AND    to_char(t.c_evaluate_plantime,'yyyy-mm-dd')=#{start_time}
+		                    and exists   (select orgid,orgname
+		                                  from   dp_organization o1
+		                                  where  isdelete=0
+		                                  and    o1.orgtype in (3,4)
+		                                  and    u.orgid=o1.orgid
+		                                  connect by prior o1.orgid= o1.parentorgid
+		                               <if test="orgid==null or orgid==''">
+		                                  start with o1.orgid=(
+		                                        select  o2.orgid
+		                                        from dp_organization o2
+		                                        where  o2.isdelete=0
+		                                        and    o2.orgtype=2
+		                                        connect by prior parentorgid= orgid
+		                                        start with  o2.orgid= (select orgid 
+		                                                              from dp_user u2
+		                                                              where u2.usercode=#{userCode}
+		                                                              and   u2.isdelete=0))
+		                               </if>
+		                               <if test="orgid!=null and orgid!=''">
+		                                   start with o1.orgid=#{orgid}
+		                               </if>
+		                                  
+		                                 )
+		                     AND c_status ='35' 
+                             AND c_evaluate_time is not null 
+                             AND c_evaluate_plantime is not null 
+                             AND (c_fact_endtime is not null OR (t.c_chk_endtime is not null AND t.c_iskeyctrl='1'))
+		               		<if test="details_type==1">
+						     AND  t.c_evaluate_plantime>t.c_evaluate_time
+					  		</if>
+					   		<if test="details_type==2">
+							 AND  t.c_evaluate_time>t.c_evaluate_plantime
+					   		</if>
+		               )             
+		
+	 </select>
+	 
+	 <select id="getDepartInfo" resultType="com.talkweb.xwzcxt.vo.PositionTreeVo" >
+	     SELECT  	orgname as name,orgid as id
+	     FROM   	dp_organization
+	     WHERE  	isdelete='0'
+	     AND		orgtype='2'
+	     ORDER   BY  orgid ASC
+	 </select>
+	 
+	 <select id="getGroupInfo" parameterType="map" resultType="com.talkweb.xwzcxt.vo.PositionTreeVo" >
+	     SELECT  	orgname as name,orgid as id
+	     FROM   	dp_organization
+	     WHERE  	isdelete='0'
+	     AND		orgtype IN (3,4)
+	     <if test="orgid!=null and orgid!=''">
+	     CONNECT BY PRIOR  orgid=parentorgid
+	     START WITH       orgid=#{orgid}
+	     </if>
+	 </select>
+	 
+	 <select id="getSelfGroup" parameterType="map" resultType="com.talkweb.xwzcxt.vo.PositionTreeVo" >
+	     SELECT     orgid as id
+	     FROM		dp_user
+	     WHERE		usercode=#{userCode}
+	     AND		isdelete='0'
+	 </select>
+	 
+	 <select id="getSelDepart" parameterType="map" resultType="com.talkweb.xwzcxt.vo.PositionTreeVo" >
+		SELECT  	o.orgid as id
+		FROM 		dp_organization o
+		WHERE 		o.orgtype=2
+	    AND  	 	o.isdelete=0
+		CONNECT BY PRIOR parentorgid= orgid
+		START WITH  o.orgid= (SELECT orgid 
+		                       FROM dp_user u
+		                       WHERE u.usercode=#{userCode}
+		                       AND   u.isdelete='0')
+	 </select>
+</mapper>

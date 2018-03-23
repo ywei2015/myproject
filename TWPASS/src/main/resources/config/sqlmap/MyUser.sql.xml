@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MyUser">
+	<select id="checkUserCodePassword" parameterType="map" resultType="java.util.Map">
+		select
+			*
+		from 
+			dp_user
+		where 
+			usercode=#{userCode}
+		and 
+			password=#{oldPassword}
+	</select>
+	<update id="changePassword" parameterType="map" >
+	    update 
+	    	dp_user
+	    set 
+	    	password=#{newPassword}
+	    where
+	    	usercode=#{userCode}
+	</update>
+	
+</mapper>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="action-log.xsd">
+	<namespace id="component.resource" extends="component.default" />
+	<module id="M43" name="资源管理" />
+	<action-define>
+		<action class="ResourceMngAction">
+			<method name="addResource">
+				<type>add</type>
+				<description>新增资源信息。</description>
+				<result>
+					<success>新增资源信息成功。资源编码：${resource.resourceCode}、资源名称：${resource.resourceName}、资源类型：${resource.resourceType}、所属应用编号：${resource.appId}。</success>
+					<throws>新增资源失败。</throws>
+				</result>
+			</method>
+			<method name="modifyResource">
+				<type>modify</type>
+				<description>修改资源信息</description>
+				<result>
+					<success>修改资源信息成功。被修改资源编码：${resource.resourceCode}。</success>
+					<throws>修改失败。</throws>
+				</result>
+			</method>
+			<method name="deleteResource">
+				<type>delete</type>
+				<description>删除资源信息。</description>
+				<result>
+					<success>删除资源信息成功。被删除的资源编码：${id}。</success>
+					<throws>删除失败。</throws>
+				</result>
+			</method>
+		</action>
+		<action class="PermissionMngAction">
+			<method name="addPermission">
+				<type>add</type>
+				<description>添加资源与访问方式的关联关系。</description>
+				<result>
+					<success>添加资源权限成功。资源编码：${resourceCode}、访问方式编码：${modes}。</success>
+					<throws>添加失败。</throws>
+				</result>
+			</method>
+			<method name="deletePermission">
+				<type>delete</type>
+				<description>删除资源与访问方式的关联关系。</description>
+				<result>
+					<success>删除资源权限成功。权限编号：${id}。</success>
+					<throws>删除资源权限失败。</throws>
+				</result>
+			</method>
+			<method name="queryPermissions">
+				<type>visit</type>
+				<description>查询资源权限列表。</description>
+				<result>
+					<success>查询成功。被查询权限列表的资源编码：${permission.resourceCode}。</success>
+				</result>
+			</method>
+		</action>
+		<action class="AccessModeMngAction">
+			<module id="M9" name="访问方式管理" />
+			<method name="addMode">
+				<type>add</type>
+				<description>新增访问方式。</description>
+				<result>
+					<success>新增成功。访问方式编码：${accessMode.modeId}、名称：${accessMode.modeName}、所属应用编号：${accessMode.appId}。</success>
+					<throws>新增失败。</throws>
+				</result>
+			</method>
+			<method name="modifyMode">
+				<type>modify</type>
+				<description>修改访问方式信息。</description>
+				<result>
+					<success>修改成功。被修改访问方式编号：${accessMode.modeId}。</success>
+					<throws>修改失败。</throws>
+				</result>
+			</method>
+			<method name="deleteMode">
+				<type>delete</type>
+				<description>删除访问方式。</description>
+				<result>
+					<success>删除成功。被删除访问方式编号：${id}。</success>
+					<throws>删除失败。</throws>
+				</result>
+			</method>
+		</action>
+	</action-define>
+</actions>

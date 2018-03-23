@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>日志管理</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="../../fastdev/fastDev-import.js"></script>
+<script type="text/javascript" src="default.js"></script>
+<style>
+	html, body {
+		height:100%;
+	}
+</style>
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	<div class="ui-layout" style="height: 100%;">
+		<div class="ui-layout-center" style="width: 99.2%; height: 100%;">
+			<form id="logform" itype="Form" saveInstance="true" initSource="log_initLogQueryForm.action">
+				<table class="ui-form-table">
+					<tr>
+						<th class="ui-form-table-dt" style="width:100px;">用户类型：</th>
+						<td class="ui-form-table-dd">
+							<div itype="Select" id="log.accountType" width="100%">
+								<div>-请选择-</div>
+							</div>
+						</td>
+						<th class="ui-form-table-dt" style="width:100px;">操作用户：</th>
+						<td class="ui-form-table-dd"><div itype="TextBox" id="log.accountName" width="100%" ></div></td>
+						<th class="ui-form-table-dt" style="width:100px;">模块名称：</th>
+						<td class="ui-form-table-dd">
+							<div itype="SelectTree"  id="log.funcGroupId"  width="100%" initSource="log_showMenuTree.action"  rootValue="-请选择-" topParentid="-1" openFloor="2">
+               				</div>
+						</td>
+					</tr>
+					<tr>
+						<th class="ui-form-table-dt" style="width:100px;">开始时间：</th>
+						<td class="ui-form-table-dd"><div itype="DatePicker" timeBefore="log.endDate" id="log.startDate" width="100%"></div></td>
+						<th class="ui-form-table-dt" style="width:100px;">结束时间：</th>
+						<td class="ui-form-table-dd"><div itype="DatePicker" timeAfter="log.startDate" id="log.endDate" width="100%"></div></td>
+						<th class="ui-form-table-dt" style="width:100px;">操作类型：</th>
+						<td class="ui-form-table-dd">
+							<div itype="Select" id="log.actionType" width="100%">
+								<div>-请选择-</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th class="ui-form-table-dt" style="width:100px;">操作状态：</th>
+						<td class="ui-form-table-dd">
+							<div itype="Select" id="log.statusCode" width="100%">
+								<div>-请选择-</div>
+								<div value="1">成功</div>
+								<div value="2">失败</div>
+							</div>
+						</td>
+						<td class="ui-form-table-dd" colspan="4">
+							<input itype="Button" text="查询" iconCls="icon-search" onClick="doSearchLog()"></input>
+							<input itype="Button" text="重置" iconCls="icon-reset" onClick="doResetLog()"></input>
+						</td>
+					</tr>
+				</table>
+				<div class="datagrid" itype="DataGrid" allowAutoFillRow="false" pageSize="20"  id="logdatagrid" width="100%" saveInstance="true" initSource="log_queryLogByPage.action" showSeqColumn="true"  onRowClick="onRowClick()">
+					<div name="logId" hidden="true"></div>
+					<div name="statusCode" hidden="true"></div>
+					<div width="15%" name="actionType" text="操作类型"></div>
+					<div width="20%" name="auditDate" text="操作时间"></div>
+					<div width="15%" name="accountName" text="操作用户"></div>
+					<div width="15%" name="funcGroupName" text="模块名称"></div>
+					<div width="27%" text="操作描述" name="actionDescription"></div>
+					<div width="8%" text="操作状态" name="statusCode" renderer="statusRenderer()"></div>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

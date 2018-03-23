@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>新增访问模式</title>
+		<script src="../../fastdev/fastDev-import.js"></script>
+		<script src="modifyAccessMode.js"></script>
+	</head>
+	<body>
+	    <form id="accessForm" itype="Form" saveInstance="true" action="accessmode_modifyMode.action" initSource='accessmode_initForm.action' dataSource="accessmode_getAccessModeById.action" onSubmitSuccess="submitSuccess()"  submitJson="false" onAfterConstruct="afterConstruct()" onBeforeSubmit="beforeSubmit()">
+	    <div itype="TextBox" type="hidden" id="accessMode.modeType" value="1"></div>
+	    <div itype="TextBox" type="hidden" id="oldid"></div>
+	       <table class="ui-form-table">
+	           <tr>
+	               <td class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>代码：</td>
+	               <td class="ui-form-table-dd"><div itype="TextBox" id="accessMode.modeId" width="100%" validateMode="blur" rule="required;MaxLength:16" readonly="true"></div></td>
+	               <td class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>名称：</td>
+	               <td class="ui-form-table-dd"><div itype="TextBox" id="accessMode.modeName" width="100%" validateMode="blur" rule="required;MaxLength:32"></div></td>
+	           </tr>
+	           <tr>
+	               <td class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>所属应用：</td>
+	               <td class="ui-form-table-dd"><select id="accessMode.appId" inside="false" itype="Select" width="100%" validateMode="blur" rule="required"><option text="-请选择-"></option></select></td>
+	               <td class="ui-form-table-dt" style="width:100px">调用入口：</td>
+	               <td class="ui-form-table-dd"><div itype="TextBox" id="accessMode.action" width="100%" rule="MaxLength:512"></div></td>                              
+	           </tr>
+	           <tr>
+	               <td class="ui-form-table-dt" style="width:100px">链接地址：</td>
+	               <td class="ui-form-table-dd"><div itype="TextBox" id="accessMode.url" width="100%" rule="MaxLength:512"></div></td>
+	               <td class="ui-form-table-dt" style="width:100px">参数：</td>
+	               <td class="ui-form-table-dd"><div itype="TextBox" id="accessMode.param" width="100%" rule="MaxLength:512"></div></td>
+	           </tr>                
+	           <tr>
+	               <td class="ui-form-table-dt" style="width:100px" height="57px">访问方式说明：</td>
+	               <td class="ui-form-table-dd" colspan="3"><div itype="TextBox" id="accessMode.modeDesc" type="textarea" height="50px" width="100%" rule="MaxLength:512"></div></td>
+	           </tr>
+	       </table>
+	    </form>	
+	</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>发起消息</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="newMessage.js"></script>
+<meta name="Author" content="CC" />
+<meta charset="UTF-8" />
+<script>
+	var url = window.location.href;
+	var path = url.substring(0, url.lastIndexOf("/") + 1);
+
+	function doAddPerson() {
+		var selectorType = ""
+		var titleName = "";
+		var mouseEvent = arguments[0];
+		var inputElement = mouseEvent.target || mouseEvent.srcElement;
+		var dealType = inputElement.name;
+
+		titleName = "选择接收人";
+		selectorType = "radio";
+        var myPath=path.substring(0,path.length-1);
+      //  alert(myPath);
+        var index=myPath.lastIndexOf("/");
+        myPath=myPath.substring(0,index);
+        //alert(myPath); 
+		top.fastDev.create("Dialog",
+				{
+					height : 300,
+					width : 350,
+					showMaxBtn : false,
+					title : titleName,
+					src : myPath + "/mytask/personSelect.html",
+					buttons : [ {
+						text : "确定",
+						width : "100px",
+						align : "center",
+						iconCls : 'icon-save',
+						onclick : function(event, win, cwin, fast) {
+							var userInfo = cwin.getUserInfo();
+							fastDev.getInstance('message.c_receiver').setValue(userInfo.userid);
+							fastDev.getInstance('c_receiver_name').setValue(userInfo.username);
+							win.close();
+						}
+					} ]
+				});
+	}
+	window.onload = function() {
+		var table = new FormTable("form_table", "dt", "dd");
+		table.setMargin("10px 0px 0px 10px");
+		table.setDt_textAlign("left");
+		table.setDt_width("80px");
+		table.setWidth("320px");
+		table.initTable();
+
+		var now = new Date();
+		var year = now.getFullYear(); //年   
+		var month = now.getMonth() + 1; //月   
+		var day = now.getDate(); //日
+
+		var hh = now.getHours(); //时
+		var mm = (now.getMinutes()) % 60; //分
+		fastDev.getInstance("message.c_expiry_time").setValue(
+				year + "-" + month + "-" + (day + 1) + " " + hh + ":" + mm
+						+ ":60");
+		fastDev.getInstance("message.c_expiry_time").setMinDate(
+				year + "-" + month + "-" + day + " " + hh + ":" + mm + ":60");
+	}
+</script>
+<style type="text/css">
+.buttons {
+	text-align: center;
+	padding: 8px 0px 6px 0px;
+}
+</style>
+</head>
+<body>
+	<form id="checkform" itype="Form" saveInstance="true"
+		action="taskSearch_addMessage.action" submitJson="false"
+		onSubmitSuccess="onSubmitSuccess()" onBeforeSubmit="onBeforeSubmit()">
+
+		<div itype="TextBox" type="hidden" id="message.c_receiver"></div>
+		<div itype="TextBox" type="hidden" id="message.c_from"></div>
+		<table id="form_table">
+			<tr>
+				<td name="dt">消息类别：</td>
+				<td name="dd"><select itype="Select" id="message.c_msg_type"
+					validateMode="blur" rule="required" onchange="setTitle()">
+						<option>-请选择-</option>
+						<option value="31">工作提示</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td name="dt">消息主题：</td>
+				<td name="dd"><div itype="TextBox" id="message.c_msg_title"
+						validateMode="blur" rule="required"></div></td>
+			</tr>
+
+			<tr>
+				<td name="dt">接收人：</td>
+				<td name="dd">
+					<div itype="TextBox" id="c_receiver_name" readonly="true"
+						onClick="doAddPerson()" validateMode="blur" rule="required"></div>
+				</td>
+			</tr>
+
+			<tr>
+				<td name="dt">逾期时间：</td>
+				<td name="dd"><input itype="DatePicker"
+					id="message.c_expiry_time" setMinDate="setMinDate()"
+					format="yyyy-MM-dd HH:mm:ss" width="150" inside="false"
+					validateMode="blur" rule="required" /></td>
+			</tr>
+
+			<tr>
+				<td name="dt">消息内容：</td>
+				<td style="padding: 4px 4px 4px 4px"><textarea itype="TextBox"
+						id="message.c_msg_content" type="textarea" height="80px"
+						width="245px"></textarea></td>
+			</tr>
+
+		</table>
+	</form>
+</body>
+</html>

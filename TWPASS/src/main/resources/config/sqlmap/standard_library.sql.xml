@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="stdlibrary">
+	<insert id="expendStandardExcelFile" parameterType="com.talkweb.xwzcxt.common.StandardContent">
+			insert into t_sd_standardcontent(
+			<trim suffix="" suffixOverrides=",">
+				c_contentid,c_sectionid,c_sectionpid,c_includeatt,c_sfile_id,c_creator,c_createtime,
+				<if test="null!=c_title and ''!=c_title">
+					c_title,
+				</if>
+				<if test="null!=c_content and ''!=c_content">
+					c_content,
+				</if>
+			</trim>
+			)values(
+			<trim suffix="" suffixOverrides=",">
+				#{c_contentid},#{c_sectionid},#{c_sectionpid},#{c_includeatt},#{c_sfile_id},#{c_creator},#{c_createtime},
+				<if test="null!=c_title and ''!=c_title">
+					#{c_title},
+				</if>
+				<if test="null!=c_content and ''!=c_content">
+					#{c_content},
+				</if>
+			</trim>)
+	</insert>
+	
+	<select id="queryAllFileSortTree" resultType="com.talkweb.xwzcxt.pojo.StandardLibraryPojo">
+		select c_sort_id,c_sort_code,c_sort_pid,c_sort_name from t_sd_sort order by c_sort_id
+	</select>
+	
+	<insert id="insertBasicInformationOfFile" parameterType="com.talkweb.xwzcxt.pojo.StandardLibraryPojo">
+		insert into t_sd_standardfile(
+			<trim suffix="" suffixOverrides=",">
+				<if test="null!=c_sfile_id and ''!=c_sfile_id">
+					c_sfile_id,
+				</if>
+				<if test="null!=c_sfile_name and ''!=c_sfile_name">
+					c_sfile_name,
+				</if>
+				<if test="null!=c_sort_id and ''!=c_sort_id">
+					c_sort_id,
+				</if>
+				<if test="null!=c_sfile_version and ''!=c_sfile_version">
+					c_sfile_version,
+				</if>
+				<if test="null!=c_releaseunit and ''!=c_releaseunit">
+					c_releaseunit,
+				</if>
+				<if test="null!=c_releasetime and ''!=c_releasetime">
+					c_releasetime,
+				</if>
+				<if test="null!=c_impletime and ''!=c_impletime">
+					c_impletime,
+				</if>
+				<if test="null!=c_creator and ''!=c_creator">
+					c_creator,
+				</if>
+				<if test="null!=c_createtime and ''!=c_createtime">
+					c_createtime,
+				</if>
+			</trim>
+		)values(
+			<trim suffix="" suffixOverrides=",">
+				<if test="null!=c_sfile_id and ''!=c_sfile_id">
+					#{c_sfile_id},
+				</if>
+				<if test="null!=c_sfile_name and ''!=c_sfile_name">
+					#{c_sfile_name},
+				</if>
+				<if test="null!=c_sort_id and ''!=c_sort_id">
+					#{c_sort_id},
+				</if>
+				<if test="null!=c_sfile_version and ''!=c_sfile_version">
+					#{c_sfile_version},
+				</if>
+				<if test="null!=c_releaseunit and ''!=c_releaseunit">
+					#{c_releaseunit},
+				</if>
+				<if test="null!=c_releasetime and ''!=c_releasetime">
+					#{c_releasetime},
+				</if>
+				<if test="null!=c_impletime and ''!=c_impletime">
+					#{c_impletime},
+				</if>
+				<if test="null!=c_creator and ''!=c_creator">
+					#{c_creator},
+				</if>
+				<if test="null!=c_createtime and ''!=c_createtime">
+					#{c_createtime},
+				</if>
+			</trim>
+		)
+	</insert>
+	
+	<update id="savePrefaceOfCompanyFile" parameterType="com.talkweb.xwzcxt.pojo.StandardLibraryPojo">
+		<if test="null!=c_fw_xdnr_company and ''!=c_fw_xdnr_company and null!=c_sfile_id and ''!=c_sfile_id">
+			update t_sd_standardfile
+			set c_foreword1=#{c_fw_xdnr_company}
+			where c_sfile_id=#{c_sfile_id}
+		</if>
+	</update>
+	
+	<update id="savePrefaceOfFactoryFile" parameterType="com.talkweb.xwzcxt.pojo.StandardLibraryPojo">
+		<if test="null!=c_sfile_id and ''!=c_sfile_id">
+			update t_sd_standardfile
+			<set>
+				<if test="null!=c_fw_zdyj">
+					c_fw_zdyj=#{c_fw_zdyj},
+				</if>
+				<if test="null!=c_fw_tcdw">
+					c_fw_tcdw=#{c_fw_tcdw},
+				</if>
+				<if test="null!=c_fw_qcbm">
+					c_fw_qcbm=#{c_fw_qcbm},
+				</if>
+				<if test="null!=c_fw_gkbm">
+					c_fw_gkbm=#{c_fw_gkbm},
+				</if>
+				<if test="null!=c_fw_pzr">
+					c_fw_pzr=#{c_fw_pzr},
+				</if>
+				<if test="null!=c_fw_qcr">
+					c_fw_qcr=#{c_fw_qcr},
+				</if>
+				<if test="null!=c_fw_fbsj">
+					c_fw_fbsj=#{c_fw_fbsj},
+				</if>
+				<if test="null!=c_fw_xdcs">
+					c_fw_xdcs=#{c_fw_xdcs},
+				</if>
+				<if test="null!=c_fw_xdnr_factory">
+					c_fw_xdnr1=#{c_fw_xdnr_factory},
+				</if>
+			</set> 
+			where c_sfile_id=#{c_sfile_id}
+		</if>
+	</update>
+	
+	<insert id="addAccessoryFileToDB1" parameterType="com.talkweb.xwzcxt.common.Accessory">
+		insert into t_sd_file(c_file_url,
+			<trim suffix="" suffixOverrides=",">
+				<if test="null!=fileid and ''!=fileid">
+					c_file_id,
+				</if>
+				<if test="null!=accessoryFileName and ''!=accessoryFileName">
+					c_file_name,
+				</if>
+				<if test="null!=filetype and ''!=filetype">
+					c_filetype_id,
+				</if>
+				<if test="null!=creator and ''!=creator">
+					c_creator,
+				</if>
+				<if test="null!=createtime">
+					c_createtime,
+				</if>
+			</trim>
+		)values(
+			(select c_file_path from t_file_info where c_file_id=#{fileid}),
+			<trim suffix="" suffixOverrides=",">
+				<if test="null!=fileid and ''!=fileid">
+					#{fileid},
+				</if>
+				<if test="null!=accessoryFileName and ''!=accessoryFileName">
+					#{accessoryFileName},
+				</if>
+				<if test="null!=filetype and ''!=filetype">
+					#{filetype},
+				</if>
+				<if test="null!=creator and ''!=creator">
+					#{creator},
+				</if>
+				<if test="null!=createtime">
+					#{createtime},
+				</if>
+			</trim>
+		)
+	</insert>
+	
+	<insert id="addAccessoryFileToDB2" parameterType="com.talkweb.xwzcxt.common.Accessory">
+		insert into t_sd_standardatt(
+			<trim suffix="" suffixOverrides=",">
+				<if test="null!=attuuid and ''!=attuuid">
+					c_att_id,
+				</if>
+				<if test="null!=fileid and ''!=fileid">
+					c_file_id,
+				</if>
+				<if test="null!=atttype and ''!=atttype">
+					c_atttype_id,
+				</if>
+				<if test="2==atttype or '2'==atttype"><!-- 附件时有contentid -->
+					<if test="null!=chapterNO and ''!=chapterNO">
+						c_contentid,
+					</if>
+				</if>
+				<if test="null!=sfileuuid and ''!=sfileuuid">
+					c_sfile_id,
+				</if>
+			</trim>
+		)values(
+			<trim suffix="" suffixOverrides=",">
+				<if test="null!=attuuid and ''!=attuuid">
+					#{attuuid},
+				</if>
+				<if test="null!=fileid and ''!=fileid">
+					#{fileid},
+				</if>
+				<if test="null!=atttype and ''!=atttype">
+					#{atttype},
+				</if>
+				<if test="2==atttype or '2'==atttype"><!-- 附件时有contentid -->
+					<if test="null!=chapterNO and ''!=chapterNO">
+						(select c_contentid from t_sd_standardcontent where c_sectionid=#{chapterNO} and c_sfile_id=#{sfileuuid}),
+					</if>
+				</if>
+				<if test="null!=sfileuuid and ''!=sfileuuid">
+					#{sfileuuid},
+				</if>
+			</trim>
+		)
+	</insert>
+	
+	<insert id="insertSDActnode" parameterType="com.talkweb.xwzcxt.pojo.TSdActnodePojo">
+		insert into t_sd_actnode(
+			c_actnode_id,c_actnode_name,c_action_name,c_pdca,c_iskeyctrl,c_issequence,c_frequency,c_area_name,
+			c_position_name,c_std_exec,c_starttime_exec,c_endtime_exec,c_std_check,c_position_name_check,
+			c_timelimit_check,c_std_review,c_position_name_review,c_timelimit_review,c_position_name_feedback1,
+			c_position_name_feedback2,c_position_name_err1,c_position_name_err2,c_creator,c_createtime,c_version,c_istimerule
+		)values(
+			#{c_actnode_id},#{c_actnode_name},#{c_action_name},#{c_pdca},#{c_iskeyctrl},#{c_issequence},#{c_frequency},#{c_area_name},
+			#{c_position_name},#{c_std_exec},#{c_starttime_exec},#{c_endtime_exec},#{c_std_check},#{c_position_name_check},
+			#{c_timelimit_check},#{c_std_review},#{c_position_name_review},#{c_timelimit_review},#{c_position_name_feedback1},
+			#{c_position_name_feedback2},#{c_position_name_err1},#{c_position_name_err2},#{c_creator},#{c_createtime},1,0
+		)
+	</insert>
+	
+	<insert id="insertSDActnodeItem" parameterType="com.talkweb.xwzcxt.pojo.TSdActnodeItemPojo">
+		insert into t_sd_actnode_item(
+			c_actitem_id,c_actitem_index,c_actitem_name,c_actnode_id,c_getdatatype,c_flag,c_version
+		)values(
+			#{c_actitem_id},#{c_actitem_index},#{c_actitem_name},#{c_actnode_id},#{c_getdatatype},1,1
+		)
+	</insert>
+	
+	<select id="exsistExcelContent" parameterType="com.talkweb.xwzcxt.common.StandardContent"
+	resultType="com.talkweb.xwzcxt.common.StandardContent">
+		select c_contentid,c_sectionid,c_sfile_id from t_sd_standardcontent
+		where c_sfile_id=#{c_sfile_id} and c_sectionid=#{c_sectionid}
+	</select>
+	
+</mapper>

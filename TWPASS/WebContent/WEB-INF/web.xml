@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<!-- Spring 刷新Introspector防止内存泄露 -->
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+	
+	<!-- 配置监听器：twdpe 用于 web 的配置入口 -->
+	<listener>
+		<listener-class>com.talkweb.twdpe.core.config.ConfigListener</listener-class>	
+	</listener>
+	
+	<!-- 文件上传监听线程清理器 -->
+	<!-- 
+	<listener>
+        <listener-class>org.apache.commons.fileupload.servlet.FileCleanerCleanup</listener-class>
+    </listener>
+	<servlet>
+		<servlet-name>uploadServlet</servlet-name>
+		<servlet-class>com.talkweb.twdpe.webcomponent.common.servlet.UploadServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>uploadServlet</servlet-name>
+		<url-pattern>/servlet/uploadServlet</url-pattern>
+	</servlet-mapping>
+ 	-->
+ 	
+ <!-- proxool 数据库连接池监控：http://localhost:8080/twdpe-webcomponent/datasource_situation -->
+ <!-- 
+<servlet>   
+    <servlet-name>datasource_situation</servlet-name>   
+    <servlet-class>   
+        org.logicalcobwebs.proxool.admin.servlet.AdminServlet   
+    </servlet-class>   
+</servlet>   
+<servlet-mapping>   
+    <servlet-name>datasource_situation</servlet-name>   
+    <url-pattern>/datasource_situation</url-pattern>   
+</servlet-mapping>  
+ -->
+	<!-- Encoding filter -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<!-- struts2 filter -->
+	<filter>
+		<filter-name>struts2</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>
+				struts-default.xml,struts-plugin.xml,config/struts/struts.xml
+			</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>struts2</filter-name>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>struts2</filter-name>
+		<url-pattern>/jsp/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<welcome-file-list>
+	    <welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>

@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>异常处理</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+</head>
+<body>
+	<table class="ui-form-table">
+	  <tr valign="middle">
+	       <td class="ui-form-table-dt"> 异常名称 </td>
+	       <td class="ui-form-table-dd">
+	          <div itype="TextBox" id="errName" width="100%"></div>
+	       </td>
+	       <td class="ui-form-table-dt"> 板块 </td>
+	       <td class="ui-form-table-dd">
+	          <div itype="TextBox" id="cSectionManageName" width="100%"></div>
+	       </td>
+	  </tr>
+	  <tr valign="middle">
+	       <td class="ui-form-table-dt"> 发起人 </td>
+	       <td class="ui-form-table-dd">
+	          <div itype="TextBox" id="creater" width="100%"></div>
+	       </td>
+	       <td class="ui-form-table-dt"> 接收人 </td>
+	       <td class="ui-form-table-dd">
+	          <div itype="TextBox" id="receiver" width="100%"></div>
+	       </td>
+	  </tr>
+	  <tr valign="middle">
+	       <td class="ui-form-table-dt"> 抄送人 </td>
+	       <td class="ui-form-table-dd">
+	          <div itype="TextBox" id="copier" width="100%"></div>
+	       </td>
+	       <td class="ui-form-table-dt">反馈人</td>
+	       <td class="ui-form-table-dd">
+	          <div itype="TextBox" id="feedBacker" width="100%"></div>
+	       </td>
+	  </tr>
+	  <tr valign="middle">
+	       <td class="ui-form-table-dt"> 发起时间 </td>
+	       <td class="ui-form-table-dd">
+	          <div itype="TextBox" id="start" width="100%"></div>
+	       </td>
+	       <td class="ui-form-table-dt"> 提交时间 </td>
+	       <td class="ui-form-table-dd">
+	          <div itype="TextBox" id="end" width="100%"></div>
+	       </td>
+	  </tr>
+	   <tr valign="middle">
+	       <td class="ui-form-table-dd" colspan="4" >    
+	         <div itype="Button" width="150px" iconCls="icon-search"
+	            onclick="showErrDetails()" text="点击查看异常描述" ></div>  
+	       </td>
+	  </tr>
+	  <tr valign="middle">
+	       <td class="ui-form-table-dd" colspan="4" >    
+	         <div itype="Button" width="150px" iconCls="icon-search"
+	            onclick="showErrDetails()" text="点击查看执行步骤" ></div>  
+	       </td>
+	  </tr>
+	</table>
+</body>
+</html>

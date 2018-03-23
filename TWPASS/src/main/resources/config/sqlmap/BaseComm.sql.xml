@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="baseComm">
+
+	<resultMap id="PositionResultMap" type="com.talkweb.xwzcxt.pojo.DpPosition">
+		<id column="POSITIONID" jdbcType="DECIMAL" property="positionid" />
+		<result column="POSICODE" jdbcType="VARCHAR" property="posicode" />
+		<result column="POSINAME" jdbcType="VARCHAR" property="posiname" />
+		<result column="POSILEVEL" jdbcType="DECIMAL" property="posilevel" />
+		<result column="MANAPOSI" jdbcType="DECIMAL" property="manaposi" />
+		<result column="DUTYID" jdbcType="DECIMAL" property="dutyid" />
+		<result column="ORGID" jdbcType="DECIMAL" property="orgid" />
+		<result column="POSITIONSEQ" jdbcType="VARCHAR" property="positionseq" />
+		<result column="POSITYPE" jdbcType="VARCHAR" property="positype" />
+		<result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+		<result column="LASTUPDATE" jdbcType="TIMESTAMP" property="lastupdate" />
+		<result column="UPDATOR" jdbcType="DECIMAL" property="updator" />
+		<result column="STARTDATE" jdbcType="TIMESTAMP" property="startdate" />
+		<result column="ENDDATE" jdbcType="TIMESTAMP" property="enddate" />
+		<result column="STATUS" jdbcType="DECIMAL" property="status" />
+		<result column="ISDELETE" jdbcType="DECIMAL" property="isdelete" />
+	</resultMap>
+
+	<resultMap id="OrgPositionMap" type="com.talkweb.xwzcxt.pojo.OrgBindPositionPojo">
+		<id column="DTYPE" jdbcType="VARCHAR" property="dtype" />
+		<result column="CID" jdbcType="VARCHAR" property="cid" />
+		<result column="DATAID" jdbcType="VARCHAR" property="dataid" />
+		<result column="DATACODE" jdbcType="VARCHAR" property="datacode" />
+		<result column="DATANAME" jdbcType="VARCHAR" property="dataname" />
+		<result column="PID" jdbcType="VARCHAR" property="pid" />
+	</resultMap>
+
+
+	<sql id="Position_Column_List">
+		POSITIONID, POSICODE, POSINAME, POSILEVEL, MANAPOSI,
+		DUTYID, ORGID, POSITIONSEQ,
+		POSITYPE, CREATETIME, LASTUPDATE, UPDATOR,
+		STARTDATE, ENDDATE, STATUS,
+		ISDELETE
+	</sql>
+
+   <select id="selectPositionByOrgID" parameterType="map" resultMap="PositionResultMap">
+		select
+		<include refid="Position_Column_List" />
+		from TWXWZC.DP_POSITION 
+		where ISDELETE=0 
+			<if test="null!= orgid and  orgid != 0">
+				and ORGID in (select s.orgid from dp_organization s 
+					start with s.orgid=${orgid} connect by prior s.orgid=s.parentorgid and s.ISDELETE=0 ) 
+			</if>
+			<if test="null!= positionid and  positionid != 0">
+				and positionid = #{positionid} 
+			</if>	
+	</select>
+	
+   <select id="selectOrgPositionByParams" parameterType="map" resultMap="OrgPositionMap">
+		select
+			 t.DType,
+			 t.CID,
+			 t.DataID,
+			 t.DataCode,
+			 t.DataName,
+			 t.PID
+		from TWXWZC.V_POSTTREE t 
+		<where>
+			<if test="null!= orgid and orgid != 0">
+				t.PID in (select s.DataID from V_POSTTREE s start with s.dataID='1-'||#{orgid} connect by prior s.dataID=s.PID and s.DType=1 ) 
+				OR t.DataID='1-'||#{orgid}
+			</if>
+		</where>
+	</select>
+
+	<!-- 消息类别List GuveXie20140820-->
+	<select id="getMessageTypeView" resultType="com.talkweb.xwzcxt.pojo.GeneralItem">
+		select 
+			t.TYPEID as c_id, 
+			t.TYPENAME as c_name
+		from V_MSG_TYPE t
+	</select>
+	
+
+</mapper>

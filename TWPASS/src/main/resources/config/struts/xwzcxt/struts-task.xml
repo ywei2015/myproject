@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="struts-jsonTask" extends="json-default">
+		<action name="task_*" class="com.talkweb.xwzcxt.action.XwzcxtMngAction"
+			method="{1}">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' :
+				'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="noCache">true</param>
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result name="error">/error/error.jsp</result>
+		</action>
+		<action name="taskCount_*" class="com.talkweb.xwzcxt.action.TaskCountAction"
+			method="{1}">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' :
+				'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="noCache">true</param>
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result name="error">/error/error.jsp</result>
+		</action>
+		<action name="taskEntry_*" class="com.talkweb.xwzcxt.action.XwzcxtMngAction"
+			method="{1}">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' :
+				'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="noCache">true</param>
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result name="error">/error/error.jsp</result>
+		</action>
+		<action name="taskEdit_*" class="com.talkweb.xwzcxt.action.XwzcxtMngAction"
+			method="{1}">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' :
+				'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result name="error">/error/error.jsp</result>
+		</action>
+		<action name="twPassCommon" class="com.talkweb.xwzcxt.action.TwPassCommonAction"
+			method="getItemDetail">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' :
+				'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="noCache">true</param>
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result name="error">/error/error.jsp</result>
+		</action>
+		<action name="edit_*" class="com.talkweb.xwzcxt.action.XwzcxtMngAction"
+			method="{1}">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' :
+				'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="delete_*" class="com.talkweb.xwzcxt.action.XwzcxtMngAction"
+			method="{1}">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' :
+				'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="taskError_*" class="com.talkweb.xwzcxt.action.XwzcxtTaskErrorAction"
+			method="{1}">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' :
+				'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="noCache">true</param>
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result name="error">/error/error.jsp</result>
+		</action>
+		<action name="taskSearch_*" class="com.talkweb.xwzcxt.action.TaskSearchAction"
+			method="{1}">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' :
+				'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="waithandTask_*" class="com.talkweb.xwzcxt.action.WaithandTaskMngAction"
+			method="{1}">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' :
+				'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="alreadyhandTask_*" class="com.talkweb.xwzcxt.action.AlreadyhandTaskMngAction"
+			method="{1}">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' :
+				'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+	</package>
+	<package name="task_new" extends="twdpe-common-default">
+		<action name="getTaskByIDAction" class="com.talkweb.xwzcxt.action.TaskAction"
+			method="getTaskByID">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' :
+				'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="getAllTaskAction" class="com.talkweb.xwzcxt.action.TaskAction"
+			method="getAllTask">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' :
+				'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		
+		<action name="updateMatterdetail" class="com.talkweb.xwzcxt.action.TaskAction"
+			method="updateMatterdetail">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		
+		<action name="getAllTaskForMobileAction" class="com.talkweb.xwzcxt.action.TaskAction"
+			method="getAllTaskForMobile">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' :
+				'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="getPositionNameByUseridAction" class="com.talkweb.xwzcxt.action.TaskAction"
+			method="getPositionNameByUserid">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' :
+				'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="exportTaskExcelAction" class="com.talkweb.xwzcxt.action.TaskAction"
+			method="exportTaskExcel">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' :
+				'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="deleteTaskByIdAction" class="com.talkweb.xwzcxt.action.TaskAction"
+			method="deleteTaskById">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="getTaskTypeListAction" class="com.talkweb.xwzcxt.action.TaskAction"
+			method="getTaskTypeList">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' :
+				'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+	</package>
+</struts>

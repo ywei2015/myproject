@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
+	default-lazy-init="true">
+
+	<bean id="logAspect" class="com.talkweb.twdpe.base.log.aop.LogAspect"
+		init-method="init" lazy-init="false" scope="singleton">
+		<property name="path" value="classpath*:config/**/*.log.xml" />
+	</bean>
+
+	<aop:config proxy-target-class="true">
+		<aop:aspect ref="logAspect">
+			<aop:pointcut id="logPointcut"
+				expression="execution(public String com.talkweb.twdpe.webcomponent.component.*.*())" />
+			<aop:after method="after" pointcut-ref="logPointcut" />
+			<aop:after-throwing method="throwing" throwing="ex"
+				pointcut-ref="logPointcut" />
+		</aop:aspect>
+	</aop:config>
+
+</beans>

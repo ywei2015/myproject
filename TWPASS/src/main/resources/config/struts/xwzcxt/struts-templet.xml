@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="templet" extends="twdpe-common-default">
+		<action name="getAllTaskTempletAction" class="com.talkweb.xwzcxt.action.TaskTempletAction"
+			method="getAllTaskTemplet">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' : 'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="getAllTaskTempletForSearchAction" class="com.talkweb.xwzcxt.action.TaskTempletAction"
+			method="getAllTaskTempletForSearch">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' : 'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="taskTempletDetailAction" class="com.talkweb.xwzcxt.action.TaskTempletAction"
+			method="getSTempletDetailByID">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="addTaskTempletAction" class="com.talkweb.xwzcxt.action.TaskTempletAction"
+			method="addTaskTemplet">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="deleteTempletByIdAction" class="com.talkweb.xwzcxt.action.TaskTempletAction"
+			method="deleteTempletById">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="addTempletByCopyAction" class="com.talkweb.xwzcxt.action.TaskTempletAction"
+			method="addTempletByCopy">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="setSTempletVaildByIDAction" class="com.talkweb.xwzcxt.action.TaskTempletAction"
+			method="setSTempletVaildByID">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="generateRandomTaskAction" class="com.talkweb.xwzcxt.action.TaskTempletAction"
+			method="generateRandomTask">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="getAllPlanSeriesAction" class="com.talkweb.xwzcxt.action.TaskTempletAction"
+			method="getAllPlanSeries">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' : 'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="planSeriesDetailAction" class="com.talkweb.xwzcxt.action.TaskTempletAction"
+			method="getPlanSeriesDetailByID">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="deletePlanSeriesByIdAction" class="com.talkweb.xwzcxt.action.TaskTempletAction"
+			method="deletePlanSeriesById">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+	</package>
+</struts>

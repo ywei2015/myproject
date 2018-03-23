@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="../../../fastdev/fastDev-import.js"></script>
+<script src="../../../fastdev/common.js"></script>
+<script src="templetManage.js"></script>
+<style>
+.icon-copy {
+	background: url(../../../fastdev/themes/default/images/ico/copy.gif) no-repeat
+}
+</style>
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	<div class="ui-layout-left" style="width: 200px; height: 98.7%;">
+		<div class="ui-layout-title" style="padding-left: 5px;">岗位树</div>
+		<div id="orgtree" itype="Tree" saveInstance="true" showIco="true"
+			width="100%" rootValue="所有组织" topParentid="1--1" height="95%"
+			initSource="pbo/getPositionInOrgAction.action?orgtype=6" openFloor=2
+			onNodeClick="onNodeClick()" onlySelectedLeaf=true textMaxLength="40"
+			onAfterInitRender="afterInitRender()"></div>
+	</div>
+	<div class="ui-layout-center" style="left: 202px;">
+		<form id="checkform" itype="Form" requestType="post" saveInstance="true">
+			<table class="ui-form-table">
+				<tr>
+					<td class="ui-form-table-dt">模板名称：</td>
+					<td class="ui-form-table-dd">
+						<div itype="TextBox" id="cTempletName" width="100%"></div>
+					</td>
+					<td class="ui-form-table-dt">是否扫码：</td>
+					<td class="ui-form-table-dd">
+						<div itype="Select" id="cIsscan" width="100%">
+							<option text="-请选择-"></option>
+							<option value="1" text="是"></option>
+							<option value="0" text="否"></option>
+						</div>
+					</td>
+					<td class="ui-form-table-dt">区域：</td>
+					<td class="ui-form-table-dd">
+						<div itype="TextBox" id="cExecAreaName" width="100%" readonly="true" onclick="onSelectArea()"></div>
+						<div itype="TextBox" type="hidden" id="cExecAreaid"></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="ui-form-table-dt">验证岗位：</td>
+					<td class="ui-form-table-dd">
+						<div itype="TextBox" id="cPNameCheck" width="100%" readonly="true" onclick="onSelectPosition()"></div>
+						<div itype="TextBox" type="hidden" id="cPidCheck"></div>
+					</td>
+					<td class="ui-form-table-dt">评价岗位：</td>
+					<td class="ui-form-table-dd">
+						<div itype="TextBox" id="cPNameReview" width="100%" readonly="true" onclick="onSelectPosition()"></div>
+						<div itype="TextBox" type="hidden" id="cPidReview"></div>
+					</td>
+					<td class="ui-form-table-dd" colspan="2" align="right">
+						<div itype="Button" id="searchBtn" text="查询" iconCls="icon-search" onClick="doSearch()"></div>
+						<div itype="Button" id="resetBtn" text="重置" iconCls="icon-reset" onClick="doReset()"></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="ui-form-table-dt" colspan="6">
+						<!-- 任务模版GRID -->
+						<div itype="DataGrid" id="grid_task_templet"
+							onBeforeReady="onBeforeReady()" onAfterInitRender="onAfterInitRender()"
+							pageSize="20" allowResizeColumn="true" showCheckColumn="true" showSeqColumn="true"
+							saveInstance="true" keyword="C_TEMPLET_ID" onRowClick="onRowClick()">
+							<div name="top-toolbar">
+								<div plain=true text="新增" id="add" display="false" iconCls="icon-add" onClick="doAddTemplet()"></div>
+								<div itype="separator"></div>
+								<div plain=true text="批量删除" id="delete" display="false" iconCls="icon-delete" onClick="batchDeleteObject()"></div>
+								<div itype="separator"></div>
+								<div plain=true text="模板复制" id="copy" display="false" iconCls="icon-copy" onClick="doCopyAction()"></div>
+								<div itype="separator"></div>
+							</div>
+							<!-- 列属性定义-->
+							<div width="20%" name="C_TEMPLET_NAME" text="模板名称" renderer="operLinkRenderer()"></div>
+							<div width="10%" name="C_DEPARTMENTNAME" text="所属部门"></div>
+							<div width="20%" name="C_PNAME_EXEC" text="岗位"></div>
+							<div width="10%" name="C_EXEC_AREANAME" text="区域"></div>
+							<div width="10%" name="C_ISSCAN" text="是否扫码" itype="boolean" trueText="是" falseText="否"></div>
+							<div width="10%" name="C_ISVAILD" text="当前状态" renderer="operStatusRenderer()"></div>
+							<div width="10%" text="多媒体" renderer="operMediaRenderer()"></div>
+							<div width="10%" text="操作" renderer="operRenderer()"></div>
+							<div type="hidden" name="C_TEMPLET_ID"></div>
+							<div type="hidden" name="C_ACTNODE_ID"></div>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>

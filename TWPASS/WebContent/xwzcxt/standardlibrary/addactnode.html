@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>标准项信息</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="addactnode.js"></script>
+</head>
+<body>
+	<!-- initSource='basicObj_initFormControl.action' -->
+	<form id="addActiveStandardForm" itype="Form" saveInstance="true"
+		action="" onSubmitSuccess="submitSuccess()" submitJson="false"
+		onBeforeReady="FormReady()" 
+		saveQueue="true">
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt" style="width: 200px">流程末节点：</td>
+				<td class="ui-form-table-dd">	<div itype="SelectTree" onAfterDataRender="FormAfter()" id="actnode.c_action_id" onlySelectedLeaf="true"  width="100%"  rootValue="-请选择-" topParentid="0" openFloor=3 initSource="standardlibrary_getProcessNodeTree.action"></div>
+						</td>
+				<td class="ui-form-table-dt" style="width: 200px">岗位活动名称：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="actnode.c_actnode_name" width="100%"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">pdca属性：</td>
+				<td class="ui-form-table-dd"><select itype="Select" id="actnode.c_pdca">
+						<option text="-请选择-"></option>
+						<option value="P">P（计划）</option>
+						<option value="D">D（执行）</option>
+						<option value="C">C（检查）</option>
+						<option value="A">A（处理）</option>
+				</select></td>
+				<td class="ui-form-table-dt" style="width: 100px">是否为关键活动：</td>
+				<td class="ui-form-table-dd"><select itype="Select" id="actnode.c_iskeyctrl">
+						<option text="-请选择-"></option>
+						<option value="1">是</option>
+						<option value="0">否</option>
+				</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">时态（when）：</td>
+				<td class="ui-form-table-dd"><select itype="Select" id="actnode.c_frequency">
+						<option text="-请选择-"></option>
+						<option value="每日">每日</option>
+						<option value="每周">每周</option>
+						<option value="每月">每月</option>
+						<option value="接班前">接班前</option>
+						<option value="接班后">接班后</option>
+						<option value="下班前">下班前</option>
+						<option value="下班后">下班后</option>
+						<option value="就餐前">就餐前</option>
+						<option value="就餐后">就餐后</option>
+				</select>
+				</td>
+				<td class="ui-form-table-dt" style="width: 100px">作业区域（where）：</td>
+				<td class="ui-form-table-dd"><div itype="SelectTree"
+						queue="formInfo" inside="false" id="actnode.c_area_id"
+						rule="required" dataSource="area_initTree.action"
+						initSource="area_initTree.action" rootValue="-请选择-"
+						topParentid="-1" openFloor="3"></div></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">执行岗位（who）：</td>
+				<td class="ui-form-table-dd">
+					<div itype="SelectTree" id="actnode.c_position_id" width="100%"
+						rootValue="-请选择-" topParentid="-1" openFloor=3
+						initSource="position_queryPositionTree.action"></div></td>
+				<td class="ui-form-table-dt" style="width: 100px">执行标准（怎么做，做到何种程度）：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="actnode.c_std_exec" width="100%"></div>
+				</td>
+			</tr>
+			
+			<tr>
+			<td class="ui-form-table-dt" style="width: 100px">验证岗位：</td>
+				<td class="ui-form-table-dd"><div itype="SelectTree"
+						id="actnode.c_position_id_check" width="100%" rootValue="-请选择-"
+						topParentid="-1" openFloor=3
+						initSource="position_queryPositionTree.action"></div></td>
+				<td class="ui-form-table-dt" style="width: 100px">验证标准验证标准：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="actnode.c_std_check" width="100%"></div>
+				</td>
+				
+			</tr>
+			<tr>
+			<td class="ui-form-table-dt" style="width: 100px">评价岗位：</td>
+				<td class="ui-form-table-dd"><div itype="SelectTree"
+						id="actnode.c_position_id_review" width="100%" rootValue="-请选择-"
+						topParentid="-1" openFloor=3
+						initSource="position_queryPositionTree.action"></div></td>
+				<td class="ui-form-table-dt" style="width: 100px">评价标准：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="actnode.c_std_review" width="100%"></div>
+				</td>
+				
+			</tr>
+			<tr>
+			<td class="ui-form-table-dt" style="width: 100px">执行期限开始时间：</td>
+				<td class="ui-form-table-dd"><div itype="DatePicker" id="actnode.c_starttime_exec" width="100%"></div>
+				</td>
+				<td class="ui-form-table-dt" style="width: 100px">执行期限完成时间：</td>
+				<td class="ui-form-table-dd"><div itype="DatePicker" id="actnode.c_endtime_exec" width="100%"></div>
+				</td>
+				
+			</tr>
+			<tr>
+			<td class="ui-form-table-dt" style="width: 100px">验证期限完成时间：</td>
+				<td class="ui-form-table-dd"><div itype="DatePicker" id="actnode.c_timelimit_check" width="100%"></div>
+				</td>
+				<td class="ui-form-table-dt" style="width: 100px">评价期限完成时间：</td>
+				<td class="ui-form-table-dd"><div itype="DatePicker" id="actnode.c_timelimit_review" width="100%"></div>
+				</td>
+				
+			</tr>
+			<tr>
+			<td class="ui-form-table-dt" style="width: 100px">正常结果反馈岗位（默认岗位）：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="actnode.c_position_id_feedback1" width="100%"></div>
+				</td>
+				<td class="ui-form-table-dt" style="width: 100px">正常结果反馈岗位（其他岗位）：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="actnode.c_position_id_feedback2" width="100%"></div>
+				</td>
+				
+			</tr>
+			<tr>
+			<td class="ui-form-table-dt" style="width: 100px">异常结果反馈岗位（默认岗位）：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="actnode.c_position_id_err1" width="100%"></div>
+				</td>
+				<td class="ui-form-table-dt" style="width: 100px">异常结果反馈岗位（其他岗位）：</td>
+				<td class="ui-form-table-dd" ><div itype="TextBox"
+						id="actnode.c_position_id_err2" width="100%"></div>
+				</td>
+			</tr>
+
+
+		</table>
+	</form>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>标准项信息</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="stepactnode.js"></script>
+</head>
+<body>
+	<!-- initSource='basicObj_initFormControl.action' -->
+	<form id="addActiveStandardForm" itype="Form" saveInstance="true"
+		action="" onSubmitSuccess="submitSuccess()" submitJson="false"
+		onBeforeReady="FormReady()" onAfterDataRender="FormAfter()"
+		saveQueue="true">
+		<table class="ui-form-table">
+		
+		    <tr>
+				<td class="ui-form-table-dt" style="width: 100px">活动序号：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="actnode.c_actitem_index" width="50px"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">做什么（what）：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="actnode.c_actitem_name" width="100%"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">是否按顺序执行：</td>
+				<td class="ui-form-table-dd"><select itype="Select" id="actnode.c_issequence">
+						<option text="-请选择-"></option>
+						<option value="1">是</option>
+						<option value="0">否</option>
+				</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">执行结果上传要求：</td>
+				<td class="ui-form-table-dd">
+						<select itype="Select" id="actnode.c_getdatatype">
+						<option text="-请选择-"></option>
+						<option value="0">无要求</option>
+						<option value="1">拍照</option>
+						<option value="2">扫码</option>
+						<option value="3">人工录入</option>
+				</select>
+				</td>
+			</tr>
+			
+
+
+		</table>
+	</form>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="message">
+	<!-- 消息通知 查询当前用户接收的消息 -->
+	<select id="getMessageByUserId" resultType="com.talkweb.xwzcxt.pojo.Message">
+		select t.*,t1.c_status as c_task_status
+		from t_message t,t_task t1
+		where t.c_pid = t1.c_task_id
+		and t.c_receiver = #{c_receiver}
+		and t.c_isdelete = 0
+		and t.c_status != 0
+		order by t.c_create_time desc
+	</select>
+	
+	<!-- 通过ID查询消息通知 -->
+	<select id="getMessageById" resultType="com.talkweb.xwzcxt.pojo.Message">
+		select * from t_message where c_msg_id = #{c_msg_id}
+	</select>
+	
+	<!-- 获取消息通知通过条件 -->
+	<select id="getMessageByCondition" resultType="com.talkweb.xwzcxt.pojo.Message">
+		select t.C_MSG_ID,t.C_MSG_TITLE,t.C_MSG_CONTENT,t.C_MSG_TYPE,t.C_MSG_LEVEL,t.C_NOTIFY_TYPE,t.C_FROM,
+			to_char(t.C_CREATE_TIME,'YYYY-MM-DD HH24:MI') as c_create_time,
+			to_char(t.C_PLAN_TIME,'YYYY-MM-DD HH24:MI') as c_plan_time,
+			to_char(t.C_EXPIRY_TIME,'YYYY-MM-DD HH24:MI') as c_expiry_time,
+			t.C_SEND_TYPE,t.C_SENDER,t.C_RECEIVER,t.C_FACT_SENDTIME,t.C_FACT_GETTIME,t.C_DEVICE_SN,
+			t.C_SEND_COUNT,t.C_STATUS,t.C_ISDELETE,t.C_PID,t.C_REMARK,
+			t2.displayname as c_sender_name
+		from t_message t, DP_USER t2 
+		where t.C_SENDER = t2.USERID
+		and t.c_receiver = #{c_receiver}
+		and t.c_isdelete = 0
+		<!-- and t.c_status != 0 -->
+		<if test="null != c_msg_title and c_msg_title != ''">
+			and t.c_msg_title like '%${c_msg_title}%'
+		</if>
+		<if test="null != c_sender_name and c_sender_name != ''">
+			and t2.displayname like '%${c_sender_name}%'
+		</if>
+		
+		<!-- 读取状态 -->
+		<if test="null != c_status and '' != c_status">
+            <if test="c_status == 0">
+				<![CDATA[and t.c_status <22]]>
+			</if>
+			<if test="c_status == 22">
+				<![CDATA[and t.c_status =22]]>
+			</if>
+        </if>
+        <!-- 消息主题-->
+        <if test="c_msg_type!=null and ''!=c_msg_type">
+          and  t.c_msg_type=#{c_msg_type}
+        </if>
+		
+		<!-- 开始时间 -->
+		<if test="null != c_plan_time and c_plan_time != ''">
+			<![CDATA[
+		       	and t.c_plan_time>to_date(#{c_plan_time},'YYYY-MM-DD HH24:MI:SS')
+		    ]]>
+		</if>
+		<!-- 结束时间 -->
+		<if test="null != c_expiry_time and c_expiry_time != ''">
+			<![CDATA[
+		       	and t.c_expiry_time<to_date(#{c_expiry_time},'YYYY-MM-DD HH24:MI:SS')
+		    ]]>
+		</if>
+		order by t.c_create_time desc
+	</select>
+	
+	<!-- 修改消息通知的状态 -->
+	<update id="updateMessageState" statementType="CALLABLE">
+		{call P_TWXWZC_UPDATE_MESSAGE_STATUS(
+         	#{vC_MSG_ID},#{vC_STATUS}
+         )}
+	</update>
+	
+	
+	<!-- 调用存储过程,发起新消息 -->
+	<insert id="addMessage" statementType="CALLABLE" parameterType="map">
+		<![CDATA[
+		  {CALL P_TWXWZC_GENERATE_MESSAGE_EX(
+		    #{vC_MSG_TITLE,mode=IN,jdbcType=VARCHAR},
+		    #{vC_MSG_CONTENT,mode=IN,jdbcType=VARCHAR},
+		    #{vC_MSG_TYPE,mode=IN,jdbcType=NUMERIC},
+		    #{vC_MSG_LEVEL,mode=IN,jdbcType=NUMERIC},
+		    #{vC_NOTIFY_TYPE,mode=IN,jdbcType=NUMERIC} ,
+		    #{vC_FROM,mode=IN,jdbcType=VARCHAR} ,
+		    #{vC_CREATE_TIME,mode=IN,jdbcType=VARCHAR} ,
+		    #{vC_PLAN_TIME,mode=IN,jdbcType=VARCHAR} ,
+		    #{vC_EXPIRY_TIME,mode=IN,jdbcType=VARCHAR},
+		    #{vC_SEND_TYPE,mode=IN,jdbcType=NUMERIC},
+		    #{vC_SENDER,mode=IN,jdbcType=NUMERIC},
+		    #{vC_RECEIVER,mode=IN,jdbcType=NUMERIC},
+		    #{vC_REMARK,mode=IN,jdbcType=VARCHAR},
+		    #{vC_PID,mode=IN,jdbcType=NUMERIC},
+		    #{NEW_MSGID,mode=OUT,jdbcType=NUMERIC}
+		    )
+		   }
+		]]>
+	</insert>
+</mapper>

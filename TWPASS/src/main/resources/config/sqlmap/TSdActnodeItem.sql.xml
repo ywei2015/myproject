@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="TSdActnodeItem" >
+  <resultMap id="BaseResultMap" type="com.talkweb.xwzcxt.pojo.TSdActnodeItemPojo" >
+    <id column="C_ACTITEM_ID" property="cActitemId" jdbcType="VARCHAR" />
+    <result column="C_ACTITEM_INDEX" property="cActitemIndex" jdbcType="DECIMAL" />
+    <result column="C_ACTITEM_CODE" property="cActitemCode" jdbcType="VARCHAR" />
+    <result column="C_ACTITEM_NAME" property="cActitemName" jdbcType="VARCHAR" />
+    <result column="C_ACTNODE_ID" property="cActnodeId" jdbcType="VARCHAR" />
+    <result column="C_ACTITEM_STD" property="cActitemStd" jdbcType="VARCHAR" />
+    <result column="C_ACTITEM_STD_CHECK" property="cActitemStdCheck" jdbcType="VARCHAR" />
+    <result column="C_EXPLAIN" property="cExplain" jdbcType="VARCHAR" />
+    <result column="C_GETDATATYPE" property="cGetdatatype" jdbcType="DECIMAL" />
+    <result column="C_CHECKDATATYPE" property="cCheckdatatype" jdbcType="DECIMAL" />
+    <result column="C_GETDATATYPE_NAME" property="cGetdatatypename" jdbcType="VARCHAR" />
+    <result column="C_CHECKDATATYPE_NAME" property="cCheckdatatypename" jdbcType="VARCHAR" />
+    <result column="C_REMARK" property="cRemark" jdbcType="VARCHAR" />
+    <result column="C_FLAG" property="cFlag" jdbcType="DECIMAL" />
+    <result column="C_VERSION" property="cVersion" jdbcType="DECIMAL" />
+    <result column="C_GETDATA_PRETEXT" property="cGetdataPretext" jdbcType="VARCHAR" />
+    <result column="C_GETDATA_TEXT" property="cGetdataText" jdbcType="VARCHAR" />
+    <result column="C_GETDATA_UNIT" property="cGetdataUnit" jdbcType="VARCHAR" />
+    <result column="C_CHECKDATA_PRETEXT" property="cCheckdataPretext" jdbcType="VARCHAR" />
+    <result column="C_CHECKDATA_TEXT" property="cCheckdataText" jdbcType="VARCHAR" />
+    <result column="C_CHECKDATA_UNIT" property="cCheckdataUnit" jdbcType="VARCHAR" />
+    <result column="C_GROUPINDEX" property="cGroupindex" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <select id="getActnodeItemByActnodeID" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select aa.*,
+      bb.C_TRACEFUN_NAME as C_GETDATATYPE_NAME,
+      cc.C_TRACEFUN_NAME as C_CHECKDATATYPE_NAME
+    from TWXWZC.T_SD_ACTNODE_ITEM aa,
+      TWXWZC.T_TRACE_FUCTION bb,
+      TWXWZC.T_TRACE_FUCTION cc
+    where aa.C_ACTNODE_ID = #{cActnodeId}
+      and aa.C_GETDATATYPE = bb.C_TRACEFUN_ID(+)
+      and aa.C_CHECKDATATYPE = cc.C_TRACEFUN_ID(+)
+    order by aa.C_ACTITEM_INDEX asc
+  </select>
+
+  <insert id="addActnodeItem" parameterType="com.talkweb.xwzcxt.pojo.TSdActnodeItemPojo" >
+    insert into TWXWZC.T_SD_ACTNODE_ITEM
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cActitemId != null" >
+        C_ACTITEM_ID,
+      </if>
+      <if test="cActitemIndex != null" >
+        C_ACTITEM_INDEX,
+      </if>
+      <if test="cActitemCode != null" >
+        C_ACTITEM_CODE,
+      </if>
+      <if test="cActitemName != null" >
+        C_ACTITEM_NAME,
+      </if>
+      <if test="cActnodeId != null" >
+        C_ACTNODE_ID,
+      </if>
+      <if test="cActitemStd != null" >
+        C_ACTITEM_STD,
+      </if>
+      <if test="cActitemStdCheck != null" >
+        C_ACTITEM_STD_CHECK,
+      </if>
+      <if test="cExplain != null" >
+        C_EXPLAIN,
+      </if>
+      <if test="cGetdatatype != null" >
+        C_GETDATATYPE,
+      </if>
+      <if test="cCheckdatatype != null" >
+        C_CHECKDATATYPE,
+      </if>
+      <if test="cRemark != null" >
+        C_REMARK,
+      </if>
+      <if test="cFlag != null" >
+        C_FLAG,
+      </if>
+      <if test="cVersion != null" >
+        C_VERSION,
+      </if>
+      <if test="cGetdataPretext != null" >
+        C_GETDATA_PRETEXT,
+      </if>
+      <if test="cGetdataText != null" >
+        C_GETDATA_TEXT,
+      </if>
+      <if test="cGetdataUnit != null" >
+        C_GETDATA_UNIT,
+      </if>
+      <if test="cCheckdataPretext != null" >
+        C_CHECKDATA_PRETEXT,
+      </if>
+      <if test="cCheckdataText != null" >
+        C_CHECKDATA_TEXT,
+      </if>
+      <if test="cCheckdataUnit != null" >
+        C_CHECKDATA_UNIT,
+      </if>
+      <if test="cGroupindex != null" >
+        C_GROUPINDEX,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cActitemId != null" >
+        #{cActitemId,jdbcType=VARCHAR},
+      </if>
+      <if test="cActitemIndex != null" >
+        #{cActitemIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="cActitemCode != null" >
+        #{cActitemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cActitemName != null" >
+        #{cActitemName,jdbcType=VARCHAR},
+      </if>
+      <if test="cActnodeId != null" >
+        #{cActnodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="cActitemStd != null" >
+        #{cActitemStd,jdbcType=VARCHAR},
+      </if>
+      <if test="cActitemStdCheck != null" >
+        #{cActitemStdCheck,jdbcType=VARCHAR},
+      </if>
+      <if test="cExplain != null" >
+        #{cExplain,jdbcType=VARCHAR},
+      </if>
+      <if test="cGetdatatype != null" >
+        #{cGetdatatype,jdbcType=DECIMAL},
+      </if>
+      <if test="cCheckdatatype != null" >
+        #{cCheckdatatype,jdbcType=DECIMAL},
+      </if>
+      <if test="cRemark != null" >
+        #{cRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="cFlag != null" >
+        #{cFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="cVersion != null" >
+        #{cVersion,jdbcType=DECIMAL},
+      </if>
+      <if test="cGetdataPretext != null" >
+        #{cGetdataPretext,jdbcType=VARCHAR},
+      </if>
+      <if test="cGetdataText != null" >
+        #{cGetdataText,jdbcType=VARCHAR},
+      </if>
+      <if test="cGetdataUnit != null" >
+        #{cGetdataUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="cCheckdataPretext != null" >
+        #{cCheckdataPretext,jdbcType=VARCHAR},
+      </if>
+      <if test="cCheckdataText != null" >
+        #{cCheckdataText,jdbcType=VARCHAR},
+      </if>
+      <if test="cCheckdataUnit != null" >
+        #{cCheckdataUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="cGroupindex != null" >
+        #{cGroupindex,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+</mapper>

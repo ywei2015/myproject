@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	
+	<!-- 
+		bean加载 路径，可以有多个path,排前的优先级高
+	 -->
+	<paths>
+		<path>classpath:/config/**/*.bean.xml</path>
+		<path>classpath*:/config/**/*.bean.xml</path>
+		<!-- 加载metis配置开始 
+		<path>classpath:/config/metis/*.xml</path>
+        <path>classpath*:/config/service/contenfilter.service.xml</path>
+        <path>classpath*:/config/service/ipcontrol.service.xml</path>
+        <path>classpath*:/config/service/log.service.xml</path>
+        <path>classpath*:/config/service/msgcenter.service.xml</path>
+        <path>classpath*:/config/service/org.service.xml</path>
+        <path>classpath*:/config/service/right.service.xml</path>
+        <path>classpath*:/config/service/rule.service.xml</path>
+        <path>classpath*:/config/service/send.service.xml</path>
+        <path>classpath*:/config/service/tasks.service.xml</path>
+        <path>classpath*:/config/service/usergroup.service.xml</path>
+        <path>classpath*:/config/service/webmsg.service.xml</path>   
+          -->  
+        <!-- 加载metis配置结束 -->		        
+		<!-- 启动本地凋用取消下面的注释 -->
+		<path>classpath*:/config/service/*.xml</path>	
+			 
+	</paths>
+	
+	<!-- 
+		容器启动前后处理器，扩展点
+	 -->
+	<processors>
+			<!-- 
+			<post-processor>
+				<processor></processor>
+				<processor></processor>
+				<processor></processor>
+			</post-processor>
+			 -->
+			<pre-processor>
+				<processor class="com.talkweb.twdpe.core.context.log.LogLoader" name="logLoader" description="日志配置启动" />
+			</pre-processor>
+			
+	</processors>
+	
+	<!-- 
+		参数键值对，供容器启动和处理器使用
+	 -->
+	<properties>
+		<property key="logConfigPath" value="config/logback.xml" />
+	</properties>
+		
+</config>

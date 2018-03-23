@@ -1,0 +1,880 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="statistical">
+
+<!--个人未生成任务-->
+<select id="personUncreated" parameterType="map" resultType="java.lang.Integer"> 
+    select count(1) as count from t_stdtaskplan_series  t2 where t2.c_state='0' 
+		 and t2.c_exec_userid in(
+		    (select u.userid from dp_user u where u.usercode=#{userId} and u.isdelete=0)
+		 ) 
+		and t2.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') and t2.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+	
+</select>
+
+<!--个人未完成-->
+<select id="personUnfinished" parameterType="map" resultType="java.lang.Integer">
+    select count(1) as count from t_task t                                          
+		  where t.c_exec_userid in
+		              (select u.userid from dp_user u where u.usercode=#{userId} and u.isdelete=0)
+		  and t.c_status=#{status}
+	      and t.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') and t.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+</select>
+
+ <!--个人已完成-->
+<select id="personfinished" parameterType="map" resultType="java.lang.Integer">
+   select count(1) as count from t_task t                                          
+        where t.c_exec_userid in
+              (select u.userid from dp_user u where u.usercode=#{userId} and u.isdelete=0)
+        and  t.c_status=#{status} 
+	    and t.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') and t.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+</select>
+
+ <!--班组未生成-->
+<select id="teamUncreated" parameterType="map" resultType="java.lang.Integer">
+      select count(1) count from t_stdtaskplan_series  t2 where t2.c_state='0' 
+			 and t2.c_exec_userid in(
+			    select dp.userid from  dp_user dp where dp.orgid in 
+			     (select d.orgid from dp_user d where d.userid in
+			          (select u.userid from dp_user u where u.usercode=#{userId} and u.isdelete=0)
+			 )
+			 and dp.isdelete=0
+			 ) 
+	     and t2.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') and t2.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+</select>
+
+<!--根据班组id来查询未生成-->
+<select id="teamUncreatedforId" parameterType="map" resultType="java.lang.Integer">
+      select count(1) count from t_stdtaskplan_series  t2 where t2.c_state='0' 
+			 and t2.c_exec_userid in
+			   (select dp.userid from dp_user dp where dp.orgid = #{dataId})
+	     and t2.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') and t2.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+</select>
+
+ <!--班组未完成-->
+<select id="teamUnfinished" parameterType="map" resultType="java.lang.Integer">
+   select count(1) as count from t_task t   where  t.c_status=#{status}                                      
+			and t.c_exec_userid in (
+			select dp.userid from  dp_user dp where dp.orgid in 
+			     (select d.orgid from dp_user d where d.userid in
+			          (select u.userid from dp_user u where u.usercode=#{userId} and u.isdelete=0)
+			 )
+			 and dp.isdelete=0
+			)
+			and t.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') and t.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+</select>
+
+<!--根据班组来查询未完成-->
+<select id="teamUnfinishedForteamId" parameterType="map" resultType="java.lang.Integer">
+   select count(1) as count from t_task t   where  t.c_status=#{status}                                      
+			and t.c_exec_userid in (select dp.userid from dp_user dp where dp.orgid = #{dataId})
+			and t.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') and t.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+</select>
+
+<!--根据班组来查询已完成-->
+<select id="teamFinishedForteamId" parameterType="map" resultType="java.lang.Integer">
+   select count(1) as count from t_task t   where  t.c_status=#{status}                                      
+			and t.c_exec_userid in (select dp.userid from dp_user dp where dp.orgid = #{dataId})
+			and t.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') and t.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+</select>
+
+ <!--班组已完成-->
+<select id="teamfinished" parameterType="map" resultType="java.lang.Integer">
+   select count(1) as count from t_task t   where t.c_status=#{status}                                    
+			and t.c_exec_userid in (
+			select dp.userid from  dp_user dp where dp.orgid in 
+			     (select d.orgid from dp_user d where d.userid in
+			          (select u.userid from dp_user u where u.usercode=#{userId} and u.isdelete=0)
+			 )
+			 and dp.isdelete=0
+			)
+			and t.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') and t.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+</select>
+
+ <!--部门未生成-->
+<select id="departUncreated" parameterType="map" resultType="java.lang.Integer">
+      select count(1) as count from t_stdtaskplan_series  t2 where t2.c_state='0' 
+			 and t2.c_exec_userid in(
+			      select dp.userid from  dp_user dp where dp.orgid in 
+			           (select o.orgid from dp_organization o where 
+			             o.parentorgid in
+			              ( select p.orgid from dp_organization p where p.orgtype='2'
+			                  and p.orgid in (select og.parentorgid from dp_organization og where og.orgid in
+			                    (select d.orgid from dp_user d where d.userid in
+			                       (select u.userid from dp_user u where u.usercode=#{userId} and u.isdelete=0))
+			                      and og.isdelete=0  
+			              )
+			              and p.isdelete=0 
+			            )
+			          and o.isdelete=0
+			       )
+			       and dp.isdelete=0
+			 )
+	    and t2.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') and t2.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+</select>
+
+<!--根据Id来查部门未生成-->
+<select id="departUncreatedForDataId" parameterType="map" resultType="java.lang.Integer">
+      select count(1) as count from t_stdtaskplan_series  t2 where t2.c_state='0' 
+			 and t2.c_exec_userid in
+			          (select dp.userid from dp_user dp where dp.orgid in (select orgid from dp_organization where parentorgid = #{dataId}))
+	    and t2.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') and t2.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+</select>
+
+ <!--部门未完成-->
+<select id="departUnfinished" parameterType="map" resultType="java.lang.Integer">
+   select count(1) as count from t_task t   where  t.c_status=#{status}                                        
+		and t.c_exec_userid in (
+		select dp.userid from  dp_user dp where dp.orgid in 
+		     (select o.orgid from dp_organization o where 
+		       o.parentorgid in
+		        ( select p.orgid from dp_organization p where p.orgtype='2'
+		            and p.orgid in (select og.parentorgid from dp_organization og where og.orgid in
+		              (select d.orgid from dp_user d where d.userid in
+		                 (select u.userid from dp_user u where u.usercode=#{userId} and u.isdelete=0))
+		                and og.isdelete=0  
+		        )
+		        and p.isdelete=0 
+		      )
+		    and o.isdelete=0
+		 )
+		 and dp.isdelete=0
+		)
+		and t.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') and t.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+</select>
+
+<!--根据id来查部门未完成-->
+<select id="departUnfinishedForDataId" parameterType="map" resultType="java.lang.Integer">
+   select count(1) as count from t_task t   where  t.c_status=#{status}                                        
+		and t.c_exec_userid in (select dp.userid from dp_user dp where dp.orgid in (select orgid from dp_organization where parentorgid = #{dataId}))
+		and t.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') and t.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+</select>
+
+ <!--部门已完成-->
+<select id="departfinished" parameterType="map" resultType="java.lang.Integer">
+  select count(1) as count  from t_task t   where  t.c_status=#{status}                                      
+		and t.c_exec_userid in (
+		select dp.userid from  dp_user dp where dp.orgid in 
+		     (select o.orgid from dp_organization o where 
+		       o.parentorgid in
+		        ( select p.orgid from dp_organization p where p.orgtype='2'
+		            and p.orgid in (select og.parentorgid from dp_organization og where og.orgid in
+		              (select d.orgid from dp_user d where d.userid in
+		                 (select u.userid from dp_user u where u.usercode=#{userId} and u.isdelete=0))
+		                and og.isdelete=0  
+		        )
+		        and p.isdelete=0 
+		      )
+		    and o.isdelete=0
+		 )
+		 and dp.isdelete=0
+		)
+		and t.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') and t.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+</select>
+
+<!--根据id来查部门已完成-->
+<select id="departfinishedForDataId" parameterType="map" resultType="java.lang.Integer">
+  select count(1) as count  from t_task t   where  t.c_status=#{status}                                      
+		and t.c_exec_userid in (select dp.userid from dp_user dp where dp.orgid in (select orgid from dp_organization where parentorgid = #{dataId}))
+		and t.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') and t.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+</select>
+
+<!--个人未完成已完成 -->
+ <select id="queryPersonTask" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.StaticalPojo">
+	 select t.c_task_name,t.c_status,t7.posiname,v.c_task_kindname,v2.typename,
+	   t5.orgname ,t.c_exec_username,t.c_areaname
+	   from t_task t      
+	        left outer join dp_user t4 on t.c_exec_userid=t4.userid 
+	        left outer join v_task_kind v on t.c_task_kind=v.c_task_kind
+	        left outer join v_task_type v2 on t.c_task_type=v2.typeid
+			left outer join dp_position t7 	on t4.positionid = t7.positionid 
+	        left outer join  dp_organization t6 on t6.orgid=t4.orgid
+	        left outer join dp_organization t5 on t5.orgid=t6.parentorgid                               
+	    where   t.c_status=#{status}  and  t.c_exec_userid in
+	                  (select u.userid from dp_user u where u.usercode=#{userId} and u.isdelete=0)   
+	    and t.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') and t.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+
+</select>
+
+<!-- 个人未生成 -->
+<select id="queryPersonUncreated" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.StaticalPojo">
+	select t2.c_plandown_time,v2.typename,u.displayname
+	 from t_stdtaskplan_series  t2 
+	      left outer join v_task_type v2 on t2.c_task_type=v2.typeid
+	      left outer join dp_user u on t2.c_exec_userid=u.userid
+	 where t2.c_state='0' 
+	 and t2.c_exec_userid in(
+			    (select u.userid from dp_user u where u.usercode=#{userId} and u.isdelete=0)
+			 ) 
+	 and t2.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') and t2.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+
+</select>
+
+<!--班组未生成 -->
+<select id="queryteamUncreated" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.StaticalPojo">
+	select t2.c_plandown_time,v2.typename,u.displayname
+	from t_stdtaskplan_series  t2 
+	    left outer join v_task_type v2 on t2.c_task_type=v2.typeid
+	    left outer join dp_user u on t2.c_exec_userid=u.userid
+	 where t2.c_state='0' 
+	 and t2.c_exec_userid in(
+			        select dp.userid from  dp_user dp where dp.orgid in 
+				     (select d.orgid from dp_user d where d.userid in
+				          (select u.userid from dp_user u where u.usercode=#{userId} and u.isdelete=0)
+				 )
+				 and dp.isdelete=0
+			 ) 
+	and t2.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') and t2.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+
+</select>
+<!--班组未已完成 -->
+<select id="queryteamTask" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.StaticalPojo">
+	select   t.c_task_name,t.c_status,t7.posiname,v.c_task_kindname,v2.typename,
+	   t5.orgname ,t.c_exec_username,t.c_areaname 
+	   from t_task t  
+	     left outer join dp_user t4 on t.c_exec_userid=t4.userid 
+	     left outer join v_task_kind v on t.c_task_kind=v.c_task_kind
+	      left outer join v_task_type v2 on t.c_task_type=v2.typeid
+			  left outer join dp_position t7 	on t4.positionid = t7.positionid 
+	        left outer join  dp_organization t6 on t6.orgid=t4.orgid
+	         left outer join dp_organization t5 on t5.orgid=t6.parentorgid   
+	    where  t.c_status=#{status}                                     
+				and t.c_exec_userid in (
+				select dp.userid from  dp_user dp where dp.orgid in 
+				     (select d.orgid from dp_user d where d.userid in
+				          (select u.userid from dp_user u where u.usercode=#{userId} and u.isdelete=0)
+				 )
+				 and dp.isdelete=0
+				)
+				and t.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') and t.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+	 
+ </select> 
+ 
+<!--部门未生成 -->
+<select id="querydepartUncreated" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.StaticalPojo">
+	select t2.c_plandown_time,v2.typename,
+	u.displayname
+	 from t_stdtaskplan_series  t2 
+	    left outer join v_task_type v2 on t2.c_task_type=v2.typeid
+	      left outer join dp_user u on t2.c_exec_userid=u.userid
+	 where t2.c_state='1' 
+			 and t2.c_exec_userid in(
+			      select dp.userid from  dp_user dp where dp.orgid in 
+				           (select o.orgid from dp_organization o where 
+				             o.parentorgid in
+				              ( select p.orgid from dp_organization p where p.orgtype='2'
+				                  and p.orgid in (select og.parentorgid from dp_organization og where og.orgid in
+				                    (select d.orgid from dp_user d where d.userid in
+				                       (select u.userid from dp_user u where u.usercode=#{userId} and u.isdelete=0))
+				                      and og.isdelete=0  
+				              )
+				              and p.isdelete=0 
+				            )
+				          and o.isdelete=0
+				       )
+				       and dp.isdelete=0
+			 ) 
+			and t2.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') and t2.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+
+</select>    
+  
+<!--部门未已完成 -->
+<select id="querydepartTask" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.StaticalPojo">
+	select   t.c_task_name,t.c_status,t7.posiname,v.c_task_kindname,v2.typename,
+	   t5.orgname ,t.c_exec_username,t.c_areaname 
+	   from t_task t  
+	     left outer join dp_user t4 on t.c_exec_userid=t4.userid 
+	     left outer join v_task_kind v on t.c_task_kind=v.c_task_kind
+	      left outer join v_task_type v2 on t.c_task_type=v2.typeid
+			  left outer join dp_position t7 	on t4.positionid = t7.positionid 
+	        left outer join  dp_organization t6 on t6.orgid=t4.orgid
+	         left outer join dp_organization t5 on t5.orgid=t6.parentorgid   
+	    where  t.c_status=#{status}                                      
+				and t.c_exec_userid in (
+				 select dp.userid from  dp_user dp where dp.orgid in 
+			     (select o.orgid from dp_organization o where 
+			       o.parentorgid in
+			        ( select p.orgid from dp_organization p where p.orgtype='2'
+			            and p.orgid in (select og.parentorgid from dp_organization og where og.orgid in
+			              (select d.orgid from dp_user d where d.userid in
+			                 (select u.userid from dp_user u where u.usercode=#{userId} and u.isdelete=0))
+			                and og.isdelete=0  
+			        )
+			        and p.isdelete=0 
+			      )
+			    and o.isdelete=0
+				 )
+				 and dp.isdelete=0
+				)
+				and t.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') and t.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+	        
+</select>
+
+<!-- 查询个人异常数 -->
+<select id="queryErrCount" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.StaticalPojo">
+			  with 
+				  D as (SELECT to_char((TO_DATE(#{startTime}, 'yyyy-mm-dd') + rownum - 1), 'yyyy-mm-dd') as mydate FROM dual CONNECT BY rownum &lt;= #{totalDay})
+				  ,U as (select ua.userid as userid from dp_user ua where ua.usercode = #{userId})
+				select  a.mydate, sum, sum2, sum3
+				  from 
+				      (select mydate, sum(NVL2(c_task_id, 1, 0)) as sum from
+				        (select D.mydate, tmpA.c_task_id from 
+				          (select to_char(t.c_start_time, 'yyyy-mm-dd') as mydate, t.c_task_id 
+				            from t_task t 
+				            where t.c_exec_userid in (select U.userid from U)
+				                  and to_char(t.c_start_time, 'yyyy-mm-dd') in (SELECT D.mydate from D)
+				         ) tmpA, D 
+				        where tmpA.mydate(+)=D.mydate) tA 
+				       group by mydate) A , 
+				      (select mydate, sum(NVL2(c_feedback_id, 1, 0)) as sum2 from 
+				       (select D.mydate, tmpB.c_feedback_id from 
+				        (select to_char(t2.c_feedback_time, 'yyyy-mm-dd') as mydate, t2.c_feedback_id 
+				            from t_error_feedback t2 
+				            where t2.c_receiver_userid in (select U.userid from U)
+				                 and to_char(t2.c_feedback_time, 'yyyy-mm-dd') in (SELECT D.mydate from D)
+				               and t2.c_feedback_type = 0
+				         ) tmpB, D 
+				        where tmpB.mydate(+)=D.mydate) tA 
+				       group by mydate) B ,  
+				       (select mydate, sum(NVL2(c_feedback_id, 1, 0)) as sum3 from 
+				        (select D.mydate, tmpC.c_feedback_id from 
+				          (select to_char(t2.c_feedback_time, 'yyyy-mm-dd') as mydate, t2.c_feedback_id 
+				             from t_error_feedback t2 
+				             where t2.c_feedbacker in (select U.userid from U)
+				                   and to_char(t2.c_feedback_time, 'yyyy-mm-dd') in (SELECT D.mydate from D)
+				                   and t2.c_feedback_type = 0
+				          ) tmpC, D 
+				         where tmpC.mydate(+)=D.mydate) tA 
+				        group by mydate
+				        order by mydate asc) C 
+				  where A.mydate = B.mydate and B.mydate=C.mydate
+</select>
+
+<!-- 查询班组异常数 -->
+<select id="queryteamErrCount" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.StaticalPojo">
+        with 
+			  D as (SELECT to_char((TO_DATE(#{startTime}, 'yyyy-mm-dd') + rownum - 1), 'yyyy-mm-dd') as mydate FROM dual CONNECT BY rownum &lt;= #{totalDay})
+			  ,U as ( select dp1.userid
+			                     from   dp_user dp1, dp_user dp2
+			                     where  dp2.usercode=#{userId}
+			                     and    dp1.orgid =dp2.orgid
+			                     and    dp1.isdelete=0
+			                     and    dp2.isdelete=0 )
+			select  a.mydate, sum, sum2, sum3
+			  from 
+			      (select mydate, sum(NVL2(c_task_id, 1, 0)) as sum from
+			        (select D.mydate, tmpA.c_task_id from 
+			          (select to_char(t.c_start_time, 'yyyy-mm-dd') as mydate, t.c_task_id 
+			            from t_task t 
+			            where t.c_exec_userid in (select U.userid from U)
+			                  and to_char(t.c_start_time, 'yyyy-mm-dd') in (SELECT D.mydate from D)
+			         ) tmpA, D 
+			        where tmpA.mydate(+)=D.mydate) tA 
+			       group by mydate) A , 
+			      (select mydate, sum(NVL2(c_feedback_id, 1, 0)) as sum2 from 
+			       (select D.mydate, tmpB.c_feedback_id from 
+			        (select to_char(t2.c_feedback_time, 'yyyy-mm-dd') as mydate, t2.c_feedback_id 
+			            from t_error_feedback t2 
+			            where t2.c_receiver_userid in (select U.userid from U)
+			                 and to_char(t2.c_feedback_time, 'yyyy-mm-dd') in (SELECT D.mydate from D)
+			               and t2.c_feedback_type = 0
+			         ) tmpB, D 
+			        where tmpB.mydate(+)=D.mydate) tA 
+			       group by mydate) B ,  
+			       (select mydate, sum(NVL2(c_feedback_id, 1, 0)) as sum3 from 
+			        (select D.mydate, tmpC.c_feedback_id from 
+			          (select to_char(t2.c_feedback_time, 'yyyy-mm-dd') as mydate, t2.c_feedback_id 
+			             from t_error_feedback t2 
+			             where t2.c_feedbacker in (select U.userid from U)
+			                   and to_char(t2.c_feedback_time, 'yyyy-mm-dd') in (SELECT D.mydate from D)
+			                   and t2.c_feedback_type = 0
+			          ) tmpC, D 
+			         where tmpC.mydate(+)=D.mydate) tA 
+			        group by mydate
+			        order by mydate asc) C 
+			  where A.mydate = B.mydate and B.mydate=C.mydate
+  
+</select>
+
+<!-- 查询id来查询班组异常数 -->
+<select id="queryteamErrCountForDataId" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.StaticalPojo">
+        with 
+			  D as (SELECT to_char((TO_DATE(#{startTime}, 'yyyy-mm-dd') + rownum - 1), 'yyyy-mm-dd') as mydate FROM dual CONNECT BY rownum &lt;= #{totalDay})
+			  ,U as ( select dp.userid from dp_user dp where dp.orgid = #{dataId} )
+			select  a.mydate, sum, sum2, sum3
+			  from 
+			      (select mydate, sum(NVL2(c_task_id, 1, 0)) as sum from
+			        (select D.mydate, tmpA.c_task_id from 
+			          (select to_char(t.c_start_time, 'yyyy-mm-dd') as mydate, t.c_task_id 
+			            from t_task t 
+			            where t.c_exec_userid in (select U.userid from U)
+			                  and to_char(t.c_start_time, 'yyyy-mm-dd') in (SELECT D.mydate from D)
+			         ) tmpA, D 
+			        where tmpA.mydate(+)=D.mydate) tA 
+			       group by mydate) A , 
+			      (select mydate, sum(NVL2(c_feedback_id, 1, 0)) as sum2 from 
+			       (select D.mydate, tmpB.c_feedback_id from 
+			        (select to_char(t2.c_feedback_time, 'yyyy-mm-dd') as mydate, t2.c_feedback_id 
+			            from t_error_feedback t2 
+			            where t2.c_receiver_userid in (select U.userid from U)
+			                 and to_char(t2.c_feedback_time, 'yyyy-mm-dd') in (SELECT D.mydate from D)
+			               and t2.c_feedback_type = 0
+			         ) tmpB, D 
+			        where tmpB.mydate(+)=D.mydate) tA 
+			       group by mydate) B ,  
+			       (select mydate, sum(NVL2(c_feedback_id, 1, 0)) as sum3 from 
+			        (select D.mydate, tmpC.c_feedback_id from 
+			          (select to_char(t2.c_feedback_time, 'yyyy-mm-dd') as mydate, t2.c_feedback_id 
+			             from t_error_feedback t2 
+			             where t2.c_feedbacker in (select U.userid from U)
+			                   and to_char(t2.c_feedback_time, 'yyyy-mm-dd') in (SELECT D.mydate from D)
+			                   and t2.c_feedback_type = 0
+			          ) tmpC, D 
+			         where tmpC.mydate(+)=D.mydate) tA 
+			        group by mydate
+			        order by mydate asc) C 
+			  where A.mydate = B.mydate and B.mydate=C.mydate
+  
+</select>
+
+
+<!-- 查询部门异常数 -->
+<select id="querydepartErrCount" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.StaticalPojo">
+        
+           with 
+			  D as (SELECT to_char((TO_DATE(#{startTime}, 'yyyy-mm-dd') + rownum - 1), 'yyyy-mm-dd') as mydate FROM dual CONNECT BY rownum &lt;= #{totalDay})
+			  ,U as (  select dp1.userid
+			                  from   dp_user dp1
+			                  where  dp1.isdelete=0
+			                  and exists  
+			                  (
+			                  select  orgid from
+			                  dp_organization org3
+			                  where  (orgtype=3 or orgtype=4) and dp1.orgid =org3.orgid
+			                  connect by prior  orgid=parentorgid
+			                  start with  orgid in(
+			                         select org.orgid
+			                         from   dp_organization org
+			                         where    org.isdelete=0 
+			                         and    org.orgtype=2
+			                         connect by  prior  org.parentorgid=org.orgid
+			                         start with   org.orgid=(select orgid from   dp_user  where  usercode=#{userId})
+			                  ))
+			  )
+			select  a.mydate, sum, sum2, sum3
+			  from 
+			      (select mydate, sum(NVL2(c_task_id, 1, 0)) as sum from
+			        (select D.mydate, tmpA.c_task_id from 
+			          (select to_char(t.c_start_time, 'yyyy-mm-dd') as mydate, t.c_task_id 
+			            from t_task t 
+			            where t.c_exec_userid in (select U.userid from U)
+			                  and to_char(t.c_start_time, 'yyyy-mm-dd') in (SELECT D.mydate from D)
+			         ) tmpA, D 
+			        where tmpA.mydate(+)=D.mydate) tA 
+			       group by mydate) A , 
+			      (select mydate, sum(NVL2(c_feedback_id, 1, 0)) as sum2 from 
+			       (select D.mydate, tmpB.c_feedback_id from 
+			        (select to_char(t2.c_feedback_time, 'yyyy-mm-dd') as mydate, t2.c_feedback_id 
+			            from t_error_feedback t2 
+			            where t2.c_receiver_userid in (select U.userid from U)
+			                 and to_char(t2.c_feedback_time, 'yyyy-mm-dd') in (SELECT D.mydate from D)
+			               and t2.c_feedback_type = 0
+			         ) tmpB, D 
+			        where tmpB.mydate(+)=D.mydate) tA 
+			       group by mydate) B ,  
+			       (select mydate, sum(NVL2(c_feedback_id, 1, 0)) as sum3 from 
+			        (select D.mydate, tmpC.c_feedback_id from 
+			          (select to_char(t2.c_feedback_time, 'yyyy-mm-dd') as mydate, t2.c_feedback_id 
+			             from t_error_feedback t2 
+			             where t2.c_feedbacker in (select U.userid from U)
+			                   and to_char(t2.c_feedback_time, 'yyyy-mm-dd') in (SELECT D.mydate from D)
+			                   and t2.c_feedback_type = 0
+			          ) tmpC, D 
+			         where tmpC.mydate(+)=D.mydate) tA 
+			        group by mydate 
+			        order by mydate asc) C 
+			  where A.mydate = B.mydate and B.mydate=C.mydate
+  
+ 
+</select>
+
+<!-- 根所id来查询部门异常数 -->
+<select id="querydepartErrCountForDataId" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.StaticalPojo">
+        
+           with 
+			  D as (SELECT to_char((TO_DATE(#{startTime}, 'yyyy-mm-dd') + rownum - 1), 'yyyy-mm-dd') as mydate FROM dual CONNECT BY rownum &lt;= #{totalDay})
+			  ,U as (select dp.userid from dp_user dp where dp.orgid in (select orgid from dp_organization where parentorgid = #{dataId}))
+			select  a.mydate, sum, sum2, sum3
+			  from 
+			      (select mydate, sum(NVL2(c_task_id, 1, 0)) as sum from
+			        (select D.mydate, tmpA.c_task_id from 
+			          (select to_char(t.c_start_time, 'yyyy-mm-dd') as mydate, t.c_task_id 
+			            from t_task t 
+			            where t.c_exec_userid in (select U.userid from U)
+			                  and to_char(t.c_start_time, 'yyyy-mm-dd') in (SELECT D.mydate from D)
+			         ) tmpA, D 
+			        where tmpA.mydate(+)=D.mydate) tA 
+			       group by mydate) A , 
+			      (select mydate, sum(NVL2(c_feedback_id, 1, 0)) as sum2 from 
+			       (select D.mydate, tmpB.c_feedback_id from 
+			        (select to_char(t2.c_feedback_time, 'yyyy-mm-dd') as mydate, t2.c_feedback_id 
+			            from t_error_feedback t2 
+			            where t2.c_receiver_userid in (select U.userid from U)
+			                 and to_char(t2.c_feedback_time, 'yyyy-mm-dd') in (SELECT D.mydate from D)
+			               and t2.c_feedback_type = 0
+			         ) tmpB, D 
+			        where tmpB.mydate(+)=D.mydate) tA 
+			       group by mydate) B ,  
+			       (select mydate, sum(NVL2(c_feedback_id, 1, 0)) as sum3 from 
+			        (select D.mydate, tmpC.c_feedback_id from 
+			          (select to_char(t2.c_feedback_time, 'yyyy-mm-dd') as mydate, t2.c_feedback_id 
+			             from t_error_feedback t2 
+			             where t2.c_feedbacker in (select U.userid from U)
+			                   and to_char(t2.c_feedback_time, 'yyyy-mm-dd') in (SELECT D.mydate from D)
+			                   and t2.c_feedback_type = 0
+			          ) tmpC, D 
+			         where tmpC.mydate(+)=D.mydate) tA 
+			        group by mydate 
+			        order by mydate asc) C 
+			  where A.mydate = B.mydate and B.mydate=C.mydate
+  
+ 
+</select>
+
+
+<!-- 查询个人异常总数 -->
+<select id="getpersonErrTotalCount" parameterType="map" resultType="java.lang.Integer">
+				select (A.totalNum1+B.totalNum2) as totalNum 
+				from 
+	           (select count(1) as totalNum1 from t_error_feedback t2 
+				   where t2.c_feedback_type=0 and t2.c_receiver_userid =
+				   (select u.userid from dp_user u where u.usercode=#{userId})
+				   and t2.c_feedback_time &lt; to_date(#{endTime},'yyyy-MM-dd hh24:mi:ss')
+				   and  t2.c_feedback_time>=to_date(#{startTime},'yyyy-MM-dd hh24:mi:ss'))A
+				,(select count(1) as totalNum2
+				   from t_error_feedback t2 
+				   where t2.c_feedback_type=0 and t2.c_feedbacker=
+				   (select u.userid from dp_user u where u.usercode=#{userId})
+				   and t2.c_feedback_time &lt; to_date(#{endTime},'yyyy-MM-dd hh24:mi:ss')
+				   and  t2.c_feedback_time>=to_date(#{startTime},'yyyy-MM-dd hh24:mi:ss'))B
+
+</select>
+
+<!-- 查询班组异常总数 -->
+<select id="getteamErrTotalCount" parameterType="map" resultType="java.lang.Integer">
+   select (A.totalNum1+B.totalNum2) as totalNum 
+        from 
+             (select count(1) as totalNum1 from t_error_feedback t2 
+           where t2.c_feedback_type=0 and t2.c_receiver_userid in
+           (select dp1.userid
+                     from   dp_user dp1, dp_user dp2
+                     where  dp2.usercode=#{userId}
+                     and    dp1.orgid =dp2.orgid
+                     and    dp1.isdelete=0
+                     and    dp2.isdelete=0)
+           and t2.c_feedback_time &lt; to_date(#{endTime},'yyyy-MM-dd hh24:mi:ss')
+           and  t2.c_feedback_time>=to_date(#{startTime},'yyyy-MM-dd hh24:mi:ss'))A
+        ,(select count(1) as totalNum2
+           from t_error_feedback t2 
+           where t2.c_feedback_type=0 and t2.c_feedbacker in
+           (select dp1.userid
+                     from   dp_user dp1, dp_user dp2
+                     where  dp2.usercode=#{userId}
+                     and    dp1.orgid =dp2.orgid
+                     and    dp1.isdelete=0
+                     and    dp2.isdelete=0)
+           and t2.c_feedback_time &lt; to_date(#{endTime},'yyyy-MM-dd hh24:mi:ss')
+           and  t2.c_feedback_time>=to_date(#{startTime},'yyyy-MM-dd hh24:mi:ss'))B 
+</select>
+
+<!-- 查询id来查询班组异常总数 -->
+<select id="getteamErrTotalCountForDataId" parameterType="map" resultType="java.lang.Integer">
+   select (A.totalNum1+B.totalNum2) as totalNum 
+        from 
+             (select count(1) as totalNum1 from t_error_feedback t2 
+           where t2.c_feedback_type=0 and t2.c_receiver_userid in
+           (select dp.userid from dp_user dp where dp.orgid = #{dataId})
+           and t2.c_feedback_time &lt; to_date(#{endTime},'yyyy-MM-dd hh24:mi:ss')
+           and  t2.c_feedback_time>=to_date(#{startTime},'yyyy-MM-dd hh24:mi:ss'))A
+        ,(select count(1) as totalNum2
+           from t_error_feedback t2 
+           where t2.c_feedback_type=0 and t2.c_feedbacker in
+           (select dp.userid from dp_user dp where dp.orgid = #{dataId})
+           and t2.c_feedback_time &lt; to_date(#{endTime},'yyyy-MM-dd hh24:mi:ss')
+           and  t2.c_feedback_time>=to_date(#{startTime},'yyyy-MM-dd hh24:mi:ss'))B 
+</select>
+
+<!-- 查询部门异常总数 -->
+<select id="getdepartErrTotalCount" parameterType="map" resultType="java.lang.Integer">
+      select (A.totalNum1+B.totalNum2) as totalNum 
+				from 
+	           (select count(1) as totalNum1 from t_error_feedback t2 
+				   where t2.c_feedback_type=0 and t2.c_receiver_userid in
+           (select dp1.userid
+                  from   dp_user dp1
+                  where  dp1.isdelete=0
+                  and exists  
+                  (
+                  select  orgid from
+                  dp_organization org3
+                  where  (orgtype=3 or orgtype=4) and dp1.orgid =org3.orgid
+                  connect by prior  orgid=parentorgid
+                  start with  orgid in(
+                         select org.orgid
+                         from   dp_organization org
+                         where    org.isdelete=0 
+                         and    org.orgtype=2
+                         connect by  prior  org.parentorgid=org.orgid
+                         start with   org.orgid=(select orgid from   dp_user  where  usercode=#{userId})
+                  )) )
+				   and t2.c_feedback_time &lt; to_date(#{endTime},'yyyy-MM-dd hh24:mi:ss')
+				   and  t2.c_feedback_time>=to_date(#{startTime},'yyyy-MM-dd hh24:mi:ss'))A
+				,(select count(1) as totalNum2
+				   from t_error_feedback t2 
+				   where t2.c_feedback_type=0 and t2.c_feedbacker in
+           (select dp1.userid
+                  from   dp_user dp1
+                  where  dp1.isdelete=0
+                  and exists  
+                  (
+                  select  orgid from
+                  dp_organization org3
+                  where  (orgtype=3 or orgtype=4) and dp1.orgid =org3.orgid
+                  connect by prior  orgid=parentorgid
+                  start with  orgid in(
+                         select org.orgid
+                         from   dp_organization org
+                         where    org.isdelete=0 
+                         and    org.orgtype=2
+                         connect by  prior  org.parentorgid=org.orgid
+                         start with   org.orgid=(select orgid from   dp_user  where  usercode=#{userId})
+                  )))
+				   and t2.c_feedback_time &lt; to_date(#{endTime},'yyyy-MM-dd hh24:mi:ss')
+				   and  t2.c_feedback_time>=to_date(#{startTime},'yyyy-MM-dd hh24:mi:ss'))B
+</select>
+     
+     <!-- 根据id来查询部门异常总数 -->
+<select id="getdepartErrTotalCountForDataId" parameterType="map" resultType="java.lang.Integer">
+      select (A.totalNum1+B.totalNum2) as totalNum 
+				from 
+	           (select count(1) as totalNum1 from t_error_feedback t2 
+				   where t2.c_feedback_type=0 and t2.c_receiver_userid in
+           (select dp1.userid
+                  from   dp_user dp1
+                  where  dp1.isdelete=0
+                  and exists  
+                  (
+                  select  orgid from
+                  dp_organization org3
+                  where  (orgtype=3 or orgtype=4) and dp1.orgid =org3.orgid
+                  connect by prior  orgid=parentorgid
+                  start with  orgid in(
+                         select org.orgid
+                         from   dp_organization org
+                         where    org.isdelete=0 
+                         and    org.orgtype=2
+                         connect by  prior  org.parentorgid=org.orgid
+                         start with   org.orgid=#{dataId}
+                  )) )
+				   and t2.c_feedback_time &lt; to_date(#{endTime},'yyyy-MM-dd hh24:mi:ss')
+				   and  t2.c_feedback_time>=to_date(#{startTime},'yyyy-MM-dd hh24:mi:ss'))A
+				,(select count(1) as totalNum2
+				   from t_error_feedback t2 
+				   where t2.c_feedback_type=0 and t2.c_feedbacker in
+           (select dp1.userid
+                  from   dp_user dp1
+                  where  dp1.isdelete=0
+                  and exists  
+                  (
+                  select  orgid from
+                  dp_organization org3
+                  where  (orgtype=3 or orgtype=4) and dp1.orgid =org3.orgid
+                  connect by prior  orgid=parentorgid
+                  start with  orgid in(
+                         select org.orgid
+                         from   dp_organization org
+                         where    org.isdelete=0 
+                         and    org.orgtype=2
+                         connect by  prior  org.parentorgid=org.orgid
+                         start with   org.orgid=#{dataId}
+                  )))
+				   and t2.c_feedback_time &lt; to_date(#{endTime},'yyyy-MM-dd hh24:mi:ss')
+				   and  t2.c_feedback_time>=to_date(#{startTime},'yyyy-MM-dd hh24:mi:ss'))B
+</select>
+     
+     
+     
+<!-- 查询个人任务总数 -->
+<select id="getpersonTaskCount" parameterType="map" resultType="java.lang.Integer">
+    select count(1) from t_task t where t.c_exec_userid in =#{userId} 
+      and t.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') 
+      and t.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+</select>
+
+<!-- 查询班组任务总数 -->
+<select id="getteamTaskCount" parameterType="map" resultType="java.lang.Integer">
+     select count(1) from t_task t where t.c_exec_userid in 
+      (select dp1.userid
+                     from   dp_user dp1, dp_user dp2
+                     where  dp2.usercode=#{userId} 
+                     and    dp1.orgid =dp2.orgid
+                     and    dp1.isdelete=0
+                     and    dp2.isdelete=0)  
+      and t.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') 
+      and t.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+ </select>     
+      
+<!-- 查询部门任务总数 -->
+<select id="getdepartTaskCount" parameterType="map" resultType="java.lang.Integer">   
+    select count(1) from t_task t where t.c_exec_userid in 
+      (select dp1.userid
+                  from   dp_user dp1
+                  where  dp1.isdelete=0
+                  and exists  
+                  (
+                  select  orgid from
+                  dp_organization org3
+                  where  (orgtype=3 or orgtype=4) and dp1.orgid =org3.orgid
+                  connect by prior  orgid=parentorgid
+                  start with  orgid in(
+                         select org.orgid
+                         from   dp_organization org
+                         where    org.isdelete=0 
+                         and    org.orgtype=2
+                         connect by  prior  org.parentorgid=org.orgid
+                         start with   org.orgid=(select orgid from   dp_user  where  usercode=#{userId} )
+                  )))  
+      and t.c_start_time >= to_date(#{startTime},'YYYY/MM/DD hh24:mi:ss') 
+      and t.c_start_time &lt; to_date(#{endTime},'YYYY/MM/DD hh24:mi:ss')
+</select>
+
+<!-- 查询个人工作执行异常列表 -->
+<select id="queryPersonErrList" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.StaticalPojo">
+          select t.c_feedback_title,t.c_manage_sectionname,t.c_receiver_username,t.c_feedbacker_name,t.c_feedback_time,t.c_receiver_time
+			  from t_error_feedback t where t.c_receiver_userid
+			 =(select u.userid from dp_user u where u.usercode=#{userId})
+			  and t.c_feedback_type=0
+			  and t.c_feedback_time >= TO_DATE(#{startTime}, 'yyyy-mm-dd')
+			  and t.c_feedback_time &lt; TO_DATE(#{endTime}, 'yyyy-mm-dd')
+</select>
+
+<!-- 查询个人反馈异常列表 -->
+<select id="queryPersonErrList2" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.StaticalPojo">
+          select t.c_feedback_title,t.c_manage_sectionname,t.c_receiver_username,t.c_feedbacker_name,t.c_feedback_time,t.c_receiver_time
+			  from t_error_feedback t where t.c_feedbacker
+			 =(select u.userid from dp_user u where u.usercode=#{userId})
+			  and t.c_feedback_type=0
+			  and t.c_feedback_time >= TO_DATE(#{startTime}, 'yyyy-mm-dd')
+			  and t.c_feedback_time &lt; TO_DATE(#{endTime}, 'yyyy-mm-dd')
+</select>
+
+
+<!-- 查询班组工作执行异常列表 -->
+<select id="queryTeamErrList" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.StaticalPojo">    
+       select t.c_feedback_title,t.c_manage_sectionname,t.c_receiver_username,t.c_feedbacker_name,t.c_feedback_time,t.c_receiver_time
+			  from t_error_feedback t where t.c_receiver_userid
+			 in( select dp1.userid
+			                     from   dp_user dp1, dp_user dp2
+			                     where  dp2.usercode=#{userId}
+			                     and    dp1.orgid =dp2.orgid
+			                     and    dp1.isdelete=0
+			                     and    dp2.isdelete=0 )
+			 and t.c_feedback_type=0
+			  and t.c_feedback_time >= TO_DATE(#{startTime}, 'yyyy-mm-dd')
+			  and t.c_feedback_time &lt; TO_DATE(#{endTime}, 'yyyy-mm-dd')
+</select>
+
+<!-- 查询班组反馈异常列表 -->
+<select id="queryTeamErrList2" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.StaticalPojo">    
+       select t.c_feedback_title,t.c_manage_sectionname,t.c_receiver_username,t.c_feedbacker_name,t.c_feedback_time,t.c_receiver_time
+			  from t_error_feedback t where t.c_feedbacker
+			 in( select dp1.userid
+			                     from   dp_user dp1, dp_user dp2
+			                     where  dp2.usercode=#{userId}
+			                     and    dp1.orgid =dp2.orgid
+			                     and    dp1.isdelete=0
+			                     and    dp2.isdelete=0 )
+			 and t.c_feedback_type=0
+			  and t.c_feedback_time >= TO_DATE(#{startTime}, 'yyyy-mm-dd')
+			  and t.c_feedback_time &lt; TO_DATE(#{endTime}, 'yyyy-mm-dd')
+</select>
+
+<!-- 查询部门工作执行异常列表 -->
+<select id="queryDepartErrList"  parameterType="map" resultType="com.talkweb.xwzcxt.pojo.StaticalPojo">  
+     select t.c_feedback_title,t.c_manage_sectionname,t.c_receiver_username,t.c_feedbacker_name,t.c_feedback_time,t.c_receiver_time
+			  from t_error_feedback t where t.c_receiver_userid
+			 in(  select dp1.userid
+			                  from   dp_user dp1
+			                  where  dp1.isdelete=0
+			                  and exists  
+			                  (
+			                  select  orgid from
+			                  dp_organization org3
+			                  where  (orgtype=3 or orgtype=4) and dp1.orgid =org3.orgid
+			                  connect by prior  orgid=parentorgid
+			                  start with  orgid in(
+			                         select org.orgid
+			                         from   dp_organization org
+			                         where    org.isdelete=0 
+			                         and    org.orgtype=2
+			                         connect by  prior  org.parentorgid=org.orgid
+			                         start with   org.orgid=(select orgid from   dp_user  where  usercode=#{userId})
+			                  )) )
+			  and t.c_feedback_type=0
+			  and t.c_feedback_time >= TO_DATE(#{startTime}, 'yyyy-mm-dd')
+			  and t.c_feedback_time &lt; TO_DATE(#{endTime}, 'yyyy-mm-dd')
+</select>
+
+<!-- 查询部门反馈异常列表 -->
+<select id="queryDepartErrList2"  parameterType="map" resultType="com.talkweb.xwzcxt.pojo.StaticalPojo">  
+     select t.c_feedback_title,t.c_manage_sectionname,t.c_receiver_username,t.c_feedbacker_name,t.c_feedback_time,t.c_receiver_time
+			  from t_error_feedback t where t.c_feedbacker
+			 in(  select dp1.userid
+			                  from   dp_user dp1
+			                  where  dp1.isdelete=0
+			                  and exists  
+			                  (
+			                  select  orgid from
+			                  dp_organization org3
+			                  where  (orgtype=3 or orgtype=4) and dp1.orgid =org3.orgid
+			                  connect by prior  orgid=parentorgid
+			                  start with  orgid in(
+			                         select org.orgid
+			                         from   dp_organization org
+			                         where    org.isdelete=0 
+			                         and    org.orgtype=2
+			                         connect by  prior  org.parentorgid=org.orgid
+			                         start with   org.orgid=(select orgid from   dp_user  where  usercode=#{userId})
+			                  )) )
+			  and t.c_feedback_type=0
+			  and t.c_feedback_time >= TO_DATE(#{startTime}, 'yyyy-mm-dd')
+			  and t.c_feedback_time &lt; TO_DATE(#{endTime}, 'yyyy-mm-dd')
+</select>
+
+ <select id="checkTempStatus"  parameterType="map" resultType="java.lang.Integer">
+     select count(1) from t_task_pointcheck t where t.c_object_typeid
+        in (select distinct t4.c_tabletype_id from tb_integrate_info t4 where t4.c_basedata_name like '%温湿度%')
+        and exists (
+        select 1 from dp_area a
+        where t.c_area_id =a.area
+        connect by prior a.area=a.uparea
+        start with  a.uparea =#{upArea})
+
+</select>
+
+<select id="checkEnergyStatus"  parameterType="map" resultType="java.lang.Integer">
+ select count(1) from t_task_pointcheck t where t.c_object_typeid
+		 in (select distinct t4.c_tabletype_id from tb_integrate_info t4 where t4.c_basedata_name like '%灭火器%')
+		 and exists (
+		select 1 from dp_area a
+		where t.c_area_id =a.area
+		connect by prior a.area=a.uparea
+		start with  a.uparea =#{upArea})
+</select>
+
+
+<select id="getAreaIdName"  parameterType="String" resultType="com.talkweb.xwzcxt.pojo.StaticalPojo">
+       select a.area,a.areaname from dp_area a where a.uparea=#{area}
+  </select>
+       
+</mapper>

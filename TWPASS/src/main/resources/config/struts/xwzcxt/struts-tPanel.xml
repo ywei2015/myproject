@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="tPanel" extends="json-default">
+		<action name="getPanelInfoCountAction" class="com.talkweb.xwzcxt.action.TPanelAction" method="getPanelInfoCount">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="getPanelInfoListAction" class="com.talkweb.xwzcxt.action.TPanelAction" method="getPanelInfoList">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="readInformationAction" class="com.talkweb.xwzcxt.action.TPanelAction" method="readInformation">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+	</package>
+</struts>

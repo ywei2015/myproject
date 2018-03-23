@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>新增时间规则</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="addTimeRule.js"></script>
+</head>
+<body>
+<!-- initSource='basicObj_initFormControl.action' -->
+	<form id="addTimeRuleForm" itype="Form" saveInstance="true" action="" onSubmitSuccess="submitSuccess()" submitJson="false" onBeforeReady="FormReady()" onBeforeInit="BeforeInit()">
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px"><span class="ui-red">*</span>规则名称：</td>
+				<td class="ui-form-table-dd"  colspan=3><div itype="TextBox" id="basicMouldPojo.c_timerule_name" width="100%" rule="required;"></div></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">管控类别：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select"  id="basicMouldPojo.c_ctrl_type" width="100%"> 
+            			<option text="-请选择-"></option>
+            			<option text="日管控" value="1"></option>
+            			<option text="周管控" value="2"></option>
+            			<option text="月管控" value="3"></option>
+            			<option text="其它" value="4"></option>
+					</select>
+				</td>
+				<td class="ui-form-table-dt" style="width: 100px">月范围：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" id="basicMouldPojo.c_month_set" width="100%"></div></td>
+				
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">日范围：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" id="basicMouldPojo.c_day_set" width="100%"></div></td>
+				<td class="ui-form-table-dt" style="width: 100px">周范围：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" id="basicMouldPojo.c_week_set" width="100%"></div></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">完成时间关系：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select"  id="basicMouldPojo.c_time_relate" width="100%"> 
+            			<option text="-请选择-"></option>
+            			<option text="绝对时间" value="0"></option>
+            			<option text="间隔时长" value="1"></option>
+					</select>
+				</td>
+				<td class="ui-form-table-dt" style="width: 100px">完成日期关系：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select"  id="basicMouldPojo.c_date_relate" width="100%"> 
+            			<option text="-请选择-"></option>
+            			<option text="当日" value="0"></option>
+            			<option text="月底最后一个工作日" value="1"></option>
+            			<option text="当前周最后一个工作日" value="2"></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px"><span class="ui-red">*</span>开始时间点：</td>
+				<td class="ui-form-table-dd">
+				<div itype="TextBox" id="basicMouldPojo.c_start_time" width="100%" rule="required;"></div>
+				<!-- <div itype="DatePicke" id="basicMouldPojo.c_start_time" width="100%" format="HH:mm" rule="required;"></div>-->
+				 </td>
+				<td class="ui-form-table-dt" style="width: 100px"><span class="ui-red">*</span>完成时间：</td>
+				<td class="ui-form-table-dd">
+				<div itype="TextBox" id="basicMouldPojo.c_end_time" width="100%" rule="required;"></div>
+				<!-- <div itype="DatePicke" id="basicMouldPojo.c_end_time" width="100%" format="HH:mm" rule="required;"></div>-->
+				</td>
+				
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">催促时间：</td>
+				<td class="ui-form-table-dd">
+				<div itype="TextBox" id="basicMouldPojo.c_urge_time" width="100%"></div>
+				<!-- <div itype="DatePicke" id="basicMouldPojo.c_urge_time" width="100%" format="HH:mm"></div>-->
+				</td>
+				<td class="ui-form-table-dt" style="width: 100px">逾报时间：</td>
+				<td class="ui-form-table-dd">
+				<div itype="TextBox" id="basicMouldPojo.c_exceed_time" width="100%"></div>
+				<!-- <div itype="DatePicke" id="basicMouldPojo.c_exceed_time" width="100%" format="HH:mm"></div>-->
+				</td>
+				
+			</tr>
+			<tr hidden="true">
+				<td class="ui-form-table-dt" style="width: 100px">规则定义：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" id="basicMouldPojo.c_rule_define" width="100%"></div></td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

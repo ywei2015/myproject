@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="action-log.xsd">
+	<namespace id="component.user" extends="component.default" />
+	<module id="M32" name="用户管理" />
+	<action-define>
+		<action class="UserMngAction">
+			<method name="addUser">
+				<type>add</type>
+				<description>新增用户信息。</description>
+				<result>
+					<success>新增用户信息成功。新增用户，用户编号：${user.staff.staffCode}、用户账号：${user.staff.userCode}、用户姓名：${user.staff.staffName}、用户类型：${user.userType}、所属组织编号：${user.orgId}。</success>
+					<throws param="ex">新增用户信息失败。异常信息：${ex}</throws>
+				</result>
+			</method>
+			<method name="modifyUser">
+				<type>modify</type>
+				<description>修改用户信息。</description>
+				<result>
+					<success>修改用户信息成功。用户ID：${user.userId}。职员ID：${user.staffId}</success>
+					<throws param="ex">修改用户信息失败。异常信息：${ex}</throws>
+				</result>
+			</method>
+			<method name="addPartUser">
+				<type>add</type>
+				<description>添加兼职信息。</description>
+				<result>
+					<success>添加兼职信息成功。用户职员编号：${staffid}、组织编号：${orgid}、兼职岗位编号：${positionid}。</success>
+					<throws param="ex">添加兼职失败。异常信息：${ex}</throws>
+				</result>
+			</method>
+			<method name="delPartUser">
+				<type>delete</type>
+				<description>删除用户兼职信息。</description>
+				<result>
+					<success>删除用户兼职成功。已删除兼职ID：${id}。</success>
+					<throws param="ex">删除兼职失败。异常信息：${ex}</throws>
+				</result>
+			</method>
+			<method name="delUser">
+				<type>delete</type>
+				<description>删除用户信息。</description>
+				<result>
+					<success>删除用户信息成功。已删除用户ID：${id}。</success>
+					<throws>删除用户失败。</throws>
+				</result>
+			</method>
+			<method name="moveEmpFromOrgToOrg">
+				<type>modify</type>
+				<description>变更用户所属组织机构。</description>
+			</method>
+			<method name="addRoleWithuser">
+				<type>add</type>
+				<description>分配用户关联角色。</description>
+				<result>
+					<success>分配关联角色成功。用户编号：${userid}、角色编号：${roleids}。</success>
+					<throws>分配角色失败。</throws>
+				</result>
+			</method>
+			<method name="delHasRelRoles">
+				<type>delete</type>
+				<description>解除用户角色关联。</description>
+				<result>
+					<success>解除角色关联成功。用户编号：${userid}、角色编号：${id}。</success>
+				</result>
+			</method>
+			<method name="modifyPassWord">
+				<type>modify</type>
+				<description>修改用户密码。</description>
+				<result>
+					<success>密码修改成功。用户编号：${userid}。</success>
+				</result>
+			</method>
+			<method name="getUserInfo">
+				<type>visit</type>
+				<description>查看用户详情。</description>
+				<result>
+					<success>被查看详情用户编号：${userid}。</success>
+					<throws>查询失败。</throws>
+				</result>
+			</method>
+			<method name="initRightViewTree">
+				<type>visit</type>
+				<description>查看用户权限视图。</description>
+				<result>
+					<success>查询成功。用户编号：${userid}。</success>
+					<throws>查询失败。</throws>
+				</result>
+			</method>
+		</action>
+	</action-define>
+</actions>

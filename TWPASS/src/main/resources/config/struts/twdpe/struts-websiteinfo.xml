@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+		"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+		"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="struts-info" extends="struts-default">
+		<!-- 初始化加载默认收件箱 -->
+		<action name="mail_queryOtherMsgByPage" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="queryOtherMsgByPage" />
+		
+		<!-- 初始化加载私人信件收件箱 -->
+		<action name="mail_queryownerMsgByPage" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="queryownerMsgByPage" />
+		
+		<!-- 初始化加载私人历史信件收件箱 -->
+		<action name="mail_queryhistoryMsgByPage" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="queryhistoryMsgByPage" />
+		
+		<!-- 初始化重要提醒收件箱 -->
+		<action name="mail_querywarnMsgByPage" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="querywarnMsgByPage" />
+		
+		<!-- 初始化加载发件箱 -->
+		<action name="mail_querySendMsgByPage" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="querySendMsgByPage" />
+	
+		<!-- 删除收件箱邮件 -->
+		<action name="mail_deleteMsg" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="deleteMsg" />
+	
+	    <!-- 删除历史收件箱邮件 -->
+		<action name="mail_deleteHisMsg" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="deleteHisMsg" />
+	
+		<!-- 删除发件箱邮件 -->
+		<action name="mail_deleteSendMsg" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="deleteSendMsg" />
+	
+		<!-- 根据收件人ID获取邮件信息 -->
+		<action name="mail_getMail" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="getMail" />
+		
+		<!-- 根据收件人ID获取历史邮件信息 -->
+		<action name="mail_getHisMail" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="getHisMail" />
+		
+		<!-- 根据发件人ID获取邮件信息 -->
+		<action name="mail_getsendMail" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="getSendMsg" />
+		
+		<!-- 新增发件信息 -->
+		<action name="mail_addSendMsg" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="addSendMsg">
+		 	<result name="success" type="redirect">writemail.html</result>
+		</action>
+		<!-- 检测发送填写正确性 -->
+		<action name="mail_addSendViewMsg" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="addSendViewMsg">
+		 	<result name="success" type="redirect">writemail.html</result>
+		</action>
+		<!-- 检测发送填写正确性 -->
+		<action name="mail_checkMsg" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="checkMsg">
+		 	<result name="success" type="redirect">writemail.html</result>
+		</action>
+		
+		<!-- 修改未读邮件信息 -->
+		<action name="mail_markReaded" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="markReaded" />
+		
+		<!-- 修改未读历史邮件信息 -->
+		<action name="mail_markHisReaded" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="markHisReaded" />
+		
+		<!-- 初始化加载历史发件箱 -->
+		<action name="mail_queryHisSendMsgByPage" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="queryHisSendMsgByPage" />
+	
+		<!-- 删除历史发件箱邮件 -->
+		<action name="mail_deleteHisSendMsg" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="deleteHisSendMsg"/>
+		
+		<!-- 根据消息ID获取历史发件信息 -->
+		<action name="mail_getHissendMail" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="getHisSendMsg" />
+		
+		<!-- 清空历史发件信息 -->
+		<action name="mail_delAllHisSendMsg" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="delAllHisSendMsg" />
+		
+		<!-- 清空历史收件信息 -->
+		<action name="mail_delAllHisMsg" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="delAllHisMsg" />
+		
+		<!-- 清空发件信息 -->
+		<action name="mail_delAllSendMsg" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="delAllSendMsg" />
+		
+		<!-- 清空默认收件信息 -->
+		<action name="mail_delAllInternalMsg" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="delAllInternalMsg" />
+		
+		<!-- 清空私人收件信息 -->
+		<action name="mail_delAllownerMsg" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="delAllownerMsg" />
+		
+		<!-- 清空私人收件信息 -->
+		<action name="mail_delAllwarnMsg" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="delAllwarnMsg" />
+		
+		
+		<!-- 2011-7-11原型修改后新增 -->
+		<!-- 数据查找消息类型 -->
+		<action name="mail_gettype" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="gettype" >
+			<result name="success" type="redirect">Receivemail_manage.html</result>			
+		</action>		
+		<!-- 根据maildatatype(收件箱或发件箱)和mailtype(信件类型)查询消息列表 -->
+		<action name="mail_getMailList" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="getMailList" />
+		<!-- 删除消息 -->
+		<action name="mail_newdeleteMsg" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="newdeleteMsg" />
+		<!-- 清空消息 -->
+		<action name="mail_clearMsg" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="clearMsg" />
+		<!-- 获取用户信息 -->
+		<action name="mail_getUser" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="getUser" />
+		<!-- 获取各种信息 及相关用于详细资料展示-->
+		<action name="mail_newgetMail" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="newgetMail" />
+		<!-- 详细界面删除后取下一个消息-->
+		<action name="mail_delAndgetMail" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="delAndgetMail" />
+		<!-- 获取未读记录总数-->
+		<action name="mail_getCountAll" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="getCountAll" />
+		
+		<action name="mail_delMail" class="com.talkweb.twdpe.webcomponent.component.InternalMailAction" method="delMail" />
+		
+		
+	</package>
+</struts>

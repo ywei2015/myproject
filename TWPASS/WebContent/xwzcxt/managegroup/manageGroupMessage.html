@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>管理工作圈</title>
+
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../fastdev/common.js"></script>
+<script src="manageGroupMessage.js"></script>
+<style type="text/css">
+	.alignClass{
+		text-align:center;
+	}
+</style>
+</head>
+<body style="overflow-y: auto;" class="ui-layout-body ui-layout-body-bg ui-layout-container"> 
+	<!--
+	 <form id="hiddenform" itype="Form" requestType="post" saveInstance="true">
+		<input itype="TextBox" id="taskId" name="taskId" type="hidden" />
+	</form> 
+	-->
+	<div class="ui-layout-center" style="height: 100%;">
+	 	<form id="searchGroupMessageForm" itype="Form" requestType="post" saveInstance="true"
+				>
+			<table class="ui-form-table">
+				<tr valign="middle">
+					<td class="ui-form-table-dt" style="width:100px;">关键字：</td>
+					<td class="ui-form-table-dd"  >
+					  	<div itype="TextBox" id="manageGroupMessagePojo.c_msg_content" width="100%"></div>
+					</td>
+				</tr>
+				<tr valign="middle">
+					<td class="ui-form-table-dd" colspan="6" align="right">
+						<div  width ="100px" itype="Button" id="searchBtn" text="查询" iconCls="icon-search" onClick="searchForm()"></div>
+						<div  width ="100px" itype="Button" id="resetBtn" text="重置" iconCls="icon-reset" onClick="resetForm()"></div>
+					</td>
+				</tr>
+			</table>
+		</form>
+		<div itype="DataGrid" id="messagegrid"  initSource="ManageGroup_searchMessage.action"  
+			onAfterInitRender="onAfterInitRender()" allowResizeColumn="true" showSeqColumn="true"
+			saveInstance="true"  showCheckColumn="true" "
+			pageSize="15"     style="top: -10px"
+			onRowClick="onRowClick()">	
+			
+			<div name="top-toolbar">
+					<div plain=true text="批量删除" id="add" display="true"
+						iconCls="icon-delete" onClick="batchDeleteObject()"></div>
+			</div>
+			<div name="rowDetail">
+				<div itype="DataGrid" id="commentDetailGrid" pagePosition="none" allowResizeColumn="true"
+					saveInstance="true"  onBeforeReady="onBeforeDetailGridReady()" onRowClick="onRowClickDetail()"
+					onAfterInitRender="onAfterInitRenderDetail()">
+					<div hidden="true" name="c_id" ></div>
+					<div hidden="true" name="c_msg_id"></div>
+					<div width="77%" name="c_comm_content" text="评论内容"></div>
+					<div width="4%" name="displayname" text="评论人"></div>
+					<div width="15%" name="c_comm_time" text="评论时间" itype="datetime" format="yyyy-MM-dd HH:mm:ss" renderer="timeRenderer()"></div>
+					<div width="4%"  text="操作" titleCls="alignClass" renderer="operRendererDetail()"></div>
+				</div>
+			</div>	 	
+			<!-- 列属性定义-->
+			<div hidden="true" name="c_msg_id"></div>
+			<div width="4%" name="displayname" text="发送人" titleCls="alignClass"></div>
+			<div width="77%" name="c_msg_content" text="动态内容" titleCls="alignClass"></div>
+			<div width="15%" name="c_msg_time"  text="动态发送时间" itype="datetime" format="yyyy-MM-dd HH:mm:ss" renderer="timeRenderer()"  titleCls="alignClass"></div>
+			<div width="4%"  text="操作" titleCls="alignClass" renderer="operRenderer()"></div>
+ 			<div name="pageSizeList">
+			   <div value="5" text="5条"></div>
+			   <div value="10" text="10条"></div>
+			   <div value="15" text="15条"></div>
+			   <div value="20" text="20条"></div>
+			   <div value="50" text="50条"></div>
+			</div>
+		</div> 
+		<br/>
+	</div>
+  
+	
+</body>
+</html>

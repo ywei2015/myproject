@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="renderer" content="ie-comp" />
+<title>任务评价</title>
+<script src="../../../fastdev/fastDev-import.js"></script>
+<script src="../../../fastdev/common2.js"></script>
+<script type="text/javascript" src="taskComment.js"></script>
+</head>
+<body>
+		<form id="orgform" itype="Form" requestType="post" saveInstance="true">
+	
+			<table class="ui-form-table">
+	
+				<tr valign="middle">
+	    			  <td class="ui-form-table-dt" style="width:100px;">板块：</td>
+					<td class="ui-form-table-dd"  >
+					   <select width="100%" itype="Select" id="cManageSection"
+							saveInstance=true  initSource="task_getManageSectionList.action">
+							<option value="">--请选择--</option>
+						</select>
+						
+					</td>
+					<td class="ui-form-table-dt" style="width:100px;">任务类别：</td>
+					<td class="ui-form-table-dd"  >
+					   <select width="100%" itype="Select" id="cTaskType"
+					         onAfterInitRender="onchange()"
+							saveInstance=true initSource="task_getTaskTypeList.action">
+							<option value="">--请选择--</option>
+							
+						</select>
+					</td>
+					<td class="ui-form-table-dt" style="width: 100px;">执行人：</td>
+					<td class="ui-form-table-dd"><div itype="TextBox"
+							id="execUsername" name="execUsername" width="100%"></div></td>
+				</tr>	
+				<tr valign="middle">
+					<td class="ui-form-table-dt" style="width: 60px;">执行是否逾期：</td>
+					<td class="ui-form-table-dd" width="100px" ><select itype="Select"
+						id="isExpired" width="100%" saveInstance="true">
+							<option>全部</option>
+							<option value="1">逾期</option>
+							<option value="2">按期完成</option>
+					</select></td>
+					
+					<td class="ui-form-table-dt" style="width: 100px;" >验证结果：</td>
+					<td class="ui-form-table-dd">
+					<select itype="Select"  width="100%" 
+					     name="cChkResult" id="cChkResult" >
+					     <option value="" >---请选择---</option>
+					     <option value="OK" >正常</option>
+					     <option value="NG" >异常</option>
+					</select></td>
+					
+					<td class="ui-form-table-dt" style="width: 60px;">验证人：</td>
+					<td class="ui-form-table-dd">
+						<div itype="TextBox" id="cChkUsername" width="100%"></div>
+					</td>
+				</tr>	
+				<tr valign="middle">
+					<td class="ui-form-table-dt" style="width: 100px;">评价状态：</td>
+					<td class="ui-form-table-dd">
+						<select itype="Select" name="status" id="status" width="100%"
+							onchange="isCommented()">
+							<option value="-1">全部</option>
+							<option value="34" selected>未评价</option>
+							<option value="350">已评价未发起事件</option>
+							<option value="35">已评价</option>
+						</select>
+					</td>
+	          
+					<td class="ui-form-table-dt" style="width: 100px;">评价结果：</td>
+					<td class="ui-form-table-dd">
+						<select itype="Select" width="100%" name="cEvaluateResult"
+							id="cEvaluateResult" disabled=true>
+							<option value="">---请选择---</option>
+							<option value="OK">合格</option>
+							<option value="NG">不合格</option>
+						</select>
+					</td>
+					<td class="ui-form-table-dt" style="width: 60px;">评价人：</td>
+					<td class="ui-form-table-dd" width="100px" >
+					<div itype="TextBox" id="cEvaluateUsername" width="100%"></div>
+					</td>
+					
+					<td class="ui-form-table-dd" style="display: none">
+					<select itype="Select" id="extype" name ="extype" width="100%" saveInstance="true" >
+						<option>-请选择-</option>
+						<option value="1" text="单点"></option>
+					</select>
+				</td>
+				<td class="ui-form-table-dt"  style="display: none">usercode：</td>
+				<td class="ui-form-table-dd"  style="display: none">
+					<div itype="TextBox" id="userCode" name="userCode" width="100%"></div>
+				</td>
+					
+				</tr>
+				
+				<!--  
+					<td class="ui-form-table-dt" style="width: 100px;">任务执行范围：</td>
+					<td class="ui-form-table-dd"><input itype="DatePicker"
+						id="startTime" name="startTime" timeBefore="end"
+						format="yyyy-MM-dd HH:mm:ss" width="100%" /></td>
+					<td class="ui-form-table-dt"
+						style="width: 20px; text-align: center;">到</td>
+					<td class="ui-form-table-dd"><input itype="DatePicker"
+						id="endTime" timeAfter="start" format="yyyy-MM-dd HH:mm:ss"
+						width="100%" /></td>
+					-->
+				
+					<tr valign="middle">
+					    <td class="ui-form-table-dt" style="width: 100px;">年份：</td>
+				<td class="ui-form-table-dd" ><select width="100%" saveInstance=true itype="Select"  id="year" name="year">
+				     <option value=''>---请选择----</option>
+				     <script> writeYear();</script>
+				</select>
+				</td>
+				<td class="ui-form-table-dt" style="width: 100px;">月份：</td>
+				<td class="ui-form-table-dd"  ><select saveInstance=true itype="Select" width="100%"
+				 id="month" name="month" >
+				      <option value=''>---请选择----</option>
+				      <script type="text/javascript">
+				            writeMonth();
+				      </script>
+				</select></td>
+						<td class="ui-form-table-dd" colspan="2" align="right">
+	
+						<div itype="Button" id="searchBtn" width="100px" text="查询"
+							iconCls="icon-search" onClick="doSearch()"></div>
+	
+						<div itype="Button" id="resetBtn" width="100px" text="重置"
+							iconCls="icon-reset" onClick="doResetOrg()"></div>
+	
+					</td>
+				</tr>
+				
+	
+			</table>
+	
+		</form>
+	
+	
+			<div itype="DataGrid" id="grid1" name="grid1" allowResizeColumn=true
+				onBeforeReady="onBeforeReady()" showSeqColumn=true showCheckColumn="true"
+				onAfterInitRender="onAfterInitRender()" pageSize="15"
+				saveInstance=true>
+				
+				<div name="top-toolbar">
+				     <div plain=true text="导出评价" id="export" display="false" iconCls="icon-export" onclick="exportXLS()"></div>
+				     <div itype="separator"></div>
+				     <div plain=true text="批量提交" id="submit"  display="false"
+					      iconCls="icon-save" onClick="mutiSubmit()"></div>
+				     <div itype="separator"></div>
+			    </div>
+				
+				<div width="
+				16%" id="cTaskName" name="cTaskName" renderer="toDetailsLink()" text="任务名称"></div>
+				<div text="板块" name="cManageSectionName" width="8%"></div>
+				<div text="任务类型" name="typename" width="15%"></div>
+				<div width="
+				10%" id="cStatusName" name="cStatusName" renderer="toEventLink()" text="任务执行状态"></div>
+				<div width="12%" name="cExecUserInfo" text="执行人"></div>
+				<div width="20%" itype="date" format="yyyy-MM-dd HH:mm"
+					name="cEndTime" text="要求完成时间"></div>
+				<div width="20%" name="cFactEndtime" itype="date"
+					format="yyyy-MM-dd HH:mm" text="实际完成时间"></div>
+				<div width="8%" name="isExpired" renderer=toIsExpired() text="执行是否逾期"></div>
+				<div width="15%" name="cChkUserInfo" text="验证人"></div>
+				<div width="8%" name="cChkResult" text="验证结果"></div>
+				<div width="20%" name="cEvaluateUserInfo" text="评价人"></div>
+				
+				<div width="8%" name="c_review_std" text="评价标准"
+					renderer="operLinkRenderer()"></div>
+				
+				<div width="200px" name="cEvaluateResult" text="评价"
+					renderer="toRadioBoxes()"></div>
+				<div width="10%" name="cTaskId" text="操作" renderer="toSubmit()"></div>
+				<div hidden=true name="c_std_verflag"></div>
+				<div hidden="true" name="c_ex_iemisevent"></div>
+				<div name="pageSizeList">
+			  		 <div value="5" text="5条"></div>
+			 		 <div value="10" text="10条"></div>
+			  		 <div value="15" text="15条"></div>
+			  		 <div value="20" text="20条"></div>
+			  		 <div value="50" text="50条"></div>
+				</div>
+			</div>
+			<div id="submit22"  style="display:none;">
+			<table class="ui-form-table">
+				<tr>
+					<td class="ui-form-table-dt" style="width: 100px">批量提交：</td>
+					<td class="ui-form-table-dd" style="width: 200px">
+						<div itype="RadioGroup" saveInstance=true onchange="showCheck()"
+							id="rowCheck" name="rowCheck">
+							<div value="1" text="全选"></div>
+							&nbsp;&nbsp;&nbsp;
+							<div value="2" text="取消已选"></div>
+	
+						</div>
+					</td>
+					<td class="ui-form-table-dd" style="width: 100px">
+						<div itype="Button" text="提交" onclick="mutiSubmit()"></div>
+					</td>
+	
+				</tr>
+			</table>
+			</div>
+		<iframe src="about:blank" style="display: none;" id="dc"></iframe>
+
+</body>
+</html>

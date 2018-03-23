@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../fastdev/common.js"></script>
+<script src="map.js"></script>
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	<div class="ui-layout-left" style="width: 200px; height: 98.7%;">
+		<div class="ui-layout-title" style="padding-left: 5px;">作业对象树</div>
+		<div id="tableTypeTree" itype="Tree" saveInstance="true" showIco="true"
+			width="100%" rootValue="所有作业对象" topParentid="-1" height="95%"
+			initSource="jobObjects_getTableTypeTree.action" openFloor=2
+			onNodeClick="onNodeClick()" onlySelectedLeaf=true textMaxLength="40"
+			onAfterInitRender="afterInitRender()"></div>
+	</div>
+	<div class="ui-layout-center" style="left: 201px;">
+		<iframe id="map" frameborder="0" scrolling="no" ></iframe>
+	</div>
+</body>
+</html>

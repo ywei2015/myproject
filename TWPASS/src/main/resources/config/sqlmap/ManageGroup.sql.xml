@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ManageGroup">
+	<!--查询聊天记录  -->
+	<select id="getGroupChat" parameterType="com.talkweb.xwzcxt.pojo.ManageGroupPojo"
+	      resultType="com.talkweb.xwzcxt.pojo.ManageGroupPojo">
+	select 
+       c_id,
+       b.c_user_name,
+       c_chat_text,
+       c_chat_time,
+       c_group_name,
+       groupcreator 
+                         
+    from( 
+         select 
+              a.c_id,    
+              a.c_user_id,
+              a.c_chat_text,
+              a.c_chat_time,
+              b.c_group_name,
+              c.displayname as groupcreator
+         from t_circle_groupchat a,t_circle_group b,dp_user c 
+         where
+         		 a.c_group_id = b.c_group_id 
+          and 	
+		       	b.c_group_creator= to_char(c.userid)
+                and a.c_isdelete='1'
+                 <if	 test="powerClass==2">
+			       	 <if test="orgId != null and orgId != ''">
+                     and b.c_group_creator  
+                       in ( 
+                       		select 
+                       			d.userid 
+                           			from( 
+                                           select 
+                                           		rr.*,substr(nn.path,9,7)as orgcode2 
+                                           from 
+                                           		dp_user rr,dp_organization nn ,dp_position pp
+                                            where 
+                                            	rr.positionid = pp.positionid and nn.orgid = rr.orgid)d
+                            where d.orgcode2 =#{orgId})
+                     	 </if>
+		       	 </if>
+          )a
+              
+               left join 
+                t_circle_user b
+               on 
+                a.c_user_id=to_char(b.c_user_id)
+                where 1=1
+		 <if test="c_chat_text != null and c_chat_text != ''">
+		   
+			and a.c_chat_text like '%${c_chat_text}%'
+		 </if>
+		 <if test="c_group_name != null and c_group_name != ''">
+			and a.c_group_name like '%${c_group_name}%'
+		 </if>
+		 <if test="groupcreator != null and groupcreator != ''">
+			and a.groupcreator like '%${groupcreator}%'
+		 </if>
+		 
+		 order by
+		 	a.c_chat_time desc
+	</select>
+	<!-- 逻辑删除聊天记录 -->
+	<update id="deleteGroupChat"  parameterType="java.util.Map">
+	     update
+	     		 t_circle_groupchat
+	     set 
+	     		c_isdelete = 0 
+	     where 
+	     		c_id=#{c_id}
+	</update>
+	<!--查询动态  -->
+	<select id="getGroupMessage" parameterType="com.talkweb.xwzcxt.pojo.ManageGroupMessagePojo"
+	      resultType="com.talkweb.xwzcxt.pojo.ManageGroupMessagePojo">
+		select 
+				a.c_msg_id,
+				b.displayname,
+				a.c_msg_content,
+				a.c_msg_time
+		from 
+				t_circle_message a,dp_user b
+		where 
+				 a.c_user_id=b.userid
+		and
+				 a.c_isdelete=1
+		<if	 test="powerClass==2">
+			<if test="orgId != null and orgId != ''">
+			  and    a.c_user_id
+                       in ( 
+                       		select 
+                       			d.userid 
+                           			from( 
+                                           select 
+                                           		rr.*,substr(nn.path,9,7)as orgcode2 
+                                           from 
+                                           		dp_user rr,dp_organization nn ,dp_position pp
+                                            where 
+                                            	rr.positionid = pp.positionid and nn.orgid = rr.orgid)d
+                            where d.orgcode2 =#{orgId})
+			    
+		   
+			</if>
+		</if>
+		 <if test="c_msg_content != null and c_msg_content != ''">
+			and a.c_msg_content like '%${c_msg_content}%'
+		 </if>
+		 
+		   order by
+		    	a.c_msg_time desc
+		
+	</select>
+	<!-- 逻辑删除动态 -->
+	<update id="deleteGroupMessage"  parameterType="java.util.Map">
+	     update
+	     		 t_circle_message 
+	     set 
+	     		c_isdelete = 0,
+	     		c_deletetime=#{c_deletetime}
+	     where 
+	     		c_msg_id=#{c_msg_id}
+	    
+	</update>
+	<!--根据动态id查询评论  -->
+	<select id="getCommentByMessageId" parameterType="java.util.Map" 
+	    resultType="com.talkweb.xwzcxt.pojo.ManageGroupMsgCommentPojo">
+	     select 
+	     		a.c_id,a.c_msg_id,c.displayname,a.c_comm_time,a.c_comm_content
+         from 
+         		t_circle_msg_comment a,t_circle_message b,dp_user c 
+         where 
+         		a.c_msg_id=b.c_msg_id
+         and 
+         		a.c_comm_userid=to_char(c.userid)
+         and    
+         		a.c_msg_id=#{c_msg_id}
+	    order by 
+	    	a.c_comm_time desc
+	</select>
+	<!-- 物理删除评论 -->
+	<delete id="deleteMsgComment"  parameterType="java.util.Map" >
+	    delete 
+	    	t_circle_msg_comment
+	    where 
+	    	c_id=#{c_id}
+	    
+	</delete>
+	<!-- 更新动态表中的c_comment_time字段 -->
+	<update id="updateMsg" parameterType="java.util.Map">
+	    update 
+	    		t_circle_message
+	    set    
+	    		c_comment_time=#{date}
+	    where
+	    		c_msg_id=#{c_msg_id}
+	</update>
+	<!-- 查询用户权限等级 -->
+	<select id="getPowerClass" parameterType="map" resultType="string" >
+	   select
+        count(*)
+      from 
+        dp_userrole a,dp_role b 
+      where 
+        a.roleid=b.roleid 
+      and 
+        a.userid= #{userid}
+        and a.roleid = #{roleId}
+	</select>
+	<!-- 得到部门id -->
+	<select id="getOrgId" parameterType="map" resultType="string">
+	     select 
+	     		a.path 
+	     from  
+	     		dp_organization a,dp_user b 
+	     where 
+	     		a.orgid=b.orgid and b.userid=#{userId}
+	</select>
+	
+	<select id="getManGroupChatById" parameterType="java.lang.String"
+	      resultType="com.talkweb.xwzcxt.pojo.ManageGroupPojo">
+	      select * 
+         from t_circle_groupchat 
+         where c_id=#{c_id}
+	</select>
+	
+	<select id="getManGroupMagById" parameterType="java.lang.String"
+	      resultType="com.talkweb.xwzcxt.pojo.ManageGroupMessagePojo">
+	      select * 
+         from t_circle_message  
+         where c_msg_id=#{c_msg_id}
+	</select>
+	
+	<select id="getMsgCommentById" parameterType="java.lang.String"
+	      resultType="com.talkweb.xwzcxt.pojo.ManageGroupMsgCommentPojo">
+	      select * 
+         from t_circle_msg_comment  
+         where c_id=#{c_id} 
+	</select>
+	
+</mapper>

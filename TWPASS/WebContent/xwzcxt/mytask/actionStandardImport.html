@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>岗位活动作业标准导入</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+
+
+<script src="../../js/jquery.min.js"></script>
+<script src="../../../src/fastDev-import.js"></script>
+
+
+
+<style>
+html,body {
+	height: 100%;
+}
+
+
+
+.ui-myfileupload {
+	position: relative;
+	display: inline-block;
+}
+</style>
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+    <div style="width: 99%;height:95%;">
+		<table class="ui-form-table">
+		    <tr>
+				<td class="ui-form-table-dd">导出岗位活动作业标准Excel文件 :<div itype="Button"  text="导出" display="true" id="exportbutton"
+					iconCls="icon-add" onClick="exportAction()"></div></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dd">导入岗位活动作业标准Excel文件: </td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dd">
+					<div itype="FileUpload" name="upfileExcel" typeLimit="xls,xlsx" width="40%" 
+						 action="uploadaction_analyzeActionStandardExcelFile.action"
+						 onBeforeReady="onBeforeExcelFileUploadReady()" 
+						 onChooseError="chooseExcelError()" 
+						 onFileChoose="onExcelFileChooseChange()" 
+						 onUploadSuccess="onUploadExcelSuccess()" 
+						 onUploadFail="onUploadExcelFail()">
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>个人执行力统计</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../js/jquery-1.9.1.min.js"></script>
+
+<script type="text/javascript">
+
+function beforeReady(){
+	//var url="http://10.159.31.38:18080/smartbi/vision/openresource.jsp?resid=I8a1f9fa677e4c196014f450306a24a3c&smartbiCookie="+smartbiCookie;
+	//$('#day').attr('url',url);
+	
+	var smartbiCookie=getUrlParam("smartbiCookie");
+	var host=window.location.host;
+	
+	var tag=[];
+	if(smartbiCookie!=null&&smartbiCookie!=""){
+		tag.push('<div title="日执行力" url="http://10.159.31.33:19009/smartbi/vision/openresource.jsp?resid=I8a1f9fa677e4c196014f450306a24a3c&smartbiCookie='+smartbiCookie+'" showCloseBtn="false" style="height:98%;"></div>');
+		tag.push('<div title="周执行力" url="http://10.159.31.33:19009/smartbi/vision/openresource.jsp?resid=I8a1f9fa677e4c196014f49f36ac152ab&smartbiCookie='+smartbiCookie+'" showCloseBtn="false" style="height:98%;"></div>');
+		tag.push('<div title="月执行力" url="http://10.159.31.33:19009/smartbi/vision/openresource.jsp?resid=I8a1f9fa677e4c196014f49b449bb50ac&smartbiCookie='+smartbiCookie+'" showCloseBtn="false" style="height:98%;"></div>');
+		tag.push('<div title="年执行力" url="http://10.159.31.33:19009/smartbi/vision/openresource.jsp?resid=I8a1f9fa677e4c196014f49e520fa5227&smartbiCookie='+smartbiCookie+'" showCloseBtn="false" style="height:98%;"></div>');
+	}else{
+		tag.push('<div title="日执行力" url="http://10.159.31.33:19009/smartbi/vision/openresource.jsp?resid=I8a1f9fa677e4c196014f450306a24a3c" showCloseBtn="false" style="height:98%;"></div>');
+		tag.push('<div title="周执行力" url="http://10.159.31.33:19009/smartbi/vision/openresource.jsp?resid=I8a1f9fa677e4c196014f49f36ac152ab" showCloseBtn="false" style="height:98%;"></div>');
+		tag.push('<div title="月执行力" url="http://10.159.31.33:19009/smartbi/vision/openresource.jsp?resid=I8a1f9fa677e4c196014f49b449bb50ac" showCloseBtn="false" style="height:98%;"></div>');
+		tag.push('<div title="年执行力" url="http://10.159.31.33:19009/smartbi/vision/openresource.jsp?resid=I8a1f9fa677e4c196014f49e520fa5227" showCloseBtn="false" style="height:98%;"></div>');
+	}
+	$("#tabs1").append($(tag.join('')));
+}  
+
+
+function getUrlParam(name) {
+	var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)'); //构造一个含有目标参数的正则表达式对象
+	var r = window.location.search.substr(1).match(reg); //匹配目标参数
+	if (null != r) {
+		return unescape(r[2]);
+	} else {
+		return null; //返回参数值
+	}  
+}
+</script>
+<style type="text/css">
+.alignClass {
+	text-align: center;
+}
+</style>
+
+</head>
+<body>
+	<form id="report" itype="Form" onBeforeReady="beforeReady()" >
+		<div itype="Tabs" id="tabs1"  width="99.5%" saveInstance="true" height="680px" >
+		
+		<!-- <div title="日执行力" url="http://10.159.31.38:18080/smartbi/vision/openresource.jsp?resid=I8a1f9fa677e4c196014f450306a24a3c" showCloseBtn="false" style="height:98%;">
+		</div> -->
+		
+		</div>
+	</form>
+</body>
+</html>

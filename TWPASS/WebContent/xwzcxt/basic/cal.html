@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>日历管理</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="cal.js"></script>
+
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container"> 
+		 	<form id="checkform" itype="Form" requestType="post" saveInstance="true"  >
+		 	<div itype="TextBox" type="hidden" id="startTime"></div>
+		 	<div itype="TextBox" type="hidden" id="endTime"></div>
+				<table class="ui-form-table">
+					<tr valign="middle">
+						<!-- <td class="ui-form-table-dt" style="width:100px;">日历名称：</td>
+						<td class="ui-form-table-dd"><div itype="TextBox" id="basicMouldPojo.c_calendar_name" width="100%"></div></td> -->			
+						<td class="ui-form-table-dd" style="width:200px;">
+						     <select itype="Select" id="year"  width="100%" onchange="onchangeYear()">
+								<script>writeYear();</script>
+				             </select>
+						</td>
+						<td class="ui-form-table-dt" style="width:30px;">年</td>
+						<td class="ui-form-table-dd" style="width:200px;">
+						    <select itype="Select" id="month"  value="-1" width="100%" onchange="onchangeMonth()">
+								<option value="-1">全年</option>
+								<script>writeMonth();</script>
+				            </select>
+				        </td>
+						<td class="ui-form-table-dt" style="width:30px;">月</td>
+						
+						<td class="ui-form-table-dd">
+							<div itype="Button" id="searchBtn" text="查询"  width="150px" iconCls="icon-search" onClick="doSearch()" ></div>
+							<!-- <div itype="Button" id="resetBtn" text="重置" iconCls="icon-reset" onClick="doReset()"></div> -->
+						</td>
+					</tr>
+				</table>
+			</form>
+		<div itype="DataGrid" id="grid1" onBeforeReady="onBeforeReady()" showSeqColumn=true onAfterInitRender="onAfterInitRender()"
+			pageSize="20" saveInstance=true keyword="c_id"  onRowClick="onRowClick()" onAfterDataRender="onAfterDataRender()">		
+			<div name="top-toolbar">
+				<div plain=true text="新增" iconCls="icon-add"  display="false"  id="add"   onclick="doAddBasic()"></div>
+				<div itype="separator"></div>
+				<div plain=true text="批量删除" iconCls="icon-delete"  display="false"  id="delete"   onclick="doBatchDeleteCheckModel()"></div>
+				<div itype="separator"></div>
+				<div plain=true text="修改" iconCls="icon-edit"  display="false"  id="edit"   onclick="editCalendar()"></div>
+			</div>	
+		
+			<!-- 列属性定义-->
+			<div hidden="true" name="c_id"></div>	
+			<div width="13%" name="c_date" itype="date" format="yyyy-MM-dd" text="日期" ></div>
+			<!-- <div width="10%" name="c_calendar_name" text="日历类别名称"></div> -->
+			<div width="13%" name="c_day_of_week" text="星期几" ></div>
+			<div width="13%" name="c_work_date" itype="date" format="yyyy-MM-dd" text="产能日期" ></div>
+			<div width="13%" name="c_theory_isworkday" text="理论是否工作" ></div>
+			<div width="13%" name="c_fact_isworkday" text="实际是否工作" ></div>
+			<div width="13%" name="c_remark" text="备注" ></div>
+			<div width="5%" text="操作" itype="template" tpl="#{operTpl}"></div>
+	  </div>
+	  
+  </body>
+</html>

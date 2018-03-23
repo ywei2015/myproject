@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>dict.html</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <script src="../../fastdev/fastDev-import.js"></script>
+        <script type="text/javascript" src="addDictType.js"></script>     
+    </head>
+    <body>
+    	<form itype="Form" id="dictTypeForm" requestType="post" action="dict_addDictType.action" submitJson="false" saveInstance="true" onSubmitSuccess="onSubmitSuccess()">
+    		<table class="ui-form-table">
+    			<tr>
+    				<th class="ui-form-table-dt" style="100px;"><span class="ui-red">*</span>类型编码：</th>
+    				<td class="ui-form-table-dd"><div itype="TextBox" id="dictTypeInfo.dicttypeid" width="100%" rule="required;MaxLength:32" tips="字典类型的编码标识"></div></td>
+    			</tr>
+    			<tr>
+    				<th class="ui-form-table-dt" style="100px;"><span class="ui-red">*</span>类型名称：</th>
+    				<td class="ui-form-table-dd"><div itype="TextBox" id="dictTypeInfo.dicttypename" width="100%" rule="required;MaxLength:50"></div></td>
+    			</tr>
+    			<tr>
+    				<th class="ui-form-table-dt" style="100px;"><span class="ui-red">*</span>父节点:</th>
+    				<td class="ui-form-table-dd">
+    					<div itype="SelectTree" inside="false" id="dictTypeInfo.parentid" initSource="dict_initDictTypeTree.action" onBeforeReady="onParentBeforeReady()" topParentid="ROOT" openFloor=2 width="100%" rule="required"></div>
+    			</tr>
+    			<tr>
+    				<th class="ui-form-table-dt" style="100px;"><span class="ui-red">*</span>类型：</th>
+    				<td class="ui-form-table-dd">
+    					<select itype="Select" inside="false" id="dictTypeInfo.type" width="100%" rule="required">
+    						<option>-请选择-</option>
+    						<option value="1">列表</option>
+    						<option value="2">分层</option>
+    					</select>
+    				</td>
+    			</tr>
+    			<tr>
+    				<th class="ui-form-table-dt">全称：</th>
+    				<td class="ui-form-table-dd" width="205"><div itype="TextBox" id="dictTypeInfo.fullname" width="100%" rule="MaxLength:255"></div></td>
+    			</tr>
+    			<tr>
+    				<th class="ui-form-table-dt"><span class="ui-red">*</span>可修改：</th>
+    				<td class="ui-form-table-dd" width="205">
+    					<div itype="RadioGroup" id="dictTypeInfo.allowmodify" rule="required">
+    						<div value="1" text="是" checked="true"></div>	
+    						<div value="0" text="否"></div>	
+    					</div>
+    				</td>
+    			</tr>
+    		</table>
+    	</form>
+    </body>
+</html>

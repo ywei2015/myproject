@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="struts-actnode" extends="json-default">
+		<action name="actnode_*" class="com.talkweb.xwzcxt.action.ActnodeAction"
+			method="{1}">
+			<param name="aliases">#{'page' : 'pagination.currPage','rows' :
+				'pagination.size','pageSize' : 'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+	</package>
+    <package name="struts-acyanc" extends="json-default">
+    	<action name="acyanc_*" class="com.talkweb.xwzcxt.action.YanChongImportAction"
+			method="{1}">
+			<param name="aliases">#{'page' : 'pagination.currPage','rows' :
+				'pagination.size','pageSize' : 'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+    
+    </package>
+	<package name="tsdactnode" extends="twdpe-common-default">
+		<action name="getAllActNodesByConditionsAction" class="com.talkweb.xwzcxt.action.ActnodeAction"
+			method="getAllActNodesByConditions">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' :
+				'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="getAllActNodesByConditionsByPublicAction" class="com.talkweb.xwzcxt.action.ActnodeAction"
+			method="getAllActNodesByConditionsByPublic">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' :
+				'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="getAllActNodesByConditionsForSearchAction" class="com.talkweb.xwzcxt.action.ActnodeAction"
+			method="getAllActNodesByConditionsForSearch">
+			<param name="aliases">#{'page' : 'pagination.currPage','pageSize' :
+				'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="getActNodeItemByActNodeIDAction" class="com.talkweb.xwzcxt.action.ActnodeAction"
+			method="getActNodeItemByActNodeID">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="getActNodeByActNodeIDAction" class="com.talkweb.xwzcxt.action.ActnodeAction"
+			method="getActNodeByActNodeID">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="getActNodeByActNodeIDGridAction" class="com.talkweb.xwzcxt.action.ActnodeAction"
+			method="getActNodeByActNodeIDGrid">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<!-- 5w2h标准汇总作业类导出ACTION配置-->
+		<action name="exportOperation" class="com.talkweb.xwzcxt.action.ActnodeAction"
+			method="exportOperation">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<!-- 5w2h标准汇总管理类导出ACTION配置-->
+		<action name="exportManage" class="com.talkweb.xwzcxt.action.ActnodeAction"
+			method="exportManage">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="selectPathNameByIDAction" class="com.talkweb.xwzcxt.action.ActnodeAction"
+			method="selectPathNameByID">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title></title>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8"></meta>
+		<script src="../../fastdev/fastDev-import.js"></script>
+		<script src="../../fastdev/common.js"></script>
+		<script src="message.js"></script>
+		<style type="text/css">
+			.alignClass{
+				text-align:center;
+			}
+			.news_body{ 
+				
+				  font-family: "Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti;
+				  letter-spacing:0.08em;
+				 
+				  color: #4a4b4d;
+				  text-align: center;
+					width: 100%; border:1px solid #eee; *+height:100%;
+			}
+			.news_body h1{ border-bottom: 1px solid #1ea056; height: 30px; padding: 0 10px; background-color: #fafafa;}
+			.news_body h1 span,.news_body h1 a{display: block; height:30px; line-height: 30px;}
+			.news_body h1 span{ float: left; font-size: 14px; font-weight: bold; }
+			.news_body h1 a{ float: right; color:#1ea056;}
+			.news_body ul{ padding:0 10px;}
+			.news_body ul li{height: 30px;}
+			.news_body ul li span{ line-height: 30px; display: block;}
+			.news_body ul li span.new_title{ background:url("../images/news_list_icon.png") no-repeat left center; float: left; padding-left:15px; }
+			.news_body ul li span.add_time{ float: right; color:#999;}
+			#Article{}
+			#Article h1{ background: none; text-align: center; font-size:20px; border: 0; padding:10px 0;}
+			#Article .Art_Property{ padding: 0 0 10px 0; border-bottom:1px solid #eee; margin-bottom: 10px; height:20px; text-align: center; }
+			#Article .Art_Property span{ display: inline-block; padding: 0 10px 0 0; height:20px; line-height: 20px;}
+			#Article .Art_Property span a,
+			#Article .Art_Property span font{ display: inline-block; height:20px; line-height: 20px; float: left; font-size:12px;}
+			#Article .Art_Property span a{width:20px; padding-right:5px; }
+			#Article .Art_con{}
+			#Article .Art_con p{ margin-bottom: 10px;text-indent:20px; line-height: 1.8em;}
+		</style>	
+	</head>
+	<body>
+		<div class="ui-layout-center" >
+			<form id="checkform" itype="Form" requestType="post" saveInstance="true">
+				<table class="ui-form-table">
+					<tr valign="middle">
+						<td class="ui-form-table-dt" style="width:80px">消息主题：</td>
+						<td class="ui-form-table-dd">
+						<select width="100%"  itype="Select" id="message.c_msg_type" initSource="basecomm_getAllMsgTypeList.action">
+						   <option >--请选择--</option>
+						</select></td>
+						<td class="ui-form-table-dt" style="width:80px">消息来源：</td>
+						<td class="ui-form-table-dd"><select width="100%"  width="100%" itype="Select" id="message.c_from" >
+								<option >--请选择--</option>
+								<option value="">工作安排</option>
+								<option value="">工作任务</option>
+								<option value="">异常处理</option>
+								<option value="">验证</option>
+								<option value="">评价</option>
+						</select></td>
+						
+						<td class="ui-form-table-dt" style="width:80px">状态：</td>
+					    <td class="ui-form-table-dd">
+							<select width="100%" itype="Select" id="message.c_status"  >
+								<option>-请选择-</option>
+								<option value="0">未读</option>
+								<option value="22">已读</option>
+							</select>
+						</td>
+						
+					</tr>
+					<tr valign="middle">
+					    
+						<td align="right" class="ui-form-table-dd" style="width:200px" width="200px" colspan="6">
+							<div itype="Button" id="send" display="false" width="100px" text="发起消息"  onClick="newMsg()"></div>
+							<div itype="Button" id="searchBtn" width="100px" text="查询" iconCls="icon-search" onClick="searchForm()"></div>
+							<div itype="Button" id="resetBtn" width="100px" text="重置" iconCls="icon-reset" onClick="resetForm()"></div>
+						</td>
+					</tr>
+				</table>
+			</form>
+                	
+				<div itype="DataGrid" id="grid1" pageSize="15" 
+				saveInstance=true onBeforeReady="onBeforeReady()" 
+				onRowClick="onRowClick()" allowResizeColumn=true
+				onAfterInitRender="onAfterInitRender()"
+				>	
+					<div width="15%" name="c_msg_title" text="消息主题" renderer="renderer()" titleCls="alignClass"></div>
+					<div text="消息来源" name="c_from" width="20%" titleCls="alignClass"></div>
+					<div width="40%" name="c_msg_content" text="消息内容" renderer="toFormat()" titleCls="alignClass"></div>
+					<div text="逾期时间" name="c_expiry_time" width="15%" titleCls="alignClass"></div>
+					<div width="20%" name="c_create_time" text="接收时间" renderer="renderer()" titleCls="alignClass"></div>
+					<div width="10%" name="c_sender_name" text="发送人" renderer="renderer()" titleCls="alignClass"></div>
+					<div width="5%" name="c_status_string" text="状态" renderer="renderer()" titleCls="alignClass"></div>
+					
+					<div hidden="true" name="c_msg_id"></div>
+					<div name="pageSizeList">
+		   				<div value="5" text="5条"></div>
+		   				<div value="10" text="10条"></div>
+		   				<div value="15" text="15条"></div>
+		   				<div value="20" text="20条"></div>
+		   				<div value="50" text="50条"></div>
+					</div>
+				</div> 
+				<div id="msgDetail" style="padding-left:10px;display:none;">
+	    		
+				<div class="news_body">
+					<!--文章块-->
+					<div id="Article">
+						<h1 id="v_title"></h1>
+						<div class="Art_Property">
+							<span><font id="v_time"></font></span>
+							<span><font id="v_from"></font></span>
+							<span><font id="v_state"></font></span>
+						</div>
+						<div class="Art_con">
+							<p id="v_content"></p>
+						</div>
+					</div>
+					<!--文章块 end-->
+				</div>
+				<div class="clear"></div>
+       		</div>
+		    </div>
+		   
+	    
+       
+	</body>
+</html>

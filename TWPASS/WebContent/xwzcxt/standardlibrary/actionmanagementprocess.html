@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>流程节点管理</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="actionmanagementprocess.js"></script>
+<style>
+html,body {
+	height: 100%;
+}
+
+/*.ui-toolbar {
+	height: 22px;
+	padding: 2px 0 2px 3px;
+	width: auto;
+	text-align: left
+}
+
+.ui-toolbar-bg {
+	border-top: 1px solid #F0F5FA;
+	border-bottom: 1px solid #AACCF6;
+	background-image: none;
+	background-color: #D9E5F3;
+	background: url(../images/bar/toolbar-title-bg.gif) repeat-x;
+	background: linear-gradient(#DEE9F5, #D3E1F1);
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#DEE9F5),
+		to(#D3E1F1) );
+	background: -moz-linear-gradient(#DEE9F5, #D3E1F1)
+}*/
+
+.ui-myfileupload {
+	position: relative;
+	display: inline-block;
+}
+</style>
+</head>
+<body>
+	
+		
+		
+	
+			
+						
+			<div itype="DataGrid" id="actiongrid"  style="height:500;" onBeforeReady="onBeforeReady()" showSeqColumn=true onAfterInitRender="onAfterInitRender()"
+			pageSize="20" saveInstance=true keyword="c_task_id"   initSource="managementprocessdatagrid.txt"	
+			showCheckColumn=true onRowClick="onRowClick()" >		
+			<!-- initSource="standardlibrary_queryManagementProcess.action"  --> 
+				
+				<!-- 列属性定义-->
+				<div hidden="true" name="c_sfile_id"></div>
+				<div width="17%" name="c_action_sname" text="流程节点"></div>
+				<div width="17%" name="c_sort_name" text="标准类"></div>
+				<div width="18%" name="c_sfile_name" text="文件名"></div>
+				<!-- <div width="15%" name="c_sfile_version" text="文件编号"></div> -->
+				<div width="12%" name="c_content" text="标准内容" renderer="bznrhref()"></div>
+				<div width="12%" name="c_att_id" text="附录" renderer="flhref()"></div>
+				
+			</div>
+		  
+	
+</body>
+</html>

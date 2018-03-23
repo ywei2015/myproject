@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>资源管理</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <script src="../../fastdev/fastDev-import.js"></script>
+		<script src="default.js"></script>  
+		<style type="text/css">   
+    html, body {
+        height:100%;
+    }
+		</style>  
+    </head>
+	<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+		<div class="ui-layout" id="mainDiv" style="height:100%;">
+			<div id="leftPanel" class="ui-layout-left" style="width: 200px; height:100%;">
+				<div class="ui-layout-title" style="padding-left:5px;">资源树</div>
+				<div class="ui-toolbar ui-toolbar-bg">
+		            <div itype="Button" plain=true text="新增" id="add" display="false" iconCls="icon-add" onclick="addResource()"></div>
+		            <div itype="Button" plain=true text="修改" id="modify" display="false" iconCls="icon-edit" onclick="modifyResource()"></div>
+					<div itype="Button" plain=true text="删除" id="delete" display="false" iconCls="icon-delete" onclick="deleteResource()"></div>					
+				</div>
+				<div id="resourceTree" itype="Tree" saveInstance="true" showIco="true"
+					width="100%"				
+					initSource="resource_showResourceTree.action"	
+					topParentid="-1"
+					openFloor=2 
+					customFields="type,appid"
+					onNodeClick="reloadResource()"></div>
+			</div>
+			<div id="centerPanel" class="ui-layout-center" style="left: 202px;height:100%;padding-top:5px;width:821px;">
+				<div id="accessModeBox">
+				<div class="datagrid" itype="DataGrid" allowAutoFillRow="false" id="permissionDatagrid" pageSize="20" initSource="permission_queryPermissions.action" saveInstance="true" showCheckColumn="true" showSeqColumn="true"  onRowClick="onRowClick()" onAfterInitRender="onAfterInitRender()">
+					<div name="top-toolbar">
+						<div plain=true text="添加" id="add" display="false" iconCls="icon-add" onClick="addPermission()"></div>
+						<div itype="separator"></div>
+						<div plain=true text="批量移除" id="delete" display="false" iconCls="icon-delete" onClick="batchDeletePermission()"></div>
+						<div itype="separator"></div>
+						<div plain=true text="批量绑定规则" id="bindrule" display="false" iconCls="icon-business" onClick="batchBindRule()"></div>						
+					</div>				
+					<div width="0" name="permissionId" hidden="true"></div>
+					<div width="10%" name="mode.modeName" text="方式名称"></div>
+					<div width="10%" name="modeId" text="方式代码" renderer="orgNameRenderer()"></div>
+					<div width="14%" name="mode.appName" text="应用"></div>
+					<div width="15%" name="mode.url" text="链接地址"></div>
+					<div width="15%" name="mode.param" text="参数"></div>
+					<div width="15%" name="resource.resourceName" text="所属资源"></div>
+					<div width="21%" text="操作" renderer="operRenderer()"></div>
+				</div>
+				</div>
+				<div id="resourceBox" style="display: none;">
+				    			
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

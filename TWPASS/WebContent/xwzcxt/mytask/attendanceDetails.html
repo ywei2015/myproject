@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>考勤查询</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../fastdev/common.js"></script>
+<script src="attendanceDetails.js"></script>
+</head>
+<body>
+	<div itype="DataGrid" id="grid" saveInstance=true pageSize="10"
+	allowResizeColumn="true" showSeqColumn="true"
+	keyword="c_attend_time" onBeforeReady="onBeforeReady()"
+	onAfterInitRender="onAfterInitRender()" onRowClick="onRowClick()">
+	<!-- 列属性定义-->
+	<div width="15%" name="c_dep_name" text="部门"></div>
+	<div width="15%" name="c_username" text="姓名" ></div>
+	
+	<!-- <div width="16%" name="c_attend_date" text="考勤日期" ></div>
+	<div width="16%" name="c_tag_ip" text="IP地址" ></div> -->
+	<div width="16%" name="c_attend_time" text="考勤时间" renderer="timeRenderer()" itype="datetime" 
+	format="yyyy-MM-dd hh:mm:ss"></div>
+	<div width="12%" name="c_attend_good" text="考勤异常" renderer="operLinkKao()"></div>
+</div>
+</body>
+</html>

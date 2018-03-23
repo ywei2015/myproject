@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AreaInfo">
+    	<select id="getAreaInfoById" parameterType="java.math.BigDecimal" resultType="com.talkweb.xwzcxt.pojo.AreaInfoPojo">
+		select t1.c_area_name,
+			   t1.c_area_type,
+			   t1.c_area_fullname,
+			   t1.c_isaor,
+			   t1.c_org_name,
+			   t1.c_firstpic_username,
+			   t1.c_mainpic_username,
+			   t1.c_directpic_username,
+			   t1.c_directpic_tel,
+			   t1.c_update_user,
+			   t1.c_update_time,
+			   t1.c_remark,
+			   t1.c_scan_code,
+			   t1.c_print_count,
+			   t1.c_scan_detail,
+			   t1.c_print_user,
+			   t1.c_print_time,
+			   t1.c_area_upid		   
+		from tb_areainfo t1
+		where  t1.c_basedata_id=#{id} and t1.c_isdelete=0
+	    </select>
+	    
+    	
+	    <select id="getAreaType"  resultType="com.talkweb.xwzcxt.pojo.AreaInfoPojo">
+		select v1.typeid,v1.typename	
+		from v_area_type v1	
+	    </select>
+	    
+	    
+	    <update id="updateArea" parameterType="map">
+		update tb_areainfo t
+		<set>
+		    <if test="c_area_upid != null">
+				 t.c_area_upid =
+				${c_area_upid},
+				 t.c_node_level=
+				(select  t.c_node_level+1 from tb_areainfo t  where t.c_basedata_id = ${c_area_upid}),
+			</if>
+			<if test="c_area_name != null">
+				 t.c_area_name =
+				#{c_area_name},
+			</if>
+			<if test="c_area_type != null">
+				 t.c_area_type =
+				${c_area_type},
+			</if>
+			
+			 <if test="c_area_fullname != null">
+				 t.c_area_fullname =
+				 #{c_area_fullname},
+			</if>
+			<if test="c_isaor != null">
+				 t.c_isaor =
+				#{c_isaor},
+			</if>
+			<if test="c_org_name != null">
+				t.c_org_name =
+				#{c_org_name},
+			</if>
+			<if test="c_firstpic_username != null">
+				t.c_firstpic_username = 
+				#{c_firstpic_username},
+			</if>
+			<if test="c_mainpic_username != null">
+				t.c_mainpic_username =
+				 #{c_mainpic_username},
+			</if>
+
+			<if test="c_directpic_username != null">
+				t.c_directpic_username =
+				#{c_directpic_username},
+			</if>
+			
+			<if test="c_directpic_tel">
+				t.c_directpic_tel = 
+				#{c_directpic_tel},
+			</if>
+			
+			<if test="c_update_user != null">
+				t.c_update_user =
+				#{c_update_user},
+			</if>
+	
+				t.c_update_time =
+				sysdate
+		</set>
+		where t.c_basedata_id=#{c_basedata_id} 
+	  </update>
+	  
+	    
+	  <insert id="insertArea" parameterType="com.talkweb.xwzcxt.pojo.AreaInfoPojo">
+
+		insert into tb_areainfo(
+		<trim suffix="" suffixOverrides=",">
+			c_basedata_id,
+			<if test="c_area_upid != null">
+				 c_area_upid, c_node_level,
+			</if>
+			<if test="c_area_name != null">
+				 c_area_name,
+			</if>
+			<if test="c_area_type != null">
+				 c_area_type,
+			</if>
+			<if test="c_area_fullname != null">
+				 c_area_fullname,
+			</if>
+			<if test="c_isaor != null">
+				 c_isaor,
+			</if>
+			<if test="c_org_name != null">
+				c_org_name,
+			</if>
+			<if test="c_firstpic_username != null">
+				c_firstpic_username,
+			</if>
+			<if test="c_mainpic_username != null">
+				c_mainpic_username,
+			</if>
+			<if test="c_directpic_username != null">
+				c_directpic_username,
+			</if>
+			
+			<if test="c_directpic_tel != null">
+				c_directpic_tel,
+			</if>
+			<if test="c_update_user != null">
+				c_update_user,
+			</if>
+			   c_update_time,
+		</trim>
+		)values(
+		<trim suffix="" suffixOverrides=",">
+			#{c_basedata_id},
+	        <if test="c_area_upid != null">
+				${c_area_upid},
+				(select t.c_node_level+1 from tb_areainfo t where t.c_basedata_id =${c_area_upid}),
+			</if>
+			<if test="c_area_name != null">
+				#{c_area_name},
+			</if>
+			<if test="c_area_type != null">
+				${c_area_type},
+			</if>
+			<if test="c_area_fullname != null">
+				 #{c_area_fullname},
+			</if>
+			<if test="c_isaor != null">
+				#{c_isaor},
+			</if>
+			<if test="c_org_name != null">
+				#{c_org_name},
+			</if>
+			<if test="c_firstpic_username != null">
+				#{c_firstpic_username},
+			</if>
+			<if test="c_mainpic_username != null">
+				 #{c_mainpic_username},
+			</if>
+			<if test="c_directpic_username != null">
+				#{c_directpic_username},
+			</if>
+			<if test="c_directpic_tel != null">
+				#{c_directpic_tel},
+			</if>
+			<if test="c_update_user != null">
+				#{c_update_user},
+			</if>
+			sysdate
+		</trim>
+		)
+	</insert>
+
+	<select id="getNextAeraId" resultType="java.lang.String">
+		select NVL( MAX(C_BASEDATA_ID) +1, 10001 * power(10,8)+ 1) from tb_areainfo
+	</select>
+
+	<update id="deleteArea" parameterType="map">
+		UPDATE tb_areainfo
+		SET c_isdelete = 1
+		WHERE 1>1
+		<if test="c_basedata_id!=null and c_basedata_id!=''">
+			or c_basedata_id = #{c_basedata_id}
+		</if>
+	</update>
+	  
+<!-- 	 <update id="printCode" parameterType="map">
+		UPDATE tb_areainfo
+		SET c_print_count=${c_print_count},
+	    c_print_time=sysdate,
+	    c_print_user=#{c_print_user},
+		c_scan_code=${c_basedata_id}*10000+${c_print_count}
+		WHERE c_basedata_id=${c_basedata_id} 
+
+	 </update> -->
+	 
+	 <update id="printCode" parameterType="map">
+		UPDATE
+		tb_areainfo
+		SET c_print_count=( SELECT (c_print_count+1)
+		FROM tb_areainfo
+		WHERE c_basedata_id=#{c_basedata_id}
+		),c_print_time=sysdate,c_print_user=#{c_print_user},
+		c_scan_code=(SELECT NVL(c_scan_code,c_basedata_id*10000+c_print_count)+1
+                   FROM tb_areainfo
+                   where c_basedata_id=#{c_basedata_id})
+		WHERE
+		c_basedata_id=#{c_basedata_id}
+
+	</update>
+  
+ <select id="getCurrentPrintCount" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		SELECT c_print_count
+		FROM TB_AREAINFO
+		WHERE c_basedata_id=#{c_basedata_id}
+ </select>
+
+  <update id="updateScanCode" parameterType="map">
+	 UPDATE TB_AREAINFO t
+     SET  
+     t.c_scan_code=
+     #{c_basedata_id}*10000+#{c_print_count}
+     where t.c_basedata_id=#{c_basedata_id}      
+  </update>
+  
+  <update id="updateScanDtails" parameterType="map">
+	 UPDATE TB_AREAINFO t
+     SET  
+     t.c_scan_detail=
+     '{"区域编号":"'||
+     #{c_basedata_id}||'","区域名称":"'||   
+     #{c_area_name}||'","区域全名":"'||
+     #{c_area_fullname}||'"}'
+     where t.c_basedata_id=#{c_basedata_id}      
+  </update>
+     
+
+</mapper>

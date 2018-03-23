@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="checkCardObject">
+
+	<resultMap id="checkCardInfo" type="com.talkweb.xwzcxt.pojo.CheckCardPoJo">
+
+		<result column="C_TABLETYPE_ID" property="cTabletypeId"
+			jdbcType="DECIMAL" />
+		<result column="C_BASEDATA_ID" property="cBasedataId" jdbcType="DECIMAL" />
+		<result column="C_ORGID" property="cOrgid" jdbcType="DECIMAL" />
+		<result column="C_SCAN_CODE" property="cScanCode" jdbcType="VARCHAR" />
+		<result column="C_SCAN_DETAIL" property="cScanDetail" jdbcType="VARCHAR" />
+		<result column="C_PRINT_COUNT" property="cPrintCount" jdbcType="DECIMAL" />
+		<result column="C_PRINT_USER" property="cPrintUser" jdbcType="VARCHAR" />
+		<result column="C_PRINT_TIME" property="cPrintTime" jdbcType="TIMESTAMP" />
+		<result column="C_SCAN_COUNT" property="cScanCount" jdbcType="DECIMAL" />
+		<result column="C_UPDATE_USER" property="cUpdateUser" jdbcType="VARCHAR" />
+		<result column="C_BASEDATA_NAME" property="c_basedata_name"
+			jdbcType="VARCHAR" />
+		<result column="C_BASEDATA_CODE" property="c_basedata_code"
+			jdbcType="VARCHAR" />
+		<result column="C_BASEDATA_USERCODE" property="c_basedata_usercode"
+			jdbcType="VARCHAR" />
+		<result column="COL1" property="col1" jdbcType="VARCHAR" />
+		<result column="COL2" property="col2" jdbcType="VARCHAR" />
+		<result column="COL3" property="col3" jdbcType="VARCHAR" />
+		<result column="COL4" property="col4" jdbcType="VARCHAR" />
+		<result column="COL5" property="col5" jdbcType="VARCHAR" />
+		<result column="COL6" property="col6" jdbcType="VARCHAR" />
+		<result column="COL7" property="col7" jdbcType="VARCHAR" />
+		<result column="COL8" property="col8" jdbcType="VARCHAR" />
+		<result column="COL9" property="col9" jdbcType="VARCHAR" />
+		<result column="COL10" property="col10" jdbcType="VARCHAR" />
+		<result column="COL11" property="col11" jdbcType="VARCHAR" />
+		<result column="COL12" property="col12" jdbcType="VARCHAR" />
+		<result column="COL13" property="col13" jdbcType="VARCHAR" />
+		<result column="COL14" property="col14" jdbcType="VARCHAR" />
+		<result column="COL15" property="col15" jdbcType="VARCHAR" />
+		<result column="COL16" property="col16" jdbcType="VARCHAR" />
+		<result column="COL17" property="col17" jdbcType="VARCHAR" />
+		<result column="COL18" property="col18" jdbcType="VARCHAR" />
+		<result column="COL19" property="col19" jdbcType="VARCHAR" />
+		<result column="COL20" property="col20" jdbcType="VARCHAR" />
+		<result column="COL21" property="col21" jdbcType="VARCHAR" />
+		<result column="COL22" property="col22" jdbcType="VARCHAR" />
+		<result column="COL23" property="col23" jdbcType="VARCHAR" />
+		<result column="COL24" property="col24" jdbcType="VARCHAR" />
+		<result column="COL25" property="col25" jdbcType="VARCHAR" />
+		<result column="COL26" property="col26" jdbcType="VARCHAR" />
+		<result column="COL27" property="col27" jdbcType="VARCHAR" />
+		<result column="COL28" property="col28" jdbcType="VARCHAR" />
+		<result column="COL29" property="col29" jdbcType="VARCHAR" />
+		<result column="COL30" property="col30" jdbcType="VARCHAR" />
+		<result column="cOrgName" property="cOrgName" jdbcType="VARCHAR" />
+
+
+		<result column="C_TASK_ID" property="c_task_id" jdbcType="DECIMAL" />
+		<result column="C_START_TIME" property="c_start_time" jdbcType="TIMESTAMP" />
+		<result column="C_TASKTEMPLET_ID" property="c_tasktemplet_id"
+			jdbcType="VARCHAR" />
+		<result column="C_BASECODE_ID" property="c_basecode_id" jdbcType="DECIMAL" />
+		
+		
+		<result column="C_REMARK" property="c_remark" jdbcType="VARCHAR" />
+		<result column="C_EXEC_USERNAME" property="c_exec_username" jdbcType="VARCHAR" />
+		<result column="C_EXEC_USERID" property="c_exec_userid" jdbcType="DECIMAL" />
+		<result column="C_STEP_PROMPT" property="c_step_prompt" jdbcType="VARCHAR" />
+		<result column="C_STATUS" property="c_status" jdbcType="DECIMAL" />
+	</resultMap>
+
+
+	<select id="getTheObjectById" parameterType="map" resultMap="checkCardInfo">
+		select t1.* from tb_integrate_info t1
+		where t1.C_ISDELETE='0'
+		<if test="cBasedataId != null and cBasedataId != ''">
+			and t1.C_BASEDATA_ID = #{cBasedataId}
+		</if>
+		and t1.c_tabletype_id in(
+			select C_TABLETYPE_ID
+			from tb_tabletype
+			where C_TABLETYPE_ID != 11038
+			start with C_TABLETYPE_UPID = 11001
+			connect by prior C_TABLETYPE_ID = C_TABLETYPE_UPID
+		) 
+	</select>
+
+	<select id="getTaskInfos" parameterType="map" resultMap="checkCardInfo">
+		select t1.c_task_id,t1.c_start_time,
+		t1.c_remark,t1.c_exec_username 
+		from t_task t1,t_sd_templet_scancode t2
+		where t1.c_tasktemplet_id = t2.c_templet_id 
+		<if test="c_basecode_id != null and c_basecode_id != ''">
+			and t2.c_basecode_id = #{c_basecode_id}
+		</if>
+		<!-- and t1.c_exec_userid in
+			(select t3.userid
+			from dp_user t3
+			where t3.orgid in
+				(select ORGID
+				from DP_ORGANIZATION
+				start with ORGID = 1000387
+				connect by prior ORGID = PARENTORGID))
+		order by t1.c_start_time  -->
+	</select>
+	
+	<select id="getTaskSteps" parameterType="map" resultMap="checkCardInfo">
+		select t.c_step_prompt,t.c_status from t_task_step t 
+		where 1 = 1 
+		<if test="taskId != null and taskId != ''">
+			and t.c_task_id = #{taskId}
+		</if>
+	</select>
+ 
+</mapper>

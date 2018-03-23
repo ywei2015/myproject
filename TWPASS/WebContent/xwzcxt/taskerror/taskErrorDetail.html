@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../fastdev/common.js"></script>
+<script src="../../js/jquery.min.js"></script>
+<script type="text/javascript" src="taskErrorDetail.js"></script>
+<style>
+#tErrorFeedback tr td {
+	background: white;
+	font: 12px Arial,Helvetica,sans-serif,"瀹嬩綋";
+	text-align: center;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+#tErrorAffix table tr td {
+	background: white;
+	border: 1px solid #D8E2EB;
+	font: 12px Arial,Helvetica,sans-serif,"瀹嬩綋";
+	text-align: center;
+	vertical-align: middle;
+	height: 16px;
+}
+</style>
+</head>
+<body>
+	<div id="detail" style="width:983px">
+		<div itype="Tabs" id="tErrorTab" container="detail" saveInstance="true" style="height:497px" onTabClick="onTabClick()">
+			<div title="异常详情" type="div">
+				<form itype="Form" id="errForm" saveInstance="true" onBeforeReady="onBeforeReady()" onAfterDataRender="onAfterDataRender()" style="height:440px;overflow-y:scroll;">
+					<div itype="TextBox" type="hidden" id="cErrId"></div>
+					<div itype="TextBox" type="hidden" id="cErrKind"></div>
+					<div itype="TextBox" type="hidden" id="cTaskId"></div>
+					<div itype="TextBox" type="hidden" id="cChkStatus"></div>
+					<div itype="TextBox" type="hidden" id="cChkResult"></div>
+					<div itype="TextBox" type="hidden" id="cChkUsername"></div>
+					<div itype="TextBox" type="hidden" id="cChkPlantimeString"></div>
+					<div itype="TextBox" type="hidden" id="cChkTimeString"></div>
+					<div itype="TextBox" type="hidden" id="cEvaluateStatus"></div>
+					<div itype="TextBox" type="hidden" id="cEvaluateResult"></div>
+					<div itype="TextBox" type="hidden" id="cEvaluateUsername"></div>
+					<div itype="TextBox" type="hidden" id="cEvaluatePlantimeString"></div>
+					<div itype="TextBox" type="hidden" id="cEvaluateTimeString"></div>
+					<div id="tErrorInfoFlip" class="ui-toolbar ui-toolbar-bg" style="font-size:14px;">
+						<div itype="Button" id="tErrorInfoIcon" iconCls="icon-up"></div>
+						异常信息
+					</div>
+					<div id="tErrorInfo">
+						<table class="ui-form-table">
+							<tr>
+								<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+								<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+								<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+								<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+								<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+								<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+								
+							</tr>
+							<tr>
+								<td class="ui-form-table-dt">异常主题：</td>
+								<td class="ui-form-table-dd" colspan="3">
+									<div itype="TextBox" id="cErrName" width="100%" readonly="true"></div>
+								</td>
+								<td class="ui-form-table-dt">板块：</td>
+								<td class="ui-form-table-dd">
+									<div itype="TextBox" id="cManageSectionName" width="100%" readonly="true"></div>
+								</td>
+							</tr>
+							<tr>
+								<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+								<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+								<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+								<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+								<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+								<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+							</tr>
+							<tr>
+								<td class="ui-form-table-dt">异常反馈人：</td>
+								<td class="ui-form-table-dd">
+									<div itype="TextBox" id="cWriterName" width="100%" readonly="true"></div>
+								</td>
+								<td class="ui-form-table-dt">异常类型：</td>
+								<td class="ui-form-table-dd">
+									<div itype="TextBox" id="cErrKindName" width="100%" readonly="true"></div>
+								</td>
+								<td class="ui-form-table-dt">异常状态：</td>
+								<td class="ui-form-table-dd">
+									<div itype="TextBox" id="cIscloseName" width="100%" readonly="true"></div>
+								</td>
+							</tr>
+							<tr>
+								<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+								<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+								<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+								<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+								<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+								<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+							</tr>
+							<tr>
+								<td class="ui-form-table-dt">异常发生时间：</td>
+								<td class="ui-form-table-dd">
+									<div itype="TextBox" id="cOccurTimeString" width="100%" readonly="true"></div>
+								</td>
+								<td class="ui-form-table-dt">异常处理期限：</td>
+								<td class="ui-form-table-dd">
+									<div itype="TextBox" id="cSuggestendTimeString" width="100%" readonly="true"></div>
+								</td>
+								<td class="ui-form-table-dt">异常处理完成时间：</td>
+								<td class="ui-form-table-dd">
+									<div itype="TextBox" id="cCloseTimeString" width="100%" readonly="true"></div>
+								</td>
+							</tr>
+							<tr>
+								<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+								<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+								<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+								<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+								<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+								<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+							</tr>
+							<tr>
+								<td class="ui-form-table-dt">关联任务：</td>
+								<td class="ui-form-table-dd" colspan="2">
+									<div itype="TextBox" id="cTaskName" width="100%" readonly="true"></div>
+								</td>
+								<td class="ui-form-table-dt" >发生区域：</td>
+								<td class="ui-form-table-dd"  colspan="2">
+									<div itype="TextBox" id="cAreaName" width="100%" readonly="true"></div>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div id="tErrorFeedbackFlip" class="ui-toolbar ui-toolbar-bg" style="font-size:14px;">
+						<div itype="Button" id="tErrorFeedbackIcon" iconCls="icon-up"></div>
+						异常处理
+					</div>
+					<div id="tErrorFeedback">
+						<table id="tErrorFeedbackTitleTable" style="margin:10px 0 0 30px;"></table>
+						<table id="tErrorFeedbackDetailTable"></table>
+					</div>
+					<div id="tErrorAffixFlip" class="ui-toolbar ui-toolbar-bg" style="font-size:14px;">
+						<div itype="Button" id="tErrorAffixIcon" iconCls="icon-up"></div>
+						处理结果
+					</div>
+					<div id="tErrorAffix"></div>
+				</form>
+			</div>
+			<div title="任务详情" type="div">
+				<div id="tTaskDetail" style="height:440px;overflow-x:auto;overflow-y:hidden;"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

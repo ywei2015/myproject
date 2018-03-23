@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>活动标准详情</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script  type="text/javascript" src="actionStandardDetail.js"></script>
+
+</head>
+<body>
+	<form itype="Form" id="addActionForm"  requestType="post" saveQueue="true"  onBeforeReady="onFormBeforeReady()" saveInstance="true"
+	 submitJson="false"  onSubmitSuccess="onSubmitSuccess()" onAfterDataRender="FormAfter()" action="actnode_addActnode.action">
+	
+	<table  class="ui-form-table" id="maintable">	
+		<tr>
+	    	<td class="ui-form-table-dt"><span class="ui-red">*</span>岗位活动类型</td>
+			<td class="ui-form-table-dd" colspan="5">
+				<select itype="Select" id="actnode.c_actnodetype" rule="required" saveInstance="true">
+						<option value="1">作业类</option>
+						<option value="2">管理类</option>
+				</select>	 					
+			</td>
+	    </tr>
+	    <tr>
+	    	<td class="ui-form-table-dd" colspan="6">公共环节</td>
+	    </tr>		 
+		<tr>
+			<td class="ui-form-table-dt"><span class="ui-red">*</span>对应流程末节点：</td>
+			<td class="ui-form-table-dd"><input itype="TextBox" id="actnode.c_action_name" rule="required" saveInstance="true" width="100%"/></td>			
+			<td class="ui-form-table-dt"><span class="ui-red">*</span>岗位活动名称：</td>
+			<td class="ui-form-table-dd"><input itype="TextBox" id="actnode.c_actnode_name" rule="required" saveInstance="true" width="100%"/></td>	
+			<td class="ui-form-table-dt"><span class="ui-red">*</span>PDCA属性：</td>
+			<td class="ui-form-table-dd">
+				<select itype="Select" width="100%" id="actnode.c_pdca" rule="required" saveInstance="true">
+						<option>-----请选择-----</option>
+						<option value="1">P(计划)</option>
+						<option value="2">D(执行)</option>
+						<option value="3">C(检查)</option>
+						<option value="4">A(改进)</option>
+				</select>			 					
+			</td>			
+		</tr>	
+		<tr>
+			<td class="ui-form-table-dt"><span class="ui-red">*</span>是否为关键活动：</td>
+			<td class="ui-form-table-dd">
+				<select itype="Select"  id="actnode.c_iskeyctrl" rule="required"  width="100%" saveInstance="true">	
+					<option  text="-请选择-"></option>
+					<option value="1" text="是"></option>
+					<option value="2" text="否"></option>
+				</select>			
+			</td>			
+			<td class="ui-form-table-dt">时态：</td>
+			<td class="ui-form-table-dd">
+				<select itype="Select"  id="actnode.c_frequency" rule="required" width="100%" saveInstance="true">
+				<option  text="-请选择-"></option>
+					<option value="每日" text="每日"></option>
+					<option value="每周" text="每周"></option>
+					<option value="每月" text="每月"></option>
+					<option value="接班前" text="接班前"></option>
+					<option value="接班后" text="接班后"></option>
+					<option value="下班前" text="下班前"></option>
+					<option value="下班后" text="下班后"></option>
+				</select>
+			</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+	    	<td class="ui-form-table-dd" colspan="6">作业环节</td>
+	    </tr>
+		<tr>
+			<td class="ui-form-table-dt">执行岗位：</td>
+			<td class="ui-form-table-dd">
+				<div itype="SelectTree" itype="Tree" saveInstance="true" showIco="true" rule="required"
+					width="100%" rootValue="所有组织" topParentid="1--1" height="200px"
+					initSource="posbindorg_getAllPosition.action" onlySelectedLeaf="true"
+					asyncDataSource="posbindorg_getAllPosition.action" openFloor=2 id="actnode.c_position_id">
+				
+			</div>			
+			</td>			
+			<td class="ui-form-table-dt">是否按顺序执行：</td>
+			<td class="ui-form-table-dd">
+				<select itype="Select"  id="actnode.c_issequence" rule="required" width="100%" saveInstance="true">	
+					<option  text="-请选择-"></option>
+					<option value="1" text="是"></option>
+					<option value="0" text="否"></option>
+				</select>			
+			</td>
+			<td class="ui-form-table-dt">作业区域：</td>
+			<td class="ui-form-table-dd">
+				<div itype="SelectTree" id="actnode.c_area_id" saveInstance="true"
+							initSource="area_initTree.action" rule="required"
+							dataSource="area_initTree.action" rootValue="-请选择-"
+							topParentid="-1" openFloor="3" width="100%">
+			</td>	
+		</tr>
+		<tr>
+		     <td class="ui-form-table-dt" >执行期限开始时间：</td>
+			<td class="ui-form-table-dd" >
+				<div itype="DatePicker" id="actnode.c_starttime_exec" width="100%" rule="required" saveInstance="true"></div>
+			</td>	
+			<td class="ui-form-table-dt" >执行期限结束时间：</td>
+			<td class="ui-form-table-dd">
+				<div itype="DatePicker" id="actnode.c_endtime_exec" width="100%" rule="required" saveInstance="true"></div>
+			</td>
+			<td class="ui-form-table-dt">规范性记录：</td>
+			<td class="ui-form-table-dd">
+				<input itype="TextBox" id="actnode.c_records_exec" rule="required" width="100%" saveInstance="true"/>		
+			</td>
+		</tr>
+		<tr>
+		   <td class="ui-form-table-dt">作业标准：</td>
+			<td class="ui-form-table-dd" colspan="5">
+				<div itype="TextBox" id="actnode.c_managestd" type="textarea" rule="required" height="50px" 
+				width="98%" rule="MaxLength:500" saveInstance="true"></div>			
+						
+			</td>
+		</tr>
+		<tr>
+			<td class="ui-form-table-dd" colspan="6">岗位活动项</td>
+		</tr>
+		<tr>
+			<th class="ui-form-table-dt">岗位活动项：</th>
+			<td class="ui-form-table-dd" colspan="5">
+				<div id="partgrid" itype="DataGrid" initSource="" 
+				onBeforeReady="onGridBeforeReady()" onRowClick="onGridRowClick()" onCellClick="onGridCellClick()" 
+				saveInstance="true" showSeqColumn=true keyword="c_id" pagePosition="none" width="100%">
+					<div name="top-toolbar">
+						<div plain=true text="增加" iconCls="icon-add" onClick="doAddPart()"></div>
+					</div>
+					<div name="c_id" text="id" hidden="true"></div>
+					<div name="c_respons_positionid" text="positionid" hidden="true"></div>
+					<div width="10%" name="c_standstep" text="标准步骤" idColumn="stdstep" editby="TextBox"></div>
+					<div width="20%" name="c_exestand" text="执行标准" editby="TextBox" idColumn="c_respons_orgid"></div>
+					<div width="10%" name="c_exe_result" text="执行结果" editby="Select" idColumn="c_respons_positionid">
+						<div name="controlCfg" id="positionSelect" onAfterConstruct="onPositionAfterConstruct()" 
+							initSource="user_initUserPos.action?modeId=add">
+							<div value="1" text="无"></div>
+							<div value="2" text="拍照"></div>
+						</div>
+					</div>
+					<div width="30%" name="c_respons_orgname" text="异常怎么处置" editby="TextBox" idColumn="c_respons_orgid"></div>
+					<div width="10%" name="c_validate_request" text="验证结果上传要求" editby="TextBox" idColumn="c_validate_request"></div>
+					<div width="5%" text="操作" renderer="operRenderer()"></div>
+				</div>
+			</td>
+		</tr>
+		<tr>
+	    	<td class="ui-form-table-dd" colspan="6">验证环节</td>
+	    </tr>		
+		<tr>
+			<td class="ui-form-table-dt">规范性记录：</td>
+			<td class="ui-form-table-dd">
+				<input itype="TextBox"  width="100%" id="actnode.c_records_check" rule="required" saveInstance="true"/>		
+			</td>		
+			<td class="ui-form-table-dt">验证岗位：</td>
+			<td class="ui-form-table-dd" >
+				
+				<div itype="SelectTree" itype="Tree" saveInstance="true" showIco="true"
+					width="100%" rootValue="所有组织" topParentid="1--1" height="200px" rule="required" 
+					initSource="posbindorg_getAllPosition.action" onlySelectedLeaf="true"
+					asyncDataSource="posbindorg_getAllPosition.action" openFloor=2 id="actnode.c_position_id_check"></div>
+				</td>	
+			<td class="ui-form-table-dt" >验证期限完成时间：</td>
+			<td class="ui-form-table-dd" >
+				<div itype="DatePicker" id="actnode.c_timelimit_check" width="100%" rule="required" saveInstance="true"></div>
+			</td>
+		</tr>
+		<tr>
+				
+			<td class="ui-form-table-dt">验证标准：</td>
+			<td class="ui-form-table-dd" colspan="5">
+				<div itype="TextBox" id="actnode.c_std_check" type="textarea" rule="required" height="50px"
+				 width="98%"  rule="MaxLength:500" saveInstance="true"></div>		
+			</td>		
+					
+		</tr>
+		<tr>
+		    <td class="ui-form-table-dt">验证处置：</td>
+			<td class="ui-form-table-dd" colspan="5">
+					<div itype="TextBox" id="actnode.c_err_check" type="textarea" rule="required" height="50px" 
+					width="98%" rule="MaxLength:500" saveInstance="true"></div>			
+			</td>	
+		</tr>
+		<tr>
+		    <td class="ui-form-table-dd" colspan="6">评价环节</td>
+		</tr>
+		
+		<tr>
+			<td class="ui-form-table-dt" >评价标准：</td>
+			<td class="ui-form-table-dd" colspan="5">
+				<div itype="TextBox" id="actnode.c_std_review" type="textarea" rule="required" height="50px" 
+				width="98%" rule="MaxLength:500" saveInstance="true"></div>			
+			</td>		
+		</tr>
+		<tr>
+			<td class="ui-form-table-dt">评价岗位：</td>
+			<td class="ui-form-table-dd" >
+			
+				<div itype="SelectTree" itype="Tree" saveInstance="true" showIco="true" rule="required"
+					width="100%" rootValue="所有组织" topParentid="1--1" height="200px" direction="up" 
+					initSource="posbindorg_getAllPosition.action" onlySelectedLeaf="true"
+					asyncDataSource="posbindorg_getAllPosition.action" openFloor=2 id="actnode.c_position_id_review"></div>
+			</td>	
+					
+			<td class="ui-form-table-dt" >正常反馈岗位(默认)：</td>
+			<td class="ui-form-table-dd" >
+				
+				<div itype="SelectTree" itype="Tree" saveInstance="true" showIco="true" rule="required"
+					width="100%" rootValue="所有组织" topParentid="1--1" height="200px" direction="up" 
+					initSource="posbindorg_getAllPosition.action" onlySelectedLeaf="true"
+					asyncDataSource="posbindorg_getAllPosition.action" openFloor=2 id="actnode.c_position_id_feedback1"></div>
+				
+			</td>	
+				<td class="ui-form-table-dt" >评价期限完成时间：</td>
+			<td class="ui-form-table-dd" >
+				<div itype="DatePicker" id="actnode.c_timelimit_review" width="100%" rule="required" saveInstance="true"></div>
+			</td>	
+		</tr>
+		<tr>
+			<td class="ui-form-table-dt" >正常反馈岗位(其他)：</td>
+			<td class="ui-form-table-dd" >
+					
+				<div itype="SelectTree" itype="Tree" saveInstance="true" showIco="true" rule="required"
+					width="100%" rootValue="所有组织" topParentid="1--1" height="200px" direction="up" 
+					initSource="posbindorg_getAllPosition.action" onlySelectedLeaf="true"
+					asyncDataSource="posbindorg_getAllPosition.action" openFloor=2 id="actnode.c_position_id_feedback2"></div>
+			</td>	
+				<td class="ui-form-table-dt" >异常反馈岗位(默认)：</td>
+			<td class="ui-form-table-dd" >
+	
+				<div itype="SelectTree" itype="Tree" saveInstance="true" showIco="true" rule="required"
+					width="100%" rootValue="所有组织" topParentid="1--1" height="200px" direction="up" 
+					initSource="posbindorg_getAllPosition.action" onlySelectedLeaf="true"
+					asyncDataSource="posbindorg_getAllPosition.action" openFloor=2 id="actnode.c_position_id_err1"></div>
+				
+			</td>	
+			<td class="ui-form-table-dt" >异常反馈岗位(其他)：</td>
+			<td class="ui-form-table-dd" >
+					
+					<div itype="SelectTree" itype="Tree" saveInstance="true" showIco="true" rule="required"
+					width="100%" rootValue="所有组织" topParentid="1--1" height="200px" direction="up" 
+					initSource="posbindorg_getAllPosition.action" onlySelectedLeaf="true"
+					asyncDataSource="posbindorg_getAllPosition.action" openFloor=2 id="actnode.c_position_id_err2"></div>
+			
+			</td>	
+		</tr>	
+	</table>
+</form>
+</body>
+</html>

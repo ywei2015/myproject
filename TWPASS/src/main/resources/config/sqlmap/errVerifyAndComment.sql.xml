@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="errVerifyAndComment" >
+    <select id="errVerifyAndCommentInfo"  parameterType="com.talkweb.xwzcxt.vo.TaskErrTraceVo" 
+    	resultType="com.talkweb.xwzcxt.vo.TaskErrTraceVo">
+        SELECT        t.c_err_id, t.c_err_name,t.c_isclose,
+        			  t.c_err_kind,decode( t.c_err_kind,'1','工作执行异常',2,'人工发起异常') as c_err_kind_name,
+        			  decode(t.c_isclose,0,'未完成',1,'已完成') as c_isclose_name,
+                      t.c_task_id, t.c_actnode_id, t.c_err_type, t.c_err_level, t.c_area,
+                      a.areaname as c_areaname, t.c_manage_section,
+                      m.c_manage_section_name  AS c_manage_sectionname, 
+                      u3.displayname AS  c_writer_name,
+                      t.c_writer,t.c_isbyself, t.c_feedback_path,
+                      t.c_handle_userid,t.c_handle_username,
+                      t.c_upload_time,t.c_write_time, t.c_suggestend_time, t.c_occur_time,
+                      t.c_close_time,t.c_chk_time,t.c_evaluate_time,t.c_chk_plantime,
+                      t.c_evaluate_plantime,
+                      u1.displayname as c_chk_username,
+                      u2.displayname as c_evaluate_username,
+                      t.c_chk_starttime,t.c_evaluate_starttime,
+                      t.c_chk_status,t.c_evaluate_status,
+                      decode(t.c_chk_status,2,'已验证','未验证') as c_chk_status_name,
+                      
+                      case  when     t.c_ex_iemisevent =0 
+                                    AND     substr(t.c_evaluate_result,1,2)='NG' 
+                                    AND     t.c_evaluate_status=2
+                            then    '已评价未发起事件'
+                            
+                            when    t.c_evaluate_status=2
+                            then    '已评价'
+                            
+                            when    t.c_evaluate_status=1
+                      	    then    '未评价' end as c_evaluate_status_name,
+                      
+                      substr(t.c_chk_result,4)as c_chk_result,
+                      substr(t.c_evaluate_result,4) as c_evaluate_result,
+                      substr(t.c_chk_result,1,2) as c_chk_value,
+                      substr(t.c_evaluate_result,1,2) as c_evaluate_value,
+                      
+                      decode(t.c_chk_result,'NG','异常','正常') as c_chk_value_name,
+                      decode(t.c_evaluate_result,'NG','异常','正常') as c_evaluate_value_name
+                     
+          FROM      t_error_info t 
+          
+          LEFT  JOIN   dp_user u1
+          ON		(u1.userid=t.c_chk_userid AND u1.isdelete=0)
+          
+          LEFT  JOIN   dp_user u2
+          ON		(u2.userid=t.c_evaluate_userid AND u2.isdelete=0)
+          
+          LEFT  JOIN   dp_user u3
+          ON		(u3.userid=t.c_writer AND u3.isdelete=0)
+        
+          LEFT  JOIN    dp_area a
+          ON		( a.area=to_char(t.c_area) AND a.isdelete='0')
+          
+          LEFT  JOIN    t_manage_section m 
+          ON	    (m.c_manage_section=t.c_manage_section AND m.c_isdelete='0')
+          
+          WHERE     t.c_isdelete=0 
+          AND		t.c_isclose='1'
+          <if test="datatype==1">
+          AND	t.c_chk_status IN ('1','2')
+          </if>
+          <if test="datatype==2">
+          AND	t.c_evaluate_status IN ('1','2')  
+          AND	t.c_chk_status='2' 
+          </if>
+          <if test="c_chk_userid!=null">
+          AND 	 t.c_chk_userid=#{c_chk_userid}
+          </if>
+          <if test="c_evaluate_userid!=null">
+          AND 	 t.c_evaluate_userid=#{c_evaluate_userid}
+          </if>
+          <if test="c_chk_status!=null" >
+          AND	 t.c_chk_status=#{c_chk_status}
+          </if>
+          <if test="c_ex_iemisevent!=null and c_ex_iemisevent!=''">
+          AND	 t.c_ex_iemiseventStr=#{c_ex_iemiseventStr}
+          </if>
+          <if test="c_evaluate_status!=null" >
+          AND	 t.c_evaluate_status=#{c_evaluate_status}
+          		<if test="c_evaluate_status==2">
+          		  AND (   t.c_evaluate_result IS  NULL  
+          		       OR (substr(t.c_evaluate_result,1,2)='NG' AND t.c_ex_iemisevent=1))
+          		</if>
+          </if>
+          <if test="c_err_name!=null and ''!=c_err_name">
+               AND        t.c_err_name    LIKE    '%${c_err_name}%'
+          </if>
+          
+          <if test="c_writer!=null and c_writer!=''">
+              AND         t.c_writer=#{c_writer}
+          </if>
+          <if test="c_occur_time!=null and ''!=c_occur_time">
+        	  AND         to_char(t.c_occur_time,'yyyy-mm-dd') = to_char(#{c_occur_time},'yyyy-mm-dd')
+       	  </if>
+          <if test="c_close_time!=null and ''!=c_close_time">
+       		  AND        to_char(t.c_close_time,'yyyy-mm-dd') = to_char(#{c_close_time},'yyyy-mm-dd')
+          </if>
+          <if test="c_suggestend_time!=null and ''!=c_suggestend_time">
+       		  AND        to_char(t.c_suggestend_time,'yyyy-mm-dd') = to_char(#{c_suggestend_time},'yyyy-mm-dd')
+          </if>
+          
+          <if test="c_chk_plantime!=null ">
+        	  AND         to_char(t.c_chk_plantime,'yyyy-mm-dd') = to_char(#{c_chk_plantime},'yyyy-mm-dd')
+       	  </if>
+          <if test="c_evaluate_plantime!=null" >
+       		  AND        to_char(t.c_evaluate_plantime,'yyyy-mm-dd') = to_char(#{c_evaluate_plantime},'yyyy-mm-dd')
+          </if>
+	      <if test="c_isclose!=null and ''!=c_isclose">
+	   		  AND         t.c_isclose=#{c_isclose}
+	   	  </if>
+	      <if test="c_manage_section!=null and ''!=c_manage_section">
+	          AND         t.c_manage_section=#{c_manage_section}
+	      </if>
+	      
+	      <if test="c_chk_result=='OK'">
+	          AND  (t.c_chk_result IS NULL OR t.c_chk_result='OK')
+	      </if>
+	       <if test="c_chk_result=='NG'">
+	          AND  substr(t.c_chk_result,1,2)='NG'
+	      </if>
+	      <if test="c_evaluate_result=='OK'">
+	          AND  (t.c_evaluate_result IS NULL OR t.c_evaluate_result='OK')
+	      </if>
+	       <if test="c_evaluate_result=='NG'">
+	          AND  substr(t.c_evaluate_result,1,2)='NG'
+	      </if>
+	      <if test="c_err_kind!=null">
+	          AND  t.c_err_kind=#{c_err_kind}
+	      </if>
+          <if test="ordertype==1">
+          	  ORDER BY  t.c_chk_plantime  DESC
+          </if>
+          <if test="ordertype==2">
+          	  ORDER BY  t.c_evaluate_plantime  DESC
+          </if>
+    </select>
+    
+    <update id="updateVerifyStatus" parameterType="map" >
+    	UPDATE  t_error_info 
+    	SET     c_chk_status='2',
+    			c_chk_time=sysdate,
+    			c_evaluate_status='1',
+    			c_evaluate_starttime=sysdate
+    	WHERE	
+		<if test="ids!=null">
+    	       c_err_id IN 
+    		<foreach collection="ids" open="(" separator="," close=")" item="c_err_id">
+    			#{c_err_id}
+    		</foreach>
+    	</if>
+    	AND	    c_chk_userid=#{c_chk_userid}
+    	AND		(c_chk_status='1' OR c_chk_status='2')
+    </update>
+    
+    <update id="updateVerifyResult" parameterType="map" >
+    	UPDATE  t_error_info
+    	SET     c_chk_result=#{c_chk_result}
+    	WHERE	c_err_id=#{c_err_id}
+    	AND	    c_chk_userid=#{c_chk_userid}
+    	AND		(c_chk_status='1' OR c_chk_status='2')
+    </update>
+    
+    <update id="updateEvaluateStatus" parameterType="map" >
+    	UPDATE  t_error_info
+    	SET     c_evaluate_status='2'
+    	WHERE	
+    	<if test="ids!=null">
+    	        c_err_id IN 
+    		<foreach collection="ids" open="(" separator="," close=")" item="c_err_id">
+    			#{c_err_id}
+    		</foreach>
+    	</if>
+    	AND	    c_evaluate_userid=#{c_evaluate_userid}
+    	AND		(c_evaluate_status='1' OR c_evaluate_status='2')
+    </update>
+    
+    <update id="updateEvaluateResult" parameterType="map" >
+    	UPDATE  t_error_info
+    	SET     c_evaluate_result=#{c_evaluate_result}
+    	WHERE	c_err_id=#{c_err_id}
+    	AND	    c_evaluate_userid=#{c_evaluate_userid}
+    	AND		(c_evaluate_status='1' OR c_evaluate_status='2')
+    </update>
+    
+    <update id="updateEmisStatus" parameterType="map">
+        UPDATE  t_error_info
+    	SET     c_ex_iemisevent='1',
+    			c_evaluate_status='2'
+    	WHERE   c_err_id=#{c_err_id}
+    </update>
+</mapper>

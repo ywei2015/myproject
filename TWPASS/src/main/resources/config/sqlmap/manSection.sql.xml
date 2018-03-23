@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="manSection">
+	<resultMap id="ManSectionMap" type="com.talkweb.xwzcxt.pojo.TManageSection">
+		<id column="C_MANAGE_SECTION" property="c_manage_section" />
+		<result column="C_MANAGE_SECTION_NAME" property="c_MANAGE_SECTION_NAME" />
+		<result column="C_CREATOR" property="c_CREATOR" />
+		<result column="C_CREATE_TIME" property="c_CREATE_TIME" />
+		<result column="C_LAST_MODIFIER" property="c_LAST_MODIFIER" />
+		<result column="C_LAST_MODIFIED_TIME" property="c_LAST_MODIFIED_TIME" />
+		<result column="C_REMARK2" property="c_REMARK2" />
+		<result column="C_ISDELETE" property="c_ISDELETE" />
+	</resultMap>
+	<sql id="ManSection">
+		C_MANAGE_SECTION, C_MANAGE_SECTION_NAME, C_CREATOR,
+		C_CREATE_TIME, C_LAST_MODIFIER,
+		C_LAST_MODIFIED_TIME, C_REMARK2,
+		C_ISDELETE
+	</sql>
+	<select id="queryAllSection" resultMap="ManSectionMap">
+		select
+		<include refid="ManSection" />
+		from T_MANAGE_SECTION
+		where c_isdelete=0
+		order by c_manage_section
+	</select>
+
+</mapper>

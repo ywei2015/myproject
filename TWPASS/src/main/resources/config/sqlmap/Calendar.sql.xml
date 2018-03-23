@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="calendar">
+    
+<!-- 日历查询-->
+  <select id="getCalByPage" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.CalendarPojo">
+  
+    select t.c_id,
+       t.c_calendar_type,
+       t.c_date,
+       t.c_day_of_week,
+       t.c_theory_isworkday,
+       t.c_fact_isworkday,
+       t.c_work_date,
+       t.c_creator,
+       t.c_create_time,
+       t.c_last_modifier,
+       t.c_last_modified_time,
+       t.c_remark,
+       t.c_isdelete
+       from t_calendar t
+       where t.c_calendar_type=1 and t.c_isdelete=0
+       <if test="startTime!=null and ''!=startTime and endTime!=null and ''!=endTime">
+         and t.c_date>=to_date (#{startTime},'yyyy-MM-dd') 
+         and t.c_date &lt; to_date(#{endTime},'yyyy-MM-dd')        
+       </if>
+       order by t.c_date asc
+   </select>
+   
+   <select id="getCalDataBySeq" parameterType="String" resultType="com.talkweb.xwzcxt.pojo.CalendarPojo">
+	select t1.c_id,t1.c_calendar_type,t1.c_date,t1.c_day_of_week,t1.c_theory_isworkday,t1.c_fact_isworkday,
+	       t1.c_work_date,t1.c_creator,t1.c_create_time,t1.c_last_modifier,t1.c_last_modified_time,t1.c_remark
+	       from t_calendar t1
+	       where  t1.c_calendar_type=1 and t1.c_isdelete=0
+	       and  t1.c_id=#{seq}
+   </select>
+   
+   
+   <update id="updateCalData" parameterType="com.talkweb.xwzcxt.pojo.CalendarPojo">
+		update t_calendar
+		<set>
+			<if test="c_work_date != null">
+					c_work_date =
+					to_date(#{c_work_date},'yyyy-mm-dd'),
+			</if>
+			<if test="c_theory_isworkday != null">
+					c_theory_isworkday =
+					#{c_theory_isworkday},
+			</if>
+			<if test="c_fact_isworkday != null">
+					c_fact_isworkday =
+					#{c_fact_isworkday},
+			</if>
+			<if test="c_remark != null">
+					c_remark =
+					#{c_remark},
+			</if>
+		</set>
+		 where c_id=#{c_id}
+   </update>
+       
+</mapper>

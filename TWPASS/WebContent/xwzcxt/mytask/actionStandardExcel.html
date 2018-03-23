@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>岗位活动管理</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+
+<script src="actionStandardExcel.js"></script>
+<script src="../../js/jquery.min.js"></script>
+<script src="../../../src/fastDev-import.js"></script>
+<script type="text/javascript">
+var data=[{pid:"0",id:"1",val:"治安安全管理",disabled:"true"},{pid:"0",id:"2",val:"消防安全管理",chk:"part"},{pid:"1",id:"5",val:"治安护卫管理",disabled:"true"},{pid:"5",id:"6",val:"护卫巡更管理"},{pid:"6",id:"61",val:"巡更排班"},{pid:"6",id:"62",val:"巡查"},{pid:"6",id:"63",val:"处置"},{pid:"6",id:"64",val:"记录"},{pid:"61",id:"611",val:"告知班组"},{pid:"62",id:"621",val:"常规巡查"},{pid:"62",id:"622",val:"班组检查"},{pid:"62",id:"623",val:"部门监督"},{pid:"63",id:"631",val:"一般处置"},{pid:"63",id:"632",val:"异常反馈与应急处理"},{pid:"2",id:"21",val:"危险物品管理"},{pid:"21",id:"211",val:"危险化学品管理"},{pid:"211",id:"2111",val:"采购"},{pid:"211",id:"2112",val:"验收"},{pid:"211",id:"2112",val:"储存"},{pid:"211",id:"2112",val:"发放"},{pid:"211",id:"2112",val:"使用"},{pid:"2111",id:"21111",val:"采购计划"},{pid:"2111",id:"21112",val:"供应商评审"},{pid:"2111",id:"21113",val:"采购执行"},{pid:"2112",id:"21121",val:"验收入库"},{pid:"2112",id:"21121",val:"库存管理"},{pid:"2112",id:"21122",val:"储存过程监管"}];
+var workareadata=[{pid:"0",id:"1",val:"长沙卷烟厂"},{pid:"1",id:"11",val:"生产区"},{pid:"11",id:"111",val:"辅料高层仓库"},{pid:"11",id:"112",val:"辅料老厂房仓库"},{pid:"11",id:"113",val:"辅料成品仓库"},{pid:"11",id:"114",val:"辅料平库"},{pid:"11",id:"115",val:"辅料黄泥嘴仓库"},{pid:"1",id:"12",val:"综合办公楼"}
+,{pid:"12",id:"121",val:"综合楼一楼"},{pid:"12",id:"122",val:"综合楼二楼"},{pid:"12",id:"123",val:"综合楼三楼"},{pid:"12",id:"124",val:"综合楼四楼"},{pid:"12",id:"125",val:"综合楼五楼"},{pid:"12",id:"126",val:"综合楼七楼"}];
+var exepostdata=[{pid:"0",id:"1",val:"厂长"},{pid:"1",id:"11",val:"物资配送部部长"},{pid:"11",id:"111",val:"政工管理员"},{pid:"11",id:"112",val:"计划员"},{pid:"11",id:"113",val:"业务员（主管）"},{pid:"11",id:"114",val:"政工管理员"},{pid:"11",id:"115",val:"安全员"},{pid:"11",id:"116",val:"物资配送部副部长（辅料）"},{pid:"116",id:"1161",val:"辅料仓储班班长"},{pid:"1161",id:"11611",val:"辅料保管工(接装纸)"},{pid:"1161",id:"11612",val:"辅料配盘复核工"},{pid:"1161",id:"11613",val:"辅料配盘工"},{pid:"1161",id:"11614",val:" 裁纸工"},
+                 {pid:"11",id:"117",val:"物资配送部副部长（烟叶）"},
+                 {pid:"117",id:"1171",val:"专卖管理员（主管）"},
+                 {pid:"117",id:"1172",val:"烟叶仓储主管"},
+                 {pid:"117",id:"113",val:"大托综合管理员（五级专家）"}];
+        </script>
+
+
+<style>
+html,body {
+	height: 100%;
+}
+
+
+
+.ui-myfileupload {
+	position: relative;
+	display: inline-block;
+}
+</style>
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+    
+	<div class="ui-layout" id="mainDiv" style="height:100%;">
+		<div class="ui-layout-left" style="width: 250px; height:100%;">
+			
+			
+			<div id="actiontree" itype="Tree" saveInstance="true" showIco="true" width="100%" 
+				topParentid="0" rootValue="所有流程节点" openFloor=2 items="#{data}"
+				></div>
+				<!--    asyncDataSource="org_searchAllOrg.action" -->
+				<!-- initSource="sdaction_getAllActionForTree.action" -->
+				<!-- asyncDataSource="sdaction_getAllActionForTree.action" -->
+		</div>
+		
+		<div class="ui-layout-center" style="left: 252px;height:100%;">
+			<form id="pointSearchForm" itype="Form"
+				action="standardlibrary_queryManagementProcess.action"
+				requestType="post" saveInstance="true"
+				onSubmitSuccess="submitSuccess()" submitJson="false">
+				<table class="ui-form-table">
+					<tr valign="middle">
+						
+						<td class="ui-form-table-dt" style="width:100px">岗位活动：</td>
+						<td class="ui-form-table-dd">	<div itype="TextBox" id="standardfile.c_sfile_name" width="100%"></div></td>
+						<td class="ui-form-table-dt" style="width:100px">是否为关键活动：</td>
+						<td class="ui-form-table-dd">
+						<select itype="Select" width="100%">
+								<option>-----请选择-----</option>
+								<option value="data1" selected>是</option>
+								<option value="data2">否</option>
+							
+						</select>
+						
+						
+						</td>
+						<td class="ui-form-table-dt" style="width:100px">PDCA属性：</td>
+						<td class="ui-form-table-dd">
+						  <select itype="Select" width="100%">
+								<option>-----请选择-----</option>
+								<option value="data1" selected>P</option>
+								<option value="data2">D</option>
+								<option value="data2">C</option>
+								<option value="data2">A</option>
+							
+						</select>
+						</td>
+					</tr>
+					<tr valign="middle">
+						<td class="ui-form-table-dt" style="width:100px">时态：</td>
+						<td class="ui-form-table-dd">
+							<select itype="Select" width="100%">
+								<option>-----请选择-----</option>
+								<option value="data1" selected>每日</option>
+								<option value="data2">每周</option>
+								<option value="data2">每月</option>
+								<option value="data2">接班前</option>
+							    <option value="data2">接班后</option>
+							    <option value="data2">下班前</option>
+						</select>
+						</td>
+						<td class="ui-form-table-dt" style="width:100px">作业区域：</td>
+						<td class="ui-form-table-dd"><div itype="SelectTree" items="#{workareadata}" container="example" id="tree2" saveInstance="true" topParentid="0" openFloor=5 width="100%">
+				
+			</div></td>
+						<td class="ui-form-table-dt" style="width:100px">执行岗位：</td>
+						<td class="ui-form-table-dd"><div itype="SelectTree" items="#{exepostdata}" container="example" id="tree2" saveInstance="true" topParentid="0" openFloor=5 width="100%">
+				
+			</div></td>
+					</tr>
+					<tr valign="middle">
+						
+						<td class="ui-form-table-dd"  colspan="6">
+							<div itype="Button" text="查询" iconCls="icon-search"
+								onclick="submit()"></div>&nbsp;
+							<div itype="Button" text="重置" iconCls="icon-reset"
+								onclick="reset()"></div></td>
+					</tr>
+				</table>
+			</form>
+						
+			<div itype="DataGrid" id="actiongrid" onBeforeReady="onBeforeReady()" showSeqColumn=true onAfterInitRender="onAfterInitRender()"
+			pageSize="20" saveInstance=true keyword="c_task_id"  initSource="../data/actionstandardexcel.json" showCheckColumn=true onRowClick="onRowClick()" >	
+				<div name="top-toolbar">
+				    <div plain=true text="导入" display="true" id="import"
+					iconCls="icon-add" onClick="importAction()"></div>
+					<div plain=true text="新增" id="add" display="true"
+						iconCls="icon-add" onClick="addPoint()"></div>
+					<div itype="separator"></div>
+					<div plain=true text="批量删除" id="add" display="true"
+						iconCls="icon-delete" onClick="batchDeleteObject()"></div>
+					
+				</div>
+				<!-- 列属性定义-->
+				
+				<div width="17%" name="c_flow_name" text="流程节点"></div>
+				<div width="17%" name="c_flow_id" hidden="true" text="流程节点ID"></div>
+				<div width="17%" name="c_postactivity" text="岗位活动名称"></div>
+				<div width="14%" name="c_pdca_property" text="PDCA属性"></div>
+				<div width="15%" name="c_key_flag" text="是否为关键活动"></div> 
+				<div width="7%" name="c_tense" text="时态" renderer="bznrhref()"></div>
+				<div width="12%" name="c_work_area" text="作业区域" renderer="flhref()"></div>
+				<div width="12%" name="c_exe_post" text="执行岗位"></div>
+				<div width="12%" text="操作" renderer="operRenderer()"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

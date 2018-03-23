@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>已办任务</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="doneMytask.js"></script>
+<script type="text/javascript">
+	//为每个datagrid的单元格绑定样式 
+	function renderer(value) {
+		var data = fastDev.getInstance("grid1").getValue(this)[0];
+		fastDev(this).parents("tr").children("td").css("text-align", "center");
+	}
+</script>
+<style type="text/css">
+.alignClass {
+	text-align: center;
+}
+</style>
+</head>
+<body  class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	<div class="ui-layout-center" style="height: 111%;">
+		<form id="checkform" itype="Form" requestType="post"
+			saveInstance="true">
+			<table class="ui-form-table">
+				<tr valign="middle">
+					<!-- 
+					<td class="ui-form-table-dt" style="width:60px;">任务名称：</td>
+					<td class="ui-form-table-dd"><div itype="TextBox" id="taskMouldPojo.c_task_name" width="100%"></div></td>
+				-->
+					<td class="ui-form-table-dt" style="width: 80px;">板块：</td>
+					<td class="ui-form-table-dd">
+						<select width="100%" itype="Select"
+							id="taskMouldPojo.c_manage_section" saveInstance=true
+							initSource="task_getManageSectionList.action">
+							<option value="">--请选择--</option>
+						</select>
+					</td>
+					<td class="ui-form-table-dt" style="width: 150px;">任务类别：</td>
+					<td class="ui-form-table-dd">
+						<select width="100%" itype="Select" id="taskMouldPojo.c_task_kind"
+							saveInstance=true">
+							<option value="0">--请选择--</option>
+							<option value="1">工作任务</option>
+							<option value="3">工作安排</option>
+						</select>
+					</td>
+					<td class="ui-form-table-dt" style="width: 100px;">关键管控：</td>
+					<td class="ui-form-table-dd">
+						<select width="100%" itype="Select" id="taskMouldPojo.c_iskeyctrl"
+							saveInstance=true>
+							<option value="">--请选择--</option>
+							<option value="1">是</option>
+							<option value="0">否</option>
+						</select>
+					</td>
+	
+	
+	
+					<!--  
+					<td class="ui-form-table-dt" style="width: 60px;">开始时间：</td>
+					<td class="ui-form-table-dd">
+						
+						<input itype="DatePicker"
+							id="taskMouldPojo.c_start_time" timeBefore="end"
+							format="yyyy-MM-dd" width="100%" />
+					</td>
+					<td class="ui-form-table-dt" style="width: 60px;">结束时间：</td>
+					<td class="ui-form-table-dd">
+						<input itype="DatePicker"
+							id="taskMouldPojo.c_end_time" timeAfter="start"
+							format="yyyy-MM-dd" width="100%" />
+					</td>
+				 -->
+				</tr>
+				<tr valign="middle">
+					<td class="ui-form-table-dt" style="width: 60px;">顺序执行：</td>
+					<td class="ui-form-table-dd" >
+						<select width="100%" itype="Select" id="taskMouldPojo.c_issequence"
+							saveInstance=true>
+							<option value="">--请选择--</option>
+							<option value="1">是</option>
+							<option value="0">否</option>
+						</select>
+					</td>
+					<!-- 
+					<td class="ui-form-table-dt" style="width: 80px;">执行区域：</td>
+					<td class="ui-form-table-dd">
+						<div width="100%" itype="TextBox" id="taskMouldPojo.areaname"></div>
+					</td>
+	                 -->
+					<td class="ui-form-table-dt" style="width: 150px;">实际完成时间：</td>
+					<td class="ui-form-table-dd"><input itype="DatePicker"
+						id="taskMouldPojo.c_fact_endtime" timeBefore="end"
+						format="yyyy-MM-dd hh:mm:ss" width="100%" /></td>
+					 <td class="ui-form-table-dt" style="width: 60px;">是否逾期：</td>
+				    <td class="ui-form-table-dd" width="100px"><select
+						itype="Select" id="taskMouldPojo.isExpired" width="100%"
+						saveInstance="true">
+							<option>全部</option>
+							<option value="1">逾期</option>
+							<option value="2">按期完成</option>
+					</select></td>
+				</tr>
+				
+				<tr valign="middle">
+				   
+					<td class="ui-form-table-dd" valign="middle" colspan="6" align="right">
+	
+	
+						<div width="100px" itype="Button" id="searchBtn" text="查询"
+							iconCls="icon-search" onClick="searchForm()"></div>
+	
+						<div width="100px" itype="Button" id="resetBtn" text="重置"
+							iconCls="icon-reset" onClick="resetForm()"></div>
+	
+					</td>
+				</tr>
+			</table>
+		</form>
+		<div itype="DataGrid" id="grid1" onBeforeReady="onBeforeReady()"
+			showSeqColumn=true onAfterInitRender="onAfterInitRender()"
+			pageSize="15" saveInstance=true keyword="c_task_id"
+			onRowClick="onRowClick()" allowResizeColumn=true>
+			<div name="top-toolbar">
+				<div plain=true text="新增" iconCls="icon-add" display="false" id="add"
+					onclick="doAddBasic()"></div>
+				<div itype="separator"></div>
+				<div plain=true text="批量删除" iconCls="icon-delete" display="false"
+					id="delete" onclick="doBatchDeleteCheckModel()"></div>
+			</div>
+			<!-- 列属性定义-->
+			<div width="15%" name="orgdepartname" text="部门" titleCls="alignClass" ></div>
+			<div width="15%" name="posiname" text="岗位" titleCls="alignClass"></div>
+			<div width="5%" name="c_exec_username" text="姓名"
+				titleCls="alignClass"></div>
+			<div width="15%" name="c_task_name" titleCls="alignClass" text="任务名称"
+				renderer="renderer()"></div>
+			<div width="5%" name="c_manage_section_name" text="板块"
+				titleCls="alignClass" renderer="renderer()"></div>
+			<div width="8%" name="c_task_kind" titleCls="alignClass" text="任务类别"
+				renderer="toTaskKind()"></div>
+			<div width="5%" name="c_iskeyctrl_name" text="关键管控"
+				titleCls="alignClass" renderer="renderer()"></div>
+			<div width="5%" name="c_issequence_name" text="顺序执行"
+				titleCls="alignClass" renderer="renderer()"></div>
+			<div width="12%" name="areaname" text="执行区域" titleCls="alignClass"
+				renderer="renderer()"></div>
+				
+		    <!--  
+			<div width="10%" name="c_trigger_cause" titleCls="alignClass"
+				text="触发原因" renderer="renderer()"></div>
+			
+			<div width="5%" name="c_pdca" text="PDCA" titleCls="alignClass"
+				renderer="renderer()"></div>
+			-->
+			<div width="15%" name="c_start_time" titleCls="alignClass"
+				itype="date" format="yyyy-MM-dd HH:mm" text="开始时间"
+				renderer="renderer()"></div>
+			<div width="15%" name="c_end_time" titleCls="alignClass" itype="date"
+				format="yyyy-MM-dd HH:mm" text="结束时间" renderer="renderer()"></div>
+			<div width="15%" name="c_fact_endtime" titleCls="alignClass"
+				itype="date" format="yyyy-MM-dd HH:mm" text="实际完成时间"
+				renderer="renderer()"></div>
+			<div width="5%" hidden=true name="c_status_name" titleCls="alignClass"
+				text="状态" renderer="renderer()"></div>
+			<div width="8%" name="isExpired" titleCls="alignClass" text="是否逾期"
+				renderer="renderer()"></div>
+			<div hidden="true" name="c_task_id"></div>
+			<div name="pageSizeList">
+			   <div value="5" text="5条"></div>
+			   <div value="10" text="10条"></div>
+			   <div value="15" text="15条"></div>
+			   <div value="20" text="20条"></div>
+			   <div value="50" text="50条"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

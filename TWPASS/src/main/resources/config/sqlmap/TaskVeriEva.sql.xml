@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="TaskVerifyEval">
+ 
+	<select id="queryTaskVerify" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo"  parameterType="map">
+	<![CDATA[
+		select 
+		   p.rowindex,
+           p.c_task_id,
+           p.c_task_name,
+           p.c_task_type,
+           p.c_task_kind,
+           p.c_iskeyctrl,
+           p.c_manage_section,
+           p.c_manage_section_name, 
+           p.c_status,
+           p.c_chk_result,
+           p.c_chk_userid,
+           p.c_chk_username,
+           p.c_chk_starttime,
+           p.c_chk_endtime,
+           p.c_chk_plantime
+      from (
+        select 
+           rownum as rowindex,
+           t1.c_task_id,
+           t1.c_task_name,
+           t1.c_task_type,
+           t1.c_task_kind,
+           t1.c_iskeyctrl,
+           t1.c_manage_section,
+           t1.c_manage_section_name,
+           t1.c_status,
+           t1.c_exceed_time,
+           t1.c_chk_result,
+           t1.c_chk_userid,
+           t1.c_chk_username,
+           t1.c_chk_starttime,
+           t1.c_chk_endtime,
+           t1.c_chk_plantime   
+         from t_task t1 
+         where
+           t1.c_chk_userid=#{c_chk_userid} and t1.c_status='33'  and t1.c_task_kind=#{taskKind}
+           order by t1.c_exceed_time desc,t1.c_task_id desc
+          ) p 
+          where p.rowindex>((#{c_pageindex,jdbcType=NUMERIC}-1)*#{c_pagesize,jdbcType=NUMERIC})
+           and p.rowindex<=((#{c_pageindex,jdbcType=NUMERIC})*#{c_pagesize,jdbcType=NUMERIC})
+           order by   p.rowindex  asc
+			]]> 
+    </select>
+    
+	<select id="queryTaskVerifyCount" resultType="String" parameterType="map">
+	    select count(1) from t_task t where t.c_status='33' and t.c_iskeyctrl='1' 
+	    and t.c_chk_userid=#{userid}  and   t.c_task_kind=#{taskKind}
+	</select>
+	
+	 <update id="updateChkResult" parameterType="map">
+		update t_task t
+		set  t.c_status='34',
+			 t.c_chk_starttime = sysdate,
+			 t.c_chk_endtime = sysdate
+			 <if test="c_chk_result != null">
+			 ,t.c_chk_result =#{c_chk_result}
+			 </if>
+		where t.c_task_id=#{c_task_id} 
+	  </update>
+	  
+	 <select id="queryTaskEvaluate" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo"  parameterType="map">
+	<![CDATA[
+		select
+		   p.rowindex, 
+           p.c_task_id,
+           p.c_task_name,
+           p.c_task_type,
+           p.c_task_kind,
+           p.c_manage_section,
+           p.c_manage_section_name, 
+           p.c_status,
+           p.c_evaluate_result,
+           p.c_evaluate_userid,
+           p.c_evaluate_username,
+           p.c_evaluate_time,
+           p.c_evaluate_plantime
+      from (
+        select 
+           rownum as rowindex,
+           t1.c_task_id,
+           t1.c_task_name,
+           t1.c_task_type,
+           t1.c_task_kind,
+           t1.c_manage_section,
+           t1.c_manage_section_name,
+           t1.c_status,
+           t1.c_chk_endtime,
+           t1.c_evaluate_result,
+           t1.c_evaluate_userid,
+           t1.c_evaluate_username,
+           t1.c_evaluate_time,
+           t1.c_evaluate_plantime   
+         from t_task t1 
+         where
+           t1.c_evaluate_userid=#{c_evaluate_userid} 
+           and (t1.c_status='34' or  t1.c_status='33' and t1.c_chk_userid is null and t1.c_iskeyctrl='0')
+           and t1.c_task_kind=#{taskKind}
+           order by t1.c_chk_endtime desc,t1.c_task_id desc
+          ) p 
+          where p.rowindex>((#{c_pageindex,jdbcType=NUMERIC}-1)*#{c_pagesize,jdbcType=NUMERIC}) 
+          and   p.rowindex<=((#{c_pageindex,jdbcType=NUMERIC})*#{c_pagesize,jdbcType=NUMERIC})
+          order by   p.rowindex  asc
+			]]> 
+    </select>
+    
+	<select id="queryTaskEvaluateCount" resultType="String" parameterType="map">
+	    select count(1) from t_task t where t.c_status='34'  
+	    and t.c_evaluate_userid=#{evaUserid}  and  t.c_task_kind=#{taskKind}    
+	</select>
+	
+	<update id="updateEvalResult" parameterType="map">
+		 update t_task t
+			set  t.c_status='35',
+				 t.c_evaluate_time=sysdate
+			    <if test="c_evaluate_result != null">
+					 ,t.c_evaluate_result =#{c_evaluate_result}
+				</if>
+			where t.c_task_id=#{c_task_id} 
+	  </update>
+	  
+	<select id="getUserCode" resultType="String" parameterType="map">
+	     select usercode from dp_user u where u.userid=#{userId} and u.isdelete=0
+	</select>
+</mapper>

@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>新增作业对象</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="addBasic.js"></script>
+</head>
+<body>
+<!-- initSource='basicObj_initFormControl.action' -->
+	<form id="addBasicForm" itype="Form" saveInstance="true" onBeforeReady="FormReady()" action="basicAdd_addBasic.action" onSubmitSuccess="submitSuccess()" submitJson="false">
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">对象名称：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" id="basicMouldPojo.c_obj_name" width="100%" rule="MaxLength:48;"></div></td>
+				<td class="ui-form-table-dt" style="width: 100px">对象全称：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" id="basicMouldPojo.c_obj_fullname" width="100%" rule="MaxLength:198;"></div></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px"><span class="ui-red">*</span>规格型号：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" id="basicMouldPojo.c_obj_model" width="100%" rule="required;MaxLength:98;"></div></td>
+				<td class="ui-form-table-dt" style="width: 100px"><span class="ui-red">*</span>唯一编号：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" id="basicMouldPojo.c_obj_uid" width="100%" rule="required;MaxLength:48;"></div></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px">扫描码：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox" id="basicMouldPojo.c_scan_code" width="100%" rule="MaxLength:98;"></div></td>
+				<td class="ui-form-table-dt" style="width: 100px">责任人：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" inside="false" width="100%" id="basicMouldPojo.c_conservator" initSource="basicAdd_getAllUsersForSel.action" saveInstance=true>
+						<option>-----请选择-----</option><!-- queryUsersByOrgForSel -->
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px"><span class="ui-red">*</span>所在区域：</td>
+				<td class="ui-form-table-dd">
+					<div itype="SelectTree" id="basicMouldPojo.c_area" inside="false" width="100%" initSource="area_initSubAreaTree.action" asyncDataSource="area_initSubAreaTree.action" rootValue="-请选择-" topParentid="-1" openFloor=3 rule="required;">
+            		</div>
+            		<!-- <div style="float:left;border:none;">
+            			<div itype="TextBox" type="hidden" id="basicMouldPojo.c_area" ></div>
+						<div style="margin-right:5px"> 
+							<div itype="TextBox" id="basicMouldPojo.areaname" width="114px" readOnly="true" rule="required"></div>
+						</div> 
+					</div>
+					<div itype="Button" iconCls="icon-search" text="选择" onclick="doSearchArea()"></div>-->
+				</td>
+				<td class="ui-form-table-dt" style="width: 100px">所属对象类别：</td>
+				<td class="ui-form-table-dd">
+					<div itype="SelectTree" id="basicMouldPojo.c_objtype_id" inside="false" width="100%" initSource="initObjTypeTree_queryObjTypeTree.action" asyncDataSource="initObjTypeTree_queryObjTypeTree.action" rootValue="-请选择-" topParentid="-1" openFloor=3>
+            		</div>
+            		<!-- <div style="float:left;border:none;">
+            			<div itype="TextBox" type="hidden" id="basicMouldPojo.c_objtype_id" ></div>
+						<div style="margin-right:5px"> 
+							<div itype="TextBox" id="basicMouldPojo.c_objtype_name" width="114px" readOnly="true" rule="required"></div>
+						</div> 
+					</div>
+					<div itype="Button" iconCls="icon-search" text="选择" onclick="doSearchObjtype()"></div> -->
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

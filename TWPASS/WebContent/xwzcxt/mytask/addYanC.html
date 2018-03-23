@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>烟虫导入</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../fastdev/common.js"></script>
+<script src="addYanC.js"></script>
+
+</head>
+<body>
+	<form id="checkform" itype="Form" requestType="post" saveInstance="true">
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt">开始时间：</td>
+				<td class="ui-form-table-dd"><input itype="DatePicker"
+					id="c_start_time" format="yyyy-MM-dd" width="100%" /></td>
+				<td class="ui-form-table-dt">结束时间：</td>
+				<td class="ui-form-table-dd"><input itype="DatePicker"
+					id="c_end_time" format="yyyy-MM-dd" width="100%" /></td>
+				<td class="ui-form-table-dt">部门组织：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cExecUserName" width="100%" readonly="true" onclick="onSelectPosition()"></div>
+					<div itype="TextBox" type="hidden" id="cExecUserid"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">执行区域：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cAreaName" width="100%" readonly="true" onclick="onSelectArea()"></div>
+					<div itype="TextBox" type="hidden" id="cAreaId"></div>
+				</td>
+				<td class="ui-form-table-dd" align="right" colspan="4">
+				<div itype="Button" text="查询" iconCls="icon-search"
+					onclick="doSearch()" width="100px"></div>&nbsp;
+				<div itype="Button" text="重置" iconCls="icon-reset"
+					onclick="doReset()" width="100px"></div>
+			    </td>
+			</tr>
+		</table>
+	</form>
+	<div itype="DataGrid" id="grid"  saveInstance=true pageSize="20"
+	allowResizeColumn="true" showCheckColumn="true" showSeqColumn="true"
+	keyword="c_area_number" onBeforeReady="onBeforeReady()"
+	onAfterInitRender="onAfterInitRender()" onRowClick="onRowClick()">
+	<div name="top-toolbar">
+	    <div plain=true text="模板下载" id="exportbutton" display="ture"
+	   iconCls="icon-export"  onClick="exportZuoyeTemplet()"></div> 
+	    <div itype="separator"></div>
+	    <div plain=true text="导入" id="import" display="ture" 
+		iconCls="icon-add" onClick="doImportAction()"></div>
+		<div itype="separator"></div>
+		<!-- <div plain=true text="导出" id="delete"  display="false"
+			iconCls="icon-export" onclick="exportXLS()"></div> -->
+	    <div plain=true text="批量删除" id="delete" display="false" 
+	    iconCls="icon-delete" onClick="deleteMany()"></div>
+	</div>
+	<!-- 列属性定义-->
+	<div hidden="true" name="c_userid" text="userid" type="hidden"></div>
+	<div hidden="true" name="c_id" text="c_id" type="hidden"></div>
+	<div width="22%" name="c_area_name" text="区域"></div>
+	<div width="16%" name="c_area_id" text="区域编号" ></div>
+	<div width="14%" name="c_smokey_loca_id" text="烟虫编号" ></div>
+	<div width="14%" name="c_smokey" text="烟虫数量" ></div>
+    <div hidden="true" name="c_attend_time" ></div> 
+	<div width="15%" name="c_month_loca_id" text="烟蛾编号" ></div>
+	<div width="14%" name="c_month" text="烟蛾数量"></div>
+   </div>
+    <iframe src="about:blank" style="display: none;" id="test"></iframe>
+</body>
+</html>

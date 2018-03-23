@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="errorReceive.js"></script>
+<title>接收确认</title>
+</head>
+<body>
+        <table class="ui-form-table">
+            <caption>异常信息</caption>
+            <tr valign="middle">
+                <td class="ui-form-table-dt">异常主题</td>
+                <td class="ui-form-table-dd"><div itype="TextBox" width="100%" id="c_err_name" readOnly=true></div></td>
+            	<td class="ui-form-table-dt">板块</td>
+                <td class="ui-form-table-dd"><div itype="TextBox" width="100%" id="c_manage_section" readOnly=true></div></td>
+            </tr>
+            <tr valign="middle">
+                <td class="ui-form-table-dt">发生时间</td>
+                <td class="ui-form-table-dd"><div itype="TextBox" width="100%" id="c_occur_time" readOnly=true></div></td>
+            	<td class="ui-form-table-dt">异常描述</td>
+                <td class="ui-form-table-dd"><div itype="TextBox" width="100%" id="c_value" readOnly=true></div></td>                
+            </tr>
+            <tr>
+                <td class="ui-form-table-dt">取证</td>
+                <td class="ui-form-table-dd"></td>
+            </tr>
+        </table>
+        
+        <table class="ui-form-table">
+            <tr valign="middle">
+                <td class="ui-form-table-dt">异常主题</td>
+                <td class="ui-form-table-dd"><div itype="TextBox" width="100%" id="c_err_name" readOnly=true></div></td>
+            	<td class="ui-form-table-dt">板块</td>
+                <td class="ui-form-table-dd"><div itype="TextBox" width="100%" id="c_manage_section" readOnly=true></div></td>
+            </tr>
+        
+        </table>
+        
+		<form itype="Form" id="errorInfo" requestType="post"
+		saveInstance="true"  onAfterDataInitRender="afterDataInitRender()">
+		<table class="ui-form-table">
+           <caption><font size="5px" color="blue">异常处理</font></caption>
+			<tr valign="middle">
+				<td class="ui-form-table-dt">处理状态</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" width="100%" readOnly=true value="自己处置"></div>
+				</td>
+				<td class="ui-form-table-dt">处理人</td>
+				<td class="ui-form-table-dd">
+				   <div itype="TextBox" width="100%" id="" readOnly=true saveInstance=true></div>
+				</td>
+			</tr>
+			<tr valign="middle">
+			     <td class="ui-form-table-dt">处理时间</td>
+			     <td class="ui-form-table-dd">
+			          <div id="cHandleTime" itype="TextBox" width="100%"   readOnly=true saveInstance=true></div>
+			     </td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

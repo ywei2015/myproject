@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="taskErrorInfo" extends="json-default">
+		<action name="getAllTaskErrorInfoAction" class="com.talkweb.xwzcxt.action.TaskErrorAction"
+			method="getAllTaskErrorInfo">
+			<param name="aliases">#{'page':'pagination.currPage','pageSize':'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="getAllTaskErrorInfoForMobileAction" class="com.talkweb.xwzcxt.action.TaskErrorAction"
+			method="getAllTaskErrorInfoForMobile">
+			<param name="aliases">#{'page':'pagination.currPage','pageSize':'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="exportTaskErrorInfoExcelAction" class="com.talkweb.xwzcxt.action.TaskErrorAction"
+			method="exportTaskErrorInfoExcel">
+			<param name="aliases">#{'page':'pagination.currPage','pageSize':'pagination.size'}</param>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="getTaskErrorInfoDetailByIDAction" class="com.talkweb.xwzcxt.action.TaskErrorAction"
+			method="getTaskErrorInfoDetailByID">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="deleteTaskErrorByIdAction" class="com.talkweb.xwzcxt.action.TaskErrorAction"
+			method="deleteTaskErrorById">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+	</package>
+	<package name="taskErrorFeedback" extends="json-default">
+		<action name="getTaskErrorFeedbackDetailByIDAction" class="com.talkweb.xwzcxt.action.TaskErrorAction"
+			method="getTaskErrorFeedbackDetailByID">
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+	</package>
+</struts>

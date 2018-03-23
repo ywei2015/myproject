@@ -1,0 +1,26 @@
+----------------------------------------------------长烟系统数据库更改记录-----------------------------------------------------------------
+记录格式如下：
+
+更改时间       主要用途                修改人              是否已同步正式库
+sql 语句
+-----------------------------------------------------------------------------------------------------------------------------------------
+20160201   新增文本                  曹勇                       未同步
+xxxx 
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+20160201     根据用户id得到该用户的部门id	汪梦真	未同步
+create or replace function f_get_orgid(ids in varchar2) return varchar2 is
+  result varchar2(9999);
+begin
+
+  select  wm_concat(ORGID) into result from (select  ORGID
+    from DP_ORGANIZATION
+   where ORGTYPE = 2
+   start with ORGID in (select ORGID from DP_USER where USERID in (SELECT REGEXP_SUBSTR(ids, '[^,]+', 1, ROWNUM)
+            FROM dual t
+          CONNECT BY ROWNUM <=
+                     LENGTH(ids) - LENGTH(REPLACE(ids, ',', '')) + 1))
+  connect by prior PARENTORGID = ORGID group by ORGID);
+  return(result);
+end f_get_orgid;
+commit;

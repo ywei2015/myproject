@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>任务详情</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../fastdev/common2.js"></script>
+<script src="../../js/jquery.min.js"></script>
+<script type="text/javascript" src="taskDetails.js"></script>
+<style>
+#imglinkpreview {
+	position: absolute;
+	border: 1px solid #ccc;
+	background: #333;
+	padding: 5px;
+	display: none;
+	color: #fff;
+}
+#shadow {
+	background: #000;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	z-index: 99;
+	opacity: 0.80;
+	filter: alpha(opacity=80);
+	zoom: 1;
+}
+.turnedOff {
+	color: #ff0;
+	background-position: 0 -50px;
+}
+</style>
+</head>
+<body style="overflow:hidden;">
+<div style="width:99.9%;">
+	<form id="checkForm" itype="Form" saveInstance="true" saveQueue="true" submitJson="false"
+		onSubmitSuccess="onSubmitSuccess()" onBeforeReady="onFormBeforeReady()" onAfterDataRender="onFormAfterDataRender()">
+		<div itype="Tabs" id="tasktabs" width="99%" height="429px">
+			<div title="任务基本信息" type="div">
+				<div style="height:404px;overflow-x:hidden;overflow-y:scroll;">
+					<div itype="TextBox" type="hidden" id="taskMouldPojo.c_urgent_level"></div>
+					<div itype="TextBox" type="hidden" id="taskMouldPojo.c_handle_des"></div>
+					<div itype="TextBox" type="hidden" id="taskMouldPojo.c_remark"></div>
+					<div itype="TextBox" type="hidden" id="taskMouldPojo.c_iserror"></div>
+					<div itype="TextBox" type="hidden" id="taskMouldPojo.c_err_status"></div>
+					<div itype="TextBox" type="hidden" id="taskMouldPojo.c_actnode_id"></div>
+					<div itype="TextBox" type="hidden" id="taskMouldPojo.c_std_verflag"></div>
+					<div itype="TextBox" type="hidden" id="taskMouldPojo.c_chk_result"></div>
+					<div itype="TextBox" type="hidden" id="taskMouldPojo.c_chk_username"></div>
+					<div itype="TextBox" type="hidden" id="taskMouldPojo.c_chk_endtime"></div>
+					<div itype="TextBox" type="hidden" id="taskMouldPojo.c_evaluate_result"></div>
+					<div itype="TextBox" type="hidden" id="taskMouldPojo.c_evaluate_username"></div>
+					<div itype="TextBox" type="hidden" id="taskMouldPojo.c_evaluate_time"></div>
+					<div itype="TextBox" type="hidden" id="taskMouldPojo.c_isstd"></div>
+					<div itype="TextBox" type="hidden" id="taskMouldPojo.c_status"></div>
+					<table class="ui-form-table">
+						<tr>
+							<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt">任务名称：</td>
+							<td class="ui-form-table-dd" colspan="5"><div itype="TextBox" readonly="true" id="taskMouldPojo.c_task_name" width="100%"></div></td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt">任务编号：</td>
+							<td class="ui-form-table-dd"><div itype="TextBox" readonly="true" id="taskMouldPojo.c_task_id" width="100%"></div></td>
+							<td class="ui-form-table-dt">任务类型：</td>
+							<td class="ui-form-table-dd">
+								<select itype="Select" id="taskMouldPojo.c_task_kind" readonly="true" width="100%">
+									<option>-----请选择-----</option>
+									<option value="1">工作任务</option>
+									<option value="3">工作安排</option>
+									<option value="2">异常信息</option>
+								</select>
+							</td>
+							<td class="ui-form-table-dt">任务类别：</td>
+							<td class="ui-form-table-dd">
+								<select itype="Select" id="taskMouldPojo.c_task_type" readonly="true" width="100%">
+									<option>-----请选择-----</option>
+									<option value="1">日管控</option>
+									<option value="2">周管控</option>
+									<option value="3">月管控</option>
+									<option value="5">周期管控</option>
+									<option value="6">临时任务</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt">所属板块：</td>
+							<td class="ui-form-table-dd"><div itype="TextBox" readonly="true" id="taskMouldPojo.c_manage_section_name" width="100%"></div></td>
+							<td class="ui-form-table-dt">PDCA：</td>
+							<td class="ui-form-table-dd"><div itype="TextBox" readonly="true" id="taskMouldPojo.c_pdca" width="100%"></div></td>
+							<td class="ui-form-table-dt">执行区域：</td>
+							<td class="ui-form-table-dd"><div itype="TextBox" readonly="true" id="taskMouldPojo.areaname" width="100%"></div></td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt">触发方式：</td>
+							<td class="ui-form-table-dd">
+								<select itype="Select" id="taskMouldPojo.c_trigger_type" readonly="true" width="100%">
+									<option>-----请选择-----</option>
+									<option value="1">按5W2H标准自动触发</option>
+									<option value="3">发起任务手动触发</option>
+									<option value="4">其它系统触发</option>
+									<option value="2">其它</option>
+								</select>
+							</td>
+							<td class="ui-form-table-dt">是否关键管控：</td>
+							<td class="ui-form-table-dd">
+								<select itype="Select" id="taskMouldPojo.c_iskeyctrl" readonly="true" width="100%">
+									<option>---请选择---</option>
+									<option value="0">否</option>
+									<option value="1">是</option>
+								</select>
+							</td>
+							<td class="ui-form-table-dt" width="12%">是否顺序执行：</td>
+							<td class="ui-form-table-dd" width="20%">
+								<select itype="Select" id="taskMouldPojo.c_issequence" readonly="true" width="100%">
+									<option>-----请选择-----</option>
+									<option value="0">否</option>
+									<option value="1">是</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt">任务创建人：</td>
+							<td class="ui-form-table-dd"><div itype="TextBox" id="taskMouldPojo.c_create_username" readonly="true" width="100%"></div></td>
+							<td class="ui-form-table-dt">任务下达人：</td>
+							<td class="ui-form-table-dd"><div itype="TextBox" readonly="true" id="taskMouldPojo.c_confirm_username" width="100%"></div></td>
+							<td class="ui-form-table-dt">任务状态：</td>
+							<td class="ui-form-table-dd">
+								<select itype="Select" id="taskMouldPojo.c_status1" width="100%" readonly="true" queue="checkForm" inside="false"
+									initSource="task_getTaskStatusList.action" DataSource="task_getTaskStatusList.action">
+									<div>请选择</div>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt">执行人：</td>
+							<td class="ui-form-table-dd"><div itype="TextBox" readonly="true" id="taskMouldPojo.c_exec_username" width="100%"></div></td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt">系统发送任务时间：</td>
+							<td class="ui-form-table-dd"><div itype="DatePicker" readonly="true" id="taskMouldPojo.c_confirm_time" format="yyyy-MM-dd HH:mm:ss" width="100%"></div></td>
+							<td class="ui-form-table-dt">任务开始时间：</td>
+							<td class="ui-form-table-dd"><div itype="DatePicker" readonly="true" id="taskMouldPojo.c_start_time" format="yyyy-MM-dd HH:mm:ss" width="100%"></div></td>
+							<td class="ui-form-table-dt">任务结束时间：</td>
+							<td class="ui-form-table-dd"><div itype="DatePicker" readonly="true" id="taskMouldPojo.c_end_time" format="yyyy-MM-dd HH:mm:ss" width="100%"></div></td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt">任务实际接收时间：</td>
+							<td class="ui-form-table-dd"><div itype="DatePicker" readonly="true" id="taskMouldPojo.c_down_time" format="yyyy-MM-dd HH:mm:ss" width="100%"></div></td>
+							<td class="ui-form-table-dt">任务实际完成时间：</td>
+							<td class="ui-form-table-dd"><div itype="DatePicker" readonly="true" id="taskMouldPojo.c_fact_endtime" format="yyyy-MM-dd HH:mm:ss" width="100%"></div></td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt">验证人：</td>
+							<td class="ui-form-table-dd"><div itype="TextBox" readonly="true" id="taskMouldPojo.c_chk_username" width="100%"></div></td>
+							<td class="ui-form-table-dt">验证期限：</td>
+							<td class="ui-form-table-dd"><div itype="DatePicker" readonly="true" id="taskMouldPojo.c_chk_plantime" format="yyyy-MM-dd HH:mm:ss" width="100%"></div></td>
+							<td class="ui-form-table-dt">验证实际完成时间：</td>
+							<td class="ui-form-table-dd"><div itype="DatePicker" readonly="true" id="taskMouldPojo.c_chk_endtime" format="yyyy-MM-dd HH:mm:ss" width="100%"></div></td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt">评价人：</td>
+							<td class="ui-form-table-dd"><div itype="TextBox" readonly="true" id="taskMouldPojo.c_evaluate_username" width="100%"></div></td>
+							<td class="ui-form-table-dt">评价期限：</td>
+							<td class="ui-form-table-dd"><div itype="DatePicker" readonly="true" id="taskMouldPojo.c_evaluate_plantime" format="yyyy-MM-dd HH:mm:ss" width="100%"></div></td>
+							<td class="ui-form-table-dt">评价实际完成时间：</td>
+							<td class="ui-form-table-dd"><div itype="DatePicker" readonly="true" id="taskMouldPojo.c_evaluate_time" format="yyyy-MM-dd HH:mm:ss" width="100%"></div></td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dt" style="background:white;border:none;"></td>
+							<td class="ui-form-table-dd" style="background:white;border:none;"></td>
+						</tr>
+						<tr id="trtaskremark">
+							<td class="ui-form-table-dt">发起说明：</td>
+							<td class="ui-form-table-dd" colspan="5"><textarea itype="TextBox" type="textarea" height="50px" readonly="true" id="taskMouldPojo.c_remark" width="100%"></textarea></td>
+						</tr>
+						<tr id="trtaskAttachment">
+							<td class="ui-form-table-dt">取证信息：</td>
+							<td class="ui-form-table-dd" colspan="5"><div id="DivTaskAttachment"></div></td>
+						</tr>
+				</table>
+			</div>
+		    </div>
+		<div title="执行结果信息" type="div">
+			<div id="divDetails" style="height:404px;overflow-x:hidden;overflow-y:scroll;">
+				<div class="ui-toolbar ui-toolbar-bg" style="font-size:14px;" id="divtaskresultflip">
+					<div itype="Button" display="true" iconCls="icon-up" id="divtaskresulticon"></div>
+					任务结果信息
+				</div>
+				<div class="panel" id="divtaskresult" style="margin:10px;">
+					<table class="ui-form-table">
+						<tr>
+							<td class="ui-form-table-dt" style="width:20%;">任务名称：</td>
+							<td class="ui-form-table-dd" style="width:80%;">
+								<div id="result_c_task_name"></div>
+								<a id="getCheckDetails" href="#" target="_blank" style="margin-left:300px;text-decoration:underline;">检验详情</a>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt" style="width:20%;">任务执行结果：</td>
+							<td class="ui-form-table-dd" style="width:80%;font-weight:bold;color:red;">
+								<div id="task_result_type">loading...</div>
+							</td>
+						</tr>
+						<tr id="tr_handledes">
+							<td class="ui-form-table-dt" style="width:20%;">任务执行备注：</td>
+							<td class="ui-form-table-dd" style="width:80%;">
+								<div id="result_handledes"></div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="ui-toolbar ui-toolbar-bg" style="font-size:14px;" id="divtaskstepresultflip">
+					<div itype="Button" display="true" iconCls="icon-up" id="divtaskstepresulticon"></div>
+					步骤结果信息
+				</div>
+				<div class="panel" id="divtaskstepresult" style="width:95%;margin:10px;"></div>
+				<div class="ui-toolbar ui-toolbar-bg" style="font-size:14px;" id="divtaskverifyresultflip">
+					<div itype="Button" display="true" iconCls="icon-up" id="divtaskverifyresulticon"></div>
+					验证结果信息
+				</div>
+				<div class="panel" id="divtaskverifyresult" style="width:95%;margin:10px;">
+					<table class="ui-form-table">
+						<tr>
+							<td class="ui-form-table-dt" style="width:20%;">验证状态：</td>
+							<td class="ui-form-table-dd" style="width:80%;font-weight:bold;color:red;">
+								<div id="c_chk_status">loading...</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt" style="width:20%;">验证结果：</td>
+							<td class="ui-form-table-dd" style="width:80%;">
+								<div id="c_chk_result"></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt" style="width:20%;">验证人：</td>
+							<td class="ui-form-table-dd" style="width:80%;">
+								<div id="c_chk_man"></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt" style="width:20%;">验证时间：</td>
+							<td class="ui-form-table-dd" style="width:80%;">
+								<div id="c_chk_time"></div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="ui-toolbar ui-toolbar-bg" style="font-size:14px;" id="divtaskcommentresultflip">
+					<div itype="Button" display="true" iconCls="icon-up" id="divtaskcommentresulticon"></div>
+					 评价结果信息
+				</div>
+				<div class="panel" id="divtaskcommentresult" style="width:95%;margin:10px;">
+					<table class="ui-form-table">
+						<tr>
+							<td class="ui-form-table-dt" style="width:20%;">评价状态：</td>
+							<td class="ui-form-table-dd" style="width:80%;font-weight:bold;color:red;">
+								<div id="c_evaluate_status">loading...</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt" style="width:20%;">评价结果：</td>
+							<td class="ui-form-table-dd" style="width:80%;">
+								<div id="c_evaluate_result"></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt" style="width:20%;">评价人：</td>
+							<td class="ui-form-table-dd" style="width:80%;">
+								<div id="c_evaluate_man"></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="ui-form-table-dt" style="width:20%;">评价时间：</td>
+							<td class="ui-form-table-dd" style="width:80%;">
+								<div id="c_evaluate_time"></div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div title="标准信息" type="div" id="stdtab">
+			<div id="divstdinfo" style="height:404px;overflow-x:hidden;overflow-y:scroll;">
+				<table class="ui-form-table">
+					<tr>
+						<td id="title1" class="ui-form-table-dt">做什么：</td>
+						<td class="ui-form-table-dd" colspan="5">
+							<div id="std.what"></div>
+						</td>
+					</tr>
+					<tr>
+						<td id="title2" class="ui-form-table-dt">执行标准：</td>
+						<td class="ui-form-table-dd" colspan="5">
+							<div id="std.dorequire"></div>
+						</td>
+					</tr>
+					<tr id="managestd" style="display:none;">
+						<td class="ui-form-table-dt">管理/技术标准参考：</td>
+						<td class="ui-form-table-dd" colspan="5">
+							<div id="std.managestd"></div>
+						</td>
+					</tr>
+					<tr id="examstd" style="display:none;">
+						<td class="ui-form-table-dt">考核标准参考：</td>
+						<td class="ui-form-table-dd" colspan="5">
+							<div id="std.examstd"></div>
+						</td>
+					</tr>
+					<tr>
+						<td id="title3" class="ui-form-table-dt">异常怎么处置：<br/>（执行环节）</td>
+						<td class="ui-form-table-dd" colspan="5">
+							<div id="std.errdeal"></div>
+						</td>
+					</tr>
+					<tr>
+						<td id="title4" class="ui-form-table-dt">验证标准：<br/>（如何核查）</td>
+						<td class="ui-form-table-dd" colspan="5">
+							<div id="std.check"></div>
+						</td>
+					</tr>
+					<tr id="errdeal2">
+						<td class="ui-form-table-dt">异常怎么处置：<br/>（验证环节）</td>
+						<td class="ui-form-table-dd" colspan="5">
+							<div id="std.errdeal2"></div>
+						</td>
+					</tr>
+					<tr id="review">
+						<td class="ui-form-table-dt">评价标准：</td>
+						<td class="ui-form-table-dd" colspan="5">
+							<div id="std.review"></div>
+						</td>
+					</tr>
+					<tr id="actnode" style="display:none;">
+						<td class="ui-form-table-dt">多媒体文件：<br/>（5W2H标准）</td>
+						<td class="ui-form-table-dd" colspan="5"><table id="actnodeFileTable"></table></td>
+					</tr>
+					<tr id="actnodeItem" style="display:none;">
+						<td class="ui-form-table-dt">多媒体文件：<br/>（5W2H标准步骤）</td>
+						<td class="ui-form-table-dd" colspan="5"><table id="actnodeItemFileTable"></table></td>
+					</tr>
+					<tr id="templet" style="display:none;">
+						<td class="ui-form-table-dt">多媒体文件：<br/>（任务模板）</td>
+						<td class="ui-form-table-dd" colspan="5"><table id="templetFileTable"></table></td>
+					</tr>
+					<tr id="file">
+						<td class="ui-form-table-dt">制度文件：</td>
+						<td class="ui-form-table-dd" colspan="5">
+							<a id="systemFile" href="#" target="_blank" style="margin-left:50px;text-decoration:underline;"><font size='3'>制度文件</font></a>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div id="divtaskrequireinfo" style="height:420px;overflow:scroll;">
+				<div><br></br><span style="font-size:14px;margin-left:50px;">此任务没有关联标准信息。</span><br></br></div>
+			</div>
+		</div>
+	</form>
+</div>
+<div id="shadow"></div>
+</body>
+</html>

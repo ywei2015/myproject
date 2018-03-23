@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="action-log.xsd">
+	<namespace id="component.dataright" extends="component.default" />
+	<module id="M45" name="数据规则管理" />
+	<action-define>
+		<action class="DataRightMngAction">
+			<method name="addRule">
+				<type>add</type>
+				<description>新增数据规则。</description>
+				<result>
+					<success>新增成功。规则集ID：${rule.ruleSetId}、规则ID：${rule.ruleId}。</success>
+					<throws>新增失败。</throws>
+				</result>
+			</method>
+			<method name="addRuleSet">
+				<type>add</type>
+				<description>新增数据规则集。</description>
+				<result>
+					<success>新增成功。规则集名称：${ruleSet.ruleSetName}、所属应用编号：${ruleSet.appId}。</success>
+					<throws>新增失败。</throws>
+				</result>
+			</method>
+			<method name="bindPermissions">
+				<type>add</type>
+				<description>绑定多个数据规则集至权限。</description>
+				<result>
+					<success>绑定成功。权限ID：${pid}、规则集ID：${ruleSetId}。</success>
+					<throws>绑定失败。</throws>
+				</result>
+			</method>
+			<method name="unbindPermissions">
+				<type>delete</type>
+				<description>解除数据规则与权限的多个绑定。</description>
+				<result>
+					<success>解绑成功。权限ID：${pid}、规则集ID：${ruleSetId}。</success>
+					<throws>解绑失败。</throws>
+				</result>
+			</method>
+			<method name="deleteRule">
+				<type>delete</type>
+				<description>删除数据规则。</description>
+				<result>
+					<success>删除成功。被删除的规则ID：${id}。</success>
+					<throws>删除失败。</throws>
+				</result>
+			</method>
+			<method name="deleteRuleSets">
+				<type>delete</type>
+				<description>删除数据规则集。</description>
+				<result>
+					<success>删除成功。被删除 的规则集ID：${ids}。</success>
+					<throws>删除失败。</throws>
+				</result>
+			</method>
+			<method name="modifyRule">
+				<type>modify</type>
+				<description>修改数据规则。</description>
+				<result>
+					<success>修改成功。规则集ID：${rule.ruleSetId}、规则ID：${rule.ruleId}。</success>
+					<throws>修改失败。</throws>
+				</result>
+			</method>
+			<method name="modifyRuleSet">
+				<type>modify</type>
+				<description>修改数据规则集。</description>
+				<result>
+					<success>修改成功。规则集ID：${ruleSet.ruleSetId}。</success>
+					<throws>修改失败。</throws>
+				</result>
+			</method>
+		</action>
+	</action-define>
+</actions>

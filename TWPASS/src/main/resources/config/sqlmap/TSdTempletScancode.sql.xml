@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="TSdTempletScancode" >
+  <resultMap id="BaseResultMap" type="com.talkweb.xwzcxt.pojo.TSdTempletScancodePojo" >
+    <id column="C_ID" property="cId" jdbcType="VARCHAR" />
+    <result column="C_TEMPLET_ID" property="cTempletId" jdbcType="VARCHAR" />
+    <result column="C_BASECODE_ID" property="cBasecodeId" jdbcType="VARCHAR" />
+    <result column="C_BASECODE_NAME" property="cBasecodeName" jdbcType="VARCHAR" />
+    <result column="C_CREATOR" property="cCreator" jdbcType="VARCHAR" />
+    <result column="C_CREATETIME" property="cCreatetime" jdbcType="DATE" />
+    <result column="C_MODIFIER" property="cModifier" jdbcType="VARCHAR" />
+    <result column="C_MODIFYTIME" property="cModifytime" jdbcType="DATE" />
+    <result column="C_TASK_ID" property="cTaskId" jdbcType="DECIMAL" />
+    <result column="C_TYPE" property="cType" jdbcType="CHAR" />
+    <result column="C_ISDELETE" property="cIsdelete" jdbcType="CHAR" />
+  </resultMap>
+  
+  <resultMap id="searchDeleteScancodesByIdResultMap" type="com.talkweb.xwzcxt.pojo.TSdTempletScancodePojo" >
+    <id column="C_ID" property="cId" jdbcType="VARCHAR" />
+    <result column="C_TEMPLET_ID" property="cTempletId" jdbcType="VARCHAR" />
+    <result column="C_BASECODE_ID" property="cBasecodeId" jdbcType="VARCHAR" />
+    <result column="C_CREATOR" property="cCreator" jdbcType="VARCHAR" />
+    <result column="C_CREATETIME" property="cCreatetime" jdbcType="DATE" />
+    <result column="C_MODIFIER" property="cModifier" jdbcType="VARCHAR" />
+    <result column="C_MODIFYTIME" property="cModifytime" jdbcType="DATE" />
+    <result column="C_TASK_ID" property="cTaskId" jdbcType="DECIMAL" />
+    <result column="C_TYPE" property="cType" jdbcType="CHAR" />
+    <result column="C_ISDELETE" property="cIsdelete" jdbcType="CHAR" />
+  </resultMap>
+
+  <select id="getScancodeByTempletId" resultMap="BaseResultMap" parameterType="map" >
+    select aa.*,
+      bb.C_BASEDATA_NAME as C_BASECODE_NAME
+    from TWXWZC.T_SD_TEMPLET_SCANCODE aa,
+      TWXWZC.TB_INTEGRATE_INFO bb
+    where aa.C_BASECODE_ID = bb.C_BASEDATA_ID(+)
+    <if test="type == 1">
+      and aa.C_TEMPLET_ID = #{cid}
+    </if>
+    <if test="type == 2">
+      and aa.C_TASK_ID = #{cid}
+    </if>
+  </select>
+
+  <insert id="addScancode" parameterType="com.talkweb.xwzcxt.pojo.TSdTempletScancodePojo" >
+    insert into TWXWZC.T_SD_TEMPLET_SCANCODE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cId != null" >
+        C_ID,
+      </if>
+      <if test="cTempletId != null" >
+        C_TEMPLET_ID,
+      </if>
+      <if test="cBasecodeId != null" >
+        C_BASECODE_ID,
+      </if>
+      <if test="cCreator != null" >
+        C_CREATOR,
+      </if>
+      <if test="cCreatetime != null" >
+        C_CREATETIME,
+      </if>
+      <if test="cModifier != null" >
+        C_MODIFIER,
+      </if>
+      <if test="cModifytime != null" >
+        C_MODIFYTIME,
+      </if>
+      <if test="cTaskId != null" >
+        C_TASK_ID,
+      </if>
+      <if test="cType != null" >
+        C_TYPE,
+      </if>
+      <if test="cIsdelete != null" >
+        C_ISDELETE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cId != null" >
+        #{cId,jdbcType=VARCHAR},
+      </if>
+      <if test="cTempletId != null" >
+        #{cTempletId,jdbcType=VARCHAR},
+      </if>
+      <if test="cBasecodeId != null" >
+        #{cBasecodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="cCreator != null" >
+        #{cCreator,jdbcType=VARCHAR},
+      </if>
+      <if test="cCreatetime != null" >
+        #{cCreatetime,jdbcType=DATE},
+      </if>
+      <if test="cModifier != null" >
+        #{cModifier,jdbcType=VARCHAR},
+      </if>
+      <if test="cModifytime != null" >
+        #{cModifytime,jdbcType=DATE},
+      </if>
+      <if test="cTaskId != null" >
+        #{cTaskId,jdbcType=DECIMAL},
+      </if>
+      <if test="cType != null" >
+        #{cType,jdbcType=CHAR},
+      </if>
+      <if test="cIsdelete != null" >
+        #{cIsdelete,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateScancodeById" parameterType="com.talkweb.xwzcxt.pojo.TSdTempletScancodePojo" >
+    update TWXWZC.T_SD_TEMPLET_SCANCODE
+    <set >
+      <if test="cTempletId != null" >
+        C_TEMPLET_ID = #{cTempletId,jdbcType=VARCHAR},
+      </if>
+      <if test="cBasecodeId != null" >
+        C_BASECODE_ID = #{cBasecodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="cCreator != null" >
+        C_CREATOR = #{cCreator,jdbcType=VARCHAR},
+      </if>
+      <if test="cCreatetime != null" >
+        C_CREATETIME = #{cCreatetime,jdbcType=DATE},
+      </if>
+      <if test="cModifier != null" >
+        C_MODIFIER = #{cModifier,jdbcType=VARCHAR},
+      </if>
+      <if test="cModifytime != null" >
+        C_MODIFYTIME = #{cModifytime,jdbcType=DATE},
+      </if>
+      <if test="cTaskId != null" >
+        C_TASK_ID = #{cTaskId,jdbcType=DECIMAL},
+      </if>
+      <if test="cType != null" >
+        C_TYPE = #{cType,jdbcType=CHAR},
+      </if>
+      <if test="cIsdelete != null" >
+        C_ISDELETE = #{cIsdelete,jdbcType=CHAR},
+      </if>
+    </set>
+    where C_ID = #{cId,jdbcType=VARCHAR}
+  </update>
+
+  <delete id="deleteScancodesById" parameterType="java.util.List" >
+    delete from TWXWZC.T_SD_TEMPLET_SCANCODE
+    where
+    <if test="type == 1">
+      C_TEMPLET_ID in
+      <foreach item="id" collection="cid" open="(" separator="," close=")">
+        #{id}
+      </foreach>
+    </if>
+    <if test="type == 2">
+      C_TASK_ID in
+      <foreach item="id" collection="cid" open="(" separator="," close=")">
+        #{id}
+      </foreach>
+    </if>
+  </delete>
+  
+    <select id="searchDeleteScancodesById" resultMap="searchDeleteScancodesByIdResultMap" parameterType="java.util.List" >
+    select C_ID, C_TEMPLET_ID, C_BASECODE_ID, C_CREATOR, C_CREATETIME, C_MODIFIER, C_MODIFYTIME, C_TASK_ID, C_TYPE, C_ISDELETE from TWXWZC.T_SD_TEMPLET_SCANCODE
+    where
+    <if test="type == 1">
+      C_TEMPLET_ID in
+      <foreach item="id" collection="cid" open="(" separator="," close=")">
+        #{id}
+      </foreach>
+    </if>
+    <if test="type == 2">
+      C_TASK_ID in
+      <foreach item="id" collection="cid" open="(" separator="," close=")">
+        #{id}
+      </foreach>
+    </if>
+  </select>
+</mapper>

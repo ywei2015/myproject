@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dpArea" >
+  <resultMap id="BaseResultMap" type="com.talkweb.xwzcxt.pojo.DpAreaPojo" >
+    <id column="AREA" property="area" jdbcType="VARCHAR" />
+    <result column="UPAREA" property="uparea" jdbcType="VARCHAR" />
+    <result column="AREANAME" property="areaname" jdbcType="VARCHAR" />
+    <result column="FULLNAME" property="fullname" jdbcType="VARCHAR" />
+    <result column="NODELVL" property="nodelvl" jdbcType="DECIMAL" />
+    <result column="ORDERBY" property="orderby" jdbcType="DECIMAL" />
+    <result column="ISDELETE" property="isdelete" jdbcType="DECIMAL" />
+    <result column="BACKUP1" property="backup1" jdbcType="VARCHAR" />
+    <result column="BACKUP2" property="backup2" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    AREA, UPAREA, AREANAME, FULLNAME, NODELVL, ORDERBY, ISDELETE, BACKUP1, BACKUP2
+  </sql>
+  <select id="getAreaByID" parameterType="java.lang.String" resultType="com.talkweb.xwzcxt.pojo.DpAreaPojo">
+    select
+    <include refid="Base_Column_List" />
+    from TWXWZC.DP_AREA
+    where AREA = #{area,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="taskVerifyAndComment">
+	<resultMap id="verifyAndCommentMap"
+		type="com.talkweb.xwzcxt.pojo.TaskVerifyAndCommentPojo">
+		<result column="C_TASK_NAME" property="cTaskName" jdbcType="VARCHAR" />
+		<result column="C_END_TIME" property="cEndTime" jdbcType="DATE" />
+		<result column="C_CHK_RESULT" property="cChkResult" jdbcType="VARCHAR" />
+		<result column="C_EXEC_USERNAME" property="cExecUsername"
+			jdbcType="VARCHAR" />
+		<result column="c_exec_userInfo" property="cExecUserInfo"
+			jdbcType="VARCHAR" />
+		<result column="C_ACTNODE_ID" property="cActnodeId" jdbcType="VARCHAR" />
+		<result column="S_TD_CHECK" property="sTdCheck" jdbcType="VARCHAR" />
+		<result column="S_TD_REVIEW" property="sTdReview" jdbcType="VARCHAR" />
+		<result column="C_STATUS" property="cStatus" jdbcType="DECIMAL" />
+		<result column="C_TASK_ID" property="cTaskId" jdbcType="DECIMAL" />
+		<result column="C_CHK_RESULT" property="cChkResult" jdbcType="VARCHAR" />
+		<result column="c_evaluate_result" property="cEvaluateResult"
+			jdbcType="VARCHAR" />
+		<result column="c_task_typename" property="cTaskTypename"
+			jdbcType="VARCHAR" />
+		<result column="c_manage_section_name" property="cManageSectionName"
+			jdbcType="VARCHAR" />
+		<result column="c_fact_endtime" property="cFactEndtime"
+			jdbcType="DATE" />
+		<result column="c_chk_username" property="cChkUsername"
+			jdbcType="VARCHAR" />
+		<result column="c_chk_userInfo" property="cChkUserInfo"
+			jdbcType="VARCHAR" />
+		<result column="c_evaluate_userInfo" property="cEvaluateUserInfo"
+			jdbcType="VARCHAR" />
+		<result column="c_std_verflag" property="c_std_verflag"
+			jdbcType="CHAR" />
+		<result column="C_EX_IEMISEVENT" property="c_ex_iemisevent"
+			jdbcType="DECIMAL" />
+		<result column="c_status_name" property="cStatusName"
+			jdbcType="VARCHAR" />
+		<result column="typename" property="typename"
+			jdbcType="VARCHAR" />
+		<result column="c_check_std" property="c_check_std"
+			jdbcType="VARCHAR" />
+		<result column="c_review_std" property="c_review_std"
+			jdbcType="VARCHAR" />
+		<result column="c_chk_desc" property="c_chk_desc"
+			jdbcType="VARCHAR" />
+		<result column="c_evaluate_desc" property="c_evaluate_desc"
+			jdbcType="VARCHAR" />
+		<result column="c_evaluate_result_name" property="c_evaluate_result_name"
+			jdbcType="VARCHAR" />
+	    <result column="c_chk_result_name" property="c_chk_result_name"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="getTaskVerifyInfo" resultMap="verifyAndCommentMap" parameterType="Map">
+		SELECT   	t.c_task_name,t.c_task_id,t.c_std_verflag,t.c_actnode_id,t.c_status,
+			        substr(t.c_chk_result,1,2) as c_chk_result,
+			        substr(t.c_chk_result,4) as c_chk_desc,
+					<!-- to_char(t.c_start_time,'yyyy-mm-dd hh:mi:ss') as c_start_time, -->
+					to_char(t.c_end_time,'yyyy-mm-dd hh:mi:ss') as c_end_time,
+					to_char(t.c_fact_endtime,'yyyy-mm-dd hh:mi:ss') as c_fact_endtime,
+					decode(t.c_status,33,'未验证',34,'已验证') as c_status_name,
+					decode(t.c_chk_result,'OK','正常',null,'正常','异常') as c_chk_result_name,
+					std.c_check_std,tp.typename,m.c_manage_section_name,
+					decode(sign(t.c_end_time-t.c_fact_endtime),-1,'逾期完成','按期完成') as isExpired,
+					p2.posiname||';'||org2.orgname||';'||u2.displayname AS c_chk_userInfo,
+					u1.displayname as c_exec_username,org1.orgname,p1.posiname
+					
+		FROM        t_task t
+		
+		LEFT JOIN   v_chk_evaluate_std  std
+		ON  		(t.c_actnode_id=std.c_actnode_id AND t.c_std_verflag=std.c_std_verflag)
+		
+		LEFT JOIN   v_task_type tp
+        ON			t.c_task_type=tp.typeid
+	
+	    LEFT JOIN   t_manage_section m
+        ON			m.c_manage_section=t.c_manage_section
+		
+		LEFT JOIN   dp_user u1
+        ON			u1.userid=t.c_exec_userid
+        
+        LEFT JOIN   dp_organization org1
+        ON			org1.orgid=u1.orgid
+        
+        LEFT JOIN   dp_position p1
+        ON			p1.positionid=u1.positionid
+        
+        LEFT JOIN   dp_user u2
+        ON			u2.userid= #{userid} 
+                    
+        
+        LEFT JOIN   dp_organization org2
+        ON			org2.orgid=u2.orgid
+        
+        LEFT JOIN   dp_position p2
+        ON			p2.positionid=u2.positionid
+	    
+	    WHERE       c_chk_userid=#{userid}
+	    AND			t.c_status  IN(33,34)
+	    AND         u1.isdelete=0
+		AND         u2.isdelete=0
+		AND         p1.isdelete=0
+		AND         p2.isdelete=0
+		AND         org1.isdelete=0
+		AND         org2.isdelete=0
+		
+		AND
+		<if test="status !=null and '' !=status and status!='-1' ">
+			t.c_status=#{status}
+
+			<if test="status=='34' and cChkResult =='OK'  ">
+				AND ( t.c_chk_result='OK' OR t.c_chk_result is null )
+			</if>
+			<if test="status=='34' and cChkResult =='NG' ">
+				AND t.c_chk_result !='OK' AND t.c_chk_result is not null
+			</if>
+
+		</if>
+
+		<if test="status ==null or '' ==status">
+			 t.c_status=33 
+		</if>
+		
+		
+		<if test="status =='-1' ">
+			( t.c_status=33 OR t.c_status=34)
+		</if>
+		<if test="cExecUsername != null and '' != cExecUsername">
+			AND u1.displayname like '%${cExecUsername}%'
+		</if>
+		
+		<!--<if test="userCode != null and '' != userCode">
+			AND	u1.usercode = #{userCode}
+		</if>
+		-->
+		<if test="c_task_kind!=null">
+			AND  t.c_task_kind=#{c_task_kind}
+		</if>
+		
+		
+
+		<if test="cStartTime !=null and ''!=cStartTime">
+			AND t.c_start_time>=#{cStartTime}
+		</if>
+		<if test="cEndTime!=null and ''!=cEndTime">
+			AND t.c_end_time &lt;=#{cEndTime}
+		</if>
+
+		<if test="cTaskType !=null and '' !=cTaskType">
+			and t.c_task_type = #{cTaskType}
+		</if>
+		<if test="cManageSection !=null and '' != cManageSection">
+			AND t.c_manage_section =#{cManageSection}
+		</if>
+		<if test="isExpired ==1 ">
+			AND t.c_fact_endtime >=t.c_end_time
+		</if>
+		<if test="isExpired ==2 ">
+			AND t.c_end_time >t.c_fact_endtime
+		</if>
+		<if test="cChkUsername !=null and '' !=cChkUsername ">
+			AND u2.displayname like '%${cChkUsername}%'
+		</if>
+		<if test="year!=null and ''!=year">
+		    AND	to_char(t.c_end_time,'yyyy')=#{year}
+		</if>
+		<if test="month!=null and ''!=month">
+		    AND	to_char(t.c_end_time,'mm')=#{month}
+		</if>
+        ORDER BY   t.c_fact_endtime desc
+	</select>
+	
+	<select id="getTaskCommentInfo" resultMap="verifyAndCommentMap" parameterType="Map">
+		SELECT   	t.c_task_name,t.c_exec_username,t.c_task_id,t.c_std_verflag,t.c_actnode_id,
+					t.c_evaluate_result as  c_evaluate_desc,
+			        decode(t.c_chk_result,'OK','正常',null,'正常','异常') as c_chk_result,t.c_status,
+			        f_get_evaluate_status_name(t.c_status,t.c_ex_iemisevent,t.c_evaluate_result,t.c_iskeyctrl) as c_status_name,
+					<!-- to_char(t.c_start_time,'yyyy-mm-dd hh:mi:ss') as c_start_time, -->
+					substr(t.c_evaluate_result,1,2) as c_evaluate_result,
+					to_char(t.c_end_time,'yyyy-mm-dd hh:mi:ss') as c_end_time,
+					to_char(t.c_fact_endtime,'yyyy-mm-dd hh:mi:ss') as c_fact_endtime,
+					t.c_ex_iemisevent,
+					decode(t.c_evaluate_result,'OK','合格',null,'合格','不合格') as c_evaluate_result_name,
+					std.c_review_std,tp.typename,m.c_manage_section_name,
+					decode(sign(t.c_end_time-t.c_fact_endtime),-1,'逾期完成','按期完成') as isExpired,
+					p2.posiname||';'||org2.orgname||';'||u2.displayname AS c_chk_userInfo,
+					org1.orgname||';'|| p1.posiname||';'||u1.displayname AS c_exec_userInfo,
+					org3.orgname||';'|| p3.posiname||';'||u3.displayname AS c_evaluate_userInfo
+					
+		FROM        t_task t
+		
+		LEFT JOIN   v_chk_evaluate_std  std
+		ON  		(t.c_actnode_id=std.c_actnode_id AND t.c_std_verflag=std.c_std_verflag)
+		
+		LEFT JOIN   v_task_type tp
+        ON			t.c_task_type =tp.typeid
+	
+	    LEFT JOIN   t_manage_section m
+        ON			m.c_manage_section=t.c_manage_section
+		
+		LEFT JOIN   dp_user u1
+        ON			u1.userid=t.c_exec_userid
+        
+        LEFT JOIN   dp_organization org1
+        ON			org1.orgid=u1.orgid
+        
+        LEFT JOIN   dp_position p1
+        ON			p1.positionid=u1.positionid
+        
+        LEFT JOIN   dp_user u2
+        ON			u2.userid=t.c_chk_userid
+        
+        LEFT JOIN   dp_organization org2
+        ON			org2.orgid=u2.orgid
+        
+        LEFT JOIN   dp_position p2
+        ON			p2.positionid=u2.positionid
+        
+        LEFT JOIN   dp_user u3
+        ON			u3.userid=t.c_evaluate_userid
+        
+        LEFT JOIN   dp_organization org3
+        ON			org3.orgid=u3.orgid
+        
+        LEFT JOIN   dp_position p3
+        ON			p3.positionid=u3.positionid
+	    
+	    WHERE       t.c_evaluate_userid=#{userid}
+	    AND			t.c_status  IN(33,34,35)
+	    AND         u1.isdelete=0
+		AND         u3.isdelete=0
+		AND         p1.isdelete=0
+		AND         p3.isdelete=0
+		AND         org1.isdelete=0
+		AND         org3.isdelete=0
+		<!-- AND         u2.isdelete=0
+		AND         p2.isdelete=0
+		AND         org2.isdelete=0 -->
+	
+		AND
+		<if test="status !=null and '' !=status and status!='-1' ">
+			t.c_status=#{status}
+			<if test="status=='35'">
+			    <if test=" cEvaluateResult ==null or  cEvaluateResult==''">
+			        AND ( t.c_ex_iemisevent=1 OR  t.c_evaluate_result='OK' OR t.c_evaluate_result IS NULL)
+			    </if>
+			 	<if test="cEvaluateResult =='OK'  ">
+			 	    <!-- 查询“合格” -->
+					AND ( t.c_evaluate_result='OK' OR t.c_evaluate_result IS NULL )
+				</if>
+				<if test="cEvaluateResult =='NG' and c_ex_iemisevent==1  ">
+				    <!-- 查询“不合格且已经发起过度量事件” -->
+					AND t.c_ex_iemisevent=1 AND t.c_evaluate_result !='OK' AND t.c_evaluate_result IS NOT NULL
+				</if>
+
+				<if test="c_ex_iemisevent==0 and cEvaluateResult =='NG' ">
+				     <!-- 查询“不合格但是还未发起过度量事件” -->
+					AND	t.c_ex_iemisevent=0 AND t.c_evaluate_result !='OK' AND t.c_evaluate_result IS NOT NULL
+				</if>
+		    </if>
+		</if>
+		<if test="status ==null or '' ==status">
+			(t.c_status=34 OR t.c_status=33)
+			 
+		</if>
+		<if test="status =='-1' ">
+			(t.c_status=35 OR t.c_status=34)
+		</if>
+		<if test="c_task_kind!=null">
+			AND  t.c_task_kind=#{c_task_kind}
+		</if>
+		<if test="cChkResult=='OK'">
+		    AND (t.c_chk_result='OK' OR t.c_chk_result IS NULL)
+		</if>
+		<if test="cChkResult =='NG' ">
+		    AND t.c_chk_result != 'OK' AND t.c_chk_result IS NOT NULL
+		</if>
+		<if test="cExecUsername != null and '' != cExecUsername">
+			AND u1.displayname like '%${cExecUsername}%'
+		</if>
+
+		<if test="cStartTime !=null and ''!=cStartTime">
+			AND t.c_start_time>=#{cStartTime}
+		</if>
+		<if test="cEndTime!=null and ''!=cEndTime">
+			AND t.c_end_time &lt;=#{cEndTime}
+		</if>
+		<if test="cTaskType !=null and '' !=cTaskType">
+			and t.c_task_type = #{cTaskType}
+		</if>
+		<if test="cManageSection !=null and '' != cManageSection">
+			AND t.c_manage_section =#{cManageSection}
+		</if>
+		<if test="isExpired ==1 ">
+			AND t.c_fact_endtime >=t.c_end_time
+		</if>
+		<if test="isExpired ==2 ">
+			AND t.c_end_time >t.c_fact_endtime
+		</if>
+		<if test="cChkUsername !=null and '' !=cChkUsername ">
+			AND u2.displayname like '%${cChkUsername}%'
+		</if>
+		<if test="cEvaluateUsername !=null and '' !=cEvaluateUsername ">
+			AND u3.displayname like '%${cEvaluateUsername}%'
+		</if>
+		<if test="year!=null and ''!=year">
+		    AND	to_char(t.c_end_time,'yyyy')=#{year}
+		</if>
+		<if test="month!=null and ''!=month">
+		    AND	to_char(t.c_end_time,'mm')=#{month}
+		</if>
+		ORDER BY   t.c_fact_endtime desc
+	</select>
+	
+	<!-- <select id="getTaskVerifyInfo" resultMap="verifyAndCommentMap"
+		parameterType="Map">
+		SELECT
+		t.c_task_id,t.c_task_name,t.c_status,t.c_exec_username,t.c_end_time,
+		t.c_actnode_id,t.c_chk_result,t.c_manage_section_name,t.c_task_typename,
+		t.c_fact_endtime,pos.posiname||';'||org.orgname||';'||t.c_exec_username
+		AS c_exec_userInfo,c_std_verflag,
+		
+	  
+		(SELECT pos2.posiname||';'||org2.orgname||';'||du2.displayname
+		FROM t_task t2,dp_organization org2,dp_user du2,dp_position pos2
+		WHERE t2.c_chk_userid=du2.userid
+		AND du2.positionid=pos2.positionid
+		AND du2.orgid=org2.orgid
+		AND t.c_task_id=t2.c_task_id
+		) AS c_chk_userInfo
+       
+        
+		FROM t_task t,dp_organization org,dp_user du,dp_position pos
+
+		WHERE t.c_iskeyctrl='1'
+		AND t.c_exec_userid=du.userid
+		AND du.positionid=pos.positionid
+		AND du.orgid=org.orgid
+		AND t.c_chk_userid=#{userid}
+
+		AND t.c_exec_userid IN (
+		SELECT u.userid
+		FROM dp_user u
+		WHERE u.orgid IN (SELECT r.orgid
+		FROM dp_organization r
+		START WITH r.orgid= #{orgid}
+		CONNECT BY prior r.orgid = r.parentorgid))
+
+		AND
+		<if test="status !=null and '' !=status and status!='-1' ">
+			c_status=#{status}
+
+			<if test="status=='34' and cChkResult =='OK'  ">
+				AND ( c_chk_result='OK' OR c_chk_result is null )
+			</if>
+			<if test="status=='34' and cChkResult =='NG' ">
+				AND c_chk_result !='OK' AND c_chk_result is not null
+			</if>
+
+		</if>
+
+
+		<if test="status ==null or '' ==status">
+			c_status=33
+		</if>
+		<if test="status =='-1' ">
+			( c_status=33 OR c_status=34)
+		</if>
+		<if test="cExecUsername != null and '' != cExecUsername">
+			AND c_exec_username like '%${cExecUsername}%'
+		</if>
+
+		<if test="cStartTime !=null and ''!=cStartTime">
+			AND c_start_time>=#{cStartTime}
+		</if>
+		<if test="cEndTime!=null and ''!=cEndTime">
+			AND c_end_time &lt;=#{cEndTime}
+		</if>
+
+		<if test="cTaskType !=null and '' !=cTaskType">
+			and t.c_task_type = #{cTaskType}
+		</if>
+		<if test="cManageSection !=null and '' != cManageSection">
+			AND t.c_manage_section =#{cManageSection}
+		</if>
+		<if test="isExpired ==1 ">
+			AND t.c_fact_endtime >=t.c_end_time
+		</if>
+		<if test="isExpired ==2 ">
+			AND t.c_end_time >t.c_fact_endtime
+		</if>
+		<if test="cChkUsername !=null and '' !=cChkUsername ">
+			AND t.c_chk_username like '%${cChkUsername}%'
+		</if>
+		<if test="year!=null and ''!=year">
+		    AND	to_char(t.c_end_time,'yyyy')=#{year}
+		</if>
+		<if test="month!=null and ''!=month">
+		    AND	to_char(t.c_end_time,'mm')=#{month}
+		</if>
+        ORDER BY   t.c_fact_endtime desc
+
+	</select>-->
+	
+	<select id="getChkTaskCount" parameterType="Long" resultType="int"> 
+	   SELECT  COUNT(1)
+	   FROM    t_task
+	   WHERE   c_chk_userid=#{userid}
+	   AND	   c_status =33
+	</select> 
+	
+	<select id="getEvaluateTaskCount"  parameterType="Long" resultType="int">
+	   SELECT  COUNT(1)
+	   FROM    t_task
+	   WHERE   c_evaluate_userid=#{userid}
+	   AND	   c_status =34
+	</select>
+
+	<!-- <select id="getTaskCommentInfo" resultMap="verifyAndCommentMap"
+		parameterType="Map">
+		SELECT
+		c_task_id,c_task_name,c_status,c_exec_username,c_end_time,c_actnode_id
+		,c_chk_result,c_evaluate_result,t.c_manage_section_name,t.c_task_typename,
+		t.c_fact_endtime,pos.posiname||';'||org.orgname||';'||t.c_exec_username AS c_exec_userInfo,
+		c_std_verflag,c_ex_iemisevent,
+		
+		
+       
+		(  SELECT pos2.posiname||';'||org2.orgname||';'||t2.c_evaluate_username
+		   FROM t_task t2,dp_organization org2,dp_user du2,dp_position pos2
+		   WHERE t2.c_evaluate_userid=du2.userid
+		   AND du2.positionid=pos2.positionid
+		   AND du2.orgid=org2.orgid
+		   AND t.c_task_id=t2.c_task_id
+		)  AS c_evaluate_userInfo,
+        
+		( SELECT pos2.posiname||';'||org2.orgname||';'||t2.c_evaluate_username
+		  FROM 	t_task t2,dp_organization org2,dp_user du2,dp_position pos2
+		  WHERE 	t2.c_chk_userid=du2.userid
+		  AND 	du2.positionid=pos2.positionid
+		  AND 	du2.orgid=org2.orgid
+		  AND 	t.c_task_id=t2.c_task_id
+		) AS c_chk_userInfo
+
+		FROM    t_task t,dp_organization org,dp_user du,dp_position pos
+		WHERE   t.c_iskeyctrl='1'
+			    t.c_exec_userid=du.userid
+		AND		du.positionid=pos.positionid
+		AND 	du.orgid=org.orgid
+		AND     t.c_evaluate_userid=#{userid}
+
+		AND		t.c_exec_userid 
+		IN      (SELECT u.userid FROM dp_user u
+			    WHERE u.orgid IN (SELECT r.orgid
+			    FROM dp_organization r
+			    START WITH r.orgid=#{orgid}
+			    CONNECT BY prior r.orgid = r.parentorgid))
+
+		AND
+		<if test="status !=null and '' !=status and status!='-1' ">
+			c_status=#{status}
+
+			<if test="status=='35'">
+			    <if test=" cEvaluateResult ==null or  cEvaluateResult==''">
+			        AND ( c_ex_iemisevent=1 OR  c_evaluate_result='OK' OR c_evaluate_result IS NULL)
+			    </if>
+			 	<if test="cEvaluateResult =='OK'  ">
+			 	    查询“合格”
+					AND ( c_evaluate_result='OK' OR c_evaluate_result IS NULL )
+				</if>
+				<if test="cEvaluateResult =='NG' and c_ex_iemisevent==1  ">
+				    查询“不合格且已经发起过度量事件”
+					AND c_ex_iemisevent=1 AND c_evaluate_result !='OK' AND c_evaluate_result IS NOT NULL
+				</if>
+
+				<if test="c_ex_iemisevent==0 and cEvaluateResult =='NG' ">
+				     查询“不合格但是还未发起过度量事件”
+					AND	c_ex_iemisevent=0 AND c_evaluate_result !='OK' AND c_evaluate_result IS NOT NULL
+				</if>
+		    </if>
+		</if>
+		<if test="status ==null or '' ==status">
+			c_status=34 
+		</if>
+		<if test="status =='-1' ">
+			(c_status=35 OR c_status=34)
+		</if>
+		<if test="cChkResult=='OK'">
+		    AND (c_chk_result='OK' OR c_chk_result IS NULL)
+		</if>
+		<if test="cChkResult =='NG' ">
+		    AND c_chk_result != 'OK' AND c_chk_result IS NOT NULL
+		</if>
+		<if test="cExecUsername != null and '' != cExecUsername">
+			AND c_exec_username like '%${cExecUsername}%'
+		</if>
+
+		<if test="cStartTime !=null and ''!=cStartTime">
+			AND c_start_time>=#{cStartTime}
+		</if>
+		<if test="cEndTime!=null and ''!=cEndTime">
+			AND c_end_time &lt;=#{cEndTime}
+		</if>
+		<if test="cTaskType !=null and '' !=cTaskType">
+			and t.c_task_type = #{cTaskType}
+		</if>
+		<if test="cManageSection !=null and '' != cManageSection">
+			AND t.c_manage_section =#{cManageSection}
+		</if>
+		<if test="isExpired ==1 ">
+			AND t.c_fact_endtime >=t.c_end_time
+		</if>
+		<if test="isExpired ==2 ">
+			AND t.c_end_time >t.c_fact_endtime
+		</if>
+		<if test="cChkUsername !=null and '' !=cChkUsername ">
+			AND t.c_chk_username like '%${cChkUsername}%'
+		</if>
+		<if test="cEvaluateUsername !=null and '' !=cEvaluateUsername ">
+			AND t.c_evaluate_username like '%${cEvaluateUsername}%'
+		</if>
+		<if test="year!=null and ''!=year">
+		    AND	to_char(t.c_end_time,'yyyy')=#{year}
+		</if>
+		<if test="month!=null and ''!=month">
+		    AND	to_char(t.c_end_time,'mm')=#{month}
+		</if>
+		ORDER BY   t.c_fact_endtime desc
+	</select> -->
+
+	<select id="getTaskVerifyStd0" resultType="java.lang.String"
+		parameterType="map">
+
+		SELECT c_check_std
+		FROM t_actnode_item
+		WHERE c_actnode_id=#{actnodeId}
+
+	</select>
+
+	<select id="getTaskVerifyStd1" resultType="java.lang.String"
+		parameterType="map">
+
+		SELECT c_std_check
+		FROM t_sd_actnode
+		WHERE c_actnode_id=#{actnodeId}
+
+	</select>
+
+
+	<select id="getTaskCommentStd1" resultType="java.lang.String"
+		parameterType="map">
+
+		SELECT c_std_review
+		FROM t_sd_actnode
+		WHERE c_actnode_id=#{actnodeId}
+
+	</select>
+
+	<select id="getTaskCommentStd0" resultType="java.lang.String"
+		parameterType="map">
+
+		SELECT c_review_std
+		FROM t_actnode_item
+		WHERE c_actnode_id=#{actnodeId}
+
+	</select>
+
+	<update id="verifyStatusUpdate" parameterType="map">
+		UPDATE t_task
+		SET c_status=34
+		
+		<!-- ,c_chk_starttime=sysdate -->
+		,c_chk_endtime=sysdate
+		WHERE 1>1 
+		<if test="cTaskId !=null and cTaskId !='' ">
+		 OR ( c_status=33 AND c_chk_userid=#{userid} AND c_task_id IN
+			<foreach item="taskId" collection="cTaskId" open="("
+				separator="," close=")">
+				#{taskId}
+			</foreach>
+			)
+		</if>
+	</update>
+
+	<update id="verifyResultUpdate" parameterType="map">
+		UPDATE t_task
+		SET c_chk_result=#{cChkResult},c_chk_endtime=sysdate
+		WHERE c_task_id=#{cTaskId}
+		AND   (c_status=33 or c_status=34 )
+		
+	</update>
+
+	<update id="commentStatusUpdate" parameterType="map">
+		UPDATE t_task
+		SET c_status=35
+		
+<!-- 		,c_evaluate_plantime=sysdate -->
+		,c_evaluate_time=sysdate
+		WHERE 1>1 
+		<if test="cTaskId !=null and cTaskId !='' ">
+		   OR	(c_evaluate_userid=#{userid} AND c_task_id IN
+			<foreach item="taskId" collection="cTaskId" open="("
+				separator="," close=")">
+				#{taskId}
+			</foreach>
+		         AND   (c_status=34 OR  (c_iskeyctrl='0' AND c_status=33)))
+		</if>
+
+	</update>
+
+	<update id="commentResultUpdate" parameterType="map">
+		UPDATE t_task
+		SET c_evaluate_result=#{cEvaluateResult},c_evaluate_time=sysdate
+		WHERE c_task_id=#{cTaskId}
+		AND  ( c_status=34 OR c_status=35 OR  (c_iskeyctrl='0' AND c_status=33))
+		AND	  c_evaluate_userid=#{userid}
+
+	</update>
+
+	<update id="updateEmisStatus" parameterType="map">
+	    UPDATE   t_task
+	    SET      c_ex_iemisevent=1,c_status='35',c_evaluate_time=sysdate
+	    WHERE    c_task_id=#{taskId}
+	    AND		 c_evaluate_userid=#{userid}
+	    AND		 c_status='35'
+	    AND		 c_ex_iemisevent=0
+	    AND		 c_evaluate_result like '%NG%'
+	    
+	</update>
+	<!-- <select id="getVerifyResult" parameterType="java.lang.String" resultType="java.lang.String" 
+		> SELECT c_chk_result FROM t_task_test where c_task_id=#{cTaskId} </select> -->
+		
+	<select id="getChkitemStd" parameterType="map" resultType="com.talkweb.xwzcxt.vo.ActitemStdVo">
+		SELECT	  t.c_actitem_std_check,t.c_actitem_index,t.c_actitem_name
+		FROM	  t_sd_actnode_item t
+		WHERE	  t.c_actnode_id=''||#{c_actnode_id}||''
+		ORDER BY  t.c_actitem_index ASC
+	</select>
+		
+</mapper>

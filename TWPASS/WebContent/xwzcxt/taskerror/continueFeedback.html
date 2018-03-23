@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>继续反馈或安排整理</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../js/jquery.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="continueFeedback.js"></script>
+
+</head>
+<body>
+	<form itype="Form" saveInstance=true id="checkform">
+		<table class="ui-form-table">
+		    <tr valign="middle">
+                 <td class="ui-form-table-dt"><font color="red">*</font>接收人</td>
+                 <td class="ui-form-table-dd" colspan="3">
+					<input itype="TextBox" onclick="accept()" id="acceptName" width="100%" readOnly=true saveInstance=true />
+					<input itype="TextBox" type="hidden"  id="taskErrTraceVo.c_to_userid"   saveInstance=true/>
+                 </td>
+                
+            </tr>
+            <tr valign="middle" id="copy"> 
+            	 <td class="ui-form-table-dt">抄送人</td>
+                 <td class="ui-form-table-dd" colspan="3">
+					<input  id="copyName" readOnly=true  width="100%" itype="TextBox" 
+					     saveInstance=true saveInstance="true" onclick="copyto()"   />	
+					<input  id="taskErrTraceVo.c_cc_userid_list" type="hidden"   width="100%" itype="TextBox" saveInstance=true />
+                 </td>
+            </tr>
+            <script>
+            	wirteEndtime();
+            </script>
+			<tr valign="middle">
+					<td class="ui-form-table-dt"><div id="title"></div></td>
+					<td class="ui-form-table-dd" colspan="3">
+						<div itype="TextBox" width="100%" height="200px" id="taskErrTraceVo.c_errdes"
+							type="TextArea" saveInstance=true></div>
+					</td>
+				</tr>
+   
+				<tr valign="middle">
+					<td class="ui-form-table-dt">取证</td>
+					<td class="ui-form-table-dd" colspan="3">
+						<div itype="Button" text="上传文件" width="100px" iconCls="icon-add"
+							onclick="uploadFile()"></div>
+						<div itype="TextBox" type="hidden" id="taskErrTraceVo.c_results" width="100px" saveInstance=true ></div>
+					    <div itype="TextBox" type="hidden" id="taskErrTraceVo.c_tracefunids" width="100px" saveInstance=true ></div>
+					</td>
+				</tr>
+				<tr valign="middle">
+					<td class="ui-form-table-dt"></td>
+					<td class="ui-form-table-dd" colspan="3" >
+						<ul id="fileList"></ul>
+					</td>
+				</tr>
+		</table>
+    	<table class="ui-form-table" id="tb2">
+    		<tr>
+    			<td class="ui-form-table-dt"><font color="red">*</font>验证人</td>
+    			<td class="ui-form-table-dd">
+    			    <input itype="TextBox"  id="c_chk_username" onclick="verify()" width="100%" readonly="readonly">
+    			    <input itype="TextBox" type="hidden" saveInstance="true" id="taskErrTraceVo.c_chk_userid"  >
+    			</td>
+    			<td class="ui-form-table-dt">验证期限</td>
+    			<td class="ui-form-table-dd"><input itype="TextBox" id="taskErrTraceVo.c_chk_plantime"  readOnly="readonly"  width="100%"  saveInstance="true" ></td>
+    		</tr>
+    		<tr>
+    			<td class="ui-form-table-dt"><font color="red">*</font>评价人</td>
+    			<td class="ui-form-table-dd">
+    			    <input  itype="TextBox" id="c_evaluate_username" onclick="evaluate()" width="100%" readonly="readonly">
+    			    <input type="hidden" itype="TextBox" id="taskErrTraceVo.c_evaluate_userid" />
+    			</td>
+    			<td class="ui-form-table-dt">评价期限</td>
+    			<td class="ui-form-table-dd"><input readOnly="readonly" id="taskErrTraceVo.c_evaluate_plantime" itype="TextBox"   width="100%" saveInstance="true" ></td>
+    		</tr>
+    	</table>
+    </form>   
+</body>
+</html>

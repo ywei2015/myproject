@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>用户管理</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="../../fastdev/fastDev-import.js"></script>
+<script type="text/javascript" src="user_manage.js"></script>
+<style>
+html,body {
+	height: 100%;
+}
+</style>
+</head>
+
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	<div class="ui-layout" id="mainDiv" style="height: 100%;">
+		<div class="ui-layout-left" style="width: 200px; height: 100%;">
+			<div class="ui-toolbar ui-toolbar-bg">
+				<div itype="Button" plain=true text="组织结构" iconCls="icon-org"
+					onclick="doViewByOrg()"></div>
+				<div itype="Button" plain=true text="业务结构" iconCls="icon-business"
+					onclick="doViewByBusiness()"></div>
+			</div>
+			<div id="usertree" itype="Tree" saveInstance="true" showIco="true"
+				width="100%" rootValue="所有组织"
+				initSource="org_initFirstGradeOrgTree.action?moduleId=M32&modeId=view"
+				asyncDataSource="org_initGradeOrgTree.action?moduleId=M32&modeId=view"
+				topParentid="-1" openFloor=2 onNodeClick="onNodeClick()"></div>
+		</div>
+		<div class="ui-layout-center" id="centerPanel"
+			style="left: 202px; height: 100%;">
+			<form id="userform" itype="Form" saveInstance="true"
+				initSource="user_ininUserForm.action">
+				<table class="ui-form-table">
+					<tr valign="middle">
+						<th class="ui-form-table-dt" style="width: 100px;">姓名：</th>
+						<td class="ui-form-table-dd"><div itype="TextBox"
+								width="100%" id="user.displayName"></div></td>
+						<th class="ui-form-table-dt" style="width: 100px;">类型：</th>
+						<td class="ui-form-table-dd"><div itype="Select" width="100%"
+								id="user.userType">
+								<div>-请选择-</div>
+							</div></td>
+						<th class="ui-form-table-dt" style="width: 100px;">状态：</th>
+						<td class="ui-form-table-dd"><div id="user.status"
+								width="100%" itype="Select">
+								<div>-请选择-</div>
+							</div></td>
+					</tr>
+					<tr>
+						<th class="ui-form-table-dt" style="width: 100px;">用户账号：</th>
+						<td class="ui-form-table-dd"><div itype="TextBox"
+								id="user.userCode" width="100%"></div></td>
+						<th class="ui-form-table-dt" style="width: 100px;">所属组织：</th>
+						<td class="ui-form-table-dd">
+							<div id="orgId" itype="SelectTree" saveInstance="true"
+								showIco="true" width="100%" rootValue="所有组织"
+								initSource="org_initFirstGradeOrgTree.action?moduleId=M32&modeId=view"
+								asyncDataSource="org_initGradeOrgTree.action?moduleId=M32&modeId=view"
+								topParentid="-1" openFloor=2 onChange="onOrgChange()"></div>
+						</td>
+						<td class="ui-form-table-dd" colspan="2" align="right">
+							<input itype="Button" text="查询" iconCls="icon-search" onClick="doSearchUser()" width=100px></input>&nbsp;
+							<input itype="Button" text="重置" iconCls="icon-reset" onClick="doResetUser()" width=100px></input>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div class="datagrid" itype="DataGrid" allowAutoFillRow="false"
+				id="userdatagrid" width="100%" saveInstance="true"
+				showCheckColumn="true" initSource="user_queryEmpInfos.action"
+				showSeqColumn="true" pageSize="20" onRowDblClick="onRowDblClick()"
+				onRowClick="onRowClick()" onAfterInitRender="onAfterInitRender()">
+				<div name="top-toolbar">
+					<div plain=true text="新增" id="add" display="false"
+						iconCls="icon-add" onClick="doAddUser()"></div>
+					<div itype="separator"></div>
+					<div plain=true text="调动组织" id="moveorg" display="false"
+						class="ddd" iconCls="icon-org" onClick="doChangeOrg()"></div>
+					<div itype="separator"></div>
+					<div plain=true text="排序" id="sort" display="false"
+						iconCls="icon-sort" onClick="doOrderUser()"></div>
+					<div itype="separator"></div>
+					<div plain=true text="批量删除" id="delete" display="false"
+						iconCls="icon-delete" onClick="doDelManyUsers()"></div>
+				</div>
+				<div hidden="true" name="staffId"></div>
+				<div hidden="true" name="orgId"></div>
+				<div hidden="true" name="majorOrgId"></div>
+				<div hidden="true" name="userId"></div>
+				<div hidden="true" name="positionId"></div>
+				<div width="10%" name="displayName" text="姓名"
+					renderer="displayNameRenderer()"></div>
+				<div width="15%" name="userCode" text="账号"></div>
+				<div width="15%" name="orgName" text="所属组织"></div>
+				<div width="15%" name="email" text="邮箱地址"></div>
+				<div width="7%" name="statusName" text="状态"></div>
+				<div width="31%" text="操作" renderer="operRenderer()"></div>
+				<div width="7%" name="dutyTypeName" text="岗位类型" hidden=true></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

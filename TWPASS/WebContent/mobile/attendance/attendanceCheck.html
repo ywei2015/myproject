@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta charset="UTF-8">
+<!-- 自适应界面，如果出现，在某些设备出现界面偏小的话，检查一下有没有加入这句 -->
+<meta http-equiv="Content-type" name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width">
+<link rel="stylesheet" href="../css/jquery.mobile-1.4.5.min.css">
+<script src="../js/jquery-2.1.3.min.js"></script>
+<script src="../js/jquery.mobile-1.4.5.min.js"></script>
+<script src="attendanceCheck.js"></script>
+<style type="text/css">
+ #kaoqin_pick{
+  width:200px;
+  position:fixed;
+  top:35px;
+  right:0px;
+  z-index:66; 
+ }
+ #content {
+	margin: 35px 5px 52.5px 5px;
+	padding: 0;
+	text-align: center;
+	vertical-align: middle;
+}
+#index{
+ float:left;
+}
+ 
+</style>
+</head>
+<body>
+	<div id="page" data-role="page">
+		<div  id="kaqin_header" data-theme="c" data-role="header" data-position="fixed" data-tap-toggle="false">
+				<a id="my_date" href="#" class="ui-btn-right" data-role="button" onclick="showDateP()">更多</a>
+		</div>
+		<div id="kaoqin_pick" style="display:none"><input id="meeting" type="date"/></div>
+		<div id="content" data-role="content">
+		   
+		</div>
+		<div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false">
+		   <h1 id="index"></h1>
+			<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true" >
+			  <a href="#" data-icon="arrow-l" style="width:8%" data-role="button" onclick="prePage()">past</a>
+				<select id="pageSelect" style="width:8%" onChange="setPage(this);">
+					<option value="5">5条</option>
+					<option value="10">10条</option>
+					<option value="20" selected="selected">20条</option>
+					<option value="50">50条</option>
+				</select>
+				 <a href="#" style="width:8%" data-icon="arrow-r" data-role="button" onclick="nextPage()">next</a>
+			</fieldset>
+		</div>
+	</div>
+</body>
+</html>

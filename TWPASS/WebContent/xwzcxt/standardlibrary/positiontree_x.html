@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>组织管理</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../component/newsystem/org/orgmanage.js"></script>
+<script type="text/javascript">
+	function onNodeClick1(e,id,val){
+		//alert(e.srcElement.className);
+		var element=e.srcElement||e.target;
+		var fullClassName=element.className;
+		var dataType="";
+		if(fullClassName.indexOf("font1")>=0){
+			dataType="组织";
+		}
+		else if(fullClassName.indexOf("font2")>=0){
+			dataType="岗位";
+			fastDev.tips("id为"+id+",val为"+val+"的"+dataType+"...");
+		}
+	   // var positiontree = fastDev.getInstance("orgtree");
+	   // var currentId = positiontree.getCurrentId();
+		//window.alert("id为"+id+",val为"+val+"的"+dataType);
+//		fastDev.tips("id为"+id+",val为"+val+"的"+dataType+"...");
+	}
+
+	function onNodeClick(e,id,val){
+		//alert(e.srcElement.className);
+		var element=e.srcElement||e.target;
+		var fullClassName=element.className;
+		var dataType="";
+		if(fullClassName.indexOf("font1")>=0){
+			dataType="组织";
+		}
+		else if(fullClassName.indexOf("font2")>=0){
+			dataType="岗位";
+		}
+	   // var positiontree = fastDev.getInstance("orgtree");
+	   // var currentId = positiontree.getCurrentId();
+		//window.alert("id为"+id+",val为"+val+"的"+dataType);
+		fastDev.tips("id为"+id+",val为"+val+"的"+dataType+"...");
+	}
+</script>
+<style>
+	html, body {
+		height:100%;
+	}
+	.font1{
+		color:red;
+	}
+</style>
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+<!-- 
+	<div class="ui-layout" id="mainDiv" style="height:100%;">
+		<div class="ui-layout-left" style="width: 200px; height:100%;">
+			<div class="ui-toolbar ui-toolbar-bg" style="line-height:22px">所有组织</div>
+			<div id="orgtree" itype="Tree" saveInstance="true" showIco="true"
+				width="100%" rootValue="所有组织"
+			 	topParentid="1--1"
+			 	initSource="posbindorg_getAllPosition.action"
+				asyncDataSource="posbindorg_getAllPosition.action"
+				openFloor=2 onNodeClick="onNodeClick()">
+			</div>
+		</div>
+	</div>
+	 -->
+	
+	<div class="ui-layout" id="mainDiv" style="height:100%;">
+		<div class="ui-layout-left" style="width: 100%; height:100%;">
+			<div class="ui-toolbar ui-toolbar-bg" style="line-height:22px">所有组织</div>
+			
+			<div id="orgtree1" itype="Tree" saveInstance="true" showIco="true"
+				width="40%" rootValue="所有组织"
+			 	topParentid="1--1"
+			 	initSource="posbindorg_getAllPosition.action"
+				asyncDataSource="posbindorg_getAllPosition.action"
+				openFloor=2 onNodeClick="onNodeClick1()">
+			</div>
+			
+			<div id="orgtree" itype="Tree" saveInstance="true" showIco="true"
+				width="40%" 
+				rootValue="所有组织" topParentid="1--1"
+			 	initSource="basecomm_getOrgPositionTreeByParams.action"
+				asyncDataSource="basecomm_getOrgPositionTreeByParams.action"
+				openFloor=2 onNodeClick="onNodeClick()">
+			</div>
+		</div>
+	</div>
+</body>
+</html>

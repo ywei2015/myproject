@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>作业对象管理</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="objectJob.js"></script>
+<style>
+html,body {
+	height: 100%;
+}
+</style>
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	<div class="ui-layout" id="mainDiv" style="height: 100%;">
+		<div class="ui-layout-left" style="width: 200px; height: 100%;">
+			<div itype="Toolbar" style="line-height: 22px">
+				<div plain=true text="新增" iconCls="icon-add" id="addType"  onclick="addObjType()"></div>
+				<div itype="separator"></div>
+				<div plain=true text="修改" iconCls="icon-edit" id="editType"  onclick="editObjType()"></div>
+				<div itype="separator"></div>
+				<div plain=true text="删除" iconCls="icon-delete" id="deleteType"   onclick="deleteObjType()"></div>
+			</div>
+			<div id="orgtree" itype="Tree" saveInstance="true" showIco="true"
+				width="100%" rootValue="所有类别" onBeforeReady="treeReady()"
+				initSource="initObjTypeTree_queryObjTypeTree.action"
+				topParentid="-1" textMaxLength="60" openFloor=3
+				onNodeClick="onNodeClick()"></div>
+		</div>
+		<div id="centerPanel" class="ui-layout-center"
+			style="left: 202px; height: 100%;">
+		 <form id="checkform" itype="Form" requestType="post"
+				saveInstance="true">
+				<table class="ui-form-table">
+					<tr valign="middle">
+						<td class="ui-form-table-dt" style="width: 100px;">作业名称：</td>
+						<td class="ui-form-table-dd"><div itype="TextBox"
+								id="basicMouldPojo.c_obj_fullname" width="100%"></div></td>
+						<td class="ui-form-table-dd">
+							<div itype="Button" id="searchBtn" text="查询"
+								iconCls="icon-search" onClick="doSearch()"></div>
+							<div itype="Button" id="resetBtn" text="重置" iconCls="icon-reset"
+								onClick="doReset()"></div>
+						</td>
+					</tr>
+				</table>
+			</form>
+		<div itype="DataGrid" id="grid1" onBeforeReady="onBeforeReady()" showSeqColumn=true onAfterInitRender="onAfterInitRender()"  initSource ="basicXwgl_queryTaskByPage.action?action=6"
+			pageSize="20" saveInstance=true keyword="c_objtype_code" showCheckColumn="true" onRowClick="onRowClick()" >		
+			<div name="top-toolbar">
+				<div plain=true text="新增" iconCls="icon-add" id="add"  onclick="addBasic()"></div>
+				<div itype="separator"></div>
+				<div plain=true text="修改" iconCls="icon-edit" id="edit" display="false" onclick="editBasic()"></div>
+				<div itype="separator"></div>
+				<div plain=true text="批量删除" iconCls="icon-delete" id="batchdelete"   onclick="doBatchDeleteCheckModel()"></div>
+			</div>	
+		
+			<!-- 列属性定义-->
+			<!-- renderer="operRenderer()"></div> -->
+			<div hidden="true" width="5%" name="c_obj_id" text="ID"></div>	
+			<div width="8%" name="c_obj_name" text="对象名称"></div>
+			<div width="8%" name="c_obj_fullname" text="对象全称"></div>
+			<div width="8%" name="c_obj_model" text="规格型号"></div>
+			<div width="8%" name="c_obj_uid" text="唯一编号"></div>
+			<div width="8%" name="c_scan_code" text="扫描码"></div>
+			<div width="8%" name="areaname" text="所在区域"></div>
+			<div width="8%" name="displayname" text="责任人"></div>			
+			<div width="8%" name="c_config_date" text="配置日期"></div>
+			<div width="8%" name="c_valid_date" text="有效时间"></div>
+			<div width="8%" name="c_count" text="配置数量"></div>
+			<div width="8%" name="c_remark" text="备注"></div>	
+			<div width="8%" text="操作信息" itype="template" tpl="#{operTpl}"></div>		 
+			
+			<!-- <div itype="DataGrid" id="grid1" onBeforeReady="onBeforeReady()"
+				showSeqColumn=true onAfterInitRender="onAfterInitRender()"
+				pageSize="20" saveInstance=true keyword="c_objtype_code" width="100%" 
+				showCheckColumn=true onRowClick="onRowClick()">
+				<div name="top-toolbar">
+					<div plain=true text="新增" iconCls="icon-add" display="true"
+						id="add" onclick="addBasic()"></div>
+					<div itype="separator"></div>
+					<div plain=true text="批量删除" iconCls="icon-delete" display="false"
+						id="delete" onclick="doBatchDeleteCheckModel()"></div>
+				</div>
+				<div width="5%" name="c_obj_id" text="流水"></div>
+				<div width="8%" name="c_obj_name" text="对象名称"></div>
+				<div width="8%" name="c_obj_fullname" text="规格型号"></div>
+				<div width="8%" name="c_obj_model" text="规格型号"></div>
+				<div width="8%" name="c_obj_uid" text="唯一编号"></div>
+				<div width="8%" name="c_scan_code" text="扫描码"></div>
+				<div width="8%" name="areaname" text="所在区域"></div>
+				<div width="8%" name="c_conservator" text="责任人"></div>
+				<div width="8%" name="c_config_date" text="配置日期"></div>
+				<div width="8%" name="c_valid_date" text="有效时间"></div>
+				<div width="8%" name="c_count" text="配置数量"></div>
+				<div width="8%" name="c_remark" text="备注"></div>
+				<div width="5%" text="操作信息" renderer="operRenderer()"></div>
+			</div>  -->
+		</div>
+	</div>
+</body>
+</html>

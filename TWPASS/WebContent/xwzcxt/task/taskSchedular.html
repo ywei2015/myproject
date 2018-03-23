@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="../../fastdev/fastDev-import.js"></script>
+<script type="text/javascript" src="../../fastdev/common.js"></script>
+<script src="taskSchedular.js"></script>
+<style type="text/css">
+
+</style>
+<title>个人排班日历</title>
+</head>
+<body>
+	<form id="orgform" itype="Form" requestType="post" saveInstance="true">
+
+		<table class="ui-form-table">
+
+			<tr valign="middle">
+				<td class="ui-form-table-dt" style="width: 100px;">部门组织：</td>
+				<td class="ui-form-table-dd"  >
+					<div  itype="SelectTree" inside="false" id="department"width="100%"
+						 queue="positionForm"  onchange="showUsers()"
+						initSource="org_queryOrgTree.action" rootValue="-请选择-"
+						topParentid="-1" openFloor="2"></div>
+				</td>
+				<td class="ui-form-table-dt" style="width: 100px;">人员：</td>
+				<td class="ui-form-table-dd"  ><select width="100%" itype="Select" id="member"
+				 initSource="taskSchedular_getUserList.action"   name="member"  >
+					<option>--请选择--</option>	
+				</select></td>
+				<tr/>
+				<tr valign="middle">
+				<td class="ui-form-table-dt" style="width: 100px;">年份：</td>
+				<td class="ui-form-table-dd" ><select width="100%" saveInstance=true itype="Select"  id="year" name="year">
+				     <script> writeYear();</script>
+				</select>
+				</td>
+				<td class="ui-form-table-dt" style="width: 100px;">月份：</td>
+				<td class="ui-form-table-dd"  ><select saveInstance=true itype="Select" width="100%"
+				 id="month" name="month" >
+				      <script type="text/javascript">
+				            writeMonth();
+				      </script>
+				</select></td>
+			</tr>
+			<tr valign="middle">
+				<td class="ui-form-table-dd" colspan="4" align="right">
+
+					<div itype="Button" id="searchBtn" width="100px" text="查询" iconCls="icon-search"
+						onClick="doSearch()"></div>
+
+					<div itype="Button" id="resetBtn" width="100px" text="重置" iconCls="icon-reset"
+						onClick="doResetOrg()"></div>
+
+				</td>
+			</tr>
+		</table>
+	</form>
+	
+	<div  itype="DataGrid" id="grid1" name="grid1" allowResizeColumn=false
+			showSeqColumn=true   onBeforeReady="onBeforeReady()"  
+			onAfterDataRender="onAfterDataRender()" pageSize=20
+			saveInstance=true onCellClick="getColumnIndex()" >
+			 <div name="top-toolbar" id="top-toolbar" saveInstance=true >
+				<div plain=true text="导入" display="false" iconCls="icon-add" 
+					id="import"  onClick="importSchedular()">
+				</div>
+				<div  plain=true text="修改" display="false" iconCls="icon-reset" display="true"
+				 saveInstance=true id="modify"  onClick="modify()"></div>
+			</div> 
+		  <div width="80px"   name="name" text="" ></div>	
+		  <div width="150px"  renderer="toDiv()" name="day1" text="1"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day2" text="2"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day3" text="3"  ></div>
+		  <div width="150px"  renderer="toDiv()"  name="day4" text="4"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day5" text="5"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day6" text="6"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day7" text="7"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day8" text="8"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day9" text="9"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day10" text="10"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day11" text="11"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day12" text="12" ></div>
+		  <div width="150px"  renderer="toDiv()" name="day13" text="13"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day14" text="14"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day15" text="15"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day16" text="16"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day17" text="17"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day18" text="18"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day19" text="19"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day20" text="20"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day21" text="21"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day22" text="22"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day23" text="23"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day24" text="24"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day25" text="25"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day26" text="26"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day27" text="27"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day28" text="28"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day29" text="29"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day30" text="30"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day31" text="31"  ></div>	
+	      <div  hidden="true"  name="c_userid"></div>
+	      <div  hidden="true"   name="year_month"></div>
+	      <div  hidden="true"   name="c_org_id"></div>        
+	</div>
+	
+
+	<div  itype="DataGrid" id="grid2" name="grid2" allowResizeColumn=false
+			showSeqColumn=true   onBeforeReady="onBeforeReady()"  
+			onAfterInitRender="onAfterInitRender()" pageSize=20
+			saveInstance=true onCellClick="getColumnIndex()" >
+			 <div name="top-toolbar" id="top-toolbar" saveInstance=true >
+				<div plain=true text="导入" display="false" iconCls="icon-add" 
+					id="import"  onClick="importSchedular()">
+				</div>
+				<div  plain=true text="修改" display="false" iconCls="icon-reset" display="true"
+				 saveInstance=true id="modify"  onClick="modify()"></div>
+			</div> 
+		  <div width="80px"   name="name" text="" ></div>	
+		  <div width="150px"  renderer="toDiv()" name="day1" text="1"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day2" text="2"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day3" text="3"  ></div>
+		  <div width="150px"  renderer="toDiv()"  name="day4" text="4"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day5" text="5"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day6" text="6"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day7" text="7"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day8" text="8"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day9" text="9"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day10" text="10"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day11" text="11"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day12" text="12" ></div>
+		  <div width="150px"  renderer="toDiv()" name="day13" text="13"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day14" text="14"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day15" text="15"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day16" text="16"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day17" text="17"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day18" text="18"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day19" text="19"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day20" text="20"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day21" text="21"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day22" text="22"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day23" text="23"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day24" text="24"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day25" text="25"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day26" text="26"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day27" text="27"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day28" text="28"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day29" text="29"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day30" text="30"   ></div>	
+	      <div  hidden="true"  name="c_userid"></div>
+	      <div  hidden="true"   name="year_month"></div>
+	      <div  hidden="true"   name="c_org_id"></div>        
+	</div>
+	
+	
+
+	<div  itype="DataGrid" id="grid3" name="grid3" allowResizeColumn=false
+			showSeqColumn=true   onBeforeReady="onBeforeReady()" 
+			onAfterInitRender="onAfterInitRender()" pageSize=20
+			saveInstance=true onCellClick="getColumnIndex()" >
+			 <div name="top-toolbar" id="top-toolbar" saveInstance=true >
+				<div plain=true text="导入" display="false" iconCls="icon-add" 
+					id="import"  onClick="importSchedular()">
+				</div>
+				<div  plain=true text="修改" display="false" iconCls="icon-reset" display="true"
+				 saveInstance=true id="modify"  onClick="modify()"></div>
+			</div> 
+		  <div width="80px"   name="name" text="" ></div>	
+		  <div width="150px"  renderer="toDiv()" name="day1" text="1"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day2" text="2"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day3" text="3"  ></div>
+		  <div width="150px"  renderer="toDiv()"  name="day4" text="4"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day5" text="5"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day6" text="6"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day7" text="7"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day8" text="8"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day9" text="9"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day10" text="10"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day11" text="11"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day12" text="12" ></div>
+		  <div width="150px"  renderer="toDiv()" name="day13" text="13"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day14" text="14"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day15" text="15"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day16" text="16"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day17" text="17"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day18" text="18"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day19" text="19"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day20" text="20"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day21" text="21"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day22" text="22"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day23" text="23"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day24" text="24"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day25" text="25"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day26" text="26"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day27" text="27"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day28" text="28"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day29" text="29"   ></div>
+	      <div  hidden="true"  name="c_userid"></div>
+	      <div  hidden="true"   name="year_month"></div>
+	      <div  hidden="true"   name="c_org_id"></div>        
+	</div>
+	
+	
+	<div  itype="DataGrid" id="grid4" name="grid4" allowResizeColumn=false 
+			showSeqColumn=true   onBeforeReady="onBeforeReady()" 
+			onAfterInitRender="onAfterInitRender()" pageSize=20
+			saveInstance=true onCellClick="getColumnIndex()" >
+			 <div name="top-toolbar" id="top-toolbar" saveInstance=true >
+				<div plain=true text="导入" display="false" iconCls="icon-add" 
+					id="import"  onClick="importSchedular()">
+				</div>
+				<div  plain=true text="修改" display="false" iconCls="icon-reset" display="true"
+				 saveInstance=true id="modify"  onClick="modify()"></div>
+			</div> 
+		  <div width="80px"   name="name" text="" ></div>	
+		  <div width="150px"  renderer="toDiv()" name="day1" text="1"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day2" text="2"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day3" text="3"  ></div>
+		  <div width="150px"  renderer="toDiv()"  name="day4" text="4"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day5" text="5"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day6" text="6"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day7" text="7"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day8" text="8"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day9" text="9"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day10" text="10"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day11" text="11"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day12" text="12" ></div>
+		  <div width="150px"  renderer="toDiv()" name="day13" text="13"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day14" text="14"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day15" text="15"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day16" text="16"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day17" text="17"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day18" text="18"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day19" text="19"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day20" text="20"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day21" text="21"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day22" text="22"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day23" text="23"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day24" text="24"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day25" text="25"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day26" text="26"   ></div>
+		  <div width="150px"  renderer="toDiv()" name="day27" text="27"  ></div>
+		  <div width="150px"  renderer="toDiv()" name="day28" text="28"  ></div>
+	      <div  hidden="true"  name="c_userid"></div>
+	      <div  hidden="true"   name="year_month"></div>
+	      <div  hidden="true"   name="c_org_id"></div>        
+	</div>
+</body>
+</html>

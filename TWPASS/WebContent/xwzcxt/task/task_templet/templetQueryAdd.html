@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="../../../fastdev/fastDev-import.js"></script>
+<script src="templetQueryAdd.js"></script>
+</head>
+<body>
+	<form itype="Form" id="checkForm" saveInstance="true" saveQueue="true" submitJson="false"
+		onBeforeReady="beforeReady()" onAfterDataRender="afterDataRender()" onSubmitSuccess="submitSuccess()">
+		<div itype="TextBox" type="hidden" id="cTempletId"></div>
+		<div itype="TextBox" type="hidden" id="cActnodeId"></div>
+		<div itype="TextBox" type="hidden" id="cIskeyctrl"></div>
+		<div itype="TextBox" type="hidden" id="cFrequency"></div>
+		<div itype="TextBox" type="hidden" id="cModifyType"></div>
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt">模版名称：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cTasktempletName" width="100%"></div>
+					<div itype="TextBox" type="hidden" id="cTasktempletId"></div>
+				</td>
+				<td class="ui-form-table-dt">任务名称：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cTaskName" width="100%"></div>
+					<div itype="TextBox" type="hidden" id="cTaskId"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">管控类型：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cTaskTypeName" width="100%"></div>
+					<div itype="TextBox" type="hidden" id="cTaskType"></div>
+				</td>
+				<td class="ui-form-table-dt">当前状态：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cStateName" width="100%"></div>
+					<div itype="TextBox" type="hidden" id="cState"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">解析时间：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cDecodeTime" width="100%"></div>
+				</td>
+				<td class="ui-form-table-dt">下发时间：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cPlandownTime" width="100%"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">作业人：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cExecUserName" width="100%"></div>
+					<div itype="TextBox" type="hidden" id="cExecUserid"></div>
+				</td>
+				<td class="ui-form-table-dt">完成时间：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cDoneTime" width="100%"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">开始时间：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cStartTime" width="100%"></div>
+				</td>
+				<td class="ui-form-table-dt">结束时间：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cEndTime" width="100%"></div>
+				</td>
+			</tr>
+			<tr>
+				<td id="cCheckTitle" class="ui-form-table-dt">验证人：</td>
+				<td id="cCheckSelect" class="ui-form-table-dd">
+					<div itype="TextBox" id="cChkUserName" width="100%"></div>
+					<div itype="TextBox" type="hidden" id="cChkUserid"></div>
+				</td>
+				<td class="ui-form-table-dt">评价人：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cEvaluateUserName" width="100%"></div>
+					<div itype="TextBox" type="hidden" id="cEvaluateUserid"></div>
+				</td>
+			</tr>
+			<tr>
+				<td id="cCheckTimeTitle" class="ui-form-table-dt">验证时间：</td>
+				<td id="cCheckTimeSelect" class="ui-form-table-dd">
+					<div itype="TextBox" id="cChkHours" width="100%"></div>
+				</td>
+				<td class="ui-form-table-dt">评价时间：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cEvaluateTime" width="100%"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">默认反馈人：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cOkfbUserName" width="100%"></div>
+					<div itype="TextBox" type="hidden" id="cOkfbUserid"></div>
+				</td>
+				<td class="ui-form-table-dt">其他默认反馈人：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cOkfbUlistName" width="100%"></div>
+					<div itype="TextBox" type="hidden" id="cOkfbUlist"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">异常反馈人：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cNgfbUserName" width="100%"></div>
+					<div itype="TextBox" type="hidden" id="cNgfbUserid"></div>
+				</td>
+				<td class="ui-form-table-dt">其他异常反馈人：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cNgfbUlistName" width="100%"></div>
+					<div itype="TextBox" type="hidden" id="cNgfbUlist"></div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

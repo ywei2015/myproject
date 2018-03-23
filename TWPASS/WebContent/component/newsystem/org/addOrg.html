@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>新增组织</title>
+		<script src="../../fastdev/fastDev-import.js"></script>
+		<script type="text/javascript" src="addOrg.js"></script>
+	</head>
+	<body>
+    <form id="orgForm" itype="Form" saveInstance="true" action="org_addOrg.action" submitJson="false" onSubmitSuccess="onSubmitSuccess()" onBeforeSubmit="onBeforeSubmit()" onBeforeReady="onFormBeforeReady()">
+    	<div itype="TextBox" type="hidden" id="org.orgId"></div>
+       <table class="ui-form-table">
+           <tr>
+               <th class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>组织编码：</th>
+               <td class="ui-form-table-dd"><div itype="TextBox" id="org.orgCode" width="100%" rule="required;MaxLength:32;SelfRegular:^\w+$" tips="唯一标识，由数字和大小写字母组成。可以同HR编码"></div></td>
+                <th class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>组织名称：</th>
+               <td class="ui-form-table-dd"><div itype="TextBox" id="org.orgName" width="100%" rule="required;MaxLength:30"></div></td>
+           </tr>
+           <tr>
+               <th class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>组织简称：</td>
+               <td class="ui-form-table-dd"><div itype="TextBox" id="org.shortName" width="100%" rule="required;MaxLength:30"></div> </td>
+               <th class="ui-form-table-dt" style="width:100px"><span class="ui-red">*</span>组织类型：</th>
+               <td class="ui-form-table-dd"><select inside="false" itype="Select" id="org.orgType" width="100%" saveInstance="true" onchange="onOrgTypeChange()" rule="required" onBeforeReady="onOrgTypeBeforeReady()"><option text="-请选择-"></option></select></td>
+           </tr>
+           <tr>
+           		<th class="ui-form-table-dt" style="width:100px" id="parentOrgBox"><span class="ui-red" id="parentOrgRequired" style="display:none;">*</span>上级组织：</th>
+               	<td class="ui-form-table-dd">
+	            	<div itype="SelectTree" inside="false" id="org.parentOrgId" saveInstance="true" width="100%" onchange="doInitBizParentOrg()" onBeforeReady="onParentOrgBeforeReady()" asyncDataSource="org_initGradeOrgTree.action?moduleId=M31&modeId=add" rootValue="-请选择-" topParentid="-1" openFloor="2">
+					</div>
+				</td>
+           		<th class="ui-form-table-dt" style="width:100px" id="parentOrgBox">业务上级：</th>
+               	<td class="ui-form-table-dd">
+	            	<select itype="Select" inside="false" id="org.bizParentId" width="100%" saveInstance="true"><option text="-请选择-"></option></select>
+				</td>
+           </tr>
+           <tr>
+           	   <th class="ui-form-table-dt" style="width:100px">所属体系：</th>
+               <td class="ui-form-table-dd"><select id="org.busiOrg" inside="false" itype="Select" width="100%"><option text="-请选择-"></option></select></td>
+               <th class="ui-form-table-dt" style="width:100px">所在区域：</th>
+               <td class="ui-form-table-dd">
+               		<div itype="SelectTree" inside="false" id="org.area"  width="100%" asyncDataSource="area_initSubAreaTree.action" initSource="area_initSubAreaTree.action"  rootValue="-请选择-" topParentid="-1" openFloor="3">
+               		</div>
+               </td>
+           </tr>
+           <tr>
+               <th class="ui-form-table-dt" style="width:100px">负责人：</th>
+               <td class="ui-form-table-dd"><div itype="TextBox" id="org.linkMan" width="100%" rule="MaxLength:20"></div></td>
+               <th class="ui-form-table-dt" style="width:100px">联系电话：</th>
+               <td class="ui-form-table-dd"><div itype="TextBox" id="org.linkTel" width="100%" rule="MaxLength:20"></div> </td>
+           </tr>
+           <tr>
+               <th class="ui-form-table-dt" style="width:100px">组织描述：</th>
+               <td class="ui-form-table-dd" colspan="3"><div itype="TextBox" type="textarea" id="org.remark" width="100%" rule="MaxLength:512"></div> </td>
+           </tr>
+       </table>
+    </form>		
+	</body>
+</html>

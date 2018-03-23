@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="action-log.xsd">
+	<namespace id="component.job" extends="component.default" />
+	<action-define>
+		<action class="JobConfigAction">
+			<module id="M53" name="调度定义" />
+			<method name="queryJobConfigsByPage">
+				<type>visit</type>
+				<description>查询调度定义</description>
+				<result>
+					<success>查询调度定义成功</success>
+					<throws default="查询调度定义失败" />
+				</result>
+			</method>
+			<method name="addJobConfig">
+				<type>add</type>
+				<description>新增调度定义</description>
+				<result>
+					<success>新增调度定义成功</success>
+					<throws>新增调度定义失败</throws>
+				</result>
+			</method>
+			<method name="deleteJobs">
+				<type>delete</type>
+				<description>删除调度定义</description>
+				<result>
+					<success>删除调度定义成功</success>
+					<throws>删除调度定义失败</throws>
+				</result>
+			</method>
+			<method name="modifyJobConfig">
+				<type>modify</type>
+				<description>修改调度定义</description>
+				<result>
+					<success>修改调度定义成功</success>
+					<throws>修改调度定义失败</throws>
+				</result>
+			</method>
+			<method name="pauseJob">
+				<module id="M51" name="调度监控" />
+				<type>modify</type>
+				<description>暂停调度监控</description>
+				<result>
+					<success>暂停调度监控成功</success>
+					<throws default="暂停调度监控失败" />
+				</result>
+			</method>
+			<method name="resumeJob">
+				<module id="M51" name="调度监控" />
+				<type>modify</type>
+				<description>恢复调度监控</description>
+				<result>
+					<success>恢复调度监控成功</success>
+					<throws default="恢复调度监控失败" />
+				</result>
+			</method>
+			<method name="queryJobInstances">
+				<module id="M52" name="调度日志" />
+				<type>visit</type>
+				<description>查询任务调度日志</description>
+				<result>
+					<success>查询任务调度日志成功</success>
+					<throws default="查询任务调度日志失败" />
+				</result>
+			</method>
+		</action>
+	</action-define>
+</actions>

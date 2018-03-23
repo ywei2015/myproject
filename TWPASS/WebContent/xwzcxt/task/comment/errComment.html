@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>异常验证</title>
+<script src="../../../fastdev/fastDev-import.js"></script>
+<script src="../../../fastdev/common.js"></script>
+<script src="errComment.js"></script>
+</head>
+<body>
+<form id="checkform" itype="Form" requestType="post"
+			saveInstance="true">
+
+			<table class="ui-form-table">
+				<tr>
+				    <td class="ui-form-table-dt">板块：</td>
+					<td class="ui-form-table-dd"><select itype="Select"
+						saveInstance="true" id="c_manage_section"
+						width="100%" initSource="task_getManageSectionList.action"
+						dataSource="task_getManageSectionList.action">
+							<option>-请选择-</option>
+					</select></td>
+					<td class="ui-form-table-dt">异常反馈人：</td>
+					<td class="ui-form-table-dd">
+						<div itype="TextBox" id="c_feedbacker_name" width="100%"
+							saveInstance="true" readonly="true" onclick="onSelectPosition()"></div>
+						<div itype="TextBox" type="hidden" id="c_writer"
+							saveInstance="true"></div>
+					</td>
+					
+					
+					<td class="ui-form-table-dt">异常状态：</td>
+					<td class="ui-form-table-dd"><select itype="Select"
+						id="c_isclose" width="100%">
+							<option selected>-请选择-</option>
+							<option value="0" text="未完成"></option>
+							<option value="1" text="已完成"></option>
+					</select></td>
+					
+					<td class="ui-form-table-dt">异常类型：</td>
+					<td class="ui-form-table-dd"><select itype="Select"
+						id="c_err_kind" width="100%">
+							<option selected>-请选择-</option>
+							<option value="2" text="人工发起异常"></option>
+							<option value="1" text="工作执行异常"></option>
+					</select></td>
+					
+				</tr>
+				<tr>
+					
+					<td class="ui-form-table-dt">异常发生时间：</td>
+					<td class="ui-form-table-dd"><input itype="DatePicker" 
+						saveInstance="true" id="c_occur_time"
+						format="yyyy-MM-dd" width="100%" /></td>
+					<td class="ui-form-table-dt">异常处理期限：</td>
+					<td class="ui-form-table-dd"><input itype="DatePicker" 
+						saveInstance="true" id="c_suggestend_time"
+						format="yyyy-MM-dd" width="100%" /></td>	
+						
+					<td class="ui-form-table-dt">异常处理完成时间：</td>
+					<td class="ui-form-table-dd"><input itype="DatePicker"
+						saveInstance="true" id="c_close_time"
+						format="yyyy-MM-dd" width="100%" /></td>
+					<td class="ui-form-table-dt">异常主题：</td>
+					<td class="ui-form-table-dd">
+						<div itype="TextBox" id="c_err_name" width="100%"
+							saveInstance="true"></div>
+					</td>
+				</tr>
+				<tr>
+					
+					<td class="ui-form-table-dt">评价状态</td>
+					<td class="ui-form-table-dd">
+					  <select itype="Select" onchange="isCommented()"
+						id="c_evaluate_status" width="100%">
+							<option selected>-请选择-</option>
+							<option value="1" text="未评价" selected></option>
+							<option value="-200" text="已评价未发起事件" ></option>
+							<option value="2" text="已评价"></option>
+					</select>
+					</td>
+					<td class="ui-form-table-dt">评价结果</td>
+					<td class="ui-form-table-dd">
+					  <select itype="Select" disabled=true
+						id="c_evaluate_result" width="100%">
+							<option selected>-请选择-</option>
+							<option value="OK" text="正常"></option>
+							<option value="NG" text="异常"></option>
+					</select>
+					</td>
+					<td class="ui-form-table-dd" colspan="4" align="right">
+						<div itype="Button" text="查询" iconCls="icon-search"
+							onClick="doSearch()" width="100px"></div>
+						<div itype="Button" text="重置" iconCls="icon-reset"
+							onClick="doReset()" width="100px"></div>
+					</td>
+				</tr>
+			</table>
+		</form>
+		
+		<div itype="DataGrid" id="grid" saveInstance=true pageSize="15"
+			allowResizeColumn="true" showSeqColumn="true" keyword="c_err_idStr"
+			onBeforeReady="onBeforeReady()" showCheckColumn="true"
+			onAfterDataRender="onAfterDataRender()" onRowClick="onRowClick()">
+			<div name="pageSizeList">
+				<div value="5" text="5条"></div>
+				<div value="10" text="10条"></div>
+				<div value="15" text="15条"></div>
+				<div value="20" text="20条"></div>
+				<div value="50" text="50条"></div>
+			</div>
+			<div name="top-toolbar">
+			    <div plain=true text="导出评价" id="export"  iconCls="icon-export" 
+			 	onclick="exportXLS()"></div>
+				<div itype="separator"></div>
+				<div plain=true text="批量提交" id="submit"  
+					iconCls="icon-save" onClick="saveMany()"></div>
+				<div itype="separator"></div>
+			</div>
+			<div width="20%" name="c_err_name" text="异常主题"
+				renderer="operLinkRenderer()"></div>
+			<div width="10%" name="c_err_kind" renderer="toErrKindName()"
+				text="异常类型"></div>
+			<div width="10%" name="c_isclose" renderer="toResult()" text="异常状态"></div>
+			<div width="10%" name="c_evaluate_status_name"  text="评价状态" renderer="toEventLink()"></div>
+			<div width="10%" name="c_manage_sectionname" text="板块"></div>
+			<div width="10%" name="c_writer_name" text="异常反馈人"></div>
+	
+			<div width="160px" name="c_occur_time" text="异常发生时间" renderer="timeRender()" itype="DatePicker"
+				format="yyyy-MM-dd HH:mm:ss"></div>
+			<div width="160px" name="c_upload_time" text="异常反馈时间" renderer="timeRender()" itype="DatePicker"
+				format="yyyy-MM-dd HH:mm:ss"></div>
+			<div width="160px" name="c_suggestend_time" text="异常处理期限" renderer="timeRender()" itype="DatePicker"
+				format="yyyy-MM-dd HH:mm:ss"></div>
+			<div width="160px" name="c_close_time" text="异常处理完成时间" renderer="timeRender()" itype="DatePicker"
+				format="yyyy-MM-dd HH:mm:ss"></div>
+			<div width="8%" name="c_chk_value_name" text="验证结果"></div>
+			<div width="150px" name="c_chk_result" text="验证描述"></div>
+			<div width="160px" name="c_chk_plantime" text="验证期限" itype="DatePicker" renderer="timeRender()"  
+				 format="yyyy-MM-dd HH:mm:ss"></div>
+			<div width="160px" name="c_chk_time" text="验证完成时间" itype="DatePicker" renderer="timeRender()"  
+				 format="yyyy-MM-dd HH:mm:ss"></div>
+			<div width="150px" name="c_evaluate_value" text="评价" renderer="toChkRadio()"></div>
+			<!-- <div width="150px" name="c_evaluate_result" text="评价描述" ></div> -->
+			<div width="160px" name="c_evaluate_plantime" itype="DatePicker" renderer="timeRender()"  
+				 format="yyyy-MM-dd HH:mm:ss" text="评价期限"></div>
+			<div width="15%" name="c_evaluate_status" text="操作" renderer="toOperation()"></div>
+			<div hidden="true" name="c_err_idStr"></div>
+			<div hidden="true" name="c_task_idStr"></div>
+		</div>
+		<iframe src="about:blank" style="display: none;" id="dc"></iframe>
+		
+</body>
+</html>

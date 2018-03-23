@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="iibasic">
+	 <!--获取对象类别管理信息信息-->	
+	 <select id="getAllArea" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.IIAreaPojo">
+	   	select 
+	      t1.c_area_id,
+	      t1.c_area_code,
+	      t1.c_area_name,
+	      t1.c_area_fullname,
+	      t1.c_scan_code,
+	      t1.c_area_upid,
+	      t1.c_area_upcode,
+	      t1.c_node_level,
+	      t1.c_area_type,
+	      t1.c_creator,
+	      t1.c_create_time,
+	      t1.c_last_modifier,
+	      t1.c_last_modified_time,
+	      t1.c_remark,
+	      t1.c_isdelete 
+      	from t_area t1
+      	where t1.c_isdelete = 0
+		<!-- <if test="null!=c_area_id and ''!=c_area_id">
+			 and t1.c_area_id = #{c_area_id} 
+		</if>
+		<if test="null!=v_area_id and ''!=v_area_id">
+			and  t1.c_area_id in (select c_area_id from t_area f start with f.c_area_id= #{v_area_id} connect by prior f.c_area_id=f.c_area_upid) 
+		</if>  -->
+		 order by t1.c_area_upid, t1.c_area_id
+	</select>
+<!-- 	<select id="getAllArea" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.IIAreaPojo">
+	   	select 
+	      t1.c_area_id,
+	      t1.c_area_code,
+	      t1.c_area_name,
+	      t1.c_area_fullname,
+	      t1.c_scan_code,
+	      t1.c_area_upid,
+	      t2.c_area_name as c_area_upname,
+	      t1.c_area_upcode,
+	      t1.c_node_level,
+	      t1.c_area_type,
+	      v.TYPENAME as c_area_typename,
+	      t1.c_creator,
+	      t1.c_create_time,
+	      t1.c_last_modifier,
+	      t1.c_last_modified_time,
+	      t1.c_remark,
+	      t1.c_isdelete 
+      	from t_area t1, t_area t2, v_area_type v 
+      	where t1.c_isdelete = 0
+      	 and t1.c_area_upid=t2.c_area_id and t1.c_area_type=v.TYPEID 
+		<if test="null!=c_area_id and ''!=c_area_id">
+			 and t1.c_area_id = #{c_area_id} 
+		</if>
+		<if test="null!=v_area_id and ''!=v_area_id">
+			and  t1.c_area_id in (select c_area_id from t_area f start with f.c_area_id= #{v_area_id} connect by prior f.c_area_id=f.c_area_upid) 
+		</if> 
+		 order by t1.c_area_name, t1.c_area_id
+	</select> -->
+
+</mapper>

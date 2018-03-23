@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="action-log.xsd">
+	<namespace id="component.default" />
+	<global-package value="com.talkweb.twdpe.webcomponent.component" />
+	<skip-undeclared value="true" />
+	<aop-support value="true" />
+	<stub-method name="log"/>
+	<application id="1" name="运维系统平台" />
+	<module id="M" name="系统管理" />
+	<session-key>
+		<user-id>session-userid</user-id>
+		<user-name>session-username</user-name>
+		<user-type>session-usertype</user-type>
+		<app-id>session-appid</app-id>
+		<app-name>session-appname</app-name>
+		<module-id>session-moduleid</module-id>
+		<module-name>session-modulename</module-name>
+		<description>description</description>
+		<type>session-type</type>
+		<request>requst</request>
+		<session>session</session>
+		<result>result</result>
+		<success>success</success>
+		<throw>throw</throw>
+		<resource>resource</resource>
+		<field>field</field>
+		<old>old</old>
+		<new>new</new>
+	</session-key>
+	<action-define>
+		<action class="PortalMngAction">
+			<module id="M32" name="用户管理" />
+			<method name="loginIn">
+				<type>login</type>
+				<description>用户登录。</description>
+				<result>
+					<success>登录成功。用户编号：${session-userid}。</success>
+				</result>
+			</method>
+			<method name="loginOut">
+				<type>logout</type>
+				<description>用户注销。</description>
+				<result>
+					<success>注销成功。用户编号：${session-userid}。</success>
+				</result>
+			</method>
+		</action>
+	</action-define>
+</actions>

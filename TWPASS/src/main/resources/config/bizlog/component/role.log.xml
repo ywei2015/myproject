@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="action-log.xsd">
+	<namespace id="component.role" extends="component.default" />
+	<module id="M44" name="角色管理" />
+	<action-define>
+		<action class="RoleMngAction">
+			<method name="addRole">
+				<type>add</type>
+				<description>添加角色信息。</description>
+				<result>
+					<success>添加成功。角色编码：${role.roleCode}、角色名称：${role.roleName}、角色类型：${role.roleType}、所属应用编号：${role.appId}、父角色编号：${role.parentRoleId}。</success>
+					<throws>添加失败。</throws>
+				</result>
+			</method>
+			<method name="modifyRole">
+				<type>modify</type>
+				<description>修改角色信息。</description>
+				<result>
+					<success>修改成功。角色编码：${role.roleCode}。</success>
+					<throws>修改失败。</throws>
+				</result>
+			</method>
+			<method name="delRoles">
+				<type>delete</type>
+				<description>删除角色信息。</description>
+				<result>
+					<success>删除成功。被删除的角色ID：${id}。</success>
+					<throws>删除失败。</throws>
+				</result>
+			</method>
+			<method name="addRoleMembers">
+				<type>add</type>
+				<description>新增角色成员。</description>
+				<result>
+					<success>新增成功。成员类型：${type}、角色ID：${roldId}、成员ID：${id}。</success>
+					<throws>新增失败。</throws>
+				</result>
+			</method>
+			<method name="deleteRoleMembers">
+				<type>delete</type>
+				<description>删除角色成员。</description>
+				<result>
+					<success>删除成功。成员类型：${type}、角色ID：${roldId}、成员ID：${id}。</success>
+					<throws>删除失败。</throws>
+				</result>
+			</method>
+			<method name="privilege">
+				<type>add</type>
+				<description>角色赋权。</description>
+				<result>
+					<success>赋权成功。角色ID：${roleId}、权限ID：${pids}。</success>
+					<throws>赋权失败。</throws>
+				</result>
+			</method>
+			<method name="restrictPermissions">
+				<type>add</type>
+				<description>分配角色限制权限。</description>
+				<result>
+					<success>分配成功。角色编号：${roleId}、权限编号：${pids}。</success>
+					<throws>分配失败。</throws>
+				</result>
+			</method>
+			<method name="getRoleGrantAuthTreeView">
+				<type>visit</type>
+				<description>获取角色权限视图。</description>
+				<result>
+					<success>查询成功。被查询角色编号：${roleId}。</success>
+					<throws>查询失败。</throws>
+				</result>
+			</method>
+		</action>
+	</action-define>
+</actions>

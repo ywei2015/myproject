@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="struts-jsondict" extends="twdpe-common-default">                  	
+        <action name="dict_initDictTypeTree" class="com.talkweb.twdpe.webcomponent.component.DictMngAction" method="initDictTypeTree" >  
+            <result name="success" type="json">  
+				  <param name="root">data</param>
+				  <param name="excludeNullProperties">true</param>
+            </result>  
+            <result name="error" >/error/error.jsp</result>
+        </action>  
+        
+        <action name="dict_queryDictEntry" class="com.talkweb.twdpe.webcomponent.component.DictMngAction" method="queryDictEntryByPage" >
+        	<param name="aliases">#{'page' : 'pagination.currPage','pageSize' : 'pagination.size'}</param>     
+            <result name="success" type="json">  
+            	  <param name="noCache">true</param>
+				  <param name="root">data</param>
+				  <param name="excludeNullProperties">true</param>
+            </result>  
+            <result name="error" >/error/error.jsp</result>            
+        </action>         
+        
+        <action name="dict_initDictEntryTree" class="com.talkweb.twdpe.webcomponent.component.DictMngAction" method="initDictEntryTree" >
+            <result name="success" type="json">  
+            	  <param name="noCache">true</param>
+				  <param name="root">data</param>
+				  <param name="excludeNullProperties">true</param>
+            </result>  
+            <result name="error" >/error/error.jsp</result>            
+        </action>         
+        
+        <action name="dict_initModifyDictType" class="com.talkweb.twdpe.webcomponent.component.DictMngAction" method="initModifyDictType" >  
+            <result name="success" type="json">  
+				  <param name="root">data</param>
+				  <param name="excludeNullProperties">true</param>
+            </result>  
+            <result name="error" >/error/error.jsp</result>
+        </action>         
+        
+        <action name="dict_addDictType" class="com.talkweb.twdpe.webcomponent.component.DictMngAction" method="addDictType" >  
+            <result name="success" type="json">  
+				  <param name="root">data</param>
+				  <param name="excludeNullProperties">true</param>
+            </result>  
+            <result name="error" >/error/error.jsp</result>
+        </action>         
+        
+        <action name="dict_modifyDictType" class="com.talkweb.twdpe.webcomponent.component.DictMngAction" method="modifyDictType" >  
+            <result name="success" type="json">  
+				  <param name="root">data</param>
+				  <param name="excludeNullProperties">true</param>
+            </result>  
+        </action>         
+        
+        <action name="dict_deleteDictType" class="com.talkweb.twdpe.webcomponent.component.DictMngAction" method="deleteDictType" >  
+            <result name="success" type="json">  
+				  <param name="root">data</param>
+				  <param name="excludeNullProperties">true</param>
+            </result>  
+        </action>         
+        
+        <action name="dict_addDictEntry" class="com.talkweb.twdpe.webcomponent.component.DictMngAction" method="addDictValue" >  
+            <result name="success" type="json">  
+				  <param name="root">data</param>
+				  <param name="excludeNullProperties">true</param>
+            </result>  
+        </action>         
+        
+        <action name="dict_modifyDictEntry" class="com.talkweb.twdpe.webcomponent.component.DictMngAction" method="modifyDictEntry" >  
+            <result name="success" type="json">  
+				  <param name="root">data</param>
+				  <param name="excludeNullProperties">true</param>
+            </result>  
+        </action>         
+        
+        <action name="dict_moveDictValue" class="com.talkweb.twdpe.webcomponent.component.DictMngAction" method="deleteDictValue" >  
+            <result name="success" type="json">  
+				  <param name="root">data</param>
+				  <param name="excludeNullProperties">true</param>
+            </result>  
+        </action>
+                 
+        <action name="dict_getDictEntry" class="com.talkweb.twdpe.webcomponent.component.DictMngAction" method="getDictEntryById" >  
+            <result name="success" type="json">  
+				  <param name="root">data</param>
+				  <param name="excludeNullProperties">true</param>
+            </result>  
+        </action>      
+        
+        <action name="dict_initAddDictType" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="initModifyDictEntry">
+            <result name="success" type="json">  
+				  <param name="root">data</param>
+				  <param name="excludeNullProperties">true</param>
+            </result>         
+        </action>
+        
+        <action name="dict_queryDictTypeByParentID" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="queryDictTypeByParentID">
+            <result name="success" type="json">  
+				  <param name="root">data</param>
+				  <param name="excludeNullProperties">true</param>
+            </result>         
+        </action>
+        
+        <action name="dict_initOrgFromControl" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="initOrgFromControl">
+            <result name="success" type="json">  
+				  <param name="root">data</param>
+				  <param name="excludeNullProperties">true</param>
+            </result>         
+        </action>
+            
+    </package>	
+
+</struts>

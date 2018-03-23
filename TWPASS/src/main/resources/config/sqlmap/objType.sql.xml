@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="objType">
+	<resultMap id="BaseResultMap" type="com.talkweb.xwzcxt.pojo.TWorkObjtype">
+		<id column="C_OBJTYPE_ID" property="c_objtype_id" />
+		<result column="C_UP_OBJTYPE_ID" property="c_up_objtype_id" />
+		<result column="C_OBJTYPE_CODE" property="c_objtype_code" />
+		<result column="C_UP_OBJTYPE_CODE" property="c_up_objtype_code" />
+		<result column="C_OBJTYPE_NAME" property="c_objtype_name" />
+		<result column="C_OBJTYPE_FULLNAME" property="c_objtype_fullname" />
+		<result column="C_NODE_DEEP" property="c_node_deep" />
+		<result column="C_REMARK" property="c_remark" />
+		<result column="C_CREATOR" property="c_creator" />
+		<result column="C_CREATE_TIME" property="c_create_time" />
+		<result column="C_LAST_MODIFIER" property="c_last_modifier" />
+		<result column="C_LAST_MODIFIED_TIME" property="c_last_modified_time" />
+		<result column="C_ISDELETE" property="c_isdelete" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		C_OBJTYPE_ID, C_UP_OBJTYPE_ID,
+		C_OBJTYPE_CODE,
+		C_UP_OBJTYPE_CODE, C_OBJTYPE_NAME,
+		C_OBJTYPE_FULLNAME, C_NODE_DEEP,
+		C_REMARK, C_CREATOR, C_CREATE_TIME,
+		C_LAST_MODIFIER,
+		C_LAST_MODIFIED_TIME, C_ISDELETE
+	</sql>
+	<select id="queryTypeTree" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_WORK_OBJTYPE where C_ISDELETE = '0'
+	</select>
+	<select id="queryTypeNodes" parameterType="com.talkweb.xwzcxt.pojo.TWorkObjtype"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_WORK_OBJTYPE
+		<where>
+			C_ISDELETE = '0'
+			<if test="c_objtype_id != null and ''!= c_objtype_id">
+				AND C_OBJTYPE_ID = #{c_objtype_id}
+			</if>
+			<if test="c_up_objtype_id != null and ''!= c_up_objtype_id">
+				AND C_UP_OBJTYPE_ID = #{c_up_objtype_id}
+			</if>
+			<if test="c_objtype_code != null and ''!= c_objtype_code">
+				AND C_OBJTYPE_CODE = #{c_objtype_code}
+			</if>
+			<if test="c_up_objtype_code != null and ''!= c_up_objtype_code">
+				AND C_UP_OBJTYPE_CODE = #{c_up_objtype_code}
+			</if>
+			<if test="c_objtype_name != null and ''!= c_objtype_name">
+				AND C_OBJTYPE_NAME like '%${c_objtype_name}%'
+			</if>
+		</where>
+		ORDER BY C_OBJTYPE_CODE ASC
+	</select>
+	<select id="getTWorkObjtypeById" parameterType="com.talkweb.xwzcxt.pojo.TWorkObjtype"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_WORK_OBJTYPE
+		where C_OBJTYPE_ID = #{id} and C_ISDELETE = '0'
+	</select>
+	<insert id="insertObjType" parameterType="com.talkweb.xwzcxt.pojo.TWorkObjtype">
+		<selectKey resultType="long" keyProperty="c_objtype_id"
+			order="BEFORE">
+			SELECT
+			SEQ_OBJTYPE_ID.NEXTVAL FROM DUAL
+		</selectKey>
+		insert into T_WORK_OBJTYPE(
+		<trim suffix="" suffixOverrides=",">
+			c_objtype_id,
+			<if test="c_up_objtype_id != null">
+				C_UP_OBJTYPE_ID,
+			</if>
+			<if test="c_objtype_code != null">
+				C_OBJTYPE_CODE,
+			</if>
+			<if test="c_up_objtype_code != null">
+				C_UP_OBJTYPE_CODE,
+			</if>
+			<if test="c_objtype_name != null">
+				C_OBJTYPE_NAME,
+			</if>
+			<if test="c_objtype_fullname != null">
+				C_OBJTYPE_FULLNAME,
+			</if>
+			<if test="c_node_deep != null">
+				C_NODE_DEEP,
+			</if>
+			<if test="c_remark != null">
+				C_REMARK,
+			</if>
+			<if test="c_creator != null">
+				C_CREATOR,
+			</if>
+			<if test="c_creator != null">
+				C_CREATE_TIME,
+			</if>
+			<if test="c_last_modifier != null">
+				C_LAST_MODIFIER,
+			</if>
+			<if test="c_last_modifier != null">
+				C_LAST_MODIFIED_TIME,
+			</if>
+			<if test="c_isdelete != null">
+				C_ISDELETE,
+			</if>
+		</trim>
+		)values(
+		<trim suffix="" suffixOverrides=",">
+			#{c_objtype_id},
+			<if test="c_up_objtype_id != null">
+				#{c_up_objtype_id},
+			</if>
+			<if test="c_objtype_code != null">
+				#{c_objtype_code},
+			</if>
+			<if test="c_up_objtype_code != null">
+				#{c_up_objtype_code},
+			</if>
+			<if test="c_objtype_name != null">
+				#{c_objtype_name},
+			</if>
+			<if test="c_objtype_fullname != null">
+				#{c_objtype_fullname},
+			</if>
+			<if test="c_node_deep != null">
+				${c_node_deep},
+			</if>
+			<if test="c_remark != null">
+				#{c_remark},
+			</if>
+			<if test="c_creator != null">
+				#{c_creator},
+			</if>
+			<if test="c_creator != null">
+				sysdate,
+			</if>
+			<if test="c_last_modifier != null">
+				#{c_last_modifier},
+			</if>
+			<if test="c_last_modifier != null">
+				sysdate,
+			</if>
+			<if test="c_isdelete != null">
+				'0'
+			</if>
+		</trim>
+		)
+	</insert>
+	<update id="updateObjType" parameterType="map">
+		update T_WORK_OBJTYPE
+		<set>
+			<if test="c_objtype_code != null">
+				C_OBJTYPE_CODE =
+				#{c_objtype_code},
+			</if>
+			<if test="c_up_objtype_id != null">
+				C_UP_OBJTYPE_ID =
+				#{c_up_objtype_id},
+			</if>
+			<if test="c_up_objtype_code != null">
+				C_UP_OBJTYPE_CODE =
+				#{c_up_objtype_code},
+			</if>
+			<if test="c_objtype_name != null">
+				C_OBJTYPE_NAME =
+				#{c_objtype_name},
+			</if>
+			<if test="c_objtype_fullname != null">
+				C_OBJTYPE_FULLNAME =
+				#{c_objtype_fullname},
+			</if>
+			<if test="c_node_deep != null">
+				C_NODE_DEEP = #{c_node_deep},
+			</if>
+			<if test="c_remark != null">
+				C_REMARK = #{c_remark},
+			</if>
+
+			<if test="c_last_modifier != null">
+				C_LAST_MODIFIER =
+				#{c_last_modifier},
+			</if>
+			<if test="c_last_modified_time != null">
+				C_LAST_MODIFIED_TIME =
+				sysdate,
+			</if>
+			<if test="c_isdelete != null">
+				C_ISDELETE = #{c_isdelete},
+			</if>
+		</set>
+		where C_OBJTYPE_ID = #{c_objtype_id}
+	</update>
+	<select id="isExistCode" parameterType="Map" resultType="Integer">
+		select count(1) from T_WORK_OBJTYPE where C_OBJTYPE_CODE = #{code}
+		<if test="null!=id and ''!=id and 0!=id">
+			and C_OBJTYPE_ID != ${id}
+		</if>
+	</select>
+
+	<select id="hasChild" parameterType="String" resultType="Integer">
+		select
+		count(1) from T_WORK_OBJTYPE where C_UP_OBJTYPE_ID = #{id} and
+		C_ISDELETE = '0'
+	</select>
+
+	<delete id="deleteObjTypeByKey" parameterType="java.lang.String">
+		delete from
+		T_WORK_OBJTYPE
+		where C_OBJTYPE_ID =
+		#{c_objtype_id}
+	</delete>
+	<delete id="batchRemoveObjTypeByPks" parameterType="java.util.List">
+		delete from
+		T_WORK_OBJTYPE
+		where C_OBJTYPE_ID in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="batchDeleteByIds" parameterType="java.lang.String">
+		update
+		T_WORK_OBJTYPE set C_ISDELETE = '1'
+		where C_OBJTYPE_ID in
+		<foreach item="ids" collection="array" open="(" separator=","
+			close=")">
+			#{ids}
+		</foreach>
+	</update>
+</mapper>

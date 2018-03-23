@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>标准章节点内容</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+
+<script>
+	var datasc=[{"c_contentid": "225a71fa-947b-46c5-9efc-17078d6a61d6","c_sectionid":"5.1.1.2","c_title":"职能审核计划","c_content":"职能审核可按各自的管理特色确定不同的审核模式和方式，但每年内应将归口管理所涉及的主要流程和关键点全部审完。"}
+				,{"c_contentid": "6dfc2162-8f09-41b6-967a-9074f4396c09","c_sectionid":"5.1.1.3","c_title":"体系审核","c_content":"各部门应根据内部实际情况，每年12月底前，对下年度二级审核进行策划，制定“年度部门二级审核计划”（格式部门自定），年计划应覆盖部门所涉及的主要过程、重点区域和关键岗位，应明确具体的审核方式、频次及要项，年计划应由部门领导批准，提交企业管理部备案。"}
+				];
+
+	function renderlink() {
+		var width = fastDev(this).width();
+		return [
+				'<div style="width:'
+						+ width
+						+ 'px;"><a href="../../component/themes/default/images/welcome.jpg" class="btn" target="_blank" style="margin-left:5px;" id="ckfl">查看附录</a>']
+				.join('');
+	}
+</script>
+
+<style>
+.stdcontent_div{height:150px; word-break: break-all; word-wrap: break-word; nowrap:false;} 
+</style>
+
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container"> 
+	<div id="leftPanel" class="ui-layout-left" style="width: 100%; height:100%;">
+
+		<div itype="DataGrid" id="actiongrid" onBeforeReady="onBeforeReady()" showSeqColumn=false onAfterInitRender="onAfterInitRender()"
+			pageSize="30" saveInstance=true keyword="c_id" items="#{datasc}"	
+			showCheckColumn=false onRowClick="onRowClick()" >		
+			<!-- initSource="standardlibrary_queryManagementProcess.action"  --> 
+				<!-- 列属性定义-->
+				<div hidden="true" name="c_contentid"></div>
+				<div width="10%" name="c_sectionid" text="章节点" ></div>
+				<div width="15%" name="c_title" text="章节标题" ></div>
+			    <div width="75%" name="c_content" text="内容"></div> 
+				<!--  <textarea itype="TextBox" type="textarea" width="75%" name="c_content" text="章节点内容"></textarea> -->
+		</div>
+		
+	</div>
+</body>
+</html>

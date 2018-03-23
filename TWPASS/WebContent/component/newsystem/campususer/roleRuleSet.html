@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>设置数据权限</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script type="text/javascript" src="roleRuleSet.js"></script>
+	<style type="text/css">
+		.ui-grid-checkbox {
+			margin: 3px 0 0 2px;
+			cursor: pointer;
+		}
+	</style>	
+</head>
+<body style="padding:5px;">
+	<div class="datagrid" initSource="dataright_getDataRulesByPermissionId.action" itype="DataGrid" keyword="ruleId" allowAutoFillRow="false" id="datagrid" width="100%" height="265px" saveInstance="true" showSeqColumn="true" onAfterInitRender="onAfterInitRender()" onAfterConstruct="onAfterConstruct()" onRowClick="onRowClick()" pagePosition="none">
+		<div name="top-toolbar">
+			<div plain=true text="确定" iconCls="icon-save" onClick="doSave()"></div>
+			<div itype="separator"></div>
+			<div plain=true text="关闭" iconCls="icon-close" onClick="doClose()"></div>
+		</div>
+		<div hidden="true" name="ruleId"></div>
+		<div width="5%" name="chk" text='<div id="grid-height-checkbox" class="ui-grid-checkbox ico-checkbox"></div>' renderer="checkboxRenderer()"></div>
+		<div width="95%" name="ruleName" text="规则名称"></div>
+	</div>
+</body>
+</html>

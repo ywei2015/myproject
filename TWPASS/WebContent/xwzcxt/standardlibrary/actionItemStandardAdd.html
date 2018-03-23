@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../fastdev/common.js"></script>
+<script src="actionItemStandardAdd.js"></script>
+<style>
+#fileTable tr td {
+	background: white;
+	border: 1px solid #D8E2EB;
+	font: 12px Arial,Helvetica,sans-serif,"瀹嬩綋";
+	text-align: center;
+	vertical-align: middle;
+	width: 30px;
+	height: 30px;
+}
+</style>
+</head>
+<body>
+	<form itype="Form" id="checkForm" saveInstance="true" saveQueue="true" submitJson="false">
+		<div itype="TextBox" type="hidden" id="id"></div>
+		<div itype="TextBox" type="hidden" id="cActitemMediaFileId"></div>
+		<div itype="TextBox" type="hidden" id="cActitemMediaFileType"></div>
+		<div itype="TextBox" type="hidden" id="cActitemMediaFilePath"></div>
+		<table class="ui-form-table">
+			<tr>
+				<td id="title1" class="ui-form-table-dt"><font color="red" >*</font>做什么：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cActitemName" saveInstance="true" width="100%"></div>
+				</td>
+				<td class="ui-form-table-dt">编码：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cActitemCode" saveInstance="true" width="100%"></div>
+				</td>
+			</tr>
+			<tr>
+				<td id="title2-1" class="ui-form-table-dt">数据采集名称：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cGetdataPretext" saveInstance="true" width="100%"></div>
+				</td>
+				<td id="title2-2" class="ui-form-table-dt">数据采集单位：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cGetdataUnit" saveInstance="true" width="100%"></div>
+				</td>
+			</tr>
+			<tr>
+				<td id="title2-3" class="ui-form-table-dt"><font color="red" >*</font>执行结果上传要求：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="cGetdatatype" width="100%" height=160px queue="checkForm"
+						initSource="ruledatatype/getRuleDataTypeSelectAction.action"
+						dataSource="ruledatatype/getRuleDataTypeSelectAction.action"
+						onAfterDataRender="onAfterInitRender()">
+						<option>-请选择-</option>
+					</select>
+				</td>
+				<td id="title2-4" class="ui-form-table-dt">执行结果后置文本：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cGetdataText" saveInstance="true" width="100%"></div>
+				</td>
+			</tr>
+			<tr>
+				<td id="title3" class="ui-form-table-dt"><font color="red" >*</font>验证结果上传要求：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="cCheckdatatype" width="100%" height=160px queue="checkForm"
+						initSource="ruledatatype/getRuleDataTypeSelectAction.action"
+						dataSource="ruledatatype/getRuleDataTypeSelectAction.action"
+						onAfterDataRender="onAfterInitRender()">
+						<option>-请选择-</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td id="title4" class="ui-form-table-dt">执行标准：</td>
+				<td class="ui-form-table-dd" colspan="3">
+					<div itype="TextBox" type="textarea" id="cActitemStd" width="100%" height="50px" saveInstance="true"></div>
+				</td>
+			</tr>
+			<tr>
+				<td id="title5" class="ui-form-table-dt">验证标准：<br/>（如何核查）</td>
+				<td class="ui-form-table-dd" colspan="3">
+					<div itype="TextBox" type="textarea" id="cActitemStdCheck" width="100%" height="50px" saveInstance="true"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">备注：</td>
+				<td class="ui-form-table-dd" colspan="3">
+					<div itype="TextBox" type="textarea" id="cRemark" width="100%" height="50px" saveInstance="true"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">添加多媒体文件：</td>
+				<td class="ui-form-table-dd" colspan="3">
+					<div itype="FileUpload" typeLimit="bmp,gif,jpg,jpeg,mp3,mp4,png" autoUpload="true" sizeLimit="-1"
+						width="100%" onChooseError="chooseError()" onUploadStart="onUploadStart()"
+						onUploadSuccess="onUploadSuccess()" onUploadFail="onUploadFail()"
+						onUploadComplete="onUploadComplete()" action="uploadaction_uploadFileToFileServer.action"
+						id="upfileAccessory" name="upfileAccessory" validateMode="blur" saveInstance="true"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">多媒体文件：</td>
+				<td class="ui-form-table-dd" colspan="3"><table id="fileTable"></table></td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

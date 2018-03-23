@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script src="../../fastdev/fastDev-import.js"></script>
+		<script type="text/javascript" src="addjianzhi.js"></script>
+	</head>
+
+	<body>
+		<form id="jianzhiForm" itype="Form">
+			<table cellpadding="0" cellspacing="0" border="0" class="ui-form-table" width="100%">
+				<tr>
+					<td class="ui-form-table-dt">
+						<span class="ui-red">*</span>兼职组织：
+					</td>
+					<td class="ui-form-table-dd">
+						<div itype="SelectTree" saveInstance="true" id="orgId"  width="200px" width="200px" onchange="doSelectPosition()" onBeforeReady="onOrgBeforeReady()">
+							<div initSource="org_initFirstGradeOrgTree.action?modeId=modify&moduleId=M4" rootValue="-请选择-" topParentid="-1" openFloor="2" ></div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="ui-form-table-dt">兼职岗位：</td>
+					<td class="ui-form-table-dd">
+						<select itype="Select" saveInstance="true" id="positionId" width="200px" onBeforeReady="onPositionBeforeReady()"><option>-请选择-</option></select>
+					</td>
+				</tr>
+				<tr>
+					<td class="ui-form-table-dt">上级员工：</td>
+					<td class="ui-form-table-dd">
+						<select itype="Select" saveInstance="true" id="upUserId" width="200px"><option>-请选择-</option></select>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</body>
+</html>

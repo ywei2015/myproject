@@ -1,0 +1,365 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../fastdev/common2.js"></script>
+<script src="actionStandardAdd.js"></script>
+<style>
+#fileTable tr td {
+	background: white;
+	border: 1px solid #D8E2EB;
+	font: 12px Arial,Helvetica,sans-serif,"瀹嬩綋";
+	text-align: center;
+	vertical-align: middle;
+	width: 30px;
+	height: 30px;
+}
+</style>
+</head>
+<body>
+	<form itype="Form" id="checkForm" action="struts-actnode/actnode_addActNodeByEdit.action" saveInstance="true" 
+	     saveQueue="true" submitJson="false" onBeforeReady="beforeReady()" onAfterDataRender="afterDataRender()" 
+	     onSubmitSuccess="submitSuccess()" >
+		 <div itype="TextBox" type="hidden" id="cActnodetype"></div>
+		<div itype="TextBox" type="hidden" id="cActnodeId"></div>
+		<div itype="TextBox" type="hidden" id="cDepartment"></div>
+		<div itype="TextBox" type="hidden" id="cModifyType"></div>
+		<div itype="TextBox" type="hidden" id="cPublicId"></div>
+		<div itype="TextBox" type="hidden" id="cIspublic"></div>
+		<div itype="TextBox" type="hidden" id="cMediaFileId"></div>
+		<div itype="TextBox" type="hidden" id="cMediaFileType"></div>
+		<div itype="TextBox" type="hidden" id="cMediaFilePath"></div>
+		<div itype="TextBox" type="hidden" id="cManageattr"></div>
+		<table class="ui-form-table">
+			<tr id="cPublicNameTr" style="display: none;">
+				<td class="ui-form-table-dt">通用标准节点：</td>
+				<td class="ui-form-table-dd" colspan="4">
+					<div itype="TextBox" id="cPublicName" width="100%" readonly="true"></div>
+				</td>
+				<td class="ui-form-table-dt" style="background: none;border: none;"></td>
+				<td class="ui-form-table-dd" style="border: none;" colspan="4"></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">对应流程末节点：</td>
+				<td class="ui-form-table-dd" colspan="4">
+					<div itype="TextBox" id="cActionName"  width="100%"></div>
+				</td>
+				<td class="ui-form-table-dt"><font color="red" >*</font>岗位活动名称：</td>
+				<td class="ui-form-table-dd" colspan="4">
+					<div itype="TextBox" id="cActnodeName" width="100%"></div>
+				</td>
+			</tr>
+			
+			<tr>
+			 <td class="ui-form-table-dt">岗位活动编码：</td>
+				<td class="ui-form-table-dd" colspan="4">
+					<div itype="TextBox" id="cActnodeCode"  width="100%"></div>
+				</td> 
+			  <td id="cManageattrTitle" class="ui-form-table-dt" style="display: none;"><font color="red" >*</font>管理属性：</td>
+				<td id="cManageattrTd" class="ui-form-table-dd" style="display: none;" colspan="4">
+					<select itype="Select" id="cManageattrj" width="100%" >
+						<option text="-请选择-"></option>
+						<option value="监督性管理" text="监督性管理"></option>
+						<option value="事务性管理" text="事务性管理"></option>
+						<option value="协调性管理" text="协调性管理"></option>
+					</select>
+				</td> 
+			</tr>
+			
+			<tr>
+				<td class="ui-form-table-dt"><font color="red" >*</font>PDCA属性：</td>
+				<td class="ui-form-table-dd" colspan="4">
+					<select itype="Select" id="cPdca" width="100%" saveInstance="true">
+						<option text="-请选择-"></option>
+						<option value="P" text="P（计划）"></option>
+						<option value="D" text="D（执行）"></option>
+						<option value="C" text="C（检查）"></option>
+						<option value="A" text="A（改进）"></option>
+					</select>
+				</td>
+				<td class="ui-form-table-dt"><font color="red" >*</font>是否为关键活动：</td>
+				<td class="ui-form-table-dd" colspan="4">
+					<select itype="Select" id="cIskeyctrl" width="100%" saveInstance="true" onchange="onKeyChange()">
+						<option text="-请选择-"></option>
+						<option value="1" text="是"></option>
+						<option value="0" text="否"></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt"><font color="red" >*</font>时态：</td>
+				<td class="ui-form-table-dd" colspan="4">
+					<select itype="Select" id="cFrequency" width="100%" saveInstance="true" onchange="onchange()">
+						<option text="-请选择-"></option>
+						<option value="每日" text="每日"></option>
+						<option value="每周" text="每周"></option>
+						<option value="每月" text="每月"></option>
+						<option value="接班前" text="接班前"></option>
+						<option value="接班后" text="接班后"></option>
+						<option value="下班前" text="下班前"></option>
+						<option value="下班后" text="下班后"></option>
+					</select>
+				</td>
+				<td id="cPositionIdTitle" class="ui-form-table-dt"><font color="red" >*</font>执行岗位：</td>
+				<td class="ui-form-table-dd" colspan="4">
+					<div itype="TextBox" id="cPositionName" width="100%" readonly="true"></div>
+					<div itype="TextBox" type="hidden" id="cPositionId"></div>
+				</td>
+			</tr>
+			<tr>
+				<td id="cAreaIdTitle" class="ui-form-table-dt"><font color="red" >*</font>作业区域：</td>
+				<td id="cAreaIdTd" class="ui-form-table-dd" colspan="3">
+					<div itype="TextBox" id="cAreaName" width="100%" readonly="true" onclick="onSelectArea()"></div>
+					<div itype="TextBox" type="hidden" id="cAreaId"></div>
+				</td>
+				<td id="cAreaButtonTd" class="ui-form-table-dd" align="center">
+					<div itype="Button" id="cAreaButton" text="编辑" onclick="doSelectArea()" width="50px"></div>
+				</td>
+				<td class="ui-form-table-dt"><font color="red" >*</font>是否按顺序执行：</td>
+				<td class="ui-form-table-dd" colspan="4">
+					<select itype="Select" id="cIssequence" width="100%" saveInstance="true">
+						<option text="-请选择-"></option>
+						<option value="1" text="是"></option>
+						<option value="0" text="否"></option>
+					</select>
+				</td>
+			</tr>
+			 <tr>
+				<td class="ui-form-table-dt"><font color="red" >*</font>是否为随机任务：</td>
+				<td class="ui-form-table-dd" colspan="4">
+					<select itype="Select" id="cIsrandom" width="100%" saveInstance="true">
+						<option text="-请选择-"></option>
+						<option value="1" text="是"></option>
+						<option value="0" text="否"></option>
+					</select>
+				</td>
+				<td class="ui-form-table-dt"><font color="red" >*</font>是否扫码：</td>
+				<td class="ui-form-table-dd" colspan="4">
+					<select itype="Select" id="cIsscan" width="100%" saveInstance="true">
+						<option text="-请选择-"></option>
+						<option value="1" text="是"></option>
+						<option value="0" text="否"></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td id="cStarttimeExecTitle" class="ui-form-table-dt"><font color="red" >*</font>执行开始时间：</td>
+				<td id="cStarttimeExecTd" class="ui-form-table-dd" colspan="3">
+					<div itype="TextBox" id="cStarttimeExecName" width="100%" readonly="true" onclick="onSelectTime()"></div>
+					<div itype="TextBox" type="hidden" id="cStarttimeExec"></div>
+				</td>
+				<td id="cStarttimeExecButtonTd" class="ui-form-table-dd" align="center">
+					<div itype="Button" id="cStarttimeExecButton" text="编辑" onclick="doButton7()" width="50px"></div>
+				</td>
+				<td id="cEndtimeExecTitle" class="ui-form-table-dt"><font color="red" >*</font>执行完成时间：</td>
+				<td id="cEndtimeExecTd" class="ui-form-table-dd" colspan="3">
+					<div itype="TextBox" id="cEndtimeExecName" width="100%" readonly="true" onclick="onSelectTime()"></div>
+					<div itype="TextBox" type="hidden" id="cEndtimeExec"></div>
+				</td>
+				<td id="cEndtimeExecButtonTd" class="ui-form-table-dd" align="center">
+					<div itype="Button" id="cEndtimeExecButton" text="编辑" onclick="doButton8()" width="50px"></div>
+				</td>
+			</tr>
+			<tr>
+				<td id="cRecordsExecTitle" class="ui-form-table-dt">规范性记录：<br/>（执行环节）</td>
+				<td class="ui-form-table-dd" colspan="4">
+					<div itype="TextBox" id="cRecordsExec" width="100%" saveInstance="true"></div>
+				</td>
+			</tr>
+			<tr>
+				<td id="cStdExecTitle" class="ui-form-table-dt">执行标准：</td>
+				<td class="ui-form-table-dd" colspan="9">
+					<div itype="TextBox" type="textarea" id="cStdExec" width="100%" height="50px" saveInstance="true"></div>
+				</td>
+			</tr>
+			<tr id="cManagestdTr" style="display: none;">
+				<td class="ui-form-table-dt">管理/技术标准参考：</td>
+				<td class="ui-form-table-dd" colspan="9">
+					<div itype="TextBox" type="textarea" id="cManagestd" width="100%" height="50px" saveInstance="true"></div>
+				</td>
+			</tr>
+			<tr id="cExamstdTr" style="display: none;">
+				<td class="ui-form-table-dt">考核标准：</td>
+				<td class="ui-form-table-dd" colspan="9">
+					<div itype="TextBox" type="textarea" id="cExamstd" width="100%" height="50px" saveInstance="true"></div>
+				</td>
+			</tr>
+			<tr>
+				<td id="cErrExecTitle" class="ui-form-table-dt">异常怎么处置：<br/>（执行环节）</td>
+				<td class="ui-form-table-dd" colspan="9">
+					<div itype="TextBox" type="textarea" id="cErrExec" width="100%" height="50px" saveInstance="true"></div>
+				</td>
+			</tr>
+			<tr id="checkTr">
+				<td class="ui-form-table-dt">验证岗位：</td>
+				<td id="cPositionIdCheckTd" class="ui-form-table-dd" colspan="3">
+					<div itype="TextBox" id="cPositionNameCheck" width="100%" readonly="true" onclick="onSelectPosition()"></div>
+					<div itype="TextBox" type="hidden" id="cPositionIdCheck"></div>
+				</td>
+				<td id="cPositionButtonCheckTd" class="ui-form-table-dd" align="center">
+					<div itype="Button" id="cPositionButtonCheck" text="编辑" onclick="doButton1()" width="50px"></div>
+				</td>
+				<td class="ui-form-table-dt">验证完成时间：</td>
+				<td class="ui-form-table-dd" colspan="4">
+					<div itype="TextBox" id="cTimelimitCheckName" width="100%" readonly="true"></div>
+					<div itype="TextBox" type="hidden" id="cTimelimitCheck"></div>
+				</td>
+			</tr>
+			<tr id="cRecordsCheckTr">
+				<td class="ui-form-table-dt">规范性记录：<br/>（验证环节）</td>
+				<td class="ui-form-table-dd" colspan="4">
+					<div itype="TextBox" id="cRecordsCheck" width="100%" saveInstance="true"></div>
+				</td>
+			</tr>
+			<tr id="cStdCheckTr">
+				<td id="cStdCheckTitle" class="ui-form-table-dt">验证标准：<br/>（如何核查）</td>
+				<td class="ui-form-table-dd" colspan="9">
+					<div itype="TextBox" type="textarea" id="cStdCheck" width="100%" height="50px" saveInstance="true"></div>
+				</td>
+			</tr>
+			<tr id="cErrCheckTr">
+				<td class="ui-form-table-dt">异常怎么处置：<br/>（验证环节）</td>
+				<td class="ui-form-table-dd" colspan="9">
+					<div itype="TextBox" type="textarea" id="cErrCheck" width="100%" height="50px" saveInstance="true"></div>
+				</td>
+			</tr>
+			<tr>
+				<td id="cPositionIdReviewTitle" class="ui-form-table-dt">评价岗位：</td>
+				<td id="cPositionIdReviewTd" class="ui-form-table-dd" colspan="3">
+					<div itype="TextBox" id="cPositionNameReview" width="100%" readonly="true" onclick="onSelectPosition()"></div>
+					<div itype="TextBox" type="hidden" id="cPositionIdReview"></div>
+				</td>
+				<td id="cPositionButtonReviewTd" class="ui-form-table-dd" align="center">
+					<div itype="Button" id="cPositionButtonReview" text="编辑" onclick="doButton2()" width="50px"></div>
+				</td>
+				<td id="cTimelimitReviewTitle" class="ui-form-table-dt">评价完成时间：</td>
+				<td class="ui-form-table-dd" colspan="4">
+					<div itype="TextBox" id="cTimelimitReviewName" width="100%" readonly="true"></div>
+					<div itype="TextBox" type="hidden" id="cTimelimitReview"></div>
+				</td>
+			</tr>
+			<tr id="cStdReviewTr">
+				<td class="ui-form-table-dt">评价标准：</td>
+				<td class="ui-form-table-dd" colspan="9">
+					<div itype="TextBox" type="textarea" id="cStdReview" width="100%" height="50px" saveInstance="true"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">默认反馈岗位：</td>
+				<td id="cPositionIdFeedbackTd1" class="ui-form-table-dd" colspan="3">
+					<div itype="TextBox" id="cPositionNameFeedback1" width="100%" readonly="true" onclick="onSelectPosition()"></div>
+					<div itype="TextBox" type="hidden" id="cPositionIdFeedback1"></div>
+				</td>
+				<td id="cPositionButtonFeedbackTd1" class="ui-form-table-dd" align="center">
+					<div itype="Button" id="cPositionButtonFeedback1" text="编辑" onclick="doButton3()" width="50px"></div>
+				</td>
+				<td class="ui-form-table-dt">其他默认反馈岗位：</td>
+				<td id="cPositionIdFeedbackTd2" class="ui-form-table-dd" colspan="3">
+					<div itype="TextBox" id="cPositionNameFeedback2" width="100%" readonly="true" onclick="onSelectPosition()"></div>
+					<div itype="TextBox" type="hidden" id="cPositionIdFeedback2"></div>
+				</td>
+				<td id="cPositionButtonFeedbackTd2" class="ui-form-table-dd" align="center">
+					<div itype="Button" id="cPositionButtonFeedback2" text="编辑" onclick="doButton4()" width="50px"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">异常反馈岗位：</td>
+				<td id="cPositionIdErrTd1" class="ui-form-table-dd" colspan="3">
+					<div itype="TextBox" id="cPositionNameErr1" width="100%" readonly="true" onclick="onSelectPosition()"></div>
+					<div itype="TextBox" type="hidden" id="cPositionIdErr1"></div>
+				</td>
+				<td id="cPositionButtonErrTd1" class="ui-form-table-dd" align="center">
+					<div itype="Button" id="cPositionButtonErr1" text="编辑" onclick="doButton5()" width="50px"></div>
+				</td>
+				<td class="ui-form-table-dt">其他异常反馈岗位：</td>
+				<td id="cPositionIdErrTd2" class="ui-form-table-dd" colspan="3">
+					<div itype="TextBox" id="cPositionNameErr2" width="100%" readonly="true" onclick="onSelectPosition()"></div>
+					<div itype="TextBox" type="hidden" id="cPositionIdErr2"></div>
+				</td>
+				<td id="cPositionButtonErrTd2" class="ui-form-table-dd" align="center">
+					<div itype="Button" id="cPositionButtonErr2" text="编辑" onclick="doButton6()" width="50px"></div>
+				</td>
+			</tr>
+			
+			<tr id="grid1" height="390px">
+				<td class="ui-form-table-dt"><font color="red" >*</font>岗位活动项：</td>
+				<td class="ui-form-table-dd" colspan="9">
+					<div itype="DataGrid" id="detailGrid1" width="100%" height="100%" title="岗位活动项步骤列表"
+						saveInstance="true" showCheckColumn="true" showSeqColumn="true" allowResizeColumn="true"
+						pageSize="1" pagePosition="none" keyword="id"
+						onBeforeReady="onBeforeDetailGridReady()" onAfterInitRender="onAfterDetailGridInitRender()" onRowClick="onRowClick()">
+						<div name="top-toolbar">
+							<div plain=true text="新增" id="add1" display="true" iconCls="icon-add" onClick="doAddItem()"></div>
+							<div plain=true text="批量删除" id="delete1" display="true" iconCls="icon-delete" onClick="batchDeleteObject()"></div>
+						</div>
+						<div width="20%" name="cActitemName" text="做什么" renderer="operLinkRenderer()"></div>
+						<div width="10%" name="cActitemCode" text="编码"></div>
+						<div width="20%" name="cActitemStd" text="执行标准"></div>
+						<div width="20%" name="cActitemStdCheck" text="验证标准（如何核查）"></div>
+						<div width="15%" name="cGetdataPretext" text="数据采集名称"></div>
+						<div width="15%" name="cGetdataUnit" text="数据采集单位"></div>
+						<div width="15%" name="cGetdatatypename" text="执行结果上传要求"></div>
+						<div width="15%" name="cGetdataText" text="执行结果后置文本"></div>
+						<div width="15%" name="cCheckdatatypename" text="验证结果上传要求"></div>
+						<div width="10%" name="cRemark" text="备注"></div>
+						<div width="10%" text="操作" renderer="operRenderer()"></div>
+						<div type="hidden" name="id"></div>
+						<div type="hidden" name="cGetdatatype"></div>
+						<div type="hidden" name="cCheckdatatype"></div>
+						<div type="hidden" name="cActitemMediaFileId"></div>
+						<div type="hidden" name="cActitemMediaFileType"></div>
+						<div type="hidden" name="cActitemMediaFilePath"></div>
+					</div>
+				</td>
+			</tr>
+			<tr id="grid2" height="390px">
+				<td class="ui-form-table-dt"><font color="red" >*</font>岗位活动项：</td>
+				<td class="ui-form-table-dd" colspan="9">
+					<div itype="DataGrid" id="detailGrid2" width="100%" height="100%" title="岗位活动项步骤列表"
+						saveInstance="true" showCheckColumn="true" showSeqColumn="true" allowResizeColumn="true"
+						pageSize="1" pagePosition="none" keyword="id"
+						onBeforeReady="onBeforeDetailGridReady()" onAfterInitRender="onAfterDetailGridInitRender()" onRowClick="onRowClick()">
+						<div name="top-toolbar">
+							<div plain=true text="新增" id="add2" display="true" iconCls="icon-add" onClick="doAddItem()"></div>
+							<div plain=true text="批量删除" id="delete2" display="true" iconCls="icon-delete" onClick="batchDeleteObject()"></div>
+						</div>
+						<div width="20%" name="cActitemName" text="管什么" renderer="operLinkRenderer()"></div>
+						<div width="10%" name="cActitemCode" text="编码"></div>
+						<div width="20%" name="cActitemStd" text="管理要求"></div>
+						<div width="20%" name="cActitemStdCheck" text="验证标准（如何复核）"></div>
+						<div width="15%" name="cGetdataPretext" text="数据采集名称"></div>
+						<div width="15%" name="cGetdataUnit" text="数据采集单位"></div>
+						<div width="15%" name="cGetdatatypename" text="完工上传要求"></div>
+						<div width="15%" name="cGetdataText" text="完工后置文本"></div>
+						<div width="15%" name="cCheckdatatypename" text="验证结果上传要求"></div>
+						<div width="10%" name="cRemark" text="备注"></div>
+						<div width="10%" text="操作" renderer="operRenderer()"></div>
+						<div type="hidden" name="id"></div>
+						<div type="hidden" name="cGetdatatype"></div>
+						<div type="hidden" name="cCheckdatatype"></div>
+						<div type="hidden" name="cActitemMediaFileId"></div>
+						<div type="hidden" name="cActitemMediaFileType"></div>
+						<div type="hidden" name="cActitemMediaFilePath"></div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">添加多媒体文件：</td>
+				<td class="ui-form-table-dd" colspan="9">
+					<div itype="FileUpload" typeLimit="bmp,gif,jpg,jpeg,mp3,mp4,png" autoUpload="true" sizeLimit="-1"
+						width="100%" onChooseError="chooseError()" onUploadStart="onUploadStart()"
+						onUploadSuccess="onUploadSuccess()" onUploadFail="onUploadFail()"
+						onUploadComplete="onUploadComplete()" action="uploadaction_uploadFileToFileServer.action"
+						id="upfileAccessory" name="upfileAccessory" validateMode="blur" saveInstance="true"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">多媒体文件：</td>
+				<td class="ui-form-table-dd" colspan="9"><table id="fileTable"></table></td>
+			</tr>
+			<tr><td class="ui-form-table-dd" colspan="10"></td></tr>
+		</table>
+	</form>
+</body>
+</html>

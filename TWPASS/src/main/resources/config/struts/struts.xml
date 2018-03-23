@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-3.1.dtd">
+
+<struts>
+	<!-- 常量定义  -->
+	<constant name="struts.objectFactory.spring.useClassCache" value="false" />
+	<constant name="struts.objectFactory.spring.autoWire.alwaysRespect" value="true" />
+
+	<!-- 上传文件最大值 50M -->
+	<constant name="struts.multipart.maxSize" value="1000000000"></constant>
+
+	<!-- 指定由spring负责action对象的创建 -->
+	<constant name="struts.objectFactory" value="spring" />
+
+	<!-- 所有匹配*.action的请求都由struts2处理 -->
+	<constant name="struts.action.extension" value="action" />
+
+	<!-- 是否启用开发模式 -->
+	<constant name="struts.devMode" value="true" />
+
+	<!-- struts配置文件改动后，是否重新加载 -->
+	<constant name="struts.configuration.xml.reload" value="true" />
+
+	<!-- 设置浏览器是否缓存静态内容 -->
+	<constant name="struts.serve.static.browserCache" value="false" />
+
+	<!-- 请求参数的编码方式 -->
+	<constant name="struts.i18n.encoding" value="utf-8" />
+
+	<!-- 每次HTTP请求系统都重新加载资源文件，有助于开发 -->
+	<constant name="struts.i18n.reload" value="false" />
+
+	<!-- 让struts2支持动态方法调用 -->
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+
+	<!-- Action名称中是否还是用斜线 -->
+	<constant name="struts.enable.SlashesInActionNames" value="false" />
+
+	<!-- 允许标签中使用表达式语法 -->
+	<constant name="struts.tag.altSyntax" value="true" />
+
+	<!-- 对于WebLogic,Orion,OC4J此属性应该设置成true -->
+	<constant name="struts.dispatcher.parametersWorkaround" value="false" />
+
+	<!-- 文件上传临时文件夹配置 -->
+	<constant name="struts.multipart.saveDir" value="/tmp"></constant>
+	
+	<package name="twdpe-default" extends="struts-default">
+		<global-results>
+			<result name="noPermission">/error/403.html</result>
+			<result name="error">/error/error.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings>
+	</package>
+
+	<package name="twdpe-common-default" extends="json-default">
+		<interceptors>
+			<interceptor name="checkException" class="com.talkweb.twdpe.web.commons.ExceptionInterceptor" />
+			<interceptor-stack name="myStack">
+				<interceptor-ref name="checkException" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="myStack" />
+		<global-results>
+			<result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</global-results>
+	</package>
+
+	<!-- 组织管理 -->
+	<include file="config/struts/twdpe/struts-org.xml" />
+
+	<!-- 用户管理 -->
+	<include file="config/struts/twdpe/struts-user.xml" />
+
+	<!-- 角色管理 -->
+	<include file="config/struts/twdpe/struts-role.xml" />
+
+	<!-- 岗位管理 -->
+	<include file="config/struts/twdpe/struts-position.xml" />
+
+	<!-- 地区管理 -->
+	<include file="config/struts/twdpe/struts-area.xml" />
+
+	<!-- 下载管理 -->
+	<include file="config/struts/twdpe/struts-filedown.xml" />
+
+	<!-- 消息管理 -->
+	<include file="config/struts/twdpe/struts-msgmanage.xml" />
+
+	<!-- 站内消息 -->
+	<include file="config/struts/twdpe/struts-websiteinfo.xml" />
+
+	<!-- 访问控制管理 -->
+	<include file="config/struts/twdpe/struts-ipcontrol.xml" />
+
+	<!-- 字典管理 -->
+	<include file="config/struts/twdpe/struts-dict.xml" />
+
+	<!-- 系统首页 -->
+	<include file="config/struts/twdpe/struts-portal.xml" />
+
+	<!-- 日志管理 -->
+	<include file="config/struts/twdpe/struts-log.xml" />
+	<include file="config/struts/twdpe/struts-mylog.xml" />
+
+	<!-- 任务调度配置管理 -->
+	<include file="config/struts/twdpe/struts-jobconfig.xml" />
+
+	<!-- 数据权限配置管理 -->
+	<include file="config/struts/twdpe/struts-dataright.xml" />
+
+	<!-- 规则引擎管理 -->
+	<include file="config/struts/twdpe/struts-rulemanage.xml" />
+
+	<!-- 访问方式管理 -->
+	<include file="config/struts/twdpe/struts-accessmode.xml" />
+
+	<!-- 资源管理 -->
+	<include file="config/struts/twdpe/struts-resource.xml" />
+
+	<!-- 权限管理 -->
+	<include file="config/struts/twdpe/struts-permission.xml" />
+
+	<!-- 应用管理 -->
+	<include file="config/struts/twdpe/struts-application.xml" />
+
+	<!-- 行为管理 -->
+	<include file="config/struts/xwzcxt/struts-task.xml" />
+	<include file="config/struts/xwzcxt/struts-taskError.xml" />
+	<include file="config/struts/xwzcxt/struts-objtype.xml" />
+	<include file="config/struts/xwzcxt/struts-activity.xml" />
+	<include file="config/struts/xwzcxt/struts-basic.xml" />
+	<include file="config/struts/xwzcxt/struts-cacheRefresh.xml" />
+
+	<!-- 上传excel文件 -->
+	<include file="config/struts/xwzcxt/struts-excel.xml" />
+
+	<!-- 标准文件管理查看 -->
+	<include file="config/struts/xwzcxt/struts-standardlibrary.xml" />
+
+	<!-- 岗位活动管理 -->
+	<include file="config/struts/xwzcxt/struts-actnode.xml" />
+
+	<!-- 公共岗位活动管理 -->
+	<include file="config/struts/xwzcxt/struts-tSdPublic.xml" />
+
+	<!-- 岗位活动模版 -->
+	<include file="config/struts/xwzcxt/struts-templet.xml" />
+	<include file="config/struts/xwzcxt/struts-ruleposition.xml" />
+	<include file="config/struts/xwzcxt/struts-ruletime.xml" />
+	<include file="config/struts/xwzcxt/struts-ruledatatype.xml" />
+
+	<!-- StdFile -->
+	<include file="config/struts/xwzcxt/struts-stdfile.xml" />
+
+	<!-- 岗位绑定到组织 -->
+	<include file="config/struts/xwzcxt/struts-posBindOrg.xml" />
+
+	<!-- 第二版基础信息相关功能 -->
+	<include file="config/struts/xwzcxt/struts-iibaseinfo.xml" />
+
+	<!-- 第二版任务相关功能 -->
+	<include file="config/struts/xwzcxt/struts-iitaskinfo.xml" />
+
+	<!-- 公共基础Action相关功能 GuveXie -->
+	<include file="config/struts/xwzcxt/struts-basecomm.xml" />
+
+	<!-- 导出功能 -->
+	<include file="config/struts/xwzcxt/struts-export.xml" />
+
+	<!-- 任务验证和评价 -->
+	<include file="config/struts/xwzcxt/struts-taskVerifyAndComment.xml" />
+
+	<!-- 排班表 -->
+	<include file="config/struts/xwzcxt/struts-taskSchedular.xml" />
+
+	<!-- 作业对象 -->
+	<include file="config/struts/xwzcxt/struts-jobObjects.xml" />
+
+	<!-- 作业区域 -->
+	<include file="config/struts/xwzcxt/struts-areainfo.xml" />
+
+	<!-- 权限管理 -->
+	<include file="config/struts/xwzcxt/twdpe/struts-authorityManage.xml" />
+
+	<!-- 检验详情 -->
+	<include file="config/struts/xwzcxt/struts-checkDetails.xml" />
+
+	<!-- 开始任务 -->
+	<include file="config/struts/xwzcxt/struts-startTask.xml" />
+	<include file="config/struts/xwzcxt/struts-taskErrTrace.xml" />
+
+	<!-- 移动版异常Action -->
+	<include file="config/struts/xwzcxt/struts-mobileerrinfo.xml" />
+
+	<!-- 日历 -->
+	<include file="config/struts/xwzcxt/struts-calendar.xml" />
+
+	<!-- 手机验证评价 -->
+	<include file="config/struts/xwzcxt/struts-taskVeriEva.xml" />
+
+	<include file="config/struts/xwzcxt/struts-zyLogin.xml" />
+
+	<!-- 统计查询 -->
+	<include file="config/struts/xwzcxt/struts-statistical.xml" />
+
+	<!-- 地图查询 -->
+	<include file="config/struts/xwzcxt/struts-map.xml" />
+
+	<!-- 执行力查询 -->
+	<include file="config/struts/xwzcxt/struts-taskExecuteCount.xml" />
+
+	<!-- 任务维护 -->
+	<include file="config/struts/xwzcxt/struts-taskAndErrManager.xml" />
+	
+	<!-- 考勤查询 -->
+	<include file="config/struts/xwzcxt/struts-attendance.xml" />
+
+	<!-- 下载用户手册 -->
+	<include file="config/struts/xwzcxt/struts-fileDownload.xml" />
+
+	<!-- 异常验证和评价 -->
+	<include file="config/struts/xwzcxt/struts-errVerifyAndComment.xml" />
+
+	<!-- 查询标准的多媒体文件信息 -->
+	<include file="config/struts/xwzcxt/struts-mediaStd.xml" />
+
+	<!-- 查看标准文件明细表 -->
+	<include file="config/struts/xwzcxt/struts-standardfile.xml" />
+
+	<!-- 推板查询 -->
+	<include file="config/struts/xwzcxt/struts-tPanel.xml" />
+	
+	<!-- 新闻查询 -->
+	<include file="config/struts/xwzcxt/struts-news.xml" />
+	
+	<!-- 消火栓灭火器检查记录卡导出 -->
+	<include file="config/struts/xwzcxt/struts-checkCard.xml" />
+ 
+	<!-- 管理工作圈 -->
+	<include file="config/struts/xwzcxt/struts-manageGroup.xml"/>
+</struts>

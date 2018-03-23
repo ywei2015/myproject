@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../fastdev/common2.js"></script>
+<script src="taskError.js"></script>
+</head>
+<body>
+	<form id="checkform" itype="Form" requestType="post" saveInstance="true">
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt">板块：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="cManageSection" width="100%"
+						initSource="task_getManageSectionList.action"
+						dataSource="task_getManageSectionList.action">
+						<option>-请选择-</option>
+					</select>
+				</td>
+				<td class="ui-form-table-dt">异常反馈人：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cWriterName" width="100%" readonly="true" onclick="onSelectPosition()"></div>
+					<div itype="TextBox" type="hidden" id="cWriter"></div>
+				</td>
+				<td class="ui-form-table-dt">异常状态：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="cIsclose" width="100%">
+						<option selected>-请选择-</option>
+						<option value="0" text="未完成"></option>
+						<option value="1" text="已完成"></option>
+						<option value="2" text="逾期完成"></option>
+					</select>
+				</td>
+				<td class="ui-form-table-dt">异常类型：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="cErrKind" width="100%">
+						<option selected>-请选择-</option>
+						<option value="1" text="工作执行异常"></option>
+						<option value="2" text="人工发起异常"></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">异常发生时间：</td>
+				<td class="ui-form-table-dd">
+					<input itype="DatePicker" id="cOccurTime" format="yyyy-MM-dd" width="100%"/>
+				</td>
+				<td class="ui-form-table-dt">异常处理期限：</td>
+				<td class="ui-form-table-dd">
+					<input itype="DatePicker" id="cSuggestendTime" format="yyyy-MM-dd" width="100%" onblur="suggestendTimeBlur()"/>
+				</td>
+				<td class="ui-form-table-dt">异常处理完成时间：</td>
+				<td class="ui-form-table-dd">
+					<input itype="DatePicker" id="cCloseTime" format="yyyy-MM-dd" width="100%" onblur="closeTimeBlur()"/>
+				</td>
+				<td class="ui-form-table-dt">异常主题：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cErrName" width="100%"></div>
+				</td>
+				<td class="ui-form-table-dd" style="display: none">
+					<select itype="Select" id="extype" width="100%" saveInstance="true" >
+						<option>-请选择-</option>
+						<option value="1" text="单点"></option>
+					</select>
+				</td>
+				<td class="ui-form-table-dt"  style="display: none">usercode：</td>
+				<td class="ui-form-table-dd"  style="display: none">
+					<div itype="TextBox" id="userCode" name="userCode" width="100%"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dd" colspan="8" align="right">
+					<div itype="Button" text="查询" iconCls="icon-search" onClick="doSearch()"></div>
+					<div itype="Button" text="重置" iconCls="icon-reset" onClick="doReset()"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" colspan="8">
+					<div itype="DataGrid" id="grid_taskErrror" saveInstance=true pageSize="20"
+						allowResizeColumn="true" showCheckColumn="true" showSeqColumn="true" keyword="C_ERR_ID"
+						onBeforeReady="onBeforeReady()" onAfterInitRender="onAfterInitRender()" onRowClick="onRowClick()">
+						<div name="top-toolbar">
+							<div plain=true text="导出异常" id="export" display="false" iconCls="icon-export" onclick="exportXLS()"></div>
+							<div itype="separator"></div>
+							<div plain=true text="批量删除" id="delete" display="false" iconCls="icon-delete" onClick="batchDeleteObject()"></div>
+							<div itype="separator"></div>
+						</div>
+						<div width="20%" name="C_ERR_NAME" text="异常主题" renderer="operLinkRenderer()"></div>
+						<div width="10%" name="C_ERR_KIND_NAME" text="异常类型"></div>
+						<div width="10%" name="C_ISCLOSE_NAME" text="异常状态"></div>
+						<div width="5%" name="C_MANAGE_SECTION_NAME" text="板块"></div>
+						<div width="10%" name="C_WRITER_NAME" text="异常反馈人"></div>
+						<div width="15%" name="C_OCCUR_TIME" text="异常发生时间" itype="datetime" format="yyyy-MM-dd hh:mm:ss"></div>
+						<div width="15%" name="C_SUGGESTEND_TIME" text="异常处理期限" itype="datetime" format="yyyy-MM-dd hh:mm:ss"></div>
+						<div width="15%" name="C_CLOSE_TIME" text="异常处理完成时间" itype="datetime" format="yyyy-MM-dd hh:mm:ss"></div>
+						<div type="hidden" name="C_ERR_ID"></div>
+						<div type="hidden" name="C_TASK_ID"></div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+	<iframe src="about:blank" style="display: none;" id="dc"></iframe>
+</body>
+</html>

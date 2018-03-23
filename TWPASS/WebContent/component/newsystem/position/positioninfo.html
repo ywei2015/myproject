@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>岗位详细信息</title>
+        <script src="../../fastdev/fastDev-import.js"></script>
+        <script src="positioninfo.js">
+        </script>
+    </head>
+    <body style="background-color: #fff">
+		<script id="tpl" type="text/tmpl">
+			<table cellspacing="0" cellpadding="0" border="0" class="ui-form-table" style="width:100%">
+				<tr>
+					<th class="ui-form-table-dt">岗位编号：</th>
+					<td class="ui-form-table-dd">#{position.posiCode}</td>
+					<th class="ui-form-table-dt">岗位名称：</th>
+					<td class="ui-form-table-dd">#{position.posiName}</td>
+				</tr>
+				<tr>
+					<th class="ui-form-table-dt">岗位类别：</th>
+					<td class="ui-form-table-dd">#{position.posiTypeName}</td>
+					<th class="ui-form-table-dt">岗位层次：</th>
+					<td class="ui-form-table-dd">#{position.posiLevel}</td>
+				</tr>
+				<tr>
+					<th class="ui-form-table-dt">所属组织：</th>
+					<td class="ui-form-table-dd" colspan="3">#{position.orgName}</td>
+				</tr>
+			</table>
+		</script>
+    </body>
+</html>

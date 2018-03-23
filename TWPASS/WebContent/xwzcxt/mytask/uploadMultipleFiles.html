@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>上传多个文件</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script type="text/javascript">
+	var isUploading, uploader, fileList;
+	//图片数组
+	var picSuffix=["bmp","jpeg","gif","jpg","bmp","png"];
+	//音频数组
+	var audioSuffix=["wav","mp3"];
+	//视频数组 
+	var videoSuffix=["mp4","avi","rmvb","rm","mov","swf"];
+	
+	if(typeof Array.prototype.hasSuchElement==="undefined"){
+		Array.prototype.hasSuchElement=function(element){
+			for(var i in this){
+				if(this[i]==element){
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+	
+	// document onload后，获取控件实例等
+	fastDev(function() {
+		uploader = fastDev.getInstance("uploader");
+		// fileList为自定义的一个展现文件信息的列表
+		fileList = fastDev("#fileList");
+	});
+	
+	function onFileChoose(file) {
+		var item, li = fastDev("<li style='font-size:17px'></li>").appendTo(fileList).prop("id", "li" + file.id);
+		li.append( item = fastDev("<div></div>").prop("id", "item" + file.id).css({
+			height : 25
+		}));
+		item.elems[0].innerHTML = "<span style='margin-right:10px'>" + file.name + "</span><span style='margin-right:10px' id='status" + file.id + "'>等待上传</span><span id='loading" + file.id + "' style='margin-right:10px'><a id='upload" + file.id + "' href='###'>上传</a></span><span style='margin-right:10px'><a id='cancel" + file.id + "' href='###'>删除</a></span>";
+		fastDev("#upload"+file.id).elems[0].onclick = function() {
+			if (isUploading) {
+				fastDev.tips("已经有文件正在上传，请耐心等待其上传完成后再尝试此操作！");
+				return;
+			}
+			uploader.startUpload(file.id);
+			fastDev("#status" + file.id).setText("正在上传");
+			fastDev("#loading" + file.id).empty().addClass("ui-loading-indicator");
+			fastDev("#cancel"+file.id).setText("取消").elems[0].onclick = function() {
+				// 取消当前文件上传
+				uploader.cancelUpload();
+			};
+		};
+		fastDev("#cancel"+file.id).elems[0].onclick = function() {
+			// 从文件队列中移除指定ID的文件
+			uploader.removeFile(file.id);
+			li.remove();
+		};
+	}
+	
+	function onChooseError(file, code, msg) {
+		if (code === 2) {
+			fastDev.tips("仅能上传小于100M的文件");
+		}
+	}
+	
+	function onUploadStart(file) {
+		isUploading = true;
+		fastDev("#status" + file.id).setText("正在上传");
+		fastDev("#loading" + file.id).empty().addClass("ui-loading-indicator");
+		fastDev("#cancel"+file.id).setText("取消").elems[0].onclick = function() {
+			// 取消当前文件上传
+			uploader.cancelUpload();
+		};
+	}
+	
+	function onUploadSuccess(file, response) {
+		isUploading = false;
+		fastDev.tips("文件 " + file.name + " 上传成功");
+		fastDev("#item" + file.id).css("color", "green");
+		fastDev("#status" + file.id).setText("上传成功");
+		fastDev("#loading" + file.id).remove();
+		fastDev("#cancel" + file.id).prop("href", response[0].url).prop("target", "_blank").setText("下载");
+	}
+	
+	function onUploadFail(file, response) {
+		isUploading = false;
+		fastDev.tips("文件 " + file.name + " 上传失败");
+		fastDev("#item" + file.id).css("color", "red");
+		fastDev("#status" + file.id).setText("上传失败");
+		fastDev("#loading" + file.id).remove();
+		fastDev("#cancel" + file.id).remove();
+	}
+	
+	function onUploadCancel(file) {
+		isUploading = false;
+		fastDev.tips("文件 " + file.name + " 已经取消上传");
+		fastDev("#item" + file.id).css("color", "gray");
+		fastDev("#status" + file.id).setText("已经取消");
+		fastDev("#loading" + file.id).remove();
+		fastDev("#cancel" + file.id).remove();
+	}
+	
+	// 综合示例"移除所有"按钮点击回调事件
+	function removeAllFile() {
+		if (isUploading) {
+			fastDev.tips("当前正在上传文件中，请等待其上传完成后再尝试此操作！");
+			return;
+		}
+		fileList.empty();
+		// 清空文件队列
+		uploader.cleanFileQueue();
+	}
+	
+	// 获取统计信息
+	function getStats() {
+		var stats = uploader.getStats(), html = "";
+		fastDev.each(stats, function(name, value) {
+			html += (name + " : " + value + "<br/>");
+		});
+		fastDev.create("Window", {
+			content : html,
+			title : "文件上传统计"
+		});
+	}
+</script>
+</head>
+<body>
+	<table>
+		<tbody>
+			<tr>
+				<td></td>
+				<td width="800px"></td>
+			</tr>
+			<tr>
+				<td>
+				<!-- multiple属性可开启文件队列，并允许一次性上传多个文件 （即用户可选取多个文件后一并上传，但文件上传过程，仍是一个一个上传的） -->
+					<div itype="FileUpload" id="uploader" 
+						 saveInstance="true" multiple="true" 
+						 typeLimit="bmp,jpeg,gif,jpg,bmp,png,wav,mp3,mp4,avi,rmvb,rm,mov,swf"
+						 showTextInput="false" sizeLimit="20000000" 
+						 showLoading="false" action="#" 
+						 onFileChoose="onFileChoose()" onUploadStart="onUploadStart()" 
+						 onUploadSuccess="onUploadSuccess()" onUploadFail="onUploadFail()" 
+						 onUploadCancel="onUploadCancel()">
+						<div name="chooseBtn" text="选择文件" iconCls="icon-add"></div>
+						<div name="uploadBtn" text="上传所有" iconCls="icon-upload"></div>
+					</div>
+				</td>
+				<td>
+					<input itype="Button" text="移除所有" iconCls="icon-delete" onclick="removeAllFile()"/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><ul id="fileList"></ul></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

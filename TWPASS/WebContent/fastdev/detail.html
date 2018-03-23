@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-W3CDTD XHTML 1.0 TransitionalEN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="fastDev-import.js"></script>
+<script src="../js/jquery.min.js"></script>
+<script type="text/javascript">
+var request = fastDev.Browser.getRequest();
+var type = request['type'];
+var src = request['src'];
+$(document).ready(function() {
+	var div = document.getElementById('div');
+	var html = '';
+	switch(type) {
+		case '2':
+			html = '<audio controls="controls" autoplay="false" src="' + src + '">';
+			html += '<embed src="' + src + '"/>';
+			html += '</audio>';
+			break;
+		case '3':
+			html = '<video controls="controls" src="' + src + '" width="' + ($(window).width() * 0.99) + '" height="' + ($(window).height() * 0.99) + '">';
+			html += '<object data="' + src + '" width="' + ($(window).width() * 0.99) + '" height="' + ($(window).height() * 0.99) + '">';
+			html += '<embed src="' + src + '" width="' + ($(window).width() * 0.99) + '" height="' + ($(window).height() * 0.99) + '"/>';
+			html += '</object>';
+			html += '</video>';
+			break;
+		default:
+			break;
+	}
+	div.innerHTML = html;
+});
+</script>
+</head>
+<body>
+	<div id="div"></div>
+</body>
+</html>

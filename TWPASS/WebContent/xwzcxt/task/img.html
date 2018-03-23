@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>图片展示窗口</title>   
+<script src="fastdev/fastDev-import.js"></script>
+</head>
+<body style="overflow:scroll; text-align:center; ">   
+
+<script type="text/javascript">
+function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]); return null;
+}
+function closewin(){
+	//alert("--closing1--"); 
+	//console.info(this.parent); //fastDev.Ui.Window.getData("parent")
+	var pwin = fastDev.Ui.Window.getData("parent"); //fastDev.Ui.Window.getData("parent");
+	if(pwin!=undefined) pwin.closeimgwin(); 
+}
+
+var urlpath = getQueryString("path"); //alert(urlpath);
+var imghtml = "<img src='" + urlpath + "' onclick='closewin();'/>"; // onclick='closewin();' alt='点我返回' title='点我返回'
+document.body.innerHTML = imghtml;
+</script>
+</body>
+</html>

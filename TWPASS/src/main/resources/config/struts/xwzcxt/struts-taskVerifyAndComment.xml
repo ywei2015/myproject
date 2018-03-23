@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <package name="taskVerifyAndComment" extends="json-default">
+        <action name="taskVerifyAndComment_updateEmisStatus" class="com.talkweb.xwzcxt.action.TaskVerifyAndCommentAction" method="updateEmisStatus">
+                <result name="failed" type="redirect">/xwzcxt/task/success.html?back=true</result>
+                <result name="success" type="redirect">/xwzcxt/task/success.html?back=false</result>
+        </action>
+        
+        <action name="taskVerifyAndComment_*" class="com.talkweb.xwzcxt.action.TaskVerifyAndCommentAction" method="{1}">
+          <param name="aliases">#{'page' : 'pagination.currPage','rows' :
+				'pagination.size','pageSize' : 'pagination.size'}</param>
+            <result name="success" type="json">
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+        </action>
+        
+    </package>
+    
+    
+</struts>

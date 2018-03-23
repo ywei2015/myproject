@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>组织管理</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="orgmanage.js"></script>
+<style>
+	html, body {
+		height:100%;
+	}
+</style>
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	<div class="ui-layout" id="mainDiv" style="height:100%;">
+		<div class="ui-layout-left" style="width: 200px; height:100%;">
+			<div class="ui-toolbar ui-toolbar-bg" style="line-height:22px">所有组织</div>
+			<div id="orgtree" itype="Tree" saveInstance="true" showIco="true"
+				width="100%" rootValue="所有组织"
+				initSource="org_initFirstGradeOrgTree.action?moduleId=M31&modeId=view"
+				asyncDataSource="org_initGradeOrgTree.action?moduleId=M31&modeId=view"
+				 topParentid="-1"
+				openFloor=2 onNodeClick="onNodeClick()"></div>
+		</div>
+		<div id="centerPanel" class="ui-layout-center" style="left: 202px;height:100%;">
+			<form id="orgform" itype="Form" requestType="post" saveInstance="true">
+				<table class="ui-form-table">
+					<tr valign="middle">
+						<td class="ui-form-table-dt" style="width:100px;">组织名称：</td>
+						<td class="ui-form-table-dd"><div itype="TextBox" id="org.orgName" width="100%"></div></td>
+						<td class="ui-form-table-dt" style="width:100px;">组织负责人：</td>
+						<td class="ui-form-table-dd"><div itype="TextBox" id="org.linkMan" width="100%"></div></td>
+						<td class="ui-form-table-dd">
+							<div itype="Button" id="searchBtn" text="查询" iconCls="icon-search" onClick="doSearchOrg()"></div>
+							<div itype="Button" id="resetBtn" text="重置" iconCls="icon-reset" onClick="doResetOrg()"></div>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div class="datagrid" allowAutoFillRow="false" itype="DataGrid" pageSize="20" width="100%" id="orgdatagrid" saveInstance="true" showCheckColumn="true" onRowDblClick="onRowDblClick()" initSource="org_searchOrg.action" showSeqColumn="true"  onRowClick="onRowClick()" onAfterInitRender="onAfterInitRender()">
+				<div name="top-toolbar">
+					<div plain=true text="新增" iconCls="icon-add" id="add" display="false" onclick="doAddOrg()"></div>
+					<div itype="separator"></div>
+					<div plain=true text="组织排序" iconCls="icon-sort" id="sort" display="false" onclick="doSortOrg()"></div>
+					<div itype="separator"></div>
+					<div plain=true text="批量删除" iconCls="icon-delete" id="delete" display="false" onclick="doBatchDeleteOrg()"></div>
+				</div>
+				<div name="parentOrgId" hidden="true"></div>
+				<div name="orgId" hidden="true"></div>
+				<div name="area" hidden="true"></div>
+				<div width="13%" name="orgCode" text="组织代码"></div>
+				<div width="23%" name="orgName" text="组织名称" renderer="orgNameRenderer()"></div>
+				<div width="10%" name="linkMan" text="组织负责人"></div>
+				<div width="10%" name="orgTypeName" text="组织类型"></div>
+				<div width="10%" name="areaName" text="组织区域"></div>
+				<div width="30%" text="操作" renderer="operRenderer()"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

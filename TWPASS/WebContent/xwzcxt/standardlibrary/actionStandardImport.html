@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="actionStandardImport.js"></script>
+<style>
+.divScroll{
+	OVERFLOW:auto;
+	scrollbar-face-color: #FFFFFF;
+	scrollbar-shadow-color: #D2E5F4;
+	scrollbar-highlight-color: #D2E5F4;
+	scrollbar-3dlight-color: #FFFFFF;
+	scrollbar-darkshadow-color: #FFFFFF;
+	scrollbar-track-color: #FFFFFF; 
+	scrollbar-arrow-color: #D2E5F4";
+}
+</style>
+</head>
+<body>
+	<form id="checkForm" itype="Form" saveInstance="true" action="actnode_importActNode.action"
+		onSubmitSuccess="onSubmitSuccess()" submitJson="false"
+		onBeforeReady="FormReady()" onBeforeInit="BeforeInit()">
+		<div style="width: 99%; height: 95%;">
+			<div itype="TextBox" type="hidden" id="actnode.c_actnodetype" saveInstance="true" value=""></div>
+			<div itype="TextBox" type="hidden" id="actnode.c_department" saveInstance="true" value=""></div>
+			<div itype="TextBox" type="hidden" id="actnode.c_position_id" saveInstance="true" value=""></div>
+			<div itype="TextBox" type="hidden" id="actnode.c_public_id" saveInstance="true" value=""></div>
+			<div itype="TextBox" type="hidden" id="actnode.c_ispublic" saveInstance="true" value=""></div>
+			<div itype="TextBox" type="hidden" id="actnode.filePath" value=""></div>
+			<table class="ui-form-table">
+				<tr id="department_title" style="display: none;">
+					<td class="ui-form-table-dt">组织：</td>
+					<td class="ui-form-table-dd"><div itype="TextBox" type="text" id="department" readonly="true" value="" width="100%"></div></td>
+				</tr>
+				<tr id="position_title" style="display: none;">
+					<td class="ui-form-table-dt">岗位：</td>
+					<td class="ui-form-table-dd"><div itype="TextBox" type="text" id="position" readonly="true" value="" width="100%"></div></td>
+				</tr>
+				<tr id="public_title" style="display: none;">
+					<td class="ui-form-table-dt">通用标准节点：</td>
+					<td class="ui-form-table-dd"><div itype="TextBox" type="text" id="public" readonly="true" value="" width="100%"></div></td>
+				</tr>
+				<tr>
+					<td class="ui-form-table-dt">模版类型：</td>
+					<td class="ui-form-table-dd">
+						<div itype="RadioGroup" id="cActnodetype" name="cActnodetype" disable="true" onchange="cActnodetypeChange()">
+							<div value="1" text="作业岗位模版导入"></div>
+							<div value="2" text="管理岗位模版导入"></div>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="zuoye">
+			<table class="ui-form-table">
+				<tr id="zuoyedownload0">
+					<td class="ui-form-table-dd" colspan="2">
+						<div itype="Button" text="作业岗位5W2H模版下载" display="true" id="exportbutton" iconCls="icon-export" onClick="exportZuoyeTemplet()"></div>
+					</td>
+				</tr>
+				<tr id="zuoyedownload1">
+					<td class="ui-form-table-dd" colspan="2">
+						<div itype="Button" text="作业岗位通用5W2H模版下载" display="true" id="exportbutton" iconCls="icon-export" onClick="exportZuoyeTemplet()"></div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="guanli">
+			<table class="ui-form-table">
+				<tr id="guanlidownload0">
+					<td class="ui-form-table-dd" colspan="2">
+						<div itype="Button" text="管理岗位5W2H模版下载" display="true" id="exportbutton" iconCls="icon-export" onClick="exportGuanliTemplet()"></div>
+					</td>
+				</tr>
+				<tr id="guanlidownload1">
+					<td class="ui-form-table-dd" colspan="2">
+						<div itype="Button" text="管理岗位通用5W2H模版下载" display="true" id="exportbutton" iconCls="icon-export" onClick="exportGuanliTemplet()"></div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div>
+			<table class="ui-form-table">
+				<tr>
+					<td class="ui-form-table-dt">请选择Excel文件:</td>
+					<td class="ui-form-table-dd">
+						<div itype="FileUpload" typeLimit="xls,xlsx" autoUpload="true"
+							width="100%" onChooseError="chooseError()" onUploadStart="onUploadStart()"
+							onUploadSuccess="onUploadSuccess()" onUploadFail="onUploadFail()"
+							onUploadComplete="onUploadComplete()" action="uploadaction_fileUpload.action"
+							name="upfileExcel" validateMode="blur" rule="required"></div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="text" style="width: 382px; height: 160px; " class="divScroll"></div>
+	</form>
+	<iframe src="about:blank" style="display: none;" id="test"></iframe>
+</body>
+</html>

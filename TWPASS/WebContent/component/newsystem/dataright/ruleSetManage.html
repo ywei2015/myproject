@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>规则管理</title>
+	<script src="../../fastdev/fastDev-import.js"></script>
+	<script src="ruleSetManage.js"></script>
+	<style>
+		html, body {
+			height:100%;
+		}
+	</style>	
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	<div class="ui-layout" id="mainDiv" style="height:100%;">
+		<div class="ui-layout-center" style="width:99.3%;height:100%;">
+			<form id="searchForm" itype="Form" saveInstance="true">
+				<table class="ui-form-table">
+					<tr valign="middle">
+						<td class="ui-form-table-dt" style="width:100px">规则名称：</td>
+						<td class="ui-form-table-dd"><div itype="TextBox" id="rule.ruleName" width="100%"></div></td>
+						<td class="ui-form-table-dt" style="width:100px">业务编码：</td>
+						<td class="ui-form-table-dd"><div itype="TextBox" id="rule.bizName" width="100%"></div></td>
+						<td class="ui-form-table-dd">
+							<div itype="Button" text="查询" iconCls="icon-search" onclick="submit()"></div>
+							<div itype="Button" text="重置" iconCls="icon-reset" onclick="reset()"></div>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div class="datagrid" allowAutoFillRow="false" itype="DataGrid" id="datagrid" saveInstance="true" showCheckColumn="true" initSource="dataright_queryRule.action" showSeqColumn="true" pageSize="20" onRowClick="onRowClick()" onAfterInitRender="onAfterInitRender()">
+				<div name="top-toolbar">
+					<div plain=true text="新增" id="add" display="false" iconCls="icon-add" onClick="addObject()"></div>
+					<div itype="separator"></div>
+					<div plain=true text="批量删除" id="delete" display="false" iconCls="icon-delete" onClick="batchDeleteObject()"></div>
+				</div>
+				<div width="0" name="ruleId" hidden="true"></div>
+				<div width="40%" name="ruleName" text="规则名称"></div>
+				<div width="40%" name="bizName" text="业务编码"></div>
+				<div width="20%" text="操作" renderer="operRenderer()"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

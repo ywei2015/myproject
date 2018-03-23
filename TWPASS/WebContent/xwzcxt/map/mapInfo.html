@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../fastdev/common2.js"></script>
+<script src="mapInfo.js"></script>
+</head>
+<body>
+	<form id="checkform" itype="Form" requestType="post" saveInstance="true">
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt">时间：</td>
+				<td class="ui-form-table-dd" style="border-right: none;">
+					<input itype="DatePicker" id="cStartTime" format="yyyy-MM-dd" width="100%" timeBefore="cEndTime"/>
+				<td class="ui-form-table-dt" style="background: none;border: none;text-align: center;">至</td>
+				<td class="ui-form-table-dd" style="border-left: none;">
+					<input itype="DatePicker" id="cEndTime" format="yyyy-MM-dd" width="100%" timeAfter="cStartTime"/>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">作业对象：</td>
+				<td class="ui-form-table-dd">
+					<select itype="SelectTree" treeType="multitree" id="cObjectTypeid" width="100%" topParentid="-1" openFloor="1"
+						initSource="jobObjects_getTableTypeTree.action">
+					</select>
+				</td>
+				<td class="ui-form-table-dt">检查及时性：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="cIslate" width="100%">
+						<option selected>-请选择-</option>
+						<option value="1" text="及时"></option>
+						<option value="0" text="逾期"></option>
+					</select>
+				</td>
+				<td class="ui-form-table-dt" style="display:none">单点页面</td>
+				<td class="ui-form-table-dd" style="display:none">
+					<select itype="Select" id="extype" width="100%">
+						<option selected>-请选择-</option>
+						<option value="1" text="是"></option>
+						<option value="0" text="否"></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">最终处置情况：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="cFinalStatus" width="100%">
+						<option selected>-请选择-</option>
+						<option value="2" text="整改逾期"></option>
+						<option value="1" text="整改完成"></option>
+						<option value="0" text="整改未完成"></option>
+					</select>
+				</td>
+				<td class="ui-form-table-dt">检查状态：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="cIserror" width="100%">
+						<option selected>-请选择-</option>
+						<option value="0" text="正常"></option>
+						<option value="1" text="异常"></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">部门：</td>
+				<td class="ui-form-table-dd">
+					<select width="100%" itype="Select" id="org"  width="100%"
+							saveInstance=true  initSource="jobObjects_getOrgList.action">
+							<option value="">--请选择--</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dd" colspan="4" align="right">
+					<div itype="Button" text="查询" iconCls="icon-search" onClick="doSearch()"></div>
+					<div itype="Button" text="重置" iconCls="icon-reset" onClick="doReset()"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" colspan="4">
+					<div itype="DataGrid" id="grid_mapInfo" saveInstance=true pageSize="20"
+						allowResizeColumn="true" showSeqColumn="true" showCheckColumn=true
+						onBeforeReady="onBeforeReady()" onAfterInitRender="onAfterInitRender()" onRowClick="onRowClick()">
+						<div name="top-toolbar">
+							<div plain=true text="导出点检信息" id="export" display="false" iconCls="icon-export" onclick="exportXLS()"></div>
+							<div itype="separator"></div>
+							<div plain=true text="导出检查记录卡" id="export" display="false" iconCls="icon-export" onclick="exportCheckCard()"></div>
+							<div itype="separator"></div>
+						</div>
+						
+						<div hidden="true" name="cBasedataId"></div>
+						<div width="15%" name="cResettimeString" text="时间" itype="datetime" format="yyyy-MM-dd hh:mm:ss"></div>
+						<div width="10%" name="cObjectTypename" text="作业对象"></div>
+						<div width="10%" name="cAreaFullname" text="作业区域"></div>
+						<div width="10%" name="cOrgName" text="部门"></div>
+						<div width="10%" name="cExecUsername" text="管理责任人"></div>
+						<div width="15%" name="cPlanchecktimeString" text="检查期限" itype="datetime" format="yyyy-MM-dd hh:mm:ss"></div>
+						<div width="15%" name="cChecktimeString" text="检查时间" itype="datetime" format="yyyy-MM-dd hh:mm:ss"></div>
+						<div width="10%" name="cIslate" text="检查及时性"></div>
+						<div width="10%" name="cIserrorName" text="检查状态"></div>
+						<div width="15%" name="cErrorreason" text="异常原因"></div>
+						<div width="10%" name="cRectifyStatus" text="整改情况"></div>
+						<div width="10%" name="cFinalStatus" text="最终处置情况"></div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+	<iframe src="about:blank" style="display: none;" id="dc"></iframe>
+</body>
+</html>

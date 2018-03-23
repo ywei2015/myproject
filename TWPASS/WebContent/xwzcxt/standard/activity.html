@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>对象类别管理</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="activity.js"></script>
+<style>
+	html, body {
+		height:100%;
+	}
+</style>
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	<div class="ui-layout" id="mainDiv" style="height:100%;">
+		<div class="ui-layout-left" style="width: 200px; height:100%;">
+			<div class="ui-toolbar ui-toolbar-bg" style="line-height:22px">所有类别</div>
+			<div id="orgtree" itype="Tree" saveInstance="true" showIco="true"
+				width="100%" rootValue="所有类别"
+				initSource="initActivityTree_initActionPostTree.action"
+				topParentid="-1" textMaxLength="60" onBeforeReady="treeReady()"
+				openFloor=3 onNodeClick="onNodeClick()"></div>
+		</div>
+		<div id="centerPanel" class="ui-layout-center" style="left: 202px;height:100%;">
+			<form id="checkform" itype="Form" requestType="post" saveInstance="true">
+				<table class="ui-form-table">
+					<tr valign="middle">
+						<td class="ui-form-table-dt" style="width:100px;">活动类别编号：</td>
+						<td class="ui-form-table-dd"><div itype="TextBox" id="tpostaction.c_ACTION_CODE" width="100%"></div></td>
+						<td class="ui-form-table-dt" style="width:100px;">活动类别名称：</td>
+						<td class="ui-form-table-dd"><div itype="TextBox" id="tpostaction.c_ACTION_NAME" width="100%"></div></td>
+						<td class="ui-form-table-dd">
+							<div itype="Button" id="searchBtn" text="查询" iconCls="icon-search" onClick="doSearch()"></div>
+							<div itype="Button" id="resetBtn" text="重置" iconCls="icon-reset" onClick="doReset()"></div>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div class="datagrid" allowAutoFillRow="false" itype="DataGrid" width="100%" id="activitydatagrid" saveInstance="true" showCheckColumn="true" onRowDblClick="onRowDblClick()" initSource="activityType_queryActionPostNodes.action" showSeqColumn="true" pageSize="15" onRowClick="onRowClick()" >
+				<div name="top-toolbar">
+					<div plain=true text="新增" iconCls="icon-add" id="add"  onclick="doAddType()"></div>
+					<div itype="separator"></div>
+					<div plain=true text="批量删除" iconCls="icon-delete" id="delete"  onclick="doBatchDelete()"></div>
+				</div>
+				<div width="13%" name="c_action_id" hidden="true"></div>
+				<div width="13%" name="c_ACTION_CODE" text="类别编码"></div>
+				<div width="23%" name="c_ACTION_NAME" text="类别名称" renderer="orgNameRenderer()"></div>
+				<div width="10%" name="c_REMARK" text="备注"></div>
+						<div width="20%" name="oper" text="操作" renderer="operRender()"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

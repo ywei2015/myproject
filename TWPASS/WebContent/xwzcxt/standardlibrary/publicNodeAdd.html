@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="publicNodeAdd.js"></script>
+</head>
+<body>
+	<form itype="Form" id="checkForm" saveInstance="true" saveQueue="true" submitJson="false"
+		onBeforeReady="onBeforeReady()" onAfterDataRender="onAfterDataRender()" onSubmitSuccess="onSubmitSuccess()">
+		<div itype="TextBox" type="hidden" id="cPublicId"></div>
+		<div itype="TextBox" type="hidden" id="cPublicPid"></div>
+		<div itype="TextBox" type="hidden" id="cModifyType"></div>
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt">父节点名称：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cPublicPname" saveInstance="true" readonly="true" width="100%"></div>
+				</td>
+				<td class="ui-form-table-dt"><font color="red" >*</font>节点名称：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cPublicSname" saveInstance="true" width="100%"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">节点编码：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cPublicCode" saveInstance="true" width="100%"></div>
+				</td>
+				<td class="ui-form-table-dt"><font color="red" >*</font>板块：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="cSectionId" width="100%" queue="checkForm"
+						initSource="task_getManageSectionList.action"
+						dataSource="task_getManageSectionList.action">
+						<option>-请选择-</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt">描述：</td>
+				<td class="ui-form-table-dd" colspan="3">
+					<div itype="TextBox" type="textarea" id="cRemark" saveInstance="true" width="100%" height="50px"></div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

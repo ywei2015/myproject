@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script src="../../fastdev/fastDev-import.js"></script>
+		<script src="userOrder.js"></script>
+		<style>
+			html, body {
+				height:100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div style="display:block;height:5px;"></div>
+		<div style="margin-left:5px;height:300px;width:500px">
+			<div class="datagrid" keyword="userId" itype="DataGrid" id="userdatagrid" width="100%" sortField="orderby" saveInstance="true" showCheckColumn="true" pagePosition="none" onBeforeReady="onBeforeReady()" height="300px">
+				<div name="top-toolbar">
+					<div plain=true text="上移" iconCls="icon-up" onClick="doMoveUp()"></div>
+					<div itype="separator"></div>
+					<div plain=true text="下移" iconCls="icon-down" onClick="doMoveDown()"></div>
+				</div>
+				<div hidden="true" name="userId"></div>
+				<div width="25%" name="displayName" text="姓名"></div>
+				<div width="25%" name="userCode" text="用户账号"></div>
+				<div width="30%" name="orgName" text="所属组织"></div>
+				<div width="20%" name="dutyTypeName" text="岗位类型"></div>
+			</div>
+		</div>
+	</body>
+</html>

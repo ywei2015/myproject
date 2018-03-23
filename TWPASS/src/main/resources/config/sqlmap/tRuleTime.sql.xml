@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tRuleTime">
+	<resultMap id="BaseResultMap" type="com.talkweb.xwzcxt.pojo.TRuleTime">
+		<id column="C_TIMERULE_ID" property="cTimeruleId" jdbcType="VARCHAR" />
+		<result column="C_TIMERULE_CODE" property="cTimeruleCode" jdbcType="VARCHAR" />
+		<result column="C_TIMERULE_NAME" property="cTimeruleName" jdbcType="VARCHAR" />
+		<result column="C_REMARK" property="cRemark" jdbcType="VARCHAR" />
+		<result column="C_TIMERULE_TYPE" property="cTimeruleType" jdbcType="DECIMAL" />
+		<result column="C_OFFSET_MONTH" property="cOffsetMonth" jdbcType="DECIMAL" />
+		<result column="C_OFFSET_DAY" property="cOffsetDay" jdbcType="DECIMAL" />
+		<result column="C_OFFSET_WEEK" property="cOffsetWeek" jdbcType="VARCHAR" />
+		<result column="C_OFFSET_HOUR" property="cOffsetHour" jdbcType="DECIMAL" />
+		<result column="C_OFFSET_MINUTE" property="cOffsetMinute" jdbcType="DECIMAL" />
+		<result column="C_OFFSET_WORKGROUP" property="cOffsetWorkgroup" jdbcType="DECIMAL" />
+		<result column="C_TIMERULE_BEGIN" property="cTimeruleBegin" jdbcType="TIMESTAMP" />
+		<result column="C_TIMERULE_END" property="cTimeruleEnd" jdbcType="TIMESTAMP" />
+		<result column="C_CREATOR" property="cCreator" jdbcType="VARCHAR" />
+		<result column="C_CREATETIME" property="cCreatetime" jdbcType="TIMESTAMP" />
+		<result column="C_MODIFIER" property="cModifier" jdbcType="VARCHAR" />
+		<result column="C_MODIFYTIME" property="cModifytime" jdbcType="TIMESTAMP" />
+		<result column="C_FIRSTTIME_EXEC" property="cFirsttimeExec" jdbcType="TIMESTAMP" />
+		<result column="C_LASTTIME_EXEC" property="cLasttimeExec" jdbcType="TIMESTAMP" />
+		<result column="C_FLAG" property="cFlag" jdbcType="DECIMAL" />
+		<result column="C_DEPARTMENT" property="cDepartment" jdbcType="VARCHAR" />
+		<result column="C_OFFSET_ARRAY" property="cOffsetArray" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List" >
+		C_TIMERULE_ID, C_TIMERULE_CODE, C_TIMERULE_NAME, C_REMARK, C_TIMERULE_TYPE, C_OFFSET_MONTH, 
+		C_OFFSET_DAY, C_OFFSET_WEEK, C_OFFSET_HOUR, C_OFFSET_MINUTE, C_OFFSET_WORKGROUP, 
+		C_TIMERULE_BEGIN, C_TIMERULE_END, C_CREATOR, C_CREATETIME, C_MODIFIER, C_MODIFYTIME, 
+		C_FIRSTTIME_EXEC, C_LASTTIME_EXEC, C_FLAG, C_DEPARTMENT, C_OFFSET_ARRAY
+	</sql>
+
+	<select id="getTimeRuleByID" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from TWXWZC.T_RULE_TIME
+		where C_TIMERULE_ID = #{cTimeruleId}
+		and C_FLAG = 1
+	</select>
+
+	<select id="getTimeRuleByConditions" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from TWXWZC.T_RULE_TIME
+		where C_FLAG = 1
+		<if test="null!=cTimeruleName and ''!=cTimeruleName">
+			and C_TIMERULE_NAME like '%${cTimeruleName}%'
+		</if>
+		<if test="null!=cTimeruleType and ''!=cTimeruleType">
+			and C_TIMERULE_TYPE = #{cTimeruleType}
+		</if>
+		<if test="null!=cDepartment and ''!=cDepartment">
+			and C_DEPARTMENT = #{cDepartment}
+		</if>
+	</select>
+
+	<insert id="addTimeRule" parameterType="map">
+		insert into TWXWZC.T_RULE_TIME
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="cTimeruleId != null">
+				C_TIMERULE_ID,
+			</if>
+			<if test="cTimeruleCode != null">
+				C_TIMERULE_CODE,
+			</if>
+			<if test="cTimeruleName != null">
+				C_TIMERULE_NAME,
+			</if>
+			<if test="cRemark != null">
+				C_REMARK,
+			</if>
+			<if test="cTimeruleType != null">
+				C_TIMERULE_TYPE,
+			</if>
+			<if test="cOffsetMonth != null">
+				C_OFFSET_MONTH,
+			</if>
+			<if test="cOffsetDay != null">
+				C_OFFSET_DAY,
+			</if>
+			<if test="cOffsetWeek != null">
+				C_OFFSET_WEEK,
+			</if>
+			<if test="cOffsetHour != null">
+				C_OFFSET_HOUR,
+			</if>
+			<if test="cOffsetMinute != null">
+				C_OFFSET_MINUTE,
+			</if>
+			<if test="cOffsetWorkgroup != null">
+				C_OFFSET_WORKGROUP,
+			</if>
+			<if test="cTimeruleBegin != null">
+				C_TIMERULE_BEGIN,
+			</if>
+			<if test="cTimeruleEnd != null">
+				C_TIMERULE_END,
+			</if>
+			<if test="cCreator != null">
+				C_CREATOR,
+			</if>
+			<if test="cCreatetime != null">
+				C_CREATETIME,
+			</if>
+			<if test="cModifier != null" >
+				C_MODIFIER,
+			</if>
+			<if test="cModifytime != null" >
+				C_MODIFYTIME,
+			</if>
+			<if test="cFirsttimeExec != null">
+				C_FIRSTTIME_EXEC,
+			</if>
+			<if test="cLasttimeExec != null">
+				C_LASTTIME_EXEC,
+			</if>
+			<if test="cFlag != null">
+				C_FLAG,
+			</if>
+			<if test="cDepartment != null">
+				C_DEPARTMENT,
+			</if>
+			<if test="cOffsetArray != null" >
+				C_OFFSET_ARRAY,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="cTimeruleId != null">
+				#{cTimeruleId,jdbcType=VARCHAR},
+			</if>
+			<if test="cTimeruleCode != null">
+				#{cTimeruleCode,jdbcType=VARCHAR},
+			</if>
+			<if test="cTimeruleName != null">
+				#{cTimeruleName,jdbcType=VARCHAR},
+			</if>
+			<if test="cRemark != null">
+				#{cRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="cTimeruleType != null">
+				#{cTimeruleType,jdbcType=DECIMAL},
+			</if>
+			<if test="cOffsetMonth != null">
+				#{cOffsetMonth,jdbcType=DECIMAL},
+			</if>
+			<if test="cOffsetDay != null">
+				#{cOffsetDay,jdbcType=DECIMAL},
+			</if>
+			<if test="cOffsetWeek != null">
+				#{cOffsetWeek,jdbcType=VARCHAR},
+			</if>
+			<if test="cOffsetHour != null">
+				#{cOffsetHour,jdbcType=DECIMAL},
+			</if>
+			<if test="cOffsetMinute != null">
+				#{cOffsetMinute,jdbcType=DECIMAL},
+			</if>
+			<if test="cOffsetWorkgroup != null">
+				#{cOffsetWorkgroup,jdbcType=DECIMAL},
+			</if>
+			<if test="cTimeruleBegin != null">
+				#{cTimeruleBegin,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cTimeruleEnd != null">
+				#{cTimeruleEnd,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cCreator != null">
+				#{cCreator,jdbcType=VARCHAR},
+			</if>
+			<if test="cCreatetime != null">
+				#{cCreatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cModifier != null" >
+				#{cModifier,jdbcType=VARCHAR},
+			</if>
+			<if test="cModifytime != null" >
+				#{cModifytime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cFirsttimeExec != null">
+				#{cFirsttimeExec,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cLasttimeExec != null">
+				#{cLasttimeExec,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cFlag != null">
+				#{cFlag,jdbcType=DECIMAL},
+			</if>
+			<if test="cDepartment != null">
+				#{cDepartment,jdbcType=VARCHAR},
+			</if>
+			<if test="cOffsetArray != null" >
+				#{cOffsetArray,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateTimeRuleById" parameterType="map">
+		update TWXWZC.T_RULE_TIME
+		<set>
+			<if test="cTimeruleCode != null">
+				C_TIMERULE_CODE = #{cTimeruleCode,jdbcType=VARCHAR},
+			</if>
+			<if test="cTimeruleName != null">
+				C_TIMERULE_NAME = #{cTimeruleName,jdbcType=VARCHAR},
+			</if>
+			<if test="cRemark != null">
+				C_REMARK = #{cRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="cTimeruleType != null">
+				C_TIMERULE_TYPE = #{cTimeruleType,jdbcType=DECIMAL},
+			</if>
+			<if test="cOffsetMonth != null">
+				C_OFFSET_MONTH = #{cOffsetMonth,jdbcType=DECIMAL},
+			</if>
+			<if test="cOffsetDay != null">
+				C_OFFSET_DAY = #{cOffsetDay,jdbcType=DECIMAL},
+			</if>
+			<if test="cOffsetWeek != null">
+				C_OFFSET_WEEK = #{cOffsetWeek,jdbcType=VARCHAR},
+			</if>
+			<if test="cOffsetHour != null">
+				C_OFFSET_HOUR = #{cOffsetHour,jdbcType=DECIMAL},
+			</if>
+			<if test="cOffsetMinute != null">
+				C_OFFSET_MINUTE = #{cOffsetMinute,jdbcType=DECIMAL},
+			</if>
+			<if test="cOffsetWorkgroup != null">
+				C_OFFSET_WORKGROUP = #{cOffsetWorkgroup,jdbcType=DECIMAL},
+			</if>
+			<if test="cTimeruleBegin != null" >
+				C_TIMERULE_BEGIN = #{cTimeruleBegin,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cTimeruleEnd != null" >
+				C_TIMERULE_END = #{cTimeruleEnd,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cCreator != null" >
+				C_CREATOR = #{cCreator,jdbcType=VARCHAR},
+			</if>
+			<if test="cCreatetime != null" >
+				C_CREATETIME = #{cCreatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cModifier != null">
+				C_MODIFIER = #{cModifier,jdbcType=VARCHAR},
+			</if>
+			<if test="cModifytime != null">
+				C_MODIFYTIME = #{cModifytime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cFirsttimeExec != null">
+				C_FIRSTTIME_EXEC = #{cFirsttimeExec,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cLasttimeExec != null">
+				C_LASTTIME_EXEC = #{cLasttimeExec,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cFlag != null">
+				C_FLAG = #{cFlag,jdbcType=DECIMAL},
+			</if>
+			<if test="cDepartment != null">
+				C_DEPARTMENT = #{cDepartment,jdbcType=VARCHAR},
+			</if>
+			<if test="cOffsetArray != null" >
+				C_OFFSET_ARRAY = #{cOffsetArray,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where C_TIMERULE_ID = #{cTimeruleId,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="deleteTimeRuleById" parameterType="java.lang.String">
+		delete from
+		TWXWZC.T_RULE_TIME
+		where C_TIMERULE_ID = #{cTimeruleId}
+	</delete>
+</mapper>

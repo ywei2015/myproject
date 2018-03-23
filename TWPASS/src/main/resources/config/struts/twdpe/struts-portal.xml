@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+		"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+		"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="struts-portal" extends="json-default">
+		<!-- 验证当前SESSION是否过期 -->
+		<action name="portal_validateSessionExpire"
+			class="com.talkweb.twdpe.webcomponent.component.PortalMngAction"
+			method="validateSessionExpire">
+			<result name="success" type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+
+		<!-- 单点用户登录 -->
+		<action name="portal_singleSignOn"
+			class="com.talkweb.twdpe.webcomponent.component.PortalMngAction"
+			method="singleSignOn">
+			<result name="success" type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+
+		<!-- 专区用户登录 -->
+		<action name="portal_loginin"
+			class="com.talkweb.twdpe.webcomponent.component.PortalMngAction"
+			method="loginIn">
+			<result name="success" type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+		<action name="portal_login"
+			class="com.talkweb.twdpe.webcomponent.component.PortalMngAction"
+			method="login">
+			<result name="success" type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+
+		<!-- 专区用户注销 -->
+		<action name="portal_loginout"
+			class="com.talkweb.twdpe.webcomponent.component.PortalMngAction"
+			method="loginOut">
+			<result name="success" type="redirect">/component/login.html</result>
+		</action>
+
+		<!-- 初始化用于首页展现时显示的信息 -->
+		<action name="portal_iniTopframe"
+			class="com.talkweb.twdpe.webcomponent.component.PortalMngAction"
+			method="iniTopframe">
+		</action>
+
+		<!-- 取登录用户信息 -->
+		<action name="portal_getLoginUserInfo"
+			class="com.talkweb.twdpe.webcomponent.component.PortalMngAction"
+			method="getLoginUserInfo">
+			<result name="success" type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+		<!-- 取登录用户信息 -->
+		<action name="portal_userSelect"
+			class="com.talkweb.twdpe.webcomponent.component.PortalMngAction"
+			method="userSelect">
+			<result name="success" type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+		<!-- 取登录用户信息 -->
+		<action name="portal_userSelectLongin"
+			class="com.talkweb.twdpe.webcomponent.component.PortalMngAction"
+			method="userSelectLongin">
+			<result name="success" type="json">
+				<param name="root">data</param>
+			</result>
+		</action>
+	</package>
+</struts>

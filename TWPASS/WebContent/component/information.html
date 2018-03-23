@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="fastdev/fastDev-import.js"></script>
+<script src="information.js"></script>
+</head>
+<body>
+	<div itype="DataGrid" id="grid"
+		allowResizeColumn="true" showSeqColumn="true"
+		saveInstance="true" pageSize="20" keyword="cPanelId"
+		onBeforeReady="onBeforeReady()" onRowClick="onRowClick()">
+		<!-- 列属性定义 -->
+		<div width="20%" name="cPanelName" text="名称" renderer="operLinkRenderer()"></div>
+		<div width="20%" name="cUserName" text="姓名"></div>
+		<div width="20%" name="cUsertypeName" text="角色"></div>
+		<div width="20%" name="cIsreadName" text="查阅"></div>
+		<div width="20%" name="cReadtimeString" text="查阅时间"></div>
+		<div type="hidden" name="cPanelId"></div>
+		<div type="hidden" name="cExId"></div>
+	</div>
+</body>
+</html>

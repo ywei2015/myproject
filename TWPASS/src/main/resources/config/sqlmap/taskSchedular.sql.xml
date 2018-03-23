@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="taskSchedular">
+
+	<resultMap id="taskSchedularMap" type="com.talkweb.xwzcxt.vo.TaskSchedularVo">
+		<result column="c_username" property="cUserName" 
+			jdbcType="VARCHAR" />
+		<result column="c_shift_name" property="cShiftName" 
+			jdbcType="VARCHAR" />
+		<result column="c_date" property="cDate"
+		     jdbcType="TIMESTAMP" />
+		<result column="day_of_week" property="dayOfWeek" 
+			jdbcType="DECIMAL" />
+		<result column="userid" property="userid" 
+			jdbcType="DECIMAL" />
+		<result column="c_theory_isworkday" property="c_theory_isworkday" 
+			jdbcType="CHAR" />
+		<result column="c_fact_isworkday" property="c_fact_isworkday" 
+			jdbcType="CHAR" />
+        <result column="c_work_date" property="c_work_date" 
+			jdbcType="DATE" />
+        <result column="c_userid" property="c_userid" 
+			jdbcType="DECIMAL" />
+        <result column="c_username" property="c_username" 
+			jdbcType="VARCHAR" />
+        <result column="c_org_id" property="c_org_id" 
+			jdbcType="DECIMAL" />
+        <result column="c_datetype" property="c_datetype" 
+			jdbcType="DECIMAL" />
+        <result column="c_shift_id" property="c_shift_id" 
+			jdbcType="DECIMAL" />
+        <result column="c_shift_name" property="c_shift_name" 
+			jdbcType="VARCHAR" />
+        <result column="c_shift_fullname" property="c_shift_fullname" 
+			jdbcType="VARCHAR" />
+        <result column="c_shift_typename" property="c_shift_typename" 
+			jdbcType="VARCHAR" />
+        <result column="c_shift_index" property="c_shift_index" 
+			jdbcType="DECIMAL" />
+        <result column="c_start_time" property="c_start_time" 
+			jdbcType="VARCHAR" />
+        <result column="c_iscrossday_start" property="c_iscrossday_start" 
+			jdbcType="CHAR" />
+        <result column="c_end_time" property="c_end_time" 
+			jdbcType="VARCHAR"/>
+        <result column="c_iscrossday_end" property="c_iscrossday_end" 
+			jdbcType="CHAR" />
+	</resultMap>
+
+	<resultMap  id="userListMap"  type="com.talkweb.xwzcxt.vo.TaskSchedularVo">
+	    <result column="userid" property="userid" 
+			jdbcType="VARCHAR" />
+		<result column="displayname" property="cUserName" 
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="personSchedular" parameterType="MAP" resultMap="taskSchedularMap" >
+		SELECT   c_date,c_username,c_shift_name,c_org_id
+		FROM     TABLE(f_person_moncalendar(#{cUserId},#{year},#{month}))
+		      	
+	</select>
+
+	<select id="userList" parameterType="map" resultMap="userListMap">
+		SELECT userid,displayname
+		FROM dp_user
+		WHERE 
+		<if test="orgid!=null and orgid !=''">
+		     isdelete=0
+		AND  orgid IN( SELECT       orgid  
+		     		   FROM         dp_organization  
+		     		   WHERE        isdelete=0 
+		     		   START WITH   orgid=#{orgid}
+		     		   CONNECT BY  PRIOR  orgid=parentorgid)
+	     <!--  orgid=#{orgid}  -->
+		</if>
+		<if test="orgid==null or orgid ==''">
+		    1>1
+		</if>
+	</select>
+	
+	<select id="getOrganization" resultType="com.talkweb.xwzcxt.pojo.OrganizationPojo">
+	SELECT
+		orgid,
+		orgcode,
+		parentorgid,
+		parentorgcode,
+		bizparentid,
+		bizparentcode ,
+		toporgcode ,
+		toporgid ,
+		hrcode,
+		shortname ,
+		orgname ,
+		orgdegree,
+		orgtype ,
+		orgaddr ,
+		zipcode ,
+		manaposition ,
+		orglevel,
+		managerid ,
+		linkman ,
+		linktel,
+		email,
+		webname ,
+		weburl,
+		startdate,
+		createtime ,
+		lastupdate ,
+		enddate ,
+		status,
+		updator,
+		orderby,
+		isdelete,
+		area,
+		busiorg,
+		path,
+		remark,
+		backup1,
+		backup2,
+		backup3,
+		backup4,
+		backup5
+	FROM dp_organization
+	WHERE orgtype=2 and isdelete=0
+	</select>
+	
+	<insert id="addShift" parameterType="com.talkweb.xwzcxt.pojo.TSchedulingPojo">
+	    INSERT INTO   t_scheduling
+	    <trim prefix="(" suffix=")" suffixOverrides=",">    
+ 				 		c_id,                 
+ 					    c_ym_id,              
+  						c_userid,             
+ 					 	c_username,         
+  						c_org_id,            
+  						c_calendar_id,        
+  						c_date,               
+  						c_datetype,           
+  						c_shift_id,         
+  						c_shift_name,         
+  						c_creator,          
+  						c_create_time ,       
+  						c_last_modifier,      
+  						c_last_modified_time, 
+  						<if test="c_remark!=null and ''!=c_remark">
+  							c_remark,                	  
+  						</if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides=",">
+	    			SEQ_SCHEDULING_ID.Nextval,
+	    			#{c_ym_id,jdbcType=DECIMAL},
+	    			#{c_userid,jdbcType=DECIMAL},
+	    			#{c_username,jdbcType=VARCHAR},
+	    			#{c_org_id,jdbcType=DECIMAL},
+	    			1,
+ 				    to_date(#{c_date},'yyyy/mm/dd'),
+  					1,
+       				#{c_shift_id,jdbcType=DECIMAL},
+				    #{c_shift_name, jdbcType=VARCHAR},
+ 				    #{c_creator,jdbcType=VARCHAR},
+  					sysdate,
+ 					#{c_last_modifier,jdbcType=VARCHAR},
+  					sysdate,
+  					<if test="c_remark!=null and ''!=c_remark">
+  						#{c_remark,jdbcType=VARCHAR},             	  
+  					</if>
+  					
+	        </trim>
+	    
+	</insert>
+	
+	
+	<select id="getShiftUserInfo" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.TSchedulingPojo">
+	     SELECT orgid AS c_org_id,
+	     		displayname AS c_username,
+	     		userid AS c_userid,
+	     		usercode as c_usercode
+	     FROM   dp_user
+	     WHERE  1>1 
+	          <if test="usercode!=null and ''!=usercode">
+	            OR   usercode=#{usercode}
+	          </if>
+	</select>
+	
+	<select id="getShiftName"  resultType="com.talkweb.xwzcxt.pojo.TSchedulingPojo">
+	    SELECT   c_shift_name ,c_shift_id,c_shift_fullname
+        FROM     t_shift
+	</select>
+	
+	<update id="updateUserShift" parameterType="map">
+	    UPDATE    t_scheduling
+	    SET 	  c_shift_id=#{c_shift_id},
+	    		  c_shift_name=( SELECT c_shift_name 
+	    		  				 FROM t_shift 
+	    		 				 WHERE c_shift_id=#{c_shift_id}
+	    		 			   ),
+	    		  c_last_modified_time=sysdate,
+	    		  c_last_modifier=#{c_last_modifier}
+	    		  <if test="c_remark!=null and  c_remark!=''">
+	    		        ,c_remark=#{c_remark}
+	    		  </if>	    		  
+	    WHERE	 1>1 
+	            <if test="c_userid!=null and c_userid!='' and c_date!=null and ''!=c_date">
+	              OR c_userid=#{c_userid}  AND  c_date=to_date(#{c_date},'yyyy-mm-dd')
+	            </if>
+	              AND  c_isdelete=0
+	</update>
+	
+	<select id="getOneDayShift" parameterType="map" resultType="java.util.HashMap">
+	    SELECT    c_shift_id,c_shift_name,c_remark
+	    FROM      t_scheduling
+	    where     1>1     
+	           <if test="c_userid!=null and ''!=c_userid and c_date!=null and ''!=c_date">
+		          OR       c_isdelete=0 
+	              AND      c_userid=#{c_userid}
+		          AND      c_date=to_date(#{c_date},'yyyy-mm-dd')
+		       </if>
+	    
+	</select>  
+	
+	<select id="getShiftByUserDate" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.TSchedulingPojo">
+	     SELECT * 
+	     FROM t_scheduling 
+	     where 1>1     
+	      <if test="c_userid!=null and ''!=c_userid and c_date!=null and ''!=c_date">
+		      OR c_isdelete=0 
+	          AND c_userid=#{c_userid}
+		      AND c_date=to_date(#{c_date},'yyyy-mm-dd')
+		 </if>
+	</select>
+	
+    <update id="deleteOneDayShift"  parameterType="map">
+        UPDATE   t_scheduling
+        SET      c_isdelete=1
+                <if test="c_remark!=null and ''!=c_remark">
+                    ,c_remark=#{c_remark}
+                </if>
+                <if test="c_last_modifier!=null and ''!=c_last_modifier">
+                    ,c_last_modifier=#{c_last_modifier}
+                </if>
+        WHERE    1>1      
+	           <if test="c_userid!=null and ''!=c_userid and c_date!=null and ''!=c_date">
+		          OR       c_isdelete=0
+	              AND      c_userid=#{c_userid}
+		          AND      c_date=to_date(#{c_date},'yyyy-mm-dd')
+		       </if>
+    </update>
+    
+    <select id="getAllPositionTreeNodes" parameterType="map" resultType="com.talkweb.xwzcxt.vo.PositionTreeVo"> 
+        
+		SELECT		   dataid as id ,dataname as name,pid,  typeCode,
+               		   case dtype when 3 then 'false' else 'true' end as isParent
+		FROM  		   V_ORGTREE_FULL t 
+		START WITH 	   t.pID='1--1'
+		CONNECT BY 	   PRIOR t.DataID =  t.pID
+    </select>
+    
+     <select id="getDymanicPositionTreeNodes" parameterType="map" resultType="com.talkweb.xwzcxt.vo.PositionTreeVo"> 
+		SELECT		   dataid as id ,dataname as name,pid,   typeCode,
+               		   case dtype when 3 then 'false' else 'true' end as isParent
+		FROM  		   V_ORGTREE_FULL t 
+		WHERE		   t.pID=#{id} 
+    </select>
+    
+     <select id="getDepartmentTree" parameterType="map" resultType="com.talkweb.xwzcxt.vo.DpTreeVo"> 
+		    select * from V_ORGTREE_FULL where typecode in (1,2,3,4 ) order by typecode asc 
+    </select>
+    
+    <select id="getDepartmentTree2" parameterType="map" resultType="com.talkweb.xwzcxt.vo.DpTreeVo"> 
+select * from V_ORGTREE_FULL where typecode in (1,2,3,4 ) and itype != '团队'  order by typecode asc     </select>
+ 
+</mapper>

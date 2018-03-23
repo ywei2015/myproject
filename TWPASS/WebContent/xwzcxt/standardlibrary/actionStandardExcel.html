@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../fastdev/common.js"></script>
+<script src="actionStandardExcel.js"></script>
+<style>
+.icon-copy {
+	background: url(../../fastdev/themes/default/images/ico/copy.gif) no-repeat
+}
+</style>
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	<div class="ui-layout-left" style="width: 200px; height: 98.7%;">
+		<div class="ui-layout-title" style="padding-left: 5px;">岗位树</div>
+		<div id="orgtree" itype="Tree" saveInstance="true" showIco="true"
+			width="100%" rootValue="所有组织" topParentid="1--1" height="95%"
+			initSource="pbo/getPositionInOrgAction.action?orgtype=6" openFloor=2
+			onNodeClick="onNodeClick()" onlySelectedLeaf=true textMaxLength="40"
+			onAfterInitRender="afterInitRender()"></div>
+	</div>
+	<div class="ui-layout-center" style="left: 202px;">
+		<form id="actnodeSearchForm" itype="Form" saveInstance="true">
+			<table class="ui-form-table">
+				<tr>
+					<td class="ui-form-table-dt">岗位活动名称：</td>
+					<td class="ui-form-table-dd">
+						<div itype="TextBox" id="actnode.c_actnode_name" width="100%"></div>
+					</td>
+					<td class="ui-form-table-dt">PDCA属性：</td>
+					<td class="ui-form-table-dd">
+						<select itype="Select" id="actnode.c_pdca" width="100%" saveInstance="true">
+							<option text="-请选择-"></option>
+							<option value="P" text="P（计划）"></option>
+							<option value="D" text="D（执行）"></option>
+							<option value="C" text="C（检查）"></option>
+							<option value="A" text="A（改进）"></option>
+						</select>
+					</td>
+					<td class="ui-form-table-dt">是否为关键活动：</td>
+					<td class="ui-form-table-dd">
+						<select itype="Select" id="actnode.c_iskeyctrl" width="100%" saveInstance="true">
+							<option text="-请选择-"></option>
+							<option value="1" text="是"></option>
+							<option value="0" text="否"></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="ui-form-table-dt">时态：</td>
+					<td class="ui-form-table-dd">
+						<select itype="Select" id="actnode.c_frequency" width="100%" saveInstance="true">
+							<option text="-请选择-"></option>
+							<option value="每日" text="每日"></option>
+							<option value="每周" text="每周"></option>
+							<option value="每月" text="每月"></option>
+							<option value="接班前" text="接班前"></option>
+							<option value="接班后" text="接班后"></option>
+							<option value="下班前" text="下班前"></option>
+							<option value="下班后" text="下班后"></option>
+						</select>
+					</td>
+					<td id="c_area_name_title" class="ui-form-table-dt">作业区域：</td>
+					<td class="ui-form-table-dd">
+						<div itype="TextBox" id="actnode.c_area_name" width="100%" readonly="true" onclick="onSelectArea()"></div>
+						<div itype="TextBox" type="hidden" id="actnode.c_area_id"></div>
+					</td>
+					<td class="ui-form-table-dt">是否按顺序执行：</td>
+					<td class="ui-form-table-dd">
+						<select itype="Select" id="actnode.c_issequence" width="100%" saveInstance="true">
+							<option text="-请选择-"></option>
+							<option value="1" text="是"></option>
+							<option value="0" text="否"></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="ui-form-table-dt">是否为随机任务：</td>
+					<td class="ui-form-table-dd">
+						<select itype="Select" id="actnode.c_israndom" width="100%" saveInstance="true">
+							<option text="-请选择-"></option>
+							<option value="1" text="是"></option>
+							<option value="0" text="否"></option>
+						</select>
+					</td>
+					<td class="ui-form-table-dt">是否扫码：</td>
+					<td class="ui-form-table-dd">
+						<select itype="Select" id="actnode.c_isscan" width="100%" saveInstance="true">
+							<option text="-请选择-"></option>
+							<option value="1" text="是"></option>
+							<option value="0" text="否"></option>
+						</select>
+					</td>
+					<td class="ui-form-table-dt">验证岗位：</td>
+					<td class="ui-form-table-dd">
+						<div itype="TextBox" id="actnode.c_position_name_check" width="100%" readonly="true" onclick="onSelectPosition()"></div>
+						<div itype="TextBox" type="hidden" id="actnode.c_position_id_check"></div>
+					</td>
+				</tr>
+				<tr>
+					<td id="c_position_name_review_title" class="ui-form-table-dt">评价岗位：</td>
+					<td class="ui-form-table-dd">
+						<div itype="TextBox" id="actnode.c_position_name_review" width="100%" readonly="true" onclick="onSelectPosition()"></div>
+						<div itype="TextBox" type="hidden" id="actnode.c_position_id_review"></div>
+					</td>
+					<td id="c_manageattr_title" class="ui-form-table-dt" style="display: none;">管理属性：</td>
+					<td id="c_manageattr" class="ui-form-table-dd" style="display: none;">
+						<select itype="Select" id="actnode.c_manageattr" width="100%" saveInstance="true">
+							<option text="-请选择-"></option>
+							<option value="监督性管理" text="监督性管理"></option>
+							<option value="事务性管理" text="事务性管理"></option>
+						</select>
+					</td>
+					<td id="actnodeSearchFormButton" class="ui-form-table-dd" colspan="4" align="right">
+						<div itype="Button" text="查询" iconCls="icon-search" onclick="doSearch()"></div>
+						<div itype="Button" text="重置" iconCls="icon-reset" onclick="doReset()"></div>
+						<!-- <div itype="Button" text="岗位活动与流程节点关联" iconCls="icon-reset" onClick="openExcelWindow()"></div> -->
+					</td>
+				</tr>
+				<tr>
+					<td id="standard" class="ui-form-table-dt" colspan="6">
+						<div itype="Tabs" container="standard" onTabClick="onTabClick()">
+							<div title="作业类" type="div">
+								<div itype="DataGrid" id="grid_actnode1" title="岗位活动项列表"
+									allowResizeColumn="true" showCheckColumn="true" showSeqColumn="true"
+									saveInstance="true" pageSize="20" keyword="cActnodeId"
+									onBeforeReady="onBeforeReady()" onAfterInitRender="onAfterInitRender()" onRowClick="onRowClick()">
+									<div name="top-toolbar">
+										<div plain=true text="导入" id="import" display="false" iconCls="icon-add" onClick="importAction()"></div>
+										<div itype="separator"></div>
+										<div plain=true text="新增" id="add" display="false" iconCls="icon-add" onClick="doAddAction()"></div>
+										<div itype="separator"></div>
+										<div plain=true text="批量删除" id="delete" display="false" iconCls="icon-delete" onClick="batchDeleteObject()"></div>
+										<div itype="separator"></div>
+										<div plain=true text="标准复制" id="copy" display="false" iconCls="icon-copy" onClick="doCopyAction()"></div>
+										<div itype="separator"></div>
+									</div>
+									<div name="rowDetail">
+										<div itype="DataGrid" id="detailGrid1" pagePosition="none" allowResizeColumn="true"
+											onBeforeReady="onBeforeDetailGridReady()">
+											<div width="5%" name="cActitemIndex" text="活动项索引"></div>
+											<div width="10%" name="cActitemName" text="做什么"></div>
+											<div width="10%" name="cActitemCode" text="编码"></div>
+											<div width="20%" name="cActitemStd" text="执行标准"></div>
+											<div width="20%" name="cActitemStdCheck" text="验证标准（如何核查）"></div>
+											<div width="5%" name="cGetdataPretext" text="数据采集名称"></div>
+											<div width="5%" name="cGetdataUnit" text="数据采集单位"></div>
+											<div width="5%" name="cGetdatatypename" text="执行结果上传要求"></div>
+											<div width="5%" name="cGetdataText" text="执行结果后置文本"></div>
+											<div width="5%" name="cCheckdatatypename" text="验证结果上传要求"></div>
+											<div width="5%" name="cRemark" text="备注"></div>
+											<div type="hidden" name="cActitemId"></div>
+											<div type="hidden" name="cActnodeId"></div>
+										</div>
+									</div>
+									<!-- 列属性定义 -->
+									<div width="20%" name="cActnodeName" text="岗位活动名称" renderer="operLinkRenderer()"></div>
+									<div width="15%" name="cPdca" text="PDCA属性"></div>
+									<div width="15%" name="cIskeyctrlname" text="是否为关键活动"></div>
+									<div width="10%" name="cFrequency" text="时态"></div>
+									<div width="15%" name="cAreaName" text="作业区域"></div>
+									<div width="15%" name="cPositionName" text="执行岗位"></div>
+									<div width="15%" name="cIssequenceName" text="是否按顺序执行"></div>
+									<div width="15%" name="cIsrandomName" text="是否为随机任务"></div>
+									<div width="15%" name="cIsscanName" text="是否扫码"></div>
+									<div width="15%" name="cStdExec" text="执行标准"></div>
+									<div width="15%" name="cErrExec" text="异常怎么处置（执行环节）"></div>
+									<div width="15%" name="cRecordsExec" text="规范性记录（执行环节）"></div>
+									<div width="15%" name="cStarttimeExecName" text="执行开始时间"></div>
+									<div width="15%" name="cEndtimeExecName" text="执行完成时间"></div>
+									<div width="15%" name="cPositionNameCheck" text="验证岗位"></div>
+									<div width="15%" name="cStdCheck" text="验证标准（如何核查）"></div>
+									<div width="15%" name="cErrCheck" text="异常怎么处置（验证环节）"></div>
+									<div width="15%" name="cRecordsCheck" text="规范性记录（验证环节）"></div>
+									<div width="15%" name="cTimelimitCheckName" text="验证完成时间"></div>
+									<div width="15%" name="cPositionNameReview" text="评价岗位"></div>
+									<div width="15%" name="cStdReview" text="评价标准"></div>
+									<div width="15%" name="cTimelimitReviewName" text="评价完成时间"></div>
+									<div width="15%" name="cPositionNameFeedback1" text="默认反馈岗位"></div>
+									<div width="15%" name="cPositionNameFeedback2" text="其他默认反馈岗位"></div>
+									<div width="15%" name="cPositionNameErr1" text="异常反馈岗位"></div>
+									<div width="15%" name="cPositionNameErr2" text="其他异常反馈岗位"></div>
+									<div width="10%" text="多媒体" renderer="operMediaRenderer()"></div>
+									<div width="10%" text="操作" renderer="operRenderer()"></div>
+									<div type="hidden" name="cActnodeId"></div>
+								</div>
+							</div>
+							<div title="管理类" type="div">
+								<div itype="DataGrid" id="grid_actnode2" title="岗位活动项列表" width="97.3%"
+									allowResizeColumn="true" showCheckColumn="true" showSeqColumn="true"
+									saveInstance="true" pageSize="20" keyword="cActnodeId"
+									onBeforeReady="onBeforeReady()" onAfterInitRender="onAfterInitRender()" onRowClick="onRowClick()">
+									<div name="top-toolbar">
+										<div plain=true text="导入" id="import" display="false" iconCls="icon-add" onClick="importAction()"></div>
+										<div itype="separator"></div>
+										<div plain=true text="新增" id="add" display="false" iconCls="icon-add" onClick="doAddAction()"></div>
+										<div itype="separator"></div>
+										<div plain=true text="批量删除" id="delete" display="false" iconCls="icon-delete" onClick="batchDeleteObject()"></div>
+										<div itype="separator"></div>
+										<div plain=true text="标准复制" id="copy" display="false" iconCls="icon-copy" onClick="doCopyAction()"></div>
+										<div itype="separator"></div>
+									</div>
+									<div name="rowDetail">
+										<div itype="DataGrid" id="detailGrid2" pagePosition="none" allowResizeColumn="true"
+											onBeforeReady="onBeforeDetailGridReady()">
+											<div width="5%" name="cActitemIndex" text="活动项索引"></div>
+											<div width="10%" name="cActitemName" text="管什么"></div>
+											<div width="10%" name="cActitemCode" text="编码"></div>
+											<div width="20%" name="cActitemStd" text="管理要求"></div>
+											<div width="20%" name="cActitemStdCheck" text="验证标准（如何复核）"></div>
+											<div width="5%" name="cGetdataPretext" text="数据采集名称"></div>
+											<div width="5%" name="cGetdataUnit" text="数据采集单位"></div>
+											<div width="5%" name="cGetdatatypename" text="完工上传要求"></div>
+											<div width="5%" name="cGetdataText" text="完工后置文本"></div>
+											<div width="5%" name="cCheckdatatypename" text="验证结果上传要求"></div>
+											<div width="5%" name="cRemark" text="备注"></div>
+											<div type="hidden" name="cActitemId"></div>
+											<div type="hidden" name="cActnodeId"></div>
+										</div>
+									</div>
+									<!-- 列属性定义 -->
+									<div width="20%" name="cActnodeName" text="岗位活动名称" renderer="operLinkRenderer()"></div>
+									<div width="15%" name="cManageattr" text="管理属性"></div>
+									<div width="15%" name="cPdca" text="PDCA属性"></div>
+									<div width="15%" name="cIskeyctrlname" text="是否为关键活动"></div>
+									<div width="10%" name="cFrequency" text="时态"></div>
+									<div width="15%" name="cAreaName" text="工作区域"></div>
+									<div width="15%" name="cPositionName" text="管理岗位"></div>
+									<div width="15%" name="cIssequenceName" text="是否按顺序执行"></div>
+									<div width="15%" name="cIsrandomName" text="是否为随机任务"></div>
+									<div width="15%" name="cIsscanName" text="是否扫码"></div>
+									<div width="15%" name="cStdExec" text="管理要求"></div>
+									<div width="15%" name="cManagestd" text="管理/技术标准"></div>
+									<div width="15%" name="cExamstd" text="考核标准"></div>
+									<div width="15%" name="cErrExec" text="异常怎么处置"></div>
+									<div width="15%" name="cRecordsExec" text="规范性记录"></div>
+									<div width="15%" name="cEndtimeExecName" text="完工开始时间"></div>
+									<div width="15%" name="cEndtimeExecName" text="完工完成时间"></div>
+									<div width="15%" name="cPositionNameCheck" text="验证岗位"></div>
+									<div width="15%" name="cStdCheck" text="验证标准（如何复核）"></div>
+									<div width="15%" name="cTimelimitCheckName" text="验证完成时间"></div>
+									<div width="15%" name="cPositionNameReview" text="监督岗位"></div>
+									<div width="15%" name="cTimelimitReviewName" text="监督完成时间"></div>
+									<div width="15%" name="cPositionNameFeedback1" text="默认反馈岗位"></div>
+									<div width="15%" name="cPositionNameFeedback2" text="其他默认反馈岗位"></div>
+									<div width="15%" name="cPositionNameErr1" text="异常反馈岗位"></div>
+									<div width="15%" name="cPositionNameErr2" text="其他异常反馈岗位"></div>
+									<div width="10%" text="多媒体" renderer="operMediaRenderer()"></div>
+									<div width="10%" text="操作" renderer="operRenderer()"></div>
+									<div type="hidden" name="cActnodeId"></div>
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>

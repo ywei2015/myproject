@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script src="../../fastdev/fastDev-import.js"></script>
+		<script src="orgOrder.js"></script>
+	</head>
+
+	<body style="padding:5px;">
+		<div class="datagrid" itype="DataGrid" width="100%" keyWord="orgId" sortby="orderby" height="265px" id="orgdatagrid" pagePosition="none" saveInstance="true" showCheckColumn="true" onBeforeReady="onBeforeReady()">
+			<div name="top-toolbar">
+				<div plain=true text="上移" iconCls="icon-up" onclick="doMoveUp()"></div>
+				<div itype="separator"></div>
+				<div plain=true text="下移" iconCls="icon-down" onclick="doMoveDown()"></div>
+			</div>
+			<div hidden="true" name="orgId"></div>
+			<div width="20%" name="orgCode" text="组织代码"></div>
+			<div width="60%" name="orgName" text="组织名称"></div>
+			<div width="20%" name="orgTypeName" text="组织类型"></div>
+		</div>
+</body>
+</html>

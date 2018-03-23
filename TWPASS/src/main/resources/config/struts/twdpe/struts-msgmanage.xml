@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+		"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+		"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="struts-msgmanage" extends="struts-default">
+		<!-- 新增消息模板 -->
+		<action name="msg_addMsgTemplate" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="addMsgTemplate" />
+		<!-- 修改消息模板 -->
+		<action name="msg_modifyMsgTemplate" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="modifyMsgTemplate" />
+		<!-- 查看消息模板详情 -->
+		<action name="msg_getMsgTemplateInfo" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="getMsgTemplateInfo" />
+		<!-- 初始化查询条件的数据 -->
+		<action name="msg_initMsgSerData" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="initMsgSerData" />
+		<!-- 查询消息模板列表 -->
+		<action name="msg_getMsgTemplates" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="getMsgTemplates" />
+		<!-- 批量删除消息模板 -->
+		<action name="msg_deleteMsgTemplates" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="deleteMsgTemplates" />
+		<!-- 初始化接受消息条件的数据 -->
+	    <action name="msg_initReceiveMsgTemplates" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="initReceiveMsgTemplates" />
+	    <!-- 查询接受消息模板 -->
+	    <action name="msg_getMsgReceiveTemplates" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="getMsgReceiveTemplates" />
+	    <!-- 查看接受消息模板详情 -->
+		<action name="msg_getMsgReceiveInfo" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="getMsgReceiveInfo" />
+		
+		<!-- 初始化发送消息条件的数据 -->
+	    <action name="msg_initSendMsgTemplates" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="initSendMsgTemplates" />
+	    <!-- 查询发送消息模板 -->
+	    <action name="msg_getMsgSendTemplates" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="getMsgSendTemplates" />
+	    <!-- 查看发送消息模板详情 -->
+		<action name="msg_getMsgSendInfo" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="getMsgSendInfo" />
+		
+		<!-- 查看分组审核列表-->
+		<action name="msg_getGroupVerifys" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="getGroupVerifys" />
+		<!-- 查看群组信息详情-->
+		<action name="msg_getGroupMsgInfo" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="getGroupMsgInfo" />
+		<!-- 修改群组审核状态-->
+		<action name="msg_doVerify" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="doVerify" />
+		<!-- 修改并提交审核-->
+		<action name="msg_doModifyMsgAndReVerify" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="doModifyMsgAndReVerify" />
+		<!-- 修改并提交审核-->
+		<action name="msg_doDeleteMsgAndVerify" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="doDeleteMsgAndVerify" />
+		<!-- 发送消息初始化消息类型-->
+		<action name="msg_initMesType" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="initMesType" />
+		<!-- 发送消息初始化发送周期-->
+		<action name="msg_initMsgFre" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="initMsgFre" />
+		
+		
+		<!-- 通用配置 包括消息发送和消息日志查看 -->
+		<action name="msg_*" class="com.talkweb.twdpe.webcomponent.component.MessageMngAction" method="{1}"></action>
+		<!-- 消息定制 -->
+		<action name="msgCfg_*" class="com.talkweb.twdpe.webcomponent.component.MessageCfgAction" method="{1}"></action>
+		
+	</package>
+
+</struts>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="taskCount">
+	<resultMap id="taskCountMap" type="com.talkweb.xwzcxt.pojo.TTask">
+		<id column="C_TASK_ID"  property="c_TASK_ID" />
+		<result column="C_TASK_NAME" property="c_TASK_NAME" />
+		<result column="C_TASK_TYPE"  property="c_TASK_TYPE" />
+		<result column="C_TRIGGER_TYPE"  property="c_TRIGGER_TYPE" />
+		<result column="C_TRIGGER_CAUSE" property="c_TRIGGER_CAUSE" />
+		<result column="C_ISKEYCTRL"  property="c_ISKEYCTRL" />
+		<result column="C_ERR_SN" property="c_ERR_SN" />
+		<result column="C_MANAGE_SECTION"  property="c_MANAGE_SECTION" />
+		<result column="C_PDCA"  property="c_PDCA" />
+		<result column="C_ISGETNOTIFY"  property="c_ISGETNOTIFY" />
+		<result column="C_ISRELAY"  property="c_ISRELAY" />
+		<result column="C_ISSEQUENCE"  property="c_ISSEQUENCE" />
+		<result column="C_AREA_ID" property="c_AREA_ID" />
+		<result column="C_EXEC_USERID"  property="c_EXEC_USERID" />
+		<result column="C_START_TIME"  property="c_START_TIME" />
+		<result column="C_URGE_TIME"  property="c_URGE_TIME" />
+		<result column="C_END_TIME"  property="c_END_TIME" />
+		<result column="C_EXCEED_TIME"  property="c_EXCEED_TIME" />
+		<result column="C_ISSTD"  property="c_ISSTD" />
+		<result column="C_TASKTEMPLET_ID"  property="c_TASKTEMPLET_ID" />
+		<result column="C_PLANDOWN_TIME"  property="c_PLANDOWN_TIME" />
+		<result column="C_DOWN_TIME"  property="c_DOWN_TIME" />
+		<result column="C_FACT_STARTTIME"  property="c_FACT_STARTTIME" />
+		<result column="C_FACT_ENDTIME"  property="c_FACT_ENDTIME" />
+		<result column="C_UP_TIME"  property="c_UP_TIME" />
+		<result column="C_CREATE_USERID"  property="c_CREATE_USERID" />
+		<result column="C_CREATE_TIME"  property="c_CREATE_TIME" />
+		<result column="C_CONFIRM_USERID"  property="c_CONFIRM_USERID" />
+		<result column="C_CONFIRM_TIME"  property="c_CONFIRM_TIME" />
+		<result column="C_ISCANCEL"  property="c_ISCANCEL" />
+		<result column="C_CANCEL_CAUSE" property="c_CANCEL_CAUSE" />
+		<result column="C_STATUS"  property="c_STATUS" />
+		<result column="C_REMARK" property="c_REMARK" />
+		<result column="DISPLAYNAME" property="userName" />
+	</resultMap>
+
+	<sql id="taskCount_List">
+		C_TASK_ID, C_TASK_NAME, C_TASK_TYPE, C_TRIGGER_TYPE,
+		C_TRIGGER_CAUSE,
+		C_ISKEYCTRL,
+		C_ERR_SN, C_MANAGE_SECTION, C_PDCA,
+		C_ISGETNOTIFY, C_ISRELAY, C_ISSEQUENCE,
+		C_AREA_ID,
+		C_EXEC_USERID,
+		C_START_TIME, C_URGE_TIME, C_END_TIME, C_EXCEED_TIME, C_ISSTD,
+		C_TASKTEMPLET_ID,
+		C_PLANDOWN_TIME, C_DOWN_TIME, C_FACT_STARTTIME,
+		C_FACT_ENDTIME, C_UP_TIME,
+		C_CREATE_USERID,
+		C_CREATE_TIME,
+		C_CONFIRM_USERID, C_CONFIRM_TIME, C_ISCANCEL, C_CANCEL_CAUSE,
+		C_STATUS,
+		C_REMARK
+	</sql>
+
+	<select id="queryTaskInfoByStatus" parameterType="com.talkweb.xwzcxt.pojo.TaskCondition"
+		resultMap="taskCountMap">
+		select
+		t1.C_TASK_ID, t1.C_TASK_NAME, t1.C_TASK_TYPE, t1.C_TRIGGER_TYPE,
+		t1.C_TRIGGER_CAUSE,
+		t1.C_ISKEYCTRL,
+		t1.C_ERR_SN, t1.C_MANAGE_SECTION, t1.C_PDCA,
+		t1.C_ISGETNOTIFY, t1.C_ISRELAY, t1.C_ISSEQUENCE,
+		t1.C_AREA_ID,
+		t1.C_EXEC_USERID,
+		t1.C_START_TIME, t1.C_URGE_TIME, t1.C_END_TIME, t1.C_EXCEED_TIME, t1.C_ISSTD,
+		t1.C_TASKTEMPLET_ID,
+		t1.C_PLANDOWN_TIME, t1.C_DOWN_TIME, t1.C_FACT_STARTTIME,
+		t1.C_FACT_ENDTIME, t1.C_UP_TIME,
+		t1.C_CREATE_USERID,
+		t1.C_CREATE_TIME,
+		t1.C_CONFIRM_USERID, t1.C_CONFIRM_TIME, 
+		--t1.C_ISCANCEL, 
+		t1.C_CANCEL_CAUSE,
+		t1.C_STATUS,
+		t1.C_REMARK,t2.DISPLAYNAME
+		from T_TASK t1,DP_USER t2
+		<where>
+			ISDELETE = '0' and t2.USERID = t1.C_EXEC_USERID
+			<if test="start != null and ''!= start">
+			<![CDATA[	AND t1.c_Start_Time > to_date(#{start},'yyyy-mm-dd hh24:mi:ss')	]]>
+			</if>
+			<if test="end != null and ''!= end">
+			<![CDATA[	AND t1.c_End_Time < to_date(#{end},'yyyy-mm-dd hh24:mi:ss')	]]>
+			</if>
+			<if test="scope==1">
+				AND t1.C_EXEC_USERID = #{userid}
+			</if>
+			<if test="scope==2">
+				AND t1.C_EXEC_USERID in (select t1.USERID from DP_USER
+				t1,DP_USER t2 WHERE t2.USERID = #{userid} AND t1.orgid = t2.orgid
+				)
+			</if>
+		</where>
+		order by t1.C_TASK_ID
+	</select>
+</mapper>

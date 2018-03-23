@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="../../fastdev/common.js"></script>
+<script src="timeRuleManage.js"></script>
+</head>
+<body>
+	<form id="checkform" itype="Form" requestType="post" saveInstance="true">
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px;">规则名称：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" id="cTimeruleName" width="100%"></div>
+				</td>
+				<td class="ui-form-table-dt" style="width: 100px;">规则类型：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" id="cTimeruleType" width="100%" saveInstance="true">
+						<option selected>-请选择-</option>
+						<option value="2">每班</option>
+						<option value="3">每天</option>
+						<option value="4">每周</option>
+						<option value="5">每月一次</option>
+						<option value="51">每月两次</option>
+					</select>
+				</td>
+				<td class="ui-form-table-dt" style="width: 100px">所属组织（部门）：</td>
+				<td class="ui-form-table-dd">
+					<div id="cDepartment" itype="SelectTree" saveInstance="true"
+						inside="false" width="100%" rootValue="-请选择-" topParentid="1--1" openFloor="2"
+						initSource="pbo/getPositionInOrgAction.action?orgtype=5"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dd" align="right" colspan="6">
+					<div itype="Button" text="查询" iconCls="icon-search" onclick="doSearch()"></div>
+					<div itype="Button" text="重置" iconCls="icon-reset" onclick="doReset()"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" colspan="6">
+					<div itype="DataGrid" id="grid_ruletime" width=100% pageSize="20" keyword="cTimeruleId"
+						saveInstance="true" showCheckColumn="true" showSeqColumn="true" allowResizeColumn="true"
+						onBeforeReady="onBeforeReady()" onAfterInitRender="onAfterInitRender()" onRowClick="onRowClick()">
+						<div name="top-toolbar">
+							<div plain=true text="新增" id="add" display="false" iconCls="icon-add" onclick="doAddTimeRule()"></div>
+							<div itype="separator"></div>
+							<div plain=true text="批量删除" id="delete" display="false" iconCls="icon-delete" onclick="batchDeleteObject()"></div>
+							<div itype="separator"></div>
+						</div>
+						<!-- 列属性定义-->
+						<div width="35%" name="cTimeruleName" text="规则名称" renderer="operLinkRenderer()"></div>
+						<div width="20%" name="cDepartmentName" text="组织（部门）名称"></div>
+						<div width="5%" name="cTimeruleTypeName" text="类型"></div>
+						<div width="15%" name="cTimeruleBeginName" text="启用时间"></div>
+						<div width="15%" name="cTimeruleEndName" text="停用时间"></div>
+						<div width="10%" text="操作" renderer="operRenderer()"></div>
+						<div type="hidden" name="cTimeruleId"></div>
+						<div type="hidden" name="cRemark"></div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

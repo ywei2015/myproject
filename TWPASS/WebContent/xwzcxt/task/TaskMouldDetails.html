@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>标准模板详情</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script type="text/javascript" src="taskMouldDetails.js"></script>
+</head>
+<body>
+<div style="width:99.9%">
+	<form id="checkForm" itype="Form" saveInstance="true"
+		submitJson="false" onSubmitSuccess="onSubmitSuccess()"
+		onBeforeReady="onFormBeforeReady()">
+		<div itype="TextBox" type="hidden" id="taskMouldPojo.c_basic_id"></div>
+		<table class="ui-form-table">
+			<tr>
+
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" >任务模板ID：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="taskMouldPojo.c_tasktemplet_id" width="100%"></div></td>
+
+				<td class="ui-form-table-dt" >岗位活动末节点：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="taskMouldPojo.c_action_name" width="100%"></div></td>
+
+				<td class="ui-form-table-dt" >所属区域节点：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="taskMouldPojo.areaname" width="100%"></div></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" >任务模板名称：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="taskMouldPojo.c_tasktemplet_name" width="100%"></div></td>
+
+				<td class="ui-form-table-dt" >所属岗位节点：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="taskMouldPojo.posiname" width="100%"></div></td>
+
+				<td class="ui-form-table-dt" >触发方式：</td>
+				<td class="ui-form-table-dd"><select itype="Select" id="taskMouldPojo.c_tiger_type">
+									<option>-----请选择-----</option>
+									<option value="1">时间规则触发</option>
+									<option value="2">异常处理</option>
+									<option value="3">其它系统触发</option>
+								</select></td> 
+								
+			</tr>
+			<tr>				<td class="ui-form-table-dt" >超时反馈方式：</td>
+				<td class="ui-form-table-dd">
+				<select itype="Select" id="taskMouldPojo.c_overtime_tigertype">
+									<option>-----请选择-----</option>
+									<option value="0">不处理</option>
+									<option value="1">仅通知班长</option>
+									<option value="2">通知班长与部长</option>
+								</select>
+				</td>
+
+				<td class="ui-form-table-dt" >执行超时反馈岗位节点：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="taskMouldPojo.c_overtime_postname" width="100%"></div></td>
+
+				<td class="ui-form-table-dt" >正常完成反馈方式：</td>
+				<td class="ui-form-table-dd"><select itype="Select" id="taskMouldPojo.c_ok_tigertype">
+					<option>-----请选择-----</option>
+					<option value="0">不触发</option>
+					<option value="1">触发</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" >正常完成是否触发任务：</td>
+				<td class="ui-form-table-dd"><select itype="Select" id="taskMouldPojo.c_isokfeedback">
+					<option>-----请选择-----</option>
+					<option value="0">不触发</option>
+					<option value="1">触发</option>
+				</select></td>
+
+				<td class="ui-form-table-dt" >异常反馈方式：</td>
+				<td class="ui-form-table-dd">
+				<select itype="Select" id="taskMouldPojo.c_err_tigertype">
+					<option>-----请选择-----</option>
+					<option value="0">不处理</option>
+					<option value="1">仅通知班长</option>
+					<option value="2">通知班长与部长</option>
+				</select></td>
+
+				<td class="ui-form-table-dt" >正常完成反馈岗位节点：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="taskMouldPojo.c_err_tasktemplet_name" width="100%"></div></td>
+			</tr>
+			<tr>	
+				<td class="ui-form-table-dt" >正常完成触发任务模板名称：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="taskMouldPojo.c_err_tasktemplet_name" width="100%"></div></td>
+
+				<td class="ui-form-table-dt" >异常反馈岗位节点：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="taskMouldPojo.c_err_tasktemplet_name" width="100%"></div></td>
+
+				<td class="ui-form-table-dt" >异常时是否触发指定任务：</td>
+				<td class="ui-form-table-dd"> 
+						
+						<select itype="Select" id="taskMouldPojo.c_iserrfeedback">
+					<option>-----请选择-----</option>
+					<option value="0">一次</option>
+					<option value="1">三次</option>
+				</select>
+</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" >异常时触发任务模板名称：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="taskMouldPojo.c_err_tasktemplet_name" width="100%"></div></td>
+
+				<td class="ui-form-table-dt" >创建人：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="taskMouldPojo.c_creator" width="100%"></div></td>
+
+				<td class="ui-form-table-dt" >创建时间：</td>
+				<td class="ui-form-table-dd"><div itype="DatePicker"
+						id="taskMouldPojo.c_create_time" width="100%"></div></td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" >修改人：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						id="taskMouldPojo.c_last_modifier" width="100%"></div></td>
+
+				<td class="ui-form-table-dt" >修改时间：</td>
+				<td class="ui-form-table-dd"  colspan=3><div itype="DatePicker"
+						id="taskMouldPojo.c_last_modified_time" width="150px"></div></td>
+
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" >备注：</td>
+				<td class="ui-form-table-dd" colspan=5 ><textarea itype="TextBox" type="textarea" height="50px"
+						id="taskMouldPojo.c_remark" width="100%"></textarea></td>
+			</tr>
+		</table>
+	</form>
+
+
+	<div itype="DataGrid" id="grid1" onBeforeReady="onBeforeGridReady()" width=98% onAfterInitRender="onAfterInitRender()"
+				pageSize="7" saveInstance=true keyword="c_tasktemplet_id" showCheckColumn=true onRowClick="onRowClick()" >		
+				<div width="20%" name="c_actitem_name" text="标准项名称"></div>
+				<div width="20%" name="c_actitem_actstep_index" text="项步序号"></div>
+				<div width="20%" name="c_tracefun_name" text="步骤收集方式"></div>
+				<div width="20%" name="c_step_prompt" text="步骤提示名称"></div>
+	</div>
+</div>
+</body>
+</html>

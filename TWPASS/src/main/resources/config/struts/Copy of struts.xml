@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+
+<struts>
+	<!-- 常量定义  -->
+	<constant name="struts.objectFactory" value="spring" />
+
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.i18n.reload" value="false"></constant>
+
+	<constant name="struts.i18n.encoding" value="UTF-8"></constant>
+	<constant name="struts.serve.static.browserCache" value="false"></constant>
+	<constant name="struts.objectFactory.spring.useClassCache" value="false"></constant>
+	<constant name="struts.objectFactory.spring.autoWire.alwaysRespect" value="true" />
+	<!-- 上传文件最大值 50M -->
+	<constant name="struts.multipart.maxSize" value="52428800"></constant>
+	
+
+
+	<package name="twdpe-default" extends="struts-default">
+		<global-results>
+			<result name="noPermission">/error/403.html</result>
+			<result name="error">/error/error.jsp</result>
+		</global-results>
+
+		<global-exception-mappings>
+			<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings>
+	</package>
+	
+	<package name="twdpe-common-default" extends="json-default">
+	    <interceptors>
+	        <interceptor name="checkException" class="com.talkweb.twdpe.web.commons.ExceptionInterceptor" />
+	        <interceptor-stack name="myStack">
+                <interceptor-ref name="checkException" />
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+	    </interceptors>
+	    
+	    <default-interceptor-ref name="myStack"/>
+	
+		<global-results>
+            <result name="success" type="json">  
+				  <param name="root">data</param>
+				  <param name="excludeNullProperties">true</param>
+            </result> 			
+		</global-results>
+	</package>	
+
+
+	<!-- 组织管理 -->
+	<include file="config/struts/twdpe/struts-org.xml" />
+
+	<!-- 用户管理 -->
+	<include file="config/struts/twdpe/struts-user.xml" />
+
+	<!-- 角色管理 -->
+	<include file="config/struts/twdpe/struts-role.xml" />
+
+	<!-- 岗位管理 -->
+	<include file="config/struts/twdpe/struts-position.xml" />
+
+	<!-- 地区管理 -->
+	<include file="config/struts/twdpe/struts-area.xml" />
+
+	<!-- 下载管理 -->
+	<include file="config/struts/twdpe/struts-filedown.xml" />
+	
+	<!-- 消息管理 -->
+	<include file="config/struts/twdpe/struts-msgmanage.xml" />
+	
+	<!-- 站内消息 -->
+	<include file="config/struts/twdpe/struts-websiteinfo.xml" />
+
+	<!-- 访问控制管理 -->
+	<include file="config/struts/twdpe/struts-ipcontrol.xml" />	
+	
+	<!-- 字典管理 -->
+	<include file="config/struts/twdpe/struts-dict.xml" />	
+	
+	<!-- 系统首页 -->
+	<include file="config/struts/twdpe/struts-portal.xml" />
+
+	<!-- 日志管理 -->
+	<include file="config/struts/twdpe/struts-log.xml" />		
+	
+	<!-- 任务调度配置管理 -->
+	<include file="config/struts/twdpe/struts-jobconfig.xml" />
+	
+	<!-- 数据权限配置管理 -->
+	<include file="config/struts/twdpe/struts-dataright.xml" />
+
+	<!-- 规则引擎管理 -->
+	<include file="config/struts/twdpe/struts-rulemanage.xml" />
+	
+	<!-- 访问方式管理 -->
+	<include file="config/struts/twdpe/struts-accessmode.xml" />
+	
+	<!-- 资源管理 -->
+	<include file="config/struts/twdpe/struts-resource.xml" />	
+		
+	<!-- 权限管理 -->
+	<include file="config/struts/twdpe/struts-permission.xml" />		
+	
+	<!-- 应用管理 -->
+	<include file="config/struts/twdpe/struts-application.xml"/>
+
+	
+	<!-- 行为管理 -->
+	<include file="config/struts/xwzcxt/struts-task.xml"/>
+	<include file="config/struts/xwzcxt/struts-objtype.xml"/>
+	
+	<include file="config/struts/xwzcxt/struts-activity.xml"/>
+	
+	<include file="config/struts/xwzcxt/struts-basic.xml"/>
+	<include file="config/struts/xwzcxt/struts-cacheRefresh.xml"/>
+	<!-- 上传excel文件 -->
+	<include file="config/struts/xwzcxt/struts-excel.xml" />
+	<!-- 标准文件管理查看 -->
+	<include file="config/struts/xwzcxt/struts-standardlibrary.xml" />
+	
+	<!-- 岗位活动管理-->
+	<include file="config/struts/xwzcxt/struts-actnode.xml" />
+	
+	<!-- ZZ DEMO -->
+	<include file="config/struts/xwgl/struts-demo.xml"></include>
+	
+</struts>

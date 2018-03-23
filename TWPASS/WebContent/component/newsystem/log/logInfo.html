@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>日志详情</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="../../fastdev/fastDev-import.js"></script>
+<script type="text/javascript" src="logInfo.js"></script>
+</head>
+<body style="background: #fff; width: 100%;">
+	<script id="tpl" type="text/tmpl">
+			<table cellspacing="0" cellpadding="0" border="0" class="ui-form-table" style="width:100%">
+				<tr>
+					<th class="ui-form-table-dt">日志序号：</th>
+					<td class="ui-form-table-dd">#{logId}</td>
+					<th class="ui-form-table-dt">操作类型：</th>
+					<td class="ui-form-table-dd">#{actionType}</td>
+				</tr>
+				<tr>
+					<th class="ui-form-table-dt">应用名称：</th>
+					<td class="ui-form-table-dd">#{appName}</td>
+					<th class="ui-form-table-dt">模块名称：</th>
+					<td class="ui-form-table-dd">#{funcGroupName}</td>
+				</tr>
+				<tr>
+					<th class="ui-form-table-dt">用户编号：</th>
+					<td class="ui-form-table-dd">#{account}</td>
+					<th class="ui-form-table-dt">用户姓名：</th>
+					<td class="ui-form-table-dd">#{accountName}</td>
+				</tr>
+				<tr>
+					<th class="ui-form-table-dt">操作时间：</th>
+					<td class="ui-form-table-dd">#{auditDate}</td>
+					<th class="ui-form-table-dt">操作状态：</th>
+					<td class="ui-form-table-dd">#{statusCode}</td>
+				</tr>
+				<tr>
+					<th class="ui-form-table-dt">资源名称：</th>
+					<td class="ui-form-table-dd" colspan="3">#{resourceName}</td>
+				</tr>
+				<tr>
+					<th class="ui-form-table-dt">资源链接：</th>
+					<td class="ui-form-table-dd ui-br" colspan="3">#{resourceUrl}</td>
+				</tr>
+				<tr>
+					<th class="ui-form-table-dt">服务器IP：</th>
+					<td class="ui-form-table-dd" colspan="3">#{sourceIp}</td>
+				</tr>
+				<tr>
+					<th class="ui-form-table-dt">客户端IP：</th>
+					<td class="ui-form-table-dd" colspan="3">#{targetIp}</td>
+				</tr>
+				<tr>
+					<th class="ui-form-table-dt">操作描述：</th>
+					<td class="ui-form-table-dd" colspan="3">#{actionDescription}</td>
+				</tr>
+				<tr>
+					<th class="ui-form-table-dt">结果描述：</th>
+					<td class="ui-form-table-dd" colspan="3">#{actionResult}</td>
+				</tr>
+			</table>
+		</script>
+</body>
+</html>

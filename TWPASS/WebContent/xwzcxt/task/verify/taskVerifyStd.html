@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="../../../fastdev/fastDev-import.js"></script>
+<title>任务验证的步骤标准</title>
+<script type="text/javascript">
+	fastDev(function(){
+		var request=fastDev.Browser.getRequest();
+		var c_actnode_id=request['c_actnode_id'];
+		if(c_actnode_id){
+			fastDev.post("taskVerifyAndComment_getChkitemStd.action",{
+				success:function(data){
+					 createTable(data);
+				},
+				data:{"c_actnode_id":c_actnode_id}
+			}
+			 );
+		}                        
+	});
+	
+	function createTable(data){
+	     if(data){
+	    	 var table=document.getElementById("table");
+	    	 var tr,td,text;
+	    	 for(var i=0;i<data.length;i++){
+	    		/*  tr=document.createElement("tr");
+	    		 td=document.createElement("td");
+	    		 text=document.createTextNode(data[i].c_actitem_index);
+	    		 td.appendChild(text);
+	    		 tr.appendChild(td); */
+	    		 tr=document.createElement("tr");
+	    		 td=document.createElement("td");
+	    		 text=document.createTextNode(data[i].c_actitem_name);
+	    		 td.appendChild(text);
+	    		 td.setAttribute("class", "ui-form-table-dd");
+	    		 tr.appendChild(td);
+	    		 
+	    		 td=document.createElement("td");
+	    		 td.setAttribute("class", "ui-form-table-dd");
+	    		 text=document.createTextNode(data[i].c_actitem_std_check);
+	    		 td.appendChild(text);
+	    		 tr.appendChild(td);
+	    		 table.appendChild(tr);
+	    	 }
+	     }
+	}
+</script>
+</head>
+<body>
+	<table id="table" class="ui-form-table">
+		<tr>
+			<!-- <th nowrap="nowrap">序号</th> -->
+			<th class="ui-form-table-dt" style="text-align:center;">步骤名称</th>
+			<th class="ui-form-table-dt" style="text-align:center;">步骤标准</th>
+		</tr>
+	</table>
+</body>
+</html>

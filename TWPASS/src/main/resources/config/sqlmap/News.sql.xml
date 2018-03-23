@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="news">
+ 
+	<resultMap id="newsInfo" type="com.talkweb.xwzcxt.pojo.NewsPojo">
+
+		<result column="C_NEWS_ID" property="newsId" jdbcType="VARCHAR" />
+		<result column="C_NEWS_TITLE" property="newsTitle" jdbcType="VARCHAR" />
+		<result column="C_NEWS_AUTHOR" property="newsAuthor" jdbcType="VARCHAR" />
+		<result column="C_COVER" property="cover" jdbcType="VARCHAR" />
+		<result column="C_SUMMARY" property="summary" jdbcType="VARCHAR" />
+		<result column="C_BODY" property="body" jdbcType="CLOB" />
+		<result column="C_CREATOR" property="creator" jdbcType="VARCHAR" />
+		<result column="C_CREATETIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="C_MODIFIER" property="modifier" jdbcType="VARCHAR" />
+		<result column="C_MODIFYTIME" property="modifyTime" jdbcType="TIMESTAMP" />
+		<result column="C_REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="C_ISDELETE" property="isDelete" jdbcType="CHAR" />
+ 
+ 		<result column="C_MANAGE_SECTION" property="manageSection" jdbcType="DECIMAL" />
+		<result column="C_MANAGE_SECTION_NAME" property="manageSectionName" jdbcType="VARCHAR" />
+		<result column="C_ORG_ID" property="orgId" jdbcType="DECIMAL" />
+		<result column="C_ORG_NAME" property="orgName" jdbcType="VARCHAR" />
+	</resultMap>
+ 
+
+ 	<select id="getNewsInfo" parameterType="map" resultMap="newsInfo">
+ 		select t1.* 
+ 		from T_NEWS t1 
+ 		where t1.C_ISDELETE=0 
+ 		<if test="newsTitle !=null and ''!=newsTitle">
+			AND t1.C_NEWS_TITLE like #{newsTitle}
+		</if>
+		<if test="newsAuthor !=null and ''!=newsAuthor">
+			AND t1.C_NEWS_AUTHOR like #{newsAuthor}
+		</if>
+		<if test="newsId !=null and ''!=newsId">
+			AND t1.C_NEWS_ID=#{newsId}
+		</if>
+		<if test="manageSection !=null">
+			AND t1.C_MANAGE_SECTION=#{manageSection}
+		</if>
+		<if test="orgId !=null">
+			AND t1.C_ORG_ID in ( select ORGID 
+			from DP_ORGANIZATION 
+			start with ORGID = #{orgId} 
+			connect by prior ORGID = PARENTORGID ) 
+		</if>
+		order by t1.C_CREATETIME desc 		
+ 	</select>
+ 	
+ 
+ 	<update id="updateNews" parameterType="com.talkweb.xwzcxt.pojo.NewsPojo">
+		update T_NEWS
+		<set>
+			<if test="newsTitle != null  and ''!=newsTitle">
+				C_NEWS_TITLE = #{newsTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="newsAuthor != null  and ''!=newsAuthor">
+				C_NEWS_AUTHOR = #{newsAuthor,jdbcType=VARCHAR},
+			</if>
+			<if test="cover != null  and ''!=cover">
+				C_COVER = #{cover,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null  and ''!=summary">
+				C_SUMMARY = #{summary,jdbcType=VARCHAR},
+			</if>
+			<if test="body != null  and ''!=body">
+				C_BODY = #{body,jdbcType=CLOB},
+			</if>
+			<if test="creator != null  and ''!=creator">
+				C_CREATOR = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null  and ''!=createTime">
+				C_MODIFYTIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifier != null  and ''!=modifier">
+				C_MODIFIER = #{modifier,jdbcType=VARCHAR},
+			</if>
+			<if test="modifyTime != null  and ''!=modifyTime">
+				C_MODIFYTIME = #{modifyTime,jdbcType=TIMESTAMP},
+			</if>
+			
+			<if test="manageSection != null">
+				C_MANAGE_SECTION = #{manageSection,jdbcType=DECIMAL},
+			</if>
+			<if test="manageSectionName != null  and ''!=manageSectionName">
+				C_MANAGE_SECTION_NAME = #{manageSectionName,jdbcType=VARCHAR},
+			</if>
+			
+			<if test="orgId != null">
+				C_ORG_ID = #{orgId,jdbcType=DECIMAL},
+			</if>
+			<if test="orgName != null  and ''!=orgName">
+				C_ORG_NAME = #{orgName,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where 1>1
+		<if test="newsId!=null and ''!=newsId">
+			or C_NEWS_ID = #{newsId,jdbcType=VARCHAR} and C_ISDELETE=0
+		</if>
+	</update>
+ 
+ 
+ 	
+ 	<insert id="addNewsInfo" parameterType="com.talkweb.xwzcxt.pojo.NewsPojo">
+		 insert into t_news(
+			<trim suffix="" suffixOverrides=",">
+				<if test="null!=newsId and ''!=newsId">
+					C_NEWS_ID,
+				</if>
+				<if test="null!=newsTitle and ''!=newsTitle">
+					C_NEWS_TITLE,
+				</if>
+				<if test="null!=newsAuthor and ''!=newsAuthor">
+					C_NEWS_AUTHOR,
+				</if>
+				<if test="cover != null  and ''!=cover">
+					C_COVER,
+				</if>
+				<if test="null!=summary and ''!=summary">
+					C_SUMMARY,
+				</if>
+				<if test="null!=body and ''!=body">
+					C_BODY,
+				</if>				
+				<if test="null!=createTime and ''!=createTime">
+					C_CREATETIME,
+				</if>
+				<if test="null!=creator and ''!=creator">
+					C_CREATOR,
+				</if>
+				<if test="manageSection != null">
+					C_MANAGE_SECTION,
+				</if>
+				<if test="manageSectionName != null  and ''!=manageSectionName">
+					C_MANAGE_SECTION_NAME,
+				</if>
+				<if test="orgId != null">
+					C_ORG_ID,
+				</if>
+				<if test="orgName != null  and ''!=orgName">
+					C_ORG_NAME,
+				</if>				
+			</trim>
+		)values(
+			<trim suffix="" suffixOverrides=",">
+				<if test="null!=newsId and ''!=newsId">
+					#{newsId},
+				</if>
+				<if test="null!=newsTitle and ''!=newsTitle">
+					#{newsTitle},
+				</if>
+				<if test="null!=newsAuthor and ''!=newsAuthor">
+					#{newsAuthor},
+				</if>
+				<if test="cover != null  and ''!=cover">
+					#{cover},
+				</if>
+				<if test="null!=summary and ''!=summary">
+					#{summary},
+				</if>
+				<if test="null!=body and ''!=body">
+					#{body},
+				</if>				
+				<if test="null!=createTime and ''!=createTime">
+					#{createTime},
+				</if>
+				<if test="null!=creator and ''!=creator">
+					#{creator},
+				</if>
+				<if test="manageSection != null">
+					#{manageSection},
+				</if>
+				<if test="manageSectionName != null  and ''!=manageSectionName">
+					#{manageSectionName},
+				</if>
+				<if test="orgId != null">
+					#{orgId},
+				</if>
+				<if test="orgName != null  and ''!=orgName">
+					#{orgName},
+				</if>
+			</trim>
+		)
+	</insert>
+	
+	<update id="deleteNews" parameterType="map">
+		UPDATE T_NEWS
+		SET C_ISDELETE=1
+		WHERE 1>1
+		<if test="newsId!=null and newsId!=''">
+			OR C_NEWS_ID IN
+			<foreach collection="newsId" open="(" separator=","
+				close=")" item="id">
+				#{id}
+			</foreach>
+		</if>
+	</update>
+	
+	<select id="getNesInfoIds" parameterType="java.util.List" resultMap="newsInfo">
+		select t1.* from T_NEWS t1 
+		where C_NEWS_ID IN
+		<foreach item="item" index="index" collection="list" 
+            open="(" separator="," close=")">
+            #{item}
+        </foreach>
+	</select>
+</mapper>

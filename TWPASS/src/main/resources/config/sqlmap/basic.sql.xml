@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="basic">
+ <!--获取对象类别管理信息信息-->
+<select id="getWorkObjectType" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+    select c_objtype_code,c_up_objtype_code,c_objtype_name,c_objtype_fullname,c_node_deep,
+           c_remark,c_creator,c_create_time,c_last_modifier,c_last_modifued_time,c_isdelete
+    from t_work_objtype
+    where c_isdelete = 0
+
+	<if test="null!=c_objtype_name and ''!=c_objtype_name">
+		and c_objtype_name  like '%${c_objtype_name}%'
+	</if>
+	<if test="null!=c_objtype_code and ''!=c_objtype_code">
+		and c_objtype_code=${c_objtype_code}
+	</if>
+	 order by c_create_time 
+</select>
+
+<select id="getByCalPage" parameterType="map"
+	resultType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	select c.*,t.c_calendar_name from t_calendar c left join t_calendar_type  t on c.c_calendar_type = t.c_calendar_type
+	<where>			
+		<if test="null!=c_calendar_name and ''!=c_calendar_name">
+			c_calendar_name  like '%${c_calendar_name}%'
+		</if>
+	</where>
+	order by c.c_id
+	 <!-- order by  t.${orderbyName} -->
+</select>
+<select id="getByJobObjPage" parameterType="map"
+	resultType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	<!-- select t.*,a.areaname from t_work_object t left join dp_area a on t.c_area = a.area,
+	       b.displayname from t_work_object t left join dp_user b on t.c_conservator = b.userid -->
+	
+	select t.*,a.areaname,b.displayname
+	from t_work_object t,dp_area a,dp_user b
+	<where>	
+		t.c_area = a.area (+)	
+		and t.c_conservator = b.userid(+)
+		and c_isdelete=0	
+		<if test="null!=c_obj_fullname and ''!=c_obj_fullname">
+			and c_obj_fullname  like '%${c_obj_fullname}%'
+		</if>
+		<if test="null!=c_objtype_id and 1 !=c_objtype_id">
+			and c_objtype_id = ${c_objtype_id}
+		</if>
+	</where>
+	order by t.c_obj_id
+	 <!-- order by  t.${orderbyName} -->
+</select>
+<select id="getByPointPage" parameterType="map"
+	resultType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	select t.*,e.c_manage_section_name from t_post_actnode t left join t_manage_section e on t.c_manage_section = e.c_manage_section	
+	<where>			
+		<if test="null!=c_actnode_name and ''!=c_actnode_name">
+			c_actnode_name  like '%${c_actnode_name}%'
+		</if>
+	</where>
+	order by t.c_actnode_id
+	 <!-- order by  t.${orderbyName} -->
+</select>
+
+
+<select id="getByStandardPage" parameterType="map"
+	resultType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	select t.*,p.c_actnode_name from t_actnode_item t left join t_post_actnode p on t.c_actnode_id = p.c_actnode_id
+	<where>	
+		t.c_isdelete=0
+		<if test="null!=c_actitem_code and ''!=c_actitem_code">
+			and t.c_actitem_code  = #{c_actitem_code}
+		</if>		
+		<if test="null!=c_actitem_name and ''!=c_actitem_name">
+			and t.c_actitem_name  like '%${c_actitem_name}%'
+		</if>
+		<if test="null!=c_actnode_id and ''!=c_actnode_id">
+			and t.c_actnode_id  = #{c_actnode_id}
+		</if>
+	</where>
+	order by t.c_actitem_id
+	 <!-- order by  t.${orderbyName} -->
+</select>
+<select id="getBySingleTablePage" parameterType="map"
+	resultType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	select t.* from ${tablename} t 
+	<where>			
+		<if test="null!=c_objtype_code and ''!=c_objtype_code">
+			 t.c_objtype_code in (${c_objtype_code})
+		</if>
+		<if test="null!=c_timerule_name and ''!=c_timerule_name">
+			 and t.c_timerule_name like '%${c_timerule_name}%'
+		</if>
+		<if test="null!=c_isdelete and ''!=c_isdelete">
+			 and t.c_isdelete = #{c_isdelete}
+		</if>
+		<if test="null!=c_actnode_id and 0!=c_actnode_id">
+			 and t.c_actnode_id = #{c_actnode_id}
+		</if>
+		<if test="null!=c_tasktemplet_id and 0!=c_tasktemplet_id">
+			 and t.c_actnode_id = (select C_ACTNODE_ID from T_TASK_TEMPLET where C_TASKTEMPLET_ID=#{c_tasktemplet_id})
+		</if>
+		
+	</where>
+	 <!-- order by  t.${orderbyName} -->
+</select>
+<select id="getByObjTypeTree" parameterType="map"
+	resultType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	 select t1.leafs ,t.* from t_work_objtype t,(select count(u.c_objtype_code) leafs,u.c_up_objtype_code from t_work_objtype u where u.c_isdelete!=1 
+	group by u.c_up_objtype_code) t1 where t.c_objtype_code=t1.c_up_objtype_code(+) 
+			<if test="c_up_objtype_code!=null">
+				and t.c_up_objtype_code = #{c_up_objtype_code}			
+			</if>
+			<if test="c_objtype_code!=null">
+				and t.c_objtype_code = #{c_objtype_code}
+			</if>
+			<if test="c_objtype_name!=null">
+				and t.c_objtype_name = #{c_objtype_name}
+			</if>
+			<if test="c_isdelete!=null">
+				and t.c_isdelete = #{c_isdelete}
+			</if>
+	order by  t.c_objtype_code 
+	 
+	 <!-- order by  t.${orderbyName} -->
+</select>
+
+<!-- Add by Rita.Zhou for add sqls -->
+<insert id="insertWorkObject" parameterType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	<selectKey resultType="long" keyProperty="c_obj_id" order="BEFORE">
+		SELECT
+		SEQ_OBJ_ID.NEXTVAL  FROM DUAL
+	</selectKey>
+	insert into t_work_object (
+	     c_obj_id,c_obj_model,c_obj_uid,c_area,c_isdelete,
+	     <trim suffix="" suffixOverrides=",">
+	     	<if test="c_obj_name != null">
+	     		c_obj_name,
+	     	</if>
+	     	<if test="c_objtype_id != null">
+	     		c_objtype_id,
+	     	</if>
+	     	<if test="c_obj_fullname != null">
+	     		c_obj_fullname,
+	     	</if>
+	     	<if test="c_scan_code != null">
+	     		c_scan_code,
+	     	</if>
+	     	<if test="c_conservator != null">
+	     		c_conservator,
+	     		c_orgid
+	     	</if>
+	     </trim>
+	     )values(
+	     #{c_obj_id},#{c_obj_model},#{c_obj_uid},#{c_area},0,
+	     <trim suffix="" suffixOverrides=",">
+	     	<if test="c_obj_name != null">
+	     		#{c_obj_name},
+	     	</if>
+	     	<if test="c_objtype_id != null">
+	     		#{c_objtype_id},
+	     	</if>
+	     	<if test="c_obj_fullname != null">
+	     		#{c_obj_fullname},
+	     	</if>
+	     	<if test="c_scan_code != null">
+	     		#{c_scan_code},
+	     	</if>
+	     	<if test="c_conservator != null">
+	     		#{c_conservator},
+	     		(select orgid from dp_user where userid=#{c_conservator}),
+	     	</if>
+	     </trim>)
+</insert>
+
+<insert id="insertActnodeItem" parameterType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	<selectKey resultType="long" keyProperty="c_actitem_id" order="BEFORE">
+		SELECT SEQ_ACTNODE_ITEM_ID.NEXTVAL  FROM DUAL
+	</selectKey>
+	insert into t_actnode_item (
+		c_actitem_id,c_std,c_std_flag,c_check_flag,c_errstd_flag,c_isdelete,
+		<trim suffix="" suffixOverrides=",">
+			<if test="c_actitem_code != null">
+				c_actitem_code,
+			</if>
+			<if test="c_actitem_name != null">
+				c_actitem_name,
+			</if>
+			<if test="c_actnode_id != null">
+				c_actnode_id,
+			</if>
+			<if test="c_actitem_what != null">
+				c_actitem_what,
+			</if>
+			<if test="c_check_std != null">
+				c_check_std,
+			</if>
+			<if test="c_err_std != null">
+				c_err_std,
+			</if>
+			<if test="c_manage_section != null">
+				c_manage_section,
+			</if>
+			<if test="c_review_std != null">
+				c_review_std,
+			</if>
+		</trim>
+		)values(
+		#{c_actitem_id},#{c_std},#{c_std_flag},#{c_check_flag},#{c_errstd_flag},0,
+		<trim  suffix="" suffixOverrides=",">
+			<if test="c_actitem_code != null">
+				#{c_actitem_code},
+			</if>
+			<if test="c_actitem_name != null">
+				#{c_actitem_name},
+			</if>
+			<if test="c_actnode_id != null">
+				#{c_actnode_id},
+			</if>
+			<if test="c_actitem_what != null">
+				#{c_actitem_what},
+			</if>
+			<if test="c_check_std != null">
+				#{c_check_std},
+			</if>
+			<if test="c_err_std != null">
+				#{c_err_std},
+			</if>
+			<if test="c_manage_section != null">
+				#{c_manage_section},
+			</if>
+			<if test="c_review_std != null">
+				#{c_review_std},
+			</if>
+		</trim>)
+</insert>
+
+<update id="updateActiveStandard" parameterType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	update t_actnode_item
+	<set>
+		<if test="c_actitem_code != null">
+				c_actitem_code =#{c_actitem_code},
+		</if>
+		<if test="c_actitem_name != null">
+				c_actitem_name =#{c_actitem_name},
+		</if>
+		<if test="c_actnode_id != null">
+				c_actnode_id =#{c_actnode_id},
+		</if>
+		<if test="c_std != null">
+				c_std =#{c_std},
+		</if>
+		<if test="c_std_flag != null">
+				c_std_flag =#{c_std_flag},
+		</if>
+		<if test="c_check_std != null">
+				c_check_std =#{c_check_std},
+		</if>
+		<if test="c_check_flag != null">
+				c_check_flag =#{c_check_flag},
+		</if>
+		<if test="c_err_std != null">
+				c_err_std =#{c_err_std},
+		</if>
+		<if test="c_errstd_flag != null">
+				c_errstd_flag =#{c_errstd_flag},
+		</if>
+		<if test="c_review_std != null">
+				c_review_std =#{c_review_std},
+		</if>
+		<if test="c_actitem_what != null">
+				c_actitem_what =#{c_actitem_what},
+		</if>
+	</set>
+	where c_actitem_id=#{c_actitem_id} and c_isdelete=0
+</update>
+
+<select id="getStandardById" parameterType="String" resultType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	select c_actitem_id,c_actitem_code,c_actitem_name,c_actnode_id,c_actitem_what,c_std,c_std_flag,
+	       c_check_std,c_check_flag,c_err_std,c_errstd_flag, c_review_std 
+	from t_actnode_item
+	where c_actitem_id=#{c_actitem_id} and c_isdelete=0
+</select>
+
+<select id="getCountStandardStepById" parameterType="String" resultType="Integer">
+	select count(c_id) from t_actitem_step where c_actitem_id=#{c_actitem_id} and c_isdelete=0
+</select>
+
+<update id="deleteStandardStepById" parameterType="String">
+	update t_actnode_item 
+	set c_isdelete=1
+	where c_actitem_id=#{c_actitem_id}
+</update>
+
+<update id="deleteStepDataByItemId" parameterType="String">
+	update t_actitem_step 
+	set c_isdelete=1
+	where c_actitem_id=#{c_actitem_id}	
+</update>
+
+<update id="deleteStepDataById" parameterType="String">
+	update t_actitem_step 
+	set c_isdelete=1
+	where c_id=#{param}
+</update>
+
+<update id="updateStepIndexAfterDelete" parameterType="String">
+	<![CDATA[
+	update t_actitem_step
+	set c_actstep_index=c_actstep_index-1
+	where c_actitem_id=(select c_actitem_id from t_actitem_step where c_id=#{param})
+      and c_actstep_index>(select c_actstep_index from t_actitem_step where c_id=#{param})
+      and c_isdelete=0
+   ]]>    
+
+</update>
+
+<select id="selectAllActNode" resultType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	select c_actnode_id,c_actnode_code,c_actnode_name,c_action_id,c_iskeyctrl,c_issequence,c_isgetnotify,c_isrelay,c_pdca,c_manage_section
+	from t_post_actnode 
+	where c_isdelete = 0
+	order by c_actnode_id
+</select>
+
+<update id="updateCalData" parameterType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	update t_calendar
+	<set>
+		<if test="c_work_date != null">
+				c_work_date =
+				to_date(#{c_work_date},'yyyy-mm-dd'),
+		</if>
+		<if test="c_theory_isworkday != null">
+				c_theory_isworkday =
+				#{c_theory_isworkday},
+		</if>
+		<if test="c_fact_isworkday != null">
+				c_fact_isworkday =
+				#{c_fact_isworkday},
+		</if>
+	</set>
+	where c_id=#{c_id}
+</update>
+
+<select id="getCalDataBySeq" parameterType="String" resultType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	select t1.c_id,t1.c_calendar_type,t2.c_calendar_name,t1.c_date,t1.c_day_of_week,t1.c_theory_isworkday,t1.c_fact_isworkday,
+	    t1.c_work_date,t1.c_creator,t1.c_create_time,t1.c_last_modifier,t1.c_last_modified_time,t1.c_remark
+	from t_calendar t1, t_calendar_type t2
+	where t1.c_id=#{seq} and t2.c_calendar_type=t1.c_calendar_type and t1.c_isdelete=0
+</select>
+
+<select id="getStandardStepById" parameterType="String" resultType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	select t1.c_id,t1.c_actitem_id,t1.c_actstep_index,t1.c_step_prompt,t2.c_tracefun_name,t2.c_tracefun_id
+	from t_actitem_step t1,t_trace_fuction t2
+	where t1.c_actitem_id=#{param} and t2.c_tracefun_id = t1.c_tracefun_id and t1.c_isdelete=0 and t2.c_isdelete=0
+	order by t1.c_actstep_index
+</select>
+<update id="deleteObjectById" parameterType="String">
+	update t_work_object
+	set c_isdelete=1
+	where c_obj_id=#{param}
+</update>
+
+<update id="updateBasicData" parameterType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	update t_work_object
+	<set>
+		<if test="c_obj_name != null">
+				c_obj_name =
+				#{c_obj_name},
+		</if>
+		<if test="c_obj_fullname != null">
+				c_obj_fullname =
+				#{c_obj_fullname},
+		</if>
+		<if test="c_obj_model != null">
+				c_obj_model =
+				#{c_obj_model},
+		</if>
+		<if test="c_obj_uid != null">
+				c_obj_uid =
+				#{c_obj_uid},
+		</if>
+		<if test="c_scan_code != null">
+				c_scan_code =
+				#{c_scan_code},
+		</if>
+		<if test="c_area != null">
+				c_area =
+				#{c_area},
+		</if>
+		<if test="c_conservator != null">
+				c_conservator =
+				#{c_conservator},
+		</if>
+		<if test="c_orgid != null">
+				c_orgid =
+				#{c_orgid},
+		</if>
+		<if test="c_objtype_id != null">
+				c_objtype_id =
+				#{c_objtype_id},
+		</if>
+	</set>
+	where c_obj_id=#{c_obj_id} and c_isdelete=0
+</update>
+
+<select id="getBasicDataByObjId" parameterType="String" resultType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	select t.c_obj_id,t.c_obj_name,t.c_obj_fullname,t.c_obj_model,t.c_obj_uid,t.c_scan_code,t.c_area,t.c_conservator,t.c_objtype_id
+	from t_work_object t
+	where t.c_obj_id=#{c_obj_id} and t.c_isdelete=0
+</select>
+
+<select id="getAllTraceFunName" resultType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	 select c_tracefun_id,c_tracefun_name 
+	 from t_trace_fuction
+	 where c_isdelete=0
+	 order by c_tracefun_id
+</select>
+
+<insert id="addStepData" parameterType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	<selectKey resultType="long" keyProperty="c_id" order="BEFORE">
+		SELECT
+		SEQ_STD_ACTITEM_STEP_ID.NEXTVAL  FROM DUAL
+	</selectKey>
+	insert into t_actitem_step(
+		c_id,c_actitem_id,c_actstep_index,c_tracefun_id,
+		<trim suffix="" suffixOverrides=",">
+			<if test="c_step_prompt != null">
+				c_step_prompt,
+			</if>
+		</trim>
+	)values(
+		#{c_id},#{c_actitem_id},(select count(*)+1 from t_actitem_step where c_actitem_id=#{c_actitem_id} and c_isdelete=0),#{c_tracefun_id},
+		<trim suffix="" suffixOverrides=",">
+			<if test="c_step_prompt != null">
+				#{c_step_prompt},
+			</if>
+		</trim>)
+</insert>
+
+<select id="getStepDataByCid" parameterType="String" resultType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	select c_id,c_actitem_id,c_actstep_index,c_tracefun_id,c_step_prompt
+	from t_actitem_step
+	where c_id=#{param} and c_isdelete=0
+</select>
+
+<update id="modifyStepDataByCid" parameterType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	update t_actitem_step
+	<set>
+		<if test="c_actstep_index != null">
+				c_actstep_index =
+				#{c_actstep_index},
+		</if>
+		<if test="c_tracefun_id != null">
+				c_tracefun_id =
+				#{c_tracefun_id},
+		</if>
+		<if test="c_step_prompt != null">
+				c_step_prompt =
+				#{c_step_prompt},
+		</if>
+	</set>
+	where c_id=#{c_id} and c_isdelete=0
+</update>
+
+<insert id="addTimeRule" parameterType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	<selectKey resultType="long" keyProperty="c_timerule_id" order="BEFORE">
+		SELECT
+		SEQ_TIMERULEID.NEXTVAL  FROM DUAL
+	</selectKey>
+	insert into t_timerule(c_timerule_id,c_timerule_name,c_start_time,c_end_time,
+		<trim suffix="" suffixOverrides=",">
+			<if test="c_ctrl_type != null">
+				c_ctrl_type,
+			</if>
+			<if test="c_month_set != null">
+				c_month_set,
+			</if>
+			<if test="c_day_set != null">
+				c_day_set,
+			</if>
+			<if test="c_week_set != null">
+				c_week_set,
+			</if>
+			<if test="c_date_relate != null">
+				c_date_relate,
+			</if>
+			<if test="c_time_relate != null">
+				c_time_relate,
+			</if>
+			<if test="c_urge_time != null">
+				c_urge_time,
+			</if>
+			<if test="c_exceed_time != null">
+				c_exceed_time,
+			</if>
+			<if test="c_rule_define != null">
+				c_rule_define,
+			</if>
+		</trim>
+	)values(
+		#{c_timerule_id},#{c_timerule_name},#{c_start_time},#{c_end_time},
+		<trim suffix="" suffixOverrides=",">
+			<if test="c_ctrl_type != null">
+				#{c_ctrl_type},
+			</if>
+			<if test="c_month_set != null">
+				#{c_month_set},
+			</if>
+			<if test="c_day_set != null">
+				#{c_day_set},
+			</if>
+			<if test="c_week_set != null">
+				#{c_week_set},
+			</if>
+			<if test="c_date_relate != null">
+				#{c_date_relate},
+			</if>
+			<if test="c_time_relate != null">
+				#{c_time_relate},
+			</if>
+			<if test="c_urge_time != null">
+				#{c_urge_time},
+			</if>
+			<if test="c_exceed_time != null">
+				#{c_exceed_time},
+			</if>
+			<if test="c_rule_define != null">
+				#{c_rule_define},
+			</if>
+		</trim>)
+</insert>
+
+<select id="getTimeRuleById" parameterType="String" resultType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	select c_timerule_id,c_timerule_name,c_ctrl_type,c_month_set,c_day_set,c_week_set,c_start_time,c_date_relate,c_time_relate,
+		c_end_time,c_urge_time,c_exceed_time,c_rule_define
+	from t_timerule
+	where c_timerule_id=#{param} and c_isdelete=0
+</select>
+
+<update id="modifyTimeRuleById" parameterType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	update t_timerule
+	<set>
+		<if test="c_timerule_name != null">
+				c_timerule_name =
+				#{c_timerule_name},
+		</if>
+		<if test="c_start_time != null">
+				c_start_time =
+				#{c_start_time},
+		</if>
+		<if test="c_end_time != null">
+				c_end_time =
+				#{c_end_time},
+		</if>
+		<if test="c_ctrl_type != null">
+				c_ctrl_type =
+				#{c_ctrl_type},
+		</if>
+		<if test="c_month_set != null">
+				c_month_set =
+				#{c_month_set},
+		</if>
+		<if test="c_week_set != null">
+				c_week_set =
+				#{c_week_set},
+		</if>
+		<if test="c_date_relate != null">
+				c_date_relate =
+				#{c_date_relate},
+		</if>
+		<if test="c_time_relate != null">
+				c_time_relate =
+				#{c_time_relate},
+		</if>
+		<if test="c_urge_time != null">
+				c_urge_time =
+				#{c_urge_time},
+		</if>
+		<if test="c_exceed_time != null">
+				c_exceed_time =
+				#{c_exceed_time},
+		</if>
+		<if test="c_rule_define != null">
+				c_rule_define =
+				#{c_rule_define},
+		</if>
+	</set>
+	where c_timerule_id=#{c_timerule_id} and c_isdelete=0
+</update>
+
+<update id="deleteTimeruleById" parameterType="String">
+	update t_timerule 
+	set c_isdelete=1
+	where c_timerule_id=#{param}
+</update>
+
+<update id="batchDeleteStdItemStepById" parameterType="java.lang.String">
+	update t_actitem_step 
+	set C_ISDELETE = '1'
+	where c_actitem_id in
+	<foreach item="ids" collection="array" open="(" separator=","
+		close=")">
+		#{ids}
+	</foreach>
+</update>
+<update id="batchDeleteStdStepActitemById" parameterType="java.lang.String">
+	update
+	t_actnode_item set C_ISDELETE = '1' 
+	where c_actitem_id in
+	<foreach item="ids" collection="array" open="(" separator=","
+		close=")">
+		#{ids}
+	</foreach>
+</update>
+
+<update id="deleteObjectByIds" parameterType="java.lang.String">
+	update T_WORK_OBJECT 
+	set C_ISDELETE = '1'
+	where C_OBJTYPE_ID in
+		<foreach item="ids" collection="array" open="(" separator=","
+			close=")">
+			#{ids}
+		</foreach>
+</update>
+
+<update id="submitStepData" parameterType="Map">
+	update t_task_step
+	<set>
+		<if test="area != null and area !=''">
+				c_area =
+				#{area},
+		</if>
+		<if test="obj != null and obj != ''">
+				c_obj_id = #{obj},
+				c_objtype_id = (select c_objtype_id from t_work_object where c_obj_id=#{obj}),
+		</if>
+	</set> 
+	where c_id=#{cid} and c_step_index=#{index}
+</update>
+
+<select id="getAllUsers" resultType="com.talkweb.xwzcxt.pojo.BasicMouldPojo">
+	select userid,orgid,displayname 
+	from dp_user 
+	where u.isdelete = 0
+	order by userid
+</select>
+
+<!-- 获取用户及其下属用户 GuveXie20140813-->
+<select id="getUsersByUpUserID" resultType="com.talkweb.twdpe.base.org.pojo.User" parameterType="String">
+	select 
+		u.userId, u.orgId, u.displayName, 0 as majorOrgId 
+	from dp_user u 
+	<where> 
+		<if test=" null!=  uid and  uid != 0">
+			and u.orgid in (select r.orgid from dp_organization r 
+				start with r.orgid = (select orgid from dp_user t1 where t1.userid = #{uid} ) connect by prior r.orgid = r.parentorgid) 
+		</if>
+		and u.isdelete = 0 
+	</where>
+	order by u.displayname
+</select>
+</mapper>

@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tTaskPointcheck" >
+  <resultMap id="BaseResultMap" type="com.talkweb.xwzcxt.pojo.TTaskPointcheckPojo" >
+    <id column="C_ID" property="cId" jdbcType="DECIMAL" />
+    <result column="C_TASK_ID" property="cTaskId" jdbcType="VARCHAR" />
+    <result column="C_BASEDATA_ID" property="cBasedataId" jdbcType="VARCHAR" />
+    <result column="C_SCAN_CODE" property="cScanCode" jdbcType="VARCHAR" />
+    <result column="C_CHECKTIME" property="cChecktime" jdbcType="TIMESTAMP" />
+    <result column="C_EXEC_USERID" property="cExecUserid" jdbcType="VARCHAR" />
+    <result column="C_EXEC_USERNAME" property="cExecUsername" jdbcType="VARCHAR" />
+    <result column="C_ORG_NAME" property="cOrgName" jdbcType="VARCHAR" />
+    <result column="C_CHECKSTATUS" property="cCheckstatus" jdbcType="DECIMAL" />
+    <result column="C_ISERROR" property="cIserror" jdbcType="CHAR" />
+    <result column="C_ERRORREASON" property="cErrorreason" jdbcType="VARCHAR" />
+    <result column="C_OBJECT_LOCATION" property="cObjectLocation" jdbcType="VARCHAR" />
+    <result column="C_OBJECT_TYPEID" property="cObjectTypeid" jdbcType="DECIMAL" />
+    <result column="C_OBJECT_TYPENAME" property="cObjectTypename" jdbcType="VARCHAR" />
+    <result column="C_AREA_ID" property="cAreaId" jdbcType="VARCHAR" />
+    <result column="C_AREA_FULLNAME" property="cAreaFullname" jdbcType="VARCHAR" />
+    <result column="C_RESPONSE_USERID" property="cResponseUserid" jdbcType="DECIMAL" />
+    <result column="C_RESPONSE_USERNAME" property="cResponseUsername" jdbcType="VARCHAR" />
+    <result column="C_PLANCHECKTIME" property="cPlanchecktime" jdbcType="TIMESTAMP" />
+    <result column="C_ISLATE" property="cIslate" jdbcType="CHAR" />
+    <result column="C_ERR_ID" property="cErrId" jdbcType="DECIMAL" />
+    <result column="C_ISDELETE" property="cIsdelete" jdbcType="CHAR" />
+    <result column="C_RESETTIME" property="cResettime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    C_ID, C_TASK_ID, C_BASEDATA_ID, C_SCAN_CODE, C_CHECKTIME, C_EXEC_USERID, C_CHECKSTATUS, 
+    C_ISERROR, C_ERRORREASON, C_OBJECT_LOCATION, C_OBJECT_TYPEID, C_AREA_ID, C_RESPONSE_USERID, 
+    C_PLANCHECKTIME, C_ISLATE, C_ERR_ID, C_ISDELETE, C_RESETTIME
+  </sql>
+
+  <select id="getAllTaskPointcheckInfo" parameterType="map" resultMap="BaseResultMap">
+    select aa.C_ID,
+      TO_CHAR(aa.C_TASK_ID) as C_TASK_ID,
+      aa.C_BASEDATA_ID,
+      aa.C_SCAN_CODE,
+      aa.C_CHECKTIME,
+      aa.C_EXEC_USERID,
+      aa.C_CHECKSTATUS,
+      aa.C_ISERROR,
+      aa.C_ERRORREASON,
+      aa.C_OBJECT_LOCATION,
+      aa.C_OBJECT_TYPEID,
+      aa.C_AREA_ID,
+      aa.C_RESPONSE_USERID,
+      aa.C_PLANCHECKTIME,
+      aa.C_ISLATE,
+      TO_CHAR(aa.C_ERR_ID) as C_ERR_ID,
+      aa.C_ISDELETE,
+      aa.C_RESETTIME,
+      f_get_usernames(aa.c_exec_userid) as C_EXEC_USERNAME,
+      cc.DISPLAYNAME as C_RESPONSE_USERNAME,
+      dd.FULLNAME as C_AREA_FULLNAME,
+      ee.C_TABLETYPE_NAME as C_OBJECT_TYPENAME,
+      f_get_orgnames(aa.c_exec_userid) as C_ORG_NAME
+    from T_TASK_POINTCHECK aa,
+      DP_USER cc,
+      DP_AREA dd,
+      TB_TABLETYPE ee
+    where aa.C_RESPONSE_USERID = cc.USERID(+)
+      and aa.C_AREA_ID = dd.AREA(+)
+      and aa.C_OBJECT_TYPEID = ee.C_TABLETYPE_ID(+)
+      and ee.C_ISDELETE = 0
+    <if test="null!=cStartTime and ''!=cStartTime">
+      and aa.C_RESETTIME > #{cStartTime}
+    </if>
+    <if test="null!=cEndTime and ''!=cEndTime">
+      and #{cEndTime} > aa.C_RESETTIME
+    </if>
+    <if test="null!=cObjectTypeid and ''!=cObjectTypeid">
+      and aa.C_OBJECT_TYPEID in (${cObjectTypeid})
+    </if>
+    <if test="null!=cIslate and ''!=cIslate">
+      <if test="0==cIslate or '0'==cIslate">
+        and nvl(aa.C_CHECKTIME,sysdate) > aa.C_PLANCHECKTIME
+      </if>
+      <if test="1==cIslate">
+        and aa.C_PLANCHECKTIME > aa.C_CHECKTIME
+      </if>
+    </if>
+    <if test="null!=cIserror and ''!=cIserror">
+      and aa.C_ISERROR = #{cIserror}
+    </if>
+     <if test="null!=org and ''!=org">
+      and  f_get_orgid(aa.c_exec_userid) = #{org}
+    </if>
+    order by aa.C_OBJECT_TYPEID asc, aa.C_EXEC_USERID asc, aa.C_RESETTIME desc
+  </select>
+
+
+  <select id="getTaskPointcheckInfoById" parameterType="java.util.List" resultMap="BaseResultMap">
+    select aa.C_ID,
+      TO_CHAR(aa.C_TASK_ID) as C_TASK_ID,
+      aa.C_BASEDATA_ID,
+      aa.C_SCAN_CODE,
+      aa.C_CHECKTIME,
+      aa.C_EXEC_USERID,
+      aa.C_CHECKSTATUS,
+      aa.C_ISERROR,
+      aa.C_ERRORREASON,
+      aa.C_OBJECT_LOCATION,
+      aa.C_OBJECT_TYPEID,
+      aa.C_AREA_ID,
+      aa.C_RESPONSE_USERID,
+      aa.C_PLANCHECKTIME,
+      aa.C_ISLATE,
+      TO_CHAR(aa.C_ERR_ID) as C_ERR_ID,
+      aa.C_ISDELETE,
+      aa.C_RESETTIME,
+      f_get_usernames(aa.c_exec_userid) as C_EXEC_USERNAME,
+      cc.DISPLAYNAME as C_RESPONSE_USERNAME,
+      dd.FULLNAME as C_AREA_FULLNAME,
+      ee.C_TABLETYPE_NAME as C_OBJECT_TYPENAME,
+      f_get_orgnames(aa.c_exec_userid) as C_ORG_NAME
+    from T_TASK_POINTCHECK aa,
+      DP_USER cc,
+      DP_AREA dd,
+      TB_TABLETYPE ee
+    where aa.C_RESPONSE_USERID = cc.USERID(+)
+      and aa.C_AREA_ID = dd.AREA(+)
+      and aa.C_OBJECT_TYPEID = ee.C_TABLETYPE_ID(+)
+      and ee.C_ISDELETE = 0
+      and aa.C_BASEDATA_ID IN  
+      <foreach item="item" index="index" collection="list" 
+            open="(" separator="," close=")">
+            #{item}
+       </foreach>
+  </select>
+  
+  <insert id="addPointCheck" parameterType="com.talkweb.xwzcxt.pojo.TTaskPointcheckPojo" >
+    insert into TWXWZC.T_TASK_POINTCHECK
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      C_ID,
+      <if test="cTaskId != null" >
+        C_TASK_ID,
+      </if>
+      <if test="cBasedataId != null" >
+        C_BASEDATA_ID,
+      </if>
+      <if test="cScanCode != null" >
+        C_SCAN_CODE,
+      </if>
+      <if test="cChecktime != null" >
+        C_CHECKTIME,
+      </if>
+      <if test="cExecUserid != null" >
+        C_EXEC_USERID,
+      </if>
+      <if test="cCheckstatus != null" >
+        C_CHECKSTATUS,
+      </if>
+      <if test="cIserror != null" >
+        C_ISERROR,
+      </if>
+      <if test="cErrorreason != null" >
+        C_ERRORREASON,
+      </if>
+      <if test="cObjectLocation != null" >
+        C_OBJECT_LOCATION,
+      </if>
+      <if test="cObjectTypeid != null" >
+        C_OBJECT_TYPEID,
+      </if>
+      <if test="cAreaId != null" >
+        C_AREA_ID,
+      </if>
+      <if test="cResponseUserid != null" >
+        C_RESPONSE_USERID,
+      </if>
+      <if test="cPlanchecktime != null" >
+        C_PLANCHECKTIME,
+      </if>
+      <if test="cIslate != null" >
+        C_ISLATE,
+      </if>
+      <if test="cErrId != null" >
+        C_ERR_ID,
+      </if>
+      <if test="cIsdelete != null" >
+        C_ISDELETE,
+      </if>
+      <if test="cResettime != null" >
+        C_RESETTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      SEQ_TASK_CHECKPOINT.NEXTVAL,
+      <if test="cTaskId != null" >
+        #{cTaskId,jdbcType=VARCHAR},
+      </if>
+      <if test="cBasedataId != null" >
+        #{cBasedataId,jdbcType=VARCHAR},
+      </if>
+      <if test="cScanCode != null" >
+        #{cScanCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cChecktime != null" >
+        #{cChecktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cExecUserid != null" >
+        (select f_get_userids(#{cExecUserid,jdbcType=VARCHAR}) from dual),
+      </if>
+      <if test="cCheckstatus != null" >
+        #{cCheckstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="cIserror != null" >
+        #{cIserror,jdbcType=CHAR},
+      </if>
+      <if test="cErrorreason != null" >
+        #{cErrorreason,jdbcType=VARCHAR},
+      </if>
+      <if test="cObjectLocation != null" >
+        #{cObjectLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="cObjectTypeid != null" >
+        #{cObjectTypeid,jdbcType=DECIMAL},
+      </if>
+      <if test="cAreaId != null" >
+        #{cAreaId,jdbcType=VARCHAR},
+      </if>
+      <if test="cResponseUserid != null" >
+        #{cResponseUserid,jdbcType=DECIMAL},
+      </if>
+      <if test="cPlanchecktime != null" >
+        #{cPlanchecktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cIslate != null" >
+        #{cIslate,jdbcType=CHAR},
+      </if>
+      <if test="cErrId != null" >
+        #{cErrId,jdbcType=DECIMAL},
+      </if>
+      <if test="cIsdelete != null" >
+        #{cIsdelete,jdbcType=CHAR},
+      </if>
+      <if test="cResettime != null" >
+        #{cResettime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updatePointCheckByCBasedataId" parameterType="com.talkweb.xwzcxt.pojo.TTaskPointcheckPojo" >
+    update TWXWZC.T_TASK_POINTCHECK
+    <set >
+      <if test="cTaskId != null" >
+        C_TASK_ID = #{cTaskId,jdbcType=VARCHAR},
+      </if>
+      <if test="cScanCode != null" >
+        C_SCAN_CODE = #{cScanCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cChecktime != null" >
+        C_CHECKTIME = #{cChecktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cExecUserid != null" >
+        C_EXEC_USERID = (select f_get_userids(#{cExecUserid,jdbcType=VARCHAR}) from dual),
+      </if>
+      <if test="cCheckstatus != null" >
+        C_CHECKSTATUS = #{cCheckstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="cIserror != null" >
+        C_ISERROR = #{cIserror,jdbcType=CHAR},
+      </if>
+      <if test="cErrorreason != null" >
+        C_ERRORREASON = #{cErrorreason,jdbcType=VARCHAR},
+      </if>
+      <if test="cObjectLocation != null" >
+        C_OBJECT_LOCATION = #{cObjectLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="cObjectTypeid != null" >
+        C_OBJECT_TYPEID = #{cObjectTypeid,jdbcType=DECIMAL},
+      </if>
+      <if test="cAreaId != null" >
+        C_AREA_ID = #{cAreaId,jdbcType=VARCHAR},
+      </if>
+      <if test="cResponseUserid != null" >
+        C_RESPONSE_USERID = #{cResponseUserid,jdbcType=DECIMAL},
+      </if>
+      <if test="cPlanchecktime != null" >
+        C_PLANCHECKTIME = #{cPlanchecktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cIslate != null" >
+        C_ISLATE = #{cIslate,jdbcType=CHAR},
+      </if>
+      <if test="cErrId != null" >
+        C_ERR_ID = #{cErrId,jdbcType=DECIMAL},
+      </if>
+      <if test="cIsdelete != null" >
+        C_ISDELETE = #{cIsdelete,jdbcType=CHAR},
+      </if>
+      <if test="cResettime != null" >
+        C_RESETTIME = #{cResettime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where C_BASEDATA_ID = #{cBasedataId,jdbcType=DECIMAL}
+  </update>
+
+  <update id="deletePointCheckByCBaseDataId" parameterType="map">
+    update TWXWZC.T_TASK_POINTCHECK
+    set C_ISDELETE = 1
+    where 1 > 1
+    <if test="cBasedataId != null and cBasedataId != ''">
+      or C_BASEDATA_ID in
+      <foreach collection="cBasedataId" open="(" separator="," close=")" item="id">
+        #{id}
+      </foreach>
+    </if>
+  </update>
+</mapper>

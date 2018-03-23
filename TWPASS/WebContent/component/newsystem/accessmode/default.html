@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>访问方式管理</title>
+		<script src="../../fastdev/fastDev-import.js"></script>
+		<script src="default.js"></script>
+<style>
+	html, body {
+		height:100%;
+	}
+</style>		
+    </head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	<div class="ui-layout" id="mainDiv" style="height:100%;">
+		<div class="ui-layout-center" style="width: 99.3%;height:100%;">
+			<form id="searchForm" itype="Form" allowAutoFillRow="false" initSource="accessmode_initForm.action" action="app_queryApps.action" requestType="post" saveInstance="true" submitJson="false">
+				<table class="ui-form-table">
+					<tr valign="middle">
+						<td class="ui-form-table-dt" style="width:100px">所属应用：</td>
+						<td class="ui-form-table-dd"><select itype="Select" id="accessMode.appId"  height="100px" width="100%" onValueChange="handle1()"><option value="">请选择</option></select></td>
+						<td class="ui-form-table-dt" style="width:100px">方式名称：</td>
+						<td class="ui-form-table-dd"><div itype="TextBox" id="accessMode.modeName" width="100%"></div></td>
+						<td class="ui-form-table-dd">
+							<div itype="Button" text="查询" iconCls="icon-search" onclick="submit()"></div>&nbsp;
+							<div itype="Button" text="重置" iconCls="icon-reset" onclick="reset()"></div>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div class="datagrid" itype="DataGrid" allowAutoFillRow="false" id="datagrid" saveInstance="true" showCheckColumn="true" initSource="accessmode_queryModes.action" showSeqColumn="true" pageSize="20" onRowClick="onRowClick()" onAfterInitRender="onAfterInitRender()">
+				<div name="top-toolbar">
+					<div plain=true text="新增" id="add" iconCls="icon-add" onClick="addObject()" display="false"></div>
+					<div itype="separator"></div>
+					<div plain=true text="批量删除" id="delete" iconCls="icon-delete" onClick="batchDeleteObject()" display="false"></div>
+				</div>
+				<div width="16%" name="modeName" text="方式名称"></div>
+				<div width="12%" name="modeId" text="方式代码"></div>
+				<div width="14%" name="appName" text="所属应用"></div>
+				<div width="23%" name="url" text="链接地址"></div>
+				<div width="15%" name="param" text="参数"></div>
+				<div width="20%" text="操作" renderer="operRenderer()"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

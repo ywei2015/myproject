@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tErrorFeedback" >
+  <resultMap id="BaseResultMap" type="com.talkweb.xwzcxt.pojo.TErrorFeedbackPojo" >
+    <id column="C_FEEDBACK_ID" property="cFeedbackId" jdbcType="DECIMAL" />
+    <result column="C_ERR_ID" property="cErrId" jdbcType="DECIMAL" />
+    <result column="C_FEEDBACK_TITLE" property="cFeedbackTitle" jdbcType="VARCHAR" />
+    <result column="C_MANAGE_SECTION" property="cManageSection" jdbcType="DECIMAL" />
+    <result column="C_FEEDBACK_TYPE" property="cFeedbackType" jdbcType="DECIMAL" />
+    <result column="C_FEEDBACK_LOTNO" property="cFeedbackLotno" jdbcType="VARCHAR" />
+    <result column="C_RECEIVER_USERID" property="cReceiverUserid" jdbcType="DECIMAL" />
+    <result column="C_FEEDBACKER" property="cFeedbacker" jdbcType="DECIMAL" />
+    <result column="C_FEEDBACK_TIME" property="cFeedbackTime" jdbcType="TIMESTAMP" />
+    <result column="C_ISRECEIVED" property="cIsreceived" jdbcType="CHAR" />
+    <result column="C_RECEIVER_TIME" property="cReceiverTime" jdbcType="TIMESTAMP" />
+    <result column="C_STATUS" property="cStatus" jdbcType="DECIMAL" />
+    <result column="C_MANAGE_SECTIONNAME" property="cManageSectionname" jdbcType="VARCHAR" />
+    <result column="C_DEAL_TYPE" property="cDealType" jdbcType="DECIMAL" />
+    <result column="C_RECEIVER_USERNAME" property="cReceiverUsername" jdbcType="VARCHAR" />
+    <result column="C_FEEDBACKER_NAME" property="cFeedbackerName" jdbcType="VARCHAR" />
+    <result column="C_END_TIME" property="cEndTime" jdbcType="TIMESTAMP" />
+    <result column="C_FACTDEAL_TYPE" property="cFactdealType" jdbcType="DECIMAL" />
+    <result column="C_FACTDEAL_TIME" property="cFactdealTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    C_FEEDBACK_ID, C_ERR_ID, C_FEEDBACK_TITLE, C_MANAGE_SECTION, C_FEEDBACK_TYPE, C_FEEDBACK_LOTNO, 
+    C_RECEIVER_USERID, C_FEEDBACKER, C_FEEDBACK_TIME, C_ISRECEIVED, C_RECEIVER_TIME, 
+    C_STATUS, C_MANAGE_SECTIONNAME, C_DEAL_TYPE, C_RECEIVER_USERNAME, C_FEEDBACKER_NAME, 
+    C_END_TIME, C_FACTDEAL_TYPE, C_FACTDEAL_TIME
+  </sql>
+  <select id="getTaskErrorFeedbackNumberByID" parameterType="java.lang.String" resultType="java.lang.String">
+    select count(1) from (
+      select t.C_FEEDBACK_LOTNO
+      from TWXWZC.T_ERROR_FEEDBACK t
+      where t.C_ERR_ID = #{cErrId}
+      group by t.C_FEEDBACK_LOTNO
+    )
+  </select>
+  <select id="getTaskErrorFeedbackDetailByID" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from TWXWZC.T_ERROR_FEEDBACK t
+    where 1 = 1
+    <if test="cErrId != null and cErrId !=''">
+      and t.C_ERR_ID = #{cErrId}
+    </if>
+    <if test="cDealType != null and cDealType !=''">
+      and C_DEAL_TYPE = #{cDealType}
+    </if>
+  </select>
+  <select id="getTaskErrorFeedbackLotnoByID" parameterType="java.lang.String" resultType="java.util.Map">
+    select t.C_FEEDBACK_LOTNO
+    from TWXWZC.T_ERROR_FEEDBACK t
+    where t.C_ERR_ID = #{cErrId}
+    group by t.C_FEEDBACK_LOTNO
+    order by t.C_FEEDBACK_LOTNO asc
+  </select>
+  <select id="getTaskErrorFeedbackDetailByLotno" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from TWXWZC.T_ERROR_FEEDBACK t
+    where 1=1
+    <if test="cErrId != null and cErrId !=''">
+      and t.C_ERR_ID = #{cErrId}
+    </if>
+    <if test="cFeedbackLotno != null and cFeedbackLotno !=''">
+      and C_FEEDBACK_LOTNO = #{cFeedbackLotno}
+    </if>
+    order by t.C_FEEDBACK_TYPE asc
+  </select>
+</mapper>

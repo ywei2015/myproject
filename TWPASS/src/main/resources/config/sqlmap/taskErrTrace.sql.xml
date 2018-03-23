@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="taskErrTrace">
+	<insert id="newError" parameterType="com.talkweb.xwzcxt.vo.TaskErrTraceVo"
+		statementType="CALLABLE">
+	  <![CDATA[ 
+	   {CALL P_II_ERROR_FEEDBACK (
+	       #{c_err_name,mode=IN,jdbcType=VARCHAR},      	
+           #{c_err_kind,mode=IN,jdbcType=DECIMAL},      	
+           #{c_task_id, mode=IN,jdbcType=DECIMAL},       	
+           #{c_occur_time, mode=IN,jdbcType=TIMESTAMP},      	
+           #{c_manage_section,mode=IN,jdbcType=DECIMAL}, 	
+           #{c_write_time, mode=IN,jdbcType=TIMESTAMP},     
+           #{c_writer,mode=IN,jdbcType=DECIMAL},         	
+           #{c_suggestend_time, mode=IN,jdbcType=TIMESTAMP}, 	
+           #{c_to_userid,mode=IN,jdbcType=DECIMAL},        
+           #{c_cc_userid_list,mode=IN,jdbcType=VARCHAR},    
+           #{c_tracefunids,mode=IN,jdbcType=VARCHAR},    	
+           #{c_results,mode=IN,jdbcType=VARCHAR},        	
+           #{c_errdes,mode=IN,jdbcType=VARCHAR},         	
+           #{dealc_tracefunids,mode=IN,jdbcType=VARCHAR},   
+           #{dealc_results,mode=IN,jdbcType=VARCHAR},       
+           #{dealc_errdes,mode=IN,jdbcType=VARCHAR},      
+           #{c_isbyself,mode=IN,jdbcType=DECIMAL},         
+           #{c_feedback_lotno,mode=IN,jdbcType=VARCHAR},  	
+           #{c_err_id,mode=OUT,jdbcType=DECIMAL}
+	    )}
+	 ]]>
+
+	</insert>
+
+	<select id="getFileInfoById" parameterType="map"
+		resultType="com.talkweb.xwzcxt.vo.TaskErrTraceVo">
+		SELECT c_file_path,c_file_kind,c_file_type
+		FROM   t_file_info
+		WHERE 1>1
+		<if test="fileList!=null and ''!=fileList">
+			OR c_file_id in
+			<foreach collection="fileList" open="(" separator="," close=")"
+				item="c_file_id">
+				#{c_file_id}
+			</foreach>
+		</if>
+	</select>
+
+		
+	
+	
+	<select id="getErrorFeedbackList" parameterType="com.talkweb.xwzcxt.vo.TaskErrTraceVo" resultType="com.talkweb.xwzcxt.vo.TaskErrTraceVo">
+		 SELECT     t.c_err_id, t.c_err_name, t.c_err_kind,t.c_isclose,
+                    t.c_task_id, t.c_actnode_id, t.c_err_type, t.c_err_level, t.c_area,
+                     (SELECT       a.areaname 
+                     FROM         dp_area a
+                     WHERE        a.area=to_char(t.c_area)) as c_areaname, t.c_manage_section,
+                    
+                    (SELECT       m.c_manage_section_name 
+                     FROM         t_manage_section m 
+                     WHERE        m.c_manage_section=t.c_manage_section) AS c_manage_sectionname, 
+                     
+                     (SELECT      displayname 
+                      FROM		  dp_user u
+                      WHERE		  u.userid(+)=t.c_writer)AS  c_writer_name,
+                      t.c_writer,t.c_isbyself, t.c_feedback_path,
+                     t.c_handle_userid,t.c_handle_username,
+                      t.c_upload_time,t.c_write_time, t.c_suggestend_time, t.c_occur_time,t.c_close_time 
+                     
+          FROM      t_error_info t 
+          WHERE     t.c_isdelete=0 
+          <if test="userid==null or ''==userid">
+			  AND	1>1		        
+	      </if>
+	      
+          <if test="userid!=null and ''!=userid">
+              <if test="infotype==1">
+	     			<!-- 我负责的 -->
+	     		AND  		t.c_err_id IN ( SELECT 	DISTINCT f.c_err_id 
+                                    		FROM 	t_error_feedback f
+                                    		WHERE 	f.c_feedback_type=0 
+                                   		    AND 	f.c_receiver_userid=#{userid} ) 	
+	     	
+	  		 </if>
+	  		 <if test="infotype==2">
+	     		<!-- 抄送给我的 -->
+	     		AND  		t.c_err_id IN ( SELECT 	DISTINCT f.c_err_id 
+                                    		FROM 	t_error_feedback f
+                                    		WHERE 	f.c_feedback_type=1
+                                   		    AND 	f.c_receiver_userid=#{userid} ) 
+	  		 </if>
+              <if test="infotype==3 ">
+	     			<!-- 我发起的异常，对应页面上“我反馈的” -->
+          		AND  		c_writer=#{userid}
+              </if>
+          </if>
+          
+          <if test="c_err_name!=null and ''!=c_err_name">
+               AND        t.c_err_name    LIKE    '%${c_err_name}%'
+          </if>
+          
+          <if test="c_writer!=null and c_writer!=''">
+              AND         t.c_writer=#{c_writer}
+          </if>
+          <if test="c_occur_time!=null and ''!=c_occur_time">
+        	  AND         to_char(i.c_occur_time,'yyyy-mm-dd') = to_char(#{c_occur_time},'yyyy-mm-dd')
+       	  </if>
+       	  <if test="c_suggestend_time!=null and ''!=c_suggestend_time">
+       	      AND         to_char(i.c_suggestend_time,'yyyy-mm-dd') = to_char(#{c_suggestend_time},'yyyy-mm-dd')
+       	  </if>
+          <if test="c_close_time!=null and ''!=c_close_time">
+       		  AND         to_char(i.c_close_time,'yyyy-mm-dd') = to_char(#{c_close_time},'yyyy-mm-dd')
+          </if>
+	      <if test="c_isclose!=null and ''!=c_isclose">
+	   		  AND         t.c_isclose=#{c_isclose}
+	   	  </if>
+	      <if test="c_manage_section!=null and ''!=c_manage_section">
+	          AND         t.c_manage_section=#{c_manage_section}
+	      </if>
+	      <if test="c_err_kind!=null and ''!=c_err_kind">
+	          AND		  t.c_err_kind=#{c_err_kind}
+	      </if>
+	       ORDER BY   t.c_write_time  desc
+	</select> 
+	
+	<update id="receiveConfirmEror" parameterType="com.talkweb.xwzcxt.vo.TaskErrTraceVo"
+		statementType="CALLABLE" >
+		<!-- 新的状态 (c_status: 0.初始 11.消息被接收 22.待处理异常被接收 33.接收确认或处理完成) -->
+	    <![CDATA[ 
+	   		{CALL  P_II_ERROR_SETRECEIVED(
+	       		 #{c_feedback_id,mode=IN,jdbcType=DECIMAL},      	
+          		 #{c_status,mode=IN,jdbcType=DECIMAL},
+          		 #{issuccess,mode=OUT,jdbcType=DECIMAL}
+        	)}
+	 	]]>
+	</update>
+	
+	
+	
+
+	
+	<insert id="continueFeedback"  parameterType="com.talkweb.xwzcxt.vo.TaskErrTraceVo"
+		statementType="CALLABLE">
+	       <![CDATA[ 
+	   		{CALL  P_II_ERROR_TRANSMIT (
+	       		 #{c_err_id,mode=IN,jdbcType=DECIMAL},      	
+          		 #{c_feedback_id,mode=IN,jdbcType=DECIMAL},
+          		 #{c_deal_typeStr,mode=IN,jdbcType=DECIMAL},
+          		 #{c_suggestend_time,mode=IN,jdbcType=TIMESTAMP},
+          		 #{c_feedbacker,mode=IN,jdbcType=DECIMAL},
+          		 #{c_to_userid,mode=IN,jdbcType=DECIMAL},
+				 #{c_cc_userid_list,mode=IN,jdbcType=VARCHAR},
+				 #{c_tracefunids,mode=IN,jdbcType=VARCHAR},
+				 #{c_results,mode=IN,jdbcType=VARCHAR},
+				 #{c_errdes,mode=IN,jdbcType=VARCHAR},
+				 #{c_feedback_lotno,mode=IN,jdbcType=VARCHAR},
+				 #{oc_feedback_id,mode=OUT,jdbcType=VARCHAR}                             
+        	)}
+	 	]]>
+	</insert>
+	
+	<select id="getNeedHandleErrInfo"  parameterType="com.talkweb.xwzcxt.vo.TaskErrTraceVo"
+	    resultType="com.talkweb.xwzcxt.vo.TaskErrTraceVo">
+	    	SELECT    f.c_err_id,f.c_feedback_title,
+              		  (SELECT       a.areaname 
+                       FROM         dp_area a
+                       WHERE        a.area=to_char(i.c_area)) as c_areaname,
+                      (SELECT       m.c_manage_section_name 
+                       FROM         t_manage_section m 
+                       WHERE        m.c_manage_section=i.c_manage_section) AS c_manage_sectionname,
+                      (SELECT       u.displayname 
+                       FROM         dp_user u
+                       WHERE        u.userid(+)=i.c_writer)AS  c_writer_name,
+            		  f.c_feedback_type,f.c_deal_type,f.c_feedback_lotno,f.c_receiver_userid,
+           			  f.c_receiver_username,f.c_feedbacker,f.c_feedbacker_name,f.c_end_time,
+           			  f.c_feedback_time,f.c_isreceived,f.c_receiver_time,f.c_factdeal_type,
+					  f.c_status,f.c_factdeal_time,f.c_feedback_id,
+					  
+					  i.c_writer, i.c_upload_time,i.c_write_time,i.c_err_kind,i.c_task_id,
+					  i.c_suggestend_time, i.c_occur_time,i.c_close_time ,i.c_err_name,i.c_isclose
+
+	    	FROM	  t_error_feedback f,t_error_info i
+	    	WHERE	  f.c_err_id=i.c_err_id
+	    	AND		  f.c_feedback_type=0
+	    	AND		  i.c_isdelete='0'
+	    	AND		  f.c_status=0
+	    			
+	    	<if test="userid==null or userid==''">
+	    	AND		  1>1
+	    	</if>
+	    	<if test="userid!=null and userid!=''">
+	    	 AND	  f.c_receiver_userid =#{userid}   
+	    	</if>
+	    	  <if test="c_err_name!=null and ''!=c_err_name">
+               AND        i.c_err_name    LIKE    '%${c_err_name}%'
+          </if>
+          
+          <if test="c_writer!=null and c_writer!=''">
+              AND         i.c_writer=#{c_writer}
+          </if>
+          <if test="c_occur_time!=null and ''!=c_occur_time">
+        	  AND         to_char(i.c_occur_time,'yyyy-mm-dd') = to_char(#{c_occur_time},'yyyy-mm-dd')
+       	  </if>
+       	  <if test="c_suggestend_time!=null and ''!=c_suggestend_time">
+       	      AND         to_char(i.c_suggestend_time,'yyyy-mm-dd') = to_char(#{c_suggestend_time},'yyyy-mm-dd')
+       	  </if>
+          <if test="c_close_time!=null and ''!=c_close_time">
+       		  AND         to_char(i.c_close_time,'yyyy-mm-dd') = to_char(#{c_close_time},'yyyy-mm-dd')
+          </if>
+	      <if test="c_isclose!=null and ''!=c_isclose">
+	   		  AND         i.c_isclose=#{c_isclose}
+	   	  </if>
+	      <if test="c_manage_section!=null and ''!=c_manage_section">
+	          AND         i.c_manage_section=#{c_manage_section}
+	      </if>
+	      <if test="c_err_kind!=null and ''!=c_err_kind">
+	          AND		  i.c_err_kind=#{c_err_kind}
+	      </if>
+	      ORDER BY   i.c_write_time  desc
+	</select>
+	
+	<insert  id="finishError"  parameterType="com.talkweb.xwzcxt.vo.TaskErrTraceVo"
+		statementType="CALLABLE">
+	   <![CDATA[ 
+	   		{CALL  P_II_ERROR_FINISH (
+	     		 #{c_err_id,mode=IN,jdbcType=DECIMAL},      	
+          		 #{c_feedback_id,mode=IN,jdbcType=DECIMAL},
+         		 #{c_handle_userid ,mode=IN,jdbcType=DECIMAL},
+         		 #{c_tracefunids,mode=IN,jdbcType=VARCHAR},
+		 		 #{c_results,mode=IN,jdbcType=VARCHAR},
+         		 #{c_handle_des,mode=IN,jdbcType=VARCHAR},   
+         		 #{c_commit_lotno,mode=IN,jdbcType=VARCHAR}                                
+				)}
+	 	]]>
+	</insert>
+	
+	<update id="setChkAndEvaluateInfo" parameterType="map">
+		UPDATE	t_error_info t
+		SET		t.c_chk_userid=#{c_chk_userid},
+				t.c_evaluate_userid=#{c_evaluate_userid},
+				t.c_chk_plantime=#{c_chk_plantime},
+				t.c_evaluate_plantime=#{c_evaluate_plantime},
+				t.c_chk_starttime=sysdate,
+				t.c_chk_status='1'
+	    WHERE	t.c_err_id=#{c_err_id}
+	</update>
+</mapper>

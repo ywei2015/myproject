@@ -1,0 +1,529 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link href="../../../library/themes/base/css/main.css" rel="stylesheet" type="text/css" />
+        <link href="sendmsg.css" type="text/css" rel="stylesheet" />
+        <script src="../../../library/jquery-1.5.min.js"></script>
+        <script src="../../../library/history/control-1.2.js"></script>
+		<script type="text/javascript" src="../../../js/common.js"></script>
+		<script type="text/javascript" src="sendmsg.js"></script>
+		<title>发送消息</title>
+	</head>
+	<body>
+
+		<div style="width:100%; height:30px; padding-left:5px; padding-right:5px;">
+        	<input type="button" value="发送给个人" class="btn" id="one"/>
+        	<!-- <input type="button" value="群发消息" class="btn" id="all"/> -->
+        </div>
+		<div id="logManageForm" style="padding-left: 5px; padding-right: 5px;">
+			<form name="msgform" id="msgform" action="msg_sendMsg.action"
+				method="post" >
+				<input type="hidden" name="data" id="data" />
+				<input type="hidden" name="sendFun" id="sendFun" value="1" />
+				<input type="hidden" name="notifytype" id="notifytype" />
+				<input type="hidden" name="notifytypename" id="notifytypename" />
+
+				<input type="hidden" name="frequencyname" id="frequencyname" />
+				<input type="hidden" name="starttime" id="starttime" value="" />
+				<!--发送时间  -->
+				<label name="servertime" id="servertime" style="display: none"></label>
+				<div class="form formborder">
+					<div class="clearfix"></div>
+					<dl style="width: 100%;">
+						<dt>
+							<font color="red">*</font>&nbsp;消息主题：
+						</dt>
+						<dd>
+							<input style="width: 300px" type="text" id="msgTitle"
+								name="title" special="true" maxlength="100" />
+						</dd>
+					</dl>
+					<dl style="width: 100%;">
+						<dt>
+							<font color="red">*</font>&nbsp;发送对象：
+						</dt>
+						<dd>
+							<div style="text-align: left; width: 100%">
+								<input type="hidden" name="receiver" id="sendObj" />
+								<input style="width: 350px; float: left; clear: both"
+									type="text" name="viewObj" id="viewObj" readonly="readonly" />
+								<input class="btn_add" type="button" value="选择接收人" id="selOne"
+									style="float: left;" />
+							</div>
+						</dd>
+					</dl>
+					<dl style="width: 100%;">
+						<dt>
+							<font color="red">*</font>&nbsp;消息类型：
+						</dt>
+						<dd>
+							<select name="msgtype" id="msgType" special="true"></select>
+						</dd>
+					</dl>
+					<dl style="width: 100%;">
+						<dt>
+							<font color="red">*</font>&nbsp;选择模版：
+						</dt>
+						<dd>
+							<select name="templateid" id="template">
+								<option value="">
+									不使用模版
+								</option>
+							</select>
+						</dd>
+					</dl>
+					<dl style="width: 100%;">
+						<dt>
+							<font color="red">*</font>&nbsp;通知方式：
+						</dt>
+						<dd>
+							<div id="sendTypeTd"></div>
+						</dd>
+					</dl>
+					<dl style="width: 100%;">
+						<dt>
+							<font color="red">*</font>&nbsp;发送时间：
+						</dt>
+						<dd>
+							<input type="radio" checked="checked" name="sendtype" value="0" />
+							&nbsp;立即发送
+							<br />
+
+							<input type="radio" name="sendtype" value="1" />
+							&nbsp;定时发送
+							<span id="SPAN_1"><select name="year" id="year" dd="年"></select>年
+								<select name="month" id="month" dd="月">
+									<option value="01">
+										01
+									</option>
+									<option value="02">
+										02
+									</option>
+									<option value="03">
+										03
+									</option>
+									<option value="04">
+										04
+									</option>
+									<option value="05">
+										05
+									</option>
+									<option value="06">
+										06
+									</option>
+									<option value="07">
+										07
+									</option>
+									<option value="08">
+										08
+									</option>
+									<option value="09">
+										09
+									</option>
+									<option value="10">
+										10
+									</option>
+									<option value="11">
+										11
+									</option>
+									<option value="12">
+										12
+									</option>
+								</select>月 <select name="day" id="day" dd="日">
+									<option value="01">
+										01
+									</option>
+									<option value="02">
+										02
+									</option>
+									<option value="03">
+										03
+									</option>
+									<option value="04">
+										04
+									</option>
+									<option value="05">
+										05
+									</option>
+									<option value="06">
+										06
+									</option>
+									<option value="07">
+										07
+									</option>
+									<option value="08">
+										08
+									</option>
+									<option value="09">
+										09
+									</option>
+									<option value="10">
+										10
+									</option>
+									<option value="11">
+										11
+									</option>
+									<option value="12">
+										12
+									</option>
+									<option value="13">
+										13
+									</option>
+									<option value="14">
+										14
+									</option>
+									<option value="15">
+										15
+									</option>
+									<option value="16">
+										16
+									</option>
+									<option value="17">
+										17
+									</option>
+									<option value="18">
+										18
+									</option>
+									<option value="19">
+										19
+									</option>
+									<option value="20">
+										20
+									</option>
+									<option value="21">
+										21
+									</option>
+									<option value="22">
+										22
+									</option>
+									<option value="23">
+										23
+									</option>
+									<option value="24">
+										24
+									</option>
+									<option value="25">
+										25
+									</option>
+									<option value="26">
+										26
+									</option>
+									<option value="27">
+										27
+									</option>
+									<option value="28">
+										28
+									</option>
+								</select>日 <select name="hour" id="hour" dd="时">
+									<option value="00">
+										00
+									</option>
+									<option value="01">
+										01
+									</option>
+									<option value="02">
+										02
+									</option>
+									<option value="03">
+										03
+									</option>
+									<option value="04">
+										04
+									</option>
+									<option value="05">
+										05
+									</option>
+									<option value="06">
+										06
+									</option>
+									<option value="07">
+										07
+									</option>
+									<option value="08">
+										08
+									</option>
+									<option value="09">
+										09
+									</option>
+									<option value="10">
+										10
+									</option>
+									<option value="11">
+										11
+									</option>
+									<option value="12">
+										12
+									</option>
+									<option value="13">
+										13
+									</option>
+									<option value="14">
+										14
+									</option>
+									<option value="15">
+										15
+									</option>
+									<option value="16">
+										16
+									</option>
+									<option value="17">
+										17
+									</option>
+									<option value="18">
+										18
+									</option>
+									<option value="19">
+										19
+									</option>
+									<option value="20">
+										20
+									</option>
+									<option value="21">
+										21
+									</option>
+									<option value="22">
+										22
+									</option>
+									<option value="23">
+										23
+									</option>
+
+								</select>时 <select name="minutes" id="minutes" dd="分">
+									<option value="00">
+										00
+									</option>
+									<option value="05">
+										05
+									</option>
+									<option value="10">
+										10
+									</option>
+									<option value="15">
+										15
+									</option>
+									<option value="20">
+										20
+									</option>
+									<option value="25">
+										25
+									</option>
+									<option value="30">
+										30
+									</option>
+									<option value="35">
+										35
+									</option>
+									<option value="40">
+										40
+									</option>
+									<option value="45">
+										45
+									</option>
+									<option value="50">
+										50
+									</option>
+									<option value="55">
+										55
+									</option>
+								</select>分</span>
+							<br />
+							<input type="radio" name="sendtype" value="2" />
+							&nbsp;周期发送
+							<span id="SPAN_2"> <select name="frequency" id="frequency"
+									style="width: 60px"></select> <!-- 周期年,月,日,周 --> <span
+								id="extPan"></span> <select name="hour" id="hour1">
+									<option value="00">
+										00
+									</option>
+									<option value="01">
+										01
+									</option>
+									<option value="02">
+										02
+									</option>
+									<option value="03">
+										03
+									</option>
+									<option value="04">
+										04
+									</option>
+									<option value="05">
+										05
+									</option>
+									<option value="06">
+										06
+									</option>
+									<option value="07">
+										07
+									</option>
+									<option value="08">
+										08
+									</option>
+									<option value="09">
+										09
+									</option>
+									<option value="10">
+										10
+									</option>
+									<option value="11">
+										11
+									</option>
+									<option value="12">
+										12
+									</option>
+									<option value="13">
+										13
+									</option>
+									<option value="14">
+										14
+									</option>
+									<option value="15">
+										15
+									</option>
+									<option value="16">
+										16
+									</option>
+									<option value="17">
+										17
+									</option>
+									<option value="18">
+										18
+									</option>
+									<option value="19">
+										19
+									</option>
+									<option value="20">
+										20
+									</option>
+									<option value="21">
+										21
+									</option>
+									<option value="22">
+										22
+									</option>
+									<option value="23">
+										23
+									</option>
+
+								</select>时 <select name="minutes" id="minutes1" dd="分">
+									<option value="00">
+										00
+									</option>
+									<option value="05">
+										05
+									</option>
+									<option value="10">
+										10
+									</option>
+									<option value="15">
+										15
+									</option>
+									<option value="20">
+										20
+									</option>
+									<option value="25">
+										25
+									</option>
+									<option value="30">
+										30
+									</option>
+									<option value="35">
+										35
+									</option>
+									<option value="40">
+										40
+									</option>
+									<option value="45">
+										45
+									</option>
+									<option value="50">
+										50
+									</option>
+									<option value="55">
+										55
+									</option>
+								</select>分</span>
+						</dd>
+					</dl>
+					<dl style="width: 100%;">
+						<dt>
+							<font color="red">*</font>消息内容：
+						</dt>
+						<dd>
+							<textarea style="margin: 10px 0; width: 480px" rows="10"
+								name="content" id="content"></textarea>
+						</dd>
+					</dl>
+					<div class="clearfix"></div>
+				</div>
+				<div class="lineheight">
+					<input class="btn_save" style="width: 85px" type="button"
+						id="submintBt" value="立即发送" />
+				</div>
+			</form>
+
+		</div>
+		<textarea rows="0" cols="0" style="display: none;" id="weekObj">
+<select id="ext_weekNum" name="ext_weekNum">
+		<option value="0">日</option>
+		<option value="1">一</option>
+		<option value="2">二</option>
+		<option value="3">三</option>
+		<option value="4">四</option>
+		<option value="5">五</option>
+		<option value="6">六</option>
+	</select>
+</textarea>
+		<textarea rows="0" cols="0" style="display: none;" id="dayObj">
+<select name="ext_day" id="ext_day">
+<option value="01">01</option>
+<option value="02">02</option>
+	<option value="03">03</option>
+	<option value="04">04</option>
+	<option value="05">05</option>
+	<option value="06">06</option>
+	<option value="07">07</option>
+	<option value="08">08</option>
+	<option value="09">09</option>
+	<option value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+	<option value="13">13</option>
+	<option value="14">14</option>
+	<option value="15">15</option>
+	<option value="16">16</option>
+	<option value="17">17</option>
+	<option value="18">18</option>
+	<option value="19">19</option>
+	<option value="20">20</option>
+	<option value="21">21</option>
+	<option value="22">22</option>
+		<option value="23">23</option>
+	<option value="24">24</option>
+		<option value="25">25</option>
+	<option value="26">26</option>
+		<option value="27">27</option>
+	<option value="28">28</option>
+	<option value="-1">最后一天</option>
+	</select>日
+</textarea>
+		<textarea rows="0" cols="0" style="display: none;" id="monthObj">
+<select name="ext_month" id="ext_month">
+	<option value="01">01</option>
+	<option value="02">02</option>
+	<option value="03">03</option>
+	<option value="04">04</option>
+	<option value="05">05</option>
+	<option value="06">06</option>
+	<option value="07">07</option>
+	<option value="08">08</option>
+	<option value="09">09</option>
+	<option value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+</select>月
+</textarea>
+	</body>
+</html>

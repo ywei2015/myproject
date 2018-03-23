@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sTemplet">
+
+
+    <resultMap type="java.util.HashMap" id="cunChu">
+       <result column="vRETURNCODE" property="vRETURNCODE" jdbcType="VARCHAR" />
+    </resultMap>
+
+	<resultMap id="BaseResultMap" type="com.talkweb.xwzcxt.pojo.TSTempletPojo">
+		<id column="C_TEMPLET_ID" property="cTempletId" jdbcType="VARCHAR" />
+		<result column="C_TEMPLET_CODE" property="cTempletCode" jdbcType="VARCHAR" />
+		<result column="C_TEMPLET_NAME" property="cTempletName" jdbcType="VARCHAR" />
+		<result column="C_ACTNODE_ID" property="cActnodeId" jdbcType="VARCHAR" />
+		<result column="C_TASKSEND_TRID" property="cTasksendTrid" jdbcType="VARCHAR" />
+		<result column="C_TASKBEGIN_TRID" property="cTaskbeginTrid" jdbcType="VARCHAR" />
+		<result column="C_TASKFINISH_TRID" property="cTaskfinishTrid" jdbcType="VARCHAR" />
+		<result column="C_ISKEYCTRL" property="cIskeyctrl" jdbcType="DECIMAL" />
+		<result column="C_TASKCHECK_TIME" property="cTaskcheckTime" jdbcType="VARCHAR" />
+		<result column="C_TASKREVIEW_TIME" property="cTaskreviewTime" jdbcType="VARCHAR" />
+		<result column="C_CREATOR" property="cCreator" jdbcType="VARCHAR" />
+		<result column="C_CREATETIME" property="cCreatetime" jdbcType="TIMESTAMP" />
+		<result column="C_MODIFIER" property="cModifier" jdbcType="VARCHAR" />
+		<result column="C_MODIFYTIME" property="cModifytime" jdbcType="TIMESTAMP" />
+		<result column="C_DEPARTMENT" property="cDepartment" jdbcType="VARCHAR" />
+		<result column="C_FLAG" property="cFlag" jdbcType="DECIMAL" />
+		<result column="C_PID_EXEC" property="cPidExec" jdbcType="VARCHAR" />
+		<result column="C_PID_CHECK" property="cPidCheck" jdbcType="VARCHAR" />
+		<result column="C_PID_REVIEW" property="cPidReview" jdbcType="VARCHAR" />
+		<result column="C_PID_FEEDBACK1" property="cPidFeedback1" jdbcType="VARCHAR" />
+		<result column="C_PID_FEEDBACK2" property="cPidFeedback2" jdbcType="VARCHAR" />
+		<result column="C_PID_ERR_FEEDBACK1" property="cPidErrFeedback1" jdbcType="VARCHAR" />
+		<result column="C_PID_ERR_FEEDBACK2" property="cPidErrFeedback2" jdbcType="VARCHAR" />
+		<result column="C_VERSION" property="cVersion" jdbcType="VARCHAR" />
+		<result column="C_PRID" property="cPrid" jdbcType="VARCHAR" />
+		<result column="C_ANALYSIS_STATUS" property="cAnalysisStatus" jdbcType="DECIMAL" />
+		<result column="C_ANALYSIS_TIME" property="cAnalysisTime" jdbcType="TIMESTAMP" />
+		<result column="C_ANALYSIS_NEXTTIME" property="cAnalysisNexttime" jdbcType="TIMESTAMP" />
+		<result column="C_ANALYSIS_CNT" property="cAnalysisCnt" jdbcType="DECIMAL" />
+		<result column="C_ISSCAN" property="cIsscan" jdbcType="DECIMAL" />
+		<result column="C_CONFIRMOR" property="cConfirmor" jdbcType="VARCHAR" />
+		<result column="C_CONFIRMTIME" property="cConfirmtime" jdbcType="TIMESTAMP" />
+		<result column="C_CONFIRMSTATUS" property="cConfirmstatus" jdbcType="DECIMAL" />
+		<result column="C_EXEC_AREAID" property="cExecAreaid" jdbcType="VARCHAR" />
+		<result column="C_TEMPLETTYPE" property="cTemplettype" jdbcType="DECIMAL" />
+		<result column="C_ISVAILD" property="cIsvaild" jdbcType="CHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List" >
+		C_TEMPLET_ID, C_TEMPLET_CODE, C_TEMPLET_NAME, C_ACTNODE_ID, C_TASKSEND_TRID, C_TASKBEGIN_TRID, 
+		C_TASKFINISH_TRID, C_ISKEYCTRL, C_TASKCHECK_TIME, C_TASKREVIEW_TIME, C_CREATOR, C_CREATETIME, 
+		C_MODIFIER, C_MODIFYTIME, C_DEPARTMENT, C_FLAG, C_PID_EXEC, C_PID_CHECK, C_PID_REVIEW, 
+		C_PID_FEEDBACK1, C_PID_FEEDBACK2, C_PID_ERR_FEEDBACK1, C_PID_ERR_FEEDBACK2, C_VERSION, 
+		C_PRID, C_ANALYSIS_STATUS, C_ANALYSIS_TIME, C_ANALYSIS_NEXTTIME, C_ANALYSIS_CNT, 
+		C_ISSCAN, C_CONFIRMOR, C_CONFIRMTIME, C_CONFIRMSTATUS, C_EXEC_AREAID, C_TEMPLETTYPE, 
+		C_ISVAILD
+	</sql>
+
+	<select id="getAllTaskTemplet" parameterType="map" resultType="java.util.Map">
+		select aa.*,
+			bb.c_timerule_name as C_TASKBEGIN_TRIDNAME,
+			cc.c_timerule_name as C_TASKFINISH_TRIDNAME,
+			dd.fullname        as C_EXEC_AREANAME,
+			ee.posiname        as C_PNAME_EXEC,
+			hh.orgname         as C_DEPARTMENTNAME,
+			ii.displayname     as C_CONFIRMORNAME
+		from t_sd_task_templet aa,
+			t_rule_time        bb,
+			t_rule_time        cc,
+			dp_area            dd,
+			dp_position        ee,
+			dp_organization    hh,
+			dp_user            ii
+		where aa.c_taskbegin_trid = bb.c_timerule_id(+)
+			and aa.c_taskfinish_trid = cc.c_timerule_id(+)
+			and aa.c_exec_areaid = dd.area (+)
+			and aa.c_pid_exec = ee.positionid(+)
+			and aa.c_department = hh.orgid(+)
+			and aa.c_confirmor = ii.userid(+)
+			<if test="cTempletName != null and cTempletName !=''">
+				and aa.c_templet_name like '%${cTempletName}%'
+			</if>
+			<if test="cIsscan != null and cIsscan !=''">
+				and aa.c_isscan = #{cIsscan}
+			</if>
+			<if test="cExecAreaid != null and cExecAreaid !=''">
+				and aa.c_exec_areaid = #{cExecAreaid}
+			</if>
+			<if test="cPidCheck != null and cPidCheck !=''">
+				and aa.c_pid_check = #{cPidCheck}
+			</if>
+			<if test="cPidReview != null and cPidReview !=''">
+				and aa.c_pid_review = #{cPidReview}
+			</if>
+			<if test="cPidExec != null and cPidExec !=''">
+				and aa.c_pid_exec in (${cPidExec})
+			</if>
+			<if test="cPidErrFeedback1 != null and cPidErrFeedback1 !=''">
+				and aa.c_pid_err_feedback1 = #{cPidErrFeedback1}
+			</if>
+		order by aa.c_createtime desc
+	</select>
+
+	<select id="getTaskTempletByActnodeID" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from TWXWZC.T_SD_TASK_TEMPLET
+		where C_ACTNODE_ID = #{cActnodeId}
+	</select>
+
+	<insert id="addTaskTemplet" parameterType="map">
+		insert into TWXWZC.T_SD_TASK_TEMPLET
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="cTempletId != null">
+				C_TEMPLET_ID,
+			</if>
+			<if test="cTempletCode != null">
+				C_TEMPLET_CODE,
+			</if>
+			<if test="cTempletName != null">
+				C_TEMPLET_NAME,
+			</if>
+			<if test="cActnodeId != null">
+				C_ACTNODE_ID,
+			</if>
+			<if test="cTasksendTrid != null">
+				C_TASKSEND_TRID,
+			</if>
+			<if test="cTaskbeginTrid != null">
+				C_TASKBEGIN_TRID,
+			</if>
+			<if test="cTaskfinishTrid != null">
+				C_TASKFINISH_TRID,
+			</if>
+			<if test="cIskeyctrl != null">
+				C_ISKEYCTRL,
+			</if>
+			<if test="cTaskcheckTime != null">
+				C_TASKCHECK_TIME,
+			</if>
+			<if test="cTaskreviewTime != null">
+				C_TASKREVIEW_TIME,
+			</if>
+			<if test="cCreator != null">
+				C_CREATOR,
+			</if>
+			<if test="cCreatetime != null">
+				C_CREATETIME,
+			</if>
+			<if test="cModifier != null">
+				C_MODIFIER,
+			</if>
+			<if test="cModifytime != null">
+				C_MODIFYTIME,
+			</if>
+			<if test="cDepartment != null">
+				C_DEPARTMENT,
+			</if>
+			<if test="cFlag != null">
+				C_FLAG,
+			</if>
+			<if test="cPidExec != null">
+				C_PID_EXEC,
+			</if>
+			<if test="cPidCheck != null">
+				C_PID_CHECK,
+			</if>
+			<if test="cPidReview != null">
+				C_PID_REVIEW,
+			</if>
+			<if test="cPidFeedback1 != null">
+				C_PID_FEEDBACK1,
+			</if>
+			<if test="cPidFeedback2 != null">
+				C_PID_FEEDBACK2,
+			</if>
+			<if test="cPidErrFeedback1 != null">
+				C_PID_ERR_FEEDBACK1,
+			</if>
+			<if test="cPidErrFeedback2 != null">
+				C_PID_ERR_FEEDBACK2,
+			</if>
+			<if test="cVersion != null">
+				C_VERSION,
+			</if>
+			<if test="cPrid != null">
+				C_PRID,
+			</if>
+			<if test="cAnalysisStatus != null">
+				C_ANALYSIS_STATUS,
+			</if>
+			<if test="cAnalysisTime != null">
+				C_ANALYSIS_TIME,
+			</if>
+			<if test="cAnalysisNexttime != null">
+				C_ANALYSIS_NEXTTIME,
+			</if>
+			<if test="cAnalysisCnt != null">
+				C_ANALYSIS_CNT,
+			</if>
+			<if test="cIsscan != null">
+				C_ISSCAN,
+			</if>
+			<if test="cConfirmor != null">
+				C_CONFIRMOR,
+			</if>
+			<if test="cConfirmtime != null">
+				C_CONFIRMTIME,
+			</if>
+			<if test="cConfirmstatus != null">
+				C_CONFIRMSTATUS,
+			</if>
+			<if test="cExecAreaid != null">
+				C_EXEC_AREAID,
+			</if>
+			<if test="cTemplettype != null">
+				C_TEMPLETTYPE,
+			</if>
+			<if test="cIsvaild != null" >
+				C_ISVAILD,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="cTempletId != null">
+				#{cTempletId,jdbcType=VARCHAR},
+			</if>
+			<if test="cTempletCode != null">
+				#{cTempletCode,jdbcType=VARCHAR},
+			</if>
+			<if test="cTempletName != null">
+				#{cTempletName,jdbcType=VARCHAR},
+			</if>
+			<if test="cActnodeId != null">
+				#{cActnodeId,jdbcType=VARCHAR},
+			</if>
+			<if test="cTasksendTrid != null">
+				#{cTasksendTrid,jdbcType=VARCHAR},
+			</if>
+			<if test="cTaskbeginTrid != null">
+				#{cTaskbeginTrid,jdbcType=VARCHAR},
+			</if>
+			<if test="cTaskfinishTrid != null">
+				#{cTaskfinishTrid,jdbcType=VARCHAR},
+			</if>
+			<if test="cIskeyctrl != null">
+				#{cIskeyctrl,jdbcType=DECIMAL},
+			</if>
+			<if test="cTaskcheckTime != null">
+				#{cTaskcheckTime,jdbcType=VARCHAR},
+			</if>
+			<if test="cTaskreviewTime != null">
+				#{cTaskreviewTime,jdbcType=VARCHAR},
+			</if>
+			<if test="cCreator != null">
+				#{cCreator,jdbcType=VARCHAR},
+			</if>
+			<if test="cCreatetime != null">
+				#{cCreatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cModifier != null">
+				#{cModifier,jdbcType=VARCHAR},
+			</if>
+			<if test="cModifytime != null">
+				#{cModifytime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cDepartment != null">
+				#{cDepartment,jdbcType=VARCHAR},
+			</if>
+			<if test="cFlag != null">
+				#{cFlag,jdbcType=DECIMAL},
+			</if>
+			<if test="cPidExec != null">
+				#{cPidExec,jdbcType=VARCHAR},
+			</if>
+			<if test="cPidCheck != null">
+				#{cPidCheck,jdbcType=VARCHAR},
+			</if>
+			<if test="cPidReview != null">
+				#{cPidReview,jdbcType=VARCHAR},
+			</if>
+			<if test="cPidFeedback1 != null">
+				#{cPidFeedback1,jdbcType=VARCHAR},
+			</if>
+			<if test="cPidFeedback2 != null">
+				#{cPidFeedback2,jdbcType=VARCHAR},
+			</if>
+			<if test="cPidErrFeedback1 != null">
+				#{cPidErrFeedback1,jdbcType=VARCHAR},
+			</if>
+			<if test="cPidErrFeedback2 != null">
+				#{cPidErrFeedback2,jdbcType=VARCHAR},
+			</if>
+			<if test="cVersion != null">
+				#{cVersion,jdbcType=VARCHAR},
+			</if>
+			<if test="cPrid != null">
+				#{cPrid,jdbcType=VARCHAR},
+			</if>
+			<if test="cAnalysisStatus != null">
+				#{cAnalysisStatus,jdbcType=DECIMAL},
+			</if>
+			<if test="cAnalysisTime != null">
+				#{cAnalysisTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cAnalysisNexttime != null">
+				#{cAnalysisNexttime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cAnalysisCnt != null">
+				#{cAnalysisCnt,jdbcType=DECIMAL},
+			</if>
+			<if test="cIsscan != null">
+				#{cIsscan,jdbcType=DECIMAL},
+			</if>
+			<if test="cConfirmor != null">
+				#{cConfirmor,jdbcType=VARCHAR},
+			</if>
+			<if test="cConfirmtime != null">
+				#{cConfirmtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cConfirmstatus != null">
+				#{cConfirmstatus,jdbcType=DECIMAL},
+			</if>
+			<if test="cExecAreaid != null">
+				#{cExecAreaid,jdbcType=VARCHAR},
+			</if>
+			<if test="cTemplettype != null">
+				#{cTemplettype,jdbcType=DECIMAL},
+			</if>
+			<if test="cIsvaild != null" >
+				#{cIsvaild,jdbcType=CHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<select id="getTaskTempletById" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from TWXWZC.T_SD_TASK_TEMPLET
+		where C_TEMPLET_ID = #{cTempletId} and
+		C_FLAG=1
+	</select>
+
+	<delete id="deleteTempletByID" parameterType="java.lang.String">
+		delete from
+		TWXWZC.T_SD_TASK_TEMPLET
+		where C_TEMPLET_ID = #{cTempletId}
+	</delete>
+
+	<delete id="deleteTaskTempletByActNodeID" parameterType="java.util.List">
+		delete from
+		TWXWZC.T_SD_TASK_TEMPLET
+		where C_ACTNODE_ID in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateTempletByID" parameterType="map">
+		update TWXWZC.T_SD_TASK_TEMPLET
+		<set>
+			<if test="cTempletCode != null">
+				C_TEMPLET_CODE = #{cTempletCode,jdbcType=VARCHAR},
+			</if>
+			<if test="cTempletName != null">
+				C_TEMPLET_NAME = #{cTempletName,jdbcType=VARCHAR},
+			</if>
+			<if test="cActnodeId != null">
+				C_ACTNODE_ID = #{cActnodeId,jdbcType=VARCHAR},
+			</if>
+			<if test="cTasksendTrid != null">
+				C_TASKSEND_TRID = #{cTasksendTrid,jdbcType=VARCHAR},
+			</if>
+			<if test="cTaskbeginTrid != null">
+				C_TASKBEGIN_TRID = #{cTaskbeginTrid,jdbcType=VARCHAR},
+			</if>
+			<if test="cTaskfinishTrid != null">
+				C_TASKFINISH_TRID = #{cTaskfinishTrid,jdbcType=VARCHAR},
+			</if>
+			<if test="cIskeyctrl != null">
+				C_ISKEYCTRL = #{cIskeyctrl,jdbcType=DECIMAL},
+			</if>
+			<if test="cTaskcheckTime != null">
+				C_TASKCHECK_TIME = #{cTaskcheckTime,jdbcType=VARCHAR},
+			</if>
+			<if test="cTaskreviewTime != null">
+				C_TASKREVIEW_TIME = #{cTaskreviewTime,jdbcType=VARCHAR},
+			</if>
+			<if test="cCreator != null">
+				C_CREATOR = #{cCreator,jdbcType=VARCHAR},
+			</if>
+			<if test="cCreatetime != null">
+				C_CREATETIME = #{cCreatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cModifier != null">
+				C_MODIFIER = #{cModifier,jdbcType=VARCHAR},
+			</if>
+			<if test="cModifytime != null">
+				C_MODIFYTIME = #{cModifytime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cDepartment != null">
+				C_DEPARTMENT = #{cDepartment,jdbcType=VARCHAR},
+			</if>
+			<if test="cFlag != null">
+				C_FLAG = #{cFlag,jdbcType=DECIMAL},
+			</if>
+			<if test="cPidExec != null">
+				C_PID_EXEC = #{cPidExec,jdbcType=VARCHAR},
+			</if>
+			<if test="cPidCheck != null">
+				C_PID_CHECK = #{cPidCheck,jdbcType=VARCHAR},
+			</if>
+			<if test="cPidReview != null">
+				C_PID_REVIEW = #{cPidReview,jdbcType=VARCHAR},
+			</if>
+			<if test="cPidFeedback1 != null">
+				C_PID_FEEDBACK1 = #{cPidFeedback1,jdbcType=VARCHAR},
+			</if>
+			<if test="cPidFeedback2 != null">
+				C_PID_FEEDBACK2 = #{cPidFeedback2,jdbcType=VARCHAR},
+			</if>
+			<if test="cPidErrFeedback1 != null">
+				C_PID_ERR_FEEDBACK1 = #{cPidErrFeedback1,jdbcType=VARCHAR},
+			</if>
+			<if test="cPidErrFeedback2 != null">
+				C_PID_ERR_FEEDBACK2 = #{cPidErrFeedback2,jdbcType=VARCHAR},
+			</if>
+			<if test="cVersion != null">
+				C_VERSION = #{cVersion,jdbcType=VARCHAR},
+			</if>
+			<if test="cPrid != null">
+				C_PRID = #{cPrid,jdbcType=VARCHAR},
+			</if>
+			<if test="cAnalysisStatus != null">
+				C_ANALYSIS_STATUS = #{cAnalysisStatus,jdbcType=DECIMAL},
+			</if>
+			<if test="cAnalysisTime != null">
+				C_ANALYSIS_TIME = #{cAnalysisTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cAnalysisNexttime != null">
+				C_ANALYSIS_NEXTTIME = #{cAnalysisNexttime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cAnalysisCnt != null">
+				C_ANALYSIS_CNT = #{cAnalysisCnt,jdbcType=DECIMAL},
+			</if>
+			<if test="cIsscan != null">
+				C_ISSCAN = #{cIsscan,jdbcType=DECIMAL},
+			</if>
+			<if test="cConfirmor != null">
+				C_CONFIRMOR = #{cConfirmor,jdbcType=VARCHAR},
+			</if>
+			<if test="cConfirmtime != null">
+				C_CONFIRMTIME = #{cConfirmtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cConfirmstatus != null">
+				C_CONFIRMSTATUS = #{cConfirmstatus,jdbcType=DECIMAL},
+			</if>
+			<if test="cExecAreaid != null">
+				C_EXEC_AREAID = #{cExecAreaid,jdbcType=VARCHAR},
+			</if>
+			<if test="cTemplettype != null">
+				C_TEMPLETTYPE = #{cTemplettype,jdbcType=DECIMAL},
+			</if>
+			<if test="cIsvaild != null" >
+				C_ISVAILD = #{cIsvaild,jdbcType=CHAR},
+			</if>
+		</set>
+		where C_TEMPLET_ID = #{cTempletId,jdbcType=VARCHAR}
+	</update>
+
+	<insert id="addTempletByCopy" parameterType="com.talkweb.xwzcxt.vo.STempletVo">
+		insert into TWXWZC.T_SD_TASK_TEMPLET
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="cTempletId != null">
+				C_TEMPLET_ID,
+			</if>
+			<if test="cTempletCode != null">
+				C_TEMPLET_CODE,
+			</if>
+			<if test="cTempletName != null">
+				C_TEMPLET_NAME,
+			</if>
+			<if test="cActnodeId != null">
+				C_ACTNODE_ID,
+			</if>
+			<if test="cTasksendTrid != null">
+				C_TASKSEND_TRID,
+			</if>
+			<if test="cTaskbeginTrid != null">
+				C_TASKBEGIN_TRID,
+			</if>
+			<if test="cTaskfinishTrid != null">
+				C_TASKFINISH_TRID,
+			</if>
+			<if test="cIskeyctrl != null">
+				C_ISKEYCTRL,
+			</if>
+			<if test="cTaskcheckTime != null">
+				C_TASKCHECK_TIME,
+			</if>
+			<if test="cTaskreviewTime != null">
+				C_TASKREVIEW_TIME,
+			</if>
+			<if test="cCreator != null">
+				C_CREATOR,
+			</if>
+			<if test="cCreatetime != null">
+				C_CREATETIME,
+			</if>
+			C_MODIFIER,
+			C_MODIFYTIME,
+			<if test="cDepartment != null">
+				C_DEPARTMENT,
+			</if>
+			<if test="cFlag != null">
+				C_FLAG,
+			</if>
+			<if test="cPidExec != null">
+				C_PID_EXEC,
+			</if>
+			<if test="cPidCheck != null">
+				C_PID_CHECK,
+			</if>
+			<if test="cPidReview != null">
+				C_PID_REVIEW,
+			</if>
+			<if test="cPidFeedback1 != null">
+				C_PID_FEEDBACK1,
+			</if>
+			<if test="cPidFeedback2 != null">
+				C_PID_FEEDBACK2,
+			</if>
+			<if test="cPidErrFeedback1 != null">
+				C_PID_ERR_FEEDBACK1,
+			</if>
+			<if test="cPidErrFeedback2 != null">
+				C_PID_ERR_FEEDBACK2,
+			</if>
+			<if test="cVersion != null">
+				C_VERSION,
+			</if>
+			<if test="cPrid != null">
+				C_PRID,
+			</if>
+			C_ANALYSIS_STATUS,
+			C_ANALYSIS_TIME,
+			C_ANALYSIS_NEXTTIME,
+			C_ANALYSIS_CNT,
+			<if test="cIsscan != null">
+				C_ISSCAN,
+			</if>
+			C_CONFIRMOR,
+			C_CONFIRMTIME,
+			C_CONFIRMSTATUS,
+			<if test="cExecAreaid != null">
+				C_EXEC_AREAID,
+			</if>
+			<if test="cTemplettype != null">
+				C_TEMPLETTYPE,
+			</if>
+			<if test="cIsvaild != null" >
+				C_ISVAILD,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="cTempletId != null">
+				#{cTempletId,jdbcType=VARCHAR},
+			</if>
+			<if test="cTempletCode != null">
+				#{cTempletCode,jdbcType=VARCHAR},
+			</if>
+			<if test="cTempletName != null">
+				#{cTempletName,jdbcType=VARCHAR},
+			</if>
+			<if test="cActnodeId != null">
+				#{cActnodeId,jdbcType=VARCHAR},
+			</if>
+			<if test="cTasksendTrid != null">
+				#{cTasksendTrid,jdbcType=VARCHAR},
+			</if>
+			<if test="cTaskbeginTrid != null">
+				#{cTaskbeginTrid,jdbcType=VARCHAR},
+			</if>
+			<if test="cTaskfinishTrid != null">
+				#{cTaskfinishTrid,jdbcType=VARCHAR},
+			</if>
+			<if test="cIskeyctrl != null">
+				#{cIskeyctrl,jdbcType=DECIMAL},
+			</if>
+			<if test="cTaskcheckTime != null">
+				#{cTaskcheckTime,jdbcType=VARCHAR},
+			</if>
+			<if test="cTaskreviewTime != null">
+				#{cTaskreviewTime,jdbcType=VARCHAR},
+			</if>
+			<if test="cCreator != null">
+				#{cCreator,jdbcType=VARCHAR},
+			</if>
+			<if test="cCreatetime != null">
+				#{cCreatetime,jdbcType=TIMESTAMP},
+			</if>
+			null,
+			null,
+			<if test="cDepartment != null">
+				#{cDepartment,jdbcType=VARCHAR},
+			</if>
+			<if test="cFlag != null">
+				#{cFlag,jdbcType=DECIMAL},
+			</if>
+			<if test="cPidExec != null">
+				#{cPidExec,jdbcType=VARCHAR},
+			</if>
+			<if test="cPidCheck != null">
+				#{cPidCheck,jdbcType=VARCHAR},
+			</if>
+			<if test="cPidReview != null">
+				#{cPidReview,jdbcType=VARCHAR},
+			</if>
+			<if test="cPidFeedback1 != null">
+				#{cPidFeedback1,jdbcType=VARCHAR},
+			</if>
+			<if test="cPidFeedback2 != null">
+				#{cPidFeedback2,jdbcType=VARCHAR},
+			</if>
+			<if test="cPidErrFeedback1 != null">
+				#{cPidErrFeedback1,jdbcType=VARCHAR},
+			</if>
+			<if test="cPidErrFeedback2 != null">
+				#{cPidErrFeedback2,jdbcType=VARCHAR},
+			</if>
+			<if test="cVersion != null">
+				#{cVersion,jdbcType=VARCHAR},
+			</if>
+			<if test="cPrid != null">
+				#{cPrid,jdbcType=VARCHAR},
+			</if>
+			0,
+			null,
+			null,
+			0,
+			<if test="cIsscan != null">
+				#{cIsscan,jdbcType=DECIMAL},
+			</if>
+			null,
+			null,
+			null,
+			<if test="cExecAreaid != null">
+				#{cExecAreaid,jdbcType=VARCHAR},
+			</if>
+			<if test="cTemplettype != null">
+				#{cTemplettype,jdbcType=DECIMAL},
+			</if>
+			<if test="cIsvaild != null" >
+				#{cIsvaild,jdbcType=CHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<select id="getNextTaskId" resultType="java.math.BigDecimal">
+		select SEQ_TASKID.nextVal from dual
+	</select>
+
+	<select id="generateRandomTask" statementType="CALLABLE" parameterType="map" >
+		<![CDATA[
+			{call P_SD_MANU_GETNCTEMPLETID (
+				#{cTaskId,mode=IN,jdbcType=NUMERIC},
+				#{cTaskName,mode=IN,jdbcType=VARCHAR},
+				#{cIskeyctrl,mode=IN,jdbcType=VARCHAR},
+				#{cPdca,mode=IN,jdbcType=VARCHAR},
+				#{cIssequence,mode=IN,jdbcType=VARCHAR},
+				#{cExecAreaid,mode=IN,jdbcType=NUMERIC},
+				#{cPidExec,mode=IN,jdbcType=NUMERIC},
+				#{cTaskbeginTrid,mode=IN,jdbcType=VARCHAR},
+				#{cTaskfinishTrid,mode=IN,jdbcType=VARCHAR},
+				#{cUserId,mode=IN,jdbcType=NUMERIC},
+				#{cExecAreaName,mode=IN,jdbcType=VARCHAR},
+				#{cPNameExec,mode=IN,jdbcType=VARCHAR},
+				#{cUserName,mode=IN,jdbcType=VARCHAR},
+				#{cActnodeId,mode=IN,jdbcType=VARCHAR},
+				#{cActnodeName,mode=IN,jdbcType=VARCHAR},
+				#{cPidFeedback1,mode=IN,jdbcType=VARCHAR},
+				#{cPidFeedback2,mode=IN,jdbcType=VARCHAR},
+				#{cPidErrFeedback1,mode=IN,jdbcType=VARCHAR},
+				#{cPidErrFeedback2,mode=IN,jdbcType=VARCHAR},
+				#{cTaskcheckTime,mode=IN,jdbcType=VARCHAR},
+				#{cPidCheck,mode=IN,jdbcType=VARCHAR},
+				#{cPNameCheck,mode=IN,jdbcType=VARCHAR},
+				#{cTaskreviewTime,mode=IN,jdbcType=VARCHAR},
+				#{cPidReview,mode=IN,jdbcType=VARCHAR},
+				#{cPNameReview,mode=IN,jdbcType=VARCHAR},
+				#{vRETURNCODE,mode=OUT,jdbcType=VARCHAR}
+			)}
+		]]>
+	</select>
+</mapper>

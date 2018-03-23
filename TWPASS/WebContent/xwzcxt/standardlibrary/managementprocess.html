@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>流程节点管理</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="managementprocess.js"></script>
+<style>
+html,body {
+	height: 100%;
+}
+
+/*.ui-toolbar {
+	height: 22px;
+	padding: 2px 0 2px 3px;
+	width: auto;
+	text-align: left
+}
+
+.ui-toolbar-bg {
+	border-top: 1px solid #F0F5FA;
+	border-bottom: 1px solid #AACCF6;
+	background-image: none;
+	background-color: #D9E5F3;
+	background: url(../images/bar/toolbar-title-bg.gif) repeat-x;
+	background: linear-gradient(#DEE9F5, #D3E1F1);
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#DEE9F5),
+		to(#D3E1F1) );
+	background: -moz-linear-gradient(#DEE9F5, #D3E1F1)
+}*/
+
+.ui-myfileupload {
+	position: relative;
+	display: inline-block;
+}
+</style>
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+	<div class="ui-layout" id="mainDiv" style="height:100%;">
+		<div class="ui-layout-left" style="width: 250px; height:100%;">
+			<div class="ui-toolbar ui-toolbar-bg" style="height: 22px;">
+				<div itype="Button" plain=true text="新增" display="true" id="add"
+					iconCls="icon-add" onClick="doAddAction()"></div>
+				<div itype="Button" plain=true text="修改" display="true" id="modify"
+					iconCls="icon-edit" onClick="doModifyAction()"></div>
+				<div itype="Button" plain=true text="删除" display="true" id="delete"
+					iconCls="icon-delete" onClick="doDeleteAction()"></div>
+				<div itype="Button" plain=true text="导入" display="true" id="import"
+					iconCls="icon-add" onClick="openImportPage()"></div>  
+				<!-- ui-myfileupload -->
+				<!-- 	<div class="ui-button" style="width:50px;">
+				   <div itype="FileUpload" name="uploadaction" saveInstance="true" showTextInput="false" 
+						autoUpload="true" 
+						action="sdaction_uploadActionFile.action" 
+						onFileChoose="onFileChoose()" onUploadStart="onUploadStart()" 
+						onUploadSuccess="onUploadSuccess()" onUploadFail="onUploadFail()"
+						onUploadCancel="onUploadCancel()">
+						<div name="chooseBtn" text="导入" iconCls="icon-save"></div>
+					</div>  
+				</div>	-->
+			</div>
+			<div id="actiontree" itype="Tree" saveInstance="true" showIco="true" width="100%" 
+				topParentid="0" openFloor=3  rootValue="所有流程节点" 
+				   asyncDataSource="org_searchAllOrg.action"
+				initSource="sdaction_getAllActionForTree.action"
+				asyncDataSource="sdaction_getAllActionForTree.action"
+				onNodeClick="onActionTreeNodeClick()"></div>
+				<!-- asyncDataSource="org_searchAllOrg.action" -->
+				<!-- initSource="sdaction_getAllActionForTree.action" -->
+				<!-- asyncDataSource="sdaction_getAllActionForTree.action" -->
+		</div>
+		
+		<div class="ui-layout-center" style="left: 252px;height:100%;">
+			<form id="pointSearchForm" itype="Form"
+				action="standardlibrary_queryManagementProcess.action"
+				requestType="post" saveInstance="true"
+				onSubmitSuccess="submitSuccess()" submitJson="false">
+				<table class="ui-form-table">
+					<tr valign="middle">
+						<td class="ui-form-table-dt" style="width:100px">流程节点：</td>
+						<td class="ui-form-table-dd">
+							<div itype="SelectTree" id="standardfile.c_action_id" width="100%"  rootValue="-请选择-" 
+							topParentid="0" openFloor=3 initSource="sdaction_getAllActionForTree.action"></div>
+							 <!-- initSource="standardlibrary_getProcessNodeTree.action" -->
+						</td>
+						<td class="ui-form-table-dt" style="width:100px">标准文件名：</td>
+						<td class="ui-form-table-dd">	<div itype="TextBox" id="standardfile.c_sfile_name" width="100%"></div></td>
+						<td class="ui-form-table-dt" style="width:100px">类别编号：</td>
+						<td class="ui-form-table-dd">
+						<div itype="SelectTree" id="standardfile.c_sort_id" width="100%"  rootValue="-请选择-" topParentid="0" openFloor=3 initSource="upload_getAllFileSort.action"></div>
+						</td>
+					</tr>
+					<tr valign="middle">
+						<td class="ui-form-table-dt" style="width:100px">发布单位：</td>
+						<td class="ui-form-table-dd">
+							<div itype="TextBox" id="standardfile.c_releaseunit" width="100%"></div>
+						</td>
+						<td class="ui-form-table-dt" style="width:100px">发布时间：</td>
+						<td class="ui-form-table-dd"><div itype="DatePicker" id="standardfile.c_releasetime" width="100%"></div></td>
+						<td class="ui-form-table-dt" style="width:100px">实施时间：</td>
+						<td class="ui-form-table-dd"><div itype="DatePicker" id="standardfile.c_impletime" width="100%"></div></td>
+					</tr>
+					<tr valign="middle">
+						<td class="ui-form-table-dt" style="width:100px">起草部门：</td>
+						<td class="ui-form-table-dd">
+						  <div itype="SelectTree" id="standardfile.c_fw_qcbm" width="100%" rootValue="-请选择-" topParentid="-1" openFloor=3 initSource="org_searchAllOrg.action"></div>
+						</td>
+						<td class="ui-form-table-dt" style="width:100px">归口部门：</td>
+						<td class="ui-form-table-dd">	<div itype="SelectTree" id="standardfile.c_fw_gkbm" width="100%" rootValue="-请选择-" topParentid="-1" openFloor=3 initSource="org_searchAllOrg.action"></div></td>
+						<td class="ui-form-table-dd"  colspan="2" align="right">
+							<div itype="Button" text="查询" iconCls="icon-search" onclick="submit()" width=100px></div>&nbsp;
+							<div itype="Button" text="重置" iconCls="icon-reset" onclick="reset()" width=100px></div></td>
+					</tr>
+				</table>
+			</form>
+						
+			<div itype="DataGrid" id="actiongrid" onBeforeReady="onBeforeReady()" showSeqColumn=true 
+			onAfterInitRender="onAfterInitRender()" pageSize="20" saveInstance=true keyword="c_task_id"  
+			 initSource="standardlibrary_queryManagementProcess.action"	
+			showCheckColumn=true onRowClick="onRowClick()" >		
+			<!-- initSource="standardlibrary_queryManagementProcess.action" managementprocessdatagrid.txt --> 
+				<div name="top-toolbar">
+					<div plain=true text="新增" id="add" display="true"
+						iconCls="icon-add" onClick="addPoint()"></div>
+					<div itype="separator"></div>
+					<div plain=true text="批量删除" id="add" display="true"
+						iconCls="icon-delete" onClick="batchDeleteObject()"></div>
+				</div>
+				<!-- 列属性定义-->
+				<div hidden="true" name="c_sfile_id"></div>
+				<div width="17%" name="c_action_sname" text="流程节点"></div>
+				<div width="17%" name="c_sort_name" text="标准类"></div>
+				<div width="18%" name="c_sfile_name" text="文件名"></div>
+				<!-- <div width="15%" name="c_sfile_version" text="文件编号"></div> -->
+				<div width="12%" name="c_content" text="标准内容" renderer="bznrhref()"></div>
+				<div width="12%" name="c_att_id" text="附录" renderer="flhref()"></div>
+				<div width="12%" name="c_creator" text="操作人"></div>
+				<div width="12%" text="操作" renderer="operRenderer()"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

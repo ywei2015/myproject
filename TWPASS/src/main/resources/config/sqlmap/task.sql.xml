@@ -1,0 +1,1298 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="task">
+    <select id="P_TWXWZC_GENERATE_TASK_STD"  statementType="CALLABLE">  
+	<![CDATA[  
+	    {CALL P_TWXWZC_GENERATE_TASK_STD (
+	    	#{v_TASKTEMPLET_ID,mode=IN,jdbcType=DECIMAL},
+	    	#{v_START_TIME,mode=IN,jdbcType=VARCHAR},
+	    	#{v_URGE_TIME,mode=IN,jdbcType=VARCHAR},
+	    	#{v_END_TIME,mode=IN,jdbcType=VARCHAR},
+	    	#{v_EXCEED_TIME,mode=IN,jdbcType=VARCHAR},
+	    	#{v_PLANDOWN_TIME,mode=IN,jdbcType=VARCHAR},
+	    	#{v_TASK_TYPE,mode=IN,jdbcType=VARCHAR},
+	    	#{v_EXEC_USERID,mode=IN,jdbcType=VARCHAR},
+	    	#{v_AREA_ID,mode=IN,jdbcType=VARCHAR},
+	    	#{v_result,mode=OUT,jdbcType=VARCHAR}	    	
+	    )}	    
+	]]>  
+	</select>
+<!-- 任务查询对应的步骤详情 -->
+<select id="getTaskStepList" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+	select
+		s.c_id,
+		s.c_task_id,
+		s.c_step_index,
+		s.c_step_prompt,
+		s.c_tracefunid,
+		s.c_isstd,
+		s.c_actitem_id,
+		s.c_area,
+		s.c_objtype_id,
+		s.c_step_params,
+		s.c_result,
+		s.c_exec_time,
+		s.c_iserror,
+		s.c_err_sn,
+		s.c_status,
+		s.c_remark,
+		s.c_obj_id,
+		s.c_groupindex,
+		s2.c_actitem_id,
+		s2.c_actitem_code,
+		s2.c_actitem_name,
+		s2.c_actnode_id,
+		s2.c_actitem_what,
+		s2.c_what_files,
+		s2.c_std,
+		s2.c_std_files,
+		s2.c_std_flag,
+		s2.c_check_std,
+		s2.c_checkstd_files,
+		s2.c_check_flag,
+		s2.c_err_std,
+		s2.c_errstd_files,
+		s2.c_errstd_flag,
+		s2.c_know,
+		s2.c_creator,
+		s2.c_create_time,
+		s2.c_last_modifier,
+		s2.c_last_modified_time,
+		s2.c_remark,
+		s2.c_isdelete,
+		u.c_tracefun_name,
+		u.c_isfile,
+		u.c_file_format,
+		a.areaname,
+		y.c_objtype_name,
+		r.c_obj_name,
+		t2.c_file_path
+	from t_task_step s
+		left join t_trace_fuction u on to_char(s.c_tracefunid) = u.c_tracefun_id
+		left join dp_area a on to_char(s.c_area) = a.area
+		left join t_work_objtype y on to_char(s.c_objtype_id) = y.c_objtype_id
+		left join t_work_object r on to_char(s.c_obj_id) = r.c_obj_id
+		left join t_file_info t2 on to_char(s.c_result) = t2.c_file_id
+		left join t_actnode_item s2 on to_char(s2.c_actitem_id) = s.c_actitem_id
+	<where>
+		<if test="null!=c_task_id and ''!=c_task_id">
+			s.c_task_id  = #{c_task_id}
+		</if>
+	</where>
+	order by s.c_task_id, s.c_step_index
+</select>
+ <!--获取任务步骤信息-->
+<select id="getTaskMouldStepList" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+	select 
+		a.c_task_name, u.c_isfile,u.c_file_format, u.c_tracefun_name,
+		t.c_id,
+		t.c_task_id,
+		t.c_step_index,
+		t.c_step_prompt,
+		t.c_tracefunid,
+		t.c_isstd,
+		t.c_actitem_id,
+		t.c_area,
+		t.c_objtype_id,
+		t.c_step_params,
+		t.c_result,
+		t.c_exec_time,
+		t.c_iserror,
+		t.c_err_sn,
+		t.c_status,
+		t.c_remark,
+		t.c_obj_id
+	from t_task_step t
+	left join t_task a on a.c_task_id = t.c_task_id
+	left join t_trace_fuction u on t.c_tracefunid = u.c_tracefun_id
+	<where>
+		<if test="null!=c_task_id and ''!=c_task_id">
+			 c_task_id  = #{c_task_id}
+		</if>
+	</where>
+	 order by t.c_task_id, t.c_step_index 
+</select>
+    <insert id="insertTaskRuleMould" parameterType="com.talkweb.xwzcxt.pojo.TaskMouldPojo"> 
+        <selectKey resultType="long" keyProperty="c_tasktemplet_id" order="BEFORE">
+			SELECT
+			SEQ_TASKTEMPLET_ID.NEXTVAL  FROM DUAL
+		</selectKey>        
+    insert into t_task_templet (c_tasktemplet_id,c_actnode_id, c_tasktemplet_name, 
+      c_positionid, c_arer, c_trigger_type,c_timerule_id, c_overtime_triggertype,c_overtime_postid, c_ok_triggertype, c_ok_postid, 
+      c_isokfeedback, c_ok_templetid, c_err_triggertype,c_err_postid, c_iserrfeedback, c_err_tasktemplet_id, 
+      c_creator, c_create_time, c_last_modifier,c_last_modified_time, c_remark, c_isdelete
+      )
+    values (#{c_tasktemplet_id,jdbcType=DECIMAL},#{c_actnode_id,jdbcType=DECIMAL}, #{c_tasktemplet_name,jdbcType=VARCHAR}, 
+      #{c_positionid,jdbcType=DECIMAL}, #{c_arer,jdbcType=VARCHAR}, #{c_trigger_type,jdbcType=DECIMAL}, 
+      #{c_timerule_id,jdbcType=DECIMAL}, #{c_overtime_triggertype,jdbcType=DECIMAL}, 
+      #{c_overtime_postid,jdbcType=DECIMAL}, #{c_ok_triggertype,jdbcType=DECIMAL}, #{c_ok_postid,jdbcType=DECIMAL}, 
+      #{c_isokfeedback,jdbcType=CHAR}, #{c_ok_templetid,jdbcType=DECIMAL}, #{c_err_triggertype,jdbcType=DECIMAL}, 
+      #{c_err_postid,jdbcType=DECIMAL}, #{c_iserrfeedback,jdbcType=CHAR}, #{c_err_tasktemplet_id,jdbcType=DECIMAL}, 
+      #{c_creator,jdbcType=VARCHAR}, #{c_create_time,jdbcType=VARCHAR}, #{c_last_modifier,jdbcType=VARCHAR}, 
+      #{c_last_modified_time,jdbcType=VARCHAR}, #{c_remark,jdbcType=VARCHAR}, #{c_isdelete,jdbcType=CHAR}
+      )
+  </insert>
+  <update id="updateTaskRuleMould" parameterType="map">
+    update t_task_templet
+    <set>
+      <if test="c_tasktemplet_id != null and  c_tasktemplet_id != 0" >
+        c_tasktemplet_id=#{c_tasktemplet_id},
+      </if>
+      <if test="c_actnode_id != null">
+        c_actnode_id=#{c_actnode_id},
+      </if>
+      <if test="c_tasktemplet_name != null">
+        c_tasktemplet_name=#{c_tasktemplet_name},
+      </if>
+      <if test="c_positionid != null">
+        c_positionid=${c_positionid},
+      </if>
+      <if test="c_arer != null">
+        c_arer=${c_arer},
+      </if>
+      <if test="c_trigger_type != null">
+        c_trigger_type=${c_trigger_type},
+      </if>
+      <if test="c_timerule_id != null">
+       c_timerule_id=${c_timerule_id},
+      </if>
+      <if test="c_overtime_triggertype != null">
+         c_overtime_triggertype=${c_overtime_triggertype},
+      </if>
+      <if test="c_overtime_postid != null">
+        c_overtime_postid=${c_overtime_postid},
+      </if>
+      <if test="c_ok_triggertype != null">
+       c_ok_triggertype=${c_ok_triggertype},
+      </if>
+      <if test="c_ok_postid != null">
+        c_ok_postid=${c_ok_postid},
+      </if>
+      <if test="c_isokfeedback != null">
+        c_isokfeedback=${c_isokfeedback},
+      </if>
+      <if test="c_ok_templetid != null">
+         c_ok_templetid=${c_ok_templetid},
+      </if>
+      <if test="c_err_triggertype != null">
+         c_err_triggertype=${c_err_triggertype},
+      </if>
+      <if test="c_err_postid != null">
+         c_err_postid=${c_err_postid},
+      </if>
+      <if test="c_iserrfeedback != null">
+         c_iserrfeedback=${c_iserrfeedback},
+      </if>
+      <if test="c_err_tasktemplet_id != null">
+         c_err_tasktemplet_id=${c_err_tasktemplet_id},
+      </if>
+      <if test="c_creator != null">
+        c_creator=#{c_creator},
+      </if>
+      <if test="c_create_time != null">
+         c_create_time=#{c_create_time},
+      </if>
+      <if test="c_last_modifier != null">
+         c_last_modifier=#{c_last_modifier},
+      </if>
+      <if test="c_last_modified_time != null">
+         c_last_modified_time=#{c_last_modified_time},
+      </if>
+      <if test="c_remark != null">
+         c_remark=#{c_remark},
+      </if>
+      <if test="c_isdelete != null">
+         c_isdelete=${c_isdelete},
+      </if>
+    </set>
+    where c_tasktemplet_id=#{c_tasktemplet_id}
+  </update>
+  <update id="updateTTask" parameterType="map">
+    update t_task
+    <set>    
+        <if test="c_status != null" >
+        	c_status=#{c_status},
+      	</if>
+      	<if test="c_task_name != null">
+        c_task_name = #{c_task_name},
+      </if>
+      <if test="c_task_type != null">
+        c_task_type = ${c_task_type},
+      </if>
+      <if test="c_trigger_type != null">
+        c_trigger_type = ${c_trigger_type},
+      </if>
+      <if test="c_trigger_cause != null">
+        c_trigger_cause = #{c_trigger_cause},
+      </if>
+      <if test="c_iskeyctrl != null">
+        c_iskeyctrl = ${c_iskeyctrl},
+      </if>
+      <if test="c_err_sn != null">
+        c_err_sn = #{c_err_sn},
+      </if>
+      <if test="c_manage_section != null">
+        c_manage_section = #{c_manage_section},
+      </if>
+      <if test="c_pdca != null">
+        c_pdca = #{c_pdca},
+      </if>
+      <if test="c_isgetnotify != null">
+        c_isgetnotify = ${c_isgetnotify},
+      </if>
+      <if test="c_isrelay != null">
+        c_isrelay = ${c_isrelay},
+      </if>
+      <if test="c_issequence != null">
+        c_issequence = ${c_issequence},
+      </if>
+      <if test="c_area_id != null">
+        c_area_id = #{c_area_id},
+      </if>
+      <if test="c_exec_userid != null">
+        c_exec_userid = #{c_exec_userid},
+      </if>
+      <if test="c_start_time != null">
+        c_start_time = to_date(#{c_start_time},'yyyy-mm-dd hh24:mi:ss'),
+      </if>
+      <if test="c_urge_time != null">
+        c_urge_time =to_date(#{c_urge_time},'yyyy-mm-dd hh24:mi:ss'), 
+      </if>
+      <if test="c_end_time != null">
+        c_end_time = to_date(#{c_end_time},'yyyy-mm-dd hh24:mi:ss'),
+      </if>
+      <if test="c_exceed_time != null">
+        c_exceed_time = to_date(#{c_exceed_time},'yyyy-mm-dd hh24:mi:ss'),
+      </if>
+      <if test="c_isstd != null">
+        c_isstd = ${c_isstd},
+      </if>
+      <if test="c_tasktemplet_id != null">
+        c_tasktemplet_id = #{c_tasktemplet_id},
+      </if>
+      <if test="c_plandown_time != null">
+        c_plandown_time =to_date(#{c_plandown_time},'yyyy-mm-dd hh24:mi:ss'),
+      </if>
+      <if test="c_down_time != null">
+        c_down_time = to_date(#{c_down_time},'yyyy-mm-dd hh24:mi:ss'),
+      </if>
+      <if test="c_fact_starttime != null">
+        c_fact_starttime = to_date(#{c_fact_starttime},'yyyy-mm-dd hh24:mi:ss'),
+      </if>
+      <if test="c_fact_endtime != null">
+        c_fact_endtime = to_date(#{c_fact_endtime},'yyyy-mm-dd hh24:mi:ss'),
+      </if>
+      <if test="c_up_time != null">
+        c_up_time = to_date(#{c_up_time},'yyyy-mm-dd hh24:mi:ss'),
+      </if>
+      <if test="c_create_userid != null">
+        c_create_userid = #{c_create_userid},
+      </if>
+      <if test="c_create_time != null">
+        c_create_time =to_date(#{c_create_time},'yyyy-mm-dd hh24:mi:ss'),
+      </if>
+      <if test="c_confirm_userid != null">
+        c_confirm_userid =#{c_confirm_userid},
+      </if>
+      <if test="c_confirm_time != null">
+        c_confirm_time = to_date(#{c_confirm_time},'yyyy-mm-dd hh24:mi:ss'),
+      </if>
+      <if test="c_iscancel != null">
+        c_iscancel = ${c_iscancel},
+      </if>
+      <if test="c_cancel_cause != null">
+        c_cancel_cause = #{c_cancel_cause},
+      </if>     
+      <if test="c_remark != null">
+        c_remark = #{c_remark},
+      </if>
+    </set>
+    where c_task_id=#{c_task_id}
+
+  </update>
+ <insert id="insertTaskRuleMouldItem" parameterType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">  
+      <selectKey resultType="long" keyProperty="c_id" order="BEFORE">
+			SELECT
+			SEQ_TEMPLET_STEP_ID.NEXTVAL  FROM DUAL
+		</selectKey>    
+   insert into t_task_templet_actitem (c_id,c_tasktemplet_id, c_actitem_id, c_creator, c_create_time, c_last_modifier, c_last_modified_time, c_remark, c_isdelete)
+   values (#{c_id,jdbcType=DECIMAL},#{c_tasktemplet_id,jdbcType=DECIMAL}, #{c_actitem_id,jdbcType=DECIMAL},
+     #{c_creator,jdbcType=VARCHAR}, #{c_create_time,jdbcType=VARCHAR}, #{c_last_modifier,jdbcType=VARCHAR}, 
+     #{c_last_modified_time,jdbcType=VARCHAR}, #{c_remark,jdbcType=VARCHAR}, #{c_isdelete,jdbcType=CHAR}
+    )
+ </insert>
+ <!--获取模板的主题信息-->
+<select id="getTaskMould" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+	select t1.c_tasktemplet_id,t1.c_tasktemplet_name,t1.c_actnode_id, t3.c_actnode_name,t1.c_positionid,t4.posiname,t1.c_arer, t5.areaname,t1.c_trigger_type, t1.c_timerule_id, t6.c_timerule_name, t1.c_remark from t_task_templet t1
+	left outer join t_post_actnode t3 on t3.c_actnode_id = t1.c_actnode_id inner join dp_position t4 on t4.positionid = t1.c_positionid 
+	left outer join dp_area t5 on t5.area = t1.c_arer left outer join t_timerule t6 on t6.c_timerule_id = t1.c_timerule_id where t1.c_isdelete = 0 
+
+	<if test="null!=c_tasktemplet_name and ''!=c_tasktemplet_name">
+		and t1.c_tasktemplet_name  like '%${c_tasktemplet_name}%'
+	</if>
+	<if test="null!=c_actnode_id  and '' != c_actnode_id">
+		and t1.c_actnode_id  = ${c_actnode_id}
+	</if>
+	<if test="null!=c_positionid and '' !=c_positionid">
+		 and t1.c_positionid = ${c_positionid}
+	</if>
+	 order by c_positionid
+</select>
+ <!--任务模板详细内容关联语句-->
+<select id="getTaskMouldDetails" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+	  select 	t1.c_tasktemplet_id,	t1.c_tasktemplet_name,  t1.c_actnode_id,
+	  t3.c_actnode_name,  t1.c_positionid,  t4.posiname,t1.c_arer,  t5.areaname,   t1.c_trigger_type, 
+	  t1.c_timerule_id,  t6.c_timerule_name,  t1.c_overtime_triggertype,  t1.c_overtime_postid,
+	  t7.posiname as c_overtime_postname, t1.c_ok_triggertype, t1.c_ok_postid, t8.posiname as c_ok_postname,
+	  t1.c_isokfeedback, t1.c_ok_templetid,t9.c_tasktemplet_name as c_ok_templetname,
+	  t1.c_err_triggertype,  t1.c_err_postid,  t10.posiname as c_err_postname,
+	  t1.c_iserrfeedback,  t1.c_err_tasktemplet_id,  t11.c_tasktemplet_name as c_err_tasktemplet_name,
+	  t1.c_creator,  t1.c_create_time,  t1.c_last_modifier,  t1.c_last_modified_time,  t1.c_remark
+	  from t_task_templet t1
+	  left outer join t_post_actnode t3 on t3.c_actnode_id = t1.c_actnode_id 
+	  inner join dp_position t4 on t4.positionid=t1.c_positionid 
+	  left outer join dp_area t5 on t5.area = t1.c_arer 
+	  left outer join t_timerule t6 on t6.c_timerule_id = t1.c_timerule_id 
+	  left outer join  dp_position t7 on t7.positionid = t1.c_overtime_postid 
+	  left outer join  dp_position t8 on t8.positionid = t1.c_ok_postid  
+	  left outer join t_task_templet t9 on t1.c_ok_templetid = t9.c_tasktemplet_id
+	  left outer join  dp_position t10 on t10.positionid = t1.c_err_postid   
+	  left outer join t_task_templet t11 on t1.c_err_tasktemplet_id = t11.c_tasktemplet_id 
+	  where t1.c_isdelete = 0 
+		<if test="null!=c_tasktemplet_id and  c_tasktemplet_id != 0">
+			 and  t1.c_tasktemplet_id=${c_tasktemplet_id}
+		</if>	
+	  order by t1.c_tasktemplet_id
+</select>
+
+<!-- 查询任务模板 -->
+<select id="getByModulePage" parameterType="map"
+	resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+	select e.posiname,a.areaname,
+		t.c_tasktemplet_id,
+		t.c_actnode_id,
+		t.c_tasktemplet_name,
+		t.c_positionid,
+		t.c_arer,
+		t.c_trigger_type,
+		t.c_timerule_id,
+		t.c_overtime_triggertype,
+		t.c_overtime_postid,
+		t.c_ok_triggertype,
+		t.c_ok_postid,
+		t.c_isokfeedback,
+		t.c_ok_templetid,
+		t.c_err_triggertype,
+		t.c_err_postid,
+		t.c_iserrfeedback,
+		t.c_err_tasktemplet_id,
+		t.c_creator,
+		t.c_create_time,
+		t.c_last_modifier,
+		t.c_last_modified_time,
+		t.c_remark,
+		t.c_isdelete
+	from t_task_templet t 
+	left join dp_position e on t.c_positionid = e.positionid
+	left join dp_area a on t.c_arer = a.area
+	where c_isdelete = 0 	 		
+	<if test="null!=c_tasktemplet_name and ''!=c_tasktemplet_name">
+		and t.c_tasktemplet_name  like '%${c_tasktemplet_name}%'
+	</if>
+	<if test="null!=c_tasktemplet_id  and  c_tasktemplet_id != 0">
+		and t.c_tasktemplet_id  = ${c_tasktemplet_id}
+	</if>
+	<if test="null!=c_actnode_id  and '' != c_actnode_id">
+		and t.c_actnode_id  = ${c_actnode_id}
+	</if>
+	<if test="null!=c_positionid and '' !=c_positionid">
+		 and t.c_positionid = ${c_positionid}
+	</if>
+	 order by t.c_tasktemplet_id
+	 <!-- order by  t.${orderbyName} -->
+</select>
+
+<select id="getByModuleDetailsPage" parameterType="map"
+	resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+	select t.c_id,t.c_tasktemplet_id,
+		e.c_actitem_id,
+		e.c_actitem_code,
+		e.c_actitem_name,
+		e.c_actnode_id,
+		e.c_actitem_what,
+		e.c_what_files,
+		e.c_std,
+		e.c_std_files,
+		e.c_std_flag,
+		e.c_check_std,
+		e.c_checkstd_files,
+		e.c_check_flag,
+		e.c_err_std,
+		e.c_errstd_files,
+		e.c_errstd_flag,
+		e.c_know,
+		e.c_creator,
+		e.c_create_time,
+		e.c_last_modifier,
+		e.c_last_modified_time,
+		e.c_remark,
+		e.c_isdelete 
+	from t_task_templet_actitem t 
+		left join t_actnode_item e on t.c_actitem_id = e.c_actitem_id
+	where t.c_isdelete = 0 
+	<if test="null!=c_tasktemplet_id  and  c_tasktemplet_id != 0">
+			and t.c_tasktemplet_id=${c_tasktemplet_id}
+	</if>
+	 
+	order by t.c_id
+	 <!-- order by  t.${orderbyName} -->
+</select>
+<select id="queryTempletItem" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+		SELECT T1.C_TASKTEMPLET_ID,
+		       T1.C_TASKTEMPLET_NAME,
+		       T2.C_ID                  AS C_TEMPLET_ACTITEM_ID,
+		       T2.C_ACTITEM_ID,
+		       T3.C_ACTITEM_CODE,
+		       T3.C_ACTITEM_NAME,
+		       T3.C_ACTNODE_ID          AS C_ACTITEM_ACTNODE_ID,
+		       T4.C_ACTNODE_CODE        AS C_ACTITEM_ACTNODE_CODE,
+		       T4.C_ACTNODE_NAME        AS C_ACTITEM_ACTNODE_NAME,
+		       T4.C_ISKEYCTRL,
+		       T4.C_ISSEQUENCE,
+		       T4.C_ISGETNOTIFY,
+		       T4.C_ISRELAY,
+		       T4.C_PDCA,
+		       T4.C_MANAGE_SECTION,
+		       T5.C_MANAGE_SECTION_NAME,
+		       T4.C_CREATOR,
+		       T4.C_CREATE_TIME,
+		       T4.C_LAST_MODIFIER,
+		       T4.C_LAST_MODIFIED_TIME,
+		       T4.C_REMARK
+		  FROM T_TASK_TEMPLET T1
+		 INNER JOIN T_TASK_TEMPLET_ACTITEM T2
+		    ON T1.C_TASKTEMPLET_ID = T2.C_TASKTEMPLET_ID
+		 INNER JOIN T_ACTNODE_ITEM T3
+		    ON T2.C_ACTITEM_ID = T3.C_ACTITEM_ID
+		  LEFT OUTER JOIN T_POST_ACTNODE T4
+		    ON T4.C_ACTNODE_ID = T3.C_ACTNODE_ID
+		  LEFT OUTER JOIN T_MANAGE_SECTION T5
+		    ON T5.C_MANAGE_SECTION = T4.C_MANAGE_SECTION
+		 WHERE T1.C_ISDELETE = 0
+				<if test="null!=c_tasktemplet_id  and  c_tasktemplet_id != 0">
+					 AND C_TASKTEMPLET_ID=${c_tasktemplet_id}
+				</if>		
+				<if test="null!=c_tasktemplet_name and ''!=c_tasktemplet_name">
+			 		AND C_TASKTEMPLET_NAME LIKE '%${c_tasktemplet_name}%'
+				</if>		
+</select>
+
+<select id="getTempletItemDetail" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+		SELECT T1.C_TASKTEMPLET_ID,
+		       T1.C_TASKTEMPLET_NAME,
+		       T2.C_ID                  AS C_TEMPLET_ACTITEM_ID,
+		       T2.C_ACTITEM_ID,
+		       T3.C_ACTITEM_CODE,
+		       T3.C_ACTITEM_NAME,
+		       T3.C_ACTNODE_ID          AS C_ACTITEM_ACTNODE_ID,
+		       T4.C_ACTNODE_CODE        AS C_ACTITEM_ACTNODE_CODE,
+		       T4.C_ACTNODE_NAME        AS C_ACTITEM_ACTNODE_NAME,
+		       T4.C_ISKEYCTRL,
+		       T4.C_ISSEQUENCE,
+		       T4.C_ISGETNOTIFY,
+		       T4.C_ISRELAY,
+		       T4.C_PDCA,
+		       T4.C_MANAGE_SECTION,
+		       T5.C_MANAGE_SECTION_NAME,
+		       T4.C_CREATOR,
+		       T4.C_CREATE_TIME,
+		       T4.C_LAST_MODIFIER,
+		       T4.C_LAST_MODIFIED_TIME,
+		       T4.C_REMARK
+		  FROM T_TASK_TEMPLET T1
+		 INNER JOIN T_TASK_TEMPLET_ACTITEM T2
+		    ON T1.C_TASKTEMPLET_ID = T2.C_TASKTEMPLET_ID
+		 INNER JOIN T_ACTNODE_ITEM T3
+		    ON T2.C_ACTITEM_ID = T3.C_ACTITEM_ID
+		  LEFT OUTER JOIN T_POST_ACTNODE T4
+		    ON T4.C_ACTNODE_ID = T3.C_ACTNODE_ID
+		  LEFT OUTER JOIN T_MANAGE_SECTION T5
+		    ON T5.C_MANAGE_SECTION = T4.C_MANAGE_SECTION
+		 WHERE T1.C_ISDELETE = 0
+				<if test="null!=c_tasktemplet_id  and  c_tasktemplet_id != 0">
+					 AND C_TASKTEMPLET_ID=${c_tasktemplet_id}
+				</if>		
+</select>
+
+<!-- 模板相关的标准项及各项收集方式关联语句 -->
+<select id="queryTempletChildItem" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+	select t1.c_tasktemplet_id,
+	       t1.c_tasktemplet_name,
+	       t2.c_id as c_TEMPLET_ACTITEM_id,
+	       t2.c_actitem_id,
+	       t3.c_actitem_code,
+	       t3.c_actitem_name,
+	       
+	       t3.c_actitem_what,
+	       --t3.c_what_files,
+	       t3.c_std,
+	       t3.c_std_flag,
+	       t3.c_check_std,
+	       t3.c_check_flag,
+	       t3.c_err_std,
+	       t3.c_errstd_flag,
+	       t3.c_know,
+	       
+	       --t3.c_actnode_id as c_actitem_actnode_id,
+	       --t4.c_actnode_code as c_actitem_actnode_code,
+	       t4.c_actnode_name as c_actitem_actnode_name,
+	       --t4.c_iskeyctrl,
+	       --t4.c_issequence,
+	       --t4.c_isgetnotify,
+	       --t4.c_isrelay,
+	       --t4.c_pdca,
+	       --t4.c_manage_section,
+	       t5.c_manage_section_name,
+	       --t4.c_creator,
+	       --t4.c_create_time,
+	       --t4.c_last_modifier,
+	       --t4.c_last_modified_time,
+	       --t4.c_remark 
+	       t6.c_actstep_index as c_actitem_actstep_index,
+	       t6.c_tracefun_id,
+	       t6.c_step_prompt,
+	       t7.c_tracefun_name,
+	       t7.c_isfile
+	
+	  from T_TASK_TEMPLET t1
+	 inner join T_TASK_TEMPLET_ACTITEM t2 ON t1.c_tasktemplet_id =
+	                                         t2.c_tasktemplet_id
+	 inner join T_ACTNODE_ITEM t3 ON t2.c_actitem_id = t3.c_actitem_id
+	  left outer join T_POST_ACTNODE t4 ON t4.c_actnode_id = t3.c_actitem_id
+	  left outer join T_MANAGE_SECTION t5 ON t5.c_manage_section =
+	                                         t4.c_manage_section
+	  left outer join T_ACTITEM_STEP t6 ON t6.c_actitem_id = t2.c_actitem_id
+	  left outer join t_Trace_Fuction t7 ON t6.c_tracefun_id = t7.c_tracefun_id
+	 where t1.c_isdelete = 0
+	 order by t1.c_tasktemplet_id
+</select>
+
+<!--  任务主体信息查询语句   -->
+<select id="queryTaskInfoList" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+		select t1.c_task_id,
+		       t1.c_task_name,
+		       t1.c_task_type,
+		       t1.c_task_kind,
+		       t1.c_trigger_type,
+		       t1.c_trigger_cause,
+		       t1.c_iskeyctrl,
+		       t1.c_err_sn, 
+		       t1.c_manage_section,
+		       t1.c_manage_section_name,
+		       t1.c_pdca,
+		       t1.c_isgetnotify,
+		       t1.c_isrelay,
+		       t1.c_issequence,
+		       t1.c_area_id,
+		       t1.c_areaname as areaname,
+		       t1.c_exec_userid,
+		       t1.c_exec_username,
+		       t1.c_start_time,
+		       t1.c_urge_time,
+		       t1.c_end_time,
+		       t1.c_exceed_time,
+		       t1.c_isstd,
+		       <if test="null!=c_tasktemplet_id and 0!=c_tasktemplet_id">
+		       		t1.c_tasktemplet_id, 
+		       		t6.c_tasktemplet_name,
+		       	</if>
+		       t1.c_plandown_time,
+		       t1.c_create_userid,
+		       t1.c_create_username,
+		       t4.positionid as c_positionid,
+		       t1.c_create_time,
+		       t1.c_status,
+		       t1.c_remark,
+		       t1.c_handle_des,
+		       t1.c_iserror,
+		       t1.c_err_status,
+		       t1.c_urgent_level,
+		       t1.c_actnode_id,
+		       t1.c_std_verflag,
+		       t7.posiname
+		  from t_task t1 
+		  left outer join dp_user t4 on t1.c_exec_userid=t4.userid 
+		  left outer join dp_position t7
+        	on t4.positionid = t7.positionid
+		  <if test="null!=c_tasktemplet_id and 0!=c_tasktemplet_id">
+		    left outer join t_task_templet t6
+			    on t6.c_tasktemplet_id = t1.c_tasktemplet_id 
+		  </if>
+		      
+		  <where>
+	    	<if test="null!=c_status and ''!=c_status">
+				t1.c_status=#{c_status}
+			</if>
+	    	<if test="null!=c_task_id and ''!=c_task_id">
+				and t1.c_task_id=#{c_task_id}
+			</if>
+			<if test="null!=c_task_name and ''!=c_task_name">
+				and t1.c_task_name  like '%${c_task_name}%'
+			</if>	
+		  	<if test="c_tasktemplet_id != null  and  c_tasktemplet_id != 0">
+	        	and t1.c_tasktemplet_id=#{c_tasktemplet_id}
+	      	</if>	
+	      	<if test="c_task_type !=null and ''!=c_task_type">
+	      		and t1.c_task_type=#{c_task_type}
+	      	</if>
+	      	<if test="c_exec_username !=null and ''!=c_exec_username">
+	      		and t1.c_exec_username like '%${c_exec_username}%'
+	      	</if>
+	      	<if test="c_start_time !=null and ''!=c_start_time">
+	      		<![CDATA[ and t1.c_start_time >= to_date(#{c_start_time},'YYYY-MM-DD HH24:MI:SS') ]]>
+	      	</if>
+	      	<if test="c_positionid !=null and ''!=c_positionid">
+	      		and t4.positionid = #{c_positionid}
+	      	</if>
+		</where>
+		order by t1.c_start_time desc
+</select>
+
+<!-- 新的任务查询SQL -->
+<!-- Add by J.B.Chen for taskSearch,waithandTask,alreadyhandTask -->
+<select id="queryTaskInfoListByCondition" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+	select t.c_task_name,
+		   t.c_task_id,
+	       t.c_task_type,
+	       t.c_task_typename , <!-- 任务类型名称 -->
+	       t.c_trigger_cause, <!-- 触发原因 -->
+	       t.c_manage_section_name, <!-- 板块 -->
+	       t.c_pdca,
+	       t1.areaname,
+	       t.c_exec_userid,
+	       t.c_exec_username,
+	       t3.posiname,
+	       t.c_start_time,
+	       t.c_end_time,
+	       t.c_fact_endtime,
+	       t.c_status,		<!-- 任务状态 -->
+	       t2.orgid ,
+	       t.c_iskeyctrl,	<!-- 关键管控 -->
+	       t.c_issequence,	<!-- 顺序执行 -->
+	       t2.userid,
+	       t.c_task_kind
+	       from T_TASK t,dp_area t1,dp_user t2,dp_position t3
+	       where t.c_area_id=t1.area 
+	       and t.c_exec_userid=t2.userid 
+	       and t2.positionid=t3.positionid
+	       <!-- 执行人工号-->
+	        <if test="userCode!=null and ''!=userCode">
+	       	   and t2.usercode = #{userCode}
+	       </if> 
+	       <!-- 执行人用户ID -->
+	       <if test="c_confirm_userid!=null and ''!=c_confirm_userid">
+	       	   and t2.userid = #{c_confirm_userid}
+	       </if>
+	       <!-- 任务状态 -->
+	       <if test="c_status_list!=null and ''!=c_status_list">
+	       	   and t.c_status in ${c_status_listStr}
+	       </if>
+	       <!-- 任务名称 -->
+	       <if test="c_task_name!=null and ''!=c_task_name">
+	       	   and t.c_task_name like '%${c_task_name}%'
+	       </if> 
+	       <!-- 任务类别 -->
+	       <if test="c_task_type!=null and ''!=c_task_type">
+	       	   and t.c_task_type=#{c_task_type}
+	       </if>
+	       
+	       <!-- 是否关键管控 -->
+	       <if test="c_iskeyctrl !=null and '' !=c_iskeyctrl">
+	           AND t.c_iskeyctrl=#{c_iskeyctrl}
+	       </if>
+	       
+	       <!-- 执行区域 -->
+	       <if test="areaname !=null and '' != areaname">
+	           AND t1.areaname like '%${areaname}%'
+	       </if>
+	       
+	       <!-- 板块 -->
+	       <if test="c_manage_section !=null and ''!=c_manage_section">
+	           AND  c_manage_section = #{c_manage_section}
+	       </if>
+	       
+	       <!-- 完成时间 -->
+	       <if test="c_fact_endtime !=null and ''!=c_fact_endtime">
+	           AND  c_fact_endtime &lt;= to_date(#{c_fact_endtime},'YYYY-MM-DD HH24:MI:SS')
+	       </if>
+	       <!-- 任务时段:开始时间 -->
+	       <if test="c_start_time!=null and ''!=c_start_time">
+	       	   <![CDATA[
+	       	   	   and t.c_start_time>to_date(#{c_start_time},'YYYY-MM-DD HH24:MI:SS')
+	       	   ]]>
+	       </if>
+	       <!-- 任务时段:结束时间 -->
+	       <if test="c_end_time!=null and ''!=c_end_time">
+	       	   <![CDATA[
+	       	   	   and t.c_end_time<to_date(#{c_end_time},'YYYY-MM-DD HH24:MI:SS')
+	       	   ]]>
+	       </if>
+	       <!-- 已逾期 -->
+	       <if test="isExpired!=null and isExpired==1">
+	       	   <![CDATA[
+	       	   	   and t.c_end_time<c_fact_endtime
+	       	   ]]>
+	       </if>
+	       <!-- 未逾期 -->
+	       <if test="isExpired!=null and isExpired==2">
+	       	   <![CDATA[
+	       	   	   and ( t.c_fact_endtime is null OR t.c_fact_endtime <= t.c_end_time )
+	       	   ]]>
+	       </if>
+	       
+	       <if test="c_issequence !=null and c_issequence != '' ">
+	           AND  c_issequence=#{c_issequence}
+	       </if>
+	       <if test="c_task_kind !=null and c_task_kind !=''">
+	           AND t.c_task_kind =#{c_task_kind}
+	       </if>
+	       order by t.c_create_time desc
+	       
+</select>
+
+<!-- 获取所有的作业区域信息 
+<select id="getAreaInfo" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo" >
+    SELECT  area,areaname 
+    FROM    dp_area
+</select>-->
+
+
+<select id="queryNewTask" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+select     t.c_task_name,
+           t.c_task_id,
+           t.c_task_kind,
+           t.c_start_time,
+           t.c_end_time,
+           t.c_status,
+           t.c_manage_section_name,
+	       t5.orgname as orgdepartname,t3.posiname, t.c_create_username ,
+	       t6.orgname||';'||t4.posiname||';'||t.c_exec_username as execUserInfo
+	FROM   T_TASK t,dp_user t1,dp_user t2,dp_position t3,
+	       dp_position t4,dp_organization t5,dp_organization t6
+	WHERE  t.c_create_userid=t1.userid
+	AND    t.c_exec_userid=t2.userid 
+	AND    t1.positionid=t3.positionid
+	AND    t2.positionid=t4.positionid
+	AND    t1.orgid=t5.orgid
+	AND    t2.orgid=t6.orgid
+	AND    t.c_task_kind=3
+	 <!-- 执行人用户ID -->
+	       <if test="c_create_userid!=null and ''!=c_create_userid">
+	       	   and t1.userid = #{c_create_userid}
+	       </if>
+	<!-- 板块 -->
+	       <if test="c_manage_section !=null and ''!=c_manage_section">
+	           AND  t.c_manage_section = #{c_manage_section}
+	       </if> 
+	 <!-- 任务状态 -->
+	       <if test="c_status!=null and ''!=c_status">
+	       	  AND  t.c_status=#{c_status}
+	       </if>
+	         <if test="c_status==null or ''==c_status">
+	       	  AND ( t.c_status=11 OR t.c_status=22 )
+	       </if>
+	       
+</select>
+
+
+<select id="getTaskInfoDetail" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+		select   t1.c_up_time,
+			   t1.c_down_time, 
+			   t1.c_confirm_userid,
+			   t1.c_confirm_username,
+			   CASE  t1.c_task_type 
+			   WHEN 1 THEN null 
+			   ELSE  t1.c_confirm_time END AS c_confirm_time,
+			   t1.c_task_id,
+		       t1.c_task_name,
+		       t1.c_task_type,
+		       t1.c_task_kind,
+		       t1.c_trigger_type,
+		       t1.c_trigger_cause,
+		       t1.c_iskeyctrl,
+		       t1.c_err_sn, 
+		       t1.c_manage_section,
+		       t1.c_manage_section_name,
+		       t1.c_pdca,
+		       t1.c_isgetnotify,
+		       t1.c_isrelay,
+		       t1.c_issequence,
+		       t1.c_area_id,
+		       t1.c_areaname as areaname,
+		       t1.c_exec_userid,
+		       t1.c_exec_username,
+		       t1.c_start_time,
+		       t1.c_urge_time,
+		       t1.c_end_time,
+		       t1.c_exceed_time,
+		       t1.c_fact_endtime,
+		       t1.c_isstd,
+		       <if test="null!=c_tasktemplet_id and 0!=c_tasktemplet_id">
+			       t1.c_tasktemplet_id, 
+			       t6.c_tasktemplet_name,
+		       </if>
+		       t1.c_plandown_time,
+		       t1.c_create_userid,
+		       t1.c_create_username, 
+		       t1.c_create_time,
+		       t1.c_status,
+		       t1.c_cancel_cause,
+		       t1.c_handle_des,
+		       t1.c_iserror,
+		       t1.c_err_status,
+		       t1.c_urgent_level,
+		       t1.c_actnode_id,
+		       t1.c_std_verflag,
+		       t1.c_remark,
+		       t1.c_chk_result,
+               t1.c_chk_userid,
+               t1.c_chk_username,
+               t1.c_chk_endtime,
+               t1.c_evaluate_result,
+               t1.c_evaluate_userid,
+               t1.c_evaluate_username,
+               t1.c_evaluate_time,
+	           t1.c_evaluate_plantime,
+	           t1.c_chk_plantime
+		  from t_task t1 
+		    <if test="null!=c_tasktemplet_id and 0!=c_tasktemplet_id">
+			  left outer join t_task_templet t6
+			    on t6.c_tasktemplet_id = t1.c_tasktemplet_id 
+		    </if>
+		     <where>
+		    	<if test="null!=c_task_id and ''!=c_task_id">
+					 t1.c_task_id=#{c_task_id}
+				</if>
+				<if test="null!=c_task_name and ''!=c_task_name">
+					and t1.c_task_name  like '%${c_task_name}%'
+				</if>
+		    </where> 
+		  order by t1.c_task_id
+</select>
+
+<!--  任务步骤信息查询语句  -->
+<select id="queryTaskStepList" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+		select t2.c_id,
+		       t1.c_task_id,
+		       t1.c_task_name,
+		       t2.c_step_index,
+		       t2.c_step_prompt,
+		       t2.c_tracefunid,
+		       t3.c_tracefun_name,
+		       t2.c_area,
+		       t4.areaname,
+		       t2.c_objtype_id,
+		       t5.c_objtype_name,
+		       t5.c_objtype_fullname,
+		       t2.c_obj_id,
+		       t6.c_obj_name,
+		       t2.c_step_params,
+		       t2.c_status,
+		       t2.c_remark
+		  from t_task t1
+		 inner join t_task_step t2
+		    on t2.c_task_id = t1.c_task_id
+		  left outer join t_trace_fuction t3
+		    on t3.c_tracefun_id = t2.c_tracefunid
+		  left outer join dp_area t4
+		    on t4.area = t2.c_area
+		  left outer join t_work_objtype t5
+		    on t5.c_objtype_id = t2.c_objtype_id
+		  left outer join t_work_object t6
+		    on t6.c_obj_id = t2.c_obj_id
+		     <where>
+		    	<if test="null!=c_task_id and ''!=c_task_id">
+					 and t1.c_task_id=#{c_task_id}
+				</if>
+				<if test="null!=c_task_name and ''!=c_task_name">
+					and t1.c_task_name  like '%${c_task_name}%'
+				</if>			
+		    </where>
+		    order by t1.c_task_id,c_step_index
+</select>
+
+<select id="getTaskStepDetail" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+		select 
+			t2.c_id,
+			t1.c_task_id,
+			t1.c_task_name,
+			t2.c_step_index,
+			t2.c_step_prompt,
+			t2.c_tracefunid,
+			t3.c_tracefun_name,
+			-- t2.c_actitem_id, --关联标准
+			t2.c_area,
+			t4.areaname,
+			t2.c_objtype_id,
+			t5.c_objtype_name,
+			t5.c_objtype_fullname,
+			t2.c_obj_id,
+			t6.c_obj_name,
+			t2.c_step_params,
+			t2.c_status,
+			t2.c_remark
+			from t_task t1 
+			inner join T_TASK_STEP t2 ON t2.c_task_id=t1.c_task_id 
+			left outer join T_Trace_Fuction t3 ON t3.c_tracefun_id=t2.c_tracefunid  
+			left outer join DP_AREA t4 ON t4.area=t2.c_area  
+			left outer join T_WORK_OBJTYPE t5 ON t5.c_objtype_id=t2.c_objtype_id 
+			left outer join T_WORK_OBJECT t6 ON t6.c_obj_id=t2.c_obj_id 
+		     <where>
+		    	<if test="null!=c_id and  c_id != 0">
+					 AND T2.C_ID=#{c_id}
+				</if>	
+		    </where>
+			order by t1.c_task_id
+</select>
+
+<delete id="deleteData"  parameterType="map">
+	update ${tablename} set c_isdelete = 1 
+	<where>
+		<if test="null!=c_tasktemplet_id   and  c_tasktemplet_id != 0">
+			  c_tasktemplet_id in(${c_tasktemplet_id})
+		</if>
+		<if test="null!=c_id  and  c_id != 0">
+			 and  c_id in(${c_id})
+		</if>
+	</where>
+</delete>
+
+<delete id="deleteStepByCid" parameterType="String">
+	delete from t_task_step where c_id=#{deleteID}
+</delete>
+
+<update id="cancelTaskById" parameterType="String">
+	update t_task
+	set c_status=44
+	where c_task_id=#{deleteID}
+</update>
+
+<!-- Add By Rita.Zhou for My Task -->
+<select id="getReadyTaskByUserId" parameterType="String" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+	select c_task_id,c_task_name,c_task_type,c_trigger_type,c_trigger_cause,c_iskeyctrl,c_err_sn,c_manage_section,
+		c_pdca,c_isgetnotify,c_isrelay,c_issequence,c_area_id,c_exec_userid,c_start_time,c_urge_time,c_end_time,
+		c_exceed_time,c_isstd,c_plandown_time,c_down_time,c_fact_starttime,c_fact_endtime,
+		c_up_time,c_create_userid,c_create_time,c_confirm_userid,c_confirm_time,c_cancel_cause,c_status,
+		c_remark,c_handle_des,c_iserror,c_err_status,nvl(c_tasktemplet_id,0) as c_tasktemplet_id
+	from t_task
+	where c_exec_userid=#{param} and c_iserror=0 and (c_status=11 or c_status=22) 
+	order by c_task_id
+</select>
+
+<select id="getDoneTaskByUserId" parameterType="String" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+	select c_task_id,c_task_name,c_task_type,c_trigger_type,c_trigger_cause,c_iskeyctrl,c_err_sn,c_manage_section,
+		c_pdca,c_isgetnotify,c_isrelay,c_issequence,c_area_id,c_exec_userid,c_start_time,c_urge_time,c_end_time,
+		c_exceed_time,c_isstd,c_plandown_time,c_down_time,c_fact_starttime,c_fact_endtime,
+		c_up_time,c_create_userid,c_create_time,c_confirm_userid,c_confirm_time,c_cancel_cause,c_status,
+		c_remark,c_handle_des,c_iserror,c_err_status,nvl(c_tasktemplet_id,0) as c_tasktemplet_id
+	from t_task
+	where c_exec_userid=#{param}  and c_status=33
+	order by c_task_id
+</select>
+
+<select id="getOwnErrTask" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+	select c_task_id,c_task_name,c_task_type,c_trigger_type,c_trigger_cause,c_iskeyctrl,c_err_sn,c_manage_section,
+		c_pdca,c_isgetnotify,c_isrelay,c_issequence,c_area_id,c_exec_userid,c_start_time,c_urge_time,c_end_time,
+		c_exceed_time,c_isstd,c_plandown_time,c_down_time,c_fact_starttime,c_fact_endtime,
+		c_up_time,c_create_userid,c_create_time,c_confirm_userid,c_confirm_time,c_cancel_cause,c_status,
+		c_remark,c_handle_des,c_iserror,c_err_status,nvl(c_tasktemplet_id,0) as c_tasktemplet_id
+	from t_task
+	where c_exec_userid=#{id} and c_iserror=1
+	order by c_task_id
+</select>
+
+<select id="getOwnExecErrTask" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+	select c_task_id,c_task_name,c_task_type,c_trigger_type,c_trigger_cause,c_iskeyctrl,c_err_sn,c_manage_section,
+		c_pdca,c_isgetnotify,c_isrelay,c_issequence,c_area_id,c_exec_userid,c_start_time,c_urge_time,c_end_time,
+		c_exceed_time,c_isstd,c_plandown_time,c_down_time,c_fact_starttime,c_fact_endtime,
+		c_up_time,c_create_userid,c_create_time,c_confirm_userid,c_confirm_time,c_iscancel,c_cancel_cause,c_status,
+		c_remark,c_handle_des,c_iserror,c_err_status,nvl(c_tasktemplet_id,0) as c_tasktemplet_id
+	from t_task
+	where c_exec_userid=#{id}
+	order by c_task_id
+</select>
+
+<select id="getSendErrTask" parameterType="map" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+	select c_task_id,c_task_name,c_task_type,c_trigger_type,c_trigger_cause,c_iskeyctrl,c_err_sn,c_manage_section,
+		c_pdca,c_isgetnotify,c_isrelay,c_issequence,c_area_id,c_exec_userid,c_start_time,c_urge_time,c_end_time,
+		c_exceed_time,c_isstd,c_plandown_time,c_down_time,c_fact_starttime,c_fact_endtime,
+		c_up_time,c_create_userid,c_create_time,c_confirm_userid,c_confirm_time,c_iscancel,c_cancel_cause,c_status,
+		c_remark,c_handle_des,c_iserror,c_err_status,nvl(c_tasktemplet_id,0) as c_tasktemplet_id
+	from t_task
+	where c_exec_userid=#{id}  and c_iserror=1
+	order by c_task_id
+</select>
+
+<!-- Add By Rita.Zhou -->
+<update id="submitStandardStepDetails" parameterType="map">
+	update t_task_step
+	<set>
+		<if test="result != null">
+			c_result = #{result},
+		</if>
+		c_status=11,
+	    c_exec_time=#{now}
+	</set>
+	where c_task_id=#{taskid} and c_step_index=#{stepindex} 
+</update>
+
+<insert id="submitUnstandardStepDetails" parameterType="map">
+	<selectKey resultType="long" keyProperty="c_id" order="BEFORE">
+		SELECT
+		SEQ_TASK_STEPID.NEXTVAL  FROM DUAL
+	</selectKey> 
+	insert into t_task_step (c_id,c_status,c_isstd,c_task_id,c_step_index,c_step_prompt,c_tracefunid,c_result,c_exec_time)
+		  values(#{c_id},11,0,#{taskid},#{stepindex},(select c_tracefun_name from t_trace_fuction where c_tracefun_id=#{tracefunid}),
+		  	     #{tracefunid},#{result},#{now})
+</insert>
+
+<update id="submitTaskStep" parameterType="map">
+	update t_task
+	<set>
+		<if test="handledes != null">
+				c_handle_des = #{handledes},
+		</if>
+		c_status=33
+	</set>
+	where c_task_id=#{taskid} 
+</update>
+
+<update id="deleteObjectByIds" parameterType="map">
+	update t_work_object
+	set c_isdelete=1
+	where c_obj_id in
+		<foreach item="ids" collection="array" open="(" separator=","
+			close=")">
+			#{ids}
+		</foreach>
+</update>
+
+<select id="getTaskMouldById" parameterType="String" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+	select 
+		t1.c_tasktemplet_id,
+		t1.c_tasktemplet_name,
+		t1.c_actnode_id,
+		t1.c_positionid,
+		t1.c_arer,
+		t1.c_trigger_type,
+		t1.c_timerule_id,
+		t1.c_overtime_triggertype,
+		t1.c_overtime_postid,
+		t1.c_ok_triggertype,
+		t1.c_ok_postid,
+		t1.c_isokfeedback,
+		t1.c_ok_templetid,
+		t1.c_err_triggertype,
+		t1.c_err_postid,
+		t1.c_iserrfeedback,
+		t1.c_err_tasktemplet_id,
+		t1.c_creator,
+		t1.c_create_time,
+		t1.c_last_modifier,
+		t1.c_last_modified_time,
+		t1.c_remark,
+		t2.c_actitem_id
+	from t_task_templet t1,(select wmsys.wm_concat(c_actitem_id) c_actitem_id from t_task_templet_actitem
+  	where C_TASKTEMPLET_ID=#{c_tasktemplet_id} and c_isdelete=0) t2
+	where C_TASKTEMPLET_ID=#{c_tasktemplet_id} and c_isdelete=0
+</select>
+
+<select id="getStepDetailsByStepId" parameterType="String" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+	select c_step_index,c_step_prompt,c_tracefunid,c_area,c_objtype_id,c_obj_id
+	from t_task_step
+	where c_id=#{id}
+	order by c_step_index
+</select>
+
+<update id="submitStepDetailsByStepId" parameterType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+	update t_task_step
+	<set>
+		<if test="c_step_index != null">
+				c_step_index = #{c_step_index},
+		</if>
+		<if test="c_tracefunid != null">
+				c_tracefunid = #{c_tracefunid},
+		</if>
+		<if test="c_area != null">
+				c_area = #{c_area},
+		</if>
+		<if test="c_objtype_id != null">
+				c_objtype_id = #{c_objtype_id},
+		</if>
+		<if test="c_obj_id != null">
+				c_obj_id = #{c_obj_id},
+		</if>
+	</set>
+	where c_id=#{c_id}
+</update>
+
+<select id="getAllWorkObjectType" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+	select c_objtype_id,c_objtype_name,c_objtype_code
+	from t_work_objtype 
+	where c_isdelete=0
+	order by c_objtype_id
+</select> 
+
+<select id="getAllWorkObject" resultType="com.talkweb.xwzcxt.pojo.TaskMouldPojo">
+	select c_obj_id,c_obj_name,c_objtype_id
+	from t_work_object
+	where c_isdelete=0
+	order by c_obj_id
+</select>
+
+<!-- 任务下发的proc -->
+<select id="P_TWXWZC_CONFIRM_TASK"  statementType="CALLABLE">  
+	<![CDATA[  
+	    {CALL P_TWXWZC_CONFIRM_TASK (
+	    	#{v_TASK_ID,mode=IN,jdbcType=DECIMAL},
+	    	#{v_START_TIME,mode=IN,jdbcType=VARCHAR},
+	    	#{v_URGE_TIME,mode=IN,jdbcType=VARCHAR},
+	    	#{v_END_TIME,mode=IN,jdbcType=VARCHAR},
+	    	#{v_EXCEED_TIME,mode=IN,jdbcType=VARCHAR},
+	    	#{v_PLANDOWN_TIME,mode=IN,jdbcType=VARCHAR},
+	    	#{v_TASK_TYPE,mode=IN,jdbcType=DECIMAL},
+	    	#{v_EXEC_USERID,mode=IN,jdbcType=DECIMAL},
+	    	#{v_AREA_ID,mode=IN,jdbcType=VARCHAR},
+	    	#{v_CONFIRM_USERID,mode=IN,jdbcType=DECIMAL}
+	    )}	    
+	]]>  
+</select>
+
+<!-- 待办任务执行步骤及结果查询 -->
+<select id="getTaskStepAndResult" parameterType="java.lang.String" resultType="com.talkweb.xwzcxt.pojo.TaskStepResultPojo">
+	select t.c_id,
+		   t.c_step_index,
+		   t.c_step_prompt as c_step_name,
+		   t.c_result,
+		   t.c_status,
+		   t.c_task_id,
+		   t1.c_tracefun_name,
+		   t1.c_isfile,
+		   t.c_step_std
+	from T_TASK_STEP t,T_TRACE_FUCTION t1
+	where t.c_task_id=#{c_task_id}
+	and t1.c_tracefun_id=t.c_tracefunid
+	order by t.c_step_index asc 
+</select>
+
+<!-- 修改任务步骤的信息 -->
+<update id="updateTaskStepInfo">
+	update T_TASK_STEP
+	<set>
+		<if test="c_result != null and c_result != ''">
+			c_result=#{c_result},
+		</if>
+		<if test="c_status == 0">
+			c_status=11
+		</if>
+	</set>
+	where c_id=#{c_id}
+</update>
+<!-- 修改任务备注信息 -->
+<update id="saveBz">
+	update T_TASK
+	<set>
+		<if test="beizhu != null and beizhu != ''">
+			C_REMARK=#{beizhu}
+		</if>
+	</set>
+	where C_TASK_ID=#{taskId}
+</update>
+<!-- 获取任务备注 -->
+<select id="getBz" parameterType="map" resultType="java.lang.String">
+	select c_remark from T_TASK where C_TASK_ID=#{taskId}
+</select>
+<!-- 批量任务确认提交执行 GuveXie20140813-->
+<update id="MultiTaskConfirm" parameterType="map">
+	update T_TASK 
+	<set>
+		<if test="c_confirm_userid != null and c_confirm_userid != ''">
+			c_confirm_userid=#{c_confirm_userid},
+		</if>
+		<if test="c_confirm_username != null and c_confirm_username != ''">
+			c_confirm_username=#{c_confirm_username},
+		</if>
+			c_confirm_time=sysdate,
+			c_status=11 
+	</set>
+	where C_TASK_ID in (${ids})
+		<!-- <foreach item="ids" collection="array" open="(" separator="," close=")">
+			#{ids}
+		</foreach> -->
+</update>
+
+<!-- 任务状态List GuveXie20140813-->
+<select id="getTaskStatusView" resultType="com.talkweb.xwzcxt.pojo.GeneralItem">
+	select 
+		t.STATUS_ID as c_id, 
+		t.STATUS_NAME as c_name
+	from V_TASK_STATUS t
+</select>
+
+<!-- 任务类别List GuveXie20140820-->
+<select id="getTaskTypeView" resultType="com.talkweb.xwzcxt.pojo.GeneralItem">
+	select 
+		t.TYPEID as c_id, 
+		t.TYPENAME as c_name
+	from V_TASK_TYPE t
+</select>
+
+<!-- 任务触发类别List GuveXie20140828-->
+<select id="getTaskTriggerTypeView" resultType="com.talkweb.xwzcxt.pojo.GeneralItem">
+	select 
+		t.trigger_ID as c_id, 
+		t.trigger_NAME as c_name
+	from V_TASK_TRIGGER_TYPE t
+</select>
+
+<!-- 管理板块 GuveXie20140830-->
+<select id="getManageSectionList" resultType="com.talkweb.xwzcxt.pojo.GeneralItem">
+	select 
+		t.c_manage_section as c_id, 
+		t.c_manage_section_name as c_name
+	from t_manage_section t
+	order by c_manage_section asc
+</select>
+
+<!-- 根据c_file_id获取图片路径 -->
+<select id="queryImgPath" parameterType="String" resultType="com.talkweb.xwzcxt.pojo.StdFileAffixPojo">
+	select 
+		t.c_file_path as c_file_url 
+	from T_FILE_INFO t 
+	where t.c_file_id = #{c_file_id}
+</select>
+
+<select id="getTaskStatusNameById" parameterType="java.lang.String" resultType="java.lang.String">
+	select STATUS_NAME
+	from V_TASK_STATUS
+	where STATUS_ID = #{cStatusId}
+</select>
+
+<select id="getTaskTypeNameById" parameterType="java.lang.String" resultType="java.lang.String">
+	select TYPENAME
+	from V_TASK_TYPE
+	where TYPEID = #{cTaskTypeId}
+</select>
+
+<select id="getTaskTriggerNameById" parameterType="java.lang.String" resultType="java.lang.String">
+	select trigger_NAME
+	from V_TASK_TRIGGER_TYPE
+	where trigger_ID = #{cTriggerId}
+</select>
+
+<select id="getManageSectionNameById" parameterType="java.lang.String" resultType="java.lang.String">
+	select c_manage_section_name
+	from t_manage_section
+	where c_manage_section = #{cManageSectionId}
+</select>
+</mapper>

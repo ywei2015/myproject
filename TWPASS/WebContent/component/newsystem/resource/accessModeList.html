@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>访问方式管理</title>
+        <script src="../../fastdev/fastDev-import.js"></script>
+		<script src="accessModeList.js"></script>  
+    </head>
+    <body style="padding:5px;">
+		<div class="datagrid" allowAutoFillRow="false" itype="DataGrid" id="datagrid" initSource="accessmode_getExtraneousAccessModeByResouce.action" saveInstance="true" showCheckColumn="true" showSeqColumn="true"  onRowClick="onRowClick()" onAfterConstruct="afterConstruct()" height="300px">			
+			<div name="top-toolbar">
+				<div plain=true text="确定" iconCls="icon-save" onClick="addPermission()"></div>
+				<div itype="separator"></div>
+				<div plain=true text="关闭" iconCls="icon-close" onClick="close()"></div>
+			</div>	
+			<div width="20%" name="modeName" text="方式名称"></div>
+			<div width="20%" name="modeId" text="方式代码"></div>
+			<div width="20%" name="appName" text="应用"></div>
+			<div width="20%" name="url" text="链接地址"></div>
+			<div width="20%" name="param" text="参数"></div>
+		</div>
+    </body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>任务下发设置</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script  type="text/javascript" src="IITaskInitiate.js"></script>
+
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+<form itype="Form" id="formInfo" saveQueue="true" requestType="post" onSubmitSuccess="onSubmitSuccess()" saveInstance="true" submitJson="false"
+onAfterDataRender="FormAfter()">
+	<div itype="TextBox" type="hidden" id="taskMouldPojo.c_tasktemplet_id"></div>
+	<table  class="ui-form-table">			 
+		<tr>
+			<td class="ui-form-table-dt">模板名称：</td>
+			<td class="ui-form-table-dd"><input itype="TextBox" disabled="true" id="taskMouldPojo.c_tasktemplet_name"></td>			
+			<td class="ui-form-table-dt">所属岗位：</td>
+			<td class="ui-form-table-dd">
+				<select itype="Select" onAfterInitRender="onAfterInitRender1()"  queue="formInfo" id="taskMouldPojo.c_positionid" initSource="select_querySelect.action?action=2" disabled="true">
+					<option>-请选择-</option>
+				</select>
+			</td>	
+		</tr>	
+		<tr>
+			<td class="ui-form-table-dt"><span class="ui-red">*</span>执行人：</td>
+			<td class="ui-form-table-dd">
+				<select itype="Select"  id="taskMouldPojo.c_exec_userid"  rule="required" inside=false initSource="user_queryUsersByPostForSel.action">
+					<option>-请选择-</option>
+				</select>
+			</td>
+			<td class="ui-form-table-dt"><span class="ui-red">*</span>所属区域：</td>
+			<td class="ui-form-table-dd">
+               	<div itype="SelectTree" onAfterInitRender="onAfterInitRender2()"  saveInstance=true  queue="formInfo" inside="false" id="taskMouldPojo.c_arer" initSource="area_initTree.action"  dataSource="area_initTree.action"  rootValue="-请选择-" topParentid="-1" openFloor="3">
+               	</div>				 					
+			</td>
+		</tr>
+		<tr>
+			<td class="ui-form-table-dt"><span class="ui-red">*</span>任务类型：</td>
+			<td class="ui-form-table-dd">			
+				<select itype="Select" inside=false  rule="required"   id="taskMouldPojo.c_task_type">	
+					<option  text="-请选择-"></option>
+					<option value="1" text="日管控"></option>
+					<option value="2" text="周管理"></option>
+					<option value="3" text="月管控发"></option>
+					<option value="10" text="异常处理"></option>
+					<option value="20" text="临时任务"></option>
+				</select>			
+			</td>	
+			<td class="ui-form-table-dt"><span class="ui-red">*</span>计划下发时间：</td>
+			<td class="ui-form-table-dd"><input itype="DatePicker"  rule="required"  inside=false  id="taskMouldPojo.c_plandown_time"  format="yyyy-MM-dd HH:mm:ss" value="now"/></td>			
+		</tr>
+		<tr>
+			<td class="ui-form-table-dt"><span class="ui-red">*</span>执行时间：</td>
+			<td class="ui-form-table-dd"><input itype="DatePicker" rule="required"  inside=false id="taskMouldPojo.c_start_time"  format="yyyy-MM-dd HH:mm:ss" value="now"/></td>			
+			<td class="ui-form-table-dt"><span class="ui-red">*</span>结束时间：</td>
+			<td class="ui-form-table-dd"><input itype="DatePicker"  rule="required" inside=false id="taskMouldPojo.c_end_time"  format="yyyy-MM-dd HH:mm:ss"/></td>			
+		</tr>
+		<tr>
+			<td class="ui-form-table-dt"><span class="ui-red">*</span>催促时间：</td>
+			<td class="ui-form-table-dd"><input itype="DatePicker"  rule="required" inside=false id="taskMouldPojo.c_urge_time"  format="yyyy-MM-dd HH:mm:ss"/></td>
+			<td class="ui-form-table-dt"><span class="ui-red">*</span>超时报警时间：</td>
+			<td class="ui-form-table-dd"><input itype="DatePicker" rule="required"  inside=false id="taskMouldPojo.c_exceed_time"  format="yyyy-MM-dd HH:mm:ss"/></td>	
+		</tr>
+		
+		</table>
+</form>	 
+</body>
+</html>

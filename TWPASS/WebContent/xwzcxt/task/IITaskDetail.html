@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>任务详情</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script type="text/javascript" src="IITaskDetail.js"></script>
+<style>
+  .toggler {
+    width: 98%px;
+   /*  height: 210px; */
+    margin: 5px;
+  }
+  #button {
+    padding: .5em 1em;
+    text-decoration: none;
+  }
+  #effect {
+    position: relative;
+    width: 98%;
+    /* height: 200px; */
+    padding: 0.4em;
+  }
+  #effect h3 {
+    margin: 0;
+    padding: 0.4em;
+    text-align: left;
+  }
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {border-bottom-right-radius: 8px;}
+.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {border-bottom-left-radius: 8px;}
+.ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr {border-top-right-radius: 8px;}
+.ui-corner-all, .ui-corner-top, .ui-corner-left, .ui-corner-tr {border-top-right-radius: 8px;}
+.ui-widget-content {
+	border: 1px solid #aaaaaa;
+	background: #ffffff 50% 50% repeat-x;
+	color: #222222;
+}
+.ui-widget-header {
+	border: 1px solid #aaaaaa;
+	background: #E7EEF7 50% 50% repeat-x;
+	color: #333333;
+	font-weight: bold;
+}
+</style>
+</head>
+<body>
+<div style="width:99.9%">
+	<form id="TaskinfoForm" itype="Form" saveInstance="true"
+		submitJson="false" onSubmitSuccess="onSubmitSuccess()"
+		onBeforeReady="onFormBeforeReady()" onAfterDataRender="onFormAfterDataRender()">
+		<div itype="TextBox" type="hidden" id="taskinfo.c_task_id"></div>
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt" >任务编号：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" readonly="true" id="taskinfo.c_task_id" width="100%"></div>
+				</td>
+
+				<td class="ui-form-table-dt" >任务名称：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						 readonly="true" id="taskinfo.c_task_name" width="100%"></div></td>
+
+				<td class="ui-form-table-dt" >任务类别：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" readonly="true" id="taskinfo.c_task_type">
+						<option>-----请选择-----</option>
+						<option value="1">日管控</option>
+						<option value="2">周管理</option>
+						<option value="3">月管控</option>
+						<option value="3">异常处理</option>
+						<option value="3">临时任务</option>
+					</select>
+				</td>
+			</tr> 
+			<tr>
+				<td class="ui-form-table-dt" >触发方式：</td>
+				<td class="ui-form-table-dd">
+				<select itype="Select" readonly="true" id="taskinfo.c_trigger_type">
+									<option>-----请选择-----</option>
+									<option value="1">时间规则触发</option>
+									<option value="2">异常处理</option>
+									<option value="3">其它系统触发</option>
+								</select>
+				</td>
+				<td class="ui-form-table-dt" >是否关键管控：</td>
+				<td class="ui-form-table-dd">
+				<select itype="Select" readonly="true" id="taskinfo.c_iskeyctrl">
+									<option>-----请选择-----</option>
+									<option value="0">非关键管控</option>
+									<option value="1">关键管控</option>
+								</select>
+				</td>	
+				<td class="ui-form-table-dt" >协调异常编号：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						readonly="true" id="taskinfo.c_err_sn" width="100%"></div></td> 
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" >所属管理板块：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						readonly="true" id="taskinfo.c_manage_section_name" width="100%"></div></td>
+				<td class="ui-form-table-dt" >PDCA：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" readonly="true" id="taskinfo.c_pdca" width="100%"></div></td>
+				<td class="ui-form-table-dt" >岗位活动：</td>
+				<td class="ui-form-table-dd">
+					<div itype="TextBox" readonly="true" id="taskinfo.c_actnode_name" width="100%"></div>
+				</td>
+			</tr> 
+			
+			<tr>	
+				<td class="ui-form-table-dt" >顺序执行：</td>
+				<td class="ui-form-table-dd">
+						<select itype="Select" readonly="true" id="taskinfo.c_issequence">
+									<option>-----请选择-----</option>
+									<option value="0">可不按顺序执行</option>
+									<option value="1">需要按顺序执行</option>
+								</select>
+						</td>						
+			
+				<td class="ui-form-table-dt" >是否为标准任务：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" readonly="true" id="taskinfo.c_isstd">
+						<option>-----请选择-----</option>
+						<option value="0">非标准</option>
+						<option value="1">标准</option>
+					</select>					
+				</td>
+				<td class="ui-form-table-dt" >执行区域：</td>
+				<td class="ui-form-table-dd"> 
+						<div itype="TextBox"
+						readonly="true" id="taskinfo.c_areaname" width="100%"></div>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="ui-form-table-dt" >执行人：</td>
+				<td class="ui-form-table-dd"><div itype="TextBox"
+						readonly="true" id="taskinfo.c_exec_username" width="100%"></div></td>
+
+				<td class="ui-form-table-dt" >要求开始时间：</td>
+				<td class="ui-form-table-dd"><div itype="DatePicker"
+						readonly="true" id="taskinfo.c_start_time" width="100%" format="yyyy-MM-dd HH:mm:ss"></div></td>
+
+				<td class="ui-form-table-dt" >要求结束时间：</td>
+				<td class="ui-form-table-dd"><div itype="DatePicker"
+						readonly="true" id="taskinfo.c_end_time" width="100%" format="yyyy-MM-dd HH:mm:ss"></div></td>
+			</tr>
+			
+			<tr>
+
+				<td class="ui-form-table-dt" >预下发时间：</td>
+					<td class="ui-form-table-dd">
+					<div itype="DatePicker"
+						readonly="true" id="taskinfo.c_plandown_time" width="100%" format="yyyy-MM-dd HH:mm:ss"></div>
+				</td>
+				
+				<td class="ui-form-table-dt" >任务创建人：</td>
+					<td class="ui-form-table-dd">
+					<div itype="TextBox" readonly="true" id="taskinfo.c_create_username" width="100%"></div>	
+				</td>
+				
+				<td class="ui-form-table-dt" >任务创建时间：</td>
+				<td class="ui-form-table-dd"><div itype="DatePicker"
+						readonly="true" id="taskinfo.c_create_time" width="100%" format="yyyy-MM-dd HH:mm:ss"></div>	
+				</td>
+			</tr>
+			<tr>
+					<td class="ui-form-table-dt">下发确认人：</td>
+					<td class="ui-form-table-dd"><div itype="TextBox"
+							readonly="true" id="taskinfo.c_confirm_username" width="100%"></div></td>
+					<td class="ui-form-table-dt">下发确认时间：</td>
+					<td class="ui-form-table-dd"><div itype="DatePicker"
+							readonly="true" id="taskinfo.c_confirm_time" width="100%" format="yyyy-MM-dd HH:mm:ss"></div></td>
+
+					<td class="ui-form-table-dt" >是否有异常：</td>
+				<td class="ui-form-table-dd">
+					<select itype="Select" readonly="true" id="taskinfo.c_iserror">
+						<option>-----请选择-----</option>
+						<option value="0">无异常</option>
+						<option value="1">有异常</option>
+					</select>	
+				</td>					
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" >实际下发时间：</td>
+				<td class="ui-form-table-dd">
+					<div itype="DatePicker" readonly="true" id="taskinfo.c_down_time" width="100%" format="yyyy-MM-dd HH:mm:ss"></div>
+				</td>
+				
+				<td class="ui-form-table-dt" >实际上传时间：</td>
+				<td class="ui-form-table-dd">
+					<div itype="DatePicker" readonly="true" id="taskinfo.c_up_time" width="100%" format="yyyy-MM-dd HH:mm:ss"></div>
+				 </td>
+				 
+				<td class="ui-form-table-dt" >任务状态：</td>
+				<td class="ui-form-table-dd">
+				   <div itype="TextBox" type="hidden" id="taskinfo.c_status"></div>
+				   <select itype="Select" readonly="true" id="taskinfo.c_status1">
+						<option>-----请选择-----</option>
+						<option value="0">已生成</option>
+						<option value="11">已确认</option>
+						<option value="22">已推送</option>
+						<option value="33">已执行</option>
+						<option value="44">被取消</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ui-form-table-dt" >下发备注：</td>
+				<td class="ui-form-table-dd" colspan=5 ><textarea itype="TextBox" type="textarea" height="50px"
+						readonly="true" id="taskinfo.c_remark" width="100%"></textarea></td>
+			</tr>
+			<tr> 
+			<td class="ui-form-table-dt" >执行时备注：</td>
+				<td class="ui-form-table-dd" colspan=5 >
+					<textarea itype="TextBox" type="textarea" height="50px" 
+						readonly="true" id="taskinfo.c_handle_des" width="100%"></textarea>
+				</td>
+			</tr>
+		</table>
+	</form>
+	
+<!-- 
+<div class="toggler"><div id="effect" class="ui-widget-content ui-corner-all">
+    <h3 class="ui-widget-header ui-corner-all">Toggle</h3>
+	<div>
+	-----------------
+	</div>
+</div></div>
+ -->
+ 
+	<div id="divDetails" style="text-align:center;">
+	</div>
+	<div style="height:50px"></div>
+</div>
+</body>
+</html>

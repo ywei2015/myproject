@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>活动标准详情</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script  type="text/javascript" src="actionStandardDetail.js"></script>
+<script type="text/javascript">
+var data=[{pid:"0",id:"1",val:"治安安全管理",disabled:"true"},{pid:"0",id:"2",val:"消防安全管理",chk:"part"},{pid:"1",id:"5",val:"治安护卫管理",disabled:"true"},{pid:"5",id:"6",val:"护卫巡更管理"},{pid:"6",id:"61",val:"巡更排班"},{pid:"6",id:"62",val:"巡查"},{pid:"6",id:"63",val:"处置"},{pid:"6",id:"64",val:"记录"},{pid:"61",id:"611",val:"告知班组"},{pid:"62",id:"621",val:"常规巡查"},{pid:"62",id:"622",val:"班组检查"},{pid:"62",id:"623",val:"部门监督"},{pid:"63",id:"631",val:"一般处置"},{pid:"63",id:"632",val:"异常反馈与应急处理"},{pid:"2",id:"21",val:"危险物品管理"},{pid:"21",id:"211",val:"危险化学品管理"},{pid:"211",id:"2111",val:"采购"},{pid:"211",id:"2112",val:"验收"},{pid:"211",id:"2112",val:"储存"},{pid:"211",id:"2112",val:"发放"},{pid:"211",id:"2112",val:"使用"},{pid:"2111",id:"21111",val:"采购计划"},{pid:"2111",id:"21112",val:"供应商评审"},{pid:"2111",id:"21113",val:"采购执行"},{pid:"2112",id:"21121",val:"验收入库"},{pid:"2112",id:"21121",val:"库存管理"},{pid:"2112",id:"21122",val:"储存过程监管"}];
+var workareadata=[{pid:"0",id:"1",val:"长沙卷烟厂"},{pid:"1",id:"11",val:"生产区"},{pid:"11",id:"111",val:"辅料高层仓库"},{pid:"11",id:"112",val:"辅料老厂房仓库"},{pid:"11",id:"113",val:"辅料成品仓库"},{pid:"11",id:"114",val:"辅料平库"},{pid:"11",id:"115",val:"辅料黄泥嘴仓库"},{pid:"1",id:"12",val:"综合办公楼"}
+,{pid:"12",id:"121",val:"综合楼一楼"},{pid:"12",id:"122",val:"综合楼二楼"},{pid:"12",id:"123",val:"综合楼三楼"},{pid:"12",id:"124",val:"综合楼四楼"},{pid:"12",id:"125",val:"综合楼五楼"},{pid:"12",id:"126",val:"综合楼七楼"}];
+var exepostdata=[{pid:"0",id:"1",val:"厂长"},{pid:"1",id:"11",val:"物资配送部部长"},{pid:"11",id:"111",val:"政工管理员"},{pid:"11",id:"112",val:"计划员"},{pid:"11",id:"113",val:"业务员（主管）"},{pid:"11",id:"114",val:"政工管理员"},{pid:"11",id:"115",val:"安全员"},{pid:"11",id:"116",val:"物资配送部副部长（辅料）"},{pid:"116",id:"1161",val:"辅料仓储班班长"},{pid:"1161",id:"11611",val:"辅料保管工(接装纸)"},{pid:"1161",id:"11612",val:"辅料配盘复核工"},{pid:"1161",id:"11613",val:"辅料配盘工"},{pid:"1161",id:"11614",val:" 裁纸工"},
+                 {pid:"11",id:"117",val:"物资配送部副部长（烟叶）"},
+                 {pid:"117",id:"1171",val:"专卖管理员（主管）"},
+                 {pid:"117",id:"1172",val:"烟叶仓储主管"},
+                 {pid:"117",id:"113",val:"大托综合管理员（五级专家）"}];
+        </script>
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+<form itype="Form" id="formInfo"  requestType="post" saveQueue="true"  onBeforeReady="onFormBeforeReady()" saveInstance="true" submitJson="false"  onSubmitSuccess="onSubmitSuccess()"
+onAfterDataRender="FormAfter()">
+	<div itype="TextBox" type="hidden" id="taskMouldPojo.c_tasktemplet_id"></div>
+	<table  class="ui-form-table" id="maintable">	
+	    <tr>
+	    	<td class="ui-form-table-dd" colspan="6">公共环节</td>
+	    
+	    
+	    </tr>		 
+		<tr>
+			<td class="ui-form-table-dt"><span class="ui-red">*</span>对应流程末节点：</td>
+			<td class="ui-form-table-dd"><input itype="TextBox" name="taskMouldPojo.c_tasktemplet_name" id="taskMouldPojo.c_tasktemplet_name" rule="required" width="100%"></td>			
+			<td class="ui-form-table-dt"><span class="ui-red">*</span>岗位活动名称：</td>
+			<td class="ui-form-table-dd">
+
+				<input itype="TextBox" id="activepost" rule="required" width="100%">
+			</td>	
+			<td class="ui-form-table-dt"><span class="ui-red">*</span>PDCA属性：</td>
+			<td class="ui-form-table-dd">
+				<select itype="Select" width="100%" id="pdcaoption">
+								<option>-----请选择-----</option>
+								<option value="1">P 计划</option>
+								<option value="2">D 执行</option>
+								<option value="3">C 检查</option>
+								<option value="4">A 改进</option>
+							
+						</select>
+               	 			 					
+			</td>			
+		</tr>	
+		<tr>
+			<td class="ui-form-table-dt"><span class="ui-red">*</span>是否为关键活动：</td>
+			<td class="ui-form-table-dd">
+				<select itype="Select"  id="taskMouldPojo.c_trigger_type" rule="required" onchange="handleTrigger()" width="100%">	
+					<option  text="-请选择-"></option>
+					<option value="1" text="是"></option>
+					<option value="2" text="否"></option>
+					
+				</select>			
+			</td>			
+			<td class="ui-form-table-dt">时态：</td>
+			<td class="ui-form-table-dd">
+				<select itype="Select" queue="formInfo" id="taskMouldPojo.c_timerule_id" initSource="select_querySelect.action?action=4" width="100%">
+				<option  text="-请选择-"></option>
+					<option value="1" text="每日"></option>
+					<option value="2" text="每周"></option>
+					<option value="3" text="接班前"></option>
+					<option value="4" text="接班后"></option>
+					<option value="5" text="下班前"></option>
+					<option value="6" text="下班后"></option>
+					<option value="7" text="就餐前"></option>
+					<option value="7" text="就餐后"></option>
+				</select>
+			</td>
+			<td class="ui-form-table-dt">作业区域：</td>
+			<td class="ui-form-table-dd">
+				<div itype="SelectTree" items="#{workareadata}" container="example" id="workareatree" saveInstance="true" topParentid="0" openFloor=5 width="100%">
+				
+			</div>		
+			</td>			
+		</tr>
+		
+		
+		<tr>
+	    	<td class="ui-form-table-dd" colspan="6">验证环节</td>
+	    
+	    
+	    </tr>		
+		<tr>
+			<td class="ui-form-table-dt">规范性记录：</td>
+			<td class="ui-form-table-dd">
+				<input itype="TextBox"  width="100%" id="taskMouldPojo.validaterecord" rule="required">		
+			</td>		
+			<td class="ui-form-table-dt">验证岗位：</td>
+			<td class="ui-form-table-dd" >
+			<div itype="SelectTree" items="#{exepostdata}" container="example" id="validatepost_tree" saveInstance="true" topParentid="0" openFloor=5 width="100%">
+				</td>	
+			<td class="ui-form-table-dt" >验证期限完成时间：</td>
+			<td class="ui-form-table-dd" >
+				<div itype="DatePicker" id="c_validate_overdate" width="100%"></div>
+			</td>		
+			
+					
+		</tr>
+		<tr>
+				
+			<td class="ui-form-table-dt">验证标准：</td>
+			<td class="ui-form-table-dd" colspan="5">
+				<div itype="TextBox" id="validate_stand" type="textarea" height="50px" width="98%" rule="MaxLength:500"></div>			
+						
+			</td>			
+			
+					
+		</tr>
+		<tr>
+		    <td class="ui-form-table-dt">验证处置：</td>
+			<td class="ui-form-table-dd" colspan="5">
+					<div itype="TextBox" id="validate_process" type="textarea" height="50px" width="98%" rule="MaxLength:500"></div>			
+						
+			</td>	
+		</tr>
+		<tr>
+		    <td class="ui-form-table-dd" colspan="6">评价环节</td>
+		
+		</tr>
+		
+		<tr>
+			
+			<td class="ui-form-table-dt" >评价标准：</td>
+			<td class="ui-form-table-dd" colspan="5">
+				<div itype="TextBox" id="appraisal_stand" type="textarea" height="50px" width="98%" rule="MaxLength:500"></div>			
+					
+			</td>		
+					
+			
+					
+		</tr>
+		<tr>
+			<td class="ui-form-table-dt">评价岗位：</td>
+			<td class="ui-form-table-dd" >
+			<div itype="SelectTree" items="#{exepostdata}" container="example" id="levepost_tree" saveInstance="true" topParentid="0" openFloor=5 width="100%">
+			</td>	
+					
+			<td class="ui-form-table-dt" >正常反馈岗位(默认)：</td>
+			<td class="ui-form-table-dd" >
+				<div itype="SelectTree" items="#{exepostdata}" container="example" id="normalfeedback_tree" saveInstance="true" topParentid="0" openFloor=5 width="100%">
+				
+			</td>	
+				<td class="ui-form-table-dt" >评价期限完成时间：</td>
+			<td class="ui-form-table-dd" >
+				<div itype="DatePicker" id="c_Evaluate_overdate" width="100%"></div>
+			</td>	
+					
+		</tr>
+		<tr>
+			
+			<td class="ui-form-table-dt" >正常反馈岗位(其他)：</td>
+			<td class="ui-form-table-dd" >
+					<div itype="SelectTree" items="#{exepostdata}" treeType="multitree" container="example" id="normalfeedbackother_tree" saveInstance="true" topParentid="0" openFloor=5 width="100%">
+			
+			</td>	
+				<td class="ui-form-table-dt" >异常反馈岗位(默认)：</td>
+			<td class="ui-form-table-dd" >
+			<div itype="SelectTree" items="#{exepostdata}" container="example" id="abnormalityfeedback_tree" saveInstance="true" topParentid="0" openFloor=5 width="100%">
+				
+			</td>	
+			<td class="ui-form-table-dt" >异常反馈岗位(其他)：</td>
+			<td class="ui-form-table-dd" >
+					<div itype="SelectTree" items="#{exepostdata}" treeType="multitree" container="example" id="abnormalityfeedbackother_tree" saveInstance="true" topParentid="0" openFloor=5 width="100%">
+			
+			</td>	
+					
+		</tr>
+		<tr>
+		       <td class="ui-form-table-dd" colspan="6">岗位活动项</td>
+		
+		</tr>
+		
+		<tr>
+				<th class="ui-form-table-dt">岗位活动项：</th>
+				<td class="ui-form-table-dd" colspan="5">
+					<div id="partgrid" itype="DataGrid" initSource="../data/actionstandarddetail.json" onBeforeReady="onGridBeforeReady()" onRowClick="onGridRowClick()" onCellClick="onGridCellClick()" saveInstance="true" showSeqColumn=true keyword="c_id" pagePosition="none">
+						<div name="top-toolbar">
+							<div plain=true text="增加" iconCls="icon-add" onClick="doAddPart()"></div>
+						</div>
+						<div width="10%" name="c_id" text="id" hidden="true"></div>
+						<div width="10%" name="c_respons_positionid" text="positionid" hidden="true"></div>
+						<div width="10%" name="c_standstep" text="标准步骤" idColumn="stdstep" editby="TextBox"></div>
+						<div width="30%" name="c_exestand" text="执行标准" editby="TextBox" idColumn="c_respons_orgid"></div>
+						<div width="10%" name="c_exe_result" text="执行结果" editby="Select" idColumn="c_respons_positionid">
+							<div name="controlCfg" id="positionSelect" onAfterConstruct="onPositionAfterConstruct()" initSource="user_initUserPos.action?modeId=add">
+								<div value="1" text="无"></div>
+								<div value="2" text="拍照"></div>
+							</div>
+						</div>
+						<div width="30%" name="c_respons_orgname" text="异常怎么处置" editby="TextBox" idColumn="c_respons_orgid"></div>
+						<div width="10%" name="c_validate_request" text="验证结果上传要求" editby="TextBox" idColumn="c_validate_request"></div>
+						
+						<div width="5%" text="操作" renderer="operRenderer()"></div>
+					</div>
+				</td>
+			</tr>
+			 
+		</table>
+</form>
+
+	 
+</body>
+</html>

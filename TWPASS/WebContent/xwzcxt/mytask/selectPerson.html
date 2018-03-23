@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>选择人员</title>
+<script src="errorFeedback.js"></script>
+<meta name="Author" content="J.B.Chen" />
+<meta charset="UTF-8" />
+<script>
+	function sure(){
+		//alert(window.parentWindow.fastDev);
+		//alert(window.parentWindow.document.getElementsByTagName("title")[0].innerHTML);
+		//alert(selectorType);
+		var personTree=fastDev.getInstance("personSelector");
+		var personInput=self.document.getElementById("personSelector").firstChild;
+		var fast=window.parentWindow.fastDev;
+		if(selectorType=="radio"){
+			fast.getInstance("coordinatePerson").setValue(personInput.value);
+			fast.getInstance("taskErrorFeedback.c_coordinator").setValue(personTree.getValue());
+		}
+		else if(selectorType=="multi"){
+			fast.getInstance("sendPerson").setValue(personInput.value);
+			fast.getInstance("taskErrorFeedback.c_copyfor").setValue(personTree.getValue());
+		}
+		window.parentDialog.close();
+	}
+	//构建人员选择器 
+	function constructPersonSelector(type,parentNode){
+		var str=[];
+		str.push('<div itype="SelectTree"');
+			 str.push('topParentid="-1"');
+			 str.push('saveInstance="true"');
+			 str.push('id="personSelector"');
+			 str.push('inside="false"');
+			 //str.push('items="#{data}"');
+		if(type=="multi"){
+			 str.push('treeType="multitree"');
+		}
+		str.push('>');
+		str.push('</div>');
+		parentNode.innerHTML=str.join('');
+	}
+	
+	//初始化人员选择器 
+	function initPersonSelector(id){
+		var personSelector=fastDev.getInstance(id);
+		var personSelectorInput=document.getElementById(id).firstChild;
+		personSelectorInput.value="-请先选择部门岗位-";
+		//personSelector.disable();
+	}
+	
+	function doSelectChange(id,val){
+		fastDev.post("taskSearch_getPersonListByOrgId.action",{
+			data:{
+				orgId:id
+			},
+			success:function(dat){
+				var tree=fastDev.getInstance("personSelector");
+				tree.setOptions({
+					items :dat
+				});
+				tree.initRefresh();
+			}
+		});
+	}
+	
+	window.onload=function(){
+		//初始化table整体样式  
+		var table=new FormTable("form_table","dt","dd");
+		table.setMargin("10px 0px 0px 10px");
+		table.setDt_textAlign("left");
+		table.setDt_width("80px");
+		table.setWidth("320px");
+		table.initTable();
+		//执行文本初始化 
+		initPersonSelector("personSelector");
+	}
+</script>
+<style type="text/css">
+	.buttons{
+		text-align:center;
+		padding:8px 0px 6px 0px;
+	}
+</style>
+</head>
+<body>
+	<form id="checkform" itype="Form" requestType="post" saveInstance="true">
+		<table id="form_table">
+			<tr>	
+				<td name="dt">部门岗位：</td>
+				<td name="dd">
+					<div itype="SelectTree" 
+						 id="orgtree"
+						 saveInstance="true"
+						 topParentid="-1"
+						 inside="false"
+						 initSource="org_initFirstGradeOrgTree.action?moduleId=M31&modeId=view"
+						 asyncDataSource="org_initGradeOrgTree.action?moduleId=M31&modeId=view"
+						 onchange="doSelectChange()";
+					>
+					</div>
+				</td>			
+			</tr>
+			<tr>	
+				<td name="dt">选择人员：</td>
+				<td name="dd" id="personSelectorTd">
+				</td>	
+				<script>
+				//执行构建
+					var queryString=window.location.search;
+					var selectorType=queryString.slice(queryString.indexOf("=")+1);
+					constructPersonSelector(selectorType,document.getElementById("personSelectorTd"));
+				</script>		
+			</tr>
+			<tr>	
+				<td colspan="2" class="buttons">
+					<div itype="Button" id="searchBtn" text="确认" iconCls="icon-save" onClick="sure()"></div>
+					<!-- <div itype="Button" id="resetBtn" text="重置" iconCls="icon-reset" onClick="resetForm()"></div>-->
+				</td>			
+			</tr>
+		</table>
+	</form>
+<script src="../../fastdev/fastDev-import.js"></script>
+</body>
+</html>

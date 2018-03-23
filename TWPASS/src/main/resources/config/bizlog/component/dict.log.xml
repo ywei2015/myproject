@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="action-log.xsd">
+	<namespace id="component.dict" extends="component.default" />
+	<module id="M11" name="字典管理" />
+	<action-define>
+		<action class="DictMngAction">
+			<method name="addDictType">
+				<type>add</type>
+				<description>新增字典类型。</description>
+				<result>
+					<success>新增成功。字典类型ID：${dictTypeInfo.dicttypeid}、字典类型名：${dictTypeInfo.dicttypename}、父节点ID：${dictTypeInfo.parentid}、字典类别：${dictTypeInfo.type}。</success>
+					<throws>新增失败。</throws>
+				</result>
+			</method>
+			<method name="addDictValue">
+				<type>add</type>
+				<description>新增字典项值。</description>
+				<result>
+					<success>新增成功。字典类型ID：${dictEntryInfo.dicttypeid}、字典项ID：${dictEntryInfo.dictid}、字典项名称：${dictEntryInfo.name}。</success>
+					<throws>新增失败。</throws>
+				</result>
+			</method>
+			<method name="deleteDictType">
+				<type>delete</type>
+				<description>删除字典类型。</description>
+				<result>
+					<success>删除成功。字典类型ID：${id}。</success>
+					<throws>删除失败。</throws>
+				</result>
+			</method>
+			<method name="deleteDictValue">
+				<type>delete</type>
+				<description>删除字典项值。</description>
+				<result>
+					<success>删除成功。字典类型ID：${typeid}、字典项ID：${dictid}。</success>
+					<throws>删除失败。</throws>
+				</result>
+			</method>
+			<method name="modifyDictType">
+				<type>modify</type>
+				<description>修改字典类型。</description>
+				<result>
+					<success>修改成功。字典类型ID：${dictTypeInfo.dicttypeid}。</success>
+					<throws>修改失败。</throws>
+				</result>
+			</method>
+			<method name="modifyDictEntry">
+				<type>modify</type>
+				<description>修改字典项值。</description>
+				<result>
+					<success>修改成功。字典项ID：${dictEntryInfo.dictid}。</success>
+					<throws>修改失败。</throws>
+				</result>
+			</method>
+		</action>
+	</action-define>
+</actions>

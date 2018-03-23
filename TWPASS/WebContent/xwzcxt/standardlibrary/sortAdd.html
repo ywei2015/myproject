@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>标准文件类别</title>
+<script src="../../fastdev/fastDev-import.js"></script>
+<script src="sortAdd.js"></script>
+<script type="text/javascript">
+	window.onload=function(){
+		var currentPath=window.location.href;
+		var isModify=currentPath.indexOf("?");
+		if(isModify>=0){
+			var array=currentPath.split("?");
+			var paramsString=array[1];
+			var paramsArray=paramsString.split("&");
+			var typeName=decodeURI(paramsArray[0].split("=")[1]);
+			var pid=decodeURI(paramsArray[1].split("=")[1]);
+			fastDev.getInstance("sdActionPojo.c_action_fname").setValue(typeName);
+			window.setTimeout(function(){
+				document.getElementById("sdActionPojo.c_action_pid").firstChild.value=pid;
+			}, 500);
+		}
+	}
+</script>
+</head>
+<body>
+	<!-- initSource='basicObj_initFormControl.action' -->
+	<form id="addSortForm" itype="Form" saveInstance="true"
+		onBeforeReady="" action="sdaction_addAction.action"
+		onSubmitSuccess="submitSuccess()" submitJson="false">
+		<table class="ui-form-table">
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px"><span
+					class="ui-red">*</span>类别名称：</td>
+				<td class="ui-form-table-dd" colspan=3><div itype="TextBox"
+						id="sdActionPojo.c_action_fname" width="100%"
+						rule="required;MaxLength:99;"></div></td>
+
+			</tr>
+
+			<tr>
+				<td class="ui-form-table-dt" style="width: 100px"><span
+					class="ui-red">*</span>类别父节点：</td>
+				<td class="ui-form-table-dd" colspan=3>
+					<!-- required; -->
+					<div itype="SelectTree" id="sdActionPojo.c_action_pid" width="100%"
+						rule="" initSource="upload_getAllFileSort.action"
+						asyncDataSource="upload_getAllFileSort.action" inside="false"
+						topParentid="0" openFloor=3 onReady="alert(1)"></div>
+				</td>
+			</tr>
+
+		</table>
+	</form>
+</body>
+</html>

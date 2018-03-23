@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dpPosition">
+	<resultMap id="BaseResultMap" type="com.talkweb.xwzcxt.pojo.DpPosition">
+		<id column="POSITIONID" jdbcType="DECIMAL" property="positionid" />
+		<result column="POSICODE" jdbcType="VARCHAR" property="posicode" />
+		<result column="POSINAME" jdbcType="VARCHAR" property="posiname" />
+		<result column="POSILEVEL" jdbcType="DECIMAL" property="posilevel" />
+		<result column="MANAPOSI" jdbcType="DECIMAL" property="manaposi" />
+		<result column="DUTYID" jdbcType="DECIMAL" property="dutyid" />
+		<result column="ORGID" jdbcType="DECIMAL" property="orgid" />
+		<result column="POSITIONSEQ" jdbcType="VARCHAR" property="positionseq" />
+		<result column="POSITYPE" jdbcType="VARCHAR" property="positype" />
+		<result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+		<result column="LASTUPDATE" jdbcType="TIMESTAMP" property="lastupdate" />
+		<result column="UPDATOR" jdbcType="DECIMAL" property="updator" />
+		<result column="STARTDATE" jdbcType="TIMESTAMP" property="startdate" />
+		<result column="ENDDATE" jdbcType="TIMESTAMP" property="enddate" />
+		<result column="STATUS" jdbcType="DECIMAL" property="status" />
+		<result column="ISDELETE" jdbcType="DECIMAL" property="isdelete" />
+		<result column="UPCODE" jdbcType="VARCHAR" property="upcode" />
+		<result column="BACKUP1" jdbcType="VARCHAR" property="backup1" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		POSITIONID, POSICODE, POSINAME, POSILEVEL, MANAPOSI,
+		DUTYID, ORGID, POSITIONSEQ,
+		POSITYPE, CREATETIME, LASTUPDATE, UPDATOR,
+		STARTDATE, ENDDATE, STATUS,
+		ISDELETE,UPCODE,BACKUP1
+	</sql>
+
+	<select id="getAllPosition" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from TWXWZC.DP_POSITION
+		where ISDELETE=0
+	</select>
+
+	<select id="selectPositionByOrgID" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select distinct
+		<include refid="Base_Column_List" />
+		from TWXWZC.DP_POSITION
+		where ORGID = #{orgid} and ISDELETE=0
+	</select>
+
+	<select id="selectPositionByPositionID" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select distinct
+		<include refid="Base_Column_List" />
+		from TWXWZC.DP_POSITION
+		where MANAPOSI = #{manaposi} and ISDELETE=0
+	</select>
+
+	<select id="selectPositionByUserID" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select distinct
+		T1.POSITIONID, T1.POSICODE, T1.POSINAME,
+		T1.POSILEVEL,T1.MANAPOSI, T1.DUTYID,
+		T1.ORGID, T1.POSITIONSEQ,
+		T1.POSITYPE, T1.CREATETIME, T1.LASTUPDATE, T1.UPDATOR, T1.STARTDATE,
+		T1.ENDDATE,
+		T1.STATUS, T1.ISDELETE
+		from TWXWZC.DP_POSITION
+		T1,TWXWZC.DP_USER T2
+		where T1.POSITIONID = T2.POSITIONID and T2.USERID=
+		#{cuserid} and ISDELETE=0
+	</select>
+
+	<select id="getPositionNameByID" parameterType="java.lang.Long"
+		resultType="java.lang.String">
+		select distinct POSINAME
+		from TWXWZC.DP_POSITION
+		where POSITIONID =
+		#{positionid} and ISDELETE=0
+	</select>
+
+	<select id="ITMinisterOrgId" parameterType="java.lang.Long"
+		resultType="java.lang.String">
+		select path from dp_organization where orgid = #{orgId}
+	</select>
+	
+	<select id="getUserNameByID" parameterType="java.lang.Long"
+		resultType="java.lang.String">
+		select distinct DISPLAYNAME
+		from TWXWZC.DP_USER
+		where POSITIONID =
+		#{positionid} and ISDELETE=0
+	</select>
+
+
+
+	<select id="getDepartByPositionID" parameterType="java.math.BigDecimal"
+		resultType="java.util.Map">
+		select
+		t1.orgid,t1.orgname,t1.orgtype,t1.parentorgid,t1.path
+		from
+		dp_organization t1,DP_POSITION t2
+		where t1.orgid = t2.orgid and
+		t2.POSITIONID =
+		#{positionid}
+	</select>
+</mapper>

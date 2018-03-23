@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="../../../fastdev/fastDev-import.js"></script>
+<script type="text/javascript" src="jobObjects2.js"></script>
+<title>作业对象</title>
+
+</head>
+<body class="ui-layout-body ui-layout-body-bg ui-layout-container">
+		<div class="ui-layout-left" style=" width: 250px; height: 100%;top:10px ;">
+			<div class="ui-toolbar ui-toolbar-bg" style="height: 22px;">
+				<div itype="Button" plain=true text="新增" display="true" id="add"
+					iconCls="icon-add" onClick="doAddAction()"></div>
+				<div itype="Button" plain=true text="修改" display="true" id="modify"
+					iconCls="icon-edit" onClick="doModifyAction()"></div>
+				<div itype="Button" plain=true text="删除" display="true" id="delete"
+					iconCls="icon-delete" onClick="doDeleteAction()"></div>
+				<div itype="Button" plain=true text="导入" display="false" id="import"
+					iconCls="icon-add" onClick="openImportPage()"></div>
+	
+			</div>
+			<div id="tableTypeTree" itype="Tree" saveInstance="true" showIco="true"
+				width="100%" topParentid="-1" openFloor=3 rootValue="--请选择--"	
+				initSource="jobObjects_getTableTypeTree.action"
+				onlyLeafValue=true
+				onNodeClick="getTypeValue()">
+				
+			</div>
+			
+		</div>
+
+		<div id="centerPanel" class="ui-layout-center" style="left: 245px; height: 100%;">
+			<form id="jobObjects" itype="Form" requestType="post"
+				saveInstance="true">
+				<table class="ui-form-table">
+					<tr valign="middle">
+						<td class="ui-form-table-dt" width="100px">作业名称：</td>
+						<td class="ui-form-table-dd">
+							<div itype="TextBox" id="cTabletypeName" saveInstance="true" width="100%"></div>
+						</td>
+						<td align="right" class="ui-form-table-dd" >
+							<div itype="Button" id="searchBtn" width="100px" text="查询"
+								iconCls="icon-search" onClick="doSearch()"></div>
+
+							<div itype="Button" id="resetBtn" width="100px" text="重置"
+								iconCls="icon-reset" onClick="doResetjobObjects()"></div>
+							<div style="display:none;"><div itype="TextBox" hidden=true id="cTabletypeId"></div></div>
+						</td>
+					</tr>
+				</table>
+			</form>
+			
+			<!-- 
+			 <div itype="DataGrid" id="jobObjectsInfo" saveInstance="true"
+				allowResizeColumn=true pageSize=10 OnBeforeReady="onBeforeReady()"
+				OnAfterInitRender="onAfterInitRender()" showSeqColumn=true showCheckColumn=true>
+				<div name="top-toolbar">
+					<div plain=true text="新增" iconCls="icon-add" id="add"  onclick="addOne()"></div>
+					<div itype="separator"></div>
+					<div plain=true text="批量删除" iconCls="icon-delete" id="d"   onclick="multiDelete()"></div>
+			    </div>	
+				
+				<div name="operation" text="操作"   width="150px" renderer="toOperationLink()"></div>
+			</div> 
+			 -->
+			 
+		  <div id="gridDiv">
+		  </div>
+			
+		</div>
+		
+		
+</body>
+</html>

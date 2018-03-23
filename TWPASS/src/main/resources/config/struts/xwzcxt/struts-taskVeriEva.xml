@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="struts-jsonVeriEva" extends="twdpe-common-default">
+	    
+		<action name="taskVeriEva_*" class="com.talkweb.xwzcxt.action.TaskVeriEvaAction"
+			method="{1}">
+			<result name="success" type="json">
+				<param name="noCache">true</param>
+				<param name="root">data</param>
+				<param name="excludeNullProperties">true</param>
+			</result>
+			<result name="error">/error/error.jsp</result>
+		</action>
+
+    </package>
+
+</struts>

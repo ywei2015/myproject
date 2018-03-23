@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Map">
+	<select id="getAreaIndex" parameterType="map" resultType="java.util.Map">
+		select t.C_BASEDATA_ID,
+			t.C_AREA_FULLNAME,
+			t.C_MAP_POINT
+		from TB_AREAINFO t
+		where t.C_ISDELETE = 0
+		<if test="null!=cAreaId and ''!=cAreaId">
+			and t.C_AREA_UPID = #{cAreaId}
+		</if>
+	</select>
+	<select id="getAreaStatus" parameterType="map" resultType="Integer">
+		select count(1) from
+		(
+			select max(t.C_SCAN_CODE)
+			from T_TASK_POINTCHECK t
+			where 1 = 1
+			<if test="null!=cAreaId and ''!=cAreaId">
+				and t.C_AREA_ID in
+				(
+					select AREA
+					from DP_AREA
+					connect by prior AREA = UPAREA
+					start with AREA = #{cAreaId}
+				)
+			</if>
+			<if test="null!=cCheckstatus and ''!=cCheckstatus">
+				and t.C_CHECKSTATUS = #{cCheckstatus}
+			</if>
+			<if test="null!=cIserror and ''!=cIserror">
+				and t.C_ISERROR = #{cIserror}
+			</if>
+			<if test="null!=cObjectTypeid and ''!=cObjectTypeid">
+				and t.C_OBJECT_TYPEID = #{cObjectTypeid}
+			</if>
+			group by t.C_BASEDATA_ID
+		)
+	</select>
+	<select id="getAreaIcon" parameterType="map" resultType="java.util.Map">
+		select aa.C_ID,
+			TO_CHAR(aa.C_TASK_ID) as C_TASK_ID,
+			aa.C_BASEDATA_ID,
+			aa.C_SCAN_CODE,
+			aa.C_CHECKTIME,
+			aa.C_EXEC_USERID,
+			aa.C_CHECKSTATUS,
+			aa.C_ISERROR,
+			aa.C_ERRORREASON,
+			aa.C_OBJECT_LOCATION,
+			aa.C_OBJECT_TYPEID,
+			aa.C_AREA_ID,
+			aa.C_RESPONSE_USERID,
+			aa.C_PLANCHECKTIME,
+			aa.C_ISLATE,
+			TO_CHAR(aa.C_ERR_ID) as C_ERR_ID,
+			aa.C_ISDELETE,
+			aa.C_RESETTIME,
+			f_get_usernames(aa.c_exec_userid) as C_EXEC_USERNAME,
+			cc.DISPLAYNAME as C_RESPONSE_USERNAME,
+			dd.FULLNAME as C_AREA_FULLNAME,
+			ee.C_TABLETYPE_NAME as C_OBJECT_TYPENAME
+		from T_TASK_POINTCHECK aa,
+			DP_USER cc,
+			DP_AREA dd,
+			TB_TABLETYPE ee
+		where aa.C_RESPONSE_USERID = cc.USERID(+)
+			and aa.C_AREA_ID = dd.AREA(+)
+			and aa.C_OBJECT_TYPEID = ee.C_TABLETYPE_ID(+)
+			and ee.C_ISDELETE = 0
+			
+		<if test="null!=cId and ''!=cId">
+			and aa.C_ID = #{cId}
+		</if>
+		<if test="null!=cAreaId and ''!=cAreaId">
+			and aa.C_AREA_ID = #{cAreaId}
+		</if>
+		<if test="null!=cObjectTypeid and ''!=cObjectTypeid">
+			and aa.C_OBJECT_TYPEID = #{cObjectTypeid}
+		</if>
+	</select>
+</mapper>

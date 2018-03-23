@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>部门未执行异常</title>
+<script src="../../../../fastdev/fastDev-import.js"></script>
+<script src="../../../../js/jquery-1.9.1.min.js"></script>
+
+<script type="text/javascript">
+function beforeReady(){
+	var smartbiCookie=getUrlParam("smartbiCookie");
+	var host=window.location.host;
+ 
+	var tag=[];
+	if(smartbiCookie!=null&&smartbiCookie!=""){
+		tag.push('<div title="日异常" url="http://10.159.31.33:19009/smartbi/vision/openresource.jsp?resid=I8a1f9fa638066a7a0151099cbce50522&smartbiCookie='+smartbiCookie+'" showCloseBtn="false" style="height:98%;"></div>');
+		tag.push('<div title="周异常" url="http://10.159.31.33:19009/smartbi/vision/openresource.jsp?resid=I8a1f9fa638066a7a015109a5b144053b&smartbiCookie='+smartbiCookie+'" showCloseBtn="false" style="height:98%;"></div>');
+		tag.push('<div title="月异常" url="http://10.159.31.33:19009/smartbi/vision/openresource.jsp?resid=I8a1f9fa638066a7a015109a74236054e&smartbiCookie='+smartbiCookie+'" showCloseBtn="false" style="height:98%;"></div>');
+		tag.push('<div title="年异常" url="http://10.159.31.33:19009/smartbi/vision/openresource.jsp?resid=I8a1f9fa638066a7a015109a884130570&smartbiCookie='+smartbiCookie+'" showCloseBtn="false" style="height:98%;"></div>');
+	}else{
+		tag.push('<div title="日异常" url="http://10.159.31.33:19009/smartbi/vision/openresource.jsp?resid=I8a1f9fa638066a7a0151099cbce50522" showCloseBtn="false" style="height:98%;"></div>');
+		tag.push('<div title="周异常" url="http://10.159.31.33:19009/smartbi/vision/openresource.jsp?resid=I8a1f9fa638066a7a015109a5b144053b" showCloseBtn="false" style="height:98%;"></div>');
+		tag.push('<div title="月异常" url="http://10.159.31.33:19009/smartbi/vision/openresource.jsp?resid=I8a1f9fa638066a7a015109a74236054e" showCloseBtn="false" style="height:98%;"></div>');
+		tag.push('<div title="年异常" url="http://10.159.31.33:19009/smartbi/vision/openresource.jsp?resid=I8a1f9fa638066a7a015109a884130570" showCloseBtn="false" style="height:98%;"></div>');
+	}
+	$("#tabs1").append($(tag.join('')));
+}
+
+
+function getUrlParam(name) {
+	var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)'); //构造一个含有目标参数的正则表达式对象
+	var r = window.location.search.substr(1).match(reg); //匹配目标参数
+	if (null != r) {
+		return unescape(r[2]);
+	} else {
+		return null; //返回参数值
+	}
+}
+</script>
+<style type="text/css">
+.alignClass {
+	text-align: center;
+}
+</style>
+
+</head>
+<body>
+	<form id="report" itype="Form" onBeforeReady="beforeReady()">
+		<div itype="Tabs" id="tabs1" height="680px" width="99.5%" saveInstance="true" height="100%">
+		</div>
+	</form>
+</body>
+</html>

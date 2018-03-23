@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="../../fastdev/fastDev-import.js"></script>
+<title>个人排班表修改</title>
+<script>
+   var request=fastDev.Browser.getRequest();
+   function doSave(obj,cell){
+         var c_userid=request['c_userid'];
+         var c_date=request['c_date'];
+         var c_shift_id=fastDev.getInstance('c_shift_id').getValue();
+         var c_shift_name=fastDev.getInstance('c_shift_id').getText();
+         var c_username=request['c_username'];
+         var c_org_id=request['c_org_id'];
+         var c_remark=fastDev.getInstance('c_remark').getValue();
+         
+         var text=fastDev.getInstance('c_shift_id').getText();
+         //alert(c_userid+","+c_date+","+c_shift_id+","+text);
+          if(text==''){
+              text="休息";
+         } 
+         fastDev.confirm("是否提交修改？","排班修改提示",function(result){
+         		if(!result){
+         		    return;
+         		}
+         		
+         		fastDev.post("taskSchedular_updateUserShift.action",{
+         			success:function(data){
+         				fastDev.tips(data);
+         				if(data=="排班修改成功！"){
+         				   cell.innerHTML=text;
+         				}
+         				obj.close();
+         			},
+         			data:{
+         			   "c_remark":c_remark,
+         			   "c_userid":c_userid,
+         			   "c_date":c_date,
+         			   "c_shift_id":c_shift_id,
+         			   "c_org_id":c_org_id,
+         			   "c_username":c_username,
+         			   "c_shift_name":c_shift_name
+         			}
+         		});
+         });
+   }
+   
+   function setShift(){
+        var c_userid=request['c_userid'];
+        var c_date=request['c_date'];
+        fastDev.post("taskSchedular_getOneDayShift.action",{
+              success:function(data){
+                   fastDev.getInstance('c_shift_id').setValue(data.c_shift_id);
+                   fastDev.getInstance('c_remark').setValue(data.c_remark);                 
+              },
+              data:{
+                  "c_userid":c_userid,
+                  "c_date":c_date
+              }
+        });
+   }
+   
+   function doReset(){
+        fastDev.getInstance("shiftForm").cleanData();
+   }
+</script>
+</head>
+<body>
+     <form id="shiftForm" saveInstance=true requestType="post" itype="Form">
+	  <table class="ui-form-table">
+	     <tr valign="middle">
+	      	  <td class="ui-form-table-dt">排班类型</td>
+	      	  <td class="ui-form-table-dd">
+	      	 	    <div itype="Select" id="c_shift_id" saveInstance=true width="100%"
+	      	  		   initSource="taskSchedular_getAllShitTypes.action" onAfterDataRender="setShift()">
+	      	  		       <div value='' text="休息"></div>
+	      	        </div>
+	      	  </td>
+	      </tr>
+	      <tr valign="middle">
+	      	<td class="ui-form-table-dt">备注</td>
+	      	<td class="ui-form-table-dd">
+	      	     <div itype="TextBox"  type="textarea" saveInstance=true  id="c_remark"
+	      	       resize="both" width="350px" height="100px" ></div>
+	      	</td>
+	      </tr>
+	  </table>
+	  </form>
+</body>
+</html>
